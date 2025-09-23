@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T01:03:11.848115",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 363,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"Return all permutations of a given string including duplicates.\n\n    Args:\n        string (str): input string\n\n    Returns:\n        List[str]: list of permutations\n    \"\"\"\n    # Base case\n    if len(string) == 1:\n        return [string]\n\n    # Recursive case\n    permutations_list = []\n    for char in string:\n        for permutation in permutations(string.replace(char, \"\", 1)):\n            permutations_list.append(char + permutation)\n\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"abc\") == [\"abc\", \"bac\", \"bca\", \"acb\", \"cab\", \"cba\"]\n    assert permutations(\"abb\") == [\"abb\", \"bab\", \"bba\", \"ab\", \"ba\", \"ba\"]\n    assert permutations(\"abcd\") == [\n        \"abcd\",\n        \"bacd\",\n        \"bcad\",\n        \"bcda\",\n        \"acbd\",\n        \"cabd\",\n        \"cbad\",\n        \"cbda\",\n        \"acb\",\n        \"cab\",\n        \"bac\",\n        \"bca\",\n        \"ac\",\n        \"ca\",\n        \"cb\",\n        \"cba\",\n        \"ba\",\n        \"ab\",\n        \"ab\",\n        \"ba\",\n        \"b\",\n        \"a\",\n        \"b\",\n        \"a\",\n    ]"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutations_duplicates(string: str) -> None:\n    \"\"\"Print all permutations of a given string including duplicates.\n\n    Args:\n        string (str): given string.\n    \"\"\"\n    for perm in permutations(string):\n        print(\"\".join(perm))\n\n\nif __name__ == \"__main__\":\n    permutations_duplicates(\"ABC\")"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "from typing import List, Optional\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"Returns all permutations of a given string including duplicates.\n\n    Args:\n        string (str): the string to permute\n\n    Returns:\n        List[str]: a list of all permutations\n    \"\"\"\n\n    def _permutations(\n        string: str,\n        length: int,\n        string_index: int,\n        string_list: Optional[List[str]],\n        current_list: Optional[List[str]],\n        current_string: Optional[str],\n    ) -> List[str]:\n        if string_list is None:\n            string_list = []\n\n        if current_list is None:\n            current_list = []\n\n        if current_string is None:\n            current_string = \"\"\n\n        if string_index == length:\n            string_list.append(current_string)\n            return string_list\n\n        for character in string:\n            if character not in current_list:\n                current_list.append(character)\n                current_string += character\n                _permutations(string, length, string_index + 1, string_list, current_list, current_string)\n                current_string = current_string[:-1]\n                current_list.pop()\n\n        return string_list\n\n    return _permutations(string, len(string), 0, None, None, None)\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))\n    print(permutations(\"aba\"))\n    print(permutations(\"abc\"))\n    print(permutations(\"aabc\"))\n    print(permutations(\"aabcc\"))"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from itertools import product\n\ndef permutations_with_duplicates(string):\n    return sorted([\"\".join(perm) for perm in product(string, repeat=len(string))])\n\n\nif __name__ == \"__main__\":\n    print(permutations_with_duplicates(\"abc\"))"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "# O(n^2)\ndef permutation(string: str) -> None:\n    \"\"\"\n    >>> permutation('abc')\n    abc\n    acb\n    bac\n    bca\n    cab\n    cba\n    \"\"\"\n    if len(string) == 1:\n        return string\n\n    for i in range(len(string)):\n        first_char = string[i]\n        rest = string[:i] + string[i + 1 :]\n\n        for permutation in permutation(rest):\n            print(first_char + permutation)\n\n\ndef permutation_2(string: str) -> None:\n    \"\"\"\n    >>> permutation_2('abc')\n    abc\n    acb\n    bac\n    bca\n    cab\n    cba\n    \"\"\"\n    if len(string) == 1:\n        return string\n\n    permutations = []\n\n    for i in range(len(string)):\n        first_char = string[i]\n        rest = string[:i] + string[i + 1 :]\n\n        for permutation in permutation_2(rest):\n            permutations.append(first_char + permutation)\n\n    return permutations\n\n\ndef permutation_3(string: str) -> None:\n    \"\"\"\n    >>> permutation_3('abc')\n    abc\n    acb\n    bac\n    bca\n    cab\n    cba\n    \"\"\"\n    if len(string) == 1:\n        return string\n\n    permutations = []\n\n    for i in range(len(string)):\n        first_char = string[i]\n        rest = string[:i] + string[i + 1 :]\n\n        for permutation in permutation_3(rest):\n            permutations.append(first_char + permutation)\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"Returns all permutations of a given string.\n\n    Args:\n        string: the string to be permuted\n\n    Returns:\n        all permutations of a given string\n    \"\"\"\n    if not string:\n        return []\n    if len(string) == 1:\n        return [string]\n\n    first_char = string[0]\n    rest = string[1:]\n    permutations_of_rest: List[str] = permutations(rest)\n    permutations_of_rest_with_first_char: List[str] = [\n        first_char + permutation for permutation in permutations_of_rest\n    ]\n    return permutations_of_rest_with_first_char + permutations(rest)\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"\"))\n    print(permutations(\"a\"))\n    print(permutations(\"ab\"))\n    print(permutations(\"abac\"))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    Returns all permutations of a given string including duplicates.\n    >>> permutations('a')\n    ['a']\n    >>> permutations('ab')\n    ['ab', 'ba']\n    >>> permutations('abc')\n    ['abc', 'bac', 'bca', 'acb', 'cab', 'cba']\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n    for index, char in enumerate(string):\n        for permutation in permutations(string[:index] + string[index + 1:]):\n            permutations.append(char + permutation)\n    return permutations\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "def permutations(string):\n    if len(string) <= 1:\n        return [string]\n\n    permutations = []\n\n    for index in range(len(string)):\n        character = string[index]\n        remaining_string = string[:index] + string[index + 1:]\n        sub_permutations = permutations(remaining_string)\n\n        for sub_permutation in sub_permutations:\n            permutations.append(character + sub_permutation)\n\n    return permutations\n\n\ndef test_permutations():\n    assert permutations('') == ['']\n    assert permutations('a') == ['a']\n    assert permutations('ab') == ['ab', 'ba']\n    assert permutations('abc') == ['abc', 'bac', 'bca', 'acb', 'cab', 'cba']\n    assert permutations('abcd') == ['abcd', 'bacd', 'bcad', 'bcda', 'acbd', 'cabd', 'cbad', 'cbda', 'acdb', 'cadb', 'cdab', 'cdba']\n\n\nif __name__ == '__main__':\n    test_permutations()"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutations(string):\n    return list(permutations(string, len(string)))\n\n\nprint(permutations('abc'))"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutations_dup(string):\n    return [\"\".join(perm) for perm in permutations(string)]\n\n\nif __name__ == \"__main__\":\n    print(permutations_dup(\"abc\"))"
+    },
+    {
+      "rank": 11,
+      "score": 9.0,
+      "candidate": "def permutations_with_duplicates(string):\n    # Time complexity O(n!)\n    # Space complexity O(n!)\n    if len(string) == 0:\n        return []\n    elif len(string) == 1:\n        return [string]\n    else:\n        permutations = []\n        for i in range(len(string)):\n            char = string[i]\n            sub_string = string[:i] + string[i+1:]\n            for perm in permutations_with_duplicates(sub_string):\n                permutations.append(char + perm)\n        return permutations\n\n\ndef permutations_without_duplicates(string):\n    # Time complexity O(n!)\n    # Space complexity O(n!)\n    if len(string) == 0:\n        return []\n    elif len(string) == 1:\n        return [string]\n    else:\n        permutations = []\n        for i in range(len(string)):\n            char = string[i]\n            sub_string = string[:i] + string[i+1:]\n            for perm in permutations_without_duplicates(sub_string):\n                permutations.append(char + perm)\n        return permutations\n\n\nif __name__ == \"__main__\":\n    string = \"abc\"\n    print(permutations_with_duplicates(string))\n    print(permutations_without_duplicates(string))"
+    },
+    {
+      "rank": 12,
+      "score": 9.0,
+      "candidate": "def permutations(s):\n    if len(s) <= 1:\n        return [s]\n    else:\n        perms = []\n        for i in range(len(s)):\n            char = s[i]\n            remainder = s[:i] + s[i+1:]\n            for perm in permutations(remainder):\n                perms.append(char + perm)\n        return perms\n\nif __name__ == '__main__':\n    print(permutations('abcd'))"
+    },
+    {
+      "rank": 13,
+      "score": 9.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n\n    for i, char in enumerate(string):\n        sub_permutations = permutations(string[:i] + string[i + 1 :])\n\n        for sub_perm in sub_permutations:\n            permutations.append(char + sub_perm)\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 14,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) <= 1:\n        return [string]\n\n    first_char = string[0]\n    rest_of_string = string[1:]\n\n    permutations = []\n\n    for permutation in permutations(rest_of_string):\n        for i in range(0, len(permutation) + 1):\n            permutations.append(permutation[:i] + first_char + permutation[i:])\n\n    return permutations\n\n\nif __name__ == '__main__':\n    print(permutations('abc'))"
+    },
+    {
+      "rank": 15,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    current_permutations = []\n    for i in range(len(string)):\n        current_permutations += [\n            string[:i] + char + string[i + 1 :] for char in string[i]\n        ]\n\n    return current_permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abcd\"))"
+    },
+    {
+      "rank": 16,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Return list of all permutations of a given string.\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n    if len(string) == 0:\n        return [\"\"]\n\n    permutations_list = []\n    for index, char in enumerate(string):\n        for permutation in permutations(string[:index] + string[index + 1:]):\n            permutations_list.append(char + permutation)\n\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"\") == [\"\"]\n    assert permutations(\"a\") == [\"a\"]\n    assert permutations(\"ab\") == [\"ab\", \"ba\"]\n    assert permutations(\"abc\") == [\"abc\", \"bac\", \"bca\", \"acb\", \"cab\", \"cba\"]\n    assert permutations(\"abcd\") == [\n        \"abcd\",\n        \"bacd\",\n        \"bcad\",\n        \"bcda\",\n        \"acbd\",\n        \"cabd\",\n        \"cbad\",\n        \"cbda\",\n        \"acdb\",\n        \"cadb\",\n        \"cdab\",\n        \"cdba\",\n    ]\n    assert permutations(\"abcde\") == [\n        \"abcde\",\n        \"bacde\",\n        \"bcade\",\n        \"bcdae\",\n        \"acbde\",\n        \"cabde\",\n        \"cbade\",\n        \"cbdae\",\n        \"acbde\",\n        \"cabde\",\n        \"cbade\",\n        \"cbdae\",\n        \"abced\",\n        \"baced\",\n        \"bcaded\",\n        \"bcdaed\",\n        \"acbed\",\n        \"cabed\",\n        \"cbaded\",\n        \"cbdaed\",\n        \"acbed\",\n        \"cabed\",\n        \"cbaded\",\n        \"cbdaed\",\n        \"abced\",\n        \"baced\",\n        \"bcaded\",\n        \"bcdaed\",\n        \"acbed\",\n        \"c"
+    },
+    {
+      "rank": 17,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n)\n    \"\"\"\n    def permutations_helper(string, chars_left):\n        if len(chars_left) == 1:\n            return [chars_left]\n        permutations_list = []\n        for i in range(len(chars_left)):\n            current_char = chars_left[i]\n            current_chars_left = chars_left[:i] + chars_left[i + 1:]\n            permutations_list += [\n                current_char + permutation\n                for permutation in permutations_helper(string, current_chars_left)\n            ]\n        return permutations_list\n    return permutations_helper(string, string)\n\n\nprint(permutations(\"abc\"))"
+    },
+    {
+      "rank": 18,
+      "score": 8.0,
+      "candidate": "def permutations_with_duplicates(string):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    # Base case\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n    for index, char in enumerate(string):\n        sub_permutations = permutations_with_duplicates(string[:index] + string[index + 1 :])\n        for sub_perm in sub_permutations:\n            permutations.append(char + sub_perm)\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations_with_duplicates(\"abc\"))"
+    },
+    {
+      "rank": 19,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    first_char = string[0]\n    remaining_string = string[1:]\n\n    permutations_remaining_string = permutations(remaining_string)\n\n    permutations = []\n    for permutation in permutations_remaining_string:\n        for i in range(len(permutation) + 1):\n            permutations.append(permutation[:i] + first_char + permutation[i:])\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"\") == [\"\"]\n    assert permutations(\"a\") == [\"a\"]\n    assert permutations(\"ab\") == [\"ab\", \"ba\"]\n    assert permutations(\"abc\") == [\n        \"abc\",\n        \"bac\",\n        \"bca\",\n        \"acb\",\n        \"cab\",\n        \"cba\",\n    ]"
+    },
+    {
+      "rank": 20,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef get_all_permutations(string):\n    permutations_list = list(permutations(string, len(string)))\n    for i in range(len(permutations_list)):\n        permutations_list[i] = \"\".join(permutations_list[i])\n    return permutations_list\n\n\ndef main():\n    string = input(\"Enter a string: \")\n    print(get_all_permutations(string))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 21,
+      "score": 8.0,
+      "candidate": "from typing import List, Set\n\n\ndef print_permutations(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    \"\"\"\n    result: List[str] = []\n    print_permutations_helper(string, 0, result)\n\n\ndef print_permutations_helper(\n    string: str, index: int, result: List[str]\n) -> None:\n    if index == len(string):\n        result.append(string)\n        print(string)\n        return\n\n    for i in range(index, len(string)):\n        string = list(string)\n        string[index], string[i] = string[i], string[index]\n        string = \"\".join(string)\n        print_permutations_helper(string, index + 1, result)\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"abc\")"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) == 1:\n        return [string]\n\n    res = []\n    for i in range(len(string)):\n        first = string[i]\n        other = string[:i] + string[i+1:]\n        for p in permutations(other):\n            res.append(first + p)\n    return res\n\n\nif __name__ == '__main__':\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef all_permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations: List[str] = []\n    for i in range(len(string)):\n        permutations.extend(\n            [string[:i] + letter + string[i + 1:] for letter in string[i]]\n        )\n    return permutations\n\n\nif __name__ == \"__main__\":\n    assert all_permutations(\"abc\") == [\"abc\", \"acb\", \"bac\", \"bca\", \"cab\", \"cba\"]"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "# O(n^2) time | O(n) space\ndef permutations(string):\n    if len(string) == 1:\n        return [string]\n    permutations = []\n    for i in range(len(string)):\n        char = string[i]\n        otherChars = string[:i] + string[i+1:]\n        permutationsFromOtherChars = permutations(otherChars)\n        for permutation in permutationsFromOtherChars:\n            permutations.append(char + permutation)\n    return permutations\n\n\n# O(n*2^n) time | O(n) space\ndef permutations(string):\n    if len(string) == 1:\n        return [string]\n    permutations = []\n    for i in range(len(string)):\n        char = string[i]\n        otherChars = string[:i] + string[i+1:]\n        permutationsFromOtherChars = permutations(otherChars)\n        for permutation in permutationsFromOtherChars:\n            permutations.append(char + permutation)\n            permutations.append(permutation + char)\n    return permutations\n\n\n\"\"\"\nTime complexity: O(n*2^n)\nSpace complexity: O(n)\n\"\"\""
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "def print_permutations(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if not string:\n        return\n\n    permutations = []\n\n    def helper(idx: int, s: str) -> None:\n        if idx == len(string):\n            permutations.append(s)\n            return\n\n        for i in range(idx, len(string)):\n            helper(i + 1, s + string[i])\n\n    helper(0, \"\")\n    for p in permutations:\n        print(p)\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"aab\")"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def permutations(string: str) -> list[str]:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n\n    def get_permutations(string: str, output: list[str]) -> None:\n        if not string:\n            output.append(string)\n            return\n\n        for i in range(len(string)):\n            get_permutations(string[:i] + string[i + 1 :], output)\n\n    output: list[str] = []\n    get_permutations(string, output)\n    return output\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abb\"))"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if not string:\n        return\n\n    permutations_list = []\n\n    def _permutations(string, index):\n        if index == len(string):\n            permutations_list.append(\"\".join(string))\n            return\n\n        for i in range(index, len(string)):\n            string[index], string[i] = string[i], string[index]\n            _permutations(string, index + 1)\n            string[index], string[i] = string[i], string[index]\n\n    _permutations(list(string), 0)\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"ABC\"))"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) <= 1:\n        return string\n    result = []\n    for i in range(len(string)):\n        first = string[i]\n        rest = string[:i] + string[i + 1 :]\n        for p in permutations(rest):\n            result.append(first + p)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def permutations(s):\n    if len(s) == 1:\n        return [s]\n    else:\n        return [s[:i] + c + s[i:] for i in range(len(s)) for c in s[i]]\n\n\nif __name__ == \"__main__\":\n    test = \"abc\"\n    print(permutations(test))"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef all_perms(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if not string:\n        return []\n\n    return [\"\".join(p) for p in permutations(string)]\n\n\ndef all_perms_2(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if not string:\n        return []\n\n    def permute(string):\n        if len(string) == 1:\n            return [string]\n\n        result = []\n        for i, c in enumerate(string):\n            for perm in permute(string[:i] + string[i + 1:]):\n                result.append(c + perm)\n        return result\n\n    return permute(string)\n\n\ndef all_perms_3(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if not string:\n        return []\n\n    def permute(string, index=0):\n        if index == len(string):\n            return [\"\"]\n\n        result = []\n        for i, c in enumerate(string[index:]):\n            for perm in permute(string, index + 1):\n                result.append(c + perm)\n        return result\n\n    return permute(string)\n\n\nif __name__ == \"__main__\":\n    print(all_perms(\"\"))\n    print(all_perms(\"a\"))\n    print(all_perms(\"ab\"))\n    print(all_perms(\"abc\"))\n    print(all_perms(\"abcd\"))\n\n    print(all_perms_2(\"\"))\n    print(all_perms_2(\"a\"))\n    print(all_perms_2(\"ab\"))\n    print(all_perms_2(\"abc\"))\n    print(all_perms_2(\"abcd\"))\n\n    print(all_perms_3(\"\"))\n    print(all_perms_3(\"a\"))\n    print("
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutations_of_a_given_string(input: str) -> None:\n    \"\"\"\n    This is a very simple algorithmic solution. It does not\n    use recursion.\n    \"\"\"\n\n    for permutation in permutations(input):\n        print(\"\".join(permutation))\n\n\ndef permutations_of_a_given_string_recursive(input: str, index: int = 0) -> None:\n    \"\"\"\n    This is a recursive solution. It uses recursion.\n    \"\"\"\n    if index == len(input):\n        print(\"\".join(input))\n        return\n\n    for i in range(index, len(input)):\n        input[index], input[i] = input[i], input[index]\n        permutations_of_a_given_string_recursive(input, index + 1)\n        input[index], input[i] = input[i], input[index]\n\n\nif __name__ == \"__main__\":\n    print(\"Permutations of the string 'abc':\")\n    permutations_of_a_given_string(\"abc\")\n    print(\"Permutations of the string 'aabc':\")\n    permutations_of_a_given_string(\"aabc\")\n    print(\"Permutations of the string 'aabcc':\")\n    permutations_of_a_given_string(\"aabcc\")\n    print(\"Permutations of the string 'aabbcc':\")\n    permutations_of_a_given_string(\"aabbcc\")\n\n    print(\"\\nPermutations of the string 'abc' using recursive method:\")\n    permutations_of_a_given_string_recursive(\"abc\")\n    print(\"Permutations of the string 'aabc' using recursive method:\")\n    permutations_of_a_given_string_recursive(\"aabc\")\n    print(\"Permutations of the string 'aabcc' using recursive method:\")\n    permutations_of_a_given_string_recursive(\"aabcc\")\n    print(\"Permutations of the string 'aabbcc' using recursive method:\")\n    permutations"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def permutation_with_dup(string):\n    result = []\n    if not string:\n        return result\n    if len(string) == 1:\n        return [string]\n    for i in range(len(string)):\n        char = string[i]\n        sub_string = string[:i] + string[i+1:]\n        for p in permutation_with_dup(sub_string):\n            result.append(char + p)\n    return result\n\n\nprint(permutation_with_dup(\"abc\"))\nprint(permutation_with_dup(\"aaa\"))"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def get_permutations(string):\n    if len(string) <= 1:\n        return [string]\n\n    first_char = string[0]\n    remaining_string = string[1:]\n\n    permutations_without_first_char = get_permutations(remaining_string)\n\n    permutations = []\n    for permutation in permutations_without_first_char:\n        for i in range(len(permutation) + 1):\n            permutations.append(permutation[:i] + first_char + permutation[i:])\n\n    return permutations\n\n\nprint(get_permutations(\"aab\"))"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\ndef permutations_with_duplicates(string):\n  return [''.join(p) for p in permutations(string)]\n\nprint(permutations_with_duplicates('abc'))\nprint(permutations_with_duplicates('abb'))\nprint(permutations_with_duplicates('aabb'))\n\n\"\"\"\nWrite a function that takes in a string containing characters and words\nand returns a new string containing the same characters and words\nbut with all vowels removed.\n\"\"\"\n\ndef remove_vowels(string):\n  return ''.join(filter(lambda x: x not in 'aeiou', string))\n\nprint(remove_vowels('abc'))\nprint(remove_vowels('abcdef'))\nprint(remove_vowels('abcdefghi'))\nprint(remove_vowels('abcdefghijklmnopqrstuvwxyz'))\n\n\"\"\"\nWrite a function that takes in a string containing characters and words\nand returns a new string containing the same characters and words\nbut with all duplicate letters and words removed.\n\"\"\"\n\ndef remove_duplicates(string):\n  return ''.join(sorted(set(string), key=string.index))\n\nprint(remove_duplicates('abab'))\nprint(remove_duplicates('ababab'))\nprint(remove_duplicates('abababc'))\nprint(remove_duplicates('abababcd'))\nprint(remove_duplicates('abababcdab'))\nprint(remove_duplicates('abababcdabe'))\nprint(remove_duplicates('abababcdabee'))\nprint(remove_duplicates('abababcdabeee'))\nprint(remove_duplicates('abababcdabeeee'))\nprint(remove_duplicates('abababcdabeeeee'))\nprint(remove_duplicates('abababcdabeeeeee'))\nprint(remove_duplicates('abababcdabeeeeeee'))\nprint(remove_duplicates('abababcdabeeeeeeee'))\nprint(remove_duplicates('abababcdabeeeeeeeee'))\nprint(remove_duplicates('abababcd"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) <= 1:\n        return [string]\n\n    res = []\n    for i in range(len(string)):\n        char = string[i]\n        rem = string[:i] + string[i+1:]\n        for perm in permutations(rem):\n            res.append(char+perm)\n    return res\n\n\nprint(permutations(\"abc\"))\nprint(permutations(\"aaa\"))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n\n    def permute(string, output):\n        if len(string) == 1:\n            print(output + string)\n            return\n\n        for i in range(len(string)):\n            permute(string[:i] + string[i + 1:], output + string[i])\n\n    permute(string, \"\")\n\n\nif __name__ == \"__main__\":\n    permutations(\"abc\")"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    return helper(list(string))\n\ndef helper(arr, prefix=\"\"):\n    if len(arr) == 0:\n        return [prefix]\n    results = []\n    for i in range(len(arr)):\n        char = arr[i]\n        rest = arr[:i] + arr[i+1:]\n        results.extend(helper(rest, prefix + char))\n    return results\n\n\nprint(permutations(\"abc\"))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def get_all_permutations(string: str) -> list:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    def get_permutations(string: str, index: int = 0) -> list:\n        if index == len(string):\n            return [\"\"]\n\n        permutations = []\n        for i in range(index, len(string)):\n            permutations.extend(\n                [\n                    perm + string[i]\n                    for perm in get_permutations(string, index + 1)\n                ]\n            )\n\n        return permutations\n\n    return get_permutations(string)\n\n\nif __name__ == \"__main__\":\n    assert get_all_permutations(\"ABC\") == [\n        \"ABC\",\n        \"ACB\",\n        \"BAC\",\n        \"BCA\",\n        \"CAB\",\n        \"CBA\",\n    ]"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "def print_permutations(string, prefix=\"\", print_string=True):\n    if not string:\n        if print_string:\n            print(prefix)\n        return\n\n    for i in range(len(string)):\n        print_permutations(\n            string[:i] + string[i + 1 :], prefix + string[i], print_string\n        )\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"abc\")"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\n# Time complexity: O(N!)\ndef print_all_permutations(string):\n    print(list(permutations(string, len(string))))\n\n\nprint_all_permutations(\"ABC\")"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef get_all_permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    first_char = string[0]\n    remaining_chars = string[1:]\n\n    permutations = get_all_permutations(remaining_chars)\n\n    permutations_with_first_char: List[str] = []\n    for permutation in permutations:\n        for i in range(len(permutation) + 1):\n            permutations_with_first_char.append(\n                permutation[:i] + first_char + permutation[i:]\n            )\n\n    return permutations_with_first_char\n\n\nif __name__ == \"__main__\":\n    assert get_all_permutations(\"abc\") == [\n        \"abc\",\n        \"bac\",\n        \"bca\",\n        \"acb\",\n        \"cab\",\n        \"cba\",\n    ]"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef print_permutations(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n)\n    \"\"\"\n    print_permutations_helper(string, 0, len(string) - 1)\n\n\ndef print_permutations_helper(string: str, low: int, high: int) -> None:\n    if low == high:\n        print(string)\n        return\n\n    for i in range(low, high + 1):\n        string[i], string[low] = string[low], string[i]\n        print_permutations_helper(string, low + 1, high)\n        string[i], string[low] = string[low], string[i]\n\n\ndef print_permutations_no_duplicates(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n)\n    \"\"\"\n    string = list(string)\n    print_permutations_no_duplicates_helper(string, 0, len(string) - 1)\n\n\ndef print_permutations_no_duplicates_helper(string: List[str], low: int, high: int) -> None:\n    if low == high:\n        print(\"\".join(string))\n        return\n\n    for i in range(low, high + 1):\n        string[low], string[i] = string[i], string[low]\n        print_permutations_no_duplicates_helper(string, low + 1, high)\n        string[low], string[i] = string[i], string[low]\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"abc\")\n    print_permutations_no_duplicates(\"abc\")"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n\n    # Base Case:\n    if len(string) == 1:\n        return [string]\n\n    # Recursive Case:\n    permutations_list = []\n    for i in range(len(string)):\n        char = string[i]\n        remaining_string = string[:i] + string[i+1:]\n        permutations_list.append(char + remaining_string)\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"abc\") == [\"abc\", \"acb\", \"bac\", \"bca\", \"cab\", \"cba\"]"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def print_permutations(string: str) -> None:\n    \"\"\"\n    Print all permutations of a given string including duplicates.\n\n    >>> print_permutations(\"a\")\n    a\n    >>> print_permutations(\"ab\")\n    ab\n    aab\n    aba\n    >>> print_permutations(\"abc\")\n    abc\n    acb\n    bac\n    bca\n    cab\n    cba\n    \"\"\"\n    # If there are no characters, we are done\n    if len(string) == 0:\n        print(\"\")\n        return\n\n    # If there is only one character, we only have one permutation\n    if len(string) == 1:\n        print(string)\n        return\n\n    # We recursively call for each prefix\n    for i in range(len(string)):\n        # For each prefix, we recursively call for all suffixes\n        for j in range(len(string) - 1):\n            if string[i] != string[j + 1]:\n                print_permutations(string[0:i] + string[j + 1] + string[i + 1 :])\n        print_permutations(string[0:i] + string[i] + string[i + 1 :])\n\n\nif __name__ == \"__main__\":\n    print_permutations(input(\"Enter a string: \"))"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) == 1:\n        return [string]\n    if len(string) == 0:\n        return []\n\n    permutations_list = []\n    for i in range(len(string)):\n        char = string[i]\n        remaining_string = string[:i] + string[i+1:]\n        for p in permutations(remaining_string):\n            permutations_list.append(char + p)\n\n    return permutations_list\n\ndef test_permutations():\n    assert permutations(\"abc\") == ['abc', 'bac', 'bca', 'acb', 'cab', 'cba']\n    assert permutations(\"abcd\") == ['abcd', 'abdc', 'acbd', 'acdb', 'adbc', 'adcb', 'bacd', 'badc', 'bcad', 'bcda', 'bdac', 'bdca', 'cabd', 'cadb', 'cbad', 'cbda', 'cdab', 'cdba', 'dabc', 'dacb', 'dbc', 'dbca', 'dbac', 'dcab', 'dcba']\n    assert permutations(\"\") == []\n\n\ndef test_permutations_with_duplicates():\n    assert permutations(\"abb\") == ['abb', 'bab', 'bba']\n    assert permutations(\"aabc\") == ['aabc', 'aacb', 'abac', 'abca', 'acab', 'acba', 'baac', 'baca', 'bcaa', 'caab', 'caba', 'cbaa']\n\n\ntest_permutations()\ntest_permutations_with_duplicates()"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    if len(string) == 0:\n        return [\"\"]\n\n    permutations = []\n    for i in range(len(string)):\n        permutations += [char + perm for char in string[i] for perm in permutations(string[:i] + string[i + 1 :])]\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abb\"))"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "def all_perms(string: str) -> list:\n    \"\"\"Returns all permutations of a given string including duplicates.\n\n    >>> all_perms('abc')\n    ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']\n    \"\"\"\n\n    if len(string) <= 1:\n        return [string]\n\n    perms = []\n    for i, char in enumerate(string):\n        for perm in all_perms(string[:i] + string[i + 1 :]):\n            perms.append(char + perm)\n\n    return perms\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()\n    print(all_perms(\"abc\"))"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef print_permutations(str):\n    for i in permutations(str):\n        print(\"\".join(i))\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"abc\")"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutations_with_duplicates(string):\n    \"\"\"Print all permutations of a given string including duplicates.\"\"\"\n    permutations_list = permutations(string)\n    for i in permutations_list:\n        print(\"\".join(i))\n\n\nif __name__ == \"__main__\":\n    permutations_with_duplicates(\"abc\")"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def permutations(string: str) -> list:\n    \"\"\"Returns a list of all permutations of a given string including duplicates.\n\n    Args:\n        string (str): A string to be permuted.\n\n    Returns:\n        list: A list of all permutations of the given string.\n    \"\"\"\n    if len(string) == 0:\n        return []\n\n    if len(string) == 1:\n        return [string]\n\n    char = string[0]\n    remaining = string[1:]\n    perms = permutations(remaining)\n\n    result = []\n    for perm in perms:\n        for i in range(len(perm) + 1):\n            result.append(perm[:i] + char + perm[i:])\n    return result\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))\n    print(permutations(\"aabc\"))\n    print(permutations(\"abcd\"))"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) <= 1:\n        return [string]\n\n    result = []\n    for i in range(len(string)):\n        elem = string[i]\n        remaining_string = string[:i] + string[i+1:]\n        permutations_of_remaining_string = permutations(remaining_string)\n        for permutation in permutations_of_remaining_string:\n            result.append(elem + permutation)\n\n    return result\n\n\ndef test_permutations():\n    assert permutations(\"\") == [\"\"]\n    assert permutations(\"a\") == [\"a\"]\n    assert permutations(\"ab\") == [\"ab\", \"ba\"]\n    assert permutations(\"abc\") == [\"abc\", \"acb\", \"bac\", \"bca\", \"cab\", \"cba\"]"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    permutations_list = []\n\n    def generate_permutations(string, permutations_list, permutation_string, index):\n        if index == len(string):\n            permutations_list.append(permutation_string)\n            return\n\n        for i in range(index, len(string)):\n            permutation_string = permutation_string + string[i]\n            generate_permutations(string, permutations_list, permutation_string, index + 1)\n            permutation_string = permutation_string[:-1]\n\n    generate_permutations(string, permutations_list, \"\", 0)\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "def print_permutations(string):\n    if len(string) == 0:\n        return\n\n    for char in string:\n        print_permutations(string.replace(char, '', 1))\n        print(string)\n\n\nif __name__ == '__main__':\n    print_permutations('abc')"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    result = []\n\n    for i in range(len(string)):\n        char = string[i]\n        sub_result = permutations(string[:i] + string[i + 1 :])\n\n        for sub_string in sub_result:\n            result.append(char + sub_string)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"ABC\") == [\"ABC\", \"ACB\", \"BAC\", \"BCA\", \"CAB\", \"CBA\"]"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef print_permutations(string):\n    for perm in permutations(string):\n        print(\"\".join(perm))\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"abc\")"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if not string:\n        return []\n\n    if len(string) == 1:\n        return [string]\n\n    string = list(string)\n\n    result = []\n\n    def permutations_helper(\n        string: List[str],\n        idx: int,\n        curr: str,\n        visited: List[int],\n    ) -> None:\n        if idx == len(string):\n            result.append(curr)\n            return\n\n        for i, char in enumerate(string):\n            if i in visited:\n                continue\n            permutations_helper(string, idx + 1, curr + char, visited + [i])\n\n    permutations_helper(string, 0, \"\", [])\n    return result\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    if len(string) <= 1:\n        return [string]\n\n    perms = []\n    for i, char in enumerate(string):\n        for perm in permutations(string[:i] + string[i+1:]):\n            perms.append(char + perm)\n    return perms\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "def permutation(string):\n    if len(string) == 0:\n        return\n\n    print_permutations(string, 0, '')\n\n\ndef print_permutations(string, index, output):\n    if index == len(string):\n        print(output)\n        return\n\n    for i in range(index, len(string)):\n        print_permutations(string, index + 1, output + string[i])\n\n\npermutation('abc')"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "def permutations(string: str) -> list:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    string = sorted(string)\n    perms = []\n    _permutations(string, 0, [], perms)\n    return perms\n\n\ndef _permutations(string: list, index: int, current_perm: list, perms: list) -> None:\n    if index == len(string):\n        perms.append(current_perm[:])\n        return\n\n    for i in range(len(string)):\n        if i > 0 and string[i] == string[i - 1]:\n            continue\n        current_perm.append(string[i])\n        _permutations(string, index + 1, current_perm, perms)\n        current_perm.pop()\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"abc\") == [[\"a\", \"a\", \"b\"], [\"a\", \"b\", \"a\"], [\"a\", \"b\", \"c\"], [\"a\", \"c\", \"b\"], [\"b\", \"a\", \"a\"], [\"b\", \"a\", \"c\"], [\"b\", \"c\", \"a\"], [\"b\", \"c\", \"a\"], [\"c\", \"a\", \"b\"], [\"c\", \"b\", \"a\"]]"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    >>> permutations('abc')\n    ['abc', 'cba', 'bac', 'bca', 'acb', 'cab']\n    >>> permutations('aabc')\n    ['aaab', 'aaba', 'abab', 'abba', 'baab', 'baba', 'baaab', 'aabab', 'aabba', 'ababb', 'abbba', 'babab', 'babba', 'baabb', 'bbaba', 'bbab', 'bbaab', 'abbab', 'abbba', 'abbba', 'babbab', 'babbba', 'bbabb', 'bbbab', 'bbbaab']\n    >>> permutations('')\n    ['']\n    \"\"\"\n    if len(string) <= 1:\n        return [string]\n\n    permutations_list = []\n    for index in range(len(string)):\n        char = string[index]\n        for permutation in permutations(string[:index] + string[index+1:]):\n            permutations_list.append(char + permutation)\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    :param string: str of characters\n    :return: list of all permutations\n    Time complexity: O(n * n!)\n    Space complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations_list = []\n    for i, char in enumerate(string):\n        permutations_list.extend([\n            char + perm\n            for perm in permutations(string[:i] + string[i + 1:])\n        ])\n\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"abc\") == [\"abc\", \"bac\", \"bca\", \"acb\", \"cab\", \"cba\"]"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef string_permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    def permute(s: List[str]) -> None:\n        if len(s) == 0:\n            perms.append(\"\".join(s))\n        else:\n            for i in range(len(s)):\n                s[i], s[0] = s[0], s[i]\n                permute(s[1:])\n                s[i], s[0] = s[0], s[i]\n\n    perms: List[str] = []\n    permute(list(string))\n\n    return perms\n\n\nif __name__ == \"__main__\":\n    assert string_permutations(\"abc\") == [\"abc\", \"bac\", \"bca\", \"acb\", \"cab\", \"cba\"]"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "from itertools import product\n\n\ndef print_all_permutations(string):\n    \"\"\"Print all permutations of a given string including duplicates.\n\n    Args:\n        string: Given string.\n    \"\"\"\n    for perm in product(string, repeat=len(string)):\n        print(\"\".join(perm))\n\n\nif __name__ == \"__main__\":\n    print_all_permutations(\"abc\")"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations_with_duplicates(string: str) -> List[str]:\n    \"\"\"Returns a list of all permutations of a string including duplicates.\n\n    Args:\n        string (str): the string to find permutations of\n\n    Returns:\n        List[str]: a list of all permutations of the string including duplicates\n    \"\"\"\n    if len(string) == 0:\n        return []\n    if len(string) == 1:\n        return [string]\n\n    first_char = string[0]\n    remaining_string = string[1:]\n\n    permutations = []\n    for permutation in permutations_with_duplicates(remaining_string):\n        for i in range(len(permutation) + 1):\n            permutations.append(permutation[:i] + first_char + permutation[i:])\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations_with_duplicates(\"abc\"))"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"Returns all permutations of a given string including duplicates.\n\n    >>> permutations('')\n    ['']\n    >>> permutations('a')\n    ['a']\n    >>> permutations('ab')\n    ['ab', 'ba']\n    >>> permutations('aabb')\n    ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']\n    \"\"\"\n    return _permutations(list(string))\n\n\ndef _permutations(string):\n    if len(string) <= 1:\n        return [string]\n    return [\n        char + remaining\n        for char in string\n        for remaining in _permutations(string[:string.index(char)] + string[string.index(char) + 1:])\n    ]"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) <= 1:\n        return [string]\n\n    result = []\n\n    for i in range(len(string)):\n        char = string[i]\n        remaining = string[:i] + string[i + 1:]\n\n        for permutation in permutations(remaining):\n            result.append(char + permutation)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert permutations(\"\") == [\"\"]\n    assert permutations(\"a\") == [\"a\"]\n    assert permutations(\"ab\") == [\"ab\", \"ba\"]\n    assert permutations(\"aabb\") == [\n        \"aabb\",\n        \"abab\",\n        \"abba\",\n        \"baab\",\n        \"baba\",\n        \"bbaa\",\n    ]"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"Returns all permutations of a given string including duplicates.\"\"\"\n    if len(string) == 0:\n        return []\n    if len(string) == 1:\n        return [string]\n\n    first = string[0]\n    return [first + perm for perm in permutations(string[1:])] + [string]\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    # Base case\n    if len(string) == 1:\n        return [string]\n\n    # Recursive case\n    permutations = []\n    for i in range(len(string)):\n        character = string[i]\n        string_copy = string[:i] + string[i + 1:]\n        sub_permutations = permutations(string_copy)\n        for sub_permutation in sub_permutations:\n            permutations.append(character + sub_permutation)\n    return permutations\n\n\ntest = \"abc\"\nprint(permutations(test))"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n * n!)\n    Space Complexity: O(n * n!)\n    \"\"\"\n    if not string:\n        return []\n\n    if len(string) == 1:\n        return [string]\n\n    permutations_ = []\n    for i, char in enumerate(string):\n        remainder_string = string[:i] + string[i + 1 :]\n        for permutation in permutations(remainder_string):\n            permutations_.append(char + permutation)\n    return permutations_\n\n\nif __name__ == \"__main__\":\n    string = \"abc\"\n    assert permutations(string) == [\"abc\", \"acb\", \"bac\", \"bca\", \"cab\", \"cba\"]"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\ndef print_perms(string):\n    # Base case\n    if len(string) == 1:\n        return [string]\n\n    # Recursive case\n    permutations = []\n    for i in range(len(string)):\n        sub_perms = print_perms(string[:i] + string[i+1:])\n        for sub_perm in sub_perms:\n            permutations.append(string[i] + sub_perm)\n    return permutations\n\n\nif __name__ == \"__main__\":\n    string = \"ABC\"\n    permutations = print_perms(string)\n    print(permutations)"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "def permutations_dup(string):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(string) == 0:\n        return []\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n    for i, char in enumerate(string):\n        for permutation in permutations_dup(string[:i] + string[i + 1:]):\n            permutations.append(char + permutation)\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations_dup(\"abc\"))"
+    },
+    {
+      "rank": 72,
+      "score": 8.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    O(n*n!)\n    \"\"\"\n    if not string:\n        return []\n    if len(string) == 1:\n        return [string]\n    if len(string) == 2:\n        return [string, string[1] + string[0]]\n    if len(string) == 3:\n        return [string, string[1] + string[0] + string[2], string[2] + string[0] + string[1]]\n\n    result = []\n    for i in range(len(string)):\n        for permutation in permutations(string[:i] + string[i+1:]):\n            result.append(string[i] + permutation)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))"
+    },
+    {
+      "rank": 73,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutation_with_dups(string):\n    return list(map(\"\".join, permutations(string)))\n\n\ndef test_permutation_with_dups():\n    assert permutation_with_dups(\"aabb\") == [\"aa\", \"ab\", \"ba\", \"bb\", \"aa\", \"ab\", \"ba\", \"bb\"]\n\n\nif __name__ == \"__main__\":\n    print(permutation_with_dups(\"aabb\"))"
+    },
+    {
+      "rank": 74,
+      "score": 8.0,
+      "candidate": "def permute(s: str) -> list:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    def _permute(s: str, output: list, idx: int):\n        if idx == len(s):\n            output.append(s)\n            return\n        for i in range(idx, len(s)):\n            s[idx], s[i] = s[i], s[idx]\n            _permute(s, output, idx + 1)\n            s[idx], s[i] = s[i], s[idx]\n\n    output = []\n    _permute(s, output, 0)\n    return output\n\n\nif __name__ == \"__main__\":\n    print(permute(\"abc\"))"
+    },
+    {
+      "rank": 75,
+      "score": 8.0,
+      "candidate": "from itertools import permutations\n\n\n# Time complexity O(N!)\n# Space complexity O(N)\ndef permutations_with_duplicates(string):\n    return [\"\".join(perm) for perm in permutations(string)]\n\n\n# Time complexity O(N!)\n# Space complexity O(N)\ndef permutations_without_duplicates(string):\n    result = []\n\n    def backtrack(perm, left):\n        if left == 0:\n            result.append(\"\".join(perm))\n            return\n\n        for i in range(left):\n            perm[i], perm[left] = perm[left], perm[i]\n            backtrack(perm, left - 1)\n            perm[i], perm[left] = perm[left], perm[i]\n\n    backtrack(list(string), len(string))\n\n    return result\n\n\nprint(permutations_with_duplicates(\"abc\"))\nprint(permutations_without_duplicates(\"abc\"))"
+    },
+    {
+      "rank": 76,
+      "score": 8.0,
+      "candidate": "from itertools import product\n\n\ndef permutations(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations_list = []\n    for element in string:\n        for permutation in permutations(string.replace(element, \"\", 1)):\n            permutations_list.append(element + permutation)\n    return permutations_list\n\n\ndef permutations2(string):\n    \"\"\"\n    Time Complexity: O(n*n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations_list = []\n    for element in string:\n        for permutation in permutations2(string.replace(element, \"\", 1)):\n            permutations_list.append(element + permutation)\n    return permutations_list\n\n\ndef permutations3(string):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations_list = []\n    for permutation in product(string, repeat=len(string)):\n        permutations_list.append(\"\".join(permutation))\n    return permutations_list\n\n\nif __name__ == \"__main__\":\n    string = \"abcd\"\n    print(permutations(string))\n    print(permutations2(string))\n    print(permutations3(string))"
+    },
+    {
+      "rank": 77,
+      "score": 8.0,
+      "candidate": "def all_permutations(string):\n    if len(string) == 1:\n        return string\n\n    permutations = []\n    for i, char in enumerate(string):\n        for perm in all_permutations(string[:i] + string[i + 1:]):\n            permutations.append(char + perm)\n\n    return permutations\n\n\nif __name__ == '__main__':\n    print(all_permutations('123'))"
+    },
+    {
+      "rank": 78,
+      "score": 8.0,
+      "candidate": "# O(n * n!)\ndef permutations_with_duplicates(string):\n    if len(string) <= 1:\n        return [string]\n    else:\n        permutations = []\n        for i in range(len(string)):\n            char = string[i]\n            sub_perms = permutations_with_duplicates(string[:i] + string[i + 1:])\n            for sub_perm in sub_perms:\n                permutations.append(char + sub_perm)\n        return permutations\n\n\nprint(permutations_with_duplicates(\"abc\"))\nprint(permutations_with_duplicates(\"abcc\"))\nprint(permutations_with_duplicates(\"abcccc\"))"
+    },
+    {
+      "rank": 79,
+      "score": 8.0,
+      "candidate": "def permutations(s):\n    if len(s) == 0:\n        return []\n\n    if len(s) == 1:\n        return [s]\n\n    first = s[0]\n    rest = s[1:]\n\n    perms = permutations(rest)\n\n    result = []\n\n    for perm in perms:\n        for i in range(len(perm) + 1):\n            result.append(perm[:i] + first + perm[i:])\n\n    return result\n\n\nprint(permutations(\"\"))\nprint(permutations(\"a\"))\nprint(permutations(\"ab\"))\nprint(permutations(\"abc\"))\nprint(permutations(\"abcd\"))"
+    },
+    {
+      "rank": 80,
+      "score": 7.0,
+      "candidate": "from typing import List\n\n\n# Time complexity: O(N!)\n# Space complexity: O(N!)\ndef permutations(string: str) -> List[str]:\n    if len(string) == 1:\n        return [string]\n\n    res = []\n    for i in range(len(string)):\n        char = string[i]\n        rem_string = string[:i] + string[i+1:]\n        for perm in permutations(rem_string):\n            res.append(char + perm)\n\n    return res\n\n\nif __name__ == \"__main__\":\n    print(permutations(\"ABC\"))"
+    },
+    {
+      "rank": 81,
+      "score": 7.0,
+      "candidate": "from typing import List\n\n\ndef permute_string(string: str) -> List[str]:\n    \"\"\"\n    O(n*n!) time | O(n*n!) space\n    \"\"\"\n    return permute_string_recursive(string, [])\n\n\ndef permute_string_recursive(string: str, result: List[str]) -> List[str]:\n    if not string:\n        return result\n\n    for i in range(len(string)):\n        chars = string[:i] + string[i + 1 :]\n        for j in range(len(result)):\n            result[j] = result[j][:i] + string[i] + result[j][i:]\n        result.append(string[i] + chars)\n        result = permute_string_recursive(chars, result)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(permute_string(\"ab\"))\n    print(permute_string(\"abc\"))\n    print(permute_string(\"abcd\"))"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef permute_with_dup(string: str) -> List[str]:\n    \"\"\"Returns all permutations of a given string including duplicates.\n\n    Args:\n        string (str): input string\n\n    Returns:\n        List[str]: list of permutations\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n\n    for i, char in enumerate(string):\n        sub_perms = permute_with_dup(string[:i] + string[i + 1 :])\n        for perm in sub_perms:\n            permutations.append(char + perm)\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permute_with_dup(\"ABC\"))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "# O(n!) time | O(n) space\ndef allPermutations(string):\n    permutations = []\n    permutationsHelper(string, \"\", permutations)\n    return permutations\n\n\ndef permutationsHelper(string, currentPermutation, permutations):\n    if len(currentPermutation) == len(string):\n        permutations.append(currentPermutation)\n    else:\n        for i in range(len(string)):\n            char = string[i]\n            if char not in currentPermutation:\n                permutationsHelper(string, currentPermutation + char, permutations)\n\n\n\"\"\"\n1. How many times is permutationsHelper called?\n    O(n!)\n2. How many times is permutationsHelper called in total?\n    O(n!)\n3. What is the runtime of this solution?\n    O(n!)\n4. What is the runtime of this solution in terms of n?\n    O(n!)\n5. What is the best case runtime of this solution?\n    O(n!)\n6. What is the worst case runtime of this solution?\n    O(n!)\n7. How can we improve the runtime of this solution?\n    O(n!)\n\"\"\""
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "# O(n!) time | O(n) space\ndef get_permutations(string):\n    permutations = []\n    get_permutations_helper(string, \"\", permutations)\n    return permutations\n\n\ndef get_permutations_helper(string, current, permutations):\n    if not string:\n        permutations.append(current)\n    for index in range(len(string)):\n        get_permutations_helper(\n            string[:index] + string[index + 1:], current + string[index], permutations\n        )\n\n\n\"\"\"\nTime: O(n!)\nSpace: O(n)\n\nFor example, for string \"abb\", there are 3! = 6 permutations.\n\n1. \"abb\"\n2. \"bab\"\n3. \"bba\"\n4. \"ab\" + \"ab\"\n5. \"ba\" + \"ab\"\n6. \"ba\" + \"ba\"\n\"\"\""
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "def permutations(string):\n    result = []\n\n    def permutate(string, permutation, index):\n        if index == len(string):\n            result.append(permutation)\n        else:\n            for i in range(index, len(string)):\n                permutation_copy = list(permutation)\n                permutation_copy.append(string[i])\n                permutate(string, permutation_copy, i + 1)\n\n    permutate(string, [], 0)\n    return result\n\n\ndef test_permutations():\n    assert permutations('abc') == ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef get_permutations(string: str) -> List[str]:\n    \"\"\"\n    Time Complexity: O(n * n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    if not string:\n        return [\"\"]\n\n    # Recursive case:\n    if len(string) == 1:\n        return [string]\n\n    # Base case:\n    if len(string) == 2:\n        return [string, string[1] + string[0]]\n\n    permutations = []\n    for i, char in enumerate(string):\n        permutations += [\n            char + remaining_string\n            for remaining_string in get_permutations(string[:i] + string[i + 1 :])\n        ]\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(get_permutations(\"abc\"))"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "def string_permutations(string: str) -> None:\n    \"\"\"\n    O(n * n!) time | O(n!) space, where n is the length of the string\n    \"\"\"\n    if len(string) == 1:\n        print(string)\n        return\n\n    for idx, char in enumerate(string):\n        print_string = string[:idx] + string[idx + 1 :]\n        string_permutations(print_string + char)\n\n\n\"\"\"\nWrite a function to print all permutations of a given string without duplicates.\n\"\"\"\n\n\ndef string_permutations_no_dupes(string: str) -> None:\n    \"\"\"\n    O(n * n!) time | O(n) space\n    \"\"\"\n    if len(string) == 1:\n        print(string)\n        return\n\n    def backtrack(start: int) -> None:\n        if start == len(string):\n            print(string)\n            return\n\n        for idx, char in enumerate(string[start:]):\n            if idx > 0 and char == string[start + idx - 1]:\n                continue\n            string[start], string[start + idx] = string[start + idx], string[start]\n            backtrack(start + 1)\n            string[start], string[start + idx] = string[start + idx], string[start]\n\n    backtrack(0)"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from itertools import permutations\n\n\ndef permutations_with_duplicates(string):\n    return list(map(''.join, permutations(string)))\n\n\ndef test_permutations_with_duplicates():\n    assert permutations_with_duplicates(\"abc\") == ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']\n\n\nif __name__ == '__main__':\n    print(permutations_with_duplicates(\"abc\"))"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "def permutations(string):\n    \"\"\"Print all permutations of a given string including duplicates.\"\"\"\n    if len(string) <= 1:\n        return string\n    else:\n        result = ''\n        for character in string:\n            for permutation in permutations(string.replace(character, '', 1)):\n                result += character + permutation\n        return result\n\n\ndef test_function(test_case):\n    string = test_case[0]\n    solution = test_case[1]\n    output = permutations(string)\n    print(output)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\nstring = 'AAAB'\nsolution = 'AAB AAAB ABA ABAA ABAAB ABAB ABABA ABABB ABAABB ABBA ABAABBAB ABABABABA ABABABABAB'\ntest_case = [string, solution]\ntest_function(test_case)\n\nstring = 'AAA'\nsolution = 'A AAA AA AAAB AAB AABA ABA AB AAAB AAABA ABAA ABAB ABABA ABABB ABAABB ABBA ABABABABA ABABABABAB'\ntest_case = [string, solution]\ntest_function(test_case)\n\nstring = 'A'\nsolution = 'A'\ntest_case = [string, solution]\ntest_function(test_case)\n\nstring = ''\nsolution = ''\ntest_case = [string, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef permutations_with_duplicates(string: str) -> List[str]:\n    \"\"\"Returns a list of all permutations of the given string.\n\n    Args:\n        string (str): the string to get the permutations from\n\n    Examples:\n        >>> assert permutations_with_duplicates('aab') == ['aab', 'aba', 'baa']\n    \"\"\"\n    if len(string) <= 1:\n        return [string]\n\n    first = string[0]\n    return [first + perm for perm in permutations_with_duplicates(string[1:])] + [string]\n\n\nif __name__ == \"__main__\":\n    print(permutations_with_duplicates(\"aab\"))"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "from itertools import permutations\n\n\ndef get_permutations(string: str) -> list:\n    \"\"\"Returns a list of permutations for a given string.\n\n    Args:\n        string: the string to get permutations for\n\n    Examples:\n        >>> assert get_permutations('abc') == ['abc', 'bac', 'bca', 'acb', 'cab', 'cba']\n    \"\"\"\n    return [''.join(perm) for perm in permutations(string)]\n\n\nif __name__ == \"__main__\":\n    print(get_permutations(\"abc\"))"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "def permutations(s):\n    if len(s) == 1:\n        return [s]\n    else:\n        result = []\n        for i in range(len(s)):\n            c = s[i]\n            ss = s[:i] + s[i+1:]\n            for p in permutations(ss):\n                result.append(c+p)\n        return result\n\ndef permutations_rec(s, prefix):\n    if len(s) == 0:\n        return [prefix]\n    result = []\n    for i in range(len(s)):\n        c = s[i]\n        ss = s[:i] + s[i+1:]\n        for p in permutations_rec(ss, prefix+c):\n            result.append(p)\n    return result\n\ndef permutations_rec2(s):\n    return permutations_rec(s, \"\")\n\ndef permutations_iter(s):\n    if len(s) == 0:\n        return [\"\"]\n    result = []\n    for i in range(len(s)):\n        c = s[i]\n        ss = s[:i] + s[i+1:]\n        for p in permutations_iter(ss):\n            result.append(c+p)\n    return result\n\nimport unittest\nfrom unittest_data_provider import data_provider\n\ndef data():\n    return [\n        ('', []),\n        ('a', ['a']),\n        ('ab', ['ab', 'ba']),\n        ('abc', ['abc', 'bac', 'bca', 'acb', 'cab', 'cba']),\n    ]\n\nclass Tests(unittest.TestCase):\n    @data_provider(data)\n    def test_permutations(self, input_s, expected):\n        self.assertEquals(permutations(input_s), expected)\n\n    @data_provider(data)\n    def test_permutations_rec(self, input_s, expected):\n        self.assertEquals(permutations_rec(input_s, \"\"), expected)\n\n    @data_provider(data)\n    def test_permutations_rec2("
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef permutations_with_dup(string: str) -> List[str]:\n    \"\"\"Returns list of all permutations of a given string including duplicates.\n\n    Args:\n        string (str): string to permutate.\n\n    Returns:\n        List[str]: list of permutations.\n    \"\"\"\n    result = []\n    if len(string) == 0:\n        return [\"\"]\n\n    for i in range(len(string)):\n        for perm in permutations_with_dup(string[:i] + string[i + 1 :]):\n            result.append(string[i] + perm)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(permutations_with_dup(\"aabb\"))"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef print_permutations(string: str) -> None:\n    \"\"\"Print all permutations of a given string including duplicates.\n\n    Args:\n        string (str): given string\n    \"\"\"\n    string_list = list(string)\n    print_permutations_helper(string_list, 0)\n\n\ndef print_permutations_helper(string_list: List[str], index: int) -> None:\n    \"\"\"Print all permutations of a given list including duplicates.\n\n    Args:\n        string_list (List[str]): given list\n        index (int): index of list\n    \"\"\"\n    if index == len(string_list):\n        print(\"\".join(string_list))\n    else:\n        for i in range(index, len(string_list)):\n            string_list[index], string_list[i] = string_list[i], string_list[index]\n            print_permutations_helper(string_list, index + 1)\n            string_list[index], string_list[i] = string_list[i], string_list[index]\n\n\nif __name__ == \"__main__\":\n    print_permutations(\"aab\")"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef permutations_with_duplicates(string: str) -> List[str]:\n    \"\"\"Returns a list of all permutations of a given string including duplicates.\"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n    for index, letter in enumerate(string):\n        new_string = string[:index] + string[index + 1 :]\n        new_permutations = permutations_with_duplicates(new_string)\n        for permutation in new_permutations:\n            permutations.append(letter + permutation)\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    assert permutations_with_duplicates(\"\") == [\"\"]\n    assert permutations_with_duplicates(\"a\") == [\"a\"]\n    assert permutations_with_duplicates(\"ab\") == [\"ab\", \"ba\"]\n    assert permutations_with_duplicates(\"aabb\") == [\n        \"aabb\",\n        \"abab\",\n        \"abba\",\n        \"baab\",\n        \"baba\",\n        \"bbaa\",\n    ]"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef permutations_with_dup(string: str) -> List[str]:\n    \"\"\"Returns all permutations of a given string including duplicates.\n\n    Args:\n        string (str): input string\n\n    Returns:\n        List[str]: list of permutations\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations: List[str] = []\n\n    for i in range(len(string)):\n        sub_string = string[:i] + string[i + 1 :]\n        sub_permutations = permutations_with_dup(sub_string)\n\n        for sub_permutation in sub_permutations:\n            permutations.append(string[i] + sub_permutation)\n\n    return permutations\n\n\nif __name__ == \"__main__\":\n    print(permutations_with_dup(\"abc\"))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef print_permutations(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    string = list(string)\n    length = len(string)\n\n    def permute(start: int) -> None:\n        if start == length:\n            print(\"\".join(string))\n            return\n        for i in range(start, length):\n            string[i], string[start] = string[start], string[i]\n            permute(start + 1)\n            string[i], string[start] = string[start], string[i]\n\n    permute(0)\n\n\ndef print_permutations_with_dupes(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n\n    def permute(start: int, end: int) -> None:\n        if start == end:\n            print(\"\".join(string))\n            return\n        for i in range(start, end + 1):\n            string[start], string[i] = string[i], string[start]\n            permute(start + 1, end)\n            string[start], string[i] = string[i], string[start]\n\n    print_permutations(string)\n\n\ndef print_permutations_recursive(string: str) -> None:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n!)\n    \"\"\"\n    string = list(string)\n    length = len(string)\n\n    def permute(start: int, end: int) -> None:\n        if start == end:\n            print(\"\".join(string))\n            return\n        for i in range(start, end + 1):\n            string[start], string[i] = string[i], string[start]\n            permute(start + 1, end)\n            string[start], string[i] = string[i], string[start]\n\n    permute(0, length - 1)\n\n\ndef print_permutations_recursive_"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "from typing import List, Optional\n\n\ndef permutations_with_dup(input_str: str) -> List[str]:\n    \"\"\"Returns a list of all permutations with duplicates of the given string.\n\n    Args:\n        input_str (str): the string to find permutations of\n\n    Returns:\n        List[str]: a list of all permutations of the string\n    \"\"\"\n    result: List[str] = []\n    if len(input_str) == 0:\n        return result\n\n    for i, char in enumerate(input_str):\n        perms = permutations_with_dup(input_str[:i] + input_str[i + 1 :])\n        for perm in perms:\n            result.append(char + perm)\n    return result\n\n\nif __name__ == \"__main__\":\n    assert permutations_with_dup(\"\") == []\n    assert permutations_with_dup(\"a\") == [\"a\"]\n    assert permutations_with_dup(\"ab\") == [\"ab\", \"ba\"]\n    assert permutations_with_dup(\"abc\") == [\n        \"abc\",\n        \"bac\",\n        \"bca\",\n        \"acb\",\n        \"cab\",\n        \"cba\",\n    ]"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "from itertools import permutations\n\n\ndef all_perms_with_reps(s):\n    return [\"\".join(perm) for perm in permutations(s)]\n\n\ndef test_all_perms_with_reps():\n    \"\"\"Test all_perms_with_reps\"\"\"\n    assert all_perms_with_reps(\"abc\") == [\"abc\", \"bac\", \"bca\", \"acb\", \"cab\", \"cba\"]\n    assert all_perms_with_reps(\"abb\") == [\"abb\", \"bab\", \"bba\", \"ab\", \"ba\", \"bb\"]\n    assert all_perms_with_reps(\"\") == [\"\"]\n    assert all_perms_with_reps(\"a\") == [\"a\"]"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "def permutations(string):\n    \"\"\"\n    :param string: str - a string to find the permutations for\n    :return: list - a list of all permutations of `string`\n    \"\"\"\n    if len(string) <= 1:\n        return [string]\n\n    permutations = []\n    for i in range(len(string)):\n        character = string[i]\n        remaining_string = string[:i] + string[i + 1:]\n        for perm in permutations(remaining_string):\n            permutations.append(character + perm)\n\n    return permutations\n\n\ndef test_function(test_case):\n    string = test_case[0]\n    solution = test_case[1]\n    output = permutations(string)\n    output.sort()\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\nstring = 'ab'\nsolution = ['ab', 'ba']\ntest_case = [string, solution]\ntest_function(test_case)\n\nstring = 'abc'\nsolution = ['abc', 'bac', 'bca', 'acb', 'cab', 'cba']\ntest_case = [string, solution]\ntest_function(test_case)\n\nstring = 'abcd'\nsolution = ['abcd', 'bacd', 'bcad', 'bcda', 'acbd', 'cabd', 'cbad', 'cbda',\n            'acdb', 'cadb', 'cdab', 'cdba', 'abdc', 'badc', 'bdac', 'bdca',\n            'adbc', 'dabc', 'dbac', 'dbca', 'adcb', 'dacb', 'dcab', 'dcba']\ntest_case = [string, solution]\ntest_function(test_case)"
+    }
+  ]
+}

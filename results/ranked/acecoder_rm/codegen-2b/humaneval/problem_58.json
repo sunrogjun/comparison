@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/58",
+    "prompt": "\n\ndef common(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n",
+    "canonical_solution": "    ret = set()\n    for e1 in l1:\n        for e2 in l2:\n            if e1 == e2:\n                ret.add(e1)\n    return sorted(list(ret))\n",
+    "test": "\n\nMETADATA = {}\n\n\ndef check(candidate):\n    assert candidate([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]) == [1, 5, 653]\n    assert candidate([5, 3, 2, 8], [3, 2]) == [2, 3]\n    assert candidate([4, 3, 2, 8], [3, 2, 4]) == [2, 3, 4]\n    assert candidate([4, 3, 2, 8], []) == []\n\n",
+    "entry_point": "common",
+    "docstring": "",
+    "problem_id": 58
+  },
+  "model_name": "codegen-2b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "return sorted(set(l1).intersection(set(l2)))\n\n#\n# Test cases\n#\n\ndef test_common_elements():\n    assert common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]) == [1, 5, 653]\n    assert common([5, 3, 2, 8], [3, 2]) == [2, 3]\n\nif __name__ == \"__main__\":\n    test_common_elements()",
+      14.515625
+    ],
+    [
+      "# TODO: write a faster version using a hash table.\n    # TODO: write a faster version using a set.\n    set1 = set(l1)\n    set2 = set(l2)\n    result = []\n    for item in set1.intersection(set2):\n        result.append(item)\n    return sorted(result)\n\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 5, 7, 1, 5, 9, 653, 121]\n\n    \"\"\"\n    # TODO: write a faster version using a hash table.\n    # TODO: write a faster version using a set.\n    set1 = set(l1)\n    set2 = set(l2)\n    result = set1.union(set2)\n    return sorted(result)\n\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted intersection of two lists.\n    >>> intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [5]\n\n    \"\"\"\n    # TODO: write a faster version using a hash table.\n    # TODO: write a faster version using a set.\n    set1 = set(l1)\n    set2 = set(l2)\n    result = set1.intersection(set2)\n    return sorted(result)\n\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted difference of two lists.\n    >>> difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 653, 2]\n\n    \"\"\"\n    # TODO: write a faster version using a hash table.\n    # TODO: write a faster version using a set.\n    set1 = set(l1)\n    set2 = set(l2)\n    result = set1.difference(set",
+      2.716796875
+    ],
+    [
+      "common = []\n    for i in range(len(l1)):\n        if l1[i] in l2:\n            common.append(l1[i])\n            l1.remove(l1[i])\n            l2.remove(l1[i])\n    return common",
+      1.1337890625
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    return sorted(set(l1) & set(l2))\n\n\ndef _invalid_input(func):\n    \"\"\"Decorator to check for invalid input.\n    \"\"\"\n    def _wrapper(*args, **kwargs):\n        if not args or not isinstance(args[0], list):\n            raise TypeError(\n                '{func} expects a list as first argument.'.format(\n                    func=func.__name__))\n        return func(*args, **kwargs)\n    return _wrapper\n\n\ndef _valid_input(func):\n    \"\"\"Decorator to check for valid input.\n    \"\"\"\n    def _wrapper(*args, **kwargs):\n        if not args or not isinstance(args[0], list):\n            raise TypeError(\n                '{func} expects a list as first argument.'.format(\n                    func=func.__name__))\n        return func(*args, **kwargs)\n    return _wrapper",
+      0.9111328125
+    ],
+    [
+      "for x in l1:\n        if x not in l2:\n            return [x]\n    return []\n\ndef longest_common_subsequence(l1: list, l2: list):\n    \"\"\"Returns the longest common subsequence of two lists.\n    >>> longest_common_subsequence([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> longest_common_subsequence([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    # TODO: add a recursive version\n    # TODO: add a version that can return a list of sub-sequences\n    # TODO: add a version that can return the longest common subsequence\n    # TODO: add a version that can return the longest common subsequence as a list\n    return common(l1, l2)\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.86376953125
+    ],
+    [
+      "seen = set()\n    for x in l1:\n        if x not in seen:\n            seen.add(x)\n            l2.remove(x)\n    return [x for x in l1 if x not in seen]\n\n\ndef unique_everseen(iterable, key=None):\n    \"\"\"List unique elements, preserving order.\n    >>> list(unique_everseen('AAAABBBCCDAABBB'))\n    ['A', 'B', 'C', 'D']\n    >>> list(unique_everseen('ABBCcAD', str.lower))\n    ['A', 'B', 'C', 'D']\n    \"\"\"\n    # bytearray is not iterable\n    if hasattr(iterable, 'next'):\n        seen = set()\n        for element in iterable:\n            key = key or (lambda x: x)\n            k = key(element)\n            if k not in seen:\n                seen.add(k)\n                yield element\n    else:\n        for element in iterable:\n            k = key or (lambda x: x)\n            if k not in seen:\n                seen.add(k)\n                yield element\n\n\ndef unique_everseen_str(iterable, key=None):\n    \"\"\"List unique elements, preserving order.\n    >>> list(unique_everseen_str('AAAABBBCCDAABBB'))\n    ['A', 'B', 'C', 'D']\n    >>> list(unique_everseen_str('ABBCcAD', str.lower))\n    ['A', 'B', 'C', 'D']\n    \"\"\"\n    seen = set()\n    for element in iterable:\n        key = key or (lambda x: x)\n        k = key(element)\n        if k not in seen:\n            seen.add(k)\n            yield element\n\n\ndef count_elements(iterable, key=None):\n    \"\"\"Count the number of elements in an iterable.\n    >>> count_elements('AAAABBBCCDAABBB')\n    5\n    >>> count_elements('ABBCcAD', str.lower)\n    5\n    \"\"\"\n    seen = set()\n    for element in iterable:",
+      0.8623046875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) >= len(l2):\n        l = l1\n        l1 = l2\n        l2 = l\n    ret = []\n    for x in l1:\n        for y in l2:\n            if x == y:\n                ret.append(x)\n                break\n    return ret\n\ndef filter_common(l: list, common: list):\n    \"\"\"Remove common elements from list.\n    >>> filter_common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2]\n    >>> filter_common([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    if not l:\n        return []\n    ret = []\n    for x in l:\n        if x not in common:\n            ret.append(x)\n    return ret",
+      0.79638671875
+    ],
+    [
+      "return sorted(set(l1) & set(l2))\n\ndef unique(l: list):\n    \"\"\"Return sorted unique elements from a list.\n    >>> unique([1, 4, 3, 34, 653, 2, 5])\n    [1, 2, 3, 4, 5, 653]\n    >>> unique([5, 3, 2, 8])\n    [5, 3, 2, 8]\n    \"\"\"\n    return sorted(set(l))\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2, 5, 7, 9, 121]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    return sorted(list(set(l1) | set(l2)))\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted intersection of two lists.\n    >>> intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 5, 7, 9]\n    >>> intersection([5, 3, 2, 8], [3, 2])\n    [3]\n    \"\"\"\n    return sorted(list(set(l1) & set(l2)))\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted difference of two lists.\n    >>> difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653]\n    >>> difference([5, 3, 2, 8], [3, 2])\n    [8]\n    \"\"\"\n    return sorted(list(set(l1) - set(l2)))\n\ndef symmetric_difference(l1: list, l2: list):\n    \"\"\"Return sorted symmetric difference of two lists.",
+      0.564453125
+    ],
+    [
+      "if len(l1) < 1 or len(l2) < 1:\n        return []\n    set1 = set(l1)\n    set2 = set(l2)\n    return sorted(set1.intersection(set2))\n\ndef max_common(l1: list, l2: list):\n    \"\"\"Return maximum common elements for two lists.\n    >>> max_common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> max_common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    if len(l1) < 1 or len(l2) < 1:\n        return []\n    set1 = set(l1)\n    set2 = set(l2)\n    return sorted(set1.intersection(set2))[-1]\n\ndef longest_common_subsequence(l1: list, l2: list):\n    \"\"\"Return longest common subsequence for two lists.\n    >>> longest_common_subsequence([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> longest_common_subsequence([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    if len(l1) < 1 or len(l2) < 1:\n        return []\n    set1 = set(l1)\n    set2 = set(l2)\n    lcs = []\n    for item in set1.intersection(set2):\n        lcs.append(item)\n    return lcs",
+      0.253173828125
+    ],
+    [
+      "return sorted(set(l1).intersection(set(l2)))\n\n\ndef is_in_list(x: int, l: list):\n    \"\"\"Return True if x is in l.\n    >>> is_in_list(1, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_list(2, [1, 2, 3, 4, 5])\n    False\n    >>> is_in_list(3, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_list(6, [1, 2, 3, 4, 5])\n    False\n    >>> is_in_list(0, [1, 2, 3, 4, 5])\n    False\n    \"\"\"\n    return x in l\n\n\ndef is_in_interval(x: int, l: list):\n    \"\"\"Return True if x is in l.\n    >>> is_in_interval(1, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_interval(2, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_interval(3, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_interval(6, [1, 2, 3, 4, 5])\n    False\n    >>> is_in_interval(0, [1, 2, 3, 4, 5])\n    False\n    \"\"\"\n    return x <= l[-1] and x >= l[0]\n\n\ndef is_in_interval_exclusive(x: int, l: list):\n    \"\"\"Return True if x is in l.\n    >>> is_in_interval_exclusive(1, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_interval_exclusive(2, [1, 2, 3, 4, 5])\n    False\n    >>> is_in_interval_exclusive(3, [1, 2, 3, 4, 5])\n    True\n    >>> is_in_interval_exclusive(6, [1, 2, 3, 4, 5])\n    False\n    >>> is_in_interval_exclusive",
+      0.1370849609375
+    ],
+    [
+      "if l1 is None:\n        return l2\n    if l2 is None:\n        return l1\n    if len(l1) < 1:\n        return l2\n    if len(l2) < 1:\n        return l1\n    if l1 == l2:\n        return l1\n    # Find all common items\n    common = []\n    for i in range(len(l1)):\n        for j in range(len(l2)):\n            if l1[i] == l2[j]:\n                common.append(l1[i])\n    # Sort the common items\n    common.sort()\n    return common\n\ndef get_common(l1: list, l2: list):\n    \"\"\"Return sorted common elements for two lists.\n    >>> get_common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> get_common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    common = common(l1, l2)\n    if len(common) < 1:\n        return None\n    return common",
+      0.05072021484375
+    ],
+    [
+      "if not l1:\n        return l2\n    if not l2:\n        return l1\n    l1 = sorted(l1)\n    l2 = sorted(l2)\n    i = j = 0\n    r = []\n    while i < len(l1) and j < len(l2):\n        if l1[i] == l2[j]:\n            r.append(l1[i])\n            i += 1\n            j += 1\n        elif l1[i] < l2[j]:\n            i += 1\n        else:\n            j += 1\n    return r\n\ndef sort_list(l: list):\n    \"\"\"Sort a list using a simple bubble sort algorithm.\n\n    >>> sort_list([5, 1, 3, 2, 4, 6, 7])\n    [1, 2, 3, 4, 5, 6, 7]\n    \"\"\"\n    for i in range(len(l) - 1):\n        for j in range(i + 1, len(l)):\n            if l[j] < l[i]:\n                l[j], l[i] = l[i], l[j]\n    return l\n\n\ndef sort_list_recursive(l: list):\n    \"\"\"Sort a list using a recursive bubble sort algorithm.\n\n    >>> sort_list_recursive([5, 1, 3, 2, 4, 6, 7])\n    [1, 2, 3, 4, 5, 6, 7]\n    \"\"\"\n    if len(l) <= 1:\n        return l\n    for i in range(len(l) - 1):\n        if l[i] < l[i + 1]:\n            l[i], l[i + 1] = l[i + 1], l[i]\n    return sort_list_recursive(l[1:])\n\ndef bubble_sort(l: list):\n    \"\"\"Sort a list using a simple bubble sort algorithm.\n\n    >>> bubble_sort([5, 1, 3, 2, 4, 6, 7])\n    [1, 2, 3, 4, 5, 6, 7]\n    \"\"\"\n    for i in range(len(l) - 1):\n        for j in range(i + 1,",
+      -0.1912841796875
+    ],
+    [
+      "# TODO: use set for better performance\n    return sorted(set(l1) & set(l2))\n\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted unique intersection of two lists.\n    >>> intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5]\n    >>> intersection([5, 3, 2, 8], [3, 2])\n    [2]\n\n    \"\"\"\n    # TODO: use set for better performance\n    return sorted(set(l1) & set(l2))\n\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted unique union of two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2, 5, 7, 9, 121]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    # TODO: use set for better performance\n    return sorted(set(l1) | set(l2))\n\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted unique difference of two lists.\n    >>> difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2]\n    >>> difference([5, 3, 2, 8], [3, 2])\n    [5, 7, 1, 5, 9, 653]\n\n    \"\"\"\n    # TODO: use set for better performance\n    return sorted(set(l1) - set(l2))\n\n\ndef symmetric_difference(l1: list, l2: list):\n    \"\"\"Return sorted unique symmetric difference of two lists.\n    >>> symmetric_difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1,",
+      -0.2059326171875
+    ],
+    [
+      "if not l1:\n        return l2[:]\n    if not l2:\n        return l1[:]\n    return sorted(set(l1) & set(l2))\n\ndef intersect(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> intersect([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [5, 7, 1, 5, 9]\n    >>> intersect([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    if not l1:\n        return l2[:]\n    if not l2:\n        return l1[:]\n    return sorted(set(l1) & set(l2))\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2, 5, 7, 9, 121]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    if not l1:\n        return l2[:]\n    if not l2:\n        return l1[:]\n    return sorted(set(l1) | set(l2))\n\ndef list_union(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> list_union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2, 5, 7, 9, 121]\n    >>> list_union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    if not l1:\n        return l2[:]\n    if not l2:\n        return l1[:]\n    return sorted(",
+      -0.25537109375
+    ],
+    [
+      "for x in l1:\n        try:\n            l2.remove(x)\n        except ValueError:\n            pass\n    return list(l2)\n\n\ndef is_monotonic(lst: list):\n    \"\"\"Check if the list is monotonically increasing or decreasing.\n    >>> is_monotonic([1, 2, 3, 4])\n    True\n    >>> is_monotonic([1, 2, 3, 4, 4])\n    False\n    >>> is_monotonic([1, 2, 3, 4, 5])\n    False\n    \"\"\"\n    if lst[0] > lst[-1]:\n        return True\n    elif lst[0] < lst[-1]:\n        return False\n    else:\n        return False\n\n\ndef is_monotonic_increasing(lst: list):\n    \"\"\"Check if the list is monotonically increasing.\n    >>> is_monotonic_increasing([1, 2, 3, 4])\n    True\n    >>> is_monotonic_increasing([1, 2, 3, 4, 4])\n    False\n    >>> is_monotonic_increasing([1, 2, 3, 4, 5])\n    False\n    \"\"\"\n    return is_monotonic(lst) and lst[0] < lst[-1]\n\n\ndef is_monotonic_decreasing(lst: list):\n    \"\"\"Check if the list is monotonically decreasing.\n    >>> is_monotonic_decreasing([1, 2, 3, 4])\n    True\n    >>> is_monotonic_decreasing([1, 2, 3, 4, 4])\n    False\n    >>> is_monotonic_decreasing([1, 2, 3, 4, 5])\n    False\n    \"\"\"\n    return is_monotonic(lst) and lst[0] > lst[-1]\n\n\ndef is_monotonic_increasing_or_decreasing(lst: list):\n    \"\"\"Check if the list is monotonically increasing or decreasing.\n    >>> is_monotonic_increasing_or_decreasing([1, 2, 3, 4])\n    True\n    >>> is_",
+      -0.56884765625
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n\n    for e in l1:\n        if e in l2:\n            l2.remove(e)\n\n    return l2\n\ndef all_pairs(l: list):\n    \"\"\"Return all pairs of elements from a list.\n    >>> all_pairs(range(5))\n    [[0, 1], [1, 2], [2, 3], [3, 4]]\n    \"\"\"\n    return [(i, j) for i in range(len(l)) for j in range(i+1, len(l))]\n\ndef powerset(l: list):\n    \"\"\"Return all subsets of a list.\n    >>> powerset([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if len(l) == 0:\n        return [[]]\n    else:\n        return chain.from_iterable(combinations(l, r) for r in range(len(l)+1))\n\ndef combinations(l: list, r: int):\n    \"\"\"Return all subsets of a list.\n    >>> combinations(range(5), 3)\n    [[0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]]\n    \"\"\"\n    if r == 0:\n        return [[]]\n    elif r == 1:\n        return [[l[0]]]\n    else:\n        return chain.from_iterable(combinations(l, r-1) + combinations(l, r-1))",
+      -0.8037109375
+    ],
+    [
+      "for i in l1:\n        if i in l2:\n            l2.remove(i)\n    return l2\n\ndef _find_common(l1: list, l2: list):\n    if len(l1) == 0 or len(l2) == 0:\n        return []\n    if l1[0] < l2[0]:\n        l1 = l1[1:]\n    else:\n        l2 = l2[1:]\n    return _find_common(l1, l2)\n\ndef _find_common_unique(l1: list, l2: list):\n    if len(l1) == 0 or len(l2) == 0:\n        return []\n    if l1[0] < l2[0]:\n        l1 = l1[1:]\n    else:\n        l2 = l2[1:]\n    result = []\n    for i in l1:\n        if i not in result:\n            result.append(i)\n    return result\n\ndef find_common(l1: list, l2: list):\n    \"\"\"Return common elements for two lists.\n\n    >>> find_common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> find_common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    if len(l1) == 0 or len(l2) == 0:\n        return []\n    return _find_common(l1, l2)\n\ndef find_common_unique(l1: list, l2: list):\n    \"\"\"Return common elements for two lists.\n\n    >>> find_common_unique([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> find_common_unique([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    if len(l1) == 0 or len(l2) == 0:\n        return []",
+      -0.8486328125
+    ],
+    [
+      "result = []\n    for i in l1:\n        if i in l2:\n            result.append(i)\n    return sorted(result)\n\ndef main():\n    for i in range(int(input())):\n        l1 = [int(x) for x in input().split()]\n        l2 = [int(x) for x in input().split()]\n        print(*common(l1, l2))\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    ret = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            ret.append(l1[i])\n    return ret",
+      -0.85693359375
+    ],
+    [
+      "l1 = sorted(set(l1))\n    l2 = sorted(set(l2))\n    return sorted(list(set(l1).intersection(set(l2))))\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# Using set operations to keep only unique items in both lists\n    result = []\n    for item in set(l1):\n        if item in l2:\n            result.append(item)\n    return sorted(result)\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return sorted(set(l1) & set(l2))\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n\n    if len(l1) < len(l2):\n        l1, l2 = l2, l1\n\n    res = []\n    for x in l1:\n        for y in l2:\n            if x == y:\n                res.append(x)\n                break\n    return res",
+      -0.85693359375
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    l1 = sorted(l1)\n    l2 = sorted(l2)\n    m = len(l1)\n    for i in range(m):\n        while l2 and l1[i] == l2[0]:\n            l2.pop(0)\n        if not l2:\n            break\n    return l1[:i]\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return sorted(set(l1).intersection(set(l2)))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(l1)!= len(l2):\n        return []\n    # return sorted(set(l1).intersection(set(l2)))\n    return list(set(l1).intersection(set(l2)))",
+      -0.85693359375
+    ],
+    [
+      "set_1 = set(l1)\n    set_2 = set(l2)\n    return sorted(list(set_1.intersection(set_2)))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return sorted(set(l1) & set(l2))",
+      -0.85693359375
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n\n    set1 = set(l1)\n    set2 = set(l2)\n    if not set1 or not set2:\n        return []\n\n    return sorted(set1 & set2)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "# TODO: make this more efficient\n    return sorted(set(l1).intersection(set(l2)))",
+      -0.85791015625
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    common = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            common.append(l1[i])\n    return common\n\n\ndef find_common(l1: list, l2: list):\n    \"\"\"Return sorted common elements for two lists.\n    >>> find_common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n\n    \"\"\"\n    common = common(l1, l2)\n    return common",
+      -0.85791015625
+    ],
+    [
+      "if len(l1) == 0 or len(l2) == 0:\n        return []\n    m = min(len(l1), len(l2))\n    l = []\n    for i in range(m):\n        if l1[i] == l2[i]:\n            l.append(l1[i])\n    return l\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted intersection of two lists.\n    >>> intersection([1, 2, 3, 4], [3, 4])\n    [3]\n    >>> intersection([1, 2, 3, 4], [3, 4, 5])\n    []\n\n    \"\"\"\n    if len(l1) == 0 or len(l2) == 0:\n        return []\n    m = min(len(l1), len(l2))\n    l = []\n    for i in range(m):\n        if l1[i] == l2[i]:\n            l.append(l1[i])\n    return l",
+      -0.85791015625
+    ],
+    [
+      "# l1 & l2 are sorted, so we can use a simple bisect to find the first\n    # common element in both lists.\n    l1 = sorted(l1)\n    l2 = sorted(l2)\n    i = 0\n    j = 0\n    while i < len(l1) and j < len(l2):\n        if l1[i] == l2[j]:\n            i += 1\n            j += 1\n        elif l1[i] < l2[j]:\n            i += 1\n        else:\n            j += 1\n    return l1[:i]",
+      -0.85791015625
+    ],
+    [
+      "return list(set(l1) & set(l2))",
+      -0.85791015625
+    ],
+    [
+      "set1 = set(l1)\n    set2 = set(l2)\n    return sorted(list(set1.intersection(set2)))",
+      -0.85791015625
+    ],
+    [
+      "l1 = list(l1)\n    l2 = list(l2)\n    s1 = set(l1)\n    s2 = set(l2)\n    l = []\n    for x in s1 & s2:\n        l.append(x)\n    return sorted(l)",
+      -0.85791015625
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    i = 0\n    while i < len(l1):\n        if l1[i]!= l2[i]:\n            break\n        i += 1\n    else:\n        return l1[i:]\n    return l1[:i]\n\n\ndef _test():\n    import doctest\n    doctest.testmod()\n\nif __name__ == \"__main__\":\n    _test()",
+      -0.85791015625
+    ],
+    [
+      "s = set(l1)\n    for x in l2:\n        s.discard(x)\n    return sorted(s)\n\n\nclass Test(unittest.TestCase):\n    def test_common(self):\n        self.assertEqual(common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]), [1, 5, 653])\n        self.assertEqual(common([5, 3, 2, 8], [3, 2]), [2, 3])\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.8583984375
+    ],
+    [
+      "if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    if len(l1) == 0:\n        return []\n    if len(l2) == 0:\n        return l1\n    return sorted(set(l1) & set(l2))\n\n\ndef find_duplicates(l: list) -> set:\n    \"\"\"Return set of duplicate elements in list.\n    >>> find_duplicates([1, 2, 3, 3, 4])\n    {3}\n    \"\"\"\n    if not l:\n        return set()\n    if len(l) == 1:\n        return set()\n    return set(i for i, j in zip(l, l[1:]) if i!= j)",
+      -0.8583984375
+    ],
+    [
+      "l1 = list(set(l1))\n    l2 = list(set(l2))\n    return sorted(set(l1).intersection(set(l2)))\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "common = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            common.append(l1[i])\n    return common\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "return sorted(set(l1).intersection(set(l2)))",
+      -0.85888671875
+    ],
+    [
+      "seen = set()\n    for x in l1:\n        if x not in seen:\n            seen.add(x)\n            l2.remove(x)\n    return sorted(seen)\n\n\nclass TestCommon(unittest.TestCase):\n    def test_common(self):\n        self.assertEqual(common([], []), [])\n        self.assertEqual(common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]), [1, 5, 653])\n        self.assertEqual(common([5, 3, 2, 8], [3, 2]), [2, 3])\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85888671875
+    ],
+    [
+      "if len(l1) > len(l2):\n        l1, l2 = l2, l1\n\n    if not l1:\n        return l2\n\n    if not l2:\n        return l1\n\n    # Use set to eliminate duplicates\n    return sorted(set(l1) & set(l2))\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if len(l1) > len(l2):\n        return common(l2, l1)\n    elif len(l2) == 0:\n        return l1\n    else:\n        return sorted(set(l1).intersection(set(l2)))",
+      -0.85888671875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    elif len(l1) == len(l2):\n        return sorted(set(l1) & set(l2))\n    else:\n        return sorted(set(l1) & set(l2))",
+      -0.85888671875
+    ],
+    [
+      "if l1 == l2:\n        return l1\n    if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    m = min(len(l1), len(l2))\n    for i in range(m):\n        if l1[i]!= l2[i]:\n            break\n    else:\n        return l1[:m]\n    return common(l1[m:], l2[m:]) + [l1[m]]",
+      -0.85888671875
+    ],
+    [
+      "# TODO: Add better sorting algorithm\n    return sorted(set(l1) & set(l2))\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            result.append(l1[i])\n    return sorted(result)",
+      -0.85888671875
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    if len(l1) == 0:\n        return []\n    elif len(l2) == 0:\n        return l1\n    else:\n        return sorted(set(l1) & set(l2))",
+      -0.85888671875
+    ],
+    [
+      "l1 = set(l1)\n    l2 = set(l2)\n    return sorted(l1 & l2)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    common = []\n    for i in range(len(l1)):\n        if l1[i] in l2:\n            common.append(l1[i])\n    return common",
+      -0.85888671875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n\n    if l1 == l2:\n        return l1\n\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    l1 = l1[:]\n    l2 = l2[:]\n    l1.sort()\n    l2.sort()\n    i = 0\n    while i < len(l1) and i < len(l2):\n        if l1[i] == l2[i]:\n            i += 1\n        else:\n            l1.pop(i)\n            l2.pop(i)\n    return l1\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return sorted(set(l1).intersection(set(l2)))",
+      -0.85888671875
+    ],
+    [
+      "c = set(l1) & set(l2)\n    return sorted(c)\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            result.append(l1[i])\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "return sorted(set(l1) & set(l2))\n\n\ndef main():\n    \"\"\"Main\"\"\"\n    import doctest\n\n    doctest.testmod()\n    doctest.testfile('README.rst', optionflags=doctest.REPORT_ONLY_FIRST_FAILURE)\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if len(l1) > len(l2):\n        l1, l2 = l2, l1\n\n    return sorted(set(l1).intersection(set(l2)))",
+      -0.85888671875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    return sorted(set(l1).intersection(set(l2)))\n\n\ndef common_subsets(l: list, n: int) -> list:\n    \"\"\"Return a list of all common subset of l of size n.\n    >>> common_subsets([1, 2, 3, 4], 2)\n    [1, 2]\n    >>> common_subsets([1, 2, 3, 4], 3)\n    [1, 2, 3]\n    >>> common_subsets([1, 2, 3, 4], 4)\n    [1, 2, 3, 4]\n\n    \"\"\"\n    if not l:\n        return []\n    subsets = []\n    for i in range(1, n + 1):\n        subsets.append(common(l, [l[i - 1]]))\n    return subsets",
+      -0.85888671875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if l1 == l2:\n        return l1\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    for i in range(len(l1)):\n        if l1[i]!= l2[i]:\n            break\n        l1 = l1[:i] + l1[i+1:]\n        l2 = l2[:i] + l2[i+1:]\n    return l1",
+      -0.85888671875
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    if not l1:\n        return []\n    if len(l1) == len(l2):\n        return l1\n    common = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            common.append(l1[i])\n    return common\n\ndef main():\n    import doctest\n    doctest.testmod()\n\nif __name__ == '__main__':\n    main()",
+      -1.3017578125
+    ],
+    [
+      "if len(l1) < 1 or len(l2) < 1:\n        return []\n    if len(l1) == 1 and len(l2) == 1:\n        return [l1[0], l2[0]]\n    l1 = sorted(l1)\n    l2 = sorted(l2)\n    l = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            l.append(l1[i])\n    return l",
+      -1.474609375
+    ],
+    [
+      "return sorted(set(l1).intersection(set(l2)))\n\n\ndef is_even(n: int):\n    \"\"\"Return True if n is even, else False.\n    >>> is_even(2)\n    False\n    >>> is_even(4)\n    False\n    >>> is_even(6)\n    True\n    \"\"\"\n    return n % 2 == 0\n\n\ndef is_odd(n: int):\n    \"\"\"Return True if n is odd, else False.\n    >>> is_odd(2)\n    False\n    >>> is_odd(4)\n    False\n    >>> is_odd(6)\n    True\n    \"\"\"\n    return not is_even(n)\n\n\ndef is_prime(n: int):\n    \"\"\"Return True if n is a prime, else False.\n    >>> is_prime(2)\n    False\n    >>> is_prime(3)\n    True\n    >>> is_prime(4)\n    False\n    >>> is_prime(7)\n    True\n    >>> is_prime(13)\n    True\n    >>> is_prime(14)\n    False\n    \"\"\"\n    if n == 2 or n == 3 or n == 5:\n        return True\n    if n % 2 == 0 or n % 3 == 0 or n % 5 == 0:\n        return False\n    d = n - 1\n    for a in range(2, int(n ** 0.5) + 1):\n        if not n % a:\n            d = d - 1\n            if d == 0:\n                return False\n    return True\n\n\ndef is_palindrome(n: int):\n    \"\"\"Return True if n is a palindrome, else False.\n    >>> is_palindrome(2)\n    False\n    >>> is_palindrome(3)\n    False\n    >>> is_palindrome(4)\n    False\n    >>> is_palindrome(6)\n    True\n    \"\"\"\n    return str(n) == str(n)[::-1]\n\n\ndef is_prime_numbers(n: int):\n    \"\"\"Return True if n is a prime number, else False.\n    >>> is_prime_numbers(2)\n    True",
+      -2.025390625
+    ],
+    [
+      "if len(l1) == 0 or len(l2) == 0:\n        return []\n\n    l1.sort()\n    l2.sort()\n\n    # set1 = {elem for elem in l1 if elem not in l2}\n    # set2 = {elem for elem in l2 if elem not in l1}\n    set1 = set(l1)\n    set2 = set(l2)\n    result = set1 & set2\n    result.update(set1 - set2)\n    result.update(set2 - set1)\n    return sorted(list(result))\n\n\ndef unique(lst: list):\n    \"\"\"Return sorted unique elements of a list.\n    >>> unique([5, 3, 2, 8])\n    [5, 3, 2]\n    >>> unique([5, 3, 2, 8, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    if len(lst) == 0:\n        return []\n    return sorted(set(lst))\n\n\ndef merge_lists(lst1: list, lst2: list):\n    \"\"\"Return a merged list.\n    >>> merge_lists([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n    >>> merge_lists([5, 3, 2, 8], [])\n    [5, 3, 2, 8]\n    >>> merge_lists([], [])\n    []\n\n    \"\"\"\n    result = []\n    for elem in lst1:\n        if elem not in result:\n            result.append(elem)\n    for elem in lst2:\n        if elem not in result:\n            result.append(elem)\n    return result\n\n\ndef remove_duplicates(lst: list):\n    \"\"\"Return a list with unique elements.\n    >>> remove_duplicates([1, 2, 3, 2, 3, 4, 2, 3, 5])\n    [1, 2, 3, 4, 5]\n    >>> remove_duplicates([1, 1, 1, 2, 3, 4, 2, 3, 5])\n    [1, 2, 3, 4, 5]",
+      -2.310546875
+    ],
+    [
+      "# sort the lists\n    l1.sort()\n    l2.sort()\n    # build a map from each element to a list of elements with same value\n    map = defaultdict(list)\n    for el1, el2 in zip(l1, l2):\n        map[el1].append(el2)\n    # return the list of elements with the same value\n    return [el for el, list_ in map.items() if len(list_) > 1]\n\n\ndef is_sorted(l: list):\n    \"\"\"Check if list is sorted.\n    >>> is_sorted([5, 4, 3, 2, 1])\n    True\n    >>> is_sorted([5, 6, 7, 1, 3])\n    False\n    >>> is_sorted([5, 6, 7, 1, 3, 2])\n    False\n\n    \"\"\"\n    sorted_list = sorted(l)\n    if l == sorted_list:\n        return True\n    return False\n\n\ndef is_unique(l: list):\n    \"\"\"Check if list is unique.\n    >>> is_unique([5, 4, 3, 2, 1])\n    True\n    >>> is_unique([5, 6, 7, 1, 3, 2])\n    False\n    >>> is_unique([5, 6, 7, 1, 3, 2, 2])\n    False\n\n    \"\"\"\n    sorted_list = sorted(l)\n    if l == sorted_list:\n        return True\n    if l == sorted_list[1:] + sorted_list[:1]:\n        return True\n    return False\n\n\ndef is_sorted_and_unique(l: list):\n    \"\"\"Check if list is sorted and unique.\n    >>> is_sorted_and_unique([5, 4, 3, 2, 1])\n    True\n    >>> is_sorted_and_unique([5, 6, 7, 1, 3, 2])\n    False\n    >>> is_sorted_and_unique([5, 6, 7, 1, 3, 2, 2])\n    False\n\n    \"\"\"\n    return is_sorted(l) and is_unique(l)\n\n\ndef is_sublist(l1: list, l2: list",
+      -2.455078125
+    ],
+    [
+      "return sorted(set(l1).intersection(set(l2)))\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 2, 5, 5, 7, 7, 1, 5, 9, 653, 121]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    return sorted(set(l1).union(set(l2)))\n\ndef diff(l1: list, l2: list):\n    \"\"\"Return sorted difference of two lists.\n    >>> diff([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 3, 2, 5]\n    >>> diff([5, 3, 2, 8], [3, 2])\n    [5, 3, 2]\n\n    \"\"\"\n    return sorted(set(l1).difference(set(l2)))\n\ndef symmetric_diff(l1: list, l2: list):\n    \"\"\"Return sorted symmetric difference of two lists.\n    >>> symmetric_diff([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 3, 2, 5]\n    >>> symmetric_diff([5, 3, 2, 8], [3, 2])\n    [5, 3, 2]\n\n    \"\"\"\n    return sorted(set(l1).symmetric_difference(set(l2)))\n\ndef is_sorted(l: list, reverse=False):\n    \"\"\"Return True if list is sorted.\n    >>> is_sorted([1, 4, 3, 34, 653, 2, 5])\n    True\n    >>> is_sorted([1, 4, 3, 34, 653, 2, 5], reverse=True)\n    False\n\n    \"\"\"\n    if reverse:\n        return all(",
+      -2.466796875
+    ],
+    [
+      "if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return sorted(set(l1).intersection(set(l2)))\n\n\ndef intersection_sorted(l1: list, l2: list):\n    \"\"\"Return sorted common elements for two lists.\n    >>> intersection_sorted([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> intersection_sorted([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return sorted(set(l1).intersection(set(l2)))\n\n\ndef union_sorted(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union_sorted([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 5, 7, 1, 5, 9, 653, 121]\n    >>> union_sorted([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return sorted(set(l1).union(set(l2)))\n\n\ndef union_sorted(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union_sorted([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 5, 7, 1, 5, 9, 653, 121]\n    >>> union_sorted([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    if len(l1) > len(l2):",
+      -2.478515625
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    common = []\n    for i in range(len(l1)):\n        if l1[i] in l2:\n            common.append(l1[i])\n    return common\n\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [5, 7]\n    >>> intersection([5, 3, 2, 8], [3, 2])\n    [2]\n    \"\"\"\n    return [x for x in l1 if x in l2]\n\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 2, 3, 4, 5, 7, 8, 9, 34, 653]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [1, 2, 3, 4, 5, 7, 8]\n    \"\"\"\n    return sorted(list(set(l1) | set(l2)))\n\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 2, 3, 34]\n    >>> difference([5, 3, 2, 8], [3, 2])\n    [4, 5, 7, 8]\n    \"\"\"\n    return [x for x in l1 if x not in l2]\n\n\ndef symmetric_difference(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> symmetric_difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5",
+      -2.513671875
+    ],
+    [
+      "return sorted(set(l1).intersection(set(l2)))\n\n\ndef is_prime(n):\n    \"\"\"Test if integer is prime.\n    >>> is_prime(2)\n    True\n    >>> is_prime(3)\n    True\n    >>> is_prime(4)\n    True\n    >>> is_prime(5)\n    False\n    >>> is_prime(6)\n    False\n    >>> is_prime(7)\n    False\n    >>> is_prime(8)\n    True\n    >>> is_prime(9)\n    True\n    >>> is_prime(10)\n    False\n    >>> is_prime(11)\n    False\n    >>> is_prime(12)\n    False\n    >>> is_prime(13)\n    True\n    >>> is_prime(14)\n    False\n    >>> is_prime(15)\n    False\n    >>> is_prime(16)\n    True\n    >>> is_prime(17)\n    False\n    >>> is_prime(18)\n    False\n    \"\"\"\n    if n == 2:\n        return True\n    if n < 2 or n % 2 == 0:\n        return False\n    if n < 9:\n        return True\n    if n % 3 == 0:\n        return False\n    r = int(n ** 0.5)\n    f = 5\n    while f <= r:\n        if n % f == 0:\n            return False\n        f += 6\n    return True\n\n\ndef is_prime_fast(n):\n    \"\"\"Test if integer is prime.\n    >>> is_prime_fast(2)\n    True\n    >>> is_prime_fast(3)\n    True\n    >>> is_prime_fast(4)\n    True\n    >>> is_prime_fast(5)\n    False\n    >>> is_prime_fast(6)\n    False\n    >>> is_prime_fast(7)\n    False\n    >>> is_prime_fast(8)\n    True\n    >>> is_prime_fast(9)\n    True\n    >>> is_prime_fast(10)\n    False\n    >>> is_prime_fast(11)\n    False\n    >>> is_prime_fast(12)",
+      -2.654296875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n\n    result = []\n    for x in l1:\n        if x in l2:\n            result.append(x)\n    return sorted(result)\n\n\ndef is_prime(n):\n    \"\"\"Check if a number is prime.\n    >>> is_prime(5)\n    True\n    >>> is_prime(3)\n    True\n    >>> is_prime(17)\n    False\n    >>> is_prime(13)\n    False\n    >>> is_prime(37)\n    False\n    \"\"\"\n    if n == 2:\n        return True\n    if n < 2:\n        return False\n    if n % 2 == 0:\n        return False\n    if n < 9:\n        return True\n    if n % 3 == 0:\n        return False\n    r = 5\n    while r * r <= n:\n        if n % r == 0:\n            return False\n        if n % (r + 2) == 0:\n            return False\n        r += 6\n    return True\n\n\ndef is_palindrome(n):\n    \"\"\"Check if a number is palindrome.\n    >>> is_palindrome(3)\n    True\n    >>> is_palindrome(12)\n    False\n    >>> is_palindrome(34)\n    False\n    \"\"\"\n    return str(n) == str(n)[::-1]\n\n\ndef is_triangle(n):\n    \"\"\"Check if a number is triangle number.\n    >>> is_triangle(3)\n    True\n    >>> is_triangle(12)\n    False\n    >>> is_triangle(34)\n    False\n    \"\"\"\n    return n * (n + 1) * (2 * n - 1) == 0\n\n\ndef is_pentagonal(n):\n    \"\"\"Check if a number is pentagonal number.\n    >>> is_pentagonal(5)\n    True\n    >>> is_pentagonal(12)\n    False\n    >>> is_pentagonal(34)\n    False\n    \"\"\"\n    return n * (3 * n - 1) * (2 * n - 2) == 0\n\n\ndef is_hexagonal(n):\n    \"\"\"Check if",
+      -2.76171875
+    ],
+    [
+      "common = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            common.append(l1[i])\n    return common\n\n\ndef unique(l: list):\n    \"\"\"Return a list of unique elements of a list.\n    >>> unique([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> unique([1, 2, 1, 1])\n    [1, 2]\n    >>> unique([1, 2, 3, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n\n    \"\"\"\n    result = []\n    for i in range(len(l)):\n        if i == 0 or l[i]!= l[i - 1]:\n            result.append(l[i])\n    return result\n\n\ndef uniqued(l: list):\n    \"\"\"Return a list of unique elements of a list.\n    >>> uniqued([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> uniqued([1, 2, 1, 1])\n    [1, 2]\n    >>> uniqued([1, 2, 3, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n\n    \"\"\"\n    result = []\n    for i in range(len(l)):\n        if i == 0 or l[i]!= l[i - 1]:\n            result.append(l[i])\n    return result\n\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return a list of common elements between two lists.\n    >>> intersection([1, 2, 3, 4, 5], [3, 4, 5, 6])\n    [3, 4]\n    >>> intersection([1, 2, 3, 4, 5], [3, 4, 5, 6, 7, 8])\n    [3, 4]\n\n    \"\"\"\n    result = []\n    for i in range(min(len(l1), len(l2))):\n        if l1[i] == l2[i]:\n            result.append(l",
+      -2.783203125
+    ],
+    [
+      "# XXX: This is a bit slow.\n    common = []\n    for i in range(len(l1)):\n        for j in range(len(l2)):\n            if l1[i] == l2[j]:\n                common.append(l1[i])\n    return common\n\n\ndef remove_duplicates(l: list):\n    \"\"\"Remove duplicates from a list while maintaining the order of the list.\n    >>> remove_duplicates([1, 2, 1, 3])\n    [1, 2, 3]\n    \"\"\"\n    seen = set()\n    seen_add = seen.add\n    return [x for x in l if not (x in seen or seen_add(x))]\n\n\ndef is_in_list(value, l):\n    \"\"\"Check if a value is in a list.\n    >>> is_in_list(1, [1, 2, 3])\n    True\n    >>> is_in_list(3, [1, 2, 3])\n    False\n    \"\"\"\n    return value in l\n\n\ndef is_not_in_list(value, l):\n    \"\"\"Check if a value is not in a list.\n    >>> is_not_in_list(1, [1, 2, 3])\n    False\n    >>> is_not_in_list(3, [1, 2, 3])\n    True\n    \"\"\"\n    return not is_in_list(value, l)\n\n\ndef list_diff(l1, l2):\n    \"\"\"Return the list of elements in l1 that are not in l2.\n    >>> list_diff([1, 2, 3, 4, 5], [3, 5, 7, 8])\n    [1, 2]\n    >>> list_diff([1, 2, 3, 4, 5], [3, 5, 7, 8, 9])\n    []\n    \"\"\"\n    return [x for x in l1 if not is_in_list(x, l2)]\n\n\ndef list_intersection(l1, l2):\n    \"\"\"Return the list of elements in both l1 and l2.\n    >>> list_intersection([1, 2, 3, 4, 5], [3, 5, 7, 8])",
+      -2.966796875
+    ],
+    [
+      "seen = set()\n    for e in l1:\n        if e not in seen:\n            seen.add(e)\n            l2.remove(e)\n    return sorted(seen)\n\n\ndef is_palindrome(n: int):\n    \"\"\"Check if a number is palindrome.\n    >>> is_palindrome(1)\n    True\n    >>> is_palindrome(123)\n    True\n    >>> is_palindrome(1234)\n    False\n    >>> is_palindrome(1234567)\n    False\n    >>> is_palindrome(123456789)\n    False\n    >>> is_palindrome(1234567890123456789)\n    False\n    >>> is_palindrome(12345678901234567890123456789)\n    False\n    \"\"\"\n    if n < 0:\n        return False\n    s = str(n)\n    if len(s) == 1:\n        return True\n    return s[::-1] == s\n\n\ndef is_palindrome_recursive(n: int):\n    \"\"\"Check if a number is palindrome.\n    >>> is_palindrome_recursive(1)\n    True\n    >>> is_palindrome_recursive(123)\n    True\n    >>> is_palindrome_recursive(1234)\n    False\n    >>> is_palindrome_recursive(1234567)\n    False\n    >>> is_palindrome_recursive(123456789)\n    False\n    >>> is_palindrome_recursive(1234567890123456789)\n    False\n    \"\"\"\n    if n < 0:\n        return False\n    if n == 0:\n        return True\n    s = str(n)\n    if len(s) == 1:\n        return True\n    return s[::-1] == s\n\n\ndef is_palindrome_iterative(n: int):\n    \"\"\"Check if a number is palindrome.\n    >>> is_palindrome_iterative(1)\n    True\n    >>> is_palindrome_iterative(123)\n    True\n    >>> is_pal",
+      -3.0703125
+    ],
+    [
+      "l1 = set(l1)\n    l2 = set(l2)\n    return [x for x in l1 & l2 if x not in l1 and x not in l2]\n\n\ndef get_set_difference(l1: list, l2: list):\n    \"\"\"Return sorted unique elements in l1 that are not in l2.\n    >>> get_set_difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 653, 7, 9]\n\n    \"\"\"\n    l1 = set(l1)\n    l2 = set(l2)\n    return [x for x in l1 - l2]\n\n\ndef get_set_intersection(l1: list, l2: list):\n    \"\"\"Return sorted unique elements in l1 that are in l2.\n    >>> get_set_intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 34, 7, 9]\n\n    \"\"\"\n    l1 = set(l1)\n    l2 = set(l2)\n    return [x for x in l1 & l2]\n\n\ndef get_set_symmetric_difference(l1: list, l2: list):\n    \"\"\"Return sorted unique elements in l1 that are not in l2.\n    >>> get_set_symmetric_difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 653, 7, 9]\n\n    \"\"\"\n    l1 = set(l1)\n    l2 = set(l2)\n    return [x for x in l1 ^ l2]\n\n\ndef get_set_union(l1: list, l2: list):\n    \"\"\"Return sorted unique elements in l1 that are in l2.\n    >>> get_set_union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653",
+      -3.126953125
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n\n    l1 = list(l1)\n    l2 = list(l2)\n\n    # Remove all the elements from the l1 list that are present in the l2 list\n    for elt in l2:\n        l1.remove(elt)\n\n    # Return the list of common elements\n    return sorted(set(l1))\n\ndef get_unique_elements(l: list) -> list:\n    \"\"\"Get unique elements from a list.\n    >>> get_unique_elements([1, 1, 2, 2, 3, 4, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> get_unique_elements([1, 1, 2, 2, 3, 4, 3, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n    >>> get_unique_elements([])\n    []\n\n    \"\"\"\n    if not l:\n        return []\n\n    l = list(l)\n    l.sort()\n    return [elt for elt in l if elt not in l[1:]]\n\ndef get_unique_elements_unique(l: list) -> list:\n    \"\"\"Get unique elements from a list.\n    >>> get_unique_elements_unique([1, 1, 2, 2, 3, 4, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> get_unique_elements_unique([1, 1, 2, 2, 3, 4, 3, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n    >>> get_unique_elements_unique([])\n    []\n\n    \"\"\"\n    if not l:\n        return []\n\n    l = list(l)\n    l.sort()\n    return [elt for elt in l if elt not in l[1:]]\n\ndef get_unique_elements_unique_set(l: list) -> list:\n    \"\"\"Get unique elements from a list.\n    >>> get_unique_elements_unique_set([1, 1, 2, 2, 3, 4, 3, 4, 5])",
+      -3.126953125
+    ],
+    [
+      "l1 = sorted(set(l1))\n    l2 = sorted(set(l2))\n    return [x for x in l1 if x in l2]\n\n\ndef main(args):\n    \"\"\"\n    %prog pdb.pdb pdb.pdb\n\n    Print the pdb of two pdb files.\n    \"\"\"\n    from Bio.PDB import PDBParser\n    from Bio.PDB.PDBParser import PDBParser\n    from Bio.PDB.Model import Model\n    from Bio.PDB.Residue import Residue\n    from Bio.PDB.Atom import Atom\n\n    p1 = PDBParser(PERMISSIVE=1)\n    p1.set_contig_only(False)\n    p1.set_strict_names(False)\n    p1.assign_segments(args[0])\n    p1.assign_chains(args[1])\n\n    p2 = PDBParser(PERMISSIVE=1)\n    p2.set_contig_only(False)\n    p2.set_strict_names(False)\n    p2.assign_segments(args[2])\n    p2.assign_chains(args[3])\n\n    p1_models = p1.get_list()\n    p2_models = p2.get_list()\n\n    if len(p1_models)!= len(p2_models):\n        raise ValueError(\"%d models found in pdb1, %d models found in pdb2\" %\n                         (len(p1_models), len(p2_models)))\n\n    # We can't just use the same model for both, as the residue numbers may\n    # differ. So we need to create new models for each pdb.\n    for p1_model, p2_model in zip(p1_models, p2_models):\n        p1_model.id = p2_model.id\n        p1_model.insert_model(p2_model)\n\n    for p1_model in p1_models:\n        print(\"%s\" % p1_model.id)\n        for p1_res in p1_model.get_",
+      -3.279296875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if l1 == l2:\n        return l1\n    if len(l1) >= len(l2):\n        return l1\n    if len(l2) >= len(l1):\n        return l2\n    return common(l2, l1)\n\n\ndef get_sorted_list(l: list, reverse: bool = False):\n    \"\"\"Return sorted list.\n    >>> get_sorted_list([1, 2, 3, 4])\n    [1, 2, 3, 4]\n    >>> get_sorted_list([1, 2, 3, 4], reverse=True)\n    [4, 3, 2, 1]\n\n    \"\"\"\n    l = list(l)\n    if reverse:\n        l.sort()\n        l.reverse()\n    return l\n\n\ndef get_sorted_list_unique(l: list, reverse: bool = False):\n    \"\"\"Return sorted unique list.\n    >>> get_sorted_list_unique([1, 2, 3, 4])\n    [1, 2, 3, 4]\n    >>> get_sorted_list_unique([1, 2, 3, 4], reverse=True)\n    [4, 3, 2, 1]\n    >>> get_sorted_list_unique([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n\n    \"\"\"\n    l = list(l)\n    if reverse:\n        l.sort()\n        l.reverse()\n    return list(set(l))\n\n\ndef get_sorted_list_unique_reverse(l: list, reverse: bool = False):\n    \"\"\"Return sorted unique reverse list.\n    >>> get_sorted_list_unique_reverse([1, 2, 3, 4])\n    [4, 3, 2, 1]\n    >>> get_sorted_list_unique_reverse([1, 2, 3, 4], reverse=True)\n    [4, 3, 2, 1]\n    >>> get_sorted_list_unique_reverse([1, 2, 3, 4, 5])\n    [5, 4, 3, 2, 1]\n\n    \"\"\"\n    l",
+      -3.3046875
+    ],
+    [
+      "l1 = sorted(set(l1))\n    l2 = sorted(set(l2))\n    return [x for x in l1 if x in l2]\n\ndef cross_product(x, y):\n    \"\"\"Return the cross product of two lists of same length.\n    >>> cross_product([1, 2, 3], [4, 5, 6])\n    [3, 6, 6, 7, 8, 9]\n\n    \"\"\"\n    return [x[i]*y[i] for i in range(len(x))]\n\ndef permute(x):\n    \"\"\"Return all permutations of x.\n    >>> permute([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    >>> permute([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    >>> permute([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    >>> permute([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n\n    \"\"\"\n    if not x:\n        yield []\n    else:\n        for i in range(len(x)):\n            for p in permute(x[:i] + x[i+1:]):\n                yield [x[i]] + p\n\ndef permute_inverse(x):\n    \"\"\"Return all permutations of x.\n    >>> permute_inverse([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1",
+      -4.07421875
+    ],
+    [
+      "if len(l1) == 0:\n        return []\n    if len(l2) == 0:\n        return l1\n    result = []\n    for i in range(len(l1)):\n        if l1[i] in l2:\n            result.append(l1[i])\n            l2.remove(l1[i])\n    return result\n\n\ndef unique(l: list):\n    \"\"\"Return sorted unique elements for a list.\n    >>> unique([1, 2, 2, 3])\n    [1, 2, 3]\n    >>> unique([2, 2, 2, 3])\n    [2, 3]\n    >>> unique([1, 2, 3])\n    [1, 2, 3]\n    >>> unique([1, 2, 2])\n    [1, 2]\n    \"\"\"\n    if len(l) == 0:\n        return []\n    if len(l) == 1:\n        return l\n    return [i for i, j in itertools.groupby(l) if not j]\n\n\ndef merge(l1: list, l2: list):\n    \"\"\"Merge two lists into one.\n    >>> merge([1, 2, 3], [3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> merge([2, 3], [3, 4])\n    [2, 3, 4]\n    >>> merge([1, 2], [3, 4])\n    [1, 2, 3, 4]\n    >>> merge([1, 2], [3, 4, 5])\n    [1, 2, 3, 4, 5]\n\n    \"\"\"\n    result = []\n    for i in range(min(len(l1), len(l2))):\n        if i < len(l1):\n            result.append(l1[i])\n        else:\n            result.append(l2[i - len(l1)])\n    return result",
+      -4.09375
+    ],
+    [
+      "# If either list is empty, return the other one.\n    if not l1:\n        return l2\n    if not l2:\n        return l1\n\n    # If there are different lengths, return a list of the common\n    # elements.\n    if len(l1)!= len(l2):\n        return list(set(l1) & set(l2))\n\n    # Otherwise, sort both lists and return the sorted list of common\n    # elements.\n    return sorted(set(l1) & set(l2))",
+      -4.22265625
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n\n    result = []\n    for x in l1:\n        if x not in l2:\n            result.append(x)\n    return result\n\n\ndef remove_duplicates(lst: list):\n    \"\"\"Remove duplicates from list.\n\n    >>> remove_duplicates([1, 2, 2, 3])\n    [1, 2, 3]\n    >>> remove_duplicates([1, 2, 2, 3, 2, 3, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n\n    \"\"\"\n    seen = set()\n    seen_add = seen.add\n    return [x for x in lst if not (x in seen or seen_add(x))]\n\n\ndef unique(lst: list):\n    \"\"\"Return a sorted list of unique elements.\n\n    >>> unique([1, 2, 2, 3, 2, 3, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n\n    \"\"\"\n    return list(OrderedSet(lst))\n\n\ndef sort_items(lst: list):\n    \"\"\"Sort a list of items by value.\n\n    >>> sort_items([3, 1, 2])\n    [1, 2, 3]\n\n    \"\"\"\n    return sorted(lst)\n\n\ndef is_valid_name(name: str):\n    \"\"\"Return True if name is valid python identifier.\n\n    >>> is_valid_name(\"__init__\")\n    True\n    >>> is_valid_name(\"__init__\")\n    False\n    >>> is_valid_name(\"__init__\")\n    False\n    >>> is_valid_name(\"_init\")\n    True\n\n    \"\"\"\n    return re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', name) is not None\n\n\ndef is_valid_url(url: str):\n    \"\"\"Return True if url is valid URL.\n\n    >>> is_valid_url(\"http://example.com\")\n    True\n    >>> is_valid_url(\"http://example.com/\")",
+      -4.50390625
+    ],
+    [
+      "if len(l1)!= len(l2):\n        return []\n    res = []\n    for i in range(len(l1)):\n        if l1[i] not in l2:\n            break\n        res.append(l1[i])\n    for i in range(len(l2) - 1, -1, -1):\n        if l2[i] not in l1:\n            break\n        res.append(l2[i])\n    return res\n\n\ndef unique(lst: list):\n    \"\"\"Return unique elements from list.\"\"\"\n    if not lst:\n        return lst\n    return list(set(lst))\n\n\ndef uniq(lst: list):\n    \"\"\"Return unique elements from list, preserving order.\"\"\"\n    if not lst:\n        return lst\n    if len(lst) == 1:\n        return lst\n    return [lst[0]] + uniq(lst[1:])\n\n\ndef unique_index(lst: list):\n    \"\"\"Return unique index from list.\"\"\"\n    if not lst:\n        return lst\n    return [0] + [i for i, x in enumerate(lst) if x not in lst[:i]]\n\n\ndef unique_index_list(lst: list):\n    \"\"\"Return unique index list from list.\"\"\"\n    if not lst:\n        return lst\n    if len(lst) == 1:\n        return lst\n    return [0] + [i for i, x in enumerate(lst) if x not in lst[:i]]\n\n\ndef unique_index_list_with_empty(lst: list):\n    \"\"\"Return unique index list from list.\"\"\"\n    if not lst:\n        return lst\n    if len(lst) == 1:\n        return lst\n    return [0] + [i for i, x in enumerate(lst) if x not in lst[:i] and x!= 0]\n\n\ndef unique_index_with_empty(lst: list):\n    \"\"\"Return unique index from list.\"\"\"\n    if not lst:\n        return lst\n    if len(lst)",
+      -4.5546875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if l1 == l2:\n        return l1\n    set_l1 = set(l1)\n    set_l2 = set(l2)\n    return list(set_l1 & set_l2)\n\n\ndef is_prime(n: int, primes: list = None):\n    \"\"\"Check if a number is prime.\n\n    >>> is_prime(0)\n    False\n    >>> is_prime(1)\n    False\n    >>> is_prime(2)\n    True\n    >>> is_prime(3)\n    True\n    >>> is_prime(4)\n    False\n    >>> is_prime(5)\n    True\n    >>> is_prime(6)\n    True\n    >>> is_prime(7)\n    False\n    >>> is_prime(8)\n    False\n    >>> is_prime(9)\n    False\n    >>> is_prime(10)\n    True\n    >>> is_prime(11)\n    False\n    >>> is_prime(12)\n    True\n    >>> is_prime(13)\n    False\n    >>> is_prime(14)\n    True\n    >>> is_prime(15)\n    False\n    >>> is_prime(16)\n    True\n    >>> is_prime(17)\n    False\n    >>> is_prime(18)\n    True\n    >>> is_prime(19)\n    False\n    >>> is_prime(20)\n    True\n    >>> is_prime(21)\n    False\n    >>> is_prime(22)\n    True\n    >>> is_prime(23)\n    False\n    >>> is_prime(24)\n    True\n    >>> is_prime(25)\n    False\n    >>> is_prime(26)\n    True\n    >>> is_prime(27)\n    False\n    >>> is_prime(28)\n    True\n    >>> is_prime(29)\n    False\n    >>> is_prime(30)\n    True\n    >>> is_prime(31)\n    False\n    >>> is_prime(32)\n    True\n    >>> is_prime(33)\n    False\n    >>> is_prime(34)",
+      -4.62109375
+    ],
+    [
+      "if len(l1) < 1 or len(l2) < 1:\n        return []\n\n    if len(l1)!= len(l2):\n        return []\n\n    return sorted(set(l1) & set(l2))\n\n\ndef is_sorted_ascending(l: list):\n    \"\"\"Check if the list is sorted in ascending order.\n    >>> is_sorted_ascending([1, 3, 2])\n    True\n    >>> is_sorted_ascending([1, 2, 3])\n    False\n\n    \"\"\"\n    if len(l) < 1:\n        return True\n    return l[0] <= l[1]\n\n\ndef is_sorted_descending(l: list):\n    \"\"\"Check if the list is sorted in descending order.\n    >>> is_sorted_descending([1, 3, 2])\n    False\n    >>> is_sorted_descending([1, 2, 3])\n    True\n\n    \"\"\"\n    if len(l) < 1:\n        return True\n    return l[0] >= l[1]\n\n\ndef is_sorted(l: list):\n    \"\"\"Check if the list is sorted.\n    >>> is_sorted([1, 3, 2])\n    True\n    >>> is_sorted([1, 2, 3])\n    False\n\n    \"\"\"\n    if len(l) < 1:\n        return True\n    return is_sorted_ascending(l) and is_sorted_descending(l)\n\n\ndef is_sorted_equal(l1: list, l2: list):\n    \"\"\"Check if two lists are equal and are sorted in the same order.\n    >>> is_sorted_equal([1, 3, 2], [1, 3, 2])\n    True\n    >>> is_sorted_equal([1, 3, 2], [3, 2, 1])\n    False\n\n    \"\"\"\n    if len(l1)!= len(l2):\n        return False\n    return is_sorted(l1) and is_sorted(l2)\n\n\ndef is_subset(l1: list, l2: list):\n    \"\"\"Check if l1 is a subset of l2.\n    >>>",
+      -4.78125
+    ],
+    [
+      "common = []\n    for i in range(len(l1)):\n        for j in range(len(l2)):\n            if l1[i] == l2[j]:\n                common.append(l1[i])\n                break\n    return sorted(common)\n\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted common elements for two lists.\n    >>> intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [5, 7]\n    >>> intersection([5, 3, 2, 8], [3, 2])\n    []\n\n    \"\"\"\n    intersection = []\n    for i in range(len(l1)):\n        for j in range(len(l2)):\n            if l1[i] == l2[j]:\n                intersection.append(l1[i])\n                break\n    return sorted(intersection)\n\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 5, 7, 1, 5, 9, 653, 121]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8, 3, 2]\n\n    \"\"\"\n    union = []\n    for i in range(len(l1)):\n        for j in range(len(l2)):\n            if l1[i] == l2[j]:\n                union.append(l1[i])\n                break\n    for i in range(len(l2)):\n        for j in range(len(l1)):\n            if l2[i] == l1[j]:\n                union.append(l2[i])\n                break\n    return sorted(union)\n\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted difference of two lists.\n    >>> difference([1, 4, 3, 34, 653, 2",
+      -5.01171875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return [x for x in l1 if x in l2]\n\n\ndef sort_list(lst: list) -> list:\n    \"\"\"Return a sorted list.\"\"\"\n    if not lst:\n        return []\n    return sorted(lst, key=lambda x: lst.index(x))\n\n\ndef get_time_diff(start_time: datetime, end_time: datetime) -> str:\n    \"\"\"Return a string with time difference between two dates in human readable format.\n    >>> get_time_diff(datetime.datetime(2018, 1, 1, 0, 0), datetime.datetime(2018, 1, 1, 0, 0))\n    '0m 0s'\n    >>> get_time_diff(datetime.datetime(2018, 1, 1, 0, 0), datetime.datetime(2018, 1, 1, 0, 2))\n    '0m 2s'\n    >>> get_time_diff(datetime.datetime(2018, 1, 1, 0, 0), datetime.datetime(2018, 1, 1, 0, 1))\n    '0m 1s'\n    >>> get_time_diff(datetime.datetime(2018, 1, 1, 0, 0), datetime.datetime(2018, 1, 1, 1, 0))\n    '0m 30s'\n    \"\"\"\n    time_dif = end_time - start_time\n    if time_dif.days == 0:\n        return str(int(round(time_dif.seconds)))\n    else:\n        mins, secs = divmod(time_dif.seconds, 60)\n        hours, mins = divmod(mins, 60)\n        return f'{hours:02d}:{mins:02d}:{secs:02d}'\n\n\ndef get_month_range(month: int) -> tuple:\n    \"\"\"Get the first and last days of the month.\n    >>> get_month_range(1)\n    (1, 31)\n    >>> get_month_range",
+      -5.06640625
+    ],
+    [
+      "res = []\n    for e in l1:\n        if e in l2:\n            res.append(e)\n    return sorted(res)\n\ndef is_palindrome(s: str):\n    \"\"\"Return True if the given string is a palindrome.\n    >>> is_palindrome(\"A man, a plan, a canal: Panama\")\n    True\n    >>> is_palindrome(\"race a car\")\n    False\n    \"\"\"\n    return str.lower(s) == str.lower(s[::-1])\n\ndef is_palindrome_list(l: list):\n    \"\"\"Return True if the given list is a palindrome.\n    >>> is_palindrome_list([1, 4, 3, 34, 653, 2, 5])\n    True\n    >>> is_palindrome_list([5, 7, 1, 5, 9, 653, 121])\n    False\n    \"\"\"\n    return sorted(l) == sorted(l[::-1])\n\ndef is_palindrome_str(s: str):\n    \"\"\"Return True if the given string is a palindrome.\n    >>> is_palindrome_str(\"A man, a plan, a canal: Panama\")\n    True\n    >>> is_palindrome_str(\"race a car\")\n    False\n    \"\"\"\n    return s.lower() == s[::-1].lower()\n\ndef is_palindrome_list_str(l: list, s: str):\n    \"\"\"Return True if the given list is a palindrome.\n    >>> is_palindrome_list_str([1, 4, 3, 34, 653, 2, 5], \"A man, a plan, a canal: Panama\")\n    True\n    >>> is_palindrome_list_str([5, 7, 1, 5, 9, 653, 121], \"race a car\")\n    False\n    \"\"\"\n    return l == [s[i:i+len(s)] for i in range(len(l))]",
+      -5.4921875
+    ],
+    [
+      "l1 = list(set(l1))\n    l2 = list(set(l2))\n    l1.sort()\n    l2.sort()\n    i = 0\n    while i < len(l1) and i < len(l2):\n        if l1[i] == l2[i]:\n            i += 1\n        else:\n            return l1[:i]\n    return l1\n\ndef count_elements(lst: list):\n    \"\"\"Count elements in a list.\n    >>> count_elements([1, 2, 3, 4])\n    4\n    >>> count_elements([1, 2, 3, 4, 5])\n    5\n    \"\"\"\n    return len(lst)\n\ndef find_least_common_element(l1: list, l2: list):\n    \"\"\"Find the least common element in two lists.\n    >>> find_least_common_element([1, 2, 3, 4], [1, 4, 7, 8])\n    1\n    >>> find_least_common_element([1, 2, 3, 4], [1, 4, 7, 8, 9])\n    9\n    \"\"\"\n    l1 = list(set(l1))\n    l2 = list(set(l2))\n    l1.sort()\n    l2.sort()\n    i = 0\n    while i < len(l1) and i < len(l2):\n        if l1[i] == l2[i]:\n            i += 1\n        else:\n            return l1[i - 1]\n    return l1[-1]\n\ndef find_least_common_element_sorted(l1: list, l2: list):\n    \"\"\"Find the least common element in two lists, sorted.\n    >>> find_least_common_element_sorted([1, 2, 3, 4], [1, 4, 7, 8])\n    1\n    >>> find_least_common_element_sorted([1, 2, 3, 4], [1, 4, 7, 8, 9])\n    9\n    \"\"\"\n    l1 = list(set(l1))\n    l2 = list(set(l",
+      -5.5234375
+    ],
+    [
+      "if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    common = set(l1).intersection(set(l2))\n    return sorted(common)\n\ndef count(l: list, item: object):\n    \"\"\"Count number of occurrences of item in list.\n    >>> count([1, 1, 2, 3, 4], 2)\n    2\n    \"\"\"\n    return sum(1 for i in l if i == item)\n\ndef unique(l: list):\n    \"\"\"Return list of unique elements in list.\n    >>> unique([1, 1, 1, 2, 2, 2, 3, 4, 5, 5, 5, 5, 5])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    return [i for i, count in groupby(sorted(l)) if count == 1]\n\ndef product(l: list):\n    \"\"\"Return product of all elements in list.\n    >>> product([1, 2, 3, 4, 5])\n    120\n    \"\"\"\n    return reduce(operator.mul, l, 1)\n\ndef is_palindrome(s: str):\n    \"\"\"Return True if string is a palindrome.\n    >>> is_palindrome(\"abba\")\n    True\n    >>> is_palindrome(\"aabb\")\n    False\n    \"\"\"\n    return s == s[::-1]\n\ndef is_perm(l: list):\n    \"\"\"Return True if l is a permutation of [0, 1,..., l.length - 1].\n    >>> is_perm([2, 3, 1, 0])\n    True\n    >>> is_perm([0, 1, 2, 3])\n    False\n    \"\"\"\n    return all(0 <= i < l.length and l[i] == i for i in range(l.length))\n\ndef is_abundant(n: int):\n    \"\"\"Return True if n is an abundant number.\n    >>> is_abundant(7)\n    True\n    >>> is_abundant(10)\n    False\n    \"\"\"\n    return sum(1 for i in range(2, n + 1) if n % i == 0) > n",
+      -6.296875
+    ],
+    [
+      "if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    ret = []\n    for i in range(len(l1)):\n        if l1[i] in l2:\n            ret.append(l1[i])\n            l2.remove(l1[i])\n    return ret\n\n\ndef intersection(l1: list, l2: list):\n    \"\"\"Return sorted unique elements that exist in both lists.\n    >>> intersection([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 2, 5]\n    >>> intersection([5, 3, 2, 8], [3, 2])\n    []\n\n    \"\"\"\n    if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    ret = []\n    for i in range(len(l1)):\n        if l1[i] in l2:\n            ret.append(l1[i])\n    return ret\n\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted unique elements that exist in either list.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 2, 3, 4, 5, 653, 7, 8, 9]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [3, 4, 5, 653, 7, 8]\n\n    \"\"\"\n    if len(l1) < len(l2):\n        l1, l2 = l2, l1\n    ret = []\n    for i in range(len(l1)):\n        if l1[i] not in l2:\n            ret.append(l1[i])\n            l2.append(l1[i])\n    return ret\n\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted unique elements that exist in the first list but not the second.\n    >>> difference([1, 4, 3, 34, 653, 2, 5",
+      -6.734375
+    ],
+    [
+      "s1 = set(l1)\n    s2 = set(l2)\n    return [x for x in s1 & s2 if s1.discard(x) and s2.discard(x)]\n\n\ndef union(l1: list, l2: list):\n    \"\"\"Return sorted union of two lists.\n    >>> union([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 5, 7, 1, 5, 9, 653, 2, 5, 121]\n    >>> union([5, 3, 2, 8], [3, 2])\n    [5, 3, 2, 8]\n\n    \"\"\"\n    return sorted(list(set(l1) | set(l2)))\n\n\ndef intersect(l1: list, l2: list):\n    \"\"\"Return sorted intersection of two lists.\n    >>> intersect([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [5, 7, 1]\n    >>> intersect([5, 3, 2, 8], [3, 2])\n    [2]\n\n    \"\"\"\n    return sorted(list(set(l1) & set(l2)))\n\n\ndef difference(l1: list, l2: list):\n    \"\"\"Return sorted difference of two lists.\n    >>> difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 653]\n    >>> difference([5, 3, 2, 8], [3, 2])\n    [5, 7, 1]\n\n    \"\"\"\n    return sorted(list(set(l1) - set(l2)))\n\n\ndef symmetric_difference(l1: list, l2: list):\n    \"\"\"Return sorted symmetric difference of two lists.\n    >>> symmetric_difference([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 4, 3, 34, 7, 1, 5, 9,",
+      -7.13671875
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return [i for i in l1 if i in l2]\n\n\ndef uniq(lst: list):\n    \"\"\"Return list with duplicate elements removed.\n    >>> uniq([1, 2, 1, 3, 2, 4])\n    [1, 2, 3, 4]\n    \"\"\"\n    return list(set(lst))\n\n\ndef unique(lst: list):\n    \"\"\"Return list with duplicate elements removed.\n    >>> unique([1, 2, 1, 3, 2, 4])\n    [1, 2, 3, 4]\n    \"\"\"\n    return list(set(lst))\n\n\ndef unique_values(lst: list):\n    \"\"\"Return list with duplicate elements removed.\n    >>> unique_values([1, 2, 1, 3, 2, 4])\n    [1, 2, 3, 4]\n    \"\"\"\n    return list(set(lst))\n\n\ndef unique_values_with_count(lst: list):\n    \"\"\"Return list with duplicate elements removed.\n    >>> unique_values_with_count([1, 2, 1, 3, 2, 4])\n    [(1, 1), (2, 2), (3, 1), (4, 1)]\n    \"\"\"\n    return list(zip(set(lst), len(lst)))\n\n\ndef unique_index(lst: list):\n    \"\"\"Return list with duplicate elements removed.\n    >>> unique_index([1, 2, 1, 3, 2, 4])\n    [0, 1, 2, 3, 4]\n    \"\"\"\n    return list(set(lst))\n\n\ndef unique_index_with_count(lst: list):\n    \"\"\"Return list with duplicate elements removed.\n    >>> unique_index_with_count([1, 2, 1, 3, 2, 4])\n    [(0, 1), (1, 2), (2, 1), (3, 1), (4, 1)]\n    \"\"\"\n    return list(zip(set(lst), len(lst)))\n\n\ndef unique_index_with_count",
+      -7.2734375
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n\n    return sorted(set(l1).intersection(set(l2)))\n\n\ndef sorted_unique(l: list):\n    \"\"\"Return sorted unique elements from a list.\n    >>> sorted_unique([1, 4, 3, 34, 653, 2, 5])\n    [1, 2, 3, 4, 5, 653]\n    >>> sorted_unique([5, 3, 2, 8])\n    [5, 3, 2]\n\n    \"\"\"\n    if not l:\n        return []\n\n    return sorted(set(l))\n\n\ndef list_to_dict(l: list, key: str):\n    \"\"\"Return a dict with a list of elements as values.\n    >>> list_to_dict([1, 2, 3], 'id')\n    {1: 2, 2: 3}\n    >>> list_to_dict([1, 2, 3], 'id', reverse=True)\n    {3: 2, 2: 3, 1: 2}\n\n    \"\"\"\n    if not l:\n        return {}\n\n    return dict(zip(l, range(len(l))))\n\n\ndef dict_to_list(d: dict):\n    \"\"\"Return a list of keys from a dict.\n    >>> dict_to_list({1: 2, 2: 3})\n    [1, 2]\n    >>> dict_to_list({1: 2, 2: 3, 3: 4})\n    [1, 2, 3]\n\n    \"\"\"\n    return list(d.keys())\n\n\ndef dict_to_dict(d: dict):\n    \"\"\"Return a dict of dicts from a dict.\n    >>> dict_to_dict({1: 2, 2: 3})\n    {1: {2: 3}}\n    >>> dict_to_dict({1: 2, 2: 3, 3: 4})\n    {1: {2: 3, 3: 4}}\n\n    \"\"\"\n    return dict(zip(d.keys(), d.values()))\n\n\ndef dict_to_str(d: dict, sep: str = ': '):\n    \"\"\"Return a string with a dict as a dict of dicts.\n    >>> dict_to_str({1: 2, 2",
+      -7.74609375
+    ],
+    [
+      "return sorted(set(l1) & set(l2))\n\ndef diff(l1: list, l2: list):\n    \"\"\"Return sorted unique elements that are not in both lists.\n    >>> diff([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 653]\n    >>> diff([5, 3, 2, 8], [3, 2])\n    [8]\n\n    \"\"\"\n    return sorted(set(l1) - set(l2))\n\ndef symmetric_diff(l1: list, l2: list):\n    \"\"\"Return sorted unique elements that are in either l1 or l2 but not both.\n    >>> symmetric_diff([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [3, 34, 653]\n    >>> symmetric_diff([5, 3, 2, 8], [3, 2])\n    [34, 653]\n\n    \"\"\"\n    return sorted(set(l1) ^ set(l2))\n\ndef complement(l: list, l2: list):\n    \"\"\"Return sorted unique elements that are not in l1 but in l2.\n    >>> complement([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 653]\n    >>> complement([5, 3, 2, 8], [3, 2])\n    [34, 653]\n\n    \"\"\"\n    return sorted(set(l) - set(l2))\n\ndef symmetric_complement(l1: list, l2: list):\n    \"\"\"Return sorted unique elements that are in either l1 or l2 but not both.\n    >>> symmetric_complement([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [34, 653]\n    >>> symmetric_complement([5, 3, 2, 8], [3, 2])\n    [34, 653]\n\n    \"\"\"\n    return sorted(set(",
+      -8.3125
+    ],
+    [
+      "for item in l1:\n        if item in l2:\n            l2.remove(item)\n    return l2\n\ndef sort_by_key(list: list, key: callable):\n    \"\"\"Sort a list by a key function.\n    >>> sort_by_key([(1,2),(2,3)], lambda x: x[0])\n    [(2, 3), (1, 2)]\n    >>> sort_by_key([(1,2),(2,3)], lambda x: x[1])\n    [(2, 3), (1, 2)]\n    >>> sort_by_key([(1,2),(2,3)], lambda x: x[0])\n    [(1, 2), (2, 3)]\n    \"\"\"\n    return sorted(list, key=key)\n\ndef sort_by_value(list: list, key: callable):\n    \"\"\"Sort a list by a key function.\n    >>> sort_by_value([(1,2),(2,3)], lambda x: x[0])\n    [(1, 2), (2, 3)]\n    >>> sort_by_value([(1,2),(2,3)], lambda x: x[1])\n    [(1, 2), (2, 3)]\n    >>> sort_by_value([(1,2),(2,3)], lambda x: x[0])\n    [(2, 3), (1, 2)]\n    \"\"\"\n    return sorted(list, key=key, reverse=True)\n\ndef group_by_key(list: list, key: callable):\n    \"\"\"Group a list by a key function.\n    >>> group_by_key([(1,2),(2,3)], lambda x: x[0])\n    {1: [2], 2: [3]}\n    >>> group_by_key([(1,2),(2,3)], lambda x: x[1])\n    {2: [1, 2], 3: [2, 3]}\n    >>> group_by_key([(1,2),(2,3)], lambda x: x[0])\n    {1: [2, 3]}\n    \"\"\"",
+      -8.3828125
+    ],
+    [
+      "if l1 == l2:\n        return l1\n\n    if len(l1) == 0:\n        return []\n\n    if len(l2) == 0:\n        return l1\n\n    l1.sort()\n    l2.sort()\n\n    l1 = l1[:1] + l1[1:]\n    l2 = l2[:1] + l2[1:]\n\n    return [x for x in l1 if x in l2]\n\n\ndef intersect(l1: list, l2: list):\n    \"\"\"Return intersection of two lists.\n    >>> intersect([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [5, 7, 1, 5, 9, 653]\n\n    \"\"\"\n    return [x for x in l1 if x in l2]\n\n\ndef unique(l: list):\n    \"\"\"Return unique elements of a list.\n    >>> unique([1, 4, 3, 34, 653, 2, 5])\n    [1, 4, 3, 34, 653]\n\n    \"\"\"\n    return list(set(l))\n\n\ndef permutations(l: list):\n    \"\"\"Return all permutations of a list.\n    >>> permutations([1, 4, 3, 34, 653, 2, 5])\n    [[1, 4, 3, 34, 653], [1, 4, 3, 5, 653], [1, 4, 5, 3, 34], [1, 4, 5, 3, 653], [1, 4, 5, 34, 653], [1, 5, 3, 4, 34], [1, 5, 3, 4, 653], [1, 5, 3, 5, 34], [1, 5, 4, 3, 34], [1, 5, 4, 3, 653], [1, 5, 4, 653, 34], [1, 5, 5, 3, 34], [1, 5, 5, 3, 653], [1, 5, 5, 34, 653], [1, 5, 653, 3, 34], [1, 5, 653, 3, 653], [1, 653, 3, 4, 34],",
+      -9.46875
+    ],
+    [
+      "if len(l1) == 0 or len(l2) == 0:\n        return []\n    if len(l1) == 1:\n        return l1\n    if len(l2) == 1:\n        return l2\n    d = defaultdict(list)\n    for el in l1:\n        d[el].append(l1)\n    for el in l2:\n        d[el].append(l2)\n    return list(set(d.values()))\n\ndef sublist(l: list, i: int, j: int):\n    \"\"\"Return a sublist of l from i to j.\n    >>> sublist([1, 2, 3, 4, 5, 6, 7], 0, 4)\n    [1, 2, 3, 4]\n\n    \"\"\"\n    return l[i:j]\n\ndef remove(l: list, el: object):\n    \"\"\"Remove el from l.\n    >>> remove([1, 2, 3, 4, 5, 6], 3)\n    [1, 2, 4, 5, 6]\n\n    \"\"\"\n    return [x for x in l if x!= el]\n\ndef flatten(l: list):\n    \"\"\"Flatten l.\n    >>> flatten([[1, 2], [3, 4], [5, 6], [7, 8]])\n    [1, 2, 3, 4, 5, 6, 7, 8]\n\n    \"\"\"\n    return [x for sublist in l for x in sublist]\n\ndef zip_with(l1: list, l2: list):\n    \"\"\"Zip l1 and l2.\n    >>> zip_with([1, 2, 3], [4, 5, 6])\n    [(1, 4), (2, 5), (3, 6)]\n\n    \"\"\"\n    return [tuple(sublist) for sublist in zip(l1, l2)]\n\ndef flatten_with(l: list):\n    \"\"\"Flatten l with zip_with.\n    >>> flatten_with([[1, 2], [3, 4], [5, 6], [7, 8]])\n    [1, 2, 3, 4, 5, 6, 7, 8]\n\n    \"\"\"\n    return [",
+      -10.0
+    ],
+    [
+      "common = []\n    for i in range(len(l1)):\n        for j in range(len(l2)):\n            if l1[i] == l2[j]:\n                common.append(l1[i])\n                break\n    return common\n\ndef main():\n    \"\"\"Main program\"\"\"\n    import sys\n    from timeit import default_timer as clock\n    start = clock()\n    test_cases = int(sys.argv[1]) if len(sys.argv) > 1 else 100\n    for t in range(test_cases):\n        N = randrange(1, 100)\n        L = list(range(N))\n        for i in range(N):\n            L[i] = randrange(1, 100)\n        print(\"Case #{}: {}\".format(t + 1, common(L, L)))\n    stop = clock()\n    print(\"Time elapsed: {}\".format(stop - start))\n\nif __name__ == \"__main__\":\n    main()",
+      -13.1015625
+    ],
+    [
+      "if not l1 or not l2:\n        return []\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n    return [l1[0]] + [i for i in l1 if i in l2]\n\n\nclass MergeSort(object):\n    \"\"\"Sort a list by using a merge sort.\n\n    >>> from mr.sort import MergeSort\n    >>> a = [1, 4, 3, 34, 653, 2, 5]\n    >>> b = [5, 7, 1, 5, 9, 653, 121]\n    >>> MergeSort().sort(a, b)\n    [1, 1, 2, 3, 4, 5, 5, 653, 7, 9, 9, 10, 121]\n\n    \"\"\"\n    def __init__(self):\n        self.count = 0\n\n    def sort(self, l, r):\n        \"\"\"Sort a list using a merge sort algorithm.\n        \"\"\"\n        if not l or not r:\n            return l + r\n        mid = (l + r) / 2\n        self.sort(l, mid)\n        self.sort(mid + 1, r)\n        return self._merge(l, mid, r)\n\n    def _merge(self, l, m, r):\n        \"\"\"Merge the list l[:m] and l[m+1:r] into l[:r].\n        \"\"\"\n        n = r - m\n        if n > 1:\n            i = m\n            j = m + n - 1\n            k = self._merge(l, i, j)\n        else:\n            k = l[m]\n        self.count += 1\n        return k\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -13.65625
+    ],
+    [
+      "return sorted(set(l1) & set(l2))\n\ndef solve(n: int, m: int, p: int):\n    \"\"\"Return the sum of all distinct pairs of numbers in the range [1, n]\n    that are divisible by m and are distinct.\n    >>> solve(100, 20, 10)\n    65\n    >>> solve(100, 20, 5)\n    25\n    >>> solve(100, 20, 15)\n    15\n    \"\"\"\n    def dp(i, j):\n        if i == 0 or j == 0:\n            return 0\n        if i == j:\n            return 1\n        return dp(i - 1, j - 1) + dp(i, j - 1)\n\n    return sum(dp(i, j) for i in range(1, n + 1) for j in range(1, m + 1))\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -16.140625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

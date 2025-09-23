@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T02:04:28.471147",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 497,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from timeit import timeit\n\n\ndef common_ordered(list1: list, list2: list) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list1 (list): first list\n        list2 (list): second list\n\n    Returns:\n        bool: True if the common elements are in the same order, False otherwise\n    \"\"\"\n    return [i for i in list1 if i in list2][:len(list1)] == list1\n\n\nif __name__ == \"__main__\":\n    list1 = [1, 2, 3, 4]\n    list2 = [4, 1, 3, 2]\n    print(common_ordered(list1, list2))\n    print(timeit(\"common_ordered(list1, list2)\", globals=locals(), number=10000))"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from collections import deque\n\n\n# Time complexity: O(m+n)\n# Space complexity: O(1)\ndef check_order(list1, list2):\n    i, j = 0, 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] == list2[j]:\n            i += 1\n            j += 1\n        elif list1[i] < list2[j]:\n            i += 1\n        else:\n            j += 1\n    return i == len(list1) and j == len(list2)\n\n\n# Time complexity: O(m+n)\n# Space complexity: O(1)\ndef check_order_deque(list1, list2):\n    d1 = deque()\n    d2 = deque()\n\n    for i in list1:\n        d1.append(i)\n\n    for i in list2:\n        d2.append(i)\n\n    while d1 and d2:\n        if d1.popleft() != d2.popleft():\n            return False\n    return not d1 and not d2\n\n\nif __name__ == '__main__':\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [2, 3, 4, 1]))\n    print(check_order([1, 2, 3, 4], [2, 4, 1, 3]))\n    print(check_order([1, 2, 3, 4], [2, 3, 1, 4]))\n    print(check_order([1, 2, 3, 4], [4, 3, 2, 1]))\n    print(check_order([1, 2, 3, 4], [2, 3, 4, 1]))\n\n    print(check_order_deque([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "def same_order(list_a: list, list_b: list) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list_a (list): first list\n        list_b (list): second list\n\n    Returns:\n        bool: True if the common elements are in the same order, False otherwise\n\n    Examples:\n        >>> same_order([1, 2, 3], [1, 2, 3])\n        True\n        >>> same_order([1, 2, 3], [2, 1, 3])\n        False\n    \"\"\"\n    common_elements = []\n    for element in list_a:\n        if element in list_b:\n            common_elements.append(element)\n    return list_a == common_elements\n\n\nif __name__ == \"__main__\":\n    print(same_order([1, 2, 3], [1, 2, 3]))\n    print(same_order([1, 2, 3], [2, 1, 3]))"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "def check_order(list1, list2):\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\ndef main():\n    list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    list3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    print(check_order(list1, list2))\n    print(check_order(list1, list3))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef check_order(list1: List, list2: List) -> bool:\n    \"\"\"Check if elements in the lists are in the same order.\n\n    Args:\n        list1 (List): First list.\n        list2 (List): Second list.\n\n    Examples:\n        >>> assert check_order([1, 2, 3], [1, 2, 3])\n        >>> assert not check_order([1, 2, 3], [3, 2, 1])\n    \"\"\"\n    return \"\".join(str(list1)) == \"\".join(str(list2))\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3], [1, 2, 3]))\n    print(check_order([1, 2, 3], [3, 2, 1]))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "from collections import defaultdict\nfrom typing import List\n\n\ndef check_order(list1: List, list2: List) -> bool:\n    \"\"\"Checks if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list1 (List): list1\n        list2 (List): list2\n\n    Returns:\n        bool: True if common elements between two given lists are in the same order, False otherwise\n\n    Examples:\n        >>> assert check_order([1, 2, 3, 4], [1, 2, 3, 4])\n        >>> assert not check_order([1, 2, 3, 4], [4, 3, 2, 1])\n    \"\"\"\n    result = True\n\n    if len(list1) == len(list2):\n        list1_dict = defaultdict(int)\n        list2_dict = defaultdict(int)\n        for i in range(len(list1)):\n            list1_dict[list1[i]] += 1\n            list2_dict[list2[i]] += 1\n\n        for i in range(len(list1)):\n            if list1[i] != list2[i]:\n                result = False\n            elif list1_dict[list1[i]] != list2_dict[list2[i]]:\n                result = False\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [4, 3, 2, 1]))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "from itertools import groupby\n\n\ndef check_order(list1: list, list2: list) -> bool:\n    \"\"\"\n    >>> check_order([1, 2, 3], [3, 2, 1])\n    True\n    >>> check_order([1, 2, 3], [2, 1, 3])\n    False\n    \"\"\"\n    if len(list1) != len(list2):\n        return False\n\n    list1_groups = groupby(list1)\n    list2_groups = groupby(list2)\n\n    for num1, group1 in list1_groups:\n        for num2, group2 in list2_groups:\n            if num1 == num2 and group1 == group2:\n                break\n        else:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef check_order(list_1: List[int], list_2: List[int]) -> bool:\n    \"\"\"Checks if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list_1 (List[int]): first list\n        list_2 (List[int]): second list\n\n    Examples:\n        >>> assert check_order([1, 2, 3, 4], [1, 2, 3, 4])\n        >>> assert not check_order([1, 2, 3, 4], [4, 3, 2, 1])\n    \"\"\"\n    list_1_copy = list_1.copy()\n    list_2_copy = list_2.copy()\n    list_1_copy.sort()\n    list_2_copy.sort()\n    return list_1_copy == list_2_copy\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [4, 3, 2, 1]))"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from collections import deque\n\n\ndef common_order(list1, list2):\n    list1 = deque(list1)\n    list2 = deque(list2)\n\n    while list1 and list2:\n        if list1[0] == list2[0]:\n            list1.popleft()\n            list2.popleft()\n        else:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(common_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\n    print(common_order([1, 2, 3, 4, 5], [4, 3, 2, 1, 5]))\n    print(common_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]))\n    print(common_order([1, 2, 3, 4, 5], [1, 2, 3, 4]))"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef check_order(list_a: List[int], list_b: List[int]) -> bool:\n    \"\"\"Check if the common elements between two lists are in the same order.\n\n    Args:\n        list_a (List[int]): first list\n        list_b (List[int]): second list\n\n    Returns:\n        bool: True if the common elements between two lists are in the same order, False otherwise\n\n    Examples:\n        >>> check_order([1, 2, 3, 4], [1, 2, 3, 4])\n        True\n        >>> check_order([1, 2, 3, 4], [4, 3, 2, 1])\n        True\n        >>> check_order([1, 2, 3, 4], [2, 1, 4, 3])\n        False\n    \"\"\"\n    return list_a == list_b or list_a == list_b[::-1]\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [4, 3, 2, 1]))\n    print(check_order([1, 2, 3, 4], [2, 1, 4, 3]))"
+    },
+    {
+      "rank": 11,
+      "score": 9.0,
+      "candidate": "from timeit import timeit\n\n\ndef check_order(list1: list, list2: list) -> bool:\n    \"\"\"\n    Check if the common elements between two given lists are in the same order or not.\n    :param list1: first list\n    :param list2: second list\n    :return: bool\n\n    >>> check_order([1,2,3,4], [2,3,4,1])\n    True\n    >>> check_order([1,2,3,4], [2,3,1,4])\n    False\n    \"\"\"\n    if len(list1) != len(list2):\n        return False\n\n    list1_copy = list1.copy()\n    list2_copy = list2.copy()\n    list1_copy.sort()\n    list2_copy.sort()\n    for i in range(len(list1)):\n        if list1_copy[i] != list2_copy[i]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(timeit(lambda: check_order([1, 2, 3, 4], [2, 3, 4, 1]), number=10000))"
+    },
+    {
+      "rank": 12,
+      "score": 8.0,
+      "candidate": "from itertools import zip_longest\n\n\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef are_in_same_order(list1, list2):\n    for i, j in zip_longest(list1, list2):\n        if i != j:\n            return False\n    return True\n\n\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef are_in_same_order_with_set(list1, list2):\n    return set(list1) == set(list2) and list1 == sorted(list1) and list2 == sorted(list2)"
+    },
+    {
+      "rank": 13,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef are_common_elements_in_same_order(list_1, list_2):\n    \"\"\"\n    :param list_1: first list\n    :param list_2: second list\n    :return: True if elements in same order else False\n    \"\"\"\n    if len(list_1) != len(list_2):\n        return False\n    counter_1 = Counter(list_1)\n    counter_2 = Counter(list_2)\n    for item in list_1:\n        if counter_1[item] != counter_2[item]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert are_common_elements_in_same_order([1, 2, 3, 4, 5], [4, 5, 3, 2, 1]) is True\n    assert are_common_elements_in_same_order([1, 2, 3, 4, 5], [4, 3, 5, 2, 1]) is False\n    assert are_common_elements_in_same_order([1, 2, 3, 4, 5], [4, 5, 2, 3, 1]) is True"
+    },
+    {
+      "rank": 14,
+      "score": 8.0,
+      "candidate": "from functools import reduce\nfrom operator import and_\n\n\ndef check_order(lst1, lst2):\n    return reduce(and_, map(lambda x, y: x == y, lst1, lst2))\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3], [1, 2, 3]))\n    print(check_order([1, 2, 3], [2, 1, 3]))"
+    },
+    {
+      "rank": 15,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n\n    while list1 and list2:\n        if list1[0] != list2[0]:\n            return False\n        list1 = list1[1:]\n        list2 = list2[1:]\n\n    return True\n\n\nprint(check_order([1, 2, 3], [1, 2, 3]))\nprint(check_order([1, 2, 3], [2, 1, 3]))\nprint(check_order([1, 2, 3], [2, 3, 1]))\nprint(check_order([1, 2, 3], [3, 2, 1]))"
+    },
+    {
+      "rank": 16,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(l1: list, l2: list) -> bool:\n    if len(l1) != len(l2):\n        return False\n\n    q1 = deque(l1)\n    q2 = deque(l2)\n\n    while q1 and q2:\n        if q1[0] != q2[0]:\n            return False\n        q1.popleft()\n        q2.popleft()\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_order([1, 2, 3, 4], [1, 2, 3, 4]) == True\n    assert check_order([1, 2, 3, 4], [1, 2, 3, 5]) == False\n    assert check_order([1, 2, 3, 4], [1, 2, 4, 3]) == False\n    assert check_order([1, 2, 3, 4], [1, 2, 3, 4, 5]) == False"
+    },
+    {
+      "rank": 17,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef are_common_elements_in_same_order(list_1, list_2):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(list_1) != len(list_2):\n        return False\n\n    d = defaultdict(int)\n    for elem in list_1:\n        d[elem] += 1\n\n    for elem in list_2:\n        if d[elem] > 0:\n            d[elem] -= 1\n        else:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(\n        are_common_elements_in_same_order(\n            [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]\n        )\n    )\n    print(\n        are_common_elements_in_same_order(\n            [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6]\n        )\n    )\n    print(\n        are_common_elements_in_same_order(\n            [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5]\n        )\n    )"
+    },
+    {
+      "rank": 18,
+      "score": 8.0,
+      "candidate": "def common_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(common_order([1, 2, 3], [1, 2, 3]))"
+    },
+    {
+      "rank": 19,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef check_order(list1, list2):\n    counter1 = Counter(list1)\n    counter2 = Counter(list2)\n\n    for key, value in counter1.items():\n        if counter2[key] != value:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4], [4, 2, 3, 1]))\n    print(check_order([1, 2, 3, 4], [4, 3, 2, 1]))"
+    },
+    {
+      "rank": 20,
+      "score": 8.0,
+      "candidate": "def check_order(list_a, list_b):\n    if len(list_a) != len(list_b):\n        return False\n\n    if list_a == list_b:\n        return True\n\n    for i in range(len(list_a)):\n        if list_a[i] != list_b[i]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])\n    assert not check_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 6])\n    assert check_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1])"
+    },
+    {
+      "rank": 21,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(first_list: list, second_list: list) -> bool:\n    \"\"\"\n    Using two dequeues.\n    O(n) & O(n)\n    \"\"\"\n    if not first_list or not second_list:\n        return False\n\n    first_list_deque = deque(first_list)\n    second_list_deque = deque(second_list)\n\n    while first_list_deque and second_list_deque:\n        if first_list_deque.popleft() != second_list_deque.popleft():\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]) is True\n    assert check_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]) is True\n    assert check_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 6]) is False"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "from functools import reduce\n\n\ndef common_order(lst1, lst2):\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\"\"\"\n    if not lst1 or not lst2:\n        return False\n    if len(lst1) != len(lst2):\n        return False\n    if lst1 == lst2:\n        return True\n    return reduce(lambda acc, x: acc and x[0] == x[1], zip(lst1, lst2), True)"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef is_common_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n    c1 = Counter(list1)\n    c2 = Counter(list2)\n    return all(c1[item] == c2[item] for item in c1.keys() & c2.keys())\n\n\nprint(is_common_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\nprint(is_common_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]))\nprint(is_common_order([1, 2, 3, 4, 5], [3, 4, 5, 1, 2]))\nprint(is_common_order([1, 2, 3, 4, 5], [5, 2, 3, 4, 1]))\nprint(is_common_order([1, 2, 3, 4, 5], [2, 3, 4, 5, 1]))\nprint(is_common_order([1, 2, 3, 4, 5], [1, 5, 2, 3, 4]))\nprint(is_common_order([1, 2, 3, 4, 5], [1, 4, 3, 2, 5]))\nprint(is_common_order([1, 2, 3, 4, 5], [1, 5, 3, 4, 2]))\nprint(is_common_order([1, 2, 3, 4, 5], [1, 2, 4, 3, 5]))\nprint(is_common_order([1, 2, 3, 4, 5], [1, 2, 3, 5, 4]))\nprint(is_common_order([1, 2, 3, 4, 5], [1, 2, 3, 5, 4,"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "def common_order(list_1, list_2):\n    if len(list_1) < len(list_2):\n        smaller_list = list_1\n        larger_list = list_2\n    else:\n        smaller_list = list_2\n        larger_list = list_1\n    i = 0\n    while i < len(smaller_list):\n        if smaller_list[i] in larger_list:\n            larger_list.remove(smaller_list[i])\n        else:\n            return False\n        i += 1\n    return True\n\nprint(common_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(common_order([1, 2, 3, 4], [4, 3, 2, 1]))\nprint(common_order([1, 2, 3, 4], [1, 2, 4, 3]))\nprint(common_order([1, 2, 3, 4], [4, 3, 2, 5]))\nprint(common_order([1, 2, 3, 4], [1, 2, 3, 5]))"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    common_elements = []\n    for element in list1:\n        if element in list2:\n            common_elements.append(element)\n    return common_elements == sorted(common_elements) == sorted(list1)\n\n\nprint(check_order([1, 2, 3], [1, 2, 3]))\nprint(check_order([1, 2, 3], [2, 3, 1]))"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def check_order(arr1, arr2):\n    for i in range(len(arr1)):\n        if arr1[i] != arr2[i]:\n            return False\n    return True\n\n\ndef main():\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [2, 3, 4, 1]))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef are_common_elements_in_order(list_1, list_2):\n    if len(list_1) != len(list_2):\n        return False\n    if len(list_1) == 0:\n        return True\n    if len(list_1) == 1:\n        return list_1[0] == list_2[0]\n\n    list_1_queue = deque(list_1)\n    list_2_queue = deque(list_2)\n\n    while list_1_queue and list_2_queue:\n        if list_1_queue[0] != list_2_queue[0]:\n            return False\n        list_1_queue.popleft()\n        list_2_queue.popleft()\n    return True\n\n\nif __name__ == \"__main__\":\n    assert are_common_elements_in_order([1, 2, 3, 4], [4, 3, 2, 1]) is True\n    assert are_common_elements_in_order([1, 2, 3, 4], [4, 3, 2, 5]) is False\n    assert are_common_elements_in_order([1, 2, 3, 4], [1, 2, 3, 4]) is True\n    assert are_common_elements_in_order([1, 2, 3, 4], [1, 2, 3]) is False\n    assert are_common_elements_in_order([1, 2, 3, 4], [2, 3, 4, 1]) is False"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\ndef check_order(list1, list2):\n    q1 = deque()\n    q2 = deque()\n\n    for i in list1:\n        q1.append(i)\n\n    for i in list2:\n        q2.append(i)\n\n    while q1 and q2:\n        if q1[0] != q2[0]:\n            return False\n        q1.popleft()\n        q2.popleft()\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1,2,3,4,5,6,7,8],[1,2,4,3,5,6,7,8]))\n    print(check_order([1,2,3,4,5,6,7,8],[1,2,4,5,3,6,7,8]))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "from functools import reduce\nfrom operator import mul\n\n\ndef common_order_check(list1, list2):\n    def get_common(lst1, lst2):\n        return [x for x in lst1 if x in lst2]\n\n    return get_common(list1, list2) == get_common(list2, list1)\n\n\ndef main():\n    print(common_order_check([1, 2, 3], [2, 3, 1]))\n    print(common_order_check([1, 2, 3], [3, 2, 1]))\n    print(common_order_check([1, 2, 3], [1, 2, 3]))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n    i = 0\n    while i < len(list1):\n        if list1[i] != list2[i]:\n            return False\n        i += 1\n    return True\n\nprint(check_order([1,2,3,4,5],[4,5,3,1,2]))\nprint(check_order([1,2,3,4,5],[4,3,5,1,2]))\nprint(check_order([1,2,3,4,5],[5,4,3,2,1]))\nprint(check_order([1,2,3,4,5],[4,5,3,2,1]))\n\n# Time complexity is O(n)"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef same_order(list_1, list_2):\n    if len(list_1) != len(list_2):\n        return False\n\n    index_dict = defaultdict(int)\n    for i in range(len(list_1)):\n        if list_1[i] not in index_dict:\n            index_dict[list_1[i]] = i\n        else:\n            if index_dict[list_1[i]] != i:\n                return False\n        if list_2[i] not in index_dict:\n            index_dict[list_2[i]] = i\n        else:\n            if index_dict[list_2[i]] != i:\n                return False\n\n    return True\n\n\nprint(same_order([1, 2, 3], [1, 2, 3]))\nprint(same_order([1, 2, 3], [3, 2, 1]))\nprint(same_order([1, 2, 3], [2, 1, 3]))\nprint(same_order([1, 2, 3], [2, 3, 1]))\nprint(same_order([1, 2, 3], [3, 1, 2]))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def same_order(list1: list, list2: list) -> bool:\n    if len(list1) != len(list2):\n        return False\n\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert same_order([1, 2, 3], [1, 2, 3]) == True\n    assert same_order([1, 2, 3], [1, 3, 2]) == False\n    assert same_order([1, 2, 3], [2, 1, 3]) == False\n    assert same_order([1, 2, 3], [1, 3, 2, 4]) == False\n    assert same_order([1, 2, 3], [1, 2]) == False\n    assert same_order([1, 2, 3], [3, 2, 1]) == True\n    assert same_order([1, 2, 3], [1, 2, 3, 4]) == False\n    assert same_order([1, 2, 3], [1, 2, 4, 3]) == False\n    assert same_order([1, 2, 3], [3, 1, 2]) == True"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef are_common_elements_in_same_order(list_1: List[int], list_2: List[int]) -> bool:\n    if len(list_1) != len(list_2):\n        return False\n\n    temp = []\n    for i in range(len(list_1)):\n        if list_1[i] in list_2:\n            temp.append(list_1[i])\n\n    for i in range(len(temp)):\n        if temp[i] != list_2[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(are_common_elements_in_same_order([1, 2, 3], [2, 3, 1]))\n    print(are_common_elements_in_same_order([1, 2, 3], [3, 2, 1]))\n    print(are_common_elements_in_same_order([1, 2, 3], [2, 3, 1, 4]))"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "def check_common_order(list_a, list_b):\n    # Check if the lists have the same length\n    if len(list_a) != len(list_b):\n        return False\n\n    # Iterate over the list\n    for i in range(len(list_a)):\n        # Check if the elements are the same\n        if list_a[i] != list_b[i]:\n            return False\n\n    return True\n\nprint(check_common_order([1,2,3], [1,2,3]))\nprint(check_common_order([1,2,3], [1,2,3,4]))\nprint(check_common_order([1,2,3], [1,2,4]))\nprint(check_common_order([1,2,3], [1,4,3]))\nprint(check_common_order([1,2,3], [1,3,2]))\nprint(check_common_order([1,2,3], [3,2,1]))"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def check_order(list_1, list_2):\n    i = 0\n    j = 0\n    while i < len(list_1) and j < len(list_2):\n        if list_1[i] == list_2[j]:\n            i += 1\n            j += 1\n        else:\n            if list_1[i] in list_2:\n                j = list_2.index(list_1[i])\n            elif list_2[j] in list_1:\n                i = list_1.index(list_2[j])\n    if i == len(list_1) and j == len(list_2):\n        return True\n    return False\n\nprint(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(check_order([1, 2, 3, 4], [1, 3, 2, 4]))\nprint(check_order([1, 2, 3, 4], [4, 3, 2, 1]))\nprint(check_order([1, 2, 3, 4], [4, 3, 2, 5]))\nprint(check_order([1, 2, 3, 4], [2, 1, 4, 3]))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\ndef same_order(list1, list2):\n    \"\"\"Return True if the common elements between two given lists are in the same order.\"\"\"\n\n    # Get the counts for each element in the lists\n    count1 = Counter(list1)\n    count2 = Counter(list2)\n\n    # Check if the common elements are in the same order\n    for element in count1.keys():\n        if count1[element] != count2[element]:\n            return False\n    return True\n\ndef main():\n    print(same_order([1, 2, 3], [3, 2, 1]))\n    print(same_order([1, 2, 3], [3, 2, 5]))\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\ndef common_ordered(a, b):\n    a = deque(a)\n    b = deque(b)\n\n    while a and b:\n        if a[0] != b[0]:\n            return False\n        a.popleft()\n        b.popleft()\n    return not a and not b\n\ndef common_ordered_2(a, b):\n    i, j = 0, 0\n\n    while i < len(a) and j < len(b):\n        if a[i] != b[j]:\n            return False\n        i += 1\n        j += 1\n    return i == len(a) and j == len(b)\n\n\nif __name__ == '__main__':\n    print(common_ordered([1,2,3,4,5,6,7], [3,4,5,6,7,8,9]))\n    print(common_ordered_2([1,2,3,4,5,6,7], [3,4,5,6,7,8,9]))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\ndef common_ordered(list1, list2):\n    d = defaultdict(int)\n    for i in list1:\n        d[i] += 1\n    for i in list2:\n        if d[i] > 0:\n            d[i] -= 1\n        else:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(common_ordered([1, 2, 3], [1, 2, 3]))\n    print(common_ordered([1, 2, 3], [3, 2, 1]))\n    print(common_ordered([1, 2, 3], [1, 2]))\n    print(common_ordered([1, 2, 3], [3, 2, 1, 4]))"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n    list1, list2 = deque(list1), deque(list2)\n    while list1 and list2:\n        if list1.popleft() != list2.popleft():\n            return False\n    return True\n\n\nprint(check_order([1, 2, 3], [1, 2, 3]))\nprint(check_order([1, 2, 3], [3, 2, 1]))\nprint(check_order([1, 2, 3], [3, 2, 1, 4]))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "def check_order(list1: list, list2: list) -> bool:\n    \"\"\"\n    Check if the common elements between two given lists are in the same order or not.\n    \"\"\"\n    list1 = list1.copy()\n    list2 = list2.copy()\n    list1.sort()\n    list2.sort()\n    for i in list1:\n        if i in list2:\n            list2.remove(i)\n    return True if len(list2) == 0 else False\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3], [1, 2, 3]))\n    print(check_order([1, 2, 3], [1, 2, 4]))\n    print(check_order([1, 2, 3], [2, 3, 4]))"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def are_the_same_order(list1: list, list2: list):\n    if len(list1) != len(list2):\n        return False\n\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    list1 = [1, 2, 3, 4, 5]\n    list2 = [1, 2, 3, 4, 5]\n    list3 = [1, 2, 3, 4, 5, 6]\n    list4 = [1, 2, 3, 4, 5, 6, 7]\n\n    print(are_the_same_order(list1, list2))\n    print(are_the_same_order(list1, list3))\n    print(are_the_same_order(list1, list4))"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef is_ordered_list_match(list_a: List[int], list_b: List[int]) -> bool:\n    if len(list_a) != len(list_b):\n        return False\n\n    for i in range(len(list_a)):\n        if list_a[i] != list_b[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_ordered_list_match([1, 2, 3, 4], [1, 2, 3, 4])\n    assert is_ordered_list_match([1, 2, 3, 4], [4, 3, 2, 1])\n    assert is_ordered_list_match([1, 2, 3, 4], [1, 2, 3, 4, 5]) is False"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\n# Time complexity O(n), where n is the length of the smaller list.\ndef check_order(lst1, lst2):\n    if len(lst1) > len(lst2):\n        lst1, lst2 = lst2, lst1\n\n    lst1_deque = deque(lst1)\n    lst2_deque = deque(lst2)\n\n    while lst1_deque:\n        if lst1_deque[0] == lst2_deque[0]:\n            lst1_deque.popleft()\n            lst2_deque.popleft()\n        else:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [2, 3, 4, 1]))\n    print(check_order([1, 2, 3, 4], [1, 3, 4, 2]))"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def same_order(a, b):\n    return a == b or a == b[::-1]\n\n\nprint(same_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\nprint(same_order([1, 2, 3, 4, 5], [2, 1, 3, 4, 5]))\nprint(same_order([1, 2, 3, 4, 5], [1, 2, 3, 5, 4]))\nprint(same_order([1, 2, 3, 4, 5], [2, 3, 4, 5, 1]))\nprint(same_order([1, 2, 3, 4, 5], [1, 3, 2, 4, 5]))"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    list1 = [1, 2, 3, 4]\n    list2 = [1, 2, 3, 4]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [4, 3, 2, 1]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [4, 3, 2, 1]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [1, 3, 2, 4]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [4, 3, 2, 1]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [1, 2, 3, 4, 5]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [5, 4, 3, 2]\n    print(check_order(list1, list2))\n\n    list1 = [1, 2, 3, 4]\n    list2 = [4, 3, 2, 5]\n    print(check_order(list1, list2))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "from itertools import chain\n\n\ndef check_order(list_1, list_2):\n    \"\"\"\n    Checks if the common elements between two given lists are in the same order or not.\n\n    >>> check_order([1, 2, 3], [2, 3, 1])\n    True\n    >>> check_order([1, 2, 3], [2, 3, 5])\n    False\n    >>> check_order([1, 2, 3], [2, 5, 1])\n    False\n    >>> check_order([1, 2, 3], [5, 3, 1])\n    False\n    >>> check_order([1, 2, 3], [5, 1, 3])\n    False\n    >>> check_order([1, 2, 3], [1, 2, 3, 4, 5])\n    False\n    >>> check_order([1, 2, 3], [4, 5, 6, 1, 2, 3])\n    False\n    >>> check_order([1, 2, 3], [1, 2, 3])\n    True\n    >>> check_order([1, 2, 3], [3, 2, 1])\n    True\n    >>> check_order([1, 2, 3], [1, 3, 2])\n    False\n    >>> check_order([1, 2, 3], [3, 1, 2])\n    False\n    >>> check_order([1, 2, 3], [3, 2, 1])\n    True\n    >>> check_order([1, 2, 3], [1, 2, 3])\n    True\n    >>> check_order([1, 2, 3], [3, 2, 1])\n    True\n    >>> check_order([1, 2, 3], [3, 1, 2])\n    False\n    >>> check_order([1, 2, 3], [3, 1, 2])\n    False\n    >>> check_order([1, 2, 3], [3,"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\n# O(n) & O(1)\ndef check_order(arr1: List[int], arr2: List[int]) -> bool:\n    i = j = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] == arr2[j]:\n            i += 1\n            j += 1\n        elif arr1[i] < arr2[j]:\n            i += 1\n        else:\n            j += 1\n    return i == j\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3], [2, 3, 1]))\n    print(check_order([1, 2, 3], [2, 3, 1, 4]))"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef same_order(first, second):\n    # First check if the lists are of equal length\n    if len(first) != len(second):\n        return False\n\n    # Create a hash map of the first list\n    first_map = defaultdict(int)\n    for num in first:\n        first_map[num] += 1\n\n    # Check if the second list contains the same elements as the first list\n    for num in second:\n        if num not in first_map:\n            return False\n        first_map[num] -= 1\n\n    # Check if the numbers in the first list are all used up\n    for _, value in first_map.items():\n        if value != 0:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(same_order([1, 2, 3], [3, 2, 1]))\n    print(same_order([1, 2, 3], [1, 2, 3]))\n    print(same_order([1, 2, 3], [1, 3, 2]))\n    print(same_order([1, 2, 3], [2, 3, 1]))"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def same_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n\n    return True\n\n\nprint(same_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(same_order([1, 2, 3, 4], [4, 3, 2, 1]))\nprint(same_order([1, 2, 3, 4], [1, 2, 3, 5]))\nprint(same_order([1, 2, 3, 4], [1, 2, 4, 3]))"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def are_in_order(list_one, list_two):\n    for i in range(len(list_one)):\n        if list_one[i] != list_two[i]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(are_in_order([1,2,3,4], [1,2,3,4]))\n    print(are_in_order([1,2,3,4], [4,3,2,1]))\n    print(are_in_order([1, 2, 3, 4], [2, 4, 1, 3]))\n    print(are_in_order([1,2,3,4], [1,3,4,2]))"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "def check_same_order(list_a, list_b):\n    for i in range(len(list_a)):\n        if list_a[i] != list_b[i]:\n            return False\n    return True\n\nprint(check_same_order([1, 2, 3], [1, 2, 3]))\nprint(check_same_order([1, 2, 3], [1, 3, 2]))\nprint(check_same_order([1, 2, 3], [3, 2, 1]))\nprint(check_same_order([1, 2, 3], [1, 2, 3, 4]))"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def check_common_order(arr1, arr2):\n    # Check if the common elements are present\n    # in the same order\n    arr1_set = set(arr1)\n    arr2_set = set(arr2)\n\n    if len(arr1_set.intersection(arr2_set)) != len(arr1_set):\n        return False\n\n    if arr1[0] in arr2_set:\n        return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    print(check_common_order([1, 2, 3, 4], [3, 4, 1, 2]))\n    print(check_common_order([1, 2, 3, 4], [4, 3, 2, 1]))"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(lst1, lst2):\n    queue1, queue2 = deque(lst1), deque(lst2)\n    while queue1 and queue2:\n        if queue1.popleft() != queue2.popleft():\n            return False\n    return True\n\n\nprint(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(check_order([1, 2, 3, 4], [2, 1, 3, 4]))\nprint(check_order([1, 2, 3, 4], [2, 3, 4, 1]))"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "from functools import reduce\nfrom itertools import islice\n\n\ndef same_order(list1, list2):\n    return reduce(lambda x, y: x and y,\n                  [list1[i] == list2[i] for i in range(len(list1))])\n\n\ndef same_order_itertools(list1, list2):\n    return all(a == b for a, b in zip(list1, list2))\n\n\ndef same_order_itertools_islice(list1, list2):\n    return all(a == b for a, b in zip(islice(list1, len(list2)), list2))\n\n\nif __name__ == \"__main__\":\n    print(same_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(same_order([1, 2, 3, 4], [4, 3, 2, 1]))\n    print(same_order([1, 2, 3, 4], [4, 3, 2, 1, 0]))\n    print(same_order([1, 2, 3, 4], [1, 2, 3, 4, 5]))\n    print(same_order([1, 2, 3, 4], [5, 1, 2, 3, 4]))"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "def is_order_same(list_a, list_b):\n    if len(list_a) != len(list_b):\n        return False\n    i = 0\n    while i < len(list_a):\n        if list_a[i] != list_b[i]:\n            return False\n        i += 1\n    return True\n\n\nprint(is_order_same([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\nprint(is_order_same([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]))\nprint(is_order_same([1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6]))\nprint(is_order_same([1, 2, 3, 4, 5], [1, 2, 3, 4]))"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "def check_order(list_1, list_2):\n    common_elements = set(list_1).intersection(set(list_2))\n    common_elements_1 = []\n    common_elements_2 = []\n    for i in list_1:\n        if i in common_elements:\n            common_elements_1.append(i)\n    for i in list_2:\n        if i in common_elements:\n            common_elements_2.append(i)\n    if common_elements_1 == common_elements_2:\n        return True\n    return False\n\n\nif __name__ == \"__main__\":\n    first_list = input(\"Enter first list: \").split(\",\")\n    second_list = input(\"Enter second list: \").split(\",\")\n    print(check_order(first_list, second_list))"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(list1, list2):\n    if not list1 or not list2:\n        return False\n    list1 = deque(list1)\n    list2 = deque(list2)\n\n    while list1 and list2:\n        if list1[0] != list2[0]:\n            return False\n        list1.popleft()\n        list2.popleft()\n    return True\n\n\nprint(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(check_order([1, 2, 3, 4], [1, 2, 3, 5]))"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "def check_if_ordered(list1, list2):\n    if len(list1) != len(list2):\n        return False\n\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n\n    return True\n\n\nprint(check_if_ordered([1, 2, 3], [1, 2, 3]))\nprint(check_if_ordered([3, 2, 1], [1, 2, 3]))\nprint(check_if_ordered([1, 2, 3], [1, 3, 2]))\nprint(check_if_ordered([3, 2, 1], [1, 3, 2]))\nprint(check_if_ordered([1, 2, 3], [3, 2, 1]))\nprint(check_if_ordered([3, 2, 1], [3, 2, 1]))"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n\n    list1 = sorted(list1)\n    list2 = sorted(list2)\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_order([1, 2, 3, 4], [1, 4, 3, 2]))\n    print(check_order([1, 2, 3, 4], [4, 3, 2, 1]))\n    print(check_order([1, 2, 3, 4], [3, 4, 1, 2]))"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "from timeit import timeit\n\n\ndef is_ordered_list(first: list, second: list) -> bool:\n    \"\"\"\n    Check if the common elements between two given lists are in the same order or not.\n    :param first: first list\n    :param second: second list\n    :return: True if the common elements between two given lists are in the same order, False otherwise\n    >>> is_ordered_list([1, 2, 3], [1, 2, 3])\n    True\n    >>> is_ordered_list([1, 2, 3], [3, 2, 1])\n    True\n    >>> is_ordered_list([1, 2, 3], [1, 3, 2])\n    False\n    \"\"\"\n    if len(first) == 0 and len(second) == 0:\n        return True\n\n    if len(first) > 0 and len(second) == 0:\n        return False\n\n    if len(first) == 0 and len(second) > 0:\n        return False\n\n    if len(first) == 1 and len(second) == 1:\n        if first[0] == second[0]:\n            return True\n        return False\n\n    if len(first) == 1 and len(second) > 1:\n        if first[0] == second[0]:\n            return is_ordered_list(first[1:], second[1:])\n        return False\n\n    if len(first) > 1 and len(second) == 1:\n        if first[0] == second[0]:\n            return is_ordered_list(first[1:], second[1:])\n        return False\n\n    if first[0] == second[0]:\n        return is_ordered_list(first[1:], second[1:])\n    return False\n\n\ndef is_ordered_list_optimized(first: list, second: list) -> bool:\n    \"\"\"\n    Check if the common elements between two given lists are in the same order or not.\n    :param first: first list\n    :param second: second list\n    :return: True if the common elements between two given lists are in"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "def same_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\nprint(same_order([1, 2, 3], [1, 2, 3]))\nprint(same_order([1, 2, 3], [3, 2, 1]))\nprint(same_order([1, 2, 3], [1, 3, 2]))"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "from functools import reduce\nfrom operator import xor\n\n\ndef check_order(list_1, list_2):\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list_1 (list): first list\n        list_2 (list): second list\n\n    Returns:\n        bool: True if the common elements between two given lists are in the same order, False otherwise\n    \"\"\"\n    list_1 = list_1[:]\n    list_2 = list_2[:]\n    while True:\n        if list_1 and list_2 and list_1[0] == list_2[0]:\n            list_1.pop(0)\n            list_2.pop(0)\n        else:\n            break\n    return not reduce(xor, map(bool, list_1), False) and not reduce(xor, map(bool, list_2), False)"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\nprint(check_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\nprint(check_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]))\nprint(check_order([1, 2, 3, 4, 5], [1, 2, 3, 5, 4]))"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef check_order(list_a: list, list_b: list) -> bool:\n    if len(list_a) != len(list_b):\n        return False\n\n    freq_a = defaultdict(int)\n    freq_b = defaultdict(int)\n\n    for element in list_a:\n        freq_a[element] += 1\n\n    for element in list_b:\n        freq_b[element] += 1\n\n    for element in freq_a.keys():\n        if freq_a[element] != freq_b[element]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]) == True\n    assert check_order([1, 2, 3, 4, 5], [1, 2, 3, 5, 4]) == False"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\n# O(n) & O(1)\ndef check_list_order(list1: List[int], list2: List[int]) -> bool:\n    if len(list1) != len(list2):\n        return False\n\n    list1_idx = 0\n    list2_idx = 0\n\n    while list1_idx < len(list1) and list2_idx < len(list2):\n        if list1[list1_idx] == list2[list2_idx]:\n            list1_idx += 1\n            list2_idx += 1\n        else:\n            if list1[list1_idx] > list2[list2_idx]:\n                list2_idx += 1\n            else:\n                list1_idx += 1\n\n    return True if list1_idx == len(list1) else False\n\n\nif __name__ == \"__main__\":\n    print(check_list_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(check_list_order([1, 2, 3, 4], [1, 2, 4, 3]))\n    print(check_list_order([1, 2, 3, 4], [4, 3, 2, 1]))\n    print(check_list_order([1, 2, 3, 4], [2, 3, 4, 1]))"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "def are_in_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\nprint(are_in_order([1, 2, 3], [1, 2, 3]))\nprint(are_in_order([1, 2, 3], [2, 3, 1]))"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(l1, l2):\n    if len(l1) != len(l2):\n        return False\n\n    q1, q2 = deque(l1), deque(l2)\n    while q1 and q2:\n        if q1[0] == q2[0]:\n            q1.popleft()\n            q2.popleft()\n        else:\n            return False\n\n    return True\n\n\nprint(check_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(check_order([1, 2, 3, 4], [4, 3, 2, 1]))\nprint(check_order([1, 2, 3, 4], [4, 3, 2, 5]))"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "def check_order(list_1, list_2):\n    \"\"\"\n    This function uses a dictionary to count the occurences of each element in both lists, and then checks if the\n    elements in list_1 are in the same order in list_2.\n    \"\"\"\n    list_1_counts = {}\n    list_2_counts = {}\n    for element in list_1:\n        if element in list_1_counts:\n            list_1_counts[element] += 1\n        else:\n            list_1_counts[element] = 1\n    for element in list_2:\n        if element in list_2_counts:\n            list_2_counts[element] += 1\n        else:\n            list_2_counts[element] = 1\n    for element in list_1:\n        if element not in list_2_counts:\n            return False\n        if list_1_counts[element] != list_2_counts[element]:\n            return False\n    return True\n\n\ndef check_order_2(list_1, list_2):\n    \"\"\"\n    This function uses a dictionary to count the occurences of each element in both lists, and then checks if the\n    elements in list_1 are in the same order in list_2.\n    \"\"\"\n    list_1_counts = {}\n    list_2_counts = {}\n    for element in list_1:\n        if element in list_1_counts:\n            list_1_counts[element] += 1\n        else:\n            list_1_counts[element] = 1\n    for element in list_2:\n        if element in list_2_counts:\n            list_2_counts[element] += 1\n        else:\n            list_2_counts[element] = 1\n    for element in list_1:\n        if element not in list_2_counts:\n            return False\n        if list_1_counts[element] != list_2_counts[element]:\n            return False\n    return True"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "def is_same_order(list1, list2):\n    if len(list1) != len(list2):\n        return False\n\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n\n    return True\n\nprint(is_same_order([1, 2, 3, 4], [1, 2, 3, 4]))\nprint(is_same_order([1, 2, 3, 4], [4, 3, 2, 1]))\nprint(is_same_order([1, 2, 3, 4], [1, 3, 2, 4]))\nprint(is_same_order([1, 2, 3, 4], [2, 1, 3, 4]))"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef same_order(lst1, lst2):\n    counter_1 = Counter(lst1)\n    counter_2 = Counter(lst2)\n\n    for elem in counter_1:\n        if counter_2[elem] != counter_1[elem]:\n            return False\n\n    return True\n\n\nprint(same_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]))\nprint(same_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1, 0]))\nprint(same_order([1, 2, 3, 4, 5], [4, 3, 2, 1, 0]))"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "def check_order(list_1, list_2):\n    for i in range(len(list_1)):\n        if list_1[i] != list_2[i]:\n            return False\n    return True\n\n\ndef main():\n    list_1 = list(map(int, input(\"Enter first list: \").split()))\n    list_2 = list(map(int, input(\"Enter second list: \").split()))\n    print(check_order(list_1, list_2))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 72,
+      "score": 8.0,
+      "candidate": "def are_common_elements_in_same_order(list_1, list_2):\n    i, j = 0, 0\n    while i < len(list_1) and j < len(list_2):\n        if list_1[i] == list_2[j]:\n            i += 1\n            j += 1\n        else:\n            j += 1\n    return i == len(list_1) and j == len(list_2)\n\n\nprint(are_common_elements_in_same_order([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]))"
+    },
+    {
+      "rank": 73,
+      "score": 8.0,
+      "candidate": "def check_order(list1, list2):\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\ndef main():\n    list1 = [1, 2, 3, 4, 5]\n    list2 = [4, 5, 1, 2, 3]\n    list3 = [1, 2, 3, 4, 5, 6]\n    list4 = [6, 7, 8, 9, 10]\n    print(\"Does list1 and list2 have same order? \" + str(check_order(list1, list2)))\n    print(\"Does list1 and list3 have same order? \" + str(check_order(list1, list3)))\n    print(\"Does list1 and list4 have same order? \" + str(check_order(list1, list4)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 74,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef common_order(list1, list2):\n    if len(list1) == 0 or len(list2) == 0:\n        return False\n    if len(list1) > len(list2):\n        list1, list2 = list2, list1\n    dict = defaultdict(int)\n    for i in list1:\n        dict[i] += 1\n    for j in list2:\n        if j in dict and dict[j] > 0:\n            dict[j] -= 1\n        else:\n            return False\n    return True\n\n\nprint(common_order([1, 2, 3, 4], [2, 3, 1, 4]))\nprint(common_order([1, 2, 3, 4], [2, 3, 1, 5]))\nprint(common_order([1, 2, 3, 4], [2, 3, 1]))\nprint(common_order([1, 2, 3, 4], [2, 3, 1, 4, 5]))\nprint(common_order([1, 2, 3, 4], [1, 3, 2, 4]))\nprint(common_order([1, 2, 3, 4], [1, 3, 2, 5]))\nprint(common_order([1, 2, 3, 4], [1, 3, 2]))\nprint(common_order([1, 2, 3, 4], []))\nprint(common_order([], []))\nprint(common_order([], [2, 3, 1, 4]))"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "from timeit import timeit\n\n\ndef is_common_order(list_a: list, list_b: list) -> bool:\n    \"\"\"\n    This function takes two lists and checks if the common elements between them are in the same order.\n    >>> is_common_order([1, 2, 3, 4, 5], [4, 5, 6, 7, 8])\n    False\n    >>> is_common_order([1, 2, 3, 4, 5], [4, 3, 2, 1, 0])\n    False\n    >>> is_common_order([1, 2, 3, 4, 5], [4, 3, 2, 1, 5])\n    True\n    \"\"\"\n    if len(list_a) == 0 or len(list_b) == 0:\n        return False\n\n    pointer_a = 0\n    pointer_b = 0\n\n    while pointer_a < len(list_a) and pointer_b < len(list_b):\n        if list_a[pointer_a] != list_b[pointer_b]:\n            return False\n        pointer_a += 1\n        pointer_b += 1\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(timeit(lambda: is_common_order([1, 2, 3, 4, 5], [4, 5, 6, 7, 8]), number=10000))\n    print(timeit(lambda: is_common_order([1, 2, 3, 4, 5], [4, 3, 2, 1, 0]), number=10000))\n    print(timeit(lambda: is_common_order([1, 2, 3, 4, 5], [4, 3, 2, 1, 5]), number=10000))"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "from collections import deque\nfrom copy import deepcopy\n\n\ndef common_order(l1, l2):\n    l1 = deepcopy(l1)\n    l2 = deepcopy(l2)\n\n    for i in l1:\n        if i in l2:\n            l2.remove(i)\n\n    return True if not l2 else False\n\n\ndef common_order2(l1, l2):\n    if len(l1) > len(l2):\n        l1, l2 = l2, l1\n\n    for i in range(len(l1)):\n        if l1[i] != l2[i]:\n            return False\n\n    return True\n\n\ndef common_order3(l1, l2):\n    l1 = deque(l1)\n    l2 = deque(l2)\n\n    while l1 and l2:\n        if l1[0] == l2[0]:\n            l1.popleft()\n            l2.popleft()\n        else:\n            return False\n\n    return not l1 and not l2\n\n\nif __name__ == \"__main__\":\n    print(common_order([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(common_order([1, 2, 3, 4], [1, 2, 3, 5]))\n    print(common_order([1, 2, 3, 4], [2, 3, 4, 5]))\n\n    print(common_order2([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(common_order2([1, 2, 3, 4], [1, 2, 3, 5]))\n    print(common_order2([1, 2, 3, 4], [2, 3, 4, 5]))\n\n    print(common_order3([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(common_order3([1, 2, 3,"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_order(list1: List[int], list2: List[int]) -> bool:\n    \"\"\"\n    >>> check_order([1, 2, 3], [1, 2, 3])\n    True\n    >>> check_order([1, 2, 3], [2, 1, 3])\n    False\n    >>> check_order([1, 2, 3], [1, 2, 3, 4])\n    False\n    >>> check_order([1, 2, 3], [1, 3, 2])\n    False\n    >>> check_order([1, 2, 3], [2, 3, 1])\n    False\n    \"\"\"\n    if len(list1) != len(list2):\n        return False\n    for i in range(len(list1)):\n        if list1[i] != list2[i]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(lst1, lst2):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(lst1) != len(lst2):\n        return False\n\n    q = deque(lst1)\n    for num in lst2:\n        if num == q[0]:\n            q.popleft()\n        else:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]))"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_if_common_elements_in_same_order(list1: List[int], list2: List[int]) -> bool:\n    \"\"\"Check if common elements between two lists are in same order.\n\n    Args:\n        list1 (List[int]): first list\n        list2 (List[int]): second list\n\n    Returns:\n        bool: True if common elements between two lists are in same order, False otherwise\n\n    Examples:\n        >>> assert check_if_common_elements_in_same_order([1, 2, 3], [2, 3, 1])\n        >>> assert not check_if_common_elements_in_same_order([1, 2, 3], [3, 1, 2])\n    \"\"\"\n    list1_copy = list1.copy()\n    for element in list2:\n        if element in list1_copy:\n            list1_copy.remove(element)\n        else:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_if_common_elements_in_same_order([1, 2, 3], [2, 3, 1]))\n    print(check_if_common_elements_in_same_order([1, 2, 3], [3, 1, 2]))"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "from itertools import accumulate, chain\n\n\ndef is_same_order(list1, list2):\n    return list(accumulate(chain(list1, list2), lambda x, y: x + 1 if y in list1 else x)) == list(accumulate(list2))\n\n\ndef test_is_same_order():\n    assert is_same_order([1, 2, 3], [3, 1, 2])\n    assert is_same_order([1, 2, 3], [3, 2, 1])\n    assert not is_same_order([1, 2, 3], [2, 3, 1])\n    assert not is_same_order([1, 2, 3], [2, 1, 3])"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "def check_order(list_1: list, list_2: list) -> bool:\n    \"\"\"\n    Check if the common elements between two lists are in the same order or not\n    Args:\n       list_1(list): First list to be checked\n       list_2(list): Second list to be checked\n    Returns:\n       bool: True if the common elements between two lists are in the same order, False otherwise\n    \"\"\"\n    list_1_length = len(list_1)\n    list_2_length = len(list_2)\n    if list_1_length == 0 or list_2_length == 0:\n        return False\n    index_1 = 0\n    index_2 = 0\n    while index_1 < list_1_length and index_2 < list_2_length:\n        if list_1[index_1] == list_2[index_2]:\n            index_1 += 1\n            index_2 += 1\n        else:\n            if index_1 == 0:\n                index_2 += 1\n            else:\n                index_1 = 0\n                index_2 = 0\n    return index_1 == list_1_length and index_2 == list_2_length\n\n\ndef test_check_order():\n    assert check_order([], []) is False\n    assert check_order([1, 2, 3, 4], [1, 2, 3, 4]) is True\n    assert check_order([1, 2, 3, 4], [4, 3, 2, 1]) is True\n    assert check_order([1, 2, 3, 4], [4, 3, 2, 5]) is False\n    assert check_order([1, 2, 3, 4], [1, 2, 3, 4, 5]) is False\n    assert check_order([1, 2, 3, 4, 5], [1, 2, 3, 4]) is False\n    assert check_order([1, 2, 3, 4, 5], [1, 2, 3, 4"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "def same_order_check(list_1, list_2):\n    if len(list_1) != len(list_2):\n        return False\n    if len(list_1) == 0:\n        return True\n    if list_1[0] != list_2[0]:\n        return False\n    return same_order_check(list_1[1:], list_2[1:])\n\n\nif __name__ == \"__main__\":\n    print(same_order_check([1, 2, 3], [1, 2, 3]))\n    print(same_order_check([1, 2, 3], [3, 2, 1]))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef are_in_order(list_1: list, list_2: list) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list_1 (list): First list.\n        list_2 (list): Second list.\n\n    Examples:\n        >>> assert are_in_order(list_1=[1, 2, 3, 4, 5, 6], list_2=[1, 3, 5, 7, 9]) == False\n        >>> assert are_in_order(list_1=[1, 2, 3, 4, 5, 6], list_2=[1, 3, 5, 7, 9, 6]) == True\n        >>> assert are_in_order(list_1=[1, 2, 3, 4, 5, 6], list_2=[1, 3, 5, 7, 9, 6, 5]) == False\n        >>> assert are_in_order(list_1=[1, 2, 3, 4, 5, 6], list_2=[1, 3, 5, 7, 9, 6, 6]) == True\n        >>> assert are_in_order(list_1=[1, 2, 3, 4, 5, 6], list_2=[1, 3, 5, 7, 9, 6, 6, 6]) == True\n    \"\"\"\n    if len(list_1) != len(list_2):\n        return False\n\n    list_1_dict = defaultdict(int)\n\n    for item in list_1:\n        list_1_dict[item] += 1\n\n    for item in list_2:\n        if item not in list_1_dict:\n            return False\n        else:\n            list_1_dict[item] -= 1\n            if list_1_dict[item] < 0:\n                return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(are_in_order"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "def is_order_list(list1: list, list2: list) -> bool:\n    \"\"\"\n    We can use the zip() function to iterate over two lists in parallel.\n    >>> is_order_list([1,2,3],[1,2,3])\n    True\n    >>> is_order_list([1,2,3,4],[1,2,3,3])\n    False\n    >>> is_order_list([1,2,3],[2,1,3])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1,2,3],[3,1,2])\n    False\n    >>> is_order_list([1,2,3],[3,2,1])\n    False\n    >>> is_order_list([1,2,3],[3,1,2])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1,2,3],[3,2,1])\n    False\n    >>> is_order_list([1,2,3],[3,1,2])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1,2,3],[3,2,1])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1,2,3],[3,2,1])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1,2,3],[3,2,1])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1,2,3],[3,2,1])\n    False\n    >>> is_order_list([1,2,3],[2,3,1])\n    False\n    >>> is_order_list([1"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef are_common_elements_in_same_order(list_one: List[int], list_two: List[int]) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list_one (List[int]): first list\n        list_two (List[int]): second list\n\n    Returns:\n        bool: True if the common elements between two given lists are in the same order, False otherwise.\n\n    Examples:\n        >>> assert are_common_elements_in_same_order([1,2,3,4,5,6], [5,6,3,4,1,2])\n        >>> assert not are_common_elements_in_same_order([1,2,3,4,5,6], [6,5,4,3,2,1])\n    \"\"\"\n    if not list_one or not list_two:\n        return False\n\n    if len(list_one) != len(list_two):\n        return False\n\n    return list_one == list_two\n\n\nif __name__ == \"__main__\":\n    print(are_common_elements_in_same_order([1, 2, 3, 4, 5, 6], [5, 6, 3, 4, 1, 2]))\n    print(are_common_elements_in_same_order([1, 2, 3, 4, 5, 6], [6, 5, 4, 3, 2, 1]))"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef is_order_same(l1: list, l2: list) -> bool:\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    d = defaultdict(int)\n    for i in l1:\n        d[i] += 1\n\n    for i in l2:\n        if i not in d or d[i] <= 0:\n            return False\n        d[i] -= 1\n\n    return True\n\n\nif __name__ == \"__main__\":\n    l1 = [1, 2, 3]\n    l2 = [1, 2, 3]\n    print(is_order_same(l1, l2))\n\n    l1 = [1, 2, 3]\n    l2 = [1, 2, 3, 4]\n    print(is_order_same(l1, l2))\n\n    l1 = [1, 2, 3]\n    l2 = [1, 3, 2]\n    print(is_order_same(l1, l2))\n\n    l1 = [1, 2, 3]\n    l2 = [2, 1, 3]\n    print(is_order_same(l1, l2))"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef are_common_elements_in_order(list_one: List[int], list_two: List[int]) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        list_one (List[int]): First list\n        list_two (List[int]): Second list\n\n    Returns:\n        bool: True if the common elements are in the same order, False otherwise.\n    \"\"\"\n\n    if len(list_one) == 0 or len(list_two) == 0:\n        return False\n\n    list_one_copy = list_one.copy()\n    list_two_copy = list_two.copy()\n\n    list_one_copy.sort()\n    list_two_copy.sort()\n\n    for i in range(len(list_one_copy)):\n        if list_one_copy[i] != list_two_copy[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert (\n        are_common_elements_in_order(list_one=[1, 2, 3], list_two=[3, 2, 1])\n        is True\n    )\n    assert (\n        are_common_elements_in_order(list_one=[1, 2, 3], list_two=[3, 1, 2])\n        is False\n    )"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "def same_order(list_a, list_b):\n    for i in range(len(list_a)):\n        if list_a[i] != list_b[i]:\n            return False\n    return True\n\n\nprint(same_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\nprint(same_order([1, 2, 3, 4, 5], [2, 1, 3, 4, 5]))\nprint(same_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6]))"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "def common_order(lst1, lst2):\n    # check if both lists are in same order\n    if lst1 == lst1[::-1] and lst2 == lst2[::-1]:\n        return True\n    else:\n        return False\n\n\nprint(common_order([1, 2, 3], [3, 2, 1]))\nprint(common_order([1, 2, 3], [1, 3, 2]))"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "def check_order(lst1, lst2):\n    i, j = 0, 0\n    while i < len(lst1) and j < len(lst2):\n        if lst1[i] == lst2[j]:\n            i += 1\n            j += 1\n        else:\n            return False\n    return True\n\n\nprint(check_order([1, 2, 3, 4, 5], [4, 5, 6, 7, 8]))\nprint(check_order([1, 2, 3, 4, 5], [4, 5, 6, 7, 8]))"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef are_in_order(arr_1: List[int], arr_2: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    index_1 = 0\n    index_2 = 0\n\n    while index_1 < len(arr_1) and index_2 < len(arr_2):\n        if arr_1[index_1] != arr_2[index_2]:\n            return False\n\n        index_1 += 1\n        index_2 += 1\n\n    return index_1 == len(arr_1) and index_2 == len(arr_2)\n\n\nif __name__ == \"__main__\":\n    assert are_in_order([1, 2, 3], [1, 2, 3])\n    assert not are_in_order([1, 2, 3], [2, 3, 1])"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\n# O(m + n)\ndef check_if_same_order(lst_a: List, lst_b: List) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order or not.\n\n    Args:\n        lst_a (List): first list\n        lst_b (List): second list\n\n    Examples:\n        >>> assert check_if_same_order([1, 2, 3, 4, 5], [4, 5, 6, 7, 8]) is False\n        >>> assert check_if_same_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]) is True\n    \"\"\"\n    if not lst_a or not lst_b:\n        return False\n\n    return all(a == b for a, b in zip(lst_a, lst_b))\n\n\ndef main():\n    print(check_if_same_order([1, 2, 3, 4, 5], [4, 5, 6, 7, 8]))\n    print(check_if_same_order([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef check_if_order_is_same(first_list: list, second_list: list) -> bool:\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    if len(first_list) != len(second_list):\n        return False\n\n    count_of_first_list = defaultdict(int)\n    count_of_second_list = defaultdict(int)\n\n    for number in first_list:\n        count_of_first_list[number] += 1\n\n    for number in second_list:\n        count_of_second_list[number] += 1\n\n    for key, value in count_of_first_list.items():\n        if value != count_of_second_list[key]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_if_order_is_same([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])\n    assert check_if_order_is_same([1, 2, 3, 4, 5], [5, 4, 3, 2, 1])\n    assert not check_if_order_is_same([1, 2, 3, 4, 5], [2, 3, 4, 5, 1])"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef common_order(list_one: List, list_two: List) -> bool:\n    \"\"\"\n    This function will check if the common elements between two given lists are in the same order or not.\n    :param list_one: first list\n    :param list_two: second list\n    :return: True if the common elements between two given lists are in the same order or not.\n    >>> common_order([1,2,3,4],[2,1,3,4])\n    True\n    >>> common_order([1,2,3,4],[4,3,2,1])\n    True\n    >>> common_order([1,2,3,4],[4,3,2,2])\n    False\n    >>> common_order([1,2,3,4],[2,3,4,1])\n    False\n    >>> common_order([1,2,3,4],[2,3,4])\n    False\n    >>> common_order([1,2,3,4],[2,3,4,5])\n    False\n    >>> common_order([1,2,3,4],[1,2,3,4])\n    True\n    >>> common_order([1,2,3,4],[1,2,3,4,5])\n    False\n    >>> common_order([1,2,3,4],[5,6,7,8])\n    False\n    \"\"\"\n    if list_one == list_two:\n        return True\n    elif list_one[:-1] == list_two[:-1] and list_one[-1] == list_two[-1]:\n        return True\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef is_list_in_order(list1: List[int], list2: List[int]) -> bool:\n    \"\"\"\n    time complexity: O(n)\n    space complexity: O(1)\n    \"\"\"\n    i, j = 0, 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] == list2[j]:\n            i += 1\n            j += 1\n        elif list1[i] < list2[j]:\n            i += 1\n        else:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_list_in_order([1, 2, 3], [1, 2, 3]) == True\n    assert is_list_in_order([1, 2, 3], [3, 2, 1]) == True\n    assert is_list_in_order([1, 2, 3], [1, 3, 2]) == False\n    assert is_list_in_order([1, 2, 3], [2, 1, 3]) == False\n    assert is_list_in_order([1, 2, 3], [2, 3, 1]) == False\n    assert is_list_in_order([1, 2, 3], [3, 1, 2]) == False"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from collections import deque\n\n\ndef check_order(arr1, arr2):\n    if len(arr1) != len(arr2):\n        return False\n\n    # make arr1 and arr2 deque\n    q1 = deque(arr1)\n    q2 = deque(arr2)\n\n    # pop and compare elements from both deque\n    while q1 and q2:\n        val1 = q1.popleft()\n        val2 = q2.popleft()\n\n        if val1 != val2:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3], [1, 2, 3]))\n    print(check_order([1, 2, 3], [2, 1, 3]))\n    print(check_order([1, 2, 3], [2, 3, 1]))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from functools import reduce\nfrom tools.time import Time\n\n\ndef is_order_same(list_a, list_b):\n    return list_a == list_b or list_a == list_b[::-1]\n\n\n@Time.measure_func\ndef order_check(list_a, list_b):\n    return is_order_same(list_a, list_b)\n\n\n@Time.measure_func\ndef order_check_reduce(list_a, list_b):\n    return reduce(lambda x, y: x and y, [list_a[i] == list_b[i] for i in range(len(list_a))])\n\n\nif __name__ == \"__main__\":\n    list_a = [1, 2, 3, 4]\n    list_b = [1, 2, 3, 4]\n    list_c = [1, 2, 4, 3]\n\n    print(order_check(list_a, list_b))\n    print(order_check(list_a, list_c))"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "def common_elements_in_order(list1: list, list2: list) -> bool:\n    \"\"\"\n    >>> common_elements_in_order([1, 2, 3, 4, 5, 6], [3, 4, 5, 6, 7, 8])\n    False\n    >>> common_elements_in_order([1, 2, 3, 4, 5, 6], [2, 3, 4, 5, 6, 7])\n    True\n    \"\"\"\n    if len(list1) != len(list2):\n        return False\n    i = 0\n    while i < len(list1):\n        if list1[i] != list2[i]:\n            return False\n        i += 1\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "def check_order(list_1: list, list_2: list) -> bool:\n    \"\"\"Check if the common elements between two given lists are in the same order.\n\n    Args:\n        list_1 (list): First list to check.\n        list_2 (list): Second list to check.\n\n    Returns:\n        bool: True if the common elements are in the same order, False otherwise.\n\n    Examples:\n        >>> check_order([1, 2, 3], [2, 1, 3])\n        True\n        >>> check_order([1, 2, 3], [2, 3, 1])\n        False\n        >>> check_order([1, 2, 3], [3, 2, 1])\n        True\n        >>> check_order([1, 2, 3], [3, 1, 2])\n        False\n    \"\"\"\n    if not list_1 or not list_2:\n        return True\n    if len(list_1) != len(list_2):\n        return False\n\n    index_1 = 0\n    index_2 = 0\n\n    while index_1 < len(list_1) and index_2 < len(list_2):\n        if list_1[index_1] != list_2[index_2]:\n            return False\n        index_1 += 1\n        index_2 += 1\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(check_order([1, 2, 3], [2, 1, 3]))\n    print(check_order([1, 2, 3], [2, 3, 1]))\n    print(check_order([1, 2, 3], [3, 2, 1]))\n    print(check_order([1, 2, 3], [3, 1, 2]))"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef are_common_elements_in_same_order(list_1: List[int], list_2: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(list_1) != len(list_2):\n        return False\n\n    temp_1 = list_1.copy()\n    temp_2 = list_2.copy()\n\n    for i in range(len(temp_1)):\n        if temp_1[i] != temp_2[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert are_common_elements_in_same_order([1, 2, 3], [1, 2, 3]) == True\n    assert are_common_elements_in_same_order([1, 2, 3], [1, 3, 2]) == False"
+    }
+  ]
+}

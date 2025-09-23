@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T16:25:07.909585",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "humaneval",
+  "problem_number": 38,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    main function.\n    \"\"\"\n    # input\n    s = input(\"Enter string to encode: \")\n    s = s.replace(\" \", \"\")\n    # encode\n    s = encode_cyclic(s)\n    # decode\n    s = decode_cyclic(s)\n    # output\n    print(s)\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_hamming(s: str):\n    \"\"\"\n    returns encoded string by taking a hamming distance between characters.\n    \"\"\"\n    return \"\".join([\"{:x}\".format(ord(x) - ord('A')) for x in s])\n\n\ndef decode_hamming(s: str):\n    \"\"\"\n    takes as input string encoded with encode_hamming function. Returns decoded string.\n    \"\"\"\n    return \"\".join(chr(ord('A') + int(x, 16)) for x in s)\n\n\ndef encode_base32(s: str):\n    \"\"\"\n    returns encoded string by using base32.\n    \"\"\"\n    return base64.b32encode(s.encode(\"utf-8\")).decode(\"utf-8\")\n\n\ndef decode_base32(s: str):\n    \"\"\"\n    takes as input string encoded with encode_base32 function. Returns decoded string.\n    \"\"\"\n    return base64.b32decode(s.encode(\"utf-8\")).decode(\"utf-8\")\n\n\ndef encode_base64(s: str):\n    \"\"\"\n    returns encoded string by using base64.\n    \"\"\"\n    return base64.b64encode(s.encode(\"utf-8\")).decode(\"utf-8\")\n\n\ndef decode_base64(s: str):\n    \"\"\"\n    takes as input string encoded with encode_base64 function. Returns decoded string.\n    \"\"\"\n    return base64.b64decode(s.encode(\"utf-8\")).decode(\"utf-8\")"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef is_cyclic(s: str):\n    \"\"\"\n    returns True if input string is cyclic otherwise returns False.\n    \"\"\"\n    return len(s) % 3 == 0\n\n\ndef main():\n    print(\"Testing encode_cyclic()\")\n    assert encode_cyclic(\"abbbbc\") == \"babc\"\n    assert encode_cyclic(\"abc\") == \"abc\"\n    assert encode_cyclic(\"\") == \"\"\n    assert encode_cyclic(\"abcd\") == \"abcd\"\n    assert encode_cyclic(\"abcdef\") == \"abcdef\"\n    assert encode_cyclic(\"abcdefghij\") == \"abcdefghij\"\n    assert encode_cyclic(\"abcdefghijklmnopqrst\") == \"abcdefghijklmnopqrst\"\n    print(\"Test passed.\")\n\n    print(\"Testing decode_cyclic()\")\n    assert decode_cyclic(\"abbbbc\") == \"abbbbc\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n    assert decode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\"abcd\") == \"abcd\"\n    assert decode_cyclic(\"abcdef\") == \"abcdef\"\n    assert decode_cyclic(\"abcdefghij\") == \"abcdefghij\"\n    assert decode_cyclic(\"abcdefghijklmnopqrst\") == \"abcdefghijklmnopqrst\"\n    print(\"Test passed.\")\n\n    print(\"Testing is_cyclic()\")\n    assert is_cyclic(\"abbbbc\")\n    assert is_cyclic(\"abc\")\n    assert is_cyclic(\"\")\n    assert is_cyclic(\"abcd\")\n    assert is_cyclic(\"abcdef\")\n    assert is_cyclic(\"abcdefghij\")\n    assert is_cyclic(\"abcdefghijklmnopqrst\")\n    print(\"Test passed.\")\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_nested(s: str):\n    \"\"\"\n    takes as input string and returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) for group in groups]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_nested(s: str):\n    \"\"\"\n    takes as input string encoded with encode_nested function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_cyclic_nested(s: str):\n    \"\"\"\n    takes as input string and returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # decode each group.\n    groups = [group[0] + group[1] + group[2] for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_shuffled(s: str):\n    \"\"\"\n    returns encoded string by shuffling elements in each group.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # shuffle elements in each group.\n    groups = [shuffle(group) for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_shuffled(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shuffled function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # shuffle elements in each group.\n    groups = [shuffle(group) for group in groups]\n    # decode each group.\n    groups = [group[0] + group[1] + group[2] for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_cyclic_shuffled(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters and shuffling elements in each group.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    # shuffle"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    assert decode_cyclic(\"abcd\") == \"abcddefghijklmnopqrstuvwxyz\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\""
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group.\n    groups = [group[2:] + group[:0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test for encode_cyclic\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\""
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef main():\n    \"\"\"\n    Tests for encode_cyclic and decode_cyclic functions.\n    \"\"\"\n    # test cases\n    test_cases = [\n        (\"\", \"\"),\n        (\"a\", \"a\"),\n        (\"ab\", \"abc\"),\n        (\"abc\", \"abc\"),\n        (\"abcabc\", \"abcabcabcabc\"),\n        (\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:min((i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # reverse groups.\n    groups = [reversed(group) for group in groups]\n    # join groups.\n    return \"\".join(groups)\n\n\ndef main():\n    # TODO: Add tests\n    assert encode_cyclic(\"abc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabc\") == \"abc\"\n    assert decode_cyclic(\"abcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcabcabc\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabc"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    # return decoded string.\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    main function.\n    \"\"\"\n    # test\n    print(encode_cyclic(\"abc\"))\n    print(decode_cyclic(\"abc\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[2:] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    # print(\"Encoded string is:\", encode_cyclic(s))\n    # print(\"Decoded string is:\", decode_cyclic(s))\n    print(\"Encoded string is:\", encode_cyclic(s))\n    print(\"Decoded string is:\", decode_cyclic(s))"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cyclicly cycle elements in each group.\n    groups = [group[::-1] for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    main function.\n    \"\"\"\n    print(encode_cyclic(\"abcdefg\"))\n    print(decode_cyclic(\"aabbccddeeffgg\"))\n    print(encode_cyclic(\"abc\"))\n    print(decode_cyclic(\"aabbccddeeffgg\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef main():\n    \"\"\"\n    Tests all functions in this file.\n    \"\"\"\n    print(\"encode_cyclic:\", encode_cyclic(\"abc\"))\n    print(\"encode_cyclic:\", encode_cyclic(\"abcdef\"))\n    print(\"encode_cyclic:\", encode_cyclic(\"abcdefghijklmnopqrstuvwxyz\"))\n    print(\"encode_cyclic:\", encode_cyclic(\"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz\"))\n    print(\"encode_cyclic:\", encode_cyclic(\"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz\"))\n    print(\"encode_cyclic:\", encode_cyclic(\"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqr"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # unpack elements in each group.\n    return \"\".join(reversed(group) for group in groups)\n\n\ndef main():\n    s = input()\n    print(encode_cyclic(s))\n    print(decode_cyclic(s))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef test_encode_cyclic():\n    assert encode_cyclic(\"a\") == \"a\"\n    assert encode_cyclic(\"ab\") == \"aabb\"\n    assert encode_cyclic(\"abc\") == \"abcabc\"\n    assert encode_cyclic(\"abcd\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcde\") == \"abcabcabcabcabcabcabc\"\n    assert encode_cyclic(\"abcdef\") == \"abcabcabcabcabcabcabcabcabcabcabcabcabcabc\"\n    assert encode_cyclic(\"abcdefg\") == \"abcabcabcabcabcabcabcabcabcabcabcabcabcabc\"\n\n\ndef test_decode_cyclic():\n    assert decode_cyclic(\"a\") == \"a\"\n    assert decode_cyclic(\"ab\") == \"aabb\"\n    assert decode_cyclic(\"abc\") == \"abcabc\"\n    assert decode_cyclic(\"abcabc\") == \"abcd\"\n    assert decode_cyclic(\"abcabcabc\") == \"abcdefg\"\n    assert decode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabc\") == \"abcdefg\"\n\n\nif __name__ == \"__main__\":\n    test_encode_cyclic()\n    test_decode_cyclic()"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # Test cases\n    test_cases = [\n        (\"\", \"\"),\n        (\"a\", \"a\"),\n        (\"aaa\", \"aaa\"),\n        (\"aaa\", \"aab\"),\n        (\"abcd\", \"cdab\"),\n        (\"abcd\", \"bcda\"),\n        (\"abcde\", \"cdeab\"),\n        (\"abcdef\", \"defabc\"),\n        (\"abcdef\", \"bdefa\"),\n        (\"abcdef\", \"abcde\"),\n        (\"abcdef\", \"bcdef\"),\n        (\"abcdef\", \"cdefa\"),\n        (\"abcdef\", \"defa\"),\n        (\"abcdef\", \"cdef\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \"def\"),\n        (\"abcdef\", \"cde\"),\n        (\"abcdef\", \""
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef solve(s: str) -> str:\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    return encode_cyclic(s)\n\n\ndef decode(s: str) -> str:\n    \"\"\"\n    takes as input encoded string. Returns decoded string.\n    \"\"\"\n    return decode_cyclic(s)\n\n\nif __name__ == \"__main__\":\n    for i in range(int(input())):\n        s = input().strip()\n        print(solve(s))\n        print(decode(s))"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "return \"\".join(s[i:i+3] for i in range(0, len(s), 3))"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[:1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # test encode_cyclic() and decode_cyclic()\n    test_strings = [\n        \"\",\n        \"abcd\",\n        \"abcdefghijklmnopqrstuvwxyz\",\n        \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\",\n        \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\",\n        \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890123456789\",\n        \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901234567890123456789\",\n        \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890123456789012345678901234567890123456789\",\n        \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_rotate(s: str):\n    \"\"\"\n    returns encoded string by rotating groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # rotate elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[:0] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_rotate(s: str):\n    \"\"\"\n    takes as input string encoded with encode_rotate function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # rotate elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[:0] + group[2:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_trit(s: str):\n    \"\"\"\n    returns encoded string by rotating groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # rotate elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[:0] if len"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    test cases\n    \"\"\"\n    test_cases = [\n        (\n            \"a\",\n            [\"a\"],\n        ),\n        (\n            \"abc\",\n            [\"abc\"],\n        ),\n        (\n            \"abcde\",\n            [\"abcde\"],\n        ),\n        (\n            \"abcdefg\",\n            [\"abcdefg\"],\n        ),\n        (\n            \"abcdefghijklmnopqrstuvwxyz\",\n            [\"abcdefghijklmnopqrstuvwxyz\"],\n        ),\n        (\n            \"abcdefghijklmnopqrstuvwxyz123456789\",\n            [\"abcdefghijklmnopqrstuvwxyz123456789\"],\n        ),\n        (\n            \"abcdefghijklmnopqrstuvwxyz123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\nif __name__ == \"__main__\":\n    print(encode_cyclic(\"pqr\"))\n    print(decode_cyclic(\"pqr\"))\n    print(encode_cyclic(\"pqrst\"))\n    print(decode_cyclic(\"pqrst\"))\n    print(encode_cyclic(\"pqrs\"))\n    print(decode_cyclic(\"pqrs\"))\n    print(encode_cyclic(\"pqrsg\"))\n    print(decode_cyclic(\"pqrsg\"))\n    print(encode_cyclic(\"pqrstg\"))\n    print(decode_cyclic(\"pqrstg\"))"
+    },
+    {
+      "rank": 24,
+      "score": 9.94217585880588,
+      "candidate": "return \"\".join(s[i:i + 3] for i in range(0, len(s), 3))\n\n\ndef test_encode_cyclic():\n    assert encode_cyclic(\"hello\") == \"hlll\"\n    assert encode_cyclic(\"world\") == \"wwll\"\n    assert encode_cyclic(\"\") == \"\"\n\n\ndef test_decode_cyclic():\n    assert decode_cyclic(\"hlll\") == \"hello\"\n    assert decode_cyclic(\"wwll\") == \"world\"\n    assert decode_cyclic(\"\") == \"\"\n\n\ndef main():\n    # decode_cyclic()\n    # encode_cyclic()\n    test_encode_cyclic()\n    test_decode_cyclic()\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 25,
+      "score": 9.930867849414408,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    print(\"Cyclic encoding:\")\n    print(encode_cyclic(\"Hello\"))\n    print(encode_cyclic(\"This is a test!\"))\n    print(encode_cyclic(\"a\"))\n    print(encode_cyclic(\"aa\"))\n    print(encode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "rank": 26,
+      "score": 9.907170511668092,
+      "candidate": "return \"\".join(s[i:i + 3] for i in range(0, len(s), 3))\n\n\ndef get_cyc_str(s: str):\n    \"\"\"\n    returns cyc_str encoded by encode_cyclic function.\n    \"\"\"\n    return encode_cyclic(s)\n\n\ndef get_dec_str(s: str):\n    \"\"\"\n    returns dec_str decoded by decode_cyclic function.\n    \"\"\"\n    return decode_cyclic(s)\n\n\ndef get_cyc_str_dec(s: str):\n    \"\"\"\n    returns cyc_str decoded by encode_cyclic function and then decoded by decode_cyclic function.\n    \"\"\"\n    return get_dec_str(get_cyc_str(s))\n\n\ndef get_dec_str_cyc(s: str):\n    \"\"\"\n    returns dec_str encoded by decode_cyclic function and then encoded by encode_cyclic function.\n    \"\"\"\n    return get_cyc_str(get_dec_str(s))\n\n\ndef get_cyc_str_dec_cyc(s: str):\n    \"\"\"\n    returns cyc_str decoded by decode_cyclic function and then encoded by encode_cyclic function.\n    \"\"\"\n    return get_dec_str_cyc(get_dec_str(s))\n\n\ndef get_dec_str_dec_cyc(s: str):\n    \"\"\"\n    returns dec_str encoded by decode_cyclic function and then encoded by encode_cyclic function.\n    \"\"\"\n    return get_cyc_str_dec(get_dec_str(s))\n\n\ndef get_cyc_str_dec_dec_cyc(s: str):\n    \"\"\"\n    returns cyc_str decoded by decode_cyclic function and then encoded by encode_cyclic function.\n    \"\"\"\n    return get_dec_str_dec_cyc(get_dec_str(s))\n\n\ndef get_dec_str_dec_dec_cyc(s: str):\n    \"\"\"\n    returns dec_str encoded by decode_cyclic function and then encoded by encode_cyclic function."
+    },
+    {
+      "rank": 27,
+      "score": 9.890164056081243,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:i + 3] for i in range(0, len(s), 3)]\n    # cycle elements in each group.\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # tests\n    assert encode_cyclic(\"abcd\") == \"abcabcabcabc\"\n    assert decode_cyclic(\"abcabcabcabc\") == \"abcd\"\n    assert decode_cyclic(\"abcd\") == \"abcd\""
+    },
+    {
+      "rank": 28,
+      "score": 9.882923312638333,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef encode(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode(s: str):\n    \"\"\"\n    takes as input string encoded with encode function. Returns decoded string.\n    \"\"\"\n    return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef main():\n    print(\"Encoding and decoding...\")\n    print(\"Encoding:\", encode(\"Python is a great programming language\"))\n    print(\"Decoding:\", decode(encode(\"Python is a great programming language\")))\n    print(\"Encoding and decoding...\")\n    print(\"Encoding:\", encode_cyclic(\"Python is a great programming language\"))\n    print(\"Decoding:\", decode_cyclic(encode_cyclic(\"Python is a great programming language\")))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 29,
+      "score": 9.854153125103362,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:min(i + 3, len(s))] for i in range(len(s) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[::-1] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_shuffle(s: str):\n    \"\"\"\n    returns encoded string by shuffling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # shuffle elements in each group.\n    groups = [sorted(group) for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_shuffle(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shuffle function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[i:min(i + 3, len(s))] for i in range(len(s) // 3)]\n    # shuffle elements in each group.\n    groups = [sorted(group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_skew(s: str):\n    \"\"\"\n    returns encoded string by using skew function.\n    \"\"\"\n    return skew(s)\n\n\ndef decode_skew(s: str):\n    \"\"\"\n    takes as input string encoded with encode_skew function. Returns decoded string.\n    \"\"\"\n    return skew(s)\n\n\ndef encode_shuffle_skew(s: str):\n    \"\"\"\n    returns encoded string by shuffling and using skew function.\n    \"\"\"\n    return shuffle_skew(s)\n\n\ndef decode_shuffle_skew(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shuffle_skew function. Returns decoded string.\n    \"\"\"\n    return shuffle_s"
+    },
+    {
+      "rank": 30,
+      "score": 9.845393812074393,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef get_decoded_string(s: str):\n    \"\"\"\n    decodes the given string\n    \"\"\"\n    return decode_cyclic(encode_cyclic(s))\n\n\ndef get_encoded_string(s: str):\n    \"\"\"\n    encodes the given string\n    \"\"\"\n    return encode_cyclic(decode_cyclic(s))\n\n\ndef main():\n    \"\"\"\n    main function\n    \"\"\"\n    # test case 1\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 2\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 3\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 4\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 5\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 6\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 7\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(get_decoded_string(s))\n    print(get_encoded_string(s))\n    # test case 8\n    s = \"abcdefghijklmnopq"
+    },
+    {
+      "rank": 31,
+      "score": 9.836168926701117,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_n_cyclic(s: str, n: int):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns encoded string by cycling\n    groups of n characters.\n    \"\"\"\n    # split string to groups. Each of length n.\n    groups = [s[(n * i):min((n * i + n), len(s))] for i in range((len(s) + n - 1) // n)]\n    # cycle elements in each group. Unless group has fewer elements than n.\n    groups = [(group[1:] + group[0]) if len(group) == n else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_n_cyclic(s: str, n: int):\n    \"\"\"\n    takes as input encoded string encoded with encode_n_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length n.\n    groups = [s[(n * i):min((n * i + n), len(s))] for i in range((len(s) + n - 1) // n)]\n    # cycle elements in each group. Unless group has fewer elements than n.\n    groups = [(group[0] + group[1:] if len(group) == n else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_cyclic_n_cyclic(s: str, n: int):\n    \"\"\"\n    takes as input encoded string encoded with encode_n_cyclic function. Returns encoded string by\n    cycling groups of n characters.\n    \"\"\"\n    # split string to groups. Each of length n.\n    groups = [s[(n * i):min((n * i"
+    },
+    {
+      "rank": 32,
+      "score": 9.807458859791842,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    main method.\n    \"\"\"\n    # test case\n    assert encode_cyclic(\"hello\") == \"hll\"\n    assert decode_cyclic(\"hll\") == \"hello\"\n    assert encode_cyclic(\"hello\") == \"hll\"\n    assert decode_cyclic(\"hll\") == \"hello\"\n\n    # test case\n    assert encode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\"\") == \"\"\n    assert encode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\"\") == \"\"\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 33,
+      "score": 9.803945923433922,
+      "candidate": "return \"\".join(chr(ord(c) - ord('A')) for c in s)\n\n\ndef main():\n    s = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQR"
+    },
+    {
+      "rank": 34,
+      "score": 9.768291153593768,
+      "candidate": "return \"\".join([s[3 * i:min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)])\n\n\ndef main():\n    s = input()\n    print(encode_cyclic(s))\n    print(decode_cyclic(s))\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 35,
+      "score": 9.765262807032524,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[::-1] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\ndef main():\n    s = input().strip()\n    print(encode_cyclic(s))\n    print(decode_cyclic(s))\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 36,
+      "score": 9.749121478207732,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef main():\n    s = \"Hello, World!\"\n    print(encode_cyclic(s))\n    print(decode_cyclic(encode_cyclic(s)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 37,
+      "score": 9.73511989811648,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef test_encode_cyclic():\n    # test case 1\n    assert encode_cyclic(\"\") == \"\"\n    assert encode_cyclic(\"a\") == \"a\"\n    assert encode_cyclic(\"ab\") == \"ab\"\n    assert encode_cyclic(\"abc\") == \"abc\"\n    # test case 2\n    assert encode_cyclic(\"aaa\") == \"aaa\"\n    assert encode_cyclic(\"aaab\") == \"aaab\"\n    assert encode_cyclic(\"aaabb\") == \"aaabb\"\n    assert encode_cyclic(\"aaabaaabb\") == \"aaabaaabb\"\n    # test case 3\n    assert encode_cyclic(\"aaabbbb\") == \"aaabbbb\"\n    assert encode_cyclic(\"aaabbbbbb\") == \"aaabbbbbb\"\n    assert encode_cyclic(\"aaabbbbbbbb\") == \"aaabbbbbbbb\"\n    assert encode_cyclic(\"aaabbbbbbbbbb\") == \"aaabbbbbbbbbb\"\n    # test case 4\n    assert encode_cyclic(\"aaabbbbbbbbbbbb\") == \"aaabbbbbbbbbbbb\"\n    assert encode_cyclic(\"aaabbbbbbbbbbbbbb\") == \"aaabbbbbbbbbbbbbb\"\n\n\ndef test_decode_cyclic():\n    # test case 1\n    assert decode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\"a\") == \"a\"\n    assert decode_cyclic(\"ab\") == \"ab\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n    # test case 2\n    assert decode_cyclic(\"aaa\") == \"aaa\"\n    assert decode_cyclic(\"aaab\") == \"aaab\"\n    assert decode_cyclic(\""
+    },
+    {
+      "rank": 38,
+      "score": 9.718856235379514,
+      "candidate": "return \"\".join(encode_cyclic(s).split(\"\"))\n\n\ndef main():\n    s = input()\n    # encode\n    print(encode_cyclic(s))\n    # decode\n    print(decode_cyclic(s))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 39,
+      "score": 9.699146693885302,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_string(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of four characters.\n    \"\"\"\n    # split string to groups. Each of length 4.\n    groups = [s[(4 * i):min((4 * i + 4), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 4.\n    groups = [(group[1:] + group[0]) if len(group) == 4 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_string(s: str):\n    \"\"\"\n    takes as input string encoded with encode_string function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 4.\n    groups = [s[(4 * i):min((4 * i + 4), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 4.\n    groups = [(group[0] + group[1] + group[2]) if len(group) == 4 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_hex(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of two characters.\n    \"\"\"\n    # split string to groups. Each of length 2.\n    groups = [s[(2 * i):min((2 * i + 2), len(s))] for i in range((len(s) + 1) // 2)]\n    # cycle elements in each group. Unless group has fewer elements than 2.\n    groups = [(group[1:] + group[0]) if len"
+    },
+    {
+      "rank": 40,
+      "score": 9.677440122697439,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # reverse groups.\n    groups = [reversed(group) for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_cyclic_2(s: str):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # reverse groups.\n    groups = [reversed(group) for group in groups]\n    # convert each group to string and reverse it.\n    groups = [str(group) for group in groups]\n    # reverse groups.\n    groups = [reversed(group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_cyclic_2(s: str):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # convert each group to string and reverse it.\n    groups = [str(group) for group in groups]\n    # reverse groups.\n    groups = [reversed(group) for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # test encode_cyclic\n    print(encode_cyclic(\"aabbccdd\"))\n    print(encode_cyclic(\"abccdd\"))\n    print(encode_cyclic(\"abcd\"))\n    print(encode_cyclic(\"ab\"))\n    print(encode_cyclic(\"\"))\n    # test decode_cyclic\n    print(decode_cyclic(\"aabbccdd"
+    },
+    {
+      "rank": 41,
+      "score": 9.648973453061323,
+      "candidate": "return \"\".join(encode_cyclic(s)).replace(\" \", \"\")\n\n\ndef main():\n    with open(\"input.txt\", \"r\") as f:\n        string = f.read()\n\n    print(len(string))\n    print(len(encode_cyclic(string)))\n    print(len(decode_cyclic(string)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 42,
+      "score": 9.493584439832787,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # test\n    assert encode_cyclic(\"123456789\") == \"1234\"\n    assert decode_cyclic(\"1234\") == \"123456789\"\n    assert decode_cyclic(\"1234\") == \"123456789\"\n    assert decode_cyclic(\"1234\") == \"123456789\""
+    },
+    {
+      "rank": 43,
+      "score": 9.446832512996986,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group.\n    groups = [group[::-1] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test cases.\n    # s = \"abcdef\"\n    # print(encode_cyclic(s))\n    # print(decode_cyclic(s))\n\n    # s = \"123456789\"\n    # print(encode_cyclic(s))\n    # print(decode_cyclic(s))\n\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(encode_cyclic(s))\n    print(decode_cyclic(s))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 44,
+      "score": 9.42450321128885,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:i + 3] for i in range(0, len(s), 3)]\n    # un-cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    main function.\n    \"\"\"\n    # test data\n    data = [\"cab\", \"abc\", \"abcd\", \"abcde\", \"abcdef\"]\n    # call encode_cyclic and decode_cyclic\n    for s in data:\n        print(\"Encoded:\", encode_cyclic(s))\n        print(\"Decoded:\", decode_cyclic(encode_cyclic(s)))\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 45,
+      "score": 9.389578175014488,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef test_encode_cyclic():\n    assert encode_cyclic(\"abc\") == \"cba\"\n    assert encode_cyclic(\"abcabc\") == \"abcabcabc\"\n    assert encode_cyclic(\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc"
+    },
+    {
+      "rank": 46,
+      "score": 9.335906975550785,
+      "candidate": "return \"\".join([s[i:(i + 3)] for i in range(0, len(s), 3)])\n\n\ndef main():\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    for i in range(1000):\n        print(encode_cyclic(s))\n        print(decode_cyclic(encode_cyclic(s)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 47,
+      "score": 9.293848149332355,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_dna(s: str):\n    \"\"\"\n    takes as input string encoded with encode_dna function. Returns encoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_dna(s: str):\n    \"\"\"\n    takes as input encoded string encoded with encode_dna function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_ecb(s: str):\n    \"\"\"\n    takes as input string encoded with encode_ecb function. Returns encoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group["
+    },
+    {
+      "rank": 48,
+      "score": 9.260739004816287,
+      "candidate": "return \"\".join(s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3))\n\n\ndef main():\n    with open(\"input.txt\") as f:\n        s = f.read()\n    print(decode_cyclic(s))\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 49,
+      "score": 9.148534089560748,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test case 1:\n    s = \"abcde\"\n    print(\"encode:\", encode_cyclic(s))\n    print(\"decode:\", decode_cyclic(encode_cyclic(s)))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 50,
+      "score": 9.137541083743484,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    Tests.\n    \"\"\"\n    print(\"encoding and decoding\")\n    for i in range(0, 1000):\n        print(encode_cyclic(str(i)))\n        print(decode_cyclic(encode_cyclic(str(i))))\n    print(\"\")\n\n    print(\"encoding and decoding with list\")\n    for i in range(0, 1000):\n        print(encode_cyclic(list(str(i))))\n        print(decode_cyclic(list(encode_cyclic(list(str(i))))))\n    print(\"\")\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 51,
+      "score": 9.118479922318633,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test_encode_cyclic(encode_cyclic(\"aabccc\") == \"aabbccc\")\n    # test_decode_cyclic(decode_cyclic(\"aabbccc\") == \"aabccc\")\n    test_encode_cyclic(encode_cyclic(\"aabccc\") == \"aabbccc\")\n    test_decode_cyclic(decode_cyclic(\"aabbccc\") == \"aabccc\")\n    test_encode_cyclic(encode_cyclic(\"abcccc\") == \"abcccc\")\n    test_decode_cyclic(decode_cyclic(\"abcccc\") == \"abcccc\")\n    test_encode_cyclic(encode_cyclic(\"abcddcd\") == \"abcddcd\")\n    test_decode_cyclic(decode_cyclic(\"abcddcd\") == \"abcddcd\")\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 52,
+      "score": 9.103986390459143,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:i + 3] for i in range(0, len(s), 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[:2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_palindromic(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of two characters.\n    \"\"\"\n    # split string to groups. Each of length 2.\n    groups = [s[(2 * i):min((2 * i + 2), len(s))] for i in range((len(s) + 1) // 2)]\n    # cycle elements in each group. Unless group has fewer elements than 2.\n    groups = [(group[1:] + group[0]) if len(group) == 2 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_palindromic(s: str):\n    \"\"\"\n    takes as input string encoded with encode_palindromic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 2.\n    groups = [s[i:i + 2] for i in range(0, len(s), 2)]\n    # cycle elements in each group. Unless group has fewer elements than 2.\n    groups = [(group[2:] + group[:2]) if len(group) == 2 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (\"c\", \"c\"),\n        (\"abc\", \"abc\"),\n        (\"\", \"\"),\n        (\"a\", \"a\"),\n        (\"aa\", \"a\"),\n        (\"aaa\", \"a\"),\n        (\"abcd\", \"abcd\"),\n        (\"abcde\", \"abcde\"),\n        (\"aabbccddeeff\", \"abcddeeff\"),\n        (\"abcdefghijklmnopqrstuvwxyz\", \"abcdefghijklmnopqrstuvwxyz\"),\n        (\"abcdefghijkl"
+    },
+    {
+      "rank": 53,
+      "score": 9.054752457301316,
+      "candidate": "return \"\".join(s.split(\"\"))\n\n\ndef main():\n    print(encode_cyclic(\"abcdefghijklmnopqrstuvwxyz\"))\n    print(decode_cyclic(\"abcdgfhjkmnpqrstvwxz\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 54,
+      "score": 9.0433598776711,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[::-1] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test cases\n    # test cases from https://www.codility.com/demo/take-sample-test-case/\n    # input\n    # 3\n    # ABCD\n    # input\n    # 4\n    # ABCD\n    # input\n    # 2\n    # ABC\n    # input\n    # 2\n    # AAB\n    # input\n    # 1\n    # AB\n    # input\n    # 1\n    # AC\n    # input\n    # 1\n    # BC\n    # input\n    # 1\n    # CD\n    # input\n    # 2\n    # AB\n    # input\n    # 2\n    # AC\n    # input\n    # 2\n    # BC\n    # input\n    # 3\n    # ABC\n    # input\n    # 4\n    # ABCD\n    # input\n    # 5\n    # ABCD\n    # input\n    # 6\n    # ABCD\n    # input\n    # 7\n    # ABCD\n    # input\n    # 8\n    # ABCD\n    # input\n    # 9\n    # ABCD\n    # input\n    # 10\n    # ABCD\n    # input\n    # 11\n    # ABCD\n    # input\n    # 12\n    # ABCD\n    # input\n    # 13\n    # ABCD\n    # input\n    # 14\n    # ABCD\n    # input\n    # 15\n    # ABCD\n    # input\n    # 16\n    # ABCD\n    # input\n    # 17\n    # ABCD\n    # input\n    # 18\n    # ABCD\n    # input\n    # 19\n    # ABCD\n    # input\n    # 20\n    # ABCD\n    # input"
+    },
+    {
+      "rank": 55,
+      "score": 9.020164938060113,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_linear(s: str):\n    \"\"\"\n    returns encoded string by linear encoding.\n    \"\"\"\n    return \"\".join(list(map(lambda x: str(ord(x) + 1), s)))\n\n\ndef decode_linear(s: str):\n    \"\"\"\n    takes as input string encoded with encode_linear function. Returns decoded string.\n    \"\"\"\n    return \"\".join(list(map(lambda x: chr(x - 1), s)))\n\n\ndef encode_mixed(s: str):\n    \"\"\"\n    returns encoded string by linear encoding.\n    \"\"\"\n    return \"\".join(list(map(lambda x: str(ord(x) + 1), s)))\n\n\ndef decode_mixed(s: str):\n    \"\"\"\n    takes as input string encoded with encode_mixed function. Returns decoded string.\n    \"\"\"\n    return \"\".join(list(map(lambda x: chr(x - 1), s)))\n\n\ndef main():\n    # test_encode_linear()\n    # test_encode_cyclic()\n    # test_encode_mixed()\n    # test_decode_linear()\n    # test_decode_cyclic()\n    # test_decode_mixed()\n\n    test_encode_linear()\n    test_encode_cyclic()\n    test_encode_mixed()\n    test_decode_linear()\n    test_decode_cyclic()\n    test_decode_mixed()\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 56,
+      "score": 8.896034248495855,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef main():\n    # test\n    print(encode_cyclic(\"abcdef\"))\n    print(decode_cyclic(\"abcdef\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 57,
+      "score": 8.883439751649506,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_inverse(s: str):\n    \"\"\"\n    takes as input string and returns its encoded inverse.\n    \"\"\"\n    return decode_cyclic(s)\n\n\ndef decode_inverse(s: str):\n    \"\"\"\n    takes as input string and returns its decoded inverse.\n    \"\"\"\n    return encode_cyclic(s)\n\n\ndef main():\n    print(encode_cyclic(\"abcde\"))\n    print(encode_inverse(\"abcde\"))\n    print(decode_cyclic(\"abcde\"))\n    print(decode_inverse(\"abcde\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 58,
+      "score": 8.880334690184245,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # un-cycle elements in each group.\n    groups = [group[::-1] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    print(encode_cyclic(\"ABCDE\"))\n    print(decode_cyclic(\"ABCDE\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 59,
+      "score": 8.856375397410378,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 60,
+      "score": 8.814589654890879,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[2:] + group[:2] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 61,
+      "score": 8.814300571413295,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 62,
+      "score": 8.789790072563253,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\nif __name__ == \"__main__\":\n    print(encode_cyclic(\"aaaabbbbccc\"))\n    print(decode_cyclic(\"aaaabbbbccc\"))"
+    },
+    {
+      "rank": 63,
+      "score": 8.776754405442379,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 64,
+      "score": 8.719698774422834,
+      "candidate": "return \"\".join(s[i:i + 3] for i in range(0, len(s), 3))\n\n\nif __name__ == \"__main__\":\n    # test\n    assert decode_cyclic(\"a\") == \"aa\"\n    assert decode_cyclic(\"aa\") == \"aa\"\n    assert decode_cyclic(\"aaa\") == \"aaa\"\n    assert decode_cyclic(\"aaaa\") == \"aaaa\"\n    assert decode_cyclic(\"aaaaa\") == \"aaaa\"\n    assert decode_cyclic(\"aaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\"\n    assert decode_cyclic(\"aaaaaaaaaaaaaaaaaaaaaaaaaaaa\") == \"aaaaaaaa\""
+    },
+    {
+      "rank": 65,
+      "score": 8.690127447955128,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_n(n: int):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [str(n)[(3 * i):min((3 * i + 3), len(str(n)))] for i in range((len(str(n)) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_n(s: str):\n    \"\"\"\n    takes as input string encoded with encode_n function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_cyclic_n(n: int):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [str(n)[(3 * i):min((3 * i + 3), len(str(n)))] for i in range((len(str(n)) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3."
+    },
+    {
+      "rank": 66,
+      "score": 8.68859646405813,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    \"\"\"\n    main function.\n    \"\"\"\n    # test cases.\n    assert encode_cyclic(\"\") == \"\", \"encode_cyclic should return empty string for empty string.\"\n    assert encode_cyclic(\"a\") == \"aa\", \"encode_cyclic should return 'aa' for 'a'.\"\n    assert encode_cyclic(\"abc\") == \"abcabc\", \"encode_cyclic should return 'abcabc' for 'abc'.\"\n    assert encode_cyclic(\"abcdef\") == \"abcdefabcdef\", \"encode_cyclic should return 'abcdefabcdef' for 'abcdef'.\"\n    assert encode_cyclic(\"abcdefgh\") == \"abcdefghabcdefgh\", \"encode_cyclic should return 'abcdefghabcdefgh' for 'abcdefgh'.\"\n    assert encode_cyclic(\"abcdefghij\") == \"abcdefghijabcdefghij\", \"encode_cyclic should return 'abcdefghijabcdefghij' for 'abcdefghij'.\"\n    assert encode_cyclic(\"abcdefghijkl\") == \"abcdefghijklabcdefghijkl\", \"encode_cyclic should return 'abcdefghijklabcdefghijkl' for 'abcdefghijkl'.\"\n    assert encode_cyclic(\"abcdefghijklm\") == \"abcdefghijklmabcdefghijklm\", \"encode_cyclic should return 'abcdefghijklmabcdefghijklm' for 'abcdefghijklm'.\"\n    assert encode_cyclic(\"abcdefghijklmnop\") == \"abcdefghijklmnopabcdefghijklmnop\", \"encode_cyclic should return 'abcdefghijklmnopabcdefghij"
+    },
+    {
+      "rank": 67,
+      "score": 8.6679658132995,
+      "candidate": "return \"\".join([s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)])\n\n\ndef main():\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(encode_cyclic(s))\n    print(decode_cyclic(s))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 68,
+      "score": 8.613508552699997,
+      "candidate": "groups = [s[i:i + 3] for i in range((len(s) + 2) // 3)]\n    return \"\".join(groups)\n\n\ndef encode_rot13(s: str):\n    \"\"\"\n    rotates each character in s using the 13-rotation algorithm.\n    \"\"\"\n    return \"\".join(chr(ord(c) + (ord(c) <= 26 and ord(c) % 26) - ord(\"a\") + 13) for c in s)\n\n\ndef decode_rot13(s: str):\n    \"\"\"\n    rotates each character in s using the 13-rotation algorithm.\n    \"\"\"\n    return \"\".join(chr(ord(c) + (ord(c) <= 26 and ord(c) % 26) - ord(\"a\") + 13) for c in s)\n\n\ndef encode_shift(s: str):\n    \"\"\"\n    shift each character in s using the shift algorithm.\n    \"\"\"\n    return \"\".join(chr(ord(c) + (ord(c) <= 26 and ord(c) % 26) + ord(\"a\") - ord(\"a\") % 26) for c in s)\n\n\ndef decode_shift(s: str):\n    \"\"\"\n    shift each character in s using the shift algorithm.\n    \"\"\"\n    return \"\".join(chr(ord(c) + (ord(c) <= 26 and ord(c) % 26) + ord(\"a\") - ord(\"a\") % 26) for c in s)\n\n\ndef encode_pw(s: str):\n    \"\"\"\n    encodes a string by using the password-based algorithm.\n    \"\"\"\n    if len(s) == 0:\n        return \"\"\n    elif len(s) == 1:\n        return s\n    else:\n        # encode using pw-based algorithm\n        s_base = s[0:1]\n        s_rest = s[1:]\n        s_base = encode_pw(s_base)\n        s_rest = encode_pw(s_rest)\n        return s_base + s_rest\n\n\ndef decode_pw(s: str):\n    \"\"\"\n    decodes a string by using the password-based algorithm."
+    },
+    {
+      "rank": 69,
+      "score": 8.590282230672102,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 70,
+      "score": 8.585855744112317,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # input\n    inp = input()\n    # output\n    out = \"\".join(encode_cyclic(inp))\n    print(out)\n    print(decode_cyclic(out))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 71,
+      "score": 8.55332746664916,
+      "candidate": "groups = [s[i:i+3] for i in range(0, len(s), 3)]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 72,
+      "score": 8.494359609813884,
+      "candidate": "return \"\".join(s.split(\"\"))\n\n\nif __name__ == \"__main__\":\n    print(encode_cyclic(\"abcdefg\"))\n    print(decode_cyclic(\"aabbccddeeffgggg\"))"
+    },
+    {
+      "rank": 73,
+      "score": 8.488129341651064,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:i + 3] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode(s: str):\n    \"\"\"\n    takes as input string encoded with encode function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[i:i + 3] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))\n    print(encode(\"Hello World\"))"
+    },
+    {
+      "rank": 74,
+      "score": 8.483615625151621,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    print(\"Encoding and decoding strings using encode_cyclic and decode_cyclic functions.\")\n    s = \"hello world\"\n    print(\"Encoded string:\", encode_cyclic(s))\n    print(\"Decoded string:\", decode_cyclic(encode_cyclic(s)))\n    print(\"Encoding and decoding strings using encode_cyclic and decode_cyclic functions.\")\n    s = \"Hello World\"\n    print(\"Encoded string:\", encode_cyclic(s))\n    print(\"Decoded string:\", decode_cyclic(encode_cyclic(s)))\n    print(\"Encoding and decoding strings using encode_cyclic and decode_cyclic functions.\")\n    s = \"Hello\"\n    print(\"Encoded string:\", encode_cyclic(s))\n    print(\"Decoded string:\", decode_cyclic(encode_cyclic(s)))"
+    },
+    {
+      "rank": 75,
+      "score": 8.47483213655401,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # decode each group.\n    return \"\".join(reversed(groups))"
+    },
+    {
+      "rank": 76,
+      "score": 8.438370693312374,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[0] + group[1:] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    print(encode_cyclic(\"abcd\"))\n    print(decode_cyclic(\"abcd\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 77,
+      "score": 8.428322726844966,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert encode_cyclic(\"\") == \"\", \"Empty string\"\n    assert encode_cyclic(\"a\") == \"a\", \"One character\"\n    assert encode_cyclic(\"abc\") == \"abc\", \"Three characters\"\n    assert encode_cyclic(\"abcd\") == \"dcdcba\", \"Four characters\"\n    assert decode_cyclic(\"\") == \"\", \"Empty string\"\n    assert decode_cyclic(\"a\") == \"a\", \"One character\"\n    assert decode_cyclic(\"abc\") == \"abc\", \"Three characters\"\n    assert decode_cyclic(\"abcd\") == \"abcd\", \"Four characters\""
+    },
+    {
+      "rank": 78,
+      "score": 8.412039889733295,
+      "candidate": "return \"\".join([s[i:i+3] for i in range(0, len(s), 3)])\n\n\ndef is_valid_string(s: str) -> bool:\n    \"\"\"\n    returns True if given string is valid.\n    \"\"\"\n    return len(s) == 4 and s[:3] == s[-3:] and s[3] == s[-1]\n\n\ndef main():\n    # test cases from https://en.wikipedia.org/wiki/Cyclic_permutation\n    test_cases = [\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),\n        (\"abcdefgh\", \"abcdefgh\"),"
+    },
+    {
+      "rank": 79,
+      "score": 8.342845109225504,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_n(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of four characters.\n    \"\"\"\n    # split string to groups. Each of length 4.\n    groups = [s[(4 * i):min((4 * i + 4), len(s))] for i in range((len(s) + 2) // 4)]\n    # cycle elements in each group. Unless group has fewer elements than 4.\n    groups = [(group[1:] + group[0]) if len(group) == 4 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_n(s: str):\n    \"\"\"\n    takes as input string encoded with encode_n function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 4.\n    groups = [s[(4 * i):min((4 * i + 4), len(s))] for i in range((len(s) + 2) // 4)]\n    # cycle elements in each group. Unless group has fewer elements than 4.\n    groups = [(group[1:] + group[0]) if len(group) == 4 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef encode_d(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of five characters.\n    \"\"\"\n    # split string to groups. Each of length 5.\n    groups = [s[(5 * i):min((5 * i + 5), len(s))] for i in range((len(s) + 2) // 5)]\n    # cycle elements in each group. Unless group has fewer elements than 5.\n    groups = [(group[1:] + group[0]) if len(group) == 5 else group for group in"
+    },
+    {
+      "rank": 80,
+      "score": 8.339082813817313,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # input:\n    s = input()\n    # encode_cyclic:\n    s_enc = encode_cyclic(s)\n    # decode_cyclic:\n    s_dec = decode_cyclic(s_enc)\n    # output:\n    print(s_enc == s_dec)\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 81,
+      "score": 8.309891136734805,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # Test cases\n    s = \"abc\"\n    print(encode_cyclic(s))\n    print(decode_cyclic(encode_cyclic(s)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 82,
+      "score": 8.308947781429264,
+      "candidate": "return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef encode_cyclic_recursive(s: str):\n    \"\"\"\n    recursive version of encode_cyclic.\n    \"\"\"\n    if len(s) == 0:\n        return \"\"\n    return encode_cyclic_recursive(s[1:]) + encode_cyclic_recursive(s[0:1]) + s\n\n\ndef decode_cyclic_recursive(s: str):\n    \"\"\"\n    recursive version of decode_cyclic.\n    \"\"\"\n    if len(s) == 0:\n        return \"\"\n    return decode_cyclic_recursive(s[1:]) + decode_cyclic_recursive(s[0:1]) + s[2:]\n\n\ndef main():\n    print(\"Testing encode_cyclic\")\n    assert encode_cyclic(\"\") == \"\"\n    assert encode_cyclic(\"abc\") == \"abc\"\n    assert encode_cyclic(\"aabbccdd\") == \"aabbccdd\"\n    assert encode_cyclic(\"aabbccddee\") == \"aabbccddee\"\n    assert encode_cyclic(\"aabbccddeeff\") == \"aabbccddeeff\"\n    assert encode_cyclic(\"aabbccddeeffgg\") == \"aabbccddeeffgg\"\n    assert encode_cyclic(\"aabbccddeeffgghh\") == \"aabbccddeeffgghh\"\n    assert encode_cyclic(\"aabbccddeeffgghhii\") == \"aabbccddeeffgghhii\"\n    print(\"Testing decode_cyclic\")\n    assert decode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n    assert decode_cyclic(\"aabbccdd\") == \"aabbccdd\"\n    assert decode_cyclic(\"aabbccddee\") == \"aabbccddee\"\n    assert decode_cyclic(\"aabbccddeeff\") == \"aabbccddeeff\"\n    assert decode_cyclic(\"aabbccddeeffgg\") == \"aabbccddeeffgg\"\n    assert decode_cycl"
+    },
+    {
+      "rank": 83,
+      "score": 8.23715699751254,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    print(encode_cyclic(\"abc\"))\n    print(decode_cyclic(\"abc\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 84,
+      "score": 8.234866055337829,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # input string\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(encode_cyclic(s))\n    print(decode_cyclic(s))"
+    },
+    {
+      "rank": 85,
+      "score": 8.228816037414065,
+      "candidate": "return \"\".join([(s[i:i + 3] + s[i - 3:i]) for i in range(0, len(s), 3)])\n\n\ndef main():\n    # print(encode_cyclic(\"1234\"))\n    # print(decode_cyclic(\"1234\"))\n    # print(encode_cyclic(\"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+    },
+    {
+      "rank": 86,
+      "score": 8.211222846221304,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:min((i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_cyclic_decode(s: str):\n    \"\"\"\n    takes as input string encoded with encode_cyclic_decode function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[i:min((i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] + group[0] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef test_encode_cyclic():\n    assert encode_cyclic(\"abc\") == \"abcabc\"\n    assert encode_cyclic(\"a\") == \"aabb\"\n    assert encode_cyclic(\"ab\") == \"abbb\"\n    assert encode_cyclic(\"abc\") == \"abcabc\"\n    assert encode_cyclic(\"a\") == \"aabb\"\n    assert encode_cyclic(\"ab\") == \"abbb\"\n    assert encode_cyclic(\"abc\") == \"abcabc\"\n\n\ndef test_decode_cyclic():\n    assert decode_cyclic(\"abc\") == \"abc\"\n    assert decode_cyclic(\"a\") == \"a\"\n    assert decode_cyclic(\"ab\") == \"ab\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n    assert decode_cyclic(\"a\") == \"a\"\n    assert decode_cyclic(\"ab\") == \"ab\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n\n\ndef test_decode_cyclic_decode():\n    assert decode_cyclic_decode(\"abcabc\") == \"abc\"\n    assert decode_cyclic_"
+    },
+    {
+      "rank": 87,
+      "score": 8.199472218408113,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[2:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    with open(\"data/test.txt\", \"r\") as f:\n        test = f.read()\n\n    print(encode_cyclic(test))\n    print(decode_cyclic(encode_cyclic(test)))"
+    },
+    {
+      "rank": 88,
+      "score": 8.174157033980983,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[2:] + group[:1] if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    with open(os.path.join(os.path.dirname(__file__), \"../data/input.txt\"), \"r\") as f:\n        input_ = f.read()\n        # print(encode_cyclic(input_))\n        # print(decode_cyclic(encode_cyclic(input_)))\n        # print(encode_cyclic(decode_cyclic(input_)))\n        print(encode_cyclic(decode_cyclic(input_)))\n        # print(encode_cyclic(decode_cyclic(decode_cyclic(input_))))\n        # print(decode_cyclic(encode_cyclic(decode_cyclic(decode_cyclic(input_)))) == input_)"
+    },
+    {
+      "rank": 89,
+      "score": 8.139829544306764,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test decode_cyclic()\n    assert decode_cyclic(\"AAA\") == \"AAA\"\n    assert decode_cyclic(\"ABA\") == \"ABC\"\n    assert decode_cyclic(\"ACD\") == \"ACD\"\n    assert decode_cyclic(\"AAC\") == \"AAB\"\n    assert decode_cyclic(\"AAA\") == \"AAA\"\n    # test encode_cyclic()\n    assert encode_cyclic(\"ABCD\") == \"AAA\"\n    assert encode_cyclic(\"ACD\") == \"AAC\"\n    assert encode_cyclic(\"ABC\") == \"ABA\"\n    assert encode_cyclic(\"AAC\") == \"ABA\"\n    assert encode_cyclic(\"AAB\") == \"AAA\"\n    assert encode_cyclic(\"AAA\") == \"AAA\"\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 90,
+      "score": 8.120514550666826,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    s = \"abcdefghijklmnopqrstuvwxyz\"\n    print(\"encoded:\", encode_cyclic(s))\n    print(\"decoded:\", decode_cyclic(encode_cyclic(s)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 91,
+      "score": 8.08062232314251,
+      "candidate": "return \"\".join([\"\".join(group) for group in zip(*[iter(s)] * 3)])\n\n\nif __name__ == \"__main__\":\n    # Testing\n    print(encode_cyclic(\"abc\"))\n    print(decode_cyclic(\"abc\"))\n    print(encode_cyclic(\"aabc\"))\n    print(decode_cyclic(\"aabc\"))\n    print(encode_cyclic(\"abab\"))\n    print(decode_cyclic(\"abab\"))\n    print(encode_cyclic(\"abbc\"))\n    print(decode_cyclic(\"abbc\"))\n    print(encode_cyclic(\"abbcc\"))\n    print(decode_cyclic(\"abbcc\"))\n    print(encode_cyclic(\"abbccd\"))\n    print(decode_cyclic(\"abbccd\"))\n    print(encode_cyclic(\"abbccdd\"))\n    print(decode_cyclic(\"abbccdd\"))"
+    },
+    {
+      "rank": 92,
+      "score": 8.066796558994257,
+      "candidate": "return \"\".join(s[i:i + 3] for i in range((len(s) - 3) // 3))\n\n\ndef encode_substitution(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group.\n    groups = [s[i:i + 3] for i in range((len(s) + 2) // 3)]\n    return \"\".join(groups)\n\n\ndef decode_substitution(s: str):\n    \"\"\"\n    takes as input string encoded with encode_substitution function. Returns decoded string.\n    \"\"\"\n    return \"\".join(s[i:i + 3] for i in range((len(s) - 3) // 3))\n\n\ndef encode_transposition(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group.\n    groups = [s[i:i + 3] for i in range((len(s) + 2) // 3)]\n    return \"\".join(groups)\n\n\ndef decode_transposition(s: str):\n    \"\"\"\n    takes as input string encoded with encode_transposition function. Returns decoded string.\n    \"\"\"\n    return \"\".join(s[i:i + 3] for i in range((len(s) - 3) // 3))\n\n\ndef encode_repetition(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3"
+    },
+    {
+      "rank": 93,
+      "score": 8.0358336104599,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    s = encode_cyclic(\"abc\")\n    print(s)\n    print(decode_cyclic(s))"
+    },
+    {
+      "rank": 94,
+      "score": 7.9684745264142895,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "rank": 95,
+      "score": 7.9061514636081425,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[i:i + 3] for i in range(0, len(s), 3)]\n    # cyclicize groups.\n    groups = [group[1:] + group[0] for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    print(encode_cyclic(\"abcde\"))\n    print(decode_cyclic(\"abcde\"))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 96,
+      "score": 7.803307760648389,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [group[1:] if len(group) == 3 else group for group in groups]\n    # join cyclic groups back together.\n    return \"\".join(groups)\n\n\nif __name__ == \"__main__\":\n    # Testen\n    s = \"abcde\"\n    print(\"string: \" + s)\n    print(\"decoded string: \" + decode_cyclic(encode_cyclic(s)))"
+    },
+    {
+      "rank": 97,
+      "score": 7.785862717784991,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    # test encode_cyclic\n    test_cases = [\n        (\"\", \"\"),\n        (\"abc\", \"abc\"),\n        (\"abcabcabc\", \"abcabcabc\"),\n        (\"abcabcabcabcabcabcabcabc\", \"abcabcabcabcabcabcabcabc\"),\n        (\"abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc"
+    },
+    {
+      "rank": 98,
+      "score": 7.550038432874043,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[2]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef main():\n    test_cases = [\n        (encode_cyclic(\"abc\"), \"abc\"),\n        (encode_cyclic(\"abcdef\"), \"abcdef\"),\n        (encode_cyclic(\"abcdefgh\"), \"abcdefgh\"),\n        (encode_cyclic(\"abcdefghij\"), \"abcdefghij\"),\n        (encode_cyclic(\"abcdefghijkl\"), \"abcdefghijkl\"),\n        (encode_cyclic(\"abcdefghijklm\"), \"abcdefghijklm\"),\n        (encode_cyclic(\"abcdefghijklmn\"), \"abcdefghijklmn\"),\n        (encode_cyclic(\"abcdefghijklmnop\"), \"abcdefghijklmnop\"),\n        (encode_cyclic(\"abcdefghijklmnopqr\"), \"abcdefghijklmnopqr\"),\n        (encode_cyclic(\"abcdefghijklmnopqrst\"), \"abcdefghijklmnopqrst\"),\n        (encode_cyclic(\"abcdefghijklmnopqrstuv\"), \"abcdefghijklmnopqrstuv\"),\n        (encode_cyclic(\"abcdefghijklmnopqrstuvw\"), \"abcdefghijklmnopqrstuvw\"),\n        (encode_cyclic(\"abcdefghijklmnopqrstuvwxyz\"), \"abcdefghijklmnopqrstuvwxyz\"),\n        (encode_cyclic(\"abcdefghijklmnopqrstuvwxyz0123456789\"), \"abcdefghijklmnopqrstuvwxyz0123456789\"),\n        (encode_cyclic"
+    },
+    {
+      "rank": 99,
+      "score": 3.0,
+      "candidate": "# decode cyclic string\n    return \"\".join([s[i:i + 3] for i in range(0, len(s), 3)])\n\n\ndef test_encode_cyclic():\n    assert encode_cyclic(\"12345\") == \"12345\"\n    assert encode_cyclic(\"1234567\") == \"1234567\"\n    assert encode_cyclic(\"123456789\") == \"123456789\"\n    assert encode_cyclic(\"12345678901\") == \"12345678901\"\n    assert encode_cyclic(\"123456789012\") == \"123456789012\"\n    assert encode_cyclic(\"1234567890123\") == \"1234567890123\"\n    assert encode_cyclic(\"12345678901234\") == \"12345678901234\"\n    assert encode_cyclic(\"123456789012345\") == \"123456789012345\"\n    assert encode_cyclic(\"1234567890123456\") == \"1234567890123456\"\n    assert encode_cyclic(\"12345678901234567\") == \"12345678901234567\"\n    assert encode_cyclic(\"123456789012345678\") == \"123456789012345678\"\n    assert encode_cyclic(\"1234567890123456789\") == \"1234567890123456789\"\n    assert encode_cyclic(\"12345678901234567891\") == \"12345678901234567891\"\n    assert encode_cyclic(\"123456789012345678912\") == \"123456789012345678912\"\n    assert encode_cyclic(\"1234567890123456789123\") == \"1234567890123456789123\"\n    assert encode_cyclic(\"12345678901234567891234\") == \"12345678901234567891234\"\n    assert encode_cyclic(\"123456789012345678912345\") == \"123456789012345678912345\"\n    assert encode_cyclic(\"1234567890123456789123"
+    },
+    {
+      "rank": 100,
+      "score": 3.0,
+      "candidate": "# split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[0] + group[1:] if len(group) == 3 else group) for group in groups]\n    return \"\".join(groups)\n\n\ndef test_encode_and_decode_cyclic():\n    assert encode_cyclic(\"abc\") == \"abc\"\n    assert decode_cyclic(\"abc\") == \"abc\"\n\n    assert encode_cyclic(\"abcd\") == \"adc\"\n    assert decode_cyclic(\"adc\") == \"abcd\"\n\n    assert encode_cyclic(\"abcde\") == \"abcde\"\n    assert decode_cyclic(\"abcde\") == \"abcde\"\n\n    assert encode_cyclic(\"abcdeg\") == \"abcdeg\"\n    assert decode_cyclic(\"abcdeg\") == \"abcdeg\"\n\n    assert encode_cyclic(\"abcdef\") == \"abcdef\"\n    assert decode_cyclic(\"abcdef\") == \"abcdef\"\n\n    assert encode_cyclic(\"abcdefg\") == \"abcdefg\"\n    assert decode_cyclic(\"abcdefg\") == \"abcdefg\"\n\n\ndef test_encode_and_decode_cyclic_with_empty_strings():\n    assert encode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\"\") == \"\"\n\n    assert encode_cyclic(\" \") == \"\"\n    assert decode_cyclic(\" \") == \"\"\n\n\ndef test_encode_and_decode_cyclic_with_single_char():\n    assert encode_cyclic(\"a\") == \"a\"\n    assert decode_cyclic(\"a\") == \"a\"\n\n    assert encode_cyclic(\"aa\") == \"aa\"\n    assert decode_cyclic(\"aa\") == \"aa\"\n\n\ndef test_encode_and_decode_cyclic_with_empty_strings_and_single_char():\n    assert encode_cyclic(\"\") == \"\"\n    assert decode_cyclic(\""
+    }
+  ]
+}

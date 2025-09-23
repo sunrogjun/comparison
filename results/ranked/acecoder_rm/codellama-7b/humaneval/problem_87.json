@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/87",
+    "prompt": "\ndef get_row(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by rows in ascending order.\n    Also, sort coordinates of the row by columns in descending order.\n    \n    Examples:\n    get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n",
+    "canonical_solution": "    coords = [(i, j) for i in range(len(lst)) for j in range(len(lst[i])) if lst[i][j] == x]\n    return sorted(sorted(coords, key=lambda x: x[1], reverse=True), key=lambda x: x[0])\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert candidate([\n        [1,2,3,4,5,6],\n        [1,2,3,4,5,6],\n        [1,2,3,4,5,6],\n        [1,2,3,4,5,6],\n        [1,2,3,4,5,6],\n        [1,2,3,4,5,6]\n    ], 2) == [(0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1)]\n    assert candidate([\n        [1,2,3,4,5,6],\n        [1,2,3,4,5,6],\n        [1,1,3,4,5,6],\n        [1,2,1,4,5,6],\n        [1,2,3,1,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 0), (2, 1), (2, 0), (3, 2), (3, 0), (4, 3), (4, 0), (5, 4), (5, 0), (6, 5), (6, 0)]\n    assert candidate([], 1) == []\n    assert candidate([[1]], 2) == []\n    assert candidate([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n\n    # Check some edge cases that are easy to work out by hand.\n    assert True\n\n",
+    "entry_point": "get_row",
+    "docstring": "",
+    "problem_id": 87
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# My solution\n    # def get_row(lst, x):\n    #     lst_of_tuples = []\n    #     for i in range(len(lst)):\n    #         for j in range(len(lst[i])):\n    #             if lst[i][j] == x:\n    #                 lst_of_tuples.append((i, j))\n    #     return sorted(lst_of_tuples, key=lambda x: (x[0], -x[1]))\n\n    # Other solution\n    def get_row(lst, x):\n        lst_of_tuples = []\n        for i in range(len(lst)):\n            for j in range(len(lst[i])):\n                if lst[i][j] == x:\n                    lst_of_tuples.append((i, j))\n        return sorted(lst_of_tuples, key=lambda x: (x[0], -x[1]))\n\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      9.609375
+    ],
+    [
+      "res = []\n    for i, row in enumerate(lst):\n        for j, el in enumerate(reversed(row)):\n            if el == x:\n                res.append((i, j))\n    return sorted(res)\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 7) == []\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 5) == [(0, 4), (1, 2), (1, 4), (2, 1), (2, 4)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 4) == [(0, 3), (1, 3), (2, 3)]",
+      6.140625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]) - 1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda tup: (tup[0], -tup[1]))\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3], [4, 5, 6]], 3) == [(0, 2), (1, 2)]\n    assert get_row([[1, 2, 3], [4, 1, 6]], 1) == [(0, 0), (1, 1), (1, 0)]\n    assert get_row([[1, 2, 3], [4, 1, 6]], 6) == [(1, 2)]",
+      2.916015625
+    ],
+    [
+      "# first, we find all the coordinates of x in lst\n    # then we sort the coordinates by rows, then by columns\n    # in descending order\n    # then we return the list of coordinates\n    if not lst:\n        return []\n    else:\n        coordinates = []\n        for i in range(len(lst)):\n            for j in range(len(lst[i])):\n                if lst[i][j] == x:\n                    coordinates.append((i, j))\n        coordinates.sort(key=lambda x: (x[0], -x[1]))\n        return coordinates\n\n\ndef get_row(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by rows in ascending order.\n    Also, sort coordinates of the row by columns in descending order.\n    \n    Examples:\n    get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    # first, we find all the coordinates of x in lst\n    # then we sort the coordinates by rows, then by columns\n    # in descending order\n    # then we return the list of coordinates\n    if not lst:\n        return []\n    else:\n        coordinates = []\n        for i in range(len(lst)):\n            for j in range(len(lst[i])):",
+      2.708984375
+    ],
+    [
+      "# pass\n    # return []\n    # return [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    if len(lst) == 0:\n        return []\n    res = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1, -1, -1):\n            if lst[i][j] == x:\n                res.append((i, j))\n    return sorted(res, key=lambda x: (x[0], -x[1]))\n\n\n\ndef get_column(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (rows, columns), starting with 0.\n    Sort coordinates initially by columns in ascending order.\n    Also, sort coordinates of the column by rows in descending order.\n    \n    Examples:\n    get_column([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 1), (1, 4), (1, 1), (2, 5), (2, 1)]\n    get_column([], 1) == []\n    get_column([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    # pass\n    # return []\n    # return [(0, 1), (1, 4), (1, 1), (2, 5), (2, 1)]\n    if len(lst) == 0:\n        return []\n    res = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]))",
+      2.693359375
+    ],
+    [
+      "def get_coordinates(lst, x):\n        result = []\n        for row in range(len(lst)):\n            if x in lst[row]:\n                result.append((row, lst[row].index(x)))\n        return result\n\n    def sort_coordinates(lst):\n        return sorted(lst, key=lambda x: (x[0], -x[1]))\n\n    return sort_coordinates(get_coordinates(lst, x))\n\n\ndef get_row_builtin(lst, x):\n    return sorted(\n        sorted(((r, c) for r, row in enumerate(lst) for c, val in enumerate(row) if val == x),\n               key=lambda x: (x[0], -x[1]))\n    )\n\n\ndef get_row_map(lst, x):\n    return sorted(\n        sorted(((r, c) for r, row in enumerate(lst) for c, val in enumerate(row) if val == x),\n               key=lambda x: (x[0], -x[1]))\n    )\n\n\ndef get_row_map2(lst, x):\n    return sorted(\n        sorted(((r, c) for r, row in enumerate(lst) for c, val in enumerate(row) if val == x),\n               key=lambda x: (x[0], -x[1]))\n    )\n\n\ndef get_row_map3(lst, x):\n    return sorted(\n        sorted(((r, c) for r, row in enumerate(lst) for c, val in enumerate(row) if val == x),\n               key=lambda x: (x[0], -x[1]))\n    )\n\n\nprint(get_row([\n    [1, 2, 3, 4, 5, 6],\n    [1, 2, 3, 4, 1, 6],\n    [1, 2, 3, 4, 5, 1]\n], 1))\n\nprint(get_row([], 1))\n\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      2.427734375
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, j))\n    \n    result.sort()\n    return result\n\n\ndef get_row2(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by rows in ascending order.\n    Also, sort coordinates of the row by columns in descending order.\n    \n    Examples:\n    get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, j))\n    \n    result.sort()\n    return result\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\n    # These \"asserts\" using only for self-checking and not necessary for",
+      2.021484375
+    ],
+    [
+      "if not lst:\n        return []\n    if not lst[0]:\n        return []\n    if x in lst[0]:\n        return [(0, lst[0].index(x))]\n    coords = []\n    for i in range(len(lst)):\n        if x in lst[i]:\n            coords.append((i, lst[i].index(x)))\n    return sorted(coords, key=lambda x: x[0])\n\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\nprint(get_row([], 1))\n\nprint(get_row([[], [1], [1, 2, 3]], 3))\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 10))",
+      1.5693359375
+    ],
+    [
+      "# your code here\n    res = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                res.append((i, j))\n    res.sort(key = lambda x: (x[0], -x[1]))\n    return res\n\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 5))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 6))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 7))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 2))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 3))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 4))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 0))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2",
+      0.8779296875
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]) - 1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n\n\nif __name__ == '__main__':\n    test_get_row()",
+      0.7939453125
+    ],
+    [
+      "result = []\n    for index, row in enumerate(lst):\n        if x in row:\n            result.append((index, row.index(x)))\n    return sorted(result, key = lambda x: (x[0], -x[1]))\n\n\n\ndef get_row_pythonic(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by rows in ascending order.\n    Also, sort coordinates of the row by columns in descending order.\n    \n    Examples:\n    get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    return [(i, row.index(x)) for i, row in enumerate(lst) if x in row]\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)], \"1st example\"\n    assert get_row([",
+      0.427978515625
+    ],
+    [
+      "# your code here\n    # list = [ [1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1] ]\n    # x = 1\n    # result = []\n    # for i in range(len(list)):\n    #     if x in list[i]:\n    #         result.append((i,list[i].index(x)))\n    # return result\n    \n    # list = [ [1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1] ]\n    # x = 1\n    # result = []\n    # for i in range(len(list)):\n    #     if x in list[i]:\n    #         result.append((i,list[i].index(x)))\n    # return result\n    \n    # list = [ [1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1] ]\n    # x = 1\n    # result = []\n    # for i in range(len(list)):\n    #     if x in list[i]:\n    #         result.append((i,list[i].index(x)))\n    # return result\n    \n    list = [ [1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1] ]\n    x = 1\n    result = []\n    for i in range(len(list)):\n        if x in list[i]:\n            result.append((i,list[i].index(x)))\n    return result\n\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3",
+      0.42724609375
+    ],
+    [
+      "coords = []\n    for i, row in enumerate(lst):\n        for j, xi in enumerate(row):\n            if xi == x:\n                coords.append((i, j))\n    return sorted(coords, key=lambda c: (c[0], -c[1]))\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]",
+      0.416259765625
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j in range(len(row) - 1, -1, -1):\n            if row[j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      0.1549072265625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]",
+      0.1422119140625
+    ],
+    [
+      "coords = []\n    for row_num, row in enumerate(lst):\n        for col_num, item in enumerate(row):\n            if item == x:\n                coords.append((row_num, col_num))\n    coords.sort(key=lambda x: (x[0], -x[1]))\n    return coords\n\n\ndef test_get_row():\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 3) == [(0, 2), (1, 2), (2, 2)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 2) == [(0, 1), (1, 1), (2, 1)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1,",
+      -0.306640625
+    ],
+    [
+      "#your code here\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, j))\n    result = sorted(result, key=lambda x: x[0])\n    for i in range(len(result)):\n        result[i] = (result[i][0], len(lst[result[i][0]]) - result[i][1] - 1)\n    return sorted(result, key=lambda x: x[1])\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\n# [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\nprint(get_row([], 1))\n# []\nprint(get_row([[], [1], [1, 2, 3]], 3))\n# [(2, 2)]",
+      -0.321044921875
+    ],
+    [
+      "# result = []\n    # for row in range(len(lst)):\n    #     for col in range(len(lst[row])):\n    #         if lst[row][col] == x:\n    #             result.append((row, col))\n    # return sorted(result)\n\n    result = []\n    for row in range(len(lst)):\n        for col in range(len(lst[row])):\n            if lst[row][col] == x:\n                result.append((row, col))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\n\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 1))\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 3))\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 4))\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 5))\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 6))\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 10))\n\nprint(get_row([\n    [1,2,3,4",
+      -0.45849609375
+    ],
+    [
+      "# My solution\n    # result = []\n    # for index, row in enumerate(lst):\n    #     if x in row:\n    #         result.append((index, row.index(x)))\n    # result = sorted(result, key=lambda x: x[0])\n    # result = [sorted(result, key=lambda x: x[1], reverse=True)]\n    # return result\n\n    # SOLUTION\n    result = []\n    for row in lst:\n        if x in row:\n            result.append((lst.index(row), row.index(x)))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\nprint(get_row([\n    [1, 2, 3, 4, 5, 6],\n    [1, 2, 3, 4, 1, 6],\n    [1, 2, 3, 4, 5, 1]\n], 1))\n\nprint(get_row([\n    [1, 2, 3, 4, 5, 6],\n    [1, 2, 3, 4, 1, 6],\n    [1, 2, 3, 4, 5, 1]\n], 2))\n\nprint(get_row([\n    [1, 2, 3, 4, 5, 6],\n    [1, 2, 3, 4, 1, 6],\n    [1, 2, 3, 4, 5, 1]\n], 3))\n\nprint(get_row([\n    [1, 2, 3, 4, 5, 6],\n    [1, 2, 3, 4, 1, 6],\n    [1, 2, 3, 4, 5, 1]\n], 4))\n\nprint(get_row([\n    [1, 2, 3, 4, 5, 6],\n    [1, 2, 3, 4, 1, 6],\n    [1, 2, 3,",
+      -0.497314453125
+    ],
+    [
+      "def get_coordinates(lst, x):\n        coordinates = []\n        for i in range(len(lst)):\n            for j in range(len(lst[i])-1, -1, -1):\n                if lst[i][j] == x:\n                    coordinates.append((i, j))\n        return sorted(coordinates)\n\n    return get_coordinates(lst, x)\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]",
+      -0.53466796875
+    ],
+    [
+      "# your code here\n    res = []\n    for i, row in enumerate(lst):\n        for j, col in enumerate(row):\n            if col == x:\n                res.append((i, len(row) - j - 1))\n    return sorted(res, key=lambda x: (x[0], x[1]))\n\n\ndef test_function():\n    assert get_row([\n        [1, 2, 3, 4, 5, 6],\n        [1, 2, 3, 4, 1, 6],\n        [1, 2, 3, 4, 5, 1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3, 4], [5, 6], [7, 8]], 1) == [(1, 0)]\n    assert get_row([[1, 2, 3, 4], [5, 6], [7, 8]], 4) == [(0, 3), (1, 1), (2, 2)]\n    assert get_row([[1, 2, 3, 4], [5, 6], [7, 8]], 8) == [(2, 1), (2, 2)]\n    assert get_row([[1, 2, 3, 4], [5, 6], [7, 8]], 7) == [(2, 0)]\n    assert get_row([[1, 2, 3, 4], [5, 6], [7, 8]], 6) == [(1, 1)]\n    assert get_row([[1, 2, 3, 4], [5, 6], [7, 8]], 5) == [(0, 3), (1, 0)]\n    assert get_row([[",
+      -0.53955078125
+    ],
+    [
+      "# your code here\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1,-1,-1):\n            if lst[i][j] == x:\n                result.append((i,j))\n    result.sort(key=lambda x: (x[0], -x[1]))\n    return result\n\n\ndef get_row2(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by rows in ascending order.\n    Also, sort coordinates of the row by columns in descending order.\n    \n    Examples:\n    get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1,-1,-1):\n            if lst[i][j] == x:\n                result.append((i,j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef get_row3(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.",
+      -0.603515625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        if x in lst[i]:\n            result.append((i, lst[i].index(x)))\n    result.sort(key=lambda x: x[0])\n    for i in range(len(result)):\n        result[i] = (result[i][0], len(lst[result[i][0]]) - result[i][1] - 1)\n    return result\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n\n\nif __name__ == '__main__':\n    test_get_row()",
+      -0.61572265625
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, column in enumerate(row):\n            if column == x:\n                result.append((i, j))\n    result.sort(key=lambda x: (x[0], -x[1]))\n    return result\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 2) == [(0, 1), (1, 1), (2, 1)]\n    assert get_row([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 7) == []\n    assert get_row([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 4) == [(0, 2), (1, 2), (2, 2)]\n    assert get_row([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 8) == [(2, 2)]\n\n\nif __name__ == '__main__':\n    test_get_row()",
+      -0.673828125
+    ],
+    [
+      "result = []\n    for row in range(len(lst)):\n        if x in lst[row]:\n            result.append((row, lst[row].index(x)))\n    result.sort(key=lambda x: x[0])\n    result = [result[i] for i in range(len(result)) if result[i][0] == result[0][0]]\n    result.sort(key=lambda x: x[1], reverse=True)\n    return result\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.84326171875
+    ],
+    [
+      "# your code here\n    list_of_tuples = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                list_of_tuples.append((i, j))\n    list_of_tuples = sorted(list_of_tuples, key=lambda x: (x[0], -x[1]))\n    return list_of_tuples\n\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\nprint(get_row([], 1))\n\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.85693359375
+    ],
+    [
+      "res = []\n    for i, row in enumerate(lst):\n        for j, val in enumerate(row[::-1]):\n            if val == x:\n                res.append((i, len(row) - j - 1))\n    res.sort(key=lambda x: (x[0], -x[1]))\n    return res",
+      -0.85693359375
+    ],
+    [
+      "if not lst:\n        return []\n    if not lst[0]:\n        return []\n    res = []\n    for i in range(len(lst)):\n        if x in lst[i]:\n            res.append((i, lst[i].index(x)))\n    res.sort(key=lambda x: (x[0], -x[1]))\n    return res\n\n\nif __name__ == \"__main__\":\n    print(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))",
+      -0.85693359375
+    ],
+    [
+      "#pass\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, j))\n    result.sort(key = lambda x: (x[0], -x[1]))\n    return result\n\n\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.85693359375
+    ],
+    [
+      "if len(lst) == 0:\n        return []\n    result = []\n    for row in range(len(lst)):\n        for column in range(len(lst[row])-1, -1, -1):\n            if lst[row][column] == x:\n                result.append((row, column))\n    return sorted(result, key = lambda x: (x[0], -x[1]))",
+      -0.85693359375
+    ],
+    [
+      "# My solution\n    res = []\n    for i, row in enumerate(lst):\n        for j, num in enumerate(row):\n            if num == x:\n                res.append((i, len(row) - 1 - j))\n    return sorted(res, key=lambda tup: (tup[0], -tup[1]))\n\n\n# Best way\ndef get_row_best(lst, x):\n    res = []\n    for i, row in enumerate(lst):\n        j = len(row) - 1\n        while j >= 0 and row[j] == x:\n            res.append((i, j))\n            j -= 1\n    return sorted(res)",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        if x in row:\n            result.append((i, row.index(x)))\n    return sorted(result, key=lambda x: (x[0], -x[1]))",
+      -0.85693359375
+    ],
+    [
+      "return []\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)])",
+      -0.85693359375
+    ],
+    [
+      "res = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1, -1, -1):\n            if lst[i][j] == x:\n                res.append((i, j))\n    return sorted(res, key=lambda x: (x[0], -x[1]))",
+      -0.85693359375
+    ],
+    [
+      "coords = []\n    for index, row in enumerate(lst):\n        for j, value in enumerate(row):\n            if value == x:\n                coords.append((index, j))\n    return sorted(coords, key=lambda x: x[0])\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))",
+      -0.85693359375
+    ],
+    [
+      "coordinates = []\n\n    for row_index, row in enumerate(lst):\n        for column_index, column in enumerate(row):\n            if column == x:\n                coordinates.append((row_index, column_index))\n\n    coordinates.sort(key=lambda x: (x[0], -x[1]))\n\n    return coordinates",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]) - 1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result)\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, column in enumerate(row):\n            if column == x:\n                result.append((i, j))\n    result.sort(key=lambda x: (x[0], -x[1]))\n    return result\n\n\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 1))",
+      -0.85693359375
+    ],
+    [
+      "# result = []\n    # for i in range(len(lst)):\n    #     if x in lst[i]:\n    #         result.append((i, lst[i].index(x)))\n    # result.sort(key=lambda x: (x[0], -x[1]))\n    # return result\n\n    result = []\n    for i in range(len(lst)):\n        if x in lst[i]:\n            result.append((i, lst[i].index(x)))\n    result.sort(key=lambda x: (x[0], -x[1]))\n    return result\n\n    pass",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, col in enumerate(row):\n            if col == x:\n                result.append((i, len(row) - j - 1))\n    return sorted(result, key=lambda x: (x[0], x[1]))",
+      -0.85693359375
+    ],
+    [
+      "if len(lst) == 0:\n        return []\n    result = []\n    for i, row in enumerate(lst):\n        if x in row:\n            result.append((i, row.index(x)))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 1))\n\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.85693359375
+    ],
+    [
+      "pass",
+      -0.85693359375
+    ],
+    [
+      "coordinates = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]) - 1, -1, -1):\n            if lst[i][j] == x:\n                coordinates.append((i, j))\n    return sorted(coordinates, key=lambda x: (x[0], -x[1]))\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.85693359375
+    ],
+    [
+      "# your code here\n    res = []\n    for i, row in enumerate(lst):\n        for j, val in enumerate(row):\n            if val == x:\n                res.append((i, len(row) - 1 - j))\n    return sorted(res, key=lambda x: x[0] if x[0] != x[1] else -1)",
+      -0.85693359375
+    ],
+    [
+      "if lst == []:\n        return []\n    elif len(lst[0]) == 0:\n        return []\n    else:\n        out = []\n        for i in range(len(lst)):\n            for j in range(len(lst[i])-1, -1, -1):\n                if lst[i][j] == x:\n                    out.append((i, j))\n        out.sort(key = lambda t: (t[0], -t[1]))\n        return out\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.85693359375
+    ],
+    [
+      "pass",
+      -0.85693359375
+    ],
+    [
+      "if len(lst) == 0:\n        return []\n    if len(lst[0]) == 0:\n        return []\n    if x in lst[0]:\n        return [(0, lst[0].index(x))]\n    for i in range(1, len(lst)):\n        if x in lst[i]:\n            return [(i, lst[i].index(x))]\n    return []",
+      -0.85693359375
+    ],
+    [
+      "pass",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))",
+      -0.85791015625
+    ],
+    [
+      "if not lst:\n        return []\n    # find row with x\n    row_index = None\n    for i, row in enumerate(lst):\n        if x in row:\n            row_index = i\n            break\n    # if x not in lst\n    if row_index is None:\n        return []\n    # find columns with x\n    columns = []\n    for col, val in enumerate(lst[row_index]):\n        if val == x:\n            columns.append(col)\n    # sort columns in reverse order\n    columns.sort(reverse=True)\n    # sort rows in ascending order\n    rows = [row_index] * len(columns)\n    return list(zip(rows, columns))",
+      -0.85791015625
+    ],
+    [
+      "rows = []\n    for row in range(len(lst)):\n        if x in lst[row]:\n            rows.append((row, lst[row].index(x)))\n    rows.sort(key=lambda x: (x[0], -x[1]))\n    return rows\n\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))",
+      -0.85791015625
+    ],
+    [
+      "result = []\n    for row_idx, row in enumerate(lst):\n        for col_idx, col in enumerate(row):\n            if col == x:\n                result.append((row_idx, col_idx))\n    return sorted(result, key=lambda x: (x[0], -x[1]))",
+      -0.85791015625
+    ],
+    [
+      "result = []\n    for i, lst in enumerate(lst):\n        for j, val in enumerate(lst):\n            if val == x:\n                result.append((i, len(lst)-1-j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef test_get_row():\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]",
+      -0.8583984375
+    ],
+    [
+      "if not lst:\n        return []\n    result = []\n    for row_index, row in enumerate(lst):\n        for col_index, value in enumerate(row):\n            if value == x:\n                result.append((row_index, len(row) - 1 - col_index))\n    return sorted(result, key=lambda tup: (tup[0], -tup[1]))\n\n\nif __name__ == \"__main__\":\n    print(get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1))\n    print(get_row([], 1))\n    print(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, val in enumerate(row):\n            if val == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef get_row(lst, x):\n    result = []\n    for i, row in enumerate(lst):\n        for j, val in enumerate(row):\n            if val == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))",
+      -0.8583984375
+    ],
+    [
+      "res = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                res.append((i,j))\n    res.sort(key = lambda x: (x[0], -x[1]))\n    return res\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for row_index, row in enumerate(lst):\n        for col_index, value in enumerate(row):\n            if value == x:\n                result.append((row_index, col_index))\n    result.sort(key=lambda x: (x[0], -x[1]))\n    return result",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]) - 1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return result",
+      -0.8583984375
+    ],
+    [
+      "# your code here\n    lst_out = []\n    for i, row in enumerate(lst):\n        for j, item in enumerate(row):\n            if item == x:\n                lst_out.append((i,j))\n    lst_out = sorted(lst_out, key=lambda x: (x[0], -x[1]))\n    return lst_out\n\n\n\n\nget_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\nget_row([], 1) == []\nget_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]",
+      -0.8583984375
+    ],
+    [
+      "# pass\n    if lst == []:\n        return []\n    else:\n        res = []\n        for row in range(len(lst)):\n            for col in range(len(lst[row])-1, -1, -1):\n                if lst[row][col] == x:\n                    res.append((row, col))\n        return sorted(res, key=lambda x: x[0])",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, value in enumerate(row):\n            if value == x:\n                result.append((i, j))\n    \n    result.sort(key=lambda tup: tup[0])\n    result.sort(key=lambda tup: tup[1], reverse=True)\n    return result",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        if x in row:\n            result.append((i, row.index(x)))\n    result.sort(key=lambda x: x[0])\n    for i, row in enumerate(result):\n        result[i] = (row[0], len(lst[row[0]]) - 1 - row[1])\n    return result",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for row_number, row in enumerate(lst):\n        for column_number, column in enumerate(row):\n            if column == x:\n                result.append((row_number, column_number))\n    result.sort(key=lambda tup: (tup[0], -tup[1]))\n    return result",
+      -0.8583984375
+    ],
+    [
+      "pass\n\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, item in enumerate(row):\n            if item == x:\n                result.append((i, j))\n    result.sort(key=lambda tup: tup[0])\n    for i, row in enumerate(result):\n        row.sort(key=lambda tup: tup[1], reverse=True)\n        result[i] = row\n    return result\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]",
+      -0.85888671875
+    ],
+    [
+      "return sorted(\n        sorted(\n            [(i, j) for i, row in enumerate(lst) for j, col in enumerate(row) if col == x],\n            key=lambda x: x[0]\n        ),\n        key=lambda x: x[1], reverse=True\n    )",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for row in range(len(lst)):\n        if x in lst[row]:\n            result.append((row, lst[row].index(x)))\n    return sorted(result, key=lambda tup: (tup[0], -tup[1]))",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\n\nprint(get_row([], 1))\n\nprint(get_row([[], [1], [1, 2, 3]], 3))\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 4))",
+      -0.85888671875
+    ],
+    [
+      "return sorted(\n        [\n            (row, column)\n            for row, columns in enumerate(lst)\n            for column, item in enumerate(columns)\n            if item == x\n        ],\n        key=lambda x: (-x[0], -x[1]),\n    )",
+      -0.85888671875
+    ],
+    [
+      "rows = []\n    for i, row in enumerate(lst):\n        if x in row:\n            rows.append((i, row.index(x)))\n    return sorted(rows, key=lambda x: (x[0], -x[1]))\n\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -0.85888671875
+    ],
+    [
+      "lst = [list(i) for i in lst]\n    l = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                l.append((i, j))\n    return sorted(sorted(l, key=lambda x: x[0]), key=lambda x: x[1], reverse=True)\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 10) == []\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 5) == [(0, 4), (1, 3), (2, 4)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 2) == [(0, 1), (1, 2), (2, 1)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 3)",
+      -0.978515625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        if x in lst[i]:\n            result.append((i, lst[i].index(x)))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef get_row_2(lst, x):\n    return [\n        (i, j)\n        for i, row in enumerate(lst)\n        for j, val in enumerate(row)\n        if val == x\n    ]\n\n\nprint(get_row([\n    [1,2,3,4,5,6],\n    [1,2,3,4,1,6],\n    [1,2,3,4,5,1]\n], 1))",
+      -1.2470703125
+    ],
+    [
+      "#result = []\n    #for i, row in enumerate(lst):\n    #    for j, val in enumerate(row):\n    #        if val == x:\n    #            result.append((i,j))\n    #return sorted(result)\n    \n    result = []\n    for i, row in enumerate(lst):\n        for j, val in enumerate(row):\n            if val == x:\n                result.append((i, len(row) - 1 - j))\n    return sorted(result, key=lambda x: x[0])\n\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n\n\nif __name__ == '__main__':\n    test_get_row()",
+      -1.3447265625
+    ],
+    [
+      "# Your code here\n    def get_coordinates(row, x):\n        return [(i, j) for j, value in enumerate(row) if value == x]\n\n    def get_coordinates_by_row(rows, x):\n        return [get_coordinates(row, x) for row in rows]\n\n    return sorted(\n        [(i, j) for i, row in enumerate(get_coordinates_by_row(lst, x)) for j in sorted(row, key=lambda x: x[1], reverse=True)]\n    )\n\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 3))\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 5))\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 10))",
+      -1.3525390625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i]) - 1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef test_get_row():\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 2) == [(0, 1), (0, 2), (0, 3), (0, 4), (1, 3), (1, 2), (2, 4), (2, 3)]\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 4) == [(0, 4), (1, 3), (2, 4)]\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 5) == [(0, 5), (1, 4), (2, 5)]\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1",
+      -1.3642578125
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        if x in row:\n            result.append((i, row.index(x)))\n    result.sort(key=lambda x: x[0])\n    result.sort(key=lambda x: len(lst[x[0]]) - x[1] - 1)\n    return result\n\n\ndef test_get_row():\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n\n\nif __name__ == '__main__':\n    test_get_row()",
+      -1.556640625
+    ],
+    [
+      "# return [(i, j) for i, lst in enumerate(lst) for j, x in enumerate(lst) if x == x]\n    # return [(i, len(lst) - 1 - j) for i, lst in enumerate(lst) for j, x in enumerate(lst) if x == x]\n    return [(i, j) for i, lst in enumerate(lst) for j, x in enumerate(lst) if x == x]\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3], [1, 2, 3]], 3) == [(0, 2), (1, 2)]\n    assert get_row([[1, 2, 3], [1, 2, 3], [1, 2, 3]], 3) == [(0, 2), (1, 2), (2, 2)]\n    assert get_row([[1, 2, 3], [1, 2, 3], [1, 2, 3]], 1) == [(0, 0), (1, 1), (2, 2)]\n    assert get_row([[1, 2, 3], [1, 2, 3], [1, 2, 3]], 4) == []\n    assert get_row([[1, 2, 3], [1, 2, 3], [1, 2, 3]], 0) == []\n    assert get_row([[1, 2, 3], [1, 2, 3], [1, 2, 3]], 1",
+      -1.857421875
+    ],
+    [
+      "def get_index(x, lst):\n        return lst.index(x)\n\n    res = []\n    for row in lst:\n        for col in row:\n            if x == col:\n                res.append((get_index(row, lst), get_index(col, row)))\n\n    res.sort(key=lambda x: (x[0], -x[1]))\n    return res\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([\n      [1, 2, 3, 4, 5, 6],\n      [1, 2, 3, 4, 1, 6],\n      [1, 2, 3, 4, 5, 1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([\n      [1, 2, 3, 4, 5, 6],\n      [1, 2, 3, 4, 1, 6],\n      [1, 2, 3, 4, 5, 1]\n    ], 2) == [(0, 1), (0, 2), (1, 3), (1, 1), (2, 4)]\n    assert get_row([\n      [1, 2, 3, 4, 5, 6],\n      [1, 2, 3, 4, 1, 6],\n      [1, 2, 3, 4, 5, 1",
+      -1.8916015625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        if x in lst[i]:\n            result.append((i,lst[i].index(x)))\n    result.sort(key=lambda x: x[0])\n    result.sort(key=lambda x: x[1], reverse=True)\n    return result\n    \n    # another solution\n    result = []\n    for i, row in enumerate(lst):\n        if x in row:\n            result.append((i, row.index(x)))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n# [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n\nprint(get_row([], 1))\n# []\n\nprint(get_row([[], [1], [1, 2, 3]], 3))\n# [(2, 2)]\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 10))\n# []\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 2))\n# [(0, 1), (0, 2), (1, 1), (1, 3), (2, 1), (2, 2)]\n\nprint(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 3))\n# [(0, 3), (1",
+      -2.12890625
+    ],
+    [
+      "# your code\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, len(lst[i])-j-1))\n    result.sort(key = lambda x: (x[0], x[1]))\n    return result\n\n\n\ndef test_function():\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 6) == [(0, 5), (1, 1), (2, 0)]\n    assert get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 4) == [(0, 3), (1, 2), (2, 3)]\n    assert get_row([[1, 2, 3, 4,",
+      -2.189453125
+    ],
+    [
+      "if lst == []:\n        return []\n    else:\n        row_list = []\n        for i in range(len(lst)):\n            for j in range(len(lst[i])):\n                if lst[i][j] == x:\n                    row_list.append((i,j))\n        row_list.sort(key = lambda x: x[0])\n        for i in range(len(row_list)):\n            row_list[i] = (row_list[i][0], len(row_list[i][1])-1)\n        return row_list\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]",
+      -2.28515625
+    ],
+    [
+      "pass\n\n\n# test\n\n\ndef test_function():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 6) == [(0, 5), (1, 1), (1, 5), (2, 1), (2, 5)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 2) == [(0, 1), (1, 3), (2, 3)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 5) == [(0, 4), (1, 2), (1, 4), (2, 2), (2, 4)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 4) == [(0, 3), (1, 1), (1, 3), (2, 1), (2, 3)]\n    assert get_row([\n      [1,2,3,4,5,",
+      -2.33984375
+    ],
+    [
+      "# pass\n    # result = []\n    # for i in range(len(lst)):\n    #     for j in range(len(lst[i])):\n    #         if lst[i][j] == x:\n    #             result.append((i,j))\n    # return sorted(result)\n    return sorted(list(filter(lambda x: x[1] == x, [(i,j,lst[i][j]) for i in range(len(lst)) for j in range(len(lst[i])) if lst[i][j] == x])))\n\n\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 6))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 5))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 4))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 3))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 2))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1",
+      -2.48828125
+    ],
+    [
+      "if lst == []:\n        return []\n    else:\n        lst_tuple = []\n        for row in range(len(lst)):\n            for col in range(len(lst[row])-1, -1, -1):\n                if lst[row][col] == x:\n                    lst_tuple.append((row, col))\n        return lst_tuple\n\n\ndef test_get_row():\n    assert get_row([\n        [1,2,3,4,5,6],\n        [1,2,3,4,1,6],\n        [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1,2,3,4], [5,6,7,8]], 1) == [(0, 3), (1, 1)]\n    assert get_row([[1,2,3,4], [5,6,7,8]], 4) == [(0, 3), (1, 3)]\n    assert get_row([[1,2,3,4], [5,6,7,8]], 5) == [(1, 3)]\n    assert get_row([[1,2,3,4], [5,6,7,8]], 6) == [(1, 2)]\n    assert get_row([[1,2,3,4], [5,6,7,8]], 7) == []\n    assert get_row([[1,2,3,4], [5,6,7,8]], 8) == []\n    assert get_row([[1,2,3,4], [5,6,7,8]], 9) == []\n    assert get_row([[1,2,3,4], [5,6,7,8]], 0) == []",
+      -2.494140625
+    ],
+    [
+      "result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])-1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i, j))\n    result.sort(key = lambda x: (x[0], -x[1]))\n    return result\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 2) == []\n    assert get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 3) == []\n    assert get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 4) == [(0, 3), (1, 3), (2, 3)]\n    assert get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,",
+      -2.541015625
+    ],
+    [
+      "# result = []\n    # for i in range(len(lst)):\n    #     for j in range(len(lst[i])):\n    #         if lst[i][j] == x:\n    #             result.append((i,j))\n    # result.sort(key=lambda x: (x[0], -x[1]))\n    # return result\n    \n    # result = []\n    # for i in range(len(lst)):\n    #     for j in range(len(lst[i]) - 1, -1, -1):\n    #         if lst[i][j] == x:\n    #             result.append((i,j))\n    # return result\n    \n    result = []\n    for i, row in enumerate(lst):\n        for j in range(len(row) - 1, -1, -1):\n            if lst[i][j] == x:\n                result.append((i,j))\n    return result\n\n\ndef test_function():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 5) == [(0, 4), (1, 3), (1, 1), (2, 4)]\n    assert get_row([\n      [1, 2, 3, 4, 5, 6],\n      [1, 2, 3, 4, 1, 6],\n      [1, 2, 3, 4,",
+      -2.7109375
+    ],
+    [
+      "# your code here\n    coords = []\n    for i, row in enumerate(lst):\n        for j, col in enumerate(row):\n            if col == x:\n                coords.append((i,j))\n    coords.sort(key=lambda x: x[0])\n    for i in range(len(coords)):\n        coords[i] = (coords[i][0], len(coords[i][1]) - 1 - coords[i][1])\n    return coords\n\n\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 1))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 6))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 7))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 5))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 3))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 2))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]], 4))\nprint(get_row([[1,2,3,4,5,6], [1,2,3,4,1,6], [1,2,3,4,5,1]],",
+      -2.71875
+    ],
+    [
+      "# Check the input.\n    if not lst:\n        return []\n    if not lst[0]:\n        return []\n\n    # Create a list of tuples, [(row, column), ...]\n    # with all coordinates in the list.\n    coordinates = []\n    for row_index, row in enumerate(lst):\n        for col_index, col in enumerate(row):\n            coordinates.append((row_index, col_index))\n\n    # Sort the list by row first, then by column.\n    coordinates.sort(key=lambda x: (x[0], -x[1]))\n\n    # Find all the occurences of x in the list.\n    return [(row, col) for (row, col) in coordinates if col == x]\n\n\ndef test_get_row():\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n\n\nif __name__ == '__main__':\n    test_get_row()",
+      -2.828125
+    ],
+    [
+      "pass\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([], 1) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      -2.828125
+    ],
+    [
+      "pass\n\n\ndef get_col(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by columns in ascending order.\n    Also, sort coordinates of the column by rows in descending order.\n    \n    Examples:\n    get_col([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 0), (2, 0), (0, 4), (1, 5)]\n    get_col([], 1) == []\n    get_col([[], [1], [1, 2, 3]], 3) == [(0, 2)]\n    \"\"\"\n    pass",
+      -3.240234375
+    ],
+    [
+      "lst2 = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                lst2.append((i,j))\n    lst2 = sorted(lst2, key=lambda x: x[0])\n    for i in range(len(lst2)):\n        lst2[i] = sorted(lst2[i], key=lambda x: -x)\n    return lst2\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 10) == []\n    assert get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 0) == []\n    assert get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    assert get_row([[1, 2], [3, 4], [5, 6], [7, 8], [9, 0]], 5) == [(1, 1), (2, 1), (3,",
+      -3.82421875
+    ],
+    [
+      "# result = []\n    # for row in lst:\n    #     for i in range(len(row)):\n    #         if row[i] == x:\n    #             result.append((lst.index(row), i))\n    # return sorted(result, key=lambda x: (x[0], -x[1]))\n\n    # result = []\n    # for row in lst:\n    #     for i in range(len(row)):\n    #         if row[i] == x:\n    #             result.append((lst.index(row), i))\n    # return sorted(result, key=lambda x: (x[0], -x[1]))\n\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\nprint(get_row([\n  [1,2,3,4,5,6],\n  [1,2,3,4,1,6],\n  [1,2,3,4,5,1]\n], 1))\nprint(get_row([], 1))\nprint(get_row([[], [1], [1, 2, 3]], 3))",
+      -4.1484375
+    ],
+    [
+      "lst = [list(enumerate(i)) for i in lst]\n    lst.sort(key=lambda x: x[0])\n    return sorted([(i[0], j) for i in lst for j in i[1] if j == x], key=lambda x: x[1], reverse=True)\n\n\nif __name__ == \"__main__\":\n    print(get_row([[1, 2, 3], [4, 5, 6]], 1))\n    print(get_row([[1, 2, 3, 4, 5, 6]], 1))\n    print(get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 1))\n    print(get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 2))\n    print(get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 3))\n    print(get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 4))\n    print(get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [1, 2, 3, 4, 5, 1]], 5))\n    print(get_row([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 1, 6], [",
+      -4.359375
+    ],
+    [
+      "# get_row(lst, x)\n    # lst is a list of lists\n    # x is an integer\n    # returns list of tuples of coordinates\n    # sort by rows in ascending order\n    # sort by columns in descending order\n    # return list of tuples of coordinates\n    # base cases\n    if lst == []:\n        return []\n    \n    # helper functions\n    def get_row_helper(lst, x, row_index, row_list):\n        # lst is a list of lists\n        # x is an integer\n        # row_index is an integer\n        # row_list is a list of lists\n        # returns list of tuples of coordinates\n        # sort by columns in descending order\n        # return list of tuples of coordinates\n        # base cases\n        if row_index == len(lst):\n            return row_list\n        \n        # recursive cases\n        # get the row\n        row = lst[row_index]\n        # get the indices of the row where x is found\n        row_indices = [i for i, num in enumerate(row) if num == x]\n        # for each index in row_indices\n        for i in row_indices:\n            # add the tuple of row_index and i to row_list\n            row_list.append((row_index, i))\n        # recursive call\n        return get_row_helper(lst, x, row_index + 1, row_list)\n    \n    def get_row_list_helper(lst, row_index, row_list):\n        # lst is a list of lists\n        # row_index is an integer\n        # row_list is a list of lists\n        # returns list of tuples of coordinates\n        # sort by columns in descending order\n        # return list of tuples of coordinates\n        # base cases\n        if row_index == len(lst):\n            return row_list\n        \n        # recursive cases\n        # get the row\n        row = lst[row_index]\n        # get the indices of the row where x is found\n        row_indices = [i for i, num in enumerate(row) if num == x]\n        # for each index in row_indices",
+      -4.5234375
+    ],
+    [
+      "# TODO: Write your code here\n\n\ndef get_column(lst, y):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer y, find integers y in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by columns in ascending order.\n    Also, sort coordinates of the column by rows in descending order.\n    \n    Examples:\n    get_column([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(1, 0), (0, 4), (2, 0), (1, 0), (2, 5)]\n    get_column([], 1) == []\n    get_column([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    # TODO: Write your code here\n\n\ndef get_diagonal(lst):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, find integers y in the list, and return list of tuples,\n    [(x1, y1), (x2, y2) ...] such that each tuple is a coordinate -\n    (row, columns), starting with 0.\n    Sort coordinates initially by columns in ascending order.\n    Also, sort coordinates of the column by rows in descending order.\n    For each coordinate, make a diagonal line of integers from the\n    point, to the most left up corner.\n    \n    Examples:\n    get_diagonal([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6",
+      -4.83203125
+    ],
+    [
+      "# your code here\n    # if not lst:\n    #     return []\n    # return [ (i, j) for i, row in enumerate(lst) for j, col in enumerate(row) if col == x ]\n    return [ (i, j) for i, row in enumerate(lst) for j, col in enumerate(row) if col == x ]\n\n\ndef get_row2(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by rows in ascending order.\n    Also, sort coordinates of the row by columns in descending order.\n    \n    Examples:\n    get_row2([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row2([], 1) == []\n    get_row2([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    # your code here\n    if not lst:\n        return []\n    return [ (i, j) for i, row in enumerate(lst) for j, col in enumerate(row[::-1]) if col == x ]\n\n\ndef get_row3(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1",
+      -5.19140625
+    ],
+    [
+      "result = []\n    for i, row in enumerate(lst):\n        for j, column in enumerate(row):\n            if column == x:\n                result.append((i, len(row) - 1 - j))\n    return sorted(result, key=lambda x: (x[0], -x[1]))\n\n\ndef get_column(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by columns in ascending order.\n    Also, sort coordinates of the column by rows in descending order.\n    \n    Examples:\n    get_column([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(1, 4), (0, 0), (1, 0), (2, 5), (2, 0)]\n    get_column([], 1) == []\n    get_column([[], [1], [1, 2, 3]], 3) == [(1, 2)]\n    \"\"\"\n    result = []\n    for i, row in enumerate(lst):\n        for j, column in enumerate(row):\n            if column == x:\n                result.append((len(row) - 1 - j, i))\n    return sorted(result, key=lambda x: (x[1], -x[0]))\n\n\ndef get_column_2(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of",
+      -5.84375
+    ],
+    [
+      "pass\n\n\ndef get_column(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by columns in ascending order.\n    Also, sort coordinates of the column by rows in descending order.\n    \n    Examples:\n    get_column([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 1), (1, 4), (1, 1), (2, 0), (2, 5)]\n    get_column([], 1) == []\n    get_column([[], [1], [1, 2, 3]], 3) == [(1, 2)]\n    \"\"\"\n    pass\n\n\ndef get_diagonal(lst, x):\n    \"\"\"\n    You are given a 2 dimensional data, as a nested lists,\n    which is similar to matrix, however, unlike matrices,\n    each row may contain a different number of columns.\n    Given lst, and integer x, find integers x in the list,\n    and return list of tuples, [(x1, y1), (x2, y2) ...] such that\n    each tuple is a coordinate - (row, columns), starting with 0.\n    Sort coordinates initially by row and column,\n    then by the order in which the coordinates were found.\n    \n    Examples:\n    get_diagonal([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (",
+      -6.06640625
+    ],
+    [
+      "# My first solution:\n    #   It works, but it is not as fast as the second one\n    #   It is O(n^2)\n    #   It is not very good\n    \n    #   lst = [\n    #     [1,2,3,4,5,6],\n    #     [1,2,3,4,1,6],\n    #     [1,2,3,4,5,1]\n    #   ]\n    #   x = 1\n    #   # lst = []\n    #   # x = 1\n    #   # lst = [[], [1], [1, 2, 3]]\n    #   # x = 3\n    \n    #   lst_1 = []\n    \n    #   for i in range(len(lst)):\n    #     lst_2 = []\n    #     for j in range(len(lst[i])):\n    #       if lst[i][j] == x:\n    #         lst_2.append(j)\n    #     if lst_2 != []:\n    #       lst_2.sort(reverse=True)\n    #       lst_1.append((i, lst_2[0]))\n    \n    #   lst_1.sort(key=lambda x: x[0])\n    \n    #   return lst_1\n    \n    # My second solution:\n    #   It works, but it is not as fast as the first one\n    #   It is O(n^2)\n    #   It is not very good\n    \n    #   lst = [\n    #     [1,2,3,4,5,6],\n    #     [1,2,3,4,1,6],\n    #     [1,2,3,4,5,1]\n    #   ]\n    #   x = 1\n    #   # lst = []\n    #   # x = 1\n    #   # lst = [[], [1], [1, 2, 3]]\n    #   # x = 3\n    \n    #   lst_1 = []\n    \n    #   for i in range(len(lst)):\n    #",
+      -10.3671875
+    ],
+    [
+      "def get_row_list(lst):\n        res = []\n        for i in range(len(lst)):\n            res.append([i,0])\n        return res\n    def get_col_list(lst):\n        res = []\n        for i in range(len(lst)):\n            res.append([i,0])\n        return res\n    def get_row_index(lst, x):\n        res = []\n        for i in range(len(lst)):\n            if lst[i][0] == x:\n                res.append(lst[i][1])\n        return res\n    def get_col_index(lst, x):\n        res = []\n        for i in range(len(lst)):\n            if lst[i][1] == x:\n                res.append(lst[i][0])\n        return res\n    def get_row_index_sort(lst, x):\n        res = []\n        for i in range(len(lst)):\n            if lst[i][0] == x:\n                res.append(lst[i][1])\n        res.sort()\n        return res\n    def get_col_index_sort(lst, x):\n        res = []\n        for i in range(len(lst)):\n            if lst[i][1] == x:\n                res.append(lst[i][0])\n        res.sort(reverse=True)\n        return res\n    def get_row_index_reverse(lst, x):\n        res = []\n        for i in range(len(lst)):\n            if lst[i][0] == x:\n                res.append(lst[i][1])\n        res.sort(reverse=True)\n        return res\n    def get_col_index_reverse(lst, x):\n        res = []\n        for i in range(len(lst)):\n            if lst[i][1] == x:\n                res.append(lst[i][0])\n        res.sort()\n        return res\n    row_index = get_row_index(get_row_list(lst),x)\n    col_index = get_col_index(get_col_list(lst),x)\n    row_index",
+      -12.0859375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

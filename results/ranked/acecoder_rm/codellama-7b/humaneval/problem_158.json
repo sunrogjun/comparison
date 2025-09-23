@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/158",
+    "prompt": "\ndef find_max(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n",
+    "canonical_solution": "    return sorted(words, key = lambda x: (-len(set(x)), x))[0]\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert (candidate([\"name\", \"of\", \"string\"]) == \"string\"), \"t1\"\n    assert (candidate([\"name\", \"enam\", \"game\"]) == \"enam\"), 't2'\n    assert (candidate([\"aaaaaaa\", \"bb\", \"cc\"]) == \"aaaaaaa\"), 't3'\n    assert (candidate([\"abc\", \"cba\"]) == \"abc\"), 't4'\n    assert (candidate([\"play\", \"this\", \"game\", \"of\",\"footbott\"]) == \"footbott\"), 't5'\n    assert (candidate([\"we\", \"are\", \"gonna\", \"rock\"]) == \"gonna\"), 't6'\n    assert (candidate([\"we\", \"are\", \"a\", \"mad\", \"nation\"]) == \"nation\"), 't7'\n    assert (candidate([\"this\", \"is\", \"a\", \"prrk\"]) == \"this\"), 't8'\n\n    # Check some edge cases that are easy to work out by hand.\n    assert (candidate([\"b\"]) == \"b\"), 't9'\n    assert (candidate([\"play\", \"play\", \"play\"]) == \"play\"), 't10'\n\n",
+    "entry_point": "find_max",
+    "docstring": "",
+    "problem_id": 158
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# Your code here\n    if len(words) == 1:\n        return words[0]\n    else:\n        word_1 = words[0]\n        word_2 = words[1]\n        for word in words:\n            if len(set(word)) > len(set(word_1)):\n                word_1 = word\n        for word in words:\n            if len(set(word)) == len(set(word_1)) and word < word_1:\n                word_1 = word\n        return word_1\n\n\n\ndef find_max(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    # Your code here\n    if len(words) == 1:\n        return words[0]\n    else:\n        word_1 = words[0]\n        word_2 = words[1]\n        for word in words:\n            if len(set(word)) > len(set(word_1)):\n                word_1 = word\n        for word in words:\n            if len(set(word)) == len(set(word_1)) and word < word_1:\n                word_1 = word\n        return word_1",
+      7.921875
+    ],
+    [
+      "return sorted(words, key=lambda x: (len(set(x)), x))[-1]\n\n\ndef find_max_2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    return max(words, key=lambda x: (len(set(x)), x))\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      7.0390625
+    ],
+    [
+      "# Your code here\n    longest = 0\n    longest_word = None\n    for word in words:\n        if len(set(word)) > longest:\n            longest = len(set(word))\n            longest_word = word\n    return longest_word\n\n\ndef find_max2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    # Your code here\n    longest = 0\n    longest_word = None\n    for word in words:\n        if len(set(word)) > longest:\n            longest = len(set(word))\n            longest_word = word\n    return longest_word\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      6.34765625
+    ],
+    [
+      "# TODO: Write your code here\n    max_word = words[0]\n    max_count = 0\n    for word in words:\n        if len(set(word)) > max_count:\n            max_count = len(set(word))\n            max_word = word\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      6.140625
+    ],
+    [
+      "if not words:\n        return None\n    max_word = words[0]\n    max_length = len(set(max_word))\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n        elif len(set(word)) == max_length:\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\ndef find_max_v2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    if not words:\n        return None\n    max_word = words[0]\n    max_length = len(set(max_word))\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      4.46484375
+    ],
+    [
+      "if len(words) == 0:\n        return \"\"\n\n    # find the word with maximum number of unique characters\n    max_word = words[0]\n    max_unique_chars = len(set(max_word))\n    for word in words:\n        unique_chars = len(set(word))\n        if unique_chars > max_unique_chars:\n            max_word = word\n            max_unique_chars = unique_chars\n        elif unique_chars == max_unique_chars:\n            if word < max_word:\n                max_word = word\n\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      4.4140625
+    ],
+    [
+      "# Your code here\n    max_length = 0\n    max_word = None\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word",
+      4.0390625
+    ],
+    [
+      "max_string = \"\"\n    max_length = 0\n    for string in words:\n        string_length = len(set(string))\n        if string_length > max_length:\n            max_length = string_length\n            max_string = string\n    return max_string\n\n\ndef find_max_1(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    max_string = \"\"\n    max_length = 0\n    for string in words:\n        string_length = len(set(string))\n        if string_length > max_length:\n            max_length = string_length\n            max_string = string\n    return max_string",
+      3.640625
+    ],
+    [
+      "word_dict = {}\n    for word in words:\n        word_dict[word] = len(set(word))\n\n    return max(word_dict, key=word_dict.get)\n\n\ndef find_max_2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    max_length = 0\n    max_word = \"\"\n\n    for word in words:\n        word_set = set(word)\n        if len(word_set) > max_length:\n            max_length = len(word_set)\n            max_word = word\n        elif len(word_set) == max_length:\n            if word < max_word:\n                max_word = word\n\n    return max_word\n\n\ndef find_max_3(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    max_length = 0\n    max_word = \"\"\n\n    for word in words:\n        word_set = set(word)\n        if len(word_set) > max_length:\n            max_length = len(word_set)\n            max_word = word\n        elif len(word_set) == max_length:\n            if word < max_word:",
+      3.396484375
+    ],
+    [
+      "words_dict = {}\n    for word in words:\n        words_dict[word] = len(set(word))\n    max_value = max(words_dict.values())\n    result = [key for key, value in words_dict.items() if value == max_value]\n    return min(result)",
+      3.294921875
+    ],
+    [
+      "# Your code here\n\n    # first, we get the length of the strings\n    str_length = []\n    for i in words:\n        str_length.append(len(i))\n\n    # now, we find the maximum length\n    max_length = max(str_length)\n\n    # then, we find the strings with the maximum length\n    max_length_strings = []\n    for i in range(len(words)):\n        if len(words[i]) == max_length:\n            max_length_strings.append(words[i])\n\n    # now, we check each string to see if there are any duplicates\n    for i in range(len(max_length_strings)):\n        for j in range(len(max_length_strings[i])):\n            if max_length_strings[i][j] in max_length_strings[i][j+1:]:\n                return max_length_strings[i+1]\n\n    return max_length_strings[0]\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      3.236328125
+    ],
+    [
+      "if len(words) == 0:\n        return \"\"\n\n    max_word = words[0]\n    for word in words[1:]:\n        if len(set(word)) > len(set(max_word)):\n            max_word = word\n        elif len(set(word)) == len(set(max_word)) and word < max_word:\n            max_word = word\n    return max_word",
+      2.7578125
+    ],
+    [
+      "max_len = 0\n    max_word = \"\"\n\n    for word in words:\n        if len(set(word)) > max_len:\n            max_len = len(set(word))\n            max_word = word\n        elif len(set(word)) == max_len and word < max_word:\n            max_word = word\n\n    return max_word\n\n\nif __name__ == '__main__':\n    words = [\"name\", \"of\", \"string\"]\n    print(find_max(words))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      2.453125
+    ],
+    [
+      "# 1. get unique characters of each word\n    # 2. find word with maximum number of unique characters\n    # 3. if multiple words have maximum number of unique characters, return\n    # the one which comes first in lexicographical order\n\n    # 1. get unique characters of each word\n    unique_chars = []\n    for word in words:\n        unique_chars.append(set(word))\n\n    # 2. find word with maximum number of unique characters\n    max_len = 0\n    for i in range(len(unique_chars)):\n        if len(unique_chars[i]) > max_len:\n            max_len = len(unique_chars[i])\n            max_i = i\n\n    # 3. if multiple words have maximum number of unique characters, return\n    # the one which comes first in lexicographical order\n    max_word = words[max_i]\n    for word in words:\n        if len(unique_chars[words.index(word)]) == max_len and \\\n            word < max_word:\n            max_word = word\n    return max_word",
+      2.22265625
+    ],
+    [
+      "if len(words) == 0:\n        return None\n    max_string = words[0]\n    max_count = len(set(words[0]))\n    for word in words[1:]:\n        if len(set(word)) > max_count:\n            max_count = len(set(word))\n            max_string = word\n    return max_string\n\n\ndef find_max_word(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    if len(words) == 0:\n        return None\n    max_string = words[0]\n    max_count = len(set(words[0]))\n    for word in words[1:]:\n        if len(set(word)) > max_count:\n            max_count = len(set(word))\n            max_string = word\n    return max_string\n\n\ndef find_max_word(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    if len(words) == 0:\n        return None\n    max_string = words[0]\n    max_count = len(set(words[0]))\n    for word in words[1:]:\n        if len(set(word)) > max_count:",
+      2.11328125
+    ],
+    [
+      "if not words:\n        return \"\"\n\n    max_word = words[0]\n    max_unique_chars = len(set(max_word))\n\n    for word in words[1:]:\n        unique_chars = len(set(word))\n        if unique_chars > max_unique_chars:\n            max_unique_chars = unique_chars\n            max_word = word\n        elif unique_chars == max_unique_chars:\n            if word < max_word:\n                max_word = word\n\n    return max_word",
+      1.7880859375
+    ],
+    [
+      "max_word = \"\"\n    max_char = 0\n    for word in words:\n        if len(set(word)) > max_char:\n            max_char = len(set(word))\n            max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"a\", \"b\", \"c\"]) == \"c\"\n    assert find_max([\"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"a\", \"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]) == \"a\"",
+      1.6484375
+    ],
+    [
+      "if not words:\n        return \"\"\n\n    max_length = 0\n    max_string = \"\"\n\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_string = word\n\n    return max_string",
+      1.5341796875
+    ],
+    [
+      "if not words:\n        return \"\"\n\n    unique_characters = set()\n    for word in words:\n        for character in word:\n            unique_characters.add(character)\n\n    return max(words, key=lambda word: (len(set(word)), word))\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      1.5302734375
+    ],
+    [
+      "if len(words) == 0:\n        return \"\"\n\n    max_word = words[0]\n    for word in words:\n        if len(set(word)) > len(set(max_word)):\n            max_word = word\n        elif len(set(word)) == len(set(max_word)):\n            if word < max_word:\n                max_word = word\n\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      1.400390625
+    ],
+    [
+      "pass\n\n\ndef find_max2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    pass\n\n\ndef find_max3(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    pass\n\n\ndef find_max4(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    pass",
+      1.36328125
+    ],
+    [
+      "if words == None:\n        return None\n    if len(words) == 0:\n        return None\n    if len(words) == 1:\n        return words[0]\n    if len(words) == 2:\n        if len(words[0]) > len(words[1]):\n            return words[0]\n        else:\n            return words[1]\n    # for i in range(len(words)):\n    #     for j in range(i+1, len(words)):\n    #         if len(words[i]) == len(words[j]):\n    #             if words[i] < words[j]:\n    #                 return words[i]\n    #             else:\n    #                 return words[j]\n    #         elif len(words[i]) > len(words[j]):\n    #             return words[i]\n    #         else:\n    #             return words[j]\n    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(word) > max_length:\n            max_length = len(word)\n            max_word = word\n        elif len(word) == max_length:\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"enam\", \"game\", \"aabb\", \"cc\"]))",
+      1.294921875
+    ],
+    [
+      "max_count = 0\n    result = \"\"\n    for word in words:\n        count = len(set(word))\n        if count > max_count:\n            max_count = count\n            result = word\n    return result\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      1.150390625
+    ],
+    [
+      "max_length = 0\n    for word in words:\n        if len(word) > max_length:\n            max_length = len(word)\n\n    max_unique = 0\n    for word in words:\n        if len(set(word)) > max_unique:\n            max_unique = len(set(word))\n\n    for word in words:\n        if len(set(word)) == max_unique:\n            return word\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      0.99755859375
+    ],
+    [
+      "result = words[0]\n    max_unique_chars = len(set(result))\n\n    for word in words[1:]:\n        unique_chars = len(set(word))\n        if unique_chars > max_unique_chars:\n            max_unique_chars = unique_chars\n            result = word\n        elif unique_chars == max_unique_chars:\n            if word < result:\n                result = word\n\n    return result",
+      0.83154296875
+    ],
+    [
+      "if len(words) == 0:\n        return \"\"\n\n    max_word = words[0]\n    max_count = 0\n\n    for word in words:\n        chars = set(word)\n        if len(chars) > max_count:\n            max_word = word\n            max_count = len(chars)\n        elif len(chars) == max_count:\n            if word < max_word:\n                max_word = word\n\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      0.82861328125
+    ],
+    [
+      "result = \"\"\n    unique_chars = set()\n    for word in words:\n        for char in word:\n            if char not in unique_chars:\n                unique_chars.add(char)\n        if len(unique_chars) > len(result):\n            result = word\n        elif len(unique_chars) == len(result) and word < result:\n            result = word\n    return result\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cccc\"]) == \"cccc\"",
+      0.55810546875
+    ],
+    [
+      "# find the length of the string\n    # find the length of the unique characters\n    # create a dictionary with the unique characters\n    # if the length of the unique characters is greater than the current max\n    # set the current max to the current word\n    # if the length of the unique characters is the same, but the word comes first\n    # return the first word\n    # return the current max\n\n    max_length = 0\n    current_max = \"\"\n\n    for word in words:\n        unique_char = set(word)\n        if len(unique_char) > max_length:\n            max_length = len(unique_char)\n            current_max = word\n        elif len(unique_char) == max_length and word < current_max:\n            current_max = word\n    return current_max\n\nif __name__ == \"__main__\":\n    words = [\"name\", \"of\", \"string\"]\n    print(find_max(words))\n    words = [\"name\", \"enam\", \"game\"]\n    print(find_max(words))\n    words = [\"aaaaaaa\", \"bb\" ,\"cc\"]\n    print(find_max(words))",
+      0.4833984375
+    ],
+    [
+      "if not words:\n        return None\n\n    unique_chars_map = {}\n    for word in words:\n        unique_chars_map[word] = len(set(word))\n\n    max_key = max(unique_chars_map, key=unique_chars_map.get)\n    return max_key",
+      0.471435546875
+    ],
+    [
+      "max_word = words[0]\n    for word in words[1:]:\n        if len(set(word)) > len(set(max_word)):\n            max_word = word\n        elif len(set(word)) == len(set(max_word)) and word < max_word:\n            max_word = word\n    return max_word\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cccccc\"]))",
+      0.43603515625
+    ],
+    [
+      "if not words:\n        return \"\"\n\n    max_word = words[0]\n    max_count = 0\n    for word in words:\n        if len(set(word)) > max_count:\n            max_count = len(set(word))\n            max_word = word\n\n    return max_word\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      0.3671875
+    ],
+    [
+      "if not words:\n        return None\n    elif len(words) == 1:\n        return words[0]\n\n    max_word = \"\"\n    max_count = 0\n    for word in words:\n        if len(set(word)) > max_count:\n            max_word = word\n            max_count = len(set(word))\n\n    return max_word\n\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      0.1741943359375
+    ],
+    [
+      "# your code here\n    max_word = ''\n    max_char = 0\n    for word in words:\n        if len(set(word)) > max_char:\n            max_word = word\n            max_char = len(set(word))\n    return max_word",
+      0.144287109375
+    ],
+    [
+      "if words == []:\n        return None\n    max_count = 0\n    max_word = None\n    for word in words:\n        count = len(set(word))\n        if count > max_count:\n            max_count = count\n            max_word = word\n    return max_word",
+      0.038360595703125
+    ],
+    [
+      "# Your code here\n    max_count = 0\n    max_string = \"\"\n\n    for word in words:\n        count = 0\n        char_set = set()\n        for char in word:\n            if char not in char_set:\n                char_set.add(char)\n                count += 1\n        if count > max_count:\n            max_count = count\n            max_string = word\n    return max_string\n\n\ndef find_max_with_set(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max_with_set([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max_with_set([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max_with_set([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    # Your code here\n    max_count = 0\n    max_string = \"\"\n    word_set = set()\n\n    for word in words:\n        if word not in word_set:\n            word_set.add(word)\n            count = len(set(word))\n            if count > max_count:\n                max_count = count\n                max_string = word\n    return max_string",
+      -0.463134765625
+    ],
+    [
+      "return max(words, key=lambda x: len(set(x)))\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.47216796875
+    ],
+    [
+      "unique_chars = []\n    for word in words:\n        unique_chars.extend(word)\n\n    unique_chars = list(set(unique_chars))\n    max_count = 0\n    max_word = \"\"\n    for word in words:\n        count = 0\n        for char in word:\n            if char in unique_chars:\n                count += 1\n        if count > max_count:\n            max_count = count\n            max_word = word\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.4736328125
+    ],
+    [
+      "if not words:\n        return \"\"\n    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.654296875
+    ],
+    [
+      "# Your code here\n    max_unique_char_words = []\n    for word in words:\n        unique_char_count = len(set(word))\n        if len(max_unique_char_words) == 0 or unique_char_count > len(set(max_unique_char_words[0])):\n            max_unique_char_words = [word]\n        elif unique_char_count == len(set(max_unique_char_words[0])):\n            max_unique_char_words.append(word)\n\n    return sorted(max_unique_char_words)[0]\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.76806640625
+    ],
+    [
+      "if len(words) == 0:\n        return None\n\n    max_len = 0\n    max_word = \"\"\n    for word in words:\n        if len(word) > max_len:\n            max_len = len(word)\n            max_word = word\n        elif len(word) == max_len:\n            if word < max_word:\n                max_word = word\n\n    return max_word\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))\n    print(find_max([]))",
+      -0.85595703125
+    ],
+    [
+      "result = \"\"\n    max_unique = 0\n    for word in words:\n        unique = set(word)\n        if len(unique) > max_unique:\n            max_unique = len(unique)\n            result = word\n    return result\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.85595703125
+    ],
+    [
+      "pass",
+      -0.85595703125
+    ],
+    [
+      "max_string = \"\"\n    max_count = 0\n    for word in words:\n        if len(set(word)) > max_count:\n            max_string = word\n            max_count = len(set(word))\n\n    return max_string\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\", \"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"a\", \"b\", \"c\"]) == \"a\"",
+      -0.85595703125
+    ],
+    [
+      "# TODO: Write your code here\n    max_count = 0\n    max_word = \"\"\n\n    for word in words:\n        unique_chars = set(word)\n        if len(unique_chars) > max_count:\n            max_word = word\n            max_count = len(unique_chars)\n\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.85595703125
+    ],
+    [
+      "pass",
+      -0.85595703125
+    ],
+    [
+      "return max(words, key=lambda x: len(set(x)))",
+      -0.85595703125
+    ],
+    [
+      "return max(words, key=lambda s: len(set(s)))\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"a\", \"b\", \"a\"]) == \"a\"\n    assert find_max([\"a\"]) == \"a\"\n    assert find_max([]) == None",
+      -0.85693359375
+    ],
+    [
+      "# if len(words) == 0:\n    #     return None\n    # max_word = words[0]\n    # for word in words:\n    #     if len(set(word)) > len(set(max_word)):\n    #         max_word = word\n    # return max_word\n\n    if len(words) == 0:\n        return None\n\n    max_word = words[0]\n    for word in words:\n        if len(set(word)) > len(set(max_word)):\n            max_word = word\n        elif len(set(word)) == len(set(max_word)):\n            if word < max_word:\n                max_word = word\n    return max_word",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    max_len = -1\n    result = None\n    for word in words:\n        if len(set(word)) > max_len:\n            max_len = len(set(word))\n            result = word\n    return result\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.85693359375
+    ],
+    [
+      "return max(words, key=lambda x: (len(set(x)), x))",
+      -0.85693359375
+    ],
+    [
+      "pass",
+      -0.85693359375
+    ],
+    [
+      "# your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "return None",
+      -0.85693359375
+    ],
+    [
+      "# Your code goes here\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.85693359375
+    ],
+    [
+      "if not words:\n        return \"\"\n\n    max_word = words[0]\n    max_char = len(set(words[0]))\n\n    for word in words[1:]:\n        if len(set(word)) > max_char:\n            max_word = word\n            max_char = len(set(word))\n        elif len(set(word)) == max_char:\n            if word < max_word:\n                max_word = word\n    return max_word",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.85693359375
+    ],
+    [
+      "max_word = words[0]\n    max_length = len(set(max_word))\n\n    for word in words:\n        if len(set(word)) > max_length:\n            max_word = word\n            max_length = len(set(word))\n\n    return max_word",
+      -0.857421875
+    ],
+    [
+      "word_list = []\n    for word in words:\n        word_list.append((len(set(word)), word))\n    word_list.sort()\n    word_list.reverse()\n    return word_list[0][1]",
+      -0.857421875
+    ],
+    [
+      "# Your code here\n    max_word = words[0]\n    max_len = len(set(max_word))\n    for word in words:\n        if len(set(word)) > max_len:\n            max_len = len(set(word))\n            max_word = word\n\n    return max_word",
+      -0.85791015625
+    ],
+    [
+      "max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word\n\n\ndef main():\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "unique_chars = {}\n    for word in words:\n        for char in word:\n            if char not in unique_chars:\n                unique_chars[char] = 1\n            else:\n                unique_chars[char] += 1\n    max_count = max(unique_chars.values())\n    for word in words:\n        if len(unique_chars) == max_count:\n            return word\n    return \"\"",
+      -0.85791015625
+    ],
+    [
+      "max_length = 0\n    max_word = None\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word",
+      -0.85791015625
+    ],
+    [
+      "max_word = words[0]\n    for word in words:\n        if len(set(word)) > len(set(max_word)):\n            max_word = word\n        elif len(set(word)) == len(set(max_word)):\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"",
+      -0.85791015625
+    ],
+    [
+      "return max(words, key=lambda word: len(set(word)))\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\", \"cc\"]) == \"aaaaaaa\"",
+      -0.85791015625
+    ],
+    [
+      "max_count = 0\n    result = \"\"\n    for word in words:\n        word_count = 0\n        for letter in word:\n            if letter not in word_count:\n                word_count += 1\n        if word_count > max_count:\n            max_count = word_count\n            result = word\n    return result",
+      -0.85791015625
+    ],
+    [
+      "if not words:\n        return \"\"\n\n    max_unique_chars = -1\n    result = \"\"\n\n    for word in words:\n        if len(set(word)) > max_unique_chars:\n            max_unique_chars = len(set(word))\n            result = word\n        elif len(set(word)) == max_unique_chars:\n            if word < result:\n                result = word\n\n    return result",
+      -0.85791015625
+    ],
+    [
+      "max_word = \"\"\n    max_unique = 0\n    for word in words:\n        unique_chars = set(word)\n        if len(unique_chars) > max_unique:\n            max_unique = len(unique_chars)\n            max_word = word\n        elif len(unique_chars) == max_unique:\n            if word < max_word:\n                max_word = word\n    return max_word",
+      -0.8583984375
+    ],
+    [
+      "if words == []:\n        return \"\"\n    max_word = words[0]\n    max_length = len(set(max_word))\n    for word in words[1:]:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n        elif len(set(word)) == max_length and word < max_word:\n            max_word = word\n    return max_word",
+      -0.8583984375
+    ],
+    [
+      "# Your code here\n    max_word = words[0]\n    max_unique = len(set(words[0]))\n    for word in words:\n        unique_count = len(set(word))\n        if unique_count > max_unique:\n            max_word = word\n            max_unique = unique_count\n        elif unique_count == max_unique:\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.8583984375
+    ],
+    [
+      "if not words:\n        return None\n    max_word = words[0]\n    max_length = len(set(max_word))\n    for word in words:\n        word_length = len(set(word))\n        if word_length > max_length:\n            max_word = word\n            max_length = word_length\n        elif word_length == max_length:\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -0.8583984375
+    ],
+    [
+      "max_len = -1\n    max_word = None\n\n    for word in words:\n        unique_chars = set(word)\n        if len(unique_chars) > max_len:\n            max_len = len(unique_chars)\n            max_word = word\n\n    return max_word",
+      -0.8583984375
+    ],
+    [
+      "# Your code here\n    max_word = \"\"\n    max_count = 0\n    for word in words:\n        unique_characters = set(word)\n        if len(unique_characters) > max_count:\n            max_count = len(unique_characters)\n            max_word = word\n        elif len(unique_characters) == max_count:\n            if word < max_word:\n                max_word = word\n    return max_word",
+      -0.8583984375
+    ],
+    [
+      "max_num = 0\n    result = None\n    for word in words:\n        if len(set(word)) > max_num:\n            max_num = len(set(word))\n            result = word\n    return result\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.8583984375
+    ],
+    [
+      "words = sorted(words)\n    max_length = len(words[0])\n    for word in words:\n        if len(word) > max_length:\n            max_length = len(word)\n            max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n\n\nif __name__ == '__main__':\n    test_find_max()",
+      -0.86083984375
+    ],
+    [
+      "unique_chars = set()\n    for word in words:\n        for char in word:\n            unique_chars.add(char)\n    max_unique_chars = len(unique_chars)\n    max_unique_words = []\n    for word in words:\n        unique_chars = set()\n        for char in word:\n            unique_chars.add(char)\n        if len(unique_chars) == max_unique_chars:\n            max_unique_words.append(word)\n    return min(max_unique_words)",
+      -0.86083984375
+    ],
+    [
+      "word_length = {}\n    for word in words:\n        if word not in word_length:\n            word_length[word] = len(set(word))\n    max_length = max(word_length.values())\n    max_words = []\n    for word, length in word_length.items():\n        if length == max_length:\n            max_words.append(word)\n    return min(max_words)\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.86083984375
+    ],
+    [
+      "if not words:\n        return \"\"\n    max_word = words[0]\n    max_unique = len(set(words[0]))\n    for word in words[1:]:\n        if len(set(word)) > max_unique:\n            max_unique = len(set(word))\n            max_word = word\n        elif len(set(word)) == max_unique:\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -0.86083984375
+    ],
+    [
+      "if not words:\n        return \"\"\n    max_word = words[0]\n    for word in words[1:]:\n        if len(set(word)) > len(set(max_word)):\n            max_word = word\n        elif len(set(word)) == len(set(max_word)):\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\ndef test_function():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"a\", \"a\", \"a\"]) == \"a\"\n    assert find_max([\"name\", \"name\", \"name\"]) == \"name\"\n    assert find_max([\"a\", \"b\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"b\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"b\", \"aa\"]) == \"aa\"\n    assert find_max([\"a\", \"b\", \"aaa\"]) == \"aaa\"\n\n\nif __name__ == '__main__':\n    test_function()",
+      -1.0146484375
+    ],
+    [
+      "unique_chars = {}\n    for word in words:\n        for char in word:\n            unique_chars[char] = 1\n\n    if len(unique_chars) == 0:\n        return \"\"\n\n    return max(words, key=lambda x: (len(set(x)), x))",
+      -1.0791015625
+    ],
+    [
+      "max_word = words[0]\n    max_unique = len(set(max_word))\n    for word in words:\n        if len(set(word)) > max_unique:\n            max_unique = len(set(word))\n            max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"\"]) == \"\"\n    assert find_max([\"a\", \"a\"]) == \"a\"\n    assert find_max([\"a\", \"b\"]) == \"b\"\n\n\ndef test_find_max_empty():\n    assert find_max([]) == \"\"\n\n\ndef test_find_max_one_element():\n    assert find_max([\"a\"]) == \"a\"\n\n\ndef test_find_max_two_elements():\n    assert find_max([\"a\", \"b\"]) == \"a\"",
+      -1.298828125
+    ],
+    [
+      "words.sort()\n    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word\n\n\ndef test_find_max_with_words_with_unique_chars():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n\n\ndef test_find_max_with_words_with_repeated_chars():\n    assert find_max([\"aaaaaaa\", \"bb\", \"cc\"]) == \"aaaaaaa\"\n\n\ndef test_find_max_with_words_with_same_length():\n    assert find_max([\"aaaaaaa\", \"bb\", \"cc\", \"aa\"]) == \"aaaaaaa\"\n\n\ndef test_find_max_with_words_with_same_length_and_same_chars():\n    assert find_max([\"aaaaaaa\", \"bb\", \"cc\", \"aa\", \"aaaaaaa\"]) == \"aaaaaaa\"",
+      -1.5205078125
+    ],
+    [
+      "max_chars = 0\n    max_word = \"\"\n    for word in words:\n        if len(set(word)) > max_chars:\n            max_chars = len(set(word))\n            max_word = word\n    return max_word",
+      -1.5546875
+    ],
+    [
+      "max_unique_char = 0\n    max_unique_char_word = \"\"\n    for word in words:\n        unique_char = set(word)\n        if len(unique_char) > max_unique_char:\n            max_unique_char = len(unique_char)\n            max_unique_char_word = word\n        elif len(unique_char) == max_unique_char:\n            if word < max_unique_char_word:\n                max_unique_char_word = word\n    return max_unique_char_word",
+      -1.6181640625
+    ],
+    [
+      "# if len(words) == 1:\n    #     return words[0]\n    # else:\n    #     return find_max([words[0]])\n    #     return find_max(words[1:])\n\n    if len(words) == 1:\n        return words[0]\n\n    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n\n    return max_word\n\n\ndef test_function():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\", \"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"name\", \"name\", \"name\"]) == \"name\"\n    assert find_max([\"name\", \"name\", \"name\", \"name\"]) == \"name\"\n    assert find_max([\"name\", \"name\", \"name\", \"name\", \"name\"]) == \"name\"\n    assert find_max([\"name\", \"name\", \"name\", \"name\", \"name\", \"name\"]) == \"name\"\n    assert find_max([\"name\", \"name\", \"name\", \"name\", \"name\", \"name\", \"name\"]) == \"name\"",
+      -1.669921875
+    ],
+    [
+      "max_word = \"\"\n    max_unique = 0\n    for word in words:\n        unique = len(set(word))\n        if unique > max_unique:\n            max_word = word\n            max_unique = unique\n        elif unique == max_unique:\n            if word < max_word:\n                max_word = word\n    return max_word\n\n\nif __name__ == \"__main__\":\n    words = [\"name\", \"of\", \"string\"]\n    print(find_max(words))\n    words = [\"name\", \"enam\", \"game\"]\n    print(find_max(words))\n    words = [\"aaaaaaa\", \"bb\", \"cc\"]\n    print(find_max(words))",
+      -1.7998046875
+    ],
+    [
+      "max_len = 0\n    max_word = None\n    for word in words:\n        word_len = len(set(word))\n        if word_len > max_len:\n            max_len = word_len\n            max_word = word\n    return max_word\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\", \"cc\"]))",
+      -1.806640625
+    ],
+    [
+      "max_word = \"\"\n    max_count = 0\n    for word in words:\n        if len(set(word)) > max_count:\n            max_count = len(set(word))\n            max_word = word\n    return max_word",
+      -1.9375
+    ],
+    [
+      "max_word = words[0]\n    max_length = 0\n    for word in words:\n        unique_word = set(word)\n        if len(unique_word) > max_length:\n            max_length = len(unique_word)\n            max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"name\", \"of\", \"string\", \"game\"]) == \"string\"\n    assert find_max([\"name\", \"of\", \"string\", \"game\", \"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"name\", \"of\", \"string\", \"game\", \"aaaaaaa\", \"bb\" ,\"cc\", \"enam\"]) == \"enam\"\n    assert find_max([\"name\", \"of\", \"string\", \"game\", \"aaaaaaa\", \"bb\" ,\"cc\", \"enam\", \"bbb\"]) == \"bbb\"\n    assert find_max([\"name\", \"of\", \"string\", \"game\", \"aaaaaaa\", \"bb\" ,\"cc\", \"enam\", \"bbb\", \"aaaaaaa\"]) == \"aaaaaaa\"\n    assert find_max([\"name\", \"of\", \"string\", \"game\", \"aaaaaaa\", \"bb\" ,\"cc\", \"enam\", \"bbb\", \"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"",
+      -2.076171875
+    ],
+    [
+      "# Your code here\n    # 1. Get the length of each word\n    # 2. Get the unique characters of each word\n    # 3. If the length of the word is the same as the max, compare the number of unique characters\n    # 4. If the word has more unique characters, set it to the max\n    # 5. If the word has the same number of unique characters, compare the lexicographical order\n    # 6. If the word is the same as the max, add it to the max_words list\n    # 7. If the word is not in the max_words list, set it to the max_word\n    # 8. Return the max_word\n    # 9. If the max_word is empty, return the first word in the list\n\n    if not words:\n        return None\n\n    max_word = words[0]\n    max_unique_characters = len(set(max_word))\n    max_words = []\n\n    for word in words:\n        word_length = len(word)\n        unique_characters = len(set(word))\n\n        if word_length > max_unique_characters:\n            max_word = word\n            max_unique_characters = unique_characters\n            max_words = [max_word]\n        elif word_length == max_unique_characters:\n            if word not in max_words:\n                max_words.append(word)\n            if word < max_word:\n                max_word = word\n\n    return max_word\n\n\nif __name__ == '__main__':\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max([\"name\", \"enam\", \"game\"]))\n    print(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -2.6796875
+    ],
+    [
+      "# Your code here\n    return \"\"\n\n\ndef find_min(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with minimum number\n    of unique characters. If multiple strings have minimum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_min([\"name\", \"of\", \"string\"]) == \"of\"\n    find_min([\"name\", \"enam\", \"game\"]) == \"game\"\n    find_min([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"bb\"\n    \"\"\"\n    # Your code here\n    return \"\"\n\n\ndef find_max_length(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the length of the word with maximum number\n    of characters. If multiple strings have maximum number of characters, return the length\n    of the one which comes first in lexicographical order.\n\n    find_max_length([\"name\", \"of\", \"string\"]) == 6\n    find_max_length([\"name\", \"enam\", \"game\"]) == 5\n    find_max_length([\"aaaaaaa\", \"bb\" ,\"cc\"]) == 6\n    \"\"\"\n    # Your code here\n    return 0\n\n\ndef find_min_length(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the length of the word with minimum number\n    of characters. If multiple strings have minimum number of characters, return the length\n    of the one which comes first in lexicographical order.\n\n    find_min_length([\"name\", \"of\", \"string\"]) == 3\n    find_min_length([\"name\", \"enam\", \"game\"]) == 4\n    find_min_length([\"aaaaaaa\", \"bb\" ,\"cc\"]) == 2\n    \"\"\"\n    # Your code here\n    return 0\n\n\ndef find_max_sum_of_squares(nums):\n    \"\"\"Write a function that accepts a list of integers.\n    The list contains different numbers. Return the sum of squares of the maximum\n    three numbers. If the list has less",
+      -3.072265625
+    ],
+    [
+      "unique_char = {}\n    for word in words:\n        for char in word:\n            if char not in unique_char:\n                unique_char[char] = 1\n            else:\n                unique_char[char] += 1\n\n    max_char = 0\n    for word in words:\n        if len(unique_char) > max_char:\n            max_char = len(unique_char)\n\n    for word in words:\n        if len(unique_char) == max_char:\n            return word\n\n\nprint(find_max([\"name\", \"of\", \"string\"]))\nprint(find_max([\"name\", \"enam\", \"game\"]))\nprint(find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]))",
+      -3.123046875
+    ],
+    [
+      "word_list = []\n    for word in words:\n        word_list.append(set(word))\n    max_word = word_list[0]\n    max_word_count = len(max_word)\n    for i in range(1, len(word_list)):\n        if len(word_list[i]) > max_word_count:\n            max_word = word_list[i]\n            max_word_count = len(max_word)\n    return max_word\n\ndef find_max_2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    return sorted(words, key=lambda x: (len(set(x)), x))[-1]\n\ndef find_max_3(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    return sorted(words, key=lambda x: (len(set(x)), x))[-1]\n\ndef find_max_4(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"",
+      -3.396484375
+    ],
+    [
+      "if words == []:\n        return \"\"\n\n    word_count = {}\n    for word in words:\n        if word not in word_count:\n            word_count[word] = 0\n        for letter in word:\n            if letter not in word_count:\n                word_count[letter] = 1\n            else:\n                word_count[letter] += 1\n    max_count = 0\n    max_word = \"\"\n    for word, count in word_count.items():\n        if count > max_count:\n            max_count = count\n            max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"name\", \"of\", \"string\", \"string\"]) == \"string\"\n    assert find_max([]) == \"\"\n    assert find_max([\"a\", \"b\"]) == \"a\"",
+      -3.556640625
+    ],
+    [
+      "max_unique = 0\n    max_word = \"\"\n    for word in words:\n        unique_chars = set(word)\n        if len(unique_chars) > max_unique:\n            max_unique = len(unique_chars)\n            max_word = word\n    return max_word",
+      -3.765625
+    ],
+    [
+      "words_dict = {}\n    for word in words:\n        words_dict[word] = len(set(word))\n    return max(words_dict, key=words_dict.get)",
+      -4.26171875
+    ],
+    [
+      "pass\n\n\ndef find_max_2(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max_2([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max_2([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max_2([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    pass\n\n\ndef find_max_3(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max_3([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max_3([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max_3([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    pass\n\n\ndef find_max_4(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max_4([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max_4([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max_4([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    pass\n\n\nif __name__ == \"__main__\":\n    print(find_max([\"name\", \"of\", \"string\"]))\n    print(find_max_2([\"name\", \"of\", \"string\"]))\n    print(find_max_3([\"name\", \"of\", \"string\"]))",
+      -5.15234375
+    ],
+    [
+      "if len(words) == 0:\n        return \"\"\n    if len(words) == 1:\n        return words[0]\n    if len(words) == 2:\n        return words[0] if len(words[0]) >= len(words[1]) else words[1]\n\n    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(word) > max_length:\n            max_length = len(word)\n            max_word = word\n\n    return max_word\n\n\ndef find_max_alt(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    if len(words) == 0:\n        return \"\"\n    if len(words) == 1:\n        return words[0]\n    if len(words) == 2:\n        return words[0] if len(words[0]) >= len(words[1]) else words[1]\n\n    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(word) > max_length:\n            max_length = len(word)\n            max_word = word\n\n    return max_word",
+      -5.56640625
+    ],
+    [
+      "if len(words) == 0:\n        return \"\"\n    max_len = len(words[0])\n    max_word = words[0]\n    for word in words:\n        if len(set(word)) > max_len:\n            max_len = len(set(word))\n            max_word = word\n    return max_word\n\n\ndef test_find_max():\n    assert find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    assert find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    assert find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"aaaaaaa\"\n    assert find_max([\"a\", \"a\", \"b\", \"c\"]) == \"b\"",
+      -6.24609375
+    ],
+    [
+      "# for word in words:\n    #     print(word)\n    #     print(len(set(word)))\n    #     print(word[len(set(word))])\n    #     print(word[0])\n    #     print(word[1])\n    #     print(word[2])\n    #     print(word[3])\n    #     print(word[4])\n    #     print(word[5])\n    #     print(word[6])\n    #     print(word[7])\n    #     print(word[8])\n    #     print(word[9])\n    #     print(word[10])\n    #     print(word[11])\n    #     print(word[12])\n    #     print(word[13])\n    #     print(word[14])\n    #     print(word[15])\n    #     print(word[16])\n    #     print(word[17])\n    #     print(word[18])\n    #     print(word[19])\n    #     print(word[20])\n    #     print(word[21])\n    #     print(word[22])\n    #     print(word[23])\n    #     print(word[24])\n    #     print(word[25])\n    #     print(word[26])\n    #     print(word[27])\n    #     print(word[28])\n    #     print(word[29])\n    #     print(word[30])\n    #     print(word[31])\n    #     print(word[32])\n    #     print(word[33])\n    #     print(word[34])\n    #     print(word[35])\n    #     print(word[36])\n    #     print(word[37])\n    #     print(word[38])\n    #     print(word[39])\n    #     print(word[40])\n    #     print(word[41])\n    #     print(word[42])\n    #     print(word",
+      -8.1015625
+    ],
+    [
+      "pass\n\n\ndef find_max_recursive(words, max_count=0, word=None):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    if not words:\n        return word\n\n    if not word:\n        word = words[0]\n\n    if len(set(word)) > max_count:\n        max_count = len(set(word))\n\n    return find_max_recursive(words[1:], max_count, word)\n\n\nprint(find_max_recursive([\"name\", \"of\", \"string\"]))\nprint(find_max_recursive([\"name\", \"enam\", \"game\"]))\nprint(find_max_recursive([\"aaaaaaa\", \"bb\", \"cc\"]))\nprint(find_max_recursive([\"aaaaaaa\", \"bb\", \"cc\", \"aaa\"]))\nprint(find_max_recursive([\"aaaaaaa\", \"bb\", \"cc\", \"aaa\", \"aaaaaa\"]))",
+      -11.7109375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

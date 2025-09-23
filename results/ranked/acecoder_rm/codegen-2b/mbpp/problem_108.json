@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/119",
+    "prompt": "Write a python function to find the element that appears only once in a sorted array.",
+    "canonical_solution": "def search(arr,n) :\r\n    XOR = 0\r\n    for i in range(n) :\r\n        XOR = XOR ^ arr[i]\r\n    return (XOR)",
+    "test_list": [
+      "assert search([1,1,2,2,3],5) == 3",
+      "assert search([1,1,3,3,4,4,5,5,7,7,8],11) == 8",
+      "assert search([1,2,2,3,3,4,4],7) == 1"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 108
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\nimport random\n\n\ndef find_unique(arr):\n    \"\"\"\n    Find the element that appears only once in a sorted array.\n\n    :param arr: input array\n    :return: the index of the element that appears only once in a sorted array\n    \"\"\"\n    if not arr:\n        return -1\n\n    sorted_arr = sorted(arr)\n    for i in range(len(arr)):\n        if sorted_arr[i] == sorted_arr[i + 1]:\n            return i\n\n    return -1\n\n\ndef test_find_unique():\n    assert find_unique([1, 2, 3, 4, 5]) == 2\n    assert find_unique([1, 2, 3, 4, 5, 6]) == -1\n    assert find_unique([1, 1, 1, 1, 1]) == -1\n    assert find_unique([]) == -1\n\n\ndef main():\n    test_find_unique()\n\n\nif __name__ == \"__main__\":\n    main()",
+      2.748046875
+    ],
+    [
+      "def find_single(my_list):\n    '''\n    :type my_list: List[int]\n    :rtype: int\n    '''\n    \n    my_dict = {}\n    for element in my_list:\n        if element not in my_dict:\n            my_dict[element] = 1\n        else:\n            my_dict[element] += 1\n    \n    for element in my_dict:\n        if my_dict[element] == 1:\n            return element\n\nif __name__ == '__main__':\n    print(find_single([1, 1, 1, 1, 2, 3, 4, 4, 5]))\n    print(find_single([1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(find_single([1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(find_single([1, 1, 1, 1, 2, 3, 4, 4, 5]))",
+      2.490234375
+    ],
+    [
+      "def single_number(arr):\n    n = len(arr)\n    for i in range(n):\n        if arr[i] == arr[n - 1]:\n            arr.pop(i)\n            return arr[i]\n        else:\n            arr[i] = arr[i] + arr[i + 1]\n    return arr[n - 1]\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    print single_number(arr)",
+      1.806640625
+    ],
+    [
+      "# https://leetcode.com/problems/find-the-duplicate-number/discuss/132899/Python-solution-with-explanation-and-logic-explained\n\nclass Solution(object):\n    def findDuplicate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 1:\n            return nums[0]\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if nums[i] == nums[j]:\n                    return nums[i]\n        return -1\n\nclass Solution2(object):\n    def findDuplicate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = {}\n        for num in nums:\n            if num in count:\n                count[num] += 1\n            else:\n                count[num] = 1\n        for num in count:\n            if count[num]!= 1:\n                return num\n        return -1",
+      1.4365234375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    def singleNonOverlappingInterval(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: Interval\n        \"\"\"\n        if not intervals:\n            return None\n        \n        # sort intervals by start\n        intervals.sort(key=lambda i: i.start)\n        \n        # find the index of the first overlapping interval\n        first = 0\n        while first < len(intervals):\n            if intervals[first].end < intervals[first].start:\n                first += 1\n            else:\n                break\n        \n        # find the index of the last overlapping interval\n        last = first\n        while last < len(intervals) - 1:\n            if intervals[last].start > intervals[last + 1].end:\n                last += 1\n            else:\n                break\n        \n        return intervals[first].end < intervals[last + 1].start and intervals[first].start > intervals[last].end",
+      1.1611328125
+    ],
+    [
+      "def single_occurrence(arr):\n    \"\"\"\n    :param arr: sorted array\n    :return: index of the element that appears only once in the array\n    \"\"\"\n    # write your code here\n    for i in range(len(arr)):\n        if i!= 0 and arr[i] == arr[i-1]:\n            continue\n        else:\n            return i\n    return None\n\n# Your Single Occurrence Code\n#\n#\n#\n#\n#\n#",
+      1.138671875
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param: nums: A list of integers\n    @param: target: An integer\n    @return: An integer\n    \"\"\"\n    def findUniq(self, nums, target):\n        # write your code here\n        if len(nums) == 0:\n            return -1\n        if len(nums) == 1:\n            if nums[0] == target:\n                return 0\n            else:\n                return -1\n        l = 0\n        r = len(nums) - 1\n        while l < r:\n            m = (l + r) / 2\n            if nums[m] == target:\n                r = m\n            elif nums[m] < target:\n                l = m + 1\n            else:\n                r = m\n        if nums[l] == target:\n            return l\n        else:\n            return -1",
+      0.908203125
+    ],
+    [
+      "\"\"\"\nFor example,\nGiven [1,1,2,3,3,4]\n\nYour function should return the index of the element, which is 3.\n\nNote:\nAlthough the element you returned is unique, the order of the elements in the original array is not guaranteed.\n\"\"\"\n\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # https://leetcode.com/discuss/63955/java-solution-python-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/91428/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/python-solution-dp-solution-with-explanation\n        # https://discuss.leetcode.com/topic/114825/",
+      0.78662109375
+    ],
+    [
+      "def find_unique(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return arr[0]\n\n\nif __name__ == \"__main__\":\n    print(find_unique([3, 2, 2, 3, 2, 3, 4, 3, 3, 2, 2, 1]))\n    print(find_unique([1, 2, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3]))",
+      0.6650390625
+    ],
+    [
+      "def find_first_one(arr):\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            return i+1\n    return None\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    print(find_first_one(arr))\n    arr = [1, 2, 3, 4, 5, 6]\n    print(find_first_one(arr))",
+      0.1590576171875
+    ],
+    [
+      "def find_single(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # write your code here\n    i = 0\n    for j in range(len(arr)):\n        if arr[i] == arr[j]:\n            i += 1\n        else:\n            break\n\n    return arr[i-1]\n\nif __name__ == '__main__':\n    arr = [1,2,1,3,4,3,5]\n    print(find_single(arr))",
+      0.156005859375
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def findDuplicate(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if head is None:\n            return None\n        dummy = ListNode(0)\n        dummy.next = head\n        pre = dummy\n        cur = head.next\n        while cur is not None:\n            if cur.next is None:\n                break\n            while cur.val == pre.val:\n                cur = cur.next\n            pre = pre.next\n            cur = cur.next\n        if cur is not None:\n            pre.next = None\n            return cur\n        return None",
+      -0.26025390625
+    ],
+    [
+      "def single_element(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    if len(arr) == 1:\n        return 0\n    else:\n        return arr[0]\n\ndef single_element2(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    return arr[0]\n\ndef single_element3(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    if len(arr) == 1:\n        return 0\n    else:\n        return arr[0]\n\ndef single_element4(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    return arr[0]\n\ndef single_element5(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    return arr[0]\n\ndef single_element6(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    return arr[0]\n\ndef single_element7(arr):\n    \"\"\"\n    :param arr: an array that is already sorted\n    :return: the index of the single element\n    \"\"\"\n    # Your solution here\n    return arr[0]\n\nif __name__ == \"__main__\":\n    arr = [1,2,3,4,5,6,7,8,9,10,11,12,13]\n    print single_element(arr)\n    print single_element2(arr)\n    print single_element3(arr)\n    print single_element4(arr)\n    print single_element5(arr)\n    print single_element6(arr)\n    print single_element7(arr)",
+      -0.4287109375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/find-the-single-number/problem\n\ndef single_element(arr):\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n    if arr[0] > arr[1]:\n        return single_element(arr[1:])\n    for i in range(2, len(arr)):\n        if arr[i] < arr[i-1]:\n            return arr[i]\n        if arr[i] > arr[i-1]:\n            return single_element(arr[i:])\n    return arr[0]\n\nif __name__ == '__main__':\n    arr = [2, 3, 1, 1, 2, 3, 1, 2, 1]\n    print single_element(arr)",
+      -0.6552734375
+    ],
+    [
+      "\"\"\"\nExample\nGiven [5, 3, 2, 1, 1, 5, 5, 5],\nreturn 1.\n\nNote\nThe input array may contain duplicates.\n\"\"\"\n\nclass Solution:\n    # @param num, a list of integers\n    # @return an integer\n    def singleNumber(self, num):\n        count = collections.Counter(num)\n        return count.most_common(1)[0][0]\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.singleNumber([1, 2, 3, 1, 1, 2, 2, 3, 3, 4]))",
+      -0.83642578125
+    ],
+    [
+      "def unique(arr):\n    \"\"\"\n    :param arr: an array of integers\n    :return: an integer\n    \"\"\"\n    seen = set()\n    for el in arr:\n        if el not in seen:\n            seen.add(el)\n        else:\n            return el\n    return -1\n\ndef main():\n    arr = [1, 2, 3, 1, 3, 4]\n    print(unique(arr))\n\nif __name__ == '__main__':\n    main()",
+      -0.85595703125
+    ],
+    [
+      "import random\n\ndef single_element(array):\n    # write your code here\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    return random.choice(array)\n\n\ndef main():\n    # n = int(input())\n    n = 100\n    array = [random.randint(0, n) for _ in range(n)]\n    print(single_element(array))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85595703125
+    ],
+    [
+      "\"\"\"\nSample Input\n\n[1,2,3,1,2,3]\n\nSample Output\n\n1\n\n\"\"\"\ndef single_number(arr):\n    return arr[0]\n\n\"\"\"\nSample Input\n\n[1,2,3,1,2,3,1,2,3]\n\nSample Output\n\n1\n\n\"\"\"\ndef single_number(arr):\n    return arr[0]",
+      -0.85595703125
+    ],
+    [
+      "def single_element_in_sorted_array(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # TODO\n    pass",
+      -0.85595703125
+    ],
+    [
+      "# define the function\ndef find_single(arr):\n    # your code here\n    count = 0\n    for i in arr:\n        if i == arr[count]:\n            count += 1\n        else:\n            count = 0\n    return arr[count]\n\n# Test Cases\narr = [3, 2, 1, 3, 4, 6, 2, 1, 4, 5, 6, 7, 8, 4]\nprint find_single(arr)",
+      -0.85693359375
+    ],
+    [
+      "def singleNumber(nums):\n    nums = sorted(nums)\n    for i in range(len(nums)):\n        if nums[i] == nums[i+1]:\n            return nums[i]\n    return None\n\ndef main():\n    nums = [3,3,3,3,3,3,3,3,3,3,3,3]\n    print singleNumber(nums)\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def single_element(arr):\n    for i in range(len(arr)):\n        if arr[i] not in arr[:i]:\n            return arr[i]\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    print(single_element(arr))\n    arr = [1, 2, 3, 4, 5, 5, 5, 6]\n    print(single_element(arr))\n    arr = [1, 2, 3, 4, 5, 6, 6, 6, 7, 8]\n    print(single_element(arr))",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integer\n    # @return an integer\n    def singleNumber(self, num):\n        # write your code here\n        res = 0\n        for i in range(len(num)):\n            res ^= num[i]\n        return res\n\n    def singleNumber2(self, num):\n        # write your code here\n        res = 0\n        for i in range(len(num)):\n            res ^= num[i]\n        return res\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.singleNumber(range(5))",
+      -0.85693359375
+    ],
+    [
+      "def single_number(a):\n    i = 0\n    while i < len(a):\n        if a[i]!= a[i + 1]:\n            break\n        i += 1\n    return a[i]\n\nif __name__ == '__main__':\n    a = [1,2,2,3,1]\n    print single_number(a)",
+      -0.85693359375
+    ],
+    [
+      "def find_single(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # write your code here\n    if len(arr) == 1:\n        return arr[0]\n    else:\n        return find_single(arr[1:])\n\n\nif __name__ == '__main__':\n    print(find_single([1, 2, 3, 2, 1]))\n    print(find_single([4, 4, 4, 4, 4, 4]))\n    print(find_single([4, 4, 4, 4, 4, 4, 4]))",
+      -0.85693359375
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef find_unique(a):\n    # write your code here\n    count = 1\n    for i in range(len(a)):\n        if a[i] == a[i+1]:\n            count += 1\n        else:\n            if count > 1:\n                return i\n            else:\n                count = 1\n    return -1",
+      -0.85693359375
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef unique_element(sorted_array):\n    # write your code here\n    count = 0\n    for i in range(len(sorted_array)):\n        if sorted_array[i] == sorted_array[i+1]:\n            count += 1\n    return sorted_array[count-1]\n\nif __name__ == '__main__':\n    sorted_array = [1, 3, 2, 1, 3, 5, 5, 6, 7]\n    print unique_element(sorted_array)",
+      -0.85693359375
+    ],
+    [
+      "def find_single_unique(arr):\n    \"\"\"\n    Input: arr is a sorted array.\n    Output: the index of the element that appears only once.\n    \"\"\"\n    count = 1\n    i = 0\n    while i < len(arr) - 1:\n        if arr[i] == arr[i + 1]:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                return i\n        i += 1\n    return -1\n\nif __name__ == '__main__':\n    print find_single_unique([1, 2, 2, 3, 3, 3, 4, 5, 5])\n    print find_single_unique([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])",
+      -0.85693359375
+    ],
+    [
+      "def find_single_unique(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if not nums:\n        return 0\n\n    for i in range(1, len(nums)):\n        if nums[i]!= nums[i - 1]:\n            return i\n    return len(nums)",
+      -0.85693359375
+    ],
+    [
+      "def find_single(arr):\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            return i+1\n    return -1\n\ndef find_single_rec(arr):\n    \"\"\"\n    recursive version of find_single\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    else:\n        mid = len(arr) / 2\n        if arr[mid] == arr[mid+1]:\n            return arr[mid]\n        else:\n            return find_single_rec(arr[:mid])\n\ndef find_single_dp(arr):\n    \"\"\"\n    dynamic programming version of find_single\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    else:\n        return find_single_dp(arr[:mid]) + find_single_dp(arr[mid:])\n\n\n\n# test cases\narr = [1,1,2,3,3,4,5,5,5,6,7]\n\nprint find_single(arr)\n\nprint find_single_rec(arr)\n\nprint find_single_dp(arr)",
+      -0.85791015625
+    ],
+    [
+      "def single_number(arr):\n    n = len(arr)\n    i = 0\n    while i < n:\n        j = i + 1\n        while j < n:\n            if arr[i] > arr[j]:\n                i += 1\n            else:\n                if arr[i] == arr[j]:\n                    return arr[i]\n                else:\n                    j += 1\n        i += 1\n    return None\n\nif __name__ == \"__main__\":\n    arr = [3, 5, 2, 4, 6, 7, 1]\n    print single_number(arr)",
+      -0.85791015625
+    ],
+    [
+      "import sys\nimport timeit\n\n\ndef main():\n    start = timeit.default_timer()\n    print(find_duplicate(sys.argv[1]))\n    print(\"--- %s seconds ---\" % (timeit.default_timer() - start))\n\n\ndef find_duplicate(array):\n    \"\"\"\n    Find the element that appears only once in a sorted array.\n    \"\"\"\n    return sorted(set(array))[0]\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "def single_number(arr):\n    \"\"\"\n    :param arr: an array of integers\n    :return: the index of the single element in the array\n    \"\"\"\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n        else:\n            count = 0\n\n    if count > 1:\n        return -1\n    else:\n        return i\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1, 3, 4, 5, 6, 7, 4, 6]\n    print single_number(arr)",
+      -0.85791015625
+    ],
+    [
+      "def single_element(arr):\n    count = 1\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i-1]:\n            count += 1\n        else:\n            count = 1\n    return arr[0]\n\n# Your single_element solution here",
+      -0.85791015625
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def findUniqChar(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head:\n            return -1\n        n = 1\n        while head.next:\n            if head.next.val!= head.val:\n                n += 1\n            head = head.next\n        return n",
+      -0.8583984375
+    ],
+    [
+      "def find_first_one(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return arr.index(arr[0])\n\ndef find_first_one_sorted(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return arr.index(arr[0])\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 3, 3, 3, 3, 4, 5]\n    print(find_first_one(arr))\n    print(find_first_one_sorted(arr))",
+      -0.8583984375
+    ],
+    [
+      "def find_duplicate(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    length = len(a)\n    if length <= 1:\n        return -1\n    \n    # find first element\n    first = a[0]\n    # find the last element\n    last = a[-1]\n    # sort the array\n    a.sort()\n    \n    # check if the last element is the first element\n    if last == first:\n        return -1\n    \n    # check if the last element is the last element\n    if last == a[-1]:\n        return -1\n    \n    # find the index of the first element\n    for i in range(1, length):\n        if a[i]!= a[i-1]:\n            break\n    \n    return i",
+      -0.8583984375
+    ],
+    [
+      "def find_single(a):\n    \"\"\"\n    Find a single element in a sorted array.\n\n    :param a: A sorted array.\n    :return: The index of the single element in the array.\n    \"\"\"\n    for i, x in enumerate(a):\n        if i!= a[:i].index(x):\n            return i\n    return -1\n\nif __name__ == \"__main__\":\n    a = [1, 2, 1, 3, 4, 5, 6, 7, 8]\n    print(find_single(a))",
+      -0.8583984375
+    ],
+    [
+      "def single_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    first = arr[0]\n    last = arr[-1]\n\n    for i in range(1, len(arr)):\n        if arr[i]!= first and arr[i]!= last:\n            return -1\n        if arr[i] == first:\n            first = arr[i]\n        if arr[i] == last:\n            last = arr[i]\n\n    return first\n\nif __name__ == '__main__':\n    arr = [1,2,3,4,5,1]\n    print single_element(arr)",
+      -0.8583984375
+    ],
+    [
+      "def single_element(arr):\n    \"\"\"\n    Input: an array arr.\n    Output: the index of the element that appears only once.\n    \"\"\"\n    count = 0\n    for i in range(len(arr)):\n        if arr[i]!= arr[i+1]:\n            count += 1\n    return i+1 if count == 1 else -1",
+      -0.8583984375
+    ],
+    [
+      "import random\n\ndef single_occurrence(a):\n    for i in range(len(a)):\n        if a[i]!= a[i+1]:\n            return i\n    return -1\n\ndef main():\n    a = [3,4,5,6,7,8,9,10]\n    print single_occurrence(a)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "import unittest\nfrom my_library import find_single_number\n\n\nclass MyTestCases(unittest.TestCase):\n    def test_single_number(self):\n        self.assertEqual(find_single_number([1, 2, 3, 1, 3, 4, 1, 2, 3, 4]), 1)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.8583984375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    def findUniqChar(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: int\n        \"\"\"\n        sorted = sorted(intervals, key=lambda x: x.start)\n        count = 1\n        for i in range(len(sorted)):\n            if sorted[i].start < sorted[i].end:\n                if sorted[i].start <= sorted[i].end:\n                    count += 1\n                else:\n                    count -= 1\n        return count",
+      -0.8583984375
+    ],
+    [
+      "def single(a):\n    # write your code here\n    if len(a) < 2:\n        return a[0]\n    else:\n        for i in range(len(a)):\n            if a[i]!= a[i-1]:\n                return a[i]\n    return None\n\nif __name__ == \"__main__\":\n    print single([3, 1, 2, 1, 4, 5, 5, 6])",
+      -0.8583984375
+    ],
+    [
+      "def singleNumber(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        for j in range(i):\n            if arr[i] == arr[j]:\n                return arr[i]\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1,2,3,3,3,3,3,3,3,3,3,3]\n    print(singleNumber(arr))",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def findUniqChar(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        if len(s) == 0:\n            return -1\n        sorted = list(s)\n        sorted.sort()\n        for i in range(len(sorted)):\n            if sorted[i] == sorted[i + 1]:\n                return i\n        return -1\n\n\nif __name__ == \"__main__\":\n    print Solution().findUniqChar(\"aabcccddaacbdd\")",
+      -0.8583984375
+    ],
+    [
+      "def find_one(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    arr_sorted = sorted(arr)\n    for i in range(1, len(arr)):\n        if arr_sorted[i] == arr_sorted[i - 1]:\n            return arr_sorted[i]\n    return arr[0]\n\n# Your FindOne object will be instantiated and called as such:\n# obj = FindOne(arr)\n# param_1 = obj.find_one(arr)",
+      -0.8583984375
+    ],
+    [
+      "def find_only_one(arr):\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return arr[0]\n    mid = len(arr) / 2\n    if arr[mid]!= arr[0]:\n        return arr[mid]\n    if arr[mid] == arr[0]:\n        return arr[mid]\n    return find_only_one(arr[:mid] + arr[mid+1:])\n\nprint(find_only_one([4, 2, 5, 2, 3]))",
+      -0.85888671875
+    ],
+    [
+      "# write your code here\ndef find_one(arr):\n    # your code here\n    return arr[0]",
+      -0.85888671875
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a list node\n    # @return the head node of the sorted list\n    def findSingleNode(self, head):\n        if head is None:\n            return None\n        if head.next is None:\n            return head\n        pre, curr = None, head\n        while curr is not None:\n            if curr.next is not None:\n                if curr.next.next is not None:\n                    curr = curr.next.next\n                else:\n                    curr = curr.next\n                    pre = pre.next\n            else:\n                pre = pre.next\n                curr = curr.next\n        return pre",
+      -0.85888671875
+    ],
+    [
+      "def find_one_unique(arr):\n    # Write your code here\n    # The following code is not accepted by the online judge\n    if len(arr) == 0:\n        return None\n    else:\n        sorted_arr = sorted(arr)\n        for i in range(len(arr)):\n            if sorted_arr[i] == sorted_arr[i+1]:\n                return sorted_arr[i]\n        return sorted_arr[-1]\n\ndef main():\n    test_cases = open('1.txt', 'r')\n    for test in test_cases:\n        test = test.rstrip()\n        arr = test.split()\n        print find_one_unique(arr)\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def single_num(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    cnt = 0\n    for i in a:\n        if i!= cnt:\n            cnt += 1\n    return cnt",
+      -0.85888671875
+    ],
+    [
+      "def single_element_unique(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # write your code here\n    if not arr: return None\n    if len(arr) == 1: return arr[0]\n    \n    for i in range(len(arr)):\n        if arr[i] == arr[i+1]:\n            return arr[i]\n        \n    return None",
+      -0.85888671875
+    ],
+    [
+      "def single_element(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    # Your single_element solution should be written in the following style:\n    # return\n    # return a[i]\n    return\n\n\n# Your single_element solution should be written using the above style\n# single_element([4, 5, 6, 7, 4, 4, 5, 6]) => 4\n# single_element([-1, -1, -2, -2, -1, -1, -2, -2]) => -1",
+      -0.97705078125
+    ],
+    [
+      "def single_element_unique(array):\n    \"\"\"\n    :param array: the sorted array\n    :return: the index of the element that appears only once\n    \"\"\"\n    i = 0\n    while i < len(array):\n        if i!= 0 and array[i] == array[i - 1]:\n            continue\n        else:\n            i += 1\n    return i\n\nprint(single_element_unique([1, 1, 1, 2, 2, 3, 4]))",
+      -1.1513671875
+    ],
+    [
+      "def single_element(arr):\n    '''\n    Input: arr, a list of integers\n    Output: the index of the first element in arr that appears only once\n    '''\n    # write your code here\n    if not arr: return -1\n    count = 1\n    for i in range(len(arr)):\n        if arr[i]!= arr[i-1]:\n            count = 1\n        elif arr[i] == arr[i-1]:\n            count += 1\n        if count > 1:\n            return i\n    return -1",
+      -1.3544921875
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a ListNode\n    # @return a ListNode\n    def findSingleNode(self, head):\n        # write your code here\n        if head is None:\n            return None\n        \n        node = head\n        while node.next is not None:\n            node = node.next\n        \n        i = 0\n        while node.next is not None:\n            node = node.next\n            if i > 0:\n                node = node.next\n                i -= 1\n            else:\n                return node\n        \n        return None",
+      -1.572265625
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def findDuplicate(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if not head:\n            return None\n\n        slow = head\n        fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n\n        while head:\n            if head.val == slow.val:\n                return head\n\n            head = head.next\n            slow = slow.next\n\n        return None\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    head = ListNode(2)\n    head.next = ListNode(3)\n    head.next.next = ListNode(4)\n    head.next.next.next = ListNode(5)\n    head.next.next.next.next = ListNode(4)\n    head.next.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next.next = ListNode(5)\n    print(sol.findDuplicate(head))",
+      -1.7578125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorted-array-element-twice/problem\n# https://www.hackerrank.com/challenges/sorted-array-element-twice/submissions/code/9641116\n# https://www.hackerrank.com/challenges/sorted-array-element-twice/discussion/\n# https://www.hackerrank.com/challenges/sorted-array-element-twice/resources/code/\n\ndef find_twice(arr):\n    # This is a brute force solution\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j]:\n                return arr[i]\n\n    return None\n\nif __name__ == '__main__':\n    input_array = input().split()\n    arr = [int(i) for i in input_array]\n    print(find_twice(arr))",
+      -2.2265625
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def find_single_unique(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if not head:\n            return None\n        p = head\n        while p:\n            if p.next:\n                p = p.next\n            else:\n                return p\n        while head:\n            head = head.next\n        return head\n\nif __name__ == '__main__':\n    a = ListNode(1)\n    b = ListNode(1)\n    c = ListNode(2)\n    a.next = b\n    b.next = c\n    s = Solution()\n    res = s.find_single_unique(a)\n    print res",
+      -2.53515625
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def find_single(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        count = 0\n        p = head\n        while p:\n            p = p.next\n            count += 1\n        if count == 1:\n            return head.val\n        return -1\n\n    def single(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        # use a pointer to get the first node\n        # use a pointer to get the last node\n        # use a pointer to get the middle node\n        # use a pointer to get the first node after the last node\n        # use a pointer to get the first node after the middle node\n        # use a pointer to get the first node after the last node after the middle node\n        # use a pointer to get the first node after the last node after the middle node after the last node\n        # use a pointer to get the first node after the last node after the middle node after the last node after the last node\n        # use a pointer to get the first node after the last node after the middle node after the last node after the last node after the last node\n        # use a pointer to get the first node after the last node after the middle node after the last node after the last node after the last node after the last node\n        # use a pointer to get the first node after the last node after the middle node after the last node after the last node after the last node after the last node after the last node\n        # use a pointer to get the first node after the last node after the middle node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node after the last node",
+      -2.99609375
+    ],
+    [
+      "def single_value(arr):\n    # your code here\n    arr_len = len(arr)\n    for i in range(0, arr_len):\n        if arr[i] == arr[i+1]:\n            continue\n        else:\n            return arr[i]\n\ndef single_value_2(arr):\n    # your code here\n    if arr is None:\n        return None\n    arr_len = len(arr)\n    for i in range(0, arr_len):\n        if arr[i] == arr[i+1]:\n            continue\n        else:\n            return arr[i]\n\ndef single_value_3(arr):\n    # your code here\n    if arr is None:\n        return None\n    arr_len = len(arr)\n    for i in range(0, arr_len):\n        if arr[i] == arr[i+1]:\n            continue\n        else:\n            return arr[i]\n\ndef single_value_4(arr):\n    # your code here\n    if arr is None:\n        return None\n    arr_len = len(arr)\n    for i in range(0, arr_len):\n        if arr[i] == arr[i+1]:\n            continue\n        else:\n            return arr[i]\n\ndef single_value_5(arr):\n    # your code here\n    if arr is None:\n        return None\n    arr_len = len(arr)\n    for i in range(0, arr_len):\n        if arr[i] == arr[i+1]:\n            continue\n        else:\n            return arr[i]\n\ndef single_value_6(arr):\n    # your code here\n    if arr is None:\n        return None\n    arr_len = len(arr)\n    for i in range(0, arr_len):\n        if arr[i] == arr[i+1]:\n            continue\n        else:\n            return arr[i]\n\ndef single_value_7(arr):\n    # your code here\n    if arr is None:\n        return None\n    arr_len = len(arr)\n    for i in range(0, arr_len):",
+      -3.232421875
+    ],
+    [
+      "def singleNumber(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if not nums: return 0\n    sorted_nums = sorted(nums)\n    return nums[0] if nums[0] in nums else nums[-1]\n\nif __name__ == '__main__':\n    print singleNumber([3, 3, 5, 3, 3])\n    print singleNumber([3, 3, 3, 3, 5, 3])\n    print singleNumber([3, 3, 3, 3, 3, 5])\n    print singleNumber([3, 3, 3, 3, 3, 3, 3, 5])",
+      -3.4453125
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param nums: A list of integers.\n    @return: The index of the element that occurs only once.\n    \"\"\"\n    def singleNumber(self, nums):\n        counts = {}\n        for i in range(len(nums)):\n            if nums[i] not in counts:\n                counts[nums[i]] = 1\n            else:\n                counts[nums[i]] += 1\n\n        for i in range(len(nums)):\n            if counts[nums[i]] == 1:\n                return i\n\n    def singleNumber_1(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return nums.index(max(nums))\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.singleNumber([2, 2, 2, 3, 3, 4]))\n    print(sol.singleNumber([1, 2, 2, 3, 3, 4, 5]))\n    print(sol.singleNumber([1, 2, 2, 3, 3, 4, 5, 5, 6]))\n    print(sol.singleNumber([1, 2, 2, 3, 3, 4, 5, 5, 6, 6]))\n    print(sol.singleNumber([1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 6]))\n    print(sol.singleNumber_1([2, 2, 2, 3, 3, 4]))",
+      -3.802734375
+    ],
+    [
+      "def single_value(a):\n    \"\"\"\n    Write a function to return the element that appears only once in a sorted array.\n    The function should return the index of the first appearance of the element.\n    If the element does not appear in the array, return -1.\n    \"\"\"\n    count = 0\n    for i in range(0, len(a)):\n        if a[i] == a[i]:\n            count += 1\n    if count == 1:\n        return i\n    else:\n        return -1\n\na = [1, 3, 5, 6, 8, 9, 11, 12, 14, 16, 17, 18, 19, 20]\nprint single_value(a)\n\n\"\"\"\nWrite a python function to find the element that appears only once in a sorted array.\nThe function should return the index of the first appearance of the element.\nIf the element does not appear in the array, return -1.\n\"\"\"\n\ndef single_value2(a):\n    \"\"\"\n    Write a function to return the element that appears only once in a sorted array.\n    The function should return the index of the first appearance of the element.\n    If the element does not appear in the array, return -1.\n    \"\"\"\n    count = 0\n    for i in range(0, len(a)):\n        if a[i] == a[i]:\n            count += 1\n    if count == 1:\n        return i\n    else:\n        return -1\n\na = [1, 3, 5, 6, 8, 9, 11, 12, 14, 16, 17, 18, 19, 20]\nprint single_value2(a)\n\n\n\"\"\"\nWrite a python function to find the element that appears only once in a sorted array.\nThe function should return the index of the first appearance of the element.\nIf the element does not appear in the array, return -1.\n\"\"\"\n\ndef single_value3(a):\n    \"\"\"\n    Write a function to return the element that appears only once in a sorted array.\n    The function should return the index of the first appearance of the element.\n    If the element does not appear in the array, return -1.\n    \"\"\"\n    count = 0\n    for i in range(0, len",
+      -3.953125
+    ],
+    [
+      "def single_element(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    # return array[0] if len(array) == 1 else -1\n    # return min(array) if len(array) == 1 else -1\n    # return array[0] if len(array) == 1 else -1\n    # return min(array) if len(array) == 1 else -1\n    return min(array) if len(array) == 1 else -1\n\nif __name__ == '__main__':\n    array = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element(array))",
+      -3.982421875
+    ],
+    [
+      "def unique(arr):\n    \"\"\"\n    Return the first unique element in arr, if there is more than one, return the first one\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i - 1]:\n            continue\n        else:\n            return arr[i - 1]\n\ndef unique_in_list(arr):\n    \"\"\"\n    Return the first unique element in arr, if there is more than one, return the first one\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i - 1]:\n            continue\n        else:\n            return arr[i - 1]\n\ndef unique_in_set(arr):\n    \"\"\"\n    Return the first unique element in arr, if there is more than one, return the first one\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    seen = set()\n    for i in arr:\n        if i in seen:\n            continue\n        else:\n            seen.add(i)\n            return i\n\ndef unique_in_dict(arr):\n    \"\"\"\n    Return the first unique element in arr, if there is more than one, return the first one\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    seen = dict()\n    for i in arr:\n        if i in seen:\n            continue\n        else:\n            seen[i] = 1\n            return i\n\ndef unique_in_list_set(arr):\n    \"\"\"\n    Return the first unique element in arr, if there is more than one, return the first one\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    seen = set()\n    for i in arr:\n        if i in seen:\n            continue\n        else:\n            seen.add(i)\n            return i\n\ndef unique_in_dict_set(arr):\n    \"\"\"\n    Return the first unique element in arr, if there is more than one, return the first one\n    \"\"\"\n    if len(arr) == 0:",
+      -4.203125
+    ],
+    [
+      "# https://github.com/Mihai-Cheng/Python-Data-Structures/blob/master/Introduction/Sorting/Sorting_Introduction.md\n\ndef single_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return arr[0]\n\n\ndef single_element_2(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            return arr[i]\n    return None\n\n\ndef single_element_3(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            return i\n    return None\n\n\ndef single_element_4(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            return i\n    return None\n\n\ndef single_element_5(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            return i\n    return None\n\n\ndef single_element_6(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            return i\n    return None\n\n\ndef single_element_7(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            return i\n    return None\n\n\ndef single_element_8(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"",
+      -4.34375
+    ],
+    [
+      "def single_element_sorted(arr):\n    \"\"\"\n    :param arr: the input array.\n    :return: the index of the element that appears only once.\n    \"\"\"\n    # write your code here\n    return arr.index(arr[0])\n\n\nif __name__ == '__main__':\n    print(single_element_sorted([5, 2, 3, 3, 3, 1]))\n    print(single_element_sorted([1, 2, 3, 3, 3, 3, 4, 4, 5]))\n    print(single_element_sorted([5, 4, 3, 3, 2, 1]))",
+      -4.43359375
+    ],
+    [
+      "def single_element(ar):\n    \"\"\"\n    :type ar: List[int]\n    :rtype: int\n    \"\"\"\n    for i in range(len(ar)):\n        if ar[i]!= i+1:\n            return i+1\n    return -1\n\nif __name__ == '__main__':\n    print single_element([1,2,3,1])\n    print single_element([1,2,3,3,1])\n    print single_element([5,6,7,8,9])\n    print single_element([2,2,3,3,3])\n    print single_element([1,2,3,4,5])\n    print single_element([5,4,3,2,1])\n    print single_element([])\n    print single_element([-1])",
+      -4.48828125
+    ],
+    [
+      "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # using two pointers to find the unique element\n        # the first pointer is the one that is not the second one\n        # the second pointer is the one that is the first one\n        # the second pointer will always be the one that is the first one\n        # so we have to keep track of the second pointer\n        # if the second pointer is not the first one, then we have to increase the second pointer\n        # if the second pointer is the first one, then we have to increase the first pointer\n        # and if the second pointer is the second one, then we have to increase the second pointer\n        # and so on\n        first_pointer = 0\n        second_pointer = 1\n        while second_pointer < len(nums):\n            if nums[first_pointer]!= nums[second_pointer]:\n                first_pointer = second_pointer\n                second_pointer = first_pointer + 1\n            else:\n                second_pointer += 1\n        return nums[first_pointer]\n\nif __name__ == '__main__':\n    nums = [1, 1, 1, 2, 2, 2, 3, 3, 3]\n    print Solution().singleNumber(nums)",
+      -4.72265625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/single-number-ii/\n# Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.\n# Note:\n# Each element in the given array represents its own index in the array.\n# Elements in the array are sorted in ascending order.\n# Elements in the array are distinct.\n# Return the result in any order.\n# Follow up:\n# Could you solve it without extra space?\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        res = []\n        for i in xrange(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                for j in xrange(i + 1, len(nums) - 1):\n                    if j == len(nums) - 1 or nums[j]!= nums[j + 1]:\n                        k = j + 1\n                        while k < len(nums):\n                            if nums[i] + nums[j] + nums[k] == 0:\n                                res.append([nums[i], nums[j], nums[k]])\n                                k += 1\n                                while k < len(nums) and nums[k] == nums[k - 1]:\n                                    k += 1\n                                if k == len(nums):\n                                    break\n        return res",
+      -5.54296875
+    ],
+    [
+      "import random\n\ndef find_only_one(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i]!= arr[i+1]:\n            count += 1\n            if count == 1:\n                return i\n    return -1\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 1, 3, 4, 5]\n    print find_only_one(arr)",
+      -5.67578125
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.next = None\n\nclass Solution:\n\t# @param {ListNode} head\n\t# @return {ListNode}\n\tdef findDuplicate(self, head):\n\t\tif head is None:\n\t\t\treturn None\n\t\tcount = 1\n\t\tcurr = head\n\t\twhile curr is not None:\n\t\t\tcurr = curr.next\n\t\t\tif curr is not None:\n\t\t\t\tcurr = curr.next\n\t\t\t\tcount += 1\n\t\t\telse:\n\t\t\t\tbreak\n\t\tif count == 1:\n\t\t\treturn head.val\n\t\telse:\n\t\t\treturn None\n\nif __name__ == '__main__':\n\tsolution = Solution()\n\thead = ListNode(1)\n\thead.next = ListNode(2)\n\thead.next.next = ListNode(3)\n\thead.next.next.next = ListNode(4)\n\thead.next.next.next.next = ListNode(5)\n\thead.next.next.next.next.next = ListNode(6)\n\thead.next.next.next.next.next.next = ListNode(7)\n\thead.next.next.next.next.next.next.next = ListNode(8)\n\thead.next.next.next.next.next.next.next.next = ListNode(9)\n\thead.next.next.next.next.next.next.next.next.next = ListNode(10)\n\thead.next.next.next.next.next.next.next.next.next.next = ListNode(11)\n\thead.next.next.next.next.next.next.next.next.next.next.next = ListNode(12)\n\thead.next.next.next.next.next.next.next.next.next.next.next.next = ListNode(13)\n\thead.next.next.next.next.next.next.next.next.next.next.next.next.next = ListNode(14)\n\thead.next.next.next.next.next.next.next.",
+      -5.67578125
+    ],
+    [
+      "def find_single_unique(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # https://leetcode.com/discuss/72463/java-solution-without-using-loop\n    # http://www.programcreek.com/2012/12/leetcode-single-unique-array-element-java/\n    # https://www.youtube.com/watch?v=QKcgZlWq4l0\n    # https://www.youtube.com/watch?v=fJxNqy9vXu8\n    # https://www.youtube.com/watch?v=nX8XQaLrD4U\n    # https://www.youtube.com/watch?v=WcQZ2sQ6iJg\n    # https://www.youtube.com/watch?v=WYmXfJ4ZlK4\n    # https://www.youtube.com/watch?v=lCJLZtN1Wz8\n    # https://www.youtube.com/watch?v=d2F_t8gxzB8\n    # https://www.youtube.com/watch?v=0nQeH8GtLXk\n    # https://www.youtube.com/watch?v=3_2G9l7RdCw\n    # https://www.youtube.com/watch?v=r3P_xZ5iX7k\n    # https://www.youtube.com/watch?v=qHwB9DyB6p4\n    # https://www.youtube.com/watch?v=qz4rB3l2tZY\n    # https://www.youtube.com/watch?v=KtZY1lwGzDg\n    # https://www.youtube.com/watch?v=0vqw6jWu0l8\n    # https://www.youtube.com/watch?v=eJzKlg_r3wc\n    # https://www.youtube.com/watch?v=eOzmC7z7uHk\n    # https",
+      -5.90234375
+    ],
+    [
+      "def find_single_unique(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    cnt = 0\n    for i in range(len(arr)):\n        if cnt == 0:\n            cnt += 1\n        else:\n            if arr[i]!= arr[cnt-1]:\n                cnt += 1\n            else:\n                cnt -= 1\n    return cnt\n\nif __name__ == '__main__':\n    print(find_single_unique([1, 2, 3, 1, 4, 5, 6, 7, 8, 9]))",
+      -6.55078125
+    ],
+    [
+      "def single_number(nums):\n    # write your code here\n    for i in range(len(nums)-1):\n        if nums[i] > nums[i+1]:\n            return i\n    return -1\n\nif __name__ == \"__main__\":\n    nums = [1,2,2,3,3,3,4,4,4,5,5,5]\n    print single_number(nums)\n    nums = [1,2,2,3,3,3,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5",
+      -6.75390625
+    ],
+    [
+      "def unique(a):\n    \"\"\"\n    Return the unique element in the array.\n    \"\"\"\n    # http://stackoverflow.com/questions/599916/how-to-find-the-unique-elements-in-a-sorted-array-in-python\n    # https://www.tutorialspoint.com/python/python_sorting.htm\n    # https://www.tutorialspoint.com/python/python_sorting_2.htm\n    return a[0]\n\ndef find_unique(a):\n    \"\"\"\n    Write a python function to find the element that appears only once in a sorted array.\n    \"\"\"\n    # http://stackoverflow.com/questions/599916/how-to-find-the-unique-elements-in-a-sorted-array-in-python\n    # https://www.tutorialspoint.com/python/python_sorting.htm\n    # https://www.tutorialspoint.com/python/python_sorting_2.htm\n    # https://www.tutorialspoint.com/python/python_sorting_3.htm\n    # https://www.tutorialspoint.com/python/python_sorting_4.htm\n    # https://www.tutorialspoint.com/python/python_sorting_5.htm\n    # https://www.tutorialspoint.com/python/python_sorting_6.htm\n    # https://www.tutorialspoint.com/python/python_sorting_7.htm\n    # https://www.tutorialspoint.com/python/python_sorting_8.htm\n    # https://www.tutorialspoint.com/python/python_sorting_9.htm\n    # https://www.tutorialspoint.com/python/python_sorting_10.htm\n    # https://www.tutorialspoint.com/python/python_sorting_11.htm\n    # https://www.tutorialspoint.com/python/python_sorting_12.htm\n    # https://www.tutorialspoint.com/python/python_sorting_13.htm\n    # https://www.",
+      -7.9453125
+    ],
+    [
+      "# Write your code here\n\ndef single_element(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    for i in xrange(len(array)):\n        if i == 0:\n            if array[i] == array[i+1]:\n                return i\n        elif i == len(array)-1:\n            if array[i] == array[i-1]:\n                return i\n        else:\n            if array[i] == array[i+1]:\n                return i\n        if array[i] == array[i-1]:\n            return i\n    return -1\n\nif __name__ == \"__main__\":\n    array = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print single_element(array)",
+      -8.1328125
+    ],
+    [
+      "def single(arr):\n\t\"\"\"\n\t:type arr: List[int]\n\t:rtype: int\n\t\"\"\"\n\tcount = 0\n\tfor i in arr:\n\t\tif i!= arr[count]:\n\t\t\tcount += 1\n\t\t\tcontinue\n\t\telse:\n\t\t\treturn i\n\n\nif __name__ == \"__main__\":\n\tprint(single([1,2,3,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4]))",
+      -8.171875
+    ],
+    [
+      "# A function to find the element that appears only once in a sorted array.\n# Input:  A sorted array.\n# Output: The index of the element that appears only once.\n#\n# Note:\n# You may assume that the array is non-empty and will not contain any duplicate\n# elements.\n#\n# Example:\n# Input:  [1,2,2,1,5,6]\n# Output: 2\n#\n# Explanation:\n# The only element that appears twice is 5.\n# Example 2:\n# Input:  [9,5,6,5,7,7,5,7,7]\n# Output: 3\n#\n# Explanation:\n# The only element that appears twice is 5.\n# Example 3:\n# Input:  [1,2,3,1,4,2]\n# Output: -1\n#\n# Explanation:\n# The input is sorted, but the element 1 does not appear in the array.\n# Example 4:\n# Input:  [9,9,9,9,9,9]\n# Output: -1\n#\n# Explanation:\n# The input is sorted, but the element 9 does not appear in the array.\n# Example 5:\n# Input:  [2,2,3,2,2,2]\n# Output: -1\n#\n# Explanation:\n# The input is sorted, but the element 3 does not appear in the array.\n\n# https://leetcode.com/problems/single-number-ii/\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # https://leetcode.com/problems/single-number-ii/discuss/107968/Python-and-C-Solution-with-O(n)-Space\n        # https://leetcode.com/problems/single-number-ii/discuss/116865/Python-and-C-Solution-with-O(n)-Space\n        # https://leetcode.com/problems/single-number-ii/discuss/116863/Python-and-C-Solution-with-O",
+      -8.3828125
+    ],
+    [
+      "def find_single_number(a):\n    for i in range(len(a)):\n        if a[i] == a[i]:\n            return a[i]\n    return None\n\n\ndef find_single_number_2(a):\n    # https://www.youtube.com/watch?v=2ZKQsN-ZoQM\n    for i in range(len(a)):\n        if a[i] == a[i]:\n            return a[i]\n        elif a[i] == a[i - 1]:\n            return a[i]\n    return None\n\n\ndef find_single_number_3(a):\n    # https://www.youtube.com/watch?v=Zs6Wc9n6wZQ\n    for i in range(len(a)):\n        if a[i] == a[i]:\n            return a[i]\n        elif a[i] == a[i - 1]:\n            if i == 0:\n                return a[i]\n            elif a[i - 1] == a[i - 2]:\n                return a[i]\n        elif a[i] == a[i - 2]:\n            if i == 0:\n                return a[i]\n            elif a[i - 1] == a[i - 3]:\n                return a[i]\n            elif a[i - 2] == a[i - 3]:\n                return a[i]\n        elif a[i] == a[i - 3]:\n            if i == 0:\n                return a[i]\n            elif a[i - 1] == a[i - 4]:\n                return a[i]\n            elif a[i - 2] == a[i - 4]:\n                return a[i]\n            elif a[i - 3] == a[i - 4]:\n                return a[i]\n        elif a[i] == a[i - 4]:\n            if i == 0:\n                return a[i]\n            elif a[i - 1] == a[i - 5]:\n                return a[i]\n            elif a[i - 2] == a[i - 5]:",
+      -8.5546875
+    ],
+    [
+      "def find_single(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n    return arr[count-1]\n\n\ndef test():\n    assert find_single([1, 2, 3, 3, 3, 4, 5, 6]) == 3\n\n\nif __name__ == '__main__':\n    test()",
+      -9.125
+    ],
+    [
+      "def single_value_arr(arr):\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            return i+1\n    return -1\n\ndef single_value_arr2(arr):\n    count = 0\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n    if count > 1:\n        return -1\n    return count\n\n# Time:  O(n)\n# Space: O(n)\ndef single_value_arr3(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n        else:\n            arr[i] = arr[i+1]\n    if count > 1:\n        return -1\n    return count\n\n# Time:  O(n)\n# Space: O(n)\ndef single_value_arr4(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    count = 0\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n            if count > 1:\n                return -1\n    return count\n\n# Time:  O(n)\n# Space: O(n)\ndef single_value_arr5(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    count = 0\n    for i in range(0, len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n            if count > 1:\n                return -1\n    return count\n\n# Time:  O(n)\n# Space: O(n)\ndef single_value_arr6(arr):\n    \"\"\"\n    :type arr: List[int]",
+      -9.2421875
+    ],
+    [
+      "def find_single_unique(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 2:\n        return arr[0]\n\n    mid = len(arr) / 2\n    left_part = arr[:mid]\n    right_part = arr[mid:]\n\n    left_sum = 0\n    for i in left_part:\n        left_sum += i\n\n    right_sum = 0\n    for i in right_part:\n        right_sum += i\n\n    if left_sum == right_sum:\n        return left_sum\n    elif left_sum > right_sum:\n        return find_single_unique(left_part)\n    else:\n        return find_single_unique(right_part)\n\ndef find_single_unique_2(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 2:\n        return arr[0]\n\n    left_sum = 0\n    for i in arr:\n        left_sum += i\n\n    if left_sum == arr[0]:\n        return arr[0]\n    else:\n        return find_single_unique_2(arr[1:])\n\ndef find_single_unique_3(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 2:\n        return arr[0]\n\n    left_sum = 0\n    for i in arr:\n        left_sum += i\n\n    if left_sum == arr[0]:\n        return arr[0]\n    else:\n        return find_single_unique_3(arr[1:])\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 1]\n    print(find_single_unique(arr))\n    print(find_single_unique_2(arr))\n    print(find_single_unique_3(arr))\n\n    arr = [2, 4, 6, 8, 6, 4, 2, 1]\n    print(find_single_unique(arr))\n    print(",
+      -9.875
+    ],
+    [
+      "# https://leetcode.com/problems/single-number-ii/description/\n\n# https://leetcode.com/problems/single-number/discuss/86885/Python-DP-solution\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        for i in xrange(len(nums)):\n            if nums[i]!= nums[i-1]:\n                return nums[i]\n        return nums[-1]\n\n# https://leetcode.com/problems/single-number/discuss/86885/Python-DP-solution\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.singleNumber1(nums)\n\n    def singleNumber1(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        for i in xrange(len(nums)):\n            if nums[i]!= nums[i-1]:\n                return nums[i]\n        return nums[-1]\n\n\n# https://leetcode.com/problems/single-number-ii/discuss/86885/Python-DP-solution\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return nums[-1]\n\n# https://leetcode.com/problems/single-number-ii/discuss/86885/Python-DP-solution\nclass Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        for i in xrange(len(nums)):\n            if nums[",
+      -9.9375
+    ],
+    [
+      "def find_only_one(arr):\n    for i in range(len(arr)):\n        if arr[i]!= arr[i+1]:\n            return i\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8",
+      -10.40625
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef find_single(arr):\n    count = 0\n    for i in arr:\n        if i == arr[-1]:\n            count += 1\n    return count\n\n#print find_single([5,3,3,6,5,5,5,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7",
+      -10.6640625
+    ],
+    [
+      "def find_single(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    \n    # get the index of the element that appears only once\n    for i,x in enumerate(a):\n        if x not in a[:i]:\n            return i\n\nif __name__ == '__main__':\n    # Test Cases\n    assert find_single([1,2,3,1,2]) == 0, \"Test 1 failed\"\n    assert find_single([1,2,3,4,5,6]) == 3, \"Test 2 failed\"\n    assert find_single([1,1,1,2,3,4,5]) == 2, \"Test 3 failed\"\n    assert find_single([1,2,3]) == -1, \"Test 4 failed\"\n    assert find_single([]) == -1, \"Test 5 failed\"\n    assert find_single([-1]) == -1, \"Test 6 failed\"",
+      -10.75
+    ],
+    [
+      "import math\nimport random\n\n\ndef single_element_one_time(arr):\n    if len(arr) <= 1:\n        return arr[0]\n\n    for i in range(len(arr)):\n        if arr[i]!= arr[0]:\n            arr[i] = arr[0]\n        else:\n            return arr[0]\n\n    return arr[0]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))\n\n    arr = [0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))\n\n    arr = [0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))\n\n    arr = [0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))\n\n    arr = [0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))\n\n    arr = [0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))\n\n    arr = [0, 1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(single_element_one_time(arr))",
+      -10.7890625
+    ],
+    [
+      "def find_duplicated(arr):\n\t\"\"\"\n\t:type arr: list\n\t:rtype: int\n\t\"\"\"\n\tif len(arr) < 2:\n\t\treturn -1\n\telse:\n\t\tm = arr[0]\n\t\tfor i in range(1, len(arr)):\n\t\t\tif arr[i]!= m:\n\t\t\t\tm = arr[i]\n\t\treturn m\n\ndef main():\n\t\"\"\"\n\tTest cases\n\t\"\"\"\n\tarr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\tprint find_duplicated(arr)\n\n\tarr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n\tprint find_duplicated(arr)\n\nif __name__ == '__main__':\n\tmain()",
+      -10.875
+    ],
+    [
+      "def find_single(nums):\n    return nums[0]\n\n# Test cases\n\ntest_cases = [\n    [[1,2,3,4,5], 1],\n    [[1,2,3,4,5], 3],\n    [[1,2,3,4,5], 5],\n    [[1,2,3,4,5], 6],\n    [[1,2,3,4,5], 7],\n    [[1,2,3,4,5], 8],\n    [[1,2,3,4,5], 9],\n    [[1,2,3,4,5], 10],\n    [[1,2,3,4,5], 11],\n    [[1,2,3,4,5], 12],\n    [[1,2,3,4,5], 13],\n    [[1,2,3,4,5], 14],\n    [[1,2,3,4,5], 15],\n    [[1,2,3,4,5], 16],\n    [[1,2,3,4,5], 17],\n    [[1,2,3,4,5], 18],\n    [[1,2,3,4,5], 19],\n    [[1,2,3,4,5], 20],\n    [[1,2,3,4,5], 21],\n    [[1,2,3,4,5], 22],\n    [[1,2,3,4,5], 23],\n    [[1,2,3,4,5], 24],\n    [[1,2,3,4,5], 25],\n    [[1,2,3,4,5], 26],\n    [[1,2,3,4,5], 27],\n    [[1,2,3,4,5], 28],\n    [[1,2,3,4,5], 29],\n    [[1,2,3,4,5], 30],\n    [[1,2,3,4,5], 31],\n    [[1,2,3,4,5], 32],\n    [[1,2,3,4,5], 33],\n    [[1,2,3,4,5], 34],\n    [[",
+      -11.2265625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def findUniqChar(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        # build hash table\n        table = {}\n        for ch in s:\n            table[ch] = 1\n        # find first element\n        ans = None\n        for ch in s:\n            if ans is None:\n                ans = ch\n            elif ch == ans:\n                ans = None\n            else:\n                ans = None\n        # find the element that appears only once\n        for ch in s:\n            if ch not in table:\n                return ch\n        return None",
+      -12.0
+    ],
+    [
+      "#!/usr/bin/env python\n\n# write your code here\n\ndef single_element(arr):\n    # write your code here\n    \n    # initialize the counter to zero\n    counter = 0\n    \n    # go through the array and find the first element that is not in the sorted array\n    for i in range(len(arr)):\n        if arr[i]!= arr[counter]:\n            counter += 1\n    \n    # return the index of the first element that is not in the sorted array\n    return counter\n\n# Test Cases\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]\n# arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]\nprint single_element(arr)",
+      -12.8828125
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def findDuplicate(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if not head:\n            return None\n        dummy = ListNode(0)\n        dummy.next = head\n        pre = dummy\n        while pre.next:\n            cur = pre.next\n            while cur:\n                if cur.val == pre.val:\n                    cur = cur.next\n                else:\n                    pre = cur\n                    cur = cur.next\n            pre.next = cur\n            pre = dummy\n        return dummy.next\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    head = ListNode(1)\n    head.next = ListNode(1)\n    head.next.next = ListNode(2)\n    head.next.next.next = ListNode(3)\n    head.next.next.next.next = ListNode(3)\n    head.next.next.next.next.next = ListNode(3)\n    head.next.next.next.next.next.next = ListNode(4)\n    head.next.next.next.next.next.next.next = ListNode(4)\n    print(sol.findDuplicate(head))",
+      -12.96875
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def findDuplicate(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if not head:\n            return None\n        slow = head\n        fast = head\n        while fast and fast.next:\n            if fast.next.val < slow.val:\n                slow = slow.next\n            fast = fast.next.next\n        if fast and fast.val == slow.val:\n            while fast.next:\n                if fast.next.val < slow.val:\n                    slow = slow.next\n                fast = fast.next.next\n            return slow\n        return None\n\n\nif __name__ == \"__main__\":\n    head1 = ListNode(1)\n    head2 = ListNode(2)\n    head3 = ListNode(3)\n    head1.next = head2\n    head2.next = head3\n    head3.next = head1\n    s = Solution()\n    print s.findDuplicate(head1)",
+      -13.28125
+    ],
+    [
+      "def find_single(a):\n    # write your code here\n    return a[0]\n\ndef find_single_2(a):\n    # write your code here\n    if len(a) == 0:\n        return None\n    for i in range(len(a)):\n        if a[i] == a[0]:\n            return a[i]\n        else:\n            return None\n\nif __name__ == \"__main__\":\n    a = [1,2,3,4,5,6,7,8,9]\n    print find_single(a)\n    print find_single_2(a)\n    print find_single_2(a)\n    print find_single_2(a)\n    print find_single_2(a)",
+      -13.7734375
+    ],
+    [
+      "def find_single(arr):\n    i = 0\n    j = len(arr) - 1\n    while i < j:\n        m = (i + j) / 2\n        if arr[m] < arr[j]:\n            j = m\n        elif arr[m] > arr[j]:\n            i = m + 1\n        elif arr[m] == arr[j]:\n            return m\n    return arr[j]\n\ndef test_find_single():\n    assert find_single([1, 1, 1, 1, 1, 1, 1, 1, 1]) == 1\n    assert find_single([1, 1, 1, 1, 1, 1, 1, 2, 3]) == 2\n    assert find_single([1, 1, 1, 1, 1, 1, 2, 3, 3]) == 3\n    assert find_single([1, 1, 1, 1, 1, 1, 2, 3, 3, 3]) == 3\n\nif __name__ == '__main__':\n    test_find_single()",
+      -14.3671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorted-array-quicksort-2/problem\ndef find_single(arr, start, end):\n    if start > end:\n        return -1\n    mid = (start + end) // 2\n    if arr[mid] < arr[start]:\n        if arr[mid] < arr[end]:\n            return find_single(arr, start, mid)\n        else:\n            return find_single(arr, mid + 1, end)\n    else:\n        if arr[start] < arr[mid]:\n            return find_single(arr, start, mid)\n        else:\n            return find_single(arr, mid + 1, end)\n\ndef find_single2(arr, start, end):\n    if start > end:\n        return -1\n    mid = (start + end) // 2\n    if arr[mid] < arr[start]:\n        if arr[mid] < arr[end]:\n            return find_single2(arr, start, mid)\n        else:\n            return find_single2(arr, mid + 1, end)\n    else:\n        if arr[start] < arr[mid]:\n            return find_single2(arr, start, mid)\n        else:\n            return find_single2(arr, mid + 1, end)\n\narr = [1,2,3,4,5,6,7,8,9,10]\nfind_single(arr, 0, len(arr) - 1)\nfind_single2(arr, 0, len(arr) - 1)",
+      -14.703125
+    ],
+    [
+      "def find_single_unique(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    \n    # sort the array\n    arr.sort()\n    \n    # find the first element that appears only once\n    for i in range(len(arr)):\n        if arr[i] == arr[i+1]:\n            return arr[i]\n    \n    return -1\n\ndef test_find_single_unique():\n    assert find_single_unique([1,2,3,4,5,6,7,8,9]) == 1\n    assert find_single_unique([1,1,1,1,1,1,1,1,1]) == 1\n    assert find_single_unique([-1,1,1,1,1,1,1,1,1]) == 1\n    assert find_single_unique([-1,-1,-1,-1,-1,-1,-1,-1,-1]) == -1\n    assert find_single_unique([-1,1,1,1,1,1,1,1,1]) == 1\n    assert find_single_unique([-1,-1,-1,-1,-1,-1,-1,-1,-1]) == -1\n    assert find_single_unique([2,2,2,2,2,2,2,2,2]) == 2\n    assert find_single_unique([2,2,2,2,2,2,2,2,2]) == 2\n    assert find_single_unique([2,2,2,2,2,2,2,2,2]) == 2\n\ndef main():\n    test_find_single_unique()\n\nif __name__ == '__main__':\n    main()",
+      -15.7734375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/60",
+    "prompt": "Write a function to find the maximum length of the subsequence with difference between adjacent elements for the given array.",
+    "canonical_solution": "def max_len_sub( arr, n): \r\n\tmls=[] \r\n\tmax = 0\r\n\tfor i in range(n): \r\n\t\tmls.append(1) \r\n\tfor i in range(n): \r\n\t\tfor j in range(i): \r\n\t\t\tif (abs(arr[i] - arr[j]) <= 1 and mls[i] < mls[j] + 1): \r\n\t\t\t\tmls[i] = mls[j] + 1\r\n\tfor i in range(n): \r\n\t\tif (max < mls[i]): \r\n\t\t\tmax = mls[i] \r\n\treturn max",
+    "test_list": [
+      "assert max_len_sub([2, 5, 6, 3, 7, 6, 5, 8], 8) == 5",
+      "assert max_len_sub([-2, -1, 5, -1, 4, 0, 3], 7) == 4",
+      "assert max_len_sub([9, 11, 13, 15, 18], 5) == 1"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 49
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def max_subseq_diff(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    n = len(arr)\n    max_len = 0\n    for i in range(1, n):\n        for j in range(i):\n            diff = arr[i] - arr[j]\n            if diff == 0:\n                continue\n            if j - i + 1 > max_len:\n                max_len = j - i + 1\n            if j - i + 1 > max_len:\n                max_len = j - i + 1\n    return max_len\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6]\n    print(max_subseq_diff(arr))",
+      3.00390625
+    ],
+    [
+      "class Solution(object):\n    def findLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_len = 0\n        for i in range(n):\n            max_len = max(max_len, 1 + self.findLength(nums[:i] + nums[i+1:]))\n        return max_len",
+      0.82763671875
+    ],
+    [
+      "def findMaxSubseq(arr):\n    max_length = 0\n    for i in range(len(arr)):\n        for j in range(len(arr)):\n            if j < i:\n                if arr[i]!= arr[j]:\n                    if max_length < (j - i + 1):\n                        max_length = j - i + 1\n    return max_length",
+      0.82568359375
+    ],
+    [
+      "import time\ntStart=time.time()\n\ndef findMaxSubseqDiff(arr):\n    result = 0\n    if len(arr) == 0:\n        return result\n    for i in range(1, len(arr)):\n        if arr[i] > arr[i-1]:\n            result = max(result, 1 + findMaxSubseqDiff(arr[:i] + arr[i+1:]))\n    return result\n\nprint \"Time elapsed: \" + str(time.time() - tStart)",
+      0.79541015625
+    ],
+    [
+      "class Solution:\n    def maxLengthOfDiffSubsequence(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        \n        n = len(nums)\n        max_length = 1\n        \n        for i in range(1, n):\n            if nums[i] > nums[i-1]:\n                max_length += 1\n            else:\n                max_length = max(max_length, 1)\n        \n        return max_length",
+      0.01332855224609375
+    ],
+    [
+      "def max_subsequence_length(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    \n    if len(arr) == 0:\n        return 0\n    \n    max_length = 0\n    \n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] > arr[j]:\n                max_length = max(max_length, 1 + j - i)\n    \n    return max_length",
+      -0.038360595703125
+    ],
+    [
+      "from typing import List\n\ndef find_max_subsequence_difference(nums: List[int]) -> int:\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    max_length = 0\n    for i in range(len(nums)):\n        for j in range(i+1, len(nums)):\n            if nums[i]!= nums[j] and max_length < (j-i+1):\n                max_length = j - i + 1\n    return max_length\n\nif __name__ == '__main__':\n    nums = [1, 2, 3, 4, 5, 6, 7]\n    print(find_max_subsequence_difference(nums))",
+      -0.0980224609375
+    ],
+    [
+      "# https://discuss.leetcode.com/topic/12085/java-o-n-solution\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_len = 0\n        diff = nums[0] - nums[1]\n        for i in range(2, n):\n            max_len = max(max_len, 1 + max(diff, nums[i] - nums[i-1]))\n        return max_len\n\nif __name__ == '__main__':\n    print Solution().maxSubArrayLen([-2, 1, -3, 4, -1, 2, 1, -5, 4])\n    print Solution().maxSubArrayLen([-2, -1, -3, -4, -5, -6, -7, -8])\n    print Solution().maxSubArrayLen([-2, -1, -3, -4, -5, -6, -7, -8, -9])",
+      -0.1126708984375
+    ],
+    [
+      "class Solution(object):\n    def maxLengthOfSubsequenceDiff(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_len = 1\n        for i in xrange(1, len(nums)):\n            if nums[i] - nums[i-1]!= 0:\n                max_len = max(max_len, i)\n        return max_len",
+      -0.268798828125
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArrayLen(self, nums):\n        # write your code here\n        if len(nums) == 0:\n            return 0\n\n        if len(nums) == 1:\n            return 1\n\n        max_len = 1\n        max_len_sum = nums[0]\n\n        for i in range(1, len(nums)):\n            max_len_sum = max(max_len_sum + nums[i], nums[i])\n            max_len = max(max_len, max(max_len_sum, i+1))\n\n        return max_len",
+      -0.85595703125
+    ],
+    [
+      "#!/usr/bin/python\n\n# https://www.hackerrank.com/challenges/maximum-subsequence-difference/problem\n\nn = int(raw_input())\narr = list(map(int, raw_input().split()))\n\ndef find_max_subseq_diff(arr):\n    max_subseq_diff = 0\n    for i in range(len(arr) - 1):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] > max_subseq_diff:\n                max_subseq_diff = arr[i] - arr[j]\n    return max_subseq_diff\n\nprint(find_max_subseq_diff(arr))",
+      -0.85595703125
+    ],
+    [
+      "# TLE\ndef max_length_subsequence(arr):\n    return max(map(lambda x: max_length_subsequence(arr[:x] + arr[x+1:]), range(len(arr))))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def maxLengthOfDiffSubsequence(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_len = 1\n        for i in range(1, len(nums)):\n            if nums[i]!= nums[i-1]:\n                max_len = max(max_len, i+1)\n        return max_len",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def maxSubLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return 0\n        max_len = 0\n        for i in xrange(n-1):\n            for j in xrange(i+1, n):\n                diff = nums[j] - nums[i]\n                if diff > max_len:\n                    max_len = diff\n        return max_len",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integer\n    # @return an integer\n    def findMaxSubLength(self, num):\n        maxLen = 0\n        for i in range(len(num)):\n            for j in range(i + 1, len(num)):\n                if num[i]!= num[j]:\n                    maxLen = max(maxLen, j - i)\n        return maxLen",
+      -0.85791015625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        \n        if not nums:\n            return 0\n        \n        m = 0\n        n = len(nums)\n        \n        for i in range(n):\n            curr_max = 0\n            for j in range(i+1, n):\n                curr_max = max(curr_max, nums[j] - nums[i])\n            m = max(m, curr_max)\n        \n        return m",
+      -0.85791015625
+    ],
+    [
+      "def max_length_subsequence_difference(nums):\n\t# write your code here\n\treturn max(map(lambda x: len(str(x)), nums))\n\nif __name__ == '__main__':\n\tnums = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n\tprint max_length_subsequence_difference(nums)",
+      -0.85791015625
+    ],
+    [
+      "def find_max_length_subsequence(arr):\n    if len(arr) == 1:\n        return 1\n    else:\n        max_length = 0\n        for i in range(1, len(arr)):\n            max_length = max(max_length, len(str(arr[i] - arr[i-1])) + 1)\n        return max_length\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(\"Max Length of Subsequence: {}\".format(find_max_length_subsequence(arr)))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def maxSubsequenceDiff(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        length = 1\n        for i in range(1, len(nums)):\n            if nums[i] - nums[i-1] > 0:\n                length += 1\n            else:\n                length = max(length, i - length + 1)\n        return length",
+      -0.85791015625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_len = 1\n        for i in xrange(1, len(nums)):\n            curr_len = 1\n            for j in xrange(i):\n                if nums[j] < nums[i]:\n                    curr_len += 1\n                else:\n                    break\n            max_len = max(max_len, curr_len)\n        return max_len",
+      -0.8583984375
+    ],
+    [
+      "import math\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_len = 1\n        curr_len = 1\n        for i in xrange(1, len(nums)):\n            curr_len = max(curr_len, 1 + max(nums[i - 1], nums[i]))\n            max_len = max(max_len, curr_len)\n        return max_len\n\nif __name__ == \"__main__\":\n    assert Solution().maxSubArrayLen([1,2,3,4]) == 4\n    assert Solution().maxSubArrayLen([1,2]) == 2\n    assert Solution().maxSubArrayLen([1]) == 1\n    assert Solution().maxSubArrayLen([]) == 0\n    assert Solution().maxSubArrayLen([-1, -2]) == 1",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def maxSubsequenceDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        dp = [0] * n\n        for i in range(n):\n            dp[i] = 1\n            for j in range(i):\n                if nums[i]!= nums[j]:\n                    dp[i] = max(dp[i], dp[j] + 1)\n        return max(dp)",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_length = 0\n        max_length_so_far = 0\n        for i in range(len(nums)):\n            max_length_so_far = max(max_length_so_far, max_length)\n            max_length = max(max_length, nums[i] + max_length_so_far)\n        return max_length\n\n\nif __name__ == \"__main__\":\n    assert Solution().maxSubArray([1,2,3,4,5]) == 5",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return len(nums)\n        ans = 0\n        min_val = nums[0]\n        max_val = nums[0]\n        for i in range(1, len(nums)):\n            if nums[i] < min_val:\n                min_val = nums[i]\n            if nums[i] > max_val:\n                max_val = nums[i]\n        ans = 1\n        for i in range(1, len(nums)):\n            if nums[i] == max_val:\n                ans = max(ans, i - min_val)\n        return ans\n\nif __name__ == \"__main__\":\n    nums = [3, 4, -1, 1, 2]\n    s = Solution()\n    print s.maxSubArray(nums)",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def findMaxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        max_length = 0\n        max_length_index = 0\n        max_length_value = nums[0]\n        for i in range(1, len(nums)):\n            if max_length_value < nums[i]:\n                max_length_value = nums[i]\n                max_length_index = i\n        max_length = 1\n        for i in range(max_length_index - 1, 0, -1):\n            max_length *= nums[i]\n        for i in range(max_length_index + 1, len(nums)):\n            max_length *= nums[i]\n        return max_length\n\n\nif __name__ == \"__main__\":\n    print Solution().findMaxSubArray([1,2,3,4])",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_length = 0\n        start = 0\n        for i in range(1, n):\n            if nums[i] - nums[i-1] > 0:\n                max_length = max(max_length, i - start + 1)\n                start = i\n        max_length = max(max_length, n - start)\n        return max_length",
+      -0.85888671875
+    ],
+    [
+      "from collections import defaultdict\n\nclass Solution:\n    # @param A, a list of integers\n    # @return an integer\n    def maxSubArrayLen(self, A):\n        length = 0\n        if not A:\n            return length\n\n        max_diff = -1\n        max_diff_sub = -1\n        diff_sub_dict = defaultdict(int)\n\n        for i in range(len(A)):\n            curr_diff = A[i] - A[i-1]\n            diff_sub_dict[curr_diff] += 1\n            if max_diff < diff_sub_dict[curr_diff]:\n                max_diff = diff_sub_dict[curr_diff]\n                max_diff_sub = i\n\n        return max_diff_sub + 1",
+      -0.85888671875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return n\n\n        max_len = 1\n        cur_len = 2\n        max_diff = nums[0] - nums[1]\n        for i in xrange(2, n):\n            if nums[i]!= nums[i-1]:\n                cur_len += 1\n                max_diff = max(max_diff, nums[i] - nums[i-1])\n            else:\n                cur_len += 1\n                max_diff = max(max_diff, nums[i] - nums[i-1])\n            if cur_len > max_len:\n                max_len = cur_len\n        return max_len",
+      -0.85888671875
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def maxSubLen(self, nums):\n        \"\"\"\n        Algorithm:\n        1. calculate the length of the subsequence\n        2. find the maximum length of the subsequence\n        :param nums: list[int]\n        :return: int\n        \"\"\"\n        length = 0\n        for i in range(len(nums)):\n            length += 1\n            for j in range(i):\n                if nums[i]!= nums[j]:\n                    break\n                length += 1\n        return length\n\n\nif __name__ == \"__main__\":\n    print Solution().maxSubLen([1,2,3])",
+      -0.85888671875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def findMaxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        max_length = 1\n        prev_end = 0\n        for i in range(len(nums)):\n            if nums[i] > nums[prev_end]:\n                max_length = max(max_length, i - prev_end + 1)\n            prev_end = i\n        return max_length\n\nif __name__ == \"__main__\":\n    print Solution().findMaxLength([1, 2, 3, 4])",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubLength(self, nums):\n        if len(nums) == 0:\n            return 0\n\n        max_length = 0\n        for i in range(len(nums)):\n            max_length = max(max_length, 1 + self.maxSubLength(nums[:i+1]))\n\n        return max_length",
+      -0.86083984375
+    ],
+    [
+      "def max_subsequence_difference(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n\n    max_length = 0\n    for i in range(1, len(arr)):\n        diff = arr[i] - arr[i - 1]\n        if diff > 0:\n            max_length = max(max_length, 1 + i - diff)\n\n    return max_length",
+      -0.86083984375
+    ],
+    [
+      "import sys\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.maxSubArrayLen2(nums)\n\n    def maxSubArrayLen2(self, nums):\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_len = 0\n        max_len_idx = 0\n        for i in range(1, n):\n            sum = nums[i-1] + nums[i]\n            if sum > nums[max_len_idx]:\n                max_len_idx = i\n            if sum < nums[max_len_idx]:\n                max_len = max(max_len, i-max_len_idx)\n        return max_len\n\n    def maxSubArrayLen3(self, nums):\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_len = 0\n        max_len_idx = 0\n        for i in range(1, n):\n            sum = nums[i-1] + nums[i]\n            if sum > nums[max_len_idx]:\n                max_len_idx = i\n            if sum < nums[max_len_idx]:\n                max_len = max(max_len, i-max_len_idx)\n        return max_len\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    for test in [\n        [],\n        [1],\n        [-2],\n        [1,-3],\n        [-1,2,1],\n        [-1,-2,1,-3],\n        [-1,2,-3,-4,-5,-6],\n        [-1,-2,2,-3,-4,-5,-6]\n    ]:\n        print(sol.maxSubArrayLen(test))",
+      -0.9208984375
+    ],
+    [
+      "# https://leetcode.com/problems/maximum-length-of-subsequence-with-difference/description/\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubLength(self, nums):\n        if not nums:\n            return 0\n\n        n = len(nums)\n        maxLen = 0\n        maxIdx = -1\n        \n        for i in range(n):\n            for j in range(i+1, n):\n                if nums[i]!= nums[j]:\n                    if maxLen < j - i:\n                        maxLen = j - i\n                        maxIdx = i\n\n        return maxLen\n\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubLength1(self, nums):\n        if not nums:\n            return 0\n\n        n = len(nums)\n        maxLen = 0\n        maxIdx = -1\n\n        for i in range(n):\n            for j in range(i+1, n):\n                if nums[i]!= nums[j]:\n                    if maxLen < j - i:\n                        maxLen = j - i\n                        maxIdx = i\n\n        return maxLen\n\n\n# test\ns = Solution()\nprint(s.maxSubLength([1, 2, 3, 4]))\nprint(s.maxSubLength([1, 2, 3, 4, 5]))\nprint(s.maxSubLength([2, 2, 3, 4, 5]))\nprint(s.maxSubLength([2, 2, 3, 4, 5, 6]))\nprint(s.maxSubLength([1, 2, 2, 3, 4, 5, 6]))\nprint(s.maxSubLength([1, 2, 3, 3, 4, 5, 6]))\nprint(s.maxSubLength([1, 2, 3, 3, 4, 5, 6, 6]))\nprint(s.maxSubLength([1, 2, 3, 4, 4, 5, 6]))\nprint(s.maxSubLength([1, 2, 3, 4, 5, 5, 6]))\nprint",
+      -0.94775390625
+    ],
+    [
+      "__author__ = 'Danyang'\nclass Solution(object):\n    def findMaxSubLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return 1\n        max_len = 0\n        for i in range(n-1):\n            if nums[i]!= nums[i+1]:\n                max_len += 1\n        return max_len\n\n\nif __name__==\"__main__\":\n    print(Solution().findMaxSubLength([1,2,3,1]))",
+      -0.98486328125
+    ],
+    [
+      "class Solution:\n    def maxSubArrayLen(self, nums: List[int], k: int) -> int:\n        n = len(nums)\n        max_len = 0\n        max_sum = nums[0]\n        for i in range(1, n):\n            max_sum = max(max_sum, nums[i])\n            if max_sum - nums[i-1] >= k:\n                max_len = max(max_len, i)\n            else:\n                max_len = max(max_len, i - 1)\n            max_sum = max(max_sum, nums[i])\n        return max_len\n\nclass Solution2:\n    def maxSubArrayLen(self, nums: List[int], k: int) -> int:\n        n = len(nums)\n        max_len = 0\n        max_sum = nums[0]\n        for i in range(1, n):\n            max_sum = max(max_sum, nums[i])\n            if max_sum - nums[i-1] >= k:\n                max_len = max(max_len, i)\n            else:\n                max_len = max(max_len, i - 1)\n            max_sum = max(max_sum, nums[i])\n        return max_len\n\nclass Solution3:\n    def maxSubArrayLen(self, nums: List[int], k: int) -> int:\n        n = len(nums)\n        max_len = 0\n        max_sum = nums[0]\n        for i in range(1, n):\n            max_sum = max(max_sum, nums[i])\n            if max_sum - nums[i-1] >= k:\n                max_len = max(max_len, i)\n            else:\n                max_len = max(max_len, i - 1)\n            max_sum = max(max_sum, nums[i])\n        return max_len\n\nclass Solution4:\n    def maxSubArrayLen(self, nums: List[int], k: int) -> int:\n        n = len(nums",
+      -1.2314453125
+    ],
+    [
+      "# https://leetcode.com/problems/maximum-length-of-subsequence-with-difference/description/\n\nclass Solution(object):\n    def maxSubsequenceLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n\n        dp = [0] * n\n        dp[0] = 1\n\n        for i in range(1, n):\n            for j in range(i):\n                if nums[j]!= nums[i]:\n                    dp[i] = max(dp[i], dp[j] + 1)\n\n        return dp[-1]\n\n\nif __name__ == \"__main__\":\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5]))\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5, 6]))\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5, 6, 7]))\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5, 6, 7, 8]))\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\n    print(Solution().maxSubsequenceLength([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))",
+      -1.232421875
+    ],
+    [
+      "def max_diff_subseq(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(arr)\n    max_len = 0\n    for i in range(n-1):\n        for j in range(i+1, n):\n            if arr[i]!= arr[j]:\n                max_len = max(max_len, j-i)\n    return max_len\n\nif __name__ == \"__main__\":\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7]))\n    print(max_diff_subseq([1, 2, 3, 4, 5]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]))\n    print(max_diff_subseq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))",
+      -1.3251953125
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        max_len = 0\n        for i in range(len(nums)):\n            if i > 0 and nums[i] < nums[i - 1]:\n                max_len += 1\n            else:\n                max_len = max(max_len, i + 1)\n        return max_len",
+      -1.3984375
+    ],
+    [
+      "def max_subsequence_diff(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    max_length = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i]!= arr[j]:\n                max_length = max(max_length, j - i)\n    return max_length\n\nclass Solution(object):\n    def maxSubsequenceDiff(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if not arr or len(arr) == 1:\n            return 0\n        max_length = 0\n        for i in range(len(arr)):\n            for j in range(i + 1, len(arr)):\n                if arr[i]!= arr[j]:\n                    max_length = max(max_length, j - i)\n        return max_length",
+      -1.46484375
+    ],
+    [
+      "class Solution(object):\n    def maxSubLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        ans = 0\n        for i in range(n):\n            for j in range(i+1, n):\n                if nums[i]!= nums[j]:\n                    ans = max(ans, j-i)\n        return ans\n\nif __name__ == '__main__':\n    print Solution().maxSubLen([1, 2, 3])\n    print Solution().maxSubLen([-1, -2, -3])\n    print Solution().maxSubLen([-1, -2, 3])\n    print Solution().maxSubLen([-1, -2, -3, -4])",
+      -1.5048828125
+    ],
+    [
+      "def max_subsequence_difference(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 2:\n        return 0\n\n    max_length = 1\n    for i in range(2, len(arr)):\n        max_length = max(max_length, 1 + max_subsequence_difference(arr[:i], arr[i:]))\n\n    return max_length",
+      -1.5390625
+    ],
+    [
+      "from typing import List\n\nclass Solution:\n    def maxLengthOfDiffSubsequence(self, nums: List[int]) -> int:\n        if len(nums) == 1:\n            return 1\n        \n        if len(nums) == 2:\n            return 1 + (nums[1] - nums[0])\n        \n        subs = [0] * len(nums)\n        subs[0] = 1\n        for i in range(1, len(nums)):\n            subs[i] = subs[i-1] + (nums[i] - nums[i-1])\n        \n        max_subs = subs[-1]\n        for i in range(len(nums) - 2, -1, -1):\n            max_subs = max(max_subs, subs[i] + (nums[i+1] - nums[i]))\n        return max_subs",
+      -2.0234375
+    ],
+    [
+      "class Solution(object):\n    def maxSubLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        return self.helper(nums, 0, n-1)\n\n    def helper(self, nums, left, right):\n        if left == right:\n            return 1\n        mid = (left + right) / 2\n        if nums[left] > nums[mid]:\n            return self.helper(nums, mid + 1, right)\n        elif nums[left] < nums[mid]:\n            return self.helper(nums, left, mid - 1)\n        else:\n            return max(self.helper(nums, left, mid - 1), self.helper(nums, mid + 1, right))\n\n\nif __name__ == '__main__':\n    assert Solution().maxSubLen([1,2,3,4,5]) == 5",
+      -2.04296875
+    ],
+    [
+      "import sys\n\n__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def maxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        length = 1\n        max_length = 1\n        for i in xrange(n):\n            for j in xrange(i + 1, n):\n                if nums[i]!= nums[j]:\n                    length += 1\n                    max_length = max(length, max_length)\n        return max_length\n\n\ndef main():\n    s = Solution()\n    print s.maxLength([1, 2, 3, 4, 5])\n\n\nif __name__ == '__main__':\n    main()",
+      -2.083984375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # if nums is empty or len(nums) == 1, return 0\n        if len(nums) < 2:\n            return 0\n        max_sub_array = 0\n        for i in range(len(nums)):\n            if i == 0 or nums[i]!= nums[i-1]:\n                max_sub_array = max(max_sub_array, len(nums[i+1:]))\n        return max_sub_array",
+      -2.19921875
+    ],
+    [
+      "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        return max(1, sum(nums) - sum(nums[1:]) + max(len(nums) - 2, 0))",
+      -2.234375
+    ],
+    [
+      "class Solution(object):\n    def maxLengthOfDiffSubsequence(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        result = 0\n        previous = nums[0]\n        for i in range(1, n):\n            if nums[i] - previous > 0:\n                result = max(result, 1)\n                previous = nums[i]\n            else:\n                result = max(result, len(str(nums[i] - previous)))\n        return result\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 4, 5]\n    print Solution().maxLengthOfDiffSubsequence(nums)",
+      -2.625
+    ],
+    [
+      "def max_diff_subseq(arr):\n    return max(max_diff_subseq_rec(arr, 0, len(arr) - 1))\n\n\ndef max_diff_subseq_rec(arr, start, end):\n    if start == end:\n        return 1\n    else:\n        mid = (start + end) / 2\n        if arr[mid] - arr[start] == arr[end] - arr[start]:\n            return max(max_diff_subseq_rec(arr, start, mid), max_diff_subseq_rec(arr, mid + 1, end))\n        else:\n            return max(max_diff_subseq_rec(arr, start, mid), max_diff_subseq_rec(arr, mid + 1, end))\n\n\n\nprint(max_diff_subseq([1,2,3]))\nprint(max_diff_subseq([1,2,3,4]))\nprint(max_diff_subseq([1,2,3,4,5]))",
+      -2.6328125
+    ],
+    [
+      "# https://leetcode.com/problems/maximum-subsequence-difference/description/\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ans = 0\n        nums.sort()\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if j - i >= k:\n                    if nums[i] + nums[j] > ans:\n                        ans = nums[i] + nums[j]\n        return ans\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1,2,3]\n    k = 2\n    print(sol.maxSubArrayLen(nums, k))\n    nums = [1,2,3,4]\n    k = 2\n    print(sol.maxSubArrayLen(nums, k))\n    nums = [1,2,3,4,5]\n    k = 3\n    print(sol.maxSubArrayLen(nums, k))",
+      -2.73828125
+    ],
+    [
+      "# Definition for an interval.\nclass Interval(object):\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution(object):\n    def maxSubseqLen(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: int\n        \"\"\"\n        res = 0\n        for i in range(len(intervals)):\n            for j in range(i+1, len(intervals)):\n                if intervals[i].end < intervals[j].start:\n                    res = max(res, j-i)\n        return res",
+      -2.814453125
+    ],
+    [
+      "class Solution(object):\n    def maxLengthOfSubsequenceDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_len = 0\n        for i in range(len(nums)):\n            for j in range(i):\n                if nums[i]!= nums[j]:\n                    break\n                max_len = max(max_len, 1 + j - i)\n        return max_len",
+      -2.8671875
+    ],
+    [
+      "def find_max_subsequence_diff(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    max_length = 0\n    current_length = 1\n    for i in range(len(arr)):\n        if arr[i] > arr[i+1]:\n            current_length = 1\n        else:\n            current_length += 1\n        if current_length > max_length:\n            max_length = current_length\n    return max_length\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1, 2, 3]\n    print(find_max_subsequence_diff(arr))",
+      -2.88671875
+    ],
+    [
+      "#!/bin/python\n\nimport time\n\n# Complete the maximumSubsequenceDifference function below.\ndef maximumSubsequenceDifference(arr):\n    length = len(arr)\n    if length <= 1:\n        return 0\n\n    max = 0\n    for i in range(length):\n        for j in range(i+1, length):\n            if arr[i] > arr[j]:\n                max = max + 1\n                if max > arr[i]:\n                    return arr[i]\n\n    return max\n\nif __name__ == '__main__':\n    start_time = time.time()\n\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(maximumSubsequenceDifference(arr))\n    print(\"--- %s seconds ---\" % (time.time() - start_time))",
+      -3.2734375
+    ],
+    [
+      "from collections import Counter\n\ndef find_max_subseq_diff(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    res = 0\n    for i in range(len(arr) - 1):\n        for j in range(i + 1, len(arr)):\n            if arr[i]!= arr[j]:\n                break\n            res = max(res, 1 + abs(j - i))\n    return res\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5]\n    print(find_max_subseq_diff(arr))",
+      -3.349609375
+    ],
+    [
+      "def findMaxSubsequenceLength(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    \n    m = max(arr)\n    l = 0\n    for i in range(1, len(arr)):\n        if arr[i]!= arr[i-1]:\n            l = max(l, 1 + findMaxSubsequenceLength(arr[i:]) )\n    return l\n\nif __name__ == \"__main__\":\n    arr = [2, 3, 4, 5, 6, 7, 8, 9]\n    print(findMaxSubsequenceLength(arr))",
+      -3.53515625
+    ],
+    [
+      "# https://discuss.leetcode.com/topic/113771/java-solution-with-explanation-using-java-stack-and-sorting-and-bfs\ndef max_length_of_subsequence(self, nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(nums)\n    max_len = 0\n    \n    for i in range(n-1):\n        # print(i, nums[i])\n        for j in range(i+1, n):\n            # print(j, nums[j])\n            if nums[i]!= nums[j] and nums[i] + nums[j] > max_len:\n                max_len = nums[i] + nums[j]\n                \n    return max_len",
+      -3.845703125
+    ],
+    [
+      "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        max_len = 0\n        \n        for i in xrange(n):\n            cur_max_len = 0\n            \n            for j in xrange(i+1, n):\n                cur_max_len = max(cur_max_len, nums[j]-nums[i])\n            \n            max_len = max(max_len, cur_max_len)\n        \n        return max_len",
+      -3.947265625
+    ],
+    [
+      "class Solution(object):\n    def findSubstring(self, s, words):\n        \"\"\"\n        :type s: str\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        words_len = len(words)\n        if words_len == 0:\n            return 0\n        words_len += 1\n\n        s_len = len(s)\n        max_len = 0\n        start = 0\n        for i in range(words_len):\n            end = start + 1\n            while end < s_len and s[end] == s[start]:\n                end += 1\n            max_len = max(max_len, end - start)\n            start = end\n\n        return max_len\n\n    def findSubstring(self, s, words):\n        \"\"\"\n        :type s: str\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        words_len = len(words)\n        if words_len == 0:\n            return 0\n        words_len += 1\n\n        s_len = len(s)\n        max_len = 0\n        start = 0\n        for i in range(words_len):\n            end = start + 1\n            while end < s_len and s[end] == s[start]:\n                end += 1\n            max_len = max(max_len, end - start)\n            start = end\n\n        return max_len\n\nif __name__ == '__main__':\n    s = Solution()\n    s_len = len(s.findSubstring(\"barfoothefoobarman\", [\"foo\", \"bar\"]))\n    print(s_len)\n    s_len = len(s.findSubstring(\"abcd\", [\"a\", \"b\", \"c\"]))\n    print(s_len)\n    s_len = len(s.findSubstring(\"abcabcabc\", [\"a\", \"b\", \"c\"]))\n    print(s_len)",
+      -3.95703125
+    ],
+    [
+      "class Solution(object):\n    def maxSubArrayLen(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(nums) < 2:\n            return len(nums)\n\n        max_length = 0\n        max_length_with_diff = 0\n        for i in range(len(nums)):\n            diff = nums[i] - nums[i + 1]\n            if diff > 0:\n                max_length += 1\n            elif diff < 0:\n                max_length -= 1\n            else:\n                max_length_with_diff = max(max_length_with_diff, max_length)\n        return max(max_length_with_diff, max_length)\n\n\nif __name__ == \"__main__\":\n    nums = [2, 1, 2, 2, 1]\n    k = 2\n    print Solution().maxSubArrayLen(nums, k)",
+      -4.01171875
+    ],
+    [
+      "# Definition for an interval.\nclass Interval(object):\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution(object):\n    def maxSubArrayLen(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: int\n        \"\"\"\n        ans = 0\n        for i in range(len(intervals)):\n            if i == 0:\n                ans = max(ans, 1)\n                continue\n            if intervals[i].start > intervals[i - 1].end:\n                ans = max(ans, 1)\n                continue\n            ans = max(ans, 1 + self.maxSubArrayLen(intervals[i - 1:i]))\n        return ans\n\n\n# Note:\n# The length of the given array is [2, 3, 1, 1, 4].\n# The length of the subsequence with difference between adjacent elements is 2.\n# The length of the subsequence with difference between adjacent elements is 1.",
+      -4.19140625
+    ],
+    [
+      "from collections import Counter\nfrom functools import reduce\nimport operator\n\ndef find_diff_max(arr):\n    # write your code here\n    res = 0\n    diff_max = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i]!= arr[j]:\n                if diff_max < abs(i - j):\n                    diff_max = abs(i - j)\n                if diff_max > res:\n                    res = diff_max\n    return res\n\ndef find_diff_max_2(arr):\n    # write your code here\n    res = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i]!= arr[j]:\n                if arr[i] > arr[j]:\n                    res = max(res, abs(i - j))\n                else:\n                    res = max(res, abs(i - j))\n    return res\n\ndef find_diff_max_3(arr):\n    # write your code here\n    res = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i]!= arr[j]:\n                if arr[i] > arr[j]:\n                    res = max(res, abs(i - j))\n                else:\n                    res = max(res, abs(i - j))\n    return res\n\ndef find_diff_max_4(arr):\n    # write your code here\n    res = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i]!= arr[j]:\n                if arr[i] > arr[j]:\n                    res = max(res, abs(i - j))\n                else:\n                    res = max(res, abs(i - j))\n    return res\n\ndef find_diff_max_5(arr):\n    # write your code here\n    res = 0\n    for i in range(len(arr)):\n        for j in range",
+      -4.5
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/max-subsequence-difference/problem\n\ndef max_subsequence_difference(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 2:\n        return 0\n\n    max_diff = 0\n    max_index = 0\n    for i in range(1, len(arr)):\n        if arr[i] - arr[i-1] > max_diff:\n            max_index = i\n            max_diff = arr[i] - arr[i-1]\n\n    return max_index\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5]\n    print(max_subsequence_difference(arr))",
+      -4.546875
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef max_subsequence_difference(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    m = max(arr)\n    n = len(arr)\n    d = [0] * n\n    for i in range(n):\n        d[i] = arr[i] - m\n    \n    res = 0\n    for i in range(n-1):\n        if d[i] > d[i+1]:\n            res = max(res, d[i]-d[i+1]+1)\n    return res",
+      -4.609375
+    ],
+    [
+      "class Solution(object):\n    def maxSubLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return max(len(subseq) for subseq in self.getSubseq(nums))\n\n    def getSubseq(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        if len(nums) == 0:\n            return []\n\n        res = []\n        for i in range(len(nums)):\n            res.append([])\n            for j in range(len(nums)):\n                if j > i:\n                    res[i].append(nums[j])\n                elif j < i:\n                    res[i].append(nums[j-1])\n        return res\n\n\nif __name__ == '__main__':\n    assert Solution().maxSubLength([1, 2, 3]) == 3\n    assert Solution().maxSubLength([1, 1]) == 1\n    assert Solution().maxSubLength([1, 2, 3, 4, 5, 6]) == 5\n    assert Solution().maxSubLength([1, 2, 3, 4, 5, 6, 7, 8]) == 6",
+      -4.63671875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArrayLen(self, nums):\n        if not nums:\n            return 0\n        maxLen = 0\n        cur = 0\n        maxLen = 1\n        for i in xrange(1, len(nums)):\n            cur = max(cur + nums[i], nums[i])\n            maxLen = max(maxLen, cur)\n        return maxLen\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.maxSubArrayLen([2, 3, 1, 4, 6, 7, 1, 2, 3])\n    print s.maxSubArrayLen([-1, -2, -3, -4, -5])\n    print s.maxSubArrayLen([])",
+      -4.73828125
+    ],
+    [
+      "class Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        max_len = 0\n        max_len_num = nums[0]\n        for i in xrange(1, n):\n            max_len_num = max(max_len_num + nums[i], nums[i])\n            max_len = max(max_len, max_len_num)\n        return max_len\n\nif __name__ == '__main__':\n    print Solution().maxSubArrayLen([-2, 1, -3, 4, -1, 2, 1])",
+      -4.84765625
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def maxSubLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return max(self.maxSubLength(nums[:i]+nums[i+1:]) for i in xrange(len(nums)-1))\n\n    def maxSubLength_TLE(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def maxSubLength(nums):\n            max_len = 0\n            for i in xrange(len(nums)-1):\n                for j in xrange(i+1, len(nums)):\n                    if nums[i]!= nums[j]:\n                        max_len = max(max_len, 1+maxSubLength(nums[:i]+nums[j+1:]))\n            return max_len\n\n        return maxSubLength(nums)\n\n\nif __name__==\"__main__\":\n    print Solution().maxSubLength([1,2,3])\n    print Solution().maxSubLength([1,3,2])\n    print Solution().maxSubLength([-1,-2,-3])\n    print Solution().maxSubLength([-1,-2,-3,0])\n    print Solution().maxSubLength([-1,0,1,-2,-3,-4])\n    print Solution().maxSubLength([-1,-2,-3,0,1,2,-3,-4])",
+      -4.9375
+    ],
+    [
+      "class Solution(object):\n    def maxSubarrayDiff(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums = sorted(nums)\n        max_diff = 0\n        cur_diff = 0\n        cur_max = 0\n        for i in range(1, len(nums)):\n            cur_max = max(cur_max, cur_diff)\n            cur_diff = nums[i] - nums[i-1]\n            if cur_diff < 0:\n                cur_diff = 0\n            max_diff = max(max_diff, cur_max + cur_diff)\n        return max_diff",
+      -5.078125
+    ],
+    [
+      "# TLE\n# 486\n# 559\n# 585\n# 639\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669\n# 669",
+      -5.53515625
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def maxLengthOfSubsequenceDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        \n        if not nums:\n            return 0\n        \n        max_length = 0\n        max_index = 0\n        \n        for i in range(len(nums)):\n            j = i + 1\n            while j < len(nums) and nums[j] == nums[i]:\n                j += 1\n            \n            max_length = max(max_length, j - i)\n            max_index = max(max_index, i)\n        \n        return max_length\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/maximum-length-of-subsequence-difference/solution/\n# Approach #1: Find the max of the two subsequences\n# Complexity Analysis\n# Time Complexity: O(n)\n# Space Complexity: O(n)\n# Approach #2: Find the max of the two subsequences\n# Complexity Analysis\n# Time Complexity: O(n)\n# Space Complexity: O(1)\n\n# 12.19.2016 Rewrite\n# 12.21.2016 Rewrite\n# 12.22.2016 Rewrite\n# 12.23.2016 Rewrite\n# 12.24.2016 Rewrite\n# 12.25.2016 Rewrite\n# 12.26.2016 Rewrite\n# 12.27.2016 Rewrite\n# 12.28.2016 Rewrite\n# 12.29.2016 Rewrite\n# 12.30.2016 Rewrite\n# 12.31.2016 Rewrite\n# 12.32.2016 Rewrite\n# 12.33.2016 Rewrite\n# 12.34.2016 Rewrite\n# 12.35.2016 Rewrite\n# 12.36.2016 Rewrite\n# 12.37.2016 Rewrite\n# 12.38.2016 Rewrite\n#",
+      -5.62890625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    def maxSubArrayLen(self, nums: List[int]) -> int:\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        max_len = 0\n        for i in range(len(nums)):\n            if i == 0:\n                left = nums[i]\n                right = nums[i]\n            else:\n                left = max(nums[i-1], nums[i])\n                right = min(nums[i], nums[i+1])\n            if left!= right:\n                max_len = max(max_len, right - left + 1)\n        return max_len\n\n    def maxSubArrayLen2(self, nums: List[int]) -> int:\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # @include\n        max_len = 0\n        for i in range(len(nums)):\n            left = nums[i]\n            right = nums[i]\n            if i == 0:\n                left = nums[i]\n                right = nums[i]\n            else:\n                left = max(nums[i-1], nums[i])\n                right = min(nums[i], nums[i+1])\n            if left!= right:\n                max_len = max(max_len, right - left + 1)\n        return max_len\n        # @exclude\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1, 3, 1]\n    print(sol.maxSubArrayLen(nums))\n    nums = [1, 3, 2]\n    print(sol.maxSubArrayLen(nums))\n    nums = [1, 2, 1]\n    print(sol.maxSubArrayLen(nums))\n    nums = [1, 2, 3]",
+      -5.6328125
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        max_length = 1\n        s = 0\n        e = 0\n        while e < len(nums):\n            if nums[e] == nums[s]:\n                e += 1\n                s += 1\n            else:\n                if e - s + 1 > max_length:\n                    max_length = e - s + 1\n            e += 1\n        return max_length\n\n\nif __name__ == \"__main__\":\n    nums = [1, 1, -1, 1, -2, 1, 1, 2, 1, 1]\n    print(Solution().maxSubArray(nums))",
+      -6.15625
+    ],
+    [
+      "#!/usr/bin/env python\n\n\"\"\"\nInput:\n    2\n    1 2\n    3\n    1 3\n    4\n    1 2 3 4\n    5\n    1 2 3 4 5\nOutput:\n    4\n    5\n\"\"\"\n\ndef max_length_of_subsequence(arr):\n    \"\"\"\n    For an array of size n, find the maximum length of the subsequence with difference between adjacent elements.\n\n    Input:\n        arr: A list of integers\n    Output:\n        The maximum length of the subsequence with difference between adjacent elements.\n    \"\"\"\n\n    # If the length of the array is 1, return 1.\n    if len(arr) == 1:\n        return 1\n\n    # If the length of the array is 2, return 2.\n    if len(arr) == 2:\n        return 2\n\n    # If the length of the array is 3, return 3.\n    if len(arr) == 3:\n        return 3\n\n    # If the length of the array is 4, return 4.\n    if len(arr) == 4:\n        return 4\n\n    # If the length of the array is 5, return 5.\n    if len(arr) == 5:\n        return 5\n\n    # If the length of the array is 6, return 6.\n    if len(arr) == 6:\n        return 6\n\n    # If the length of the array is 7, return 7.\n    if len(arr) == 7:\n        return 7\n\n    # If the length of the array is 8, return 8.\n    if len(arr) == 8:\n        return 8\n\n    # If the length of the array is 9, return 9.\n    if len(arr) == 9:\n        return 9\n\n    # If the length of the array is 10, return 10.\n    if len(arr) == 10:\n        return 10\n\n    # If the length of the array is 11, return 11.\n    if len(arr) == 11:\n        return 11\n\n    # If the length of the array is 12, return 12.\n    if len(arr) == 12:\n        return 12\n\n    # If the length of the array is 13, return 13.\n    if len(arr) == 13:\n        return 13",
+      -6.23046875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArrayLen(self, nums):\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_len = 0\n        for i in xrange(1, n):\n            curr_len = 0\n            curr_max = 0\n            for j in xrange(i):\n                if nums[j] > nums[i]:\n                    curr_len += 1\n                    curr_max = max(curr_max, curr_len)\n            max_len = max(max_len, curr_max)\n        return max_len",
+      -6.640625
+    ],
+    [
+      "# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is the difference between the index of the first and the index of the next element.\n# The length of the subsequence is the length of the subsequence without the first element and the last element.\n# The difference between adjacent elements is",
+      -6.7890625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/max-subsequence-difference/problem\n\ndef max_subsequence_difference(A):\n    max_length = 0\n    max_value = -1\n    for i in range(len(A)):\n        for j in range(i):\n            if A[i]!= A[j] and A[i] > A[j]:\n                max_value = max(max_value, j - i)\n                max_length = max(max_length, i + 1)\n    return max_length, max_value\n\nif __name__ == \"__main__\":\n    input_file = open(\"input.txt\")\n    A = input().split(\" \")\n    max_length, max_value = max_subsequence_difference(A)\n    print(max_length, max_value)",
+      -7.25390625
+    ],
+    [
+      "class Solution(object):\n    def findMaxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        max_length = 0\n        max_length_subsequence = 0\n        for i in xrange(len(nums)):\n            current_length = 1\n            for j in xrange(i, len(nums)):\n                if nums[i] == nums[j]:\n                    current_length += 1\n                else:\n                    break\n            max_length_subsequence = max(max_length_subsequence, current_length)\n            max_length = max(max_length, current_length)\n        return max(max_length, max_length_subsequence)\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print solution.findMaxLength([1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4",
+      -7.3125
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n#     def __repr__(self):\n#         return \"[{}:{}]\".format(self.start, self.end)\n\nclass Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        if n == 1:\n            return nums[0]\n        max_left = nums[0]\n        max_right = nums[0]\n        for i in range(1, n):\n            max_left = max(max_left, nums[i])\n            max_right = max(max_right, nums[n - i - 1])\n        return max(max_left, max_right)\n\n\nif __name__ == \"__main__\":\n    print Solution().maxSubArray([1,2,3,4,5,6,7,8,9,10])\n    print Solution().maxSubArray([-10, -5, 0, 5, 9])\n    print Solution().maxSubArray([-10, -5, 0, 5, 9, 10])",
+      -7.4375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def findLength(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if not arr:\n            return 0\n        max_len = 0\n        max_len_interval = Interval(0, 0)\n        for i in xrange(len(arr)):\n            if arr[i] < arr[i-1]:\n                max_len_interval.end = arr[i]\n            elif arr[i] > arr[i-1]:\n                max_len_interval.start = arr[i]\n            if max_len_interval.end - max_len_interval.start > max_len:\n                max_len = max_len_interval.end - max_len_interval.start\n        return max_len",
+      -7.60546875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArray(self, nums):\n        max_length = 0\n        if nums == None or len(nums) == 0:\n            return 0\n        \n        # find the max subsequence\n        nums_max_length = 0\n        nums_max_length = self.max_sub(nums)\n        \n        # find the max subsequence with length 1\n        for i in xrange(len(nums)-1):\n            for j in xrange(i+1, len(nums)):\n                if nums[i]!= nums[j]:\n                    nums_max_length = max(nums_max_length, 1+self.max_sub(nums[j+1:len(nums)]))\n                    break\n        \n        return max(nums_max_length, max_length)\n    \n    def max_sub(self, nums):\n        if nums == None or len(nums) == 0:\n            return 0\n        \n        # find the max subsequence\n        max_length = 0\n        max_length = max(max_length, 1+self.max_sub(nums[1:len(nums)]))\n        \n        # find the max subsequence with length 1\n        for i in xrange(len(nums)-1):\n            for j in xrange(i+1, len(nums)):\n                if nums[i]!= nums[j]:\n                    max_length = max(max_length, 1+self.max_sub(nums[j+1:len(nums)]))\n                    break\n        \n        return max_length\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print solution.maxSubArray([1,2,3,4,5])\n    print solution.maxSubArray([1,2,3])\n    print solution.maxSubArray([1,2,3,4,5,6])",
+      -7.76953125
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArray(self, nums):\n        if nums == None or len(nums) == 0:\n            return 0\n        maxlen = 0\n        maxdiff = 0\n        \n        for i in range(len(nums)):\n            tempdiff = nums[i]\n            for j in range(i + 1, len(nums)):\n                tempdiff = max(tempdiff, nums[j] - nums[i])\n            maxlen = max(maxlen, tempdiff)\n            maxdiff = max(maxdiff, tempdiff)\n        return maxlen",
+      -7.859375
+    ],
+    [
+      "from collections import deque\n\n\nclass Solution:\n    def findSubstring(self, s: str, nums: List[int]) -> int:\n        \"\"\"\n        use a deque to store the max length of the subsequence\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        max_len = 1\n        q = deque(nums)\n        for i in range(1, n):\n            if q[i]!= q[i - 1]:\n                max_len = max(max_len, i + 1)\n            q.popleft()\n            q.append(q.popleft() + 1)\n        return max_len\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    s = \"bbbab\"\n    nums = [2, 3, 1, 2, 3, 1, 1, 1, 1, 2]\n    print(sol.findSubstring(s, nums))",
+      -8.1796875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/find-the-maximum-length-of-the-subsequence-with-difference-between-adjacent-elements/problem\n\ndef find_max_subseq_with_diff(arr):\n    max_len = 0\n    for i in range(len(arr)-1):\n        j = i + 1\n        while j < len(arr):\n            if arr[i] < arr[j]:\n                break\n            elif arr[i] > arr[j]:\n                max_len = max(max_len, j - i)\n            j += 1\n    return max_len\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]\nprint(find_max_subseq_with_diff(arr))",
+      -8.2265625
+    ],
+    [
+      "class Solution:\n    def findSubsequenceDifference(self, nums: List[int]) -> int:\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        dp = [0] * n\n        max_diff = 0\n        for i in range(n):\n            max_diff = max(max_diff, nums[i] - dp[i-1])\n            dp[i] = max_diff\n        for i in range(n-1, -1, -1):\n            max_diff = max(max_diff, dp[i] - nums[i])\n            dp[i] = max_diff\n        return max(max_diff, n-1)\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [1,2,3,4,5,6,7,8,9]\n    print(sol.findSubsequenceDifference(nums))",
+      -8.625
+    ],
+    [
+      "# https://leetcode.com/problems/find-the-maximum-length-of-subsequence-with-difference-between-adjacent-elements/discuss/185943/Java-O(n)-Time-O(1)-Space-\n# Time:  O(n)\n# Space: O(1)\n#\n# Description:\n# Given an array of integers, your task is to find the length of the longest subsequence\n# of the array such that the subsequence's elements have a difference between them\n# is at most 1.\n#\n# Example 1:\n# Input:\n# nums = [1,3,-1,-3,5,3,6,7]\n# Output:\n# length of the longest subsequence: 5\n# Explanation:\n# The subsequence has a difference between 1 and 3,\n# and a difference between 3 and 5,\n# and a difference between 5 and 6,\n# and a difference between 6 and 7.\n# Note that the subsequence is not necessarily the longest possible because\n# there could also be a subsequence with a difference between 1 and 3,\n# a difference between 3 and 5,\n# and a difference between 5 and 6.\n#\n# Example 2:\n# Input:\n# nums = [-3,2,-4]\n# Output:\n# length of the longest subsequence: 2\n# Explanation:\n# The subsequence has a difference between -3 and -4.\n#\n# Example 3:\n# Input:\n# nums = [0]\n# Output:\n# length of the longest subsequence: 0\n# Explanation:\n# The subsequence has a difference between 0 and -4.\n#\n# Note:\n# - 1 <= nums.length <= 500\n# - nums[i] is either positive or negative.\n# - 0 <= nums[i] < 1000\n\nimport collections\n\n\nclass Solution(object):\n    def findMaxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        dp = collections.defaultdict(int)\n        for i in xrange(len(nums)):\n            for j in xrange(i, len(nums)):",
+      -8.7421875
+    ],
+    [
+      "class Solution(object):\n    def findMaxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        ans = 0\n        max_diff = 0\n        max_len = 0\n        for i in range(n):\n            diff = nums[i] - nums[i + 1]\n            ans = max(ans, diff)\n            max_len = max(max_len, diff)\n            max_diff = max(max_diff, diff)\n        return max_len\n\n\nif __name__ == \"__main__\":\n    print(Solution().findMaxSubArray([-10, -3, 4, 6, 7]))\n    print(Solution().findMaxSubArray([-2, -3, -4, -5, -6, -7]))\n    print(Solution().findMaxSubArray([-2, -3, -4, -5, -6, -7, -8]))",
+      -8.875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArray(self, nums):\n        max_sum = 0\n        max_length = 0\n        for i in range(len(nums)):\n            max_sum = max(max_sum, nums[i])\n            max_length = max(max_length, max_sum - nums[i])\n        return max_length\n\nif __name__ == '__main__':\n    print Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4])\n    print Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4,9,-10])",
+      -8.9296875
+    ],
+    [
+      "def max_diff_subseq(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    m = max_len = 0\n    for i in range(len(a)):\n        if a[i] == a[i + 1]:\n            m += 1\n        else:\n            m = max(m, i - max_len)\n            max_len = i\n    m = max(m, len(a) - max_len)\n    return m\n\na = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nprint(max_diff_subseq(a))",
+      -9.0234375
+    ],
+    [
+      "import math\nimport time\n\ndef max_subsequence_length(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(arr)\n    if n < 2:\n        return 0\n    if n == 2:\n        return arr[0]!= arr[1]\n    if n % 2 == 0:\n        return max(max_subsequence_length(arr[:n/2]), max_subsequence_length(arr[n/2:]) + 1)\n    else:\n        return max(max_subsequence_length(arr[:n/2]), max_subsequence_length(arr[n/2:]) + 1)\n\nif __name__ == '__main__':\n    start_time = time.time()\n    print(max_subsequence_length([1, 2, 3, 4, 5, 6]))\n    print(time.time() - start_time)",
+      -9.0546875
+    ],
+    [
+      "from collections import Counter\n\nclass Solution(object):\n    def maxSubLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        d = Counter(nums)\n        ans = 0\n        for i in xrange(n):\n            for j in xrange(i+1, n):\n                if d[nums[i]]!= d[nums[j]]:\n                    ans = max(ans, j - i)\n        return ans\n\nif __name__ == \"__main__\":\n    print Solution().maxSubLength([1, 2, 3, 4, 5, 6])\n    print Solution().maxSubLength([1, 2, 3, 4])\n    print Solution().maxSubLength([1, 2, 3])\n    print Solution().maxSubLength([1, 2, 3, 4, 5])\n    print Solution().maxSubLength([1, 2, 3, 4, 5, 6, 7, 8, 9])",
+      -9.4453125
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArrayLen(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # Write your code here\n        if len(nums) == 0:\n            return 0\n        max_len = 0\n        max_sum = nums[0]\n        for i in range(1, len(nums)):\n            max_sum = max(max_sum, nums[i] - nums[i-1])\n            if max_sum > max_len:\n                max_len = max_sum\n        return max_len",
+      -9.5625
+    ],
+    [
+      "# Time:  O(n^2)\n# Space: O(n)\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArrayLen(self, nums):\n        maxLen = 0\n        for i in range(len(nums) - 1):\n            diff = nums[i + 1] - nums[i]\n            if diff > 0:\n                maxLen = max(maxLen, i + 1 + len(str(diff)))\n        return maxLen\n\nif __name__ == '__main__':\n    print Solution().maxSubArrayLen([-2, 1, -3, 4, -1, 2, 1, -5, 4])",
+      -9.6796875
+    ],
+    [
+      "# https://oj.leetcode.com/problems/maximum-subarray-sum/\n\n# def max_sub(self, arr):\n#     \"\"\"\n#     :type arr: List[int]\n#     :rtype: int\n#     \"\"\"\n#     n = len(arr)\n#     max_len = 0\n#     max_sum = arr[0]\n#     for i in range(1, n):\n#         curr_sum = arr[i]\n#         curr_len = 1\n#         for j in range(i - 1, -1, -1):\n#             if arr[j]!= curr_sum:\n#                 curr_len += 1\n#             else:\n#                 curr_sum -= arr[j]\n#                 curr_len += 1\n#             if curr_len > max_len:\n#                 max_len = curr_len\n#                 max_sum = curr_sum\n#         if curr_sum > max_sum:\n#             max_len = curr_len\n#             max_sum = curr_sum\n#     return max_len\n\n# def max_sub(self, arr):\n#     \"\"\"\n#     :type arr: List[int]\n#     :rtype: int\n#     \"\"\"\n#     n = len(arr)\n#     max_len = 0\n#     max_sum = arr[0]\n#     for i in range(1, n):\n#         curr_sum = arr[i]\n#         curr_len = 1\n#         for j in range(i - 1, -1, -1):\n#             if arr[j]!= curr_sum:\n#                 curr_len += 1\n#             else:\n#                 curr_sum -= arr[j]\n#                 curr_len += 1\n#             if curr_len > max_len:\n#                 max_len = curr_len\n#                 max_sum = curr_sum\n#         if curr_sum > max_sum:\n#             max_len = curr_len\n#             max_sum = curr_sum\n#     return max_len",
+      -9.765625
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def maxSub(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        max_len = 0\n        for i in xrange(n-1):\n            for j in xrange(i+1, n):\n                if nums[i]!= nums[j]:\n                    max_len = max(max_len, 1 + max(len(str(nums[i])), len(str(nums[j]))))\n        return max_len\n\n\nif __name__ == \"__main__\":\n    import sys\n\n    f = open(\"1.in\", \"r\")\n    # f = sys.stdin\n    testcases = int(f.readline().strip())\n\n    for t in xrange(testcases):\n        # construct cipher\n        nums = map(int, f.readline().strip().split(' '))\n\n        # solve\n        s = \"%s\\n\" % (Solution().maxSub(nums))\n        print s,",
+      -9.78125
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArrayLen(self, nums):\n        max_len = 0\n        if len(nums) == 0:\n            return max_len\n        max_diff = nums[0]\n        max_len = 1\n        for i in range(1, len(nums)):\n            if nums[i] > max_diff:\n                max_len = i\n                max_diff = nums[i]\n        return max_len\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.maxSubArrayLen([-2, 1, -3]))",
+      -11.0
+    ],
+    [
+      "# https://leetcode.com/problems/find-the-maximum-length-of-subsequence-with-difference-between-adjacent-elements/\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_sub_array = max(self.maxSubArray(nums[1:]), self.maxSubArray(nums[:-1]))\n        if max_sub_array == 0:\n            return 0\n        return max(1, max_sub_array)\n\n\nif __name__ == '__main__':\n    print Solution().maxSubArray([1,2,3])",
+      -11.640625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        max_len = 0\n        max_end = 0\n        max_end_i = 0\n        max_len_i = 0\n        for i in range(len(nums)):\n            if max_end <= nums[i]:\n                max_len_i = max_len\n                max_end_i = max_end\n                max_end = nums[i]\n            elif max_end < nums[i]:\n                max_end_i = max_end_i + 1\n                max_end = nums[i]\n            max_len = max(max_len, max_end - max_end_i)\n        return max_len\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print sol.maxSubArray([1,2,3])\n    print sol.maxSubArray([1,1,1,2,2])\n    print sol.maxSubArray([1,2,3])",
+      -12.4296875
+    ],
+    [
+      "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArray(self, nums):\n        if not nums:\n            return 0\n        max_len = 0\n        max_end = 0\n        max_cur_sum = 0\n        max_cur_end = 0\n        max_cur_len = 0\n        for i in range(len(nums)):\n            if max_cur_len == 0:\n                max_cur_end = i\n                max_cur_sum = nums[i]\n                max_cur_len = 1\n            elif max_cur_len == 1:\n                if nums[i] < max_cur_sum:\n                    max_cur_sum = nums[i]\n                    max_cur_end = i\n                else:\n                    max_cur_len += 1\n            elif max_cur_len < len(nums) - i:\n                max_cur_len += 1\n            elif nums[i] < max_cur_sum:\n                max_cur_end = i\n                max_cur_sum = nums[i]\n                max_cur_len = 1\n            else:\n                max_cur_len += 1\n            max_end = max(max_end, max_cur_end + max_cur_len)\n            max_len = max(max_len, max_end)\n        return max_len\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))",
+      -12.9375
+    ],
+    [
+      "# https://leetcode.com/problems/maximum-length-of-subsequence-with-difference/description/\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def maxSubArrayLen(self, nums):\n        if len(nums) == 0:\n            return 0\n        max_len = 0\n        max_len_sub = 0\n        max_len_sub_prev = 0\n        max_len_sub_curr = 0\n        max_len_sub_curr_prev = 0\n        for i in range(0, len(nums)):\n            max_len_sub_curr = max(max_len_sub_prev, max_len_sub_curr)\n            max_len_sub_curr_prev = max(max_len_sub_curr_prev, max_len_sub_curr)\n            max_len_sub_prev = max(max_len_sub_prev, max_len_sub_curr_prev)\n            max_len_sub_curr_prev = max(max_len_sub_curr_prev, max_len_sub_curr)\n            max_len_sub_curr = nums[i]\n            max_len_sub = max(max_len_sub, max_len_sub_curr)\n            max_len_sub = max(max_len_sub, max_len_sub_prev)\n        return max_len_sub",
+      -13.578125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/113",
+    "prompt": "Write a function to check if a string represents an integer or not.",
+    "canonical_solution": "def check_integer(text):\r\n text = text.strip()\r\n if len(text) < 1:\r\n    return None\r\n else:\r\n     if all(text[i] in \"0123456789\" for i in range(len(text))):\r\n          return True\r\n     elif (text[0] in \"+-\") and \\\r\n         all(text[i] in \"0123456789\" for i in range(1,len(text))):\r\n         return True\r\n     else:\r\n        return False",
+    "test_list": [
+      "assert check_integer(\"python\")==False",
+      "assert check_integer(\"1\")==True",
+      "assert check_integer(\"12345\")==True"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 102
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def check_integer(string):\n    \"\"\"\n    >>> check_integer(\"10\")\n    True\n    >>> check_integer(\"-10\")\n    True\n    >>> check_integer(\"10.5\")\n    False\n    >>> check_integer(\"-10.5\")\n    False\n    >>> check_integer(\"abc\")\n    False\n    >>> check_integer(\"10a\")\n    False\n    >>> check_integer(\"10-5\")\n    False\n    >>> check_integer(\"10 5\")\n    False\n    \"\"\"\n    if string[0] in [\"-\", \"+\"]:\n        string = string[1:]\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      17.375
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    \"\"\"\n    >>> is_integer(\"-123\")\n    True\n    >>> is_integer(\"0\")\n    True\n    >>> is_integer(\"123\")\n    True\n    >>> is_integer(\"-123abc\")\n    False\n    >>> is_integer(\"-abc123\")\n    False\n    >>> is_integer(\"-123.0\")\n    False\n    >>> is_integer(\"123.0\")\n    False\n    >>> is_integer(\"+123\")\n    True\n    >>> is_integer(\"-123\")\n    True\n    >>> is_integer(\"0123\")\n    True\n    >>> is_integer(\"1_23\")\n    False\n    \"\"\"\n    if string.startswith(\"-\") or string.startswith(\"+\"):\n        string = string[1:]\n    return string.isnumeric()\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      13.421875
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    \"\"\"\n    >>> is_integer(\"-123\")\n    True\n    >>> is_integer(\"+123\")\n    True\n    >>> is_integer(\"0\")\n    True\n    >>> is_integer(\"-0\")\n    True\n    >>> is_integer(\"-000\")\n    True\n    >>> is_integer(\" 000\")\n    True\n    >>> is_integer(\"123\")\n    True\n    >>> is_integer(\"+123\")\n    True\n    >>> is_integer(\"123 \")\n    True\n    >>> is_integer(\" 123\")\n    True\n    >>> is_integer(\"123a\")\n    False\n    >>> is_integer(\"123.4\")\n    False\n    >>> is_integer(\"123.0\")\n    False\n    \"\"\"\n    # 1. strip the string\n    string = string.strip()\n\n    # 2. check if the string is empty\n    if not string:\n        return False\n\n    # 3. check if the string starts with a + or -\n    if string[0] in (\"-\", \"+\"):\n        string = string[1:]\n\n    # 4. check if the string is a number\n    if string.isdigit():\n        return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      13.1796875
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    :param string: str\n    :return: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == '__main__':\n    print(is_integer('123'))\n    print(is_integer('123.4'))\n    print(is_integer('abc'))\n    print(is_integer('123abc'))\n    print(is_integer('abc123'))\n    print(is_integer('123abc123'))\n    print(is_integer('-123'))\n    print(is_integer('+123'))\n    print(is_integer('123+'))\n    print(is_integer('123-'))\n    print(is_integer('123-4'))",
+      8.421875
+    ],
+    [
+      "import re\n\ndef is_integer(string):\n    if string:\n        if re.match('^[+-]?\\d+$', string):\n            return True\n    return False\n\n\ndef test_is_integer():\n\n    assert is_integer(None) == False\n    assert is_integer('') == False\n    assert is_integer('1') == True\n    assert is_integer('-1') == True\n    assert is_integer('+1') == True\n    assert is_integer(' 1 ') == True\n    assert is_integer('++1') == False\n    assert is_integer('+-1') == False\n    assert is_integer('1a') == False\n    assert is_integer('234') == True\n    assert is_integer('+234') == True\n    assert is_integer('-234') == True\n    assert is_integer('234a') == False\n    assert is_integer('23.4') == False\n    assert is_integer('.23') == False\n    assert is_integer('') == False\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      8.234375
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    \"\"\"Check if a string represents an integer or not.\n\n    Args:\n        string (str): string to check\n\n    Returns:\n        bool: True if the string represents an integer, False otherwise\n    \"\"\"\n\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(is_integer(\"1\"))\n    print(is_integer(\"-123\"))\n    print(is_integer(\"+123\"))\n    print(is_integer(\"1.23\"))\n    print(is_integer(\"0.23\"))\n    print(is_integer(\"1.0\"))\n    print(is_integer(\"abc\"))\n    print(is_integer(\"\"))\n    print(is_integer(\" \"))",
+      7.95703125
+    ],
+    [
+      "def is_integer(string):\n    if not string or len(string) == 0:\n        return False\n    for char in string:\n        if char < '0' or char > '9':\n            return False\n    return True\n\n\nprint(is_integer(\"-0012a42\"))  # False\nprint(is_integer(\"-123\"))  # True\nprint(is_integer(\"12.0\"))  # False\nprint(is_integer(\"-0012a42\"))  # False\nprint(is_integer(\"1+2\"))  # False\nprint(is_integer(\" \"))  # False\nprint(is_integer(\"\"))  # False\nprint(is_integer(\"00000000123456789\"))  # True\nprint(is_integer(\"-0\"))  # True\nprint(is_integer(\"-1\"))  # True\nprint(is_integer(\"-00123456789\"))  # True",
+      7.80859375
+    ],
+    [
+      "def is_integer(s):\n    if not s:\n        return False\n\n    if s[0] in '+-':\n        return s[1:].isdigit()\n\n    return s.isdigit()\n\n\nprint(is_integer('123'))\nprint(is_integer('-123'))\nprint(is_integer('+123'))\nprint(is_integer('+'))\nprint(is_integer('-'))\nprint(is_integer('abc'))\nprint(is_integer('123abc'))\nprint(is_integer('123e4'))\nprint(is_integer('123.4'))",
+      6.7265625
+    ],
+    [
+      "def is_integer(string):\n    if string[0] in ('-', '+'):\n        return string[1:].isdigit()\n    return string.isdigit()\n\n\nif __name__ == \"__main__\":\n    assert is_integer(\"-123\") is True\n    assert is_integer(\"+123\") is True\n    assert is_integer(\"123\") is True\n    assert is_integer(\"-123abc\") is False\n    assert is_integer(\"123abc\") is False",
+      6.30078125
+    ],
+    [
+      "def is_integer(num):\n    if num[0] == '-' or num[0] == '+':\n        num = num[1:]\n    try:\n        int(num)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_integer():\n    assert is_integer('-123')\n    assert is_integer('-123.0') is False\n    assert is_integer('123.0') is False\n    assert is_integer('1e2') is False\n    assert is_integer('1e-2') is False\n    assert is_integer(' 123') is False\n    assert is_integer('123 ') is False\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      6.11328125
+    ],
+    [
+      "import re\n\n\ndef is_integer(s):\n    # s = s.strip()\n    if s == \"\":\n        return False\n    if s[0] in (\"-\", \"+\"):\n        s = s[1:]\n    if not s.isdigit():\n        return False\n    return True\n\n\nassert is_integer(\"123\") == True\nassert is_integer(\"+123\") == True\nassert is_integer(\"-123\") == True\nassert is_integer(\"0000123\") == True\nassert is_integer(\"123.45\") == False\nassert is_integer(\"123e45\") == False\nassert is_integer(\"123E45\") == False\nassert is_integer(\"123.45e6\") == False\nassert is_integer(\"123.45E6\") == False\nassert is_integer(\"12.34\") == False\nassert is_integer(\"-12.34\") == False\nassert is_integer(\"12e34\") == False\nassert is_integer(\"-12e34\") == False\nassert is_integer(\"12E34\") == False\nassert is_integer(\"-12E34\") == False\nassert is_integer(\"1.3e4\") == False\nassert is_integer(\"-1.3e4\") == False\nassert is_integer(\"1.3E4\") == False\nassert is_integer(\"-1.3E4\") == False\nassert is_integer(\"0.123\") == False\nassert is_integer(\"-0.123\") == False\nassert is_integer(\"1.23e-4\") == False\nassert is_integer(\"1.23E-4\") == False\nassert is_integer(\"-1.23e-4\") == False\nassert is_integer(\"-1.23E-4\") == False\nassert is_integer(\"1200\") == True\nassert is_integer(\"1200.00\") == False\nassert is_integer(\"-1200\") == True\nassert is_integer(\"-1200.00\") == False\nassert is_integer",
+      5.92578125
+    ],
+    [
+      "# def is_integer(string):\n#     if string[0] in ('-', '+'):\n#         return string[1:].isdigit()\n#     return string.isdigit()\n\ndef is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\nif __name__ == '__main__':\n    print(is_integer(\"123\"))\n    print(is_integer(\"-123\"))\n    print(is_integer(\"+123\"))\n    print(is_integer(\"+123.45\"))\n    print(is_integer(\"12.34\"))\n    print(is_integer(\"abc\"))",
+      5.6796875
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    >>> is_integer('123')\n    True\n    >>> is_integer('123abc')\n    False\n    >>> is_integer('abc123')\n    False\n    \"\"\"\n    if not string:\n        return False\n    if not string[0].isdigit():\n        return False\n    if '.' in string:\n        return False\n    for i in range(1, len(string)):\n        if not string[i].isdigit():\n            return False\n    return True\n\n\ndef is_integer_with_sign(string):\n    \"\"\"\n    >>> is_integer_with_sign('123')\n    True\n    >>> is_integer_with_sign('123abc')\n    False\n    >>> is_integer_with_sign('abc123')\n    False\n    >>> is_integer_with_sign('-123')\n    True\n    >>> is_integer_with_sign('+123')\n    True\n    >>> is_integer_with_sign('+123abc')\n    False\n    >>> is_integer_with_sign('-123abc')\n    False\n    \"\"\"\n    if not string:\n        return False\n    if not string[0].isdigit() and string[0] not in ('-', '+'):\n        return False\n    if '.' in string:\n        return False\n    for i in range(1, len(string)):\n        if not string[i].isdigit():\n            return False\n    return True\n\n\ndef is_integer_with_sign_and_underscore(string):\n    \"\"\"\n    >>> is_integer_with_sign_and_underscore('123')\n    True\n    >>> is_integer_with_sign_and_underscore('123abc')\n    False\n    >>> is_integer_with_sign_and_underscore('abc123')\n    False\n    >>> is_integer_with_sign_and_underscore('-123')\n    True\n    >>> is_integer_with_sign_and_underscore('+123')\n    True",
+      5.6015625
+    ],
+    [
+      "def is_integer(s):\n    try:\n        int(s)\n    except ValueError:\n        return False\n    else:\n        return True\n\n\nif __name__ == '__main__':\n    print(is_integer('10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      5.203125
+    ],
+    [
+      "def check_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    assert check_integer(\"234\") == True\n    assert check_integer(\"456\") == True\n    assert check_integer(\"123abc\") == False\n    assert check_integer(\"abc123\") == False\n    assert check_integer(\"123.456\") == False\n    assert check_integer(\"123e456\") == False\n    assert check_integer(\"123E456\") == False\n    assert check_integer(\"abc123e456\") == False\n    assert check_integer(\"123abc456\") == False\n    assert check_integer(\"123e456abc\") == False\n    assert check_integer(\"+123\") == True\n    assert check_integer(\"-123\") == True\n    assert check_integer(\"+123abc\") == False\n    assert check_integer(\"-123abc\") == False\n    assert check_integer(\"123+456\") == False\n    assert check_integer(\"123-456\") == False\n    assert check_integer(\"123++456\") == False\n    assert check_integer(\"123--456\") == False\n    assert check_integer(\"0000123\") == True\n    assert check_integer(\"0000\") == True\n    assert check_integer(\"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      5.078125
+    ],
+    [
+      "def is_int(s):\n    \"\"\"\n    :type s: str\n    :rtype: bool\n    \"\"\"\n    try:\n        int(s)\n    except ValueError:\n        return False\n    return True\n\n\nprint(is_int(\"-123\"))\nprint(is_int(\"123\"))\nprint(is_int(\"123abc\"))\nprint(is_int(\"abc123\"))",
+      5.05078125
+    ],
+    [
+      "import re\n\n\ndef is_integer(string):\n    pattern = re.compile(r'^[+-]?\\d+$')\n    return bool(pattern.match(string))\n\n\ndef test_is_integer():\n    assert is_integer('123')\n    assert is_integer('-123')\n    assert is_integer('+123')\n    assert not is_integer('123.45')\n    assert not is_integer('12a3')\n    assert not is_integer('12e3')\n    assert not is_integer('12e')\n    assert not is_integer('12E3')\n    assert not is_integer('12E')\n    assert not is_integer('12e')\n    assert not is_integer('.123')\n    assert not is_integer('')\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      4.93359375
+    ],
+    [
+      "from typing import List, Optional\n\n\nclass Solution:\n    def is_integer(self, s: str) -> bool:\n        if not s:\n            return False\n        elif s[0] in ['-', '+']:\n            if len(s) <= 1:\n                return False\n            else:\n                return s[1:].isdigit()\n        else:\n            return s.isdigit()\n\n\nif __name__ == \"__main__\":\n    inp = \"0\"\n    out = True\n    res = Solution().is_integer(inp)\n    assert res == out, (res, out)\n\n    inp = \" 00504\"\n    out = True\n    res = Solution().is_integer(inp)\n    assert res == out, (res, out)\n\n    inp = \"2-1\"\n    out = False\n    res = Solution().is_integer(inp)\n    assert res == out, (res, out)\n\n    inp = \"2+\"\n    out = False\n    res = Solution().is_integer(inp)\n    assert res == out, (res, out)\n\n    inp = \"2.5\"\n    out = False\n    res = Solution().is_integer(inp)\n    assert res == out, (res, out)",
+      4.8203125
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_integer():\n    \"\"\"\n    >>> test_is_integer()\n    \"\"\"\n    assert is_integer(\"1\")\n    assert not is_integer(\"1.2\")\n    assert not is_integer(\"abc\")\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      4.48828125
+    ],
+    [
+      "def check_integer(s):\n    \"\"\"\n    Time complexity: O(n).\n    Space complexity: O(1).\n    \"\"\"\n    if s[0] in ('+', '-'):\n        return s[1:].isdigit()\n    else:\n        return s.isdigit()\n\n\ndef main():\n    print check_integer('+123')\n    print check_integer('-123')\n    print check_integer('123')\n    print check_integer('-')\n    print check_integer('12a3')\n    print check_integer('a123')\n    print check_integer('123a')\n\n\nif __name__ == '__main__':\n    main()",
+      4.46875
+    ],
+    [
+      "import re\n\n\ndef is_integer(string):\n    return re.match(\"^[+-]?[0-9]+$\", string) is not None\n\n\nprint(is_integer(\"100\"))\nprint(is_integer(\"100.23\"))\nprint(is_integer(\"+100\"))\nprint(is_integer(\"-100\"))\nprint(is_integer(\"+100.23\"))\nprint(is_integer(\"-100.23\"))\nprint(is_integer(\"abc\"))\nprint(is_integer(\"1abc\"))\nprint(is_integer(\"abc1\"))\nprint(is_integer(\"1abc1\"))",
+      4.359375
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    This is an example of docstring on the same line.\n    \"\"\"\n    try:\n        num = int(string)\n        if str(num) == string:\n            return True\n        else:\n            return False\n    except ValueError:\n        return False\n\n\nif __name__ == '__main__':\n    print(is_integer('10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      4.3125
+    ],
+    [
+      "def is_int(string: str) -> bool:\n    \"\"\"\n    We check if the string is empty, if so, it's not an integer\n    If the string is a single digit, it's an integer\n    If the string starts with a zero, it's not an integer\n    If the string starts with a minus or plus, we remove it and check if the remaining string is an integer\n    If the string starts with a number, we remove the minus or plus and check if the remaining string is an integer\n    Otherwise, it's not an integer\n    >>> is_int(\"\")\n    False\n    >>> is_int(\"0\")\n    False\n    >>> is_int(\"1\")\n    True\n    >>> is_int(\"-1\")\n    True\n    >>> is_int(\"1.1\")\n    False\n    >>> is_int(\"123\")\n    True\n    >>> is_int(\"123abc\")\n    False\n    \"\"\"\n    if string == \"\":\n        return False\n\n    if string[0] == \"0\":\n        return False\n\n    if string[0] in (\"-\", \"+\"):\n        return is_int(string[1:])\n\n    if string[0] in (\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\"):\n        return is_int(string[1:])\n\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.03515625
+    ],
+    [
+      "import re\n\n\ndef is_integer(text: str) -> bool:\n    if not text:\n        return False\n    return re.fullmatch(r'[+-]?\\d+', text) is not None\n\n\nif __name__ == '__main__':\n    print(is_integer('-234'))\n    print(is_integer('-234-'))\n    print(is_integer('234'))\n    print(is_integer('234.5'))\n    print(is_integer('234a'))\n    print(is_integer(''))\n    print(is_integer('234e5'))\n    print(is_integer('234.5e5'))\n    print(is_integer('234.5e-5'))",
+      3.833984375
+    ],
+    [
+      "def is_integer(s: str) -> bool:\n    \"\"\"\n    if s is null, return False\n    if s is \"\", return False\n    if s[0] is \"+\" or \"-\", check if s[1:] is an integer\n    if s[0] is not \"+\" or \"-\", check if s is an integer\n    \"\"\"\n    if s is None:\n        return False\n    if len(s) == 0:\n        return False\n    if s[0] in [\"+\", \"-\"]:\n        return is_integer(s[1:])\n    else:\n        for i in range(len(s)):\n            if s[i] not in [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\"]:\n                return False\n        return True\n\n\ndef is_integer_2(s: str) -> bool:\n    \"\"\"\n    check if s[0] is \"+\" or \"-\"\n    check if s[1:] is an integer\n    \"\"\"\n    if s is None:\n        return False\n    if len(s) == 0:\n        return False\n    if s[0] in [\"+\", \"-\"]:\n        return is_integer_2(s[1:])\n    else:\n        for i in range(len(s)):\n            if s[i] not in [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\"]:\n                return False\n        return True\n\n\ndef is_integer_3(s: str) -> bool:\n    \"\"\"\n    check if s[0] is \"+\" or \"-\"\n    check if s[1:] is an integer\n    \"\"\"\n    if s is None:\n        return False\n    if len(s) == 0:\n        return False\n    if s[0] in [\"+\", \"-\"]:\n        return is_integer_3(s[1:])\n    else:\n        return s.isdigit()\n\n\ndef main():\n    s = \"3456\"\n    print(is_integer(s))\n    print(is_integer_2(s))",
+      3.64453125
+    ],
+    [
+      "def is_int(s: str) -> bool:\n    \"\"\"\n    >>> is_int(\"-32\")\n    True\n    >>> is_int(\"+32\")\n    True\n    >>> is_int(\"32\")\n    True\n    >>> is_int(\"-32.0\")\n    False\n    >>> is_int(\"+32.0\")\n    False\n    >>> is_int(\"32.0\")\n    False\n    >>> is_int(\"-32.1\")\n    False\n    >>> is_int(\"+32.1\")\n    False\n    >>> is_int(\"32.1\")\n    False\n    >>> is_int(\"3.2\")\n    False\n    >>> is_int(\"-3.2\")\n    False\n    >>> is_int(\"+3.2\")\n    False\n    >>> is_int(\"3.2\")\n    False\n    \"\"\"\n    if s[0] in (\"+\", \"-\") and not s[1:].isdecimal():\n        return False\n    elif not s[0].isdecimal():\n        return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.59765625
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    \"\"\"\n    >>> is_integer(\"-10\")\n    True\n    >>> is_integer(\"+10\")\n    True\n    >>> is_integer(\"-10.5\")\n    False\n    >>> is_integer(\"-10+5\")\n    False\n    >>> is_integer(\"1.0\")\n    False\n    >>> is_integer(\"1.0.0\")\n    False\n    >>> is_integer(\"\")\n    False\n    >>> is_integer(\"10+5\")\n    False\n    >>> is_integer(\"10-5\")\n    False\n    >>> is_integer(\"+\")\n    False\n    \"\"\"\n    if not string:\n        return False\n    if len(string) > 1 and string[0] == \"+\" and string[1] == \".\":\n        return False\n    if len(string) > 1 and string[0] == \"-\" and string[1] == \".\":\n        return False\n    if len(string) > 1 and string[0] == \".\" and string[1] == \".\":\n        return False\n    if len(string) > 1 and string[0] == \".\" and string[1] == \"-\":\n        return False\n    if len(string) > 1 and string[0] == \"-\" and string[1] == \"-\":\n        return False\n    if len(string) > 1 and string[0] == \"+\" and string[1] == \"-\":\n        return False\n    for char in string:\n        if char not in (\"-\", \"+\", \".\", \"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\"):\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.318359375
+    ],
+    [
+      "from typing import Any\n\n\ndef is_integer(number: Any) -> bool:\n    \"\"\"Check if a string represents an integer or not.\n\n    Args:\n        number (Any): a number to check\n\n    Examples:\n        >>> assert is_integer('1')\n        >>> assert is_integer('-1')\n        >>> assert is_integer('1.0')\n        >>> assert not is_integer('1.0.0')\n    \"\"\"\n    try:\n        float(number)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(is_integer('1'))\n    print(is_integer('-1'))\n    print(is_integer('1.0'))\n    print(is_integer('1.0.0'))",
+      2.7890625
+    ],
+    [
+      "def is_int(num):\n    if num[0] in (\"+\", \"-\") and num[1:].isdigit():\n        return True\n    elif num.isdigit():\n        return True\n    else:\n        return False\n\n\nprint(is_int(\"-123\"))\nprint(is_int(\"123\"))\nprint(is_int(\"+123\"))\nprint(is_int(\"-\"))\nprint(is_int(\"+\"))\nprint(is_int(\"-123a\"))\nprint(is_int(\"+123a\"))\nprint(is_int(\"123a\"))",
+      2.52734375
+    ],
+    [
+      "def is_int(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef main():\n    print(\"String '3' is an integer\")\n    print(is_int(\"3\"))\n    print(\"String '3.4' is not an integer\")\n    print(is_int(\"3.4\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      2.416015625
+    ],
+    [
+      "def is_integer(s):\n    \"\"\"\n    :type s: str\n    :rtype: bool\n    \"\"\"\n    if s == \"\":\n        return False\n    if s[0] in [\"+\", \"-\"]:\n        if len(s) == 1:\n            return False\n        else:\n            return s[1:].isdigit()\n    else:\n        return s.isdigit()\n\n\ndef main():\n    print(is_integer(\"\"))\n    print(is_integer(\"+\"))\n    print(is_integer(\"-\"))\n    print(is_integer(\"1\"))\n    print(is_integer(\"1234\"))\n    print(is_integer(\"-1234\"))\n    print(is_integer(\"-1234+5678\"))\n\nif __name__ == '__main__':\n    main()",
+      2.212890625
+    ],
+    [
+      "def is_int(s):\n    if s[0] in \"+-\":\n        s = s[1:]\n    if s.isdigit():\n        return True\n    elif s[0] == \"0\" and len(s) > 1:\n        if s[1] in \"xob\":\n            return False\n        else:\n            return s[1:].isdigit()\n    else:\n        return False\n\n\nprint(is_int(\"+0\"))\nprint(is_int(\"-0\"))\nprint(is_int(\"00\"))\nprint(is_int(\"01\"))\nprint(is_int(\"02\"))\nprint(is_int(\"0\"))\nprint(is_int(\"000\"))\nprint(is_int(\"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      1.6728515625
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    :param string: str\n    :return: bool\n    >>> is_integer(\"-123\")\n    True\n    >>> is_integer(\"+123\")\n    True\n    >>> is_integer(\"-123abc\")\n    False\n    >>> is_integer(\"-123.45\")\n    False\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef is_integer_v2(string):\n    \"\"\"\n    :param string: str\n    :return: bool\n    >>> is_integer_v2(\"-123\")\n    True\n    >>> is_integer_v2(\"+123\")\n    True\n    >>> is_integer_v2(\"-123abc\")\n    False\n    >>> is_integer_v2(\"-123.45\")\n    False\n    \"\"\"\n    if not string:\n        return False\n    for s in string:\n        if s not in \"0123456789-+\":\n            return False\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef is_integer_v3(string):\n    \"\"\"\n    :param string: str\n    :return: bool\n    >>> is_integer_v3(\"-123\")\n    True\n    >>> is_integer_v3(\"+123\")\n    True\n    >>> is_integer_v3(\"-123abc\")\n    False\n    >>> is_integer_v3(\"-123.45\")\n    False\n    \"\"\"\n    if not string:\n        return False\n    for s in string:\n        if s not in \"0123456789-+\":\n            return False\n    try:\n        float(string)\n    except ValueError:\n        return False\n    else:\n        return float(string).is_integer()\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      1.6357421875
+    ],
+    [
+      "import re\n\n\ndef is_integer(string):\n    pattern = re.compile('^[+-]?[1-9][0-9]*$')\n    match = pattern.match(string)\n    return match is not None\n\n\nif __name__ == '__main__':\n    print(is_integer('1000'))\n    print(is_integer('100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      1.2763671875
+    ],
+    [
+      "from typing import Tuple\n\n\ndef is_integer(string: str) -> Tuple[bool, int]:\n    \"\"\"\n    Determine if a string is an integer or not.\n\n    :param string: string to check\n    :return: True if string is an integer, False otherwise\n    :raises ValueError: if the string is not a number\n    \"\"\"\n    try:\n        return True, int(string)\n    except ValueError:\n        return False, 0\n\n\ndef test_is_integer():\n    \"\"\"Test is_integer.\"\"\"\n    assert is_integer(\"123\") == (True, 123)\n    assert is_integer(\"-123\") == (True, -123)\n    assert is_integer(\"123.45\") == (False, 0)\n    assert is_integer(\"123a\") == (False, 0)\n    assert is_integer(\"123e4\") == (False, 0)\n    assert is_integer(\"123e-4\") == (False, 0)\n    assert is_integer(\"123.45e6\") == (False, 0)\n    assert is_integer(\"123.45e-6\") == (False, 0)\n    assert is_integer(\"123.45e67\") == (False, 0)\n    assert is_integer(\"123.45e-67\") == (False, 0)\n    assert is_integer(\"0\") == (True, 0)\n    assert is_integer(\"000\") == (True, 0)\n    assert is_integer(\"0e6\") == (True, 0)\n    assert is_integer(\"0e-6\") == (True, 0)\n    assert is_integer(\"000e6\") == (True, 0)\n    assert is_integer(\"000e-6\") == (True, 0)\n    assert is_integer(\"000e67\") == (False, 0)\n    assert is_integer(\"000e-67\") == (False, 0)\n\n\nif __name__ == \"__",
+      1.224609375
+    ],
+    [
+      "def is_int(s):\n    if s.startswith(\"-\"):\n        s = s[1:]\n    if s.isdigit():\n        return True\n    elif s[0] == \"0\" and s != \"0\":\n        return False\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(is_int(\"23\"))\n    print(is_int(\"-23\"))\n    print(is_int(\"-0\"))\n    print(is_int(\"0\"))\n    print(is_int(\"000\"))",
+      0.908203125
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_integer():\n    assert is_integer(\"1\") is True\n    assert is_integer(\"-1\") is True\n    assert is_integer(\"+1\") is True\n    assert is_integer(\"01\") is True\n    assert is_integer(\"001\") is True\n    assert is_integer(\"10\") is True\n    assert is_integer(\"-10\") is True\n    assert is_integer(\"+10\") is True\n    assert is_integer(\"1.0\") is False\n    assert is_integer(\"-1.0\") is False\n    assert is_integer(\"1.1\") is False\n    assert is_integer(\"-1.1\") is False\n    assert is_integer(\"1e10\") is True\n    assert is_integer(\"-1e10\") is True\n    assert is_integer(\"1e-10\") is True\n    assert is_integer(\"-1e-10\") is True\n    assert is_integer(\"1e+10\") is True\n    assert is_integer(\"-1e+10\") is True\n    assert is_integer(\"1.1e10\") is False\n    assert is_integer(\"-1.1e10\") is False\n    assert is_integer(\"1.1e-10\") is False\n    assert is_integer(\"-1.1e-10\") is False\n    assert is_integer(\"1.1e+10\") is False\n    assert is_integer(\"-1.1e+10\") is False\n    assert is_integer(\"1.0e10\") is False\n    assert is_integer(\"-1.0e10\") is False\n    assert is_integer(\"1.0e-10\") is False\n    assert is_integer(\"-1.0e-10\") is False\n    assert is_integer(\"1.0e+10\") is False\n    assert is_integer(\"-1.0e+10\") is False",
+      0.6767578125
+    ],
+    [
+      "from typing import Optional\n\n\ndef is_int(string: str) -> bool:\n    \"\"\"Check if a string represents an integer or not.\n\n    Args:\n        string (str): the string to check\n\n    Returns:\n        bool: True if the string represents an integer, False otherwise\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef is_int_optional(string: Optional[str]) -> bool:\n    \"\"\"Check if an optional string represents an integer or not.\n\n    Args:\n        string (Optional[str]): the string to check\n\n    Returns:\n        bool: True if the string represents an integer, False otherwise\n    \"\"\"\n    return string is not None and is_int(string)",
+      0.32421875
+    ],
+    [
+      "def is_int(s):\n    \"\"\"\n    :type s: str\n    :rtype: bool\n    \"\"\"\n    if s[0] in ('-', '+'):\n        return s[1:].isdigit()\n    return s.isdigit()\n\n\ndef test_is_int():\n    assert is_int('-123')\n    assert is_int('+123')\n    assert is_int('123')\n    assert is_int('0123')\n    assert is_int('00123')\n    assert not is_int('123.')\n    assert not is_int('123a')\n    assert not is_int('123e')\n\n\nif __name__ == '__main__':\n    test_is_int()",
+      0.265380859375
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    if string[0] in (\"-\", \"+\"):\n        if len(string) > 1:\n            if string[1] in (\"-\", \"+\"):\n                return False\n    return string.isdigit()\n\n\ndef test_is_integer():\n    assert is_integer(\"1\")\n    assert is_integer(\"+1\")\n    assert is_integer(\"-1\")\n    assert is_integer(\"+0\")\n    assert is_integer(\"-0\")\n    assert is_integer(\"0\")\n    assert is_integer(\"000\")\n    assert is_integer(\"10\")\n    assert is_integer(\"1000000\")\n    assert is_integer(\"100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      0.07061767578125
+    ],
+    [
+      "def is_integer(s: str) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if s == \"\":\n        return False\n\n    for i, c in enumerate(s):\n        if i == 0 and c in [\"-\", \"+\"]:\n            continue\n        if c < \"0\" or c > \"9\":\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_integer(\"\") == False\n    assert is_integer(\"123\") == True\n    assert is_integer(\"123a\") == False\n    assert is_integer(\"-123\") == True\n    assert is_integer(\"-123a\") == False\n    assert is_integer(\"123.\") == False\n    assert is_integer(\"123.2\") == False\n    assert is_integer(\"123.2a\") == False\n    assert is_integer(\"123.2e\") == False\n    assert is_integer(\"123.2e3\") == False",
+      0.02056884765625
+    ],
+    [
+      "def is_int(string):\n    if string[0] in (\"-\", \"+\"):\n        return string[1:].isdigit()\n    return string.isdigit()\n\n\nprint(is_int(\"123\"))\nprint(is_int(\"123.45\"))\nprint(is_int(\"+123\"))\nprint(is_int(\"-123\"))\nprint(is_int(\"123e10\"))\nprint(is_int(\"abc\"))\nprint(is_int(\"1a3\"))\nprint(is_int(\"\"))",
+      0.0169219970703125
+    ],
+    [
+      "class Solution(object):\n    def is_integer(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        if s[0] in ('-', '+') or s[0].isdigit() is False:\n            return False\n        for c in s[1:]:\n            if c.isdigit() is False:\n                return False\n        return True\n\n\ns = Solution()\n\nprint(s.is_integer(\"123\"))\nprint(s.is_integer(\"-123\"))\nprint(s.is_integer(\"+123\"))\nprint(s.is_integer(\"-123\"))\nprint(s.is_integer(\"1.23\"))\nprint(s.is_integer(\"1e3\"))\nprint(s.is_integer(\"1e\"))\nprint(s.is_integer(\" 123\"))\nprint(s.is_integer(\"123 \"))\nprint(s.is_integer(\"+1-\"))\nprint(s.is_integer(\"\"))\nprint(s.is_integer(\" \"))",
+      0.0165252685546875
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    \"\"\"\n    This function will check if a given string is an integer or not.\n    >>> is_integer(\"-1\")\n    True\n    >>> is_integer(\"-1.0\")\n    False\n    >>> is_integer(\"1.0\")\n    False\n    >>> is_integer(\"1.00\")\n    False\n    >>> is_integer(\"1e2\")\n    False\n    >>> is_integer(\"1e\")\n    False\n    >>> is_integer(\"1.0.0\")\n    False\n    >>> is_integer(\"1.0a\")\n    False\n    >>> is_integer(\"1.0e2\")\n    False\n    >>> is_integer(\"1.0\")\n    False\n    >>> is_integer(\"0.0\")\n    False\n    >>> is_integer(\"0.00\")\n    False\n    >>> is_integer(\"-0.0\")\n    False\n    >>> is_integer(\"00\")\n    False\n    >>> is_integer(\"+0\")\n    False\n    >>> is_integer(\"-0\")\n    False\n    >>> is_integer(\"-00\")\n    False\n    >>> is_integer(\"0\")\n    True\n    >>> is_integer(\"+0\")\n    True\n    >>> is_integer(\"0\")\n    True\n    >>> is_integer(\"+00\")\n    True\n    >>> is_integer(\"01\")\n    True\n    >>> is_integer(\"-01\")\n    True\n    >>> is_integer(\"+1\")\n    True\n    >>> is_integer(\"-1\")\n    True\n    >>> is_integer(\"1\")\n    True\n    >>> is_integer(\"10\")\n    True\n    >>> is_integer(\"-10\")\n    True\n    >>> is_integer(\"+10\")\n    True\n    >>> is_integer(\"100\")\n    True\n    >>> is_integer(\"-100\")\n    True\n    >>> is_integer(\"+100\")\n    True\n    >>> is_integer(\"1000\")\n    True\n    >>> is_integer(\"-1000\")\n    True\n    >>> is_",
+      0.006992340087890625
+    ],
+    [
+      "def is_int(string: str) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if string[0] in (\"-\", \"+\"):\n        if len(string) == 1:\n            return False\n        string = string[1:]\n\n    for char in string:\n        if not char.isdigit():\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(is_int(\"1\"))  # True\n    print(is_int(\"-1\"))  # True\n    print(is_int(\"+1\"))  # True\n    print(is_int(\"000001\"))  # True\n    print(is_int(\"1.2\"))  # False\n    print(is_int(\"-1.2\"))  # False\n    print(is_int(\"1e2\"))  # False\n    print(is_int(\"-1e2\"))  # False\n    print(is_int(\"1e+2\"))  # False\n    print(is_int(\"-1e-2\"))  # False\n    print(is_int(\"1e\"))  # False\n    print(is_int(\"1e-\"))  # False\n    print(is_int(\"e1\"))  # False\n    print(is_int(\"1.0\"))  # False\n    print(is_int(\"1.2.3\"))  # False\n    print(is_int(\"1.2.\"))  # False\n    print(is_int(\"1..2\"))  # False\n    print(is_int(\".\"))  # False\n    print(is_int(\"\"))  # False\n    print(is_int(\"-\"))  # False\n    print(is_int(\"+\"))  # False\n    print(is_int(\"e\"))  # False",
+      -0.145751953125
+    ],
+    [
+      "def is_integer(input_str):\n    \"\"\"\n    :param input_str: str - a string to be checked if it is an integer\n    :return: True if the string is an integer, False otherwise\n    \"\"\"\n    if input_str == '':\n        return False\n    if input_str[0] == '-' or input_str[0] == '+':\n        input_str = input_str[1:]\n    if input_str.isdigit():\n        return True\n    else:\n        return False\n\nprint(is_integer(\"12345\"))\nprint(is_integer(\"-12345\"))\nprint(is_integer(\"1.2345\"))\nprint(is_integer(\"1e+3\"))\nprint(is_integer(\".\"))\nprint(is_integer(\"e\"))\nprint(is_integer(\"\"))\nprint(is_integer(\" \"))\nprint(is_integer(\"12 345\"))\nprint(is_integer(\"+\"))\nprint(is_integer(\"-\"))",
+      -0.23876953125
+    ],
+    [
+      "def is_int(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    if string[0] in ('-', '+'):\n        string = string[1:]\n    if not string:\n        return False\n    if string[0] in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):\n        return False\n    return not any(c in string for c in ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'))\n\n\ndef is_int2(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    if string[0] in ('-', '+'):\n        string = string[1:]\n    if not string:\n        return False\n    if string[0] in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):\n        return False\n    return all(c in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') for c in string)\n\n\ndef is_int3(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef is_int4(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    try:\n        float(string)\n        return True\n    except ValueError:\n        return False\n\n\nprint(is_int(\"\"))\nprint(is_int(\"-123\"))\nprint(is_int(\"0\"))\nprint(is_int(\"010\"))\nprint(is_int(\"0000000000012",
+      -0.292724609375
+    ],
+    [
+      "def is_int(string: str) -> bool:\n    \"\"\"\n    >>> is_int(\"123\")\n    True\n    >>> is_int(\"123a\")\n    False\n    >>> is_int(\"12.3\")\n    False\n    >>> is_int(\"12\")\n    True\n    >>> is_int(\"12+3\")\n    False\n    >>> is_int(\"+123\")\n    False\n    \"\"\"\n    if string.startswith(\"+\") or string.endswith(\"+\"):\n        return False\n    try:\n        int(string)\n    except ValueError:\n        return False\n    else:\n        return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.59130859375
+    ],
+    [
+      "def is_int(s):\n    try:\n        int(s)\n        return True\n    except:\n        return False\n\n\nif __name__ == \"__main__\":\n    assert is_int(\"123\") is True\n    assert is_int(\"123.45\") is False\n    assert is_int(\"123A\") is False\n    assert is_int(\"123-45\") is False\n    assert is_int(\"123+45\") is False",
+      -0.74951171875
+    ],
+    [
+      "def is_int(string: str) -> bool:\n    \"\"\"\n    >>> is_int('123')\n    True\n    >>> is_int('123a')\n    False\n    \"\"\"\n    try:\n        int(string)\n    except ValueError:\n        return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    if string[0] in [\"-\", \"+\"]:\n        string = string[1:]\n    return string.isdigit()\n\n\nif __name__ == \"__main__\":\n    print(is_integer(\"-123\"))\n    print(is_integer(\"123\"))\n    print(is_integer(\"+123\"))\n    print(is_integer(\"123.0\"))",
+      -0.85595703125
+    ],
+    [
+      "def is_int(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nprint(is_int(\"-3\"))\nprint(is_int(\"+3\"))\nprint(is_int(\"3\"))\nprint(is_int(\"-\"))\nprint(is_int(\"+\"))\nprint(is_int(\"abc\"))",
+      -0.85595703125
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    :param string: str\n    :return: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_integer():\n    \"\"\"Test for is_integer function.\"\"\"\n    assert is_integer('5') is True\n    assert is_integer('-5') is True\n    assert is_integer('5.0') is False\n    assert is_integer('-5.0') is False\n    assert is_integer('') is False\n    assert is_integer('-') is False\n    assert is_integer('hello') is False\n    assert is_integer('1 0') is False\n    assert is_integer('1e4') is False\n    assert is_integer('1e-4') is False\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    if string[0] in (\"-\", \"+\"):\n        if string[1:].isdigit():\n            return True\n    else:\n        if string.isdigit():\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(is_integer(\"123\"))\n    print(is_integer(\"-123\"))\n    print(is_integer(\"123.45\"))",
+      -0.85693359375
+    ],
+    [
+      "from re import compile\n\n\ndef is_integer(string):\n    if string == \"\":\n        return False\n    return compile(\"^\\d+$\").match(string) is not None\n\n\nif __name__ == \"__main__\":\n    print(is_integer(\"123\"))\n    print(is_integer(\"123.4\"))\n    print(is_integer(\"123a\"))\n    print(is_integer(\"123e4\"))\n    print(is_integer(\".\"))\n    print(is_integer(\"e4\"))\n    print(is_integer(\"\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef is_integer(string):\n    # Your code here\n    if re.match(r\"^[\\+\\-]?\\d+$\", string):\n        return True\n    return False\n\n\nprint(is_integer(\"100\"))\nprint(is_integer(\"100.0\"))\nprint(is_integer(\"100.00\"))\nprint(is_integer(\"+100\"))\nprint(is_integer(\"-100\"))\nprint(is_integer(\"-1000.00\"))\nprint(is_integer(\"100+\"))\nprint(is_integer(\"100-\"))\nprint(is_integer(\"100+10\"))\nprint(is_integer(\"100-10\"))\nprint(is_integer(\"1001\"))\nprint(is_integer(\"10010\"))\nprint(is_integer(\"100.0.1\"))\nprint(is_integer(\"100.1\"))",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    if string[0] == \"+\":\n        string = string[1:]\n\n    if string[0] == \"-\":\n        string = string[1:]\n\n    for char in string:\n        if char not in \"0123456789\":\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print is_integer(\"-23\")",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    >>> is_integer(\"1234\")\n    True\n    >>> is_integer(\"123a\")\n    False\n    \"\"\"\n    return string.isdigit()\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == '__main__':\n    print is_integer('123')",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    def is_integer(self, s: str) -> bool:\n        try:\n            int(s)\n            return True\n        except ValueError:\n            return False",
+      -0.85693359375
+    ],
+    [
+      "def is_int(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_int():\n    assert is_int('123')\n    assert not is_int('123.45')\n    assert not is_int('abc')\n\n\nif __name__ == '__main__':\n    test_is_int()",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"Checks if a string represents an integer or not.\n\n    Args:\n        string: str\n\n    Return:\n        bool: True if the string represents an integer.\n    \"\"\"\n    if string[0] == '+' or string[0] == '-':\n        return string[1:].isdigit()\n    return string.isdigit()",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    if string.isdigit():\n        return True\n    if string[0] in ('-', '+'):\n        return string[1:].isdigit()\n    return False\n\n\ndef test_is_integer():\n    assert is_integer('-10')\n    assert is_integer('10')\n    assert is_integer('+10')\n    assert not is_integer('-')\n    assert not is_integer('10a')\n    assert not is_integer('a10')\n    assert not is_integer('10.5')\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    if not string:\n        return False\n\n    if string[0] in ('-', '+'):\n        return string[1:].isdigit()\n    return string.isdigit()\n\n\ndef test_is_integer():\n    assert is_integer('') is False\n    assert is_integer('0') is True\n    assert is_integer('-1') is True\n    assert is_integer('1') is True\n    assert is_integer('+1') is True\n    assert is_integer('1.0') is False\n    assert is_integer('1.5') is False\n    assert is_integer('a') is False\n    assert is_integer('ab') is False\n    assert is_integer('123abc') is False\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      -0.85693359375
+    ],
+    [
+      "def is_integer(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_integer():\n    assert is_integer(\"123\")\n    assert not is_integer(\"123.4\")\n    assert not is_integer(\"12a\")\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      -0.85791015625
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(is_integer(\"123\"))\n    print(is_integer(\"123abc\"))\n    print(is_integer(\"abc123\"))\n    print(is_integer(\"123abc123\"))\n    print(is_integer(\"123e123\"))\n    print(is_integer(\"abc\"))\n    print(is_integer(\"123.456\"))\n    print(is_integer(\"+123\"))\n    print(is_integer(\"-123\"))",
+      -0.85791015625
+    ],
+    [
+      "def is_integer(string):\n    # Base case\n    if len(string) == 0:\n        return False\n\n    # Check if the first character is + or -\n    if string[0] in ['+', '-']:\n        return string[1:].isdigit()\n\n    # Check if the first character is a digit\n    return string.isdigit()\n\n\nprint(is_integer('-123'))\nprint(is_integer('+123'))\nprint(is_integer('123'))\nprint(is_integer('-'))\nprint(is_integer(''))\nprint(is_integer('abc'))\nprint(is_integer('123abc'))",
+      -0.85791015625
+    ],
+    [
+      "def is_integer(string):\n    return string.isdigit()\n\n\nassert is_integer(\"123\") == True\nassert is_integer(\"12.3\") == False\nassert is_integer(\"1a3\") == False",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef check_integer(string):\n    return re.match(r\"^\\d+$\", string)\n\n\nif __name__ == \"__main__\":\n    assert check_integer(\"123\")\n    assert not check_integer(\"1.23\")\n    assert not check_integer(\"123abc\")",
+      -0.85791015625
+    ],
+    [
+      "def is_integer(string):\n    return string.isdigit()\n\n\ndef main():\n    assert is_integer(\"-1234\")\n    assert is_integer(\"1234\")\n    assert not is_integer(\"1234a\")\n    assert not is_integer(\"123 4\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "def check_int(string):\n    try:\n        int(string)\n    except ValueError:\n        return False\n    else:\n        return True\n\n\nif __name__ == '__main__':\n    print(check_int('10'))\n    print(check_int('1.1'))\n    print(check_int('1e3'))",
+      -0.85791015625
+    ],
+    [
+      "def check_int(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\nprint(check_int(\"123\"))\nprint(check_int(\"123.4\"))",
+      -0.8583984375
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_integer():\n    assert is_integer(\"123\")\n    assert is_integer(\"123abc\")\n    assert not is_integer(\"abc123\")\n    assert not is_integer(\"abc\")\n\n\nif __name__ == '__main__':\n    test_is_integer()",
+      -0.8583984375
+    ],
+    [
+      "def check_if_integer(string):\n    \"\"\"Check if a string represents an integer or not.\"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == '__main__':\n    print(check_if_integer('123'))\n    print(check_if_integer('123.0'))\n    print(check_if_integer('123.0.0'))",
+      -0.8583984375
+    ],
+    [
+      "# [1]\ndef is_integer(string):\n    if string[0] in \"+-\":\n        return string[1:].isdigit()\n    return string.isdigit()\n\n# [2]\ndef is_integer(string):\n    return string.replace(\"-\", \"\").isdigit()",
+      -0.8583984375
+    ],
+    [
+      "import re\n\ndef is_int(string):\n    if re.match(r\"^-?[0-9]+$\", string) is not None:\n        return True\n    return False\n\nprint(is_int(\"-42\"))\nprint(is_int(\"42\"))\nprint(is_int(\"42.0\"))\nprint(is_int(\"12.0\"))\nprint(is_int(\"12.0.0\"))",
+      -0.8583984375
+    ],
+    [
+      "def is_integer(string: str) -> bool:\n    \"\"\"\n    >>> is_integer('34')\n    True\n    >>> is_integer('-34')\n    True\n    >>> is_integer('34.2')\n    False\n    >>> is_integer('-34.2')\n    False\n    \"\"\"\n    try:\n        int(string)\n    except ValueError:\n        return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    print is_integer(\"123\")\n    print is_integer(\"12.3\")\n    print is_integer(\"12a3\")",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef is_integer(string):\n    if re.match(r\"^-?[0-9]+$\", string) is None:\n        return False\n    return True\n\n\nprint(is_integer(\"-100\"))\nprint(is_integer(\"100\"))\nprint(is_integer(\"100.00\"))\nprint(is_integer(\"-100.00\"))\nprint(is_integer(\"100a\"))",
+      -0.8583984375
+    ],
+    [
+      "def is_integer(string):\n    if string[0] in ('-', '+'):\n        return string[1:].isdigit()\n    return string.isdigit()",
+      -0.85888671875
+    ],
+    [
+      "import re\n\n\"\"\"\n1st solution:\nre.match(r'^[-+]?[0-9]+$', s) is None\n\"\"\"\n\n\ndef check_integer(s):\n    return re.match(r'^[-+]?[0-9]+$', s) is None\n\n\n\"\"\"\n2nd solution:\ns.isdigit()\n\"\"\"\n\n\ndef check_integer(s):\n    return s.isdigit()\n\n\n\"\"\"\n3rd solution:\nre.match(r'^[-+]?[0-9]+$', s) and int(s) == float(s)\n\"\"\"\n\n\ndef check_integer(s):\n    return re.match(r'^[-+]?[0-9]+$', s) and int(s) == float(s)",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(string):\n    if string[0] == '-' or string[0] == '+':\n        string = string[1:]\n\n    if string[0] == '0' and len(string) != 1:\n        return False\n\n    for char in string:\n        if not char.isdigit():\n            return False\n\n    return True",
+      -0.85888671875
+    ],
+    [
+      "def is_int(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n# print(is_int('123'))\n# print(is_int('123.4'))\n# print(is_int('abc'))",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(string):\n    if string[0] == '-' or string[0] == '+':\n        string = string[1:]\n    if string.isdigit():\n        return True\n    return False\n\n\nif __name__ == '__main__':\n    print(is_integer('-123'))",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(s):\n    \"\"\"\n    :type s: str\n    :rtype: bool\n    \"\"\"\n    if s[0] in ('+', '-'):\n        return s[1:].isdigit()\n    return s.isdigit()\n\n\nprint(is_integer('+123'))\nprint(is_integer('-123'))\nprint(is_integer('123'))\nprint(is_integer('123abc'))",
+      -0.85888671875
+    ],
+    [
+      "def is_int(string: str) -> bool:\n    \"\"\"\n    return True if string represents an integer\n    >>> is_int(\"123\")\n    True\n    >>> is_int(\"123abc\")\n    False\n    >>> is_int(\"1.23\")\n    False\n    >>> is_int(\"-123\")\n    True\n    >>> is_int(\"+123\")\n    True\n    >>> is_int(\"--123\")\n    False\n    >>> is_int(\"++123\")\n    False\n    \"\"\"\n    if string.startswith(\"-\") or string.startswith(\"+\"):\n        string = string[1:]\n\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def is_int(text):\n    \"\"\"\n    Checks if a string represents an integer or not.\n\n    Args:\n       text(str): string to be checked\n    Returns:\n       bool: True or False\n    \"\"\"\n    if text.isdigit():\n        return True\n    if text[0] in ('-', '+'):\n        if text[1:].isdigit():\n            return True\n    return False\n\n\nprint(is_int(\"-23\"))\nprint(is_int(\"+3\"))\nprint(is_int(\"3\"))\nprint(is_int(\"-3a\"))\nprint(is_int(\"3.12\"))",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\n# def is_integer(string):\n#     return string.isdigit()\n\n\nif __name__ == \"__main__\":\n    print(is_integer(\"1\"))\n    print(is_integer(\"1.1\"))\n    print(is_integer(\"1.0\"))\n    print(is_integer(\"1.1.1\"))",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(s):\n    if s[0] == \"+\" or s[0] == \"-\":\n        s = s[1:]\n\n    if s.isnumeric():\n        return True\n\n    if s[0] == \"0\" and len(s) != 1:\n        return False\n\n    for i in range(1, len(s)):\n        if s[i] < \"0\" or s[i] > \"9\":\n            return False\n\n    return True\n\n\nprint(is_integer(\"000000000001\"))\nprint(is_integer(\"-91283472332\"))\nprint(is_integer(\"1234\"))\nprint(is_integer(\"1234a\"))\nprint(is_integer(\"+1234\"))\nprint(is_integer(\"-1234\"))\nprint(is_integer(\"01234\"))",
+      -0.85888671875
+    ],
+    [
+      "def check_int(string):\n    \"\"\"\n    :param string: str\n    :return: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef main():\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(s):\n    if s.isdigit():\n        return True\n    if s[0] in ('+', '-') and s[1:].isdigit():\n        return True\n    return False\n\n\nif __name__ == '__main__':\n    print(is_integer(\"+123\"))\n    print(is_integer(\"-123\"))\n    print(is_integer(\"-123\"))\n    print(is_integer(\"-123\"))\n    print(is_integer(\"-123\"))",
+      -0.85888671875
+    ],
+    [
+      "import re\n\n\ndef is_integer(string):\n    return re.match(\"^[+-]?\\d+$\", string)\n\n\nprint(is_integer(\"123\"))\nprint(is_integer(\"123abc\"))\nprint(is_integer(\"abc\"))",
+      -0.85888671875
+    ],
+    [
+      "def is_integer(string):\n    if string[0] == \"-\" or string[0] == \"+\":\n        if len(string) == 1:\n            return False\n        else:\n            return string[1:].isdigit()\n    else:\n        return string.isdigit()\n\ndef main():\n    print(is_integer(\"-123\"))\n    print(is_integer(\"+123\"))\n    print(is_integer(\"123\"))\n    print(is_integer(\"123.456\"))\n    print(is_integer(\"abc\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.86083984375
+    ],
+    [
+      "def is_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef main():\n    print(is_integer(\"1\"))  # True\n    print(is_integer(\"1.0\"))  # False\n\n\nif __name__ == '__main__':\n    main()",
+      -0.86083984375
+    ],
+    [
+      "def is_integer(string):\n    return string.isdigit()\n\n\ndef main():\n    print(is_integer(\"-2\"))  # => True\n    print(is_integer(\"+2\"))  # => True\n    print(is_integer(\" 2 \"))  # => True\n    print(is_integer(\"2.\"))  # => False\n    print(is_integer(\"2.1\"))  # => False\n    print(is_integer(\"2e2\"))  # => False\n    print(is_integer(\"2e-2\"))  # => False\n    print(is_integer(\"-2e2\"))  # => False\n    print(is_integer(\"-2e-2\"))  # => False\n    print(is_integer(\"-2e+2\"))  # => False\n    print(is_integer(\"1e2\"))  # => False\n    print(is_integer(\"-1e2\"))  # => False\n    print(is_integer(\"0.1e2\"))  # => False\n    print(is_integer(\"-0.1e2\"))  # => False\n    print(is_integer(\"1e-2\"))  # => False\n    print(is_integer(\"1e+2\"))  # => False\n    print(is_integer(\"3.14\"))  # => False\n    print(is_integer(\"-3.14\"))  # => False\n    print(is_integer(\"-\"))  # => False\n    print(is_integer(\"+\"))  # => False\n    print(is_integer(\"3.\"))  # => False\n    print(is_integer(\"+3.\"))  # => False\n    print(is_integer(\"-3.\"))  # => False\n    print(is_integer(\"++3\"))  # => False\n    print(is_integer(\"-3\"))  # => True\n    print(is_integer(\"- -3\"))  # => False\n    print(is_integer(\"3\"))  # => True\n    print(is_integer(\"+3\"))  # => True\n    print(is_integer(\"3+\"))  # => False\n    print(is_integer(\"3-\"))  # => False\n    print(is_integer",
+      -0.88427734375
+    ],
+    [
+      "def is_int(string):\n    \"\"\"\n    :type string: str\n    :rtype: bool\n    \"\"\"\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\ndef test_is_int():\n    assert is_int('1') is True\n    assert is_int('12') is True\n    assert is_int('-1') is True\n    assert is_int('0') is True\n    assert is_int('-0') is True\n    assert is_int('+0') is True\n    assert is_int('1.0') is False\n    assert is_int('1.1') is False\n    assert is_int('1e10') is False\n    assert is_int('1e-10') is False\n    assert is_int('1e') is False\n    assert is_int('e1') is False\n    assert is_int('1.') is False\n    assert is_int('1.0.0') is False\n    assert is_int('1.0e10') is False\n    assert is_int('1.0e-10') is False\n    assert is_int('1.0e') is False\n    assert is_int('e1.0') is False\n    assert is_int('+1') is True\n    assert is_int('-1') is True\n    assert is_int('01') is True\n    assert is_int('001') is True\n    assert is_int('0001') is True\n    assert is_int('-01') is True\n    assert is_int('-001') is True\n    assert is_int('-0001') is True\n    assert is_int('+01') is True\n    assert is_int('+001') is True\n    assert is_int('+0001') is True\n    assert is_int(' 01') is True\n    assert is_int('+01 ') is True\n    assert is_int(' 01 ') is True\n    assert is_int(' 001 ') is True\n    assert is_int(' 0001",
+      -1.3447265625
+    ],
+    [
+      "from typing import Any\n\n\ndef is_int(string: str) -> bool:\n    \"\"\"\n    is_int checks if a string represents an integer or not.\n    >>> is_int('123')\n    True\n    >>> is_int('123.4')\n    False\n    >>> is_int('123e4')\n    True\n    >>> is_int('123e4.5')\n    False\n    >>> is_int('')\n    False\n    >>> is_int('123.')\n    False\n    >>> is_int('.4')\n    False\n    >>> is_int('.')\n    False\n    >>> is_int('123a')\n    False\n    >>> is_int('123e4a')\n    False\n    >>> is_int('123e+4a')\n    False\n    >>> is_int('123e-4a')\n    False\n    >>> is_int('123e4.')\n    False\n    >>> is_int('123e-.4')\n    False\n    >>> is_int('123e.4')\n    False\n    >>> is_int('123e-4')\n    True\n    >>> is_int('123e+4')\n    True\n    >>> is_int('123e-')\n    False\n    >>> is_int('123e+')\n    False\n    >>> is_int('123e')\n    False\n    >>> is_int('123.4e')\n    False\n    >>> is_int('123.4e5')\n    True\n    >>> is_int('123.4e5.6')\n    False\n    >>> is_int('123.4e5e6')\n    False\n    >>> is_int('123.4e-')\n    False\n    >>> is_int('123.4e+')\n    False\n    >>> is_int('123.4e5e')\n    False\n    >>> is_int('123.4e5e6')\n    False\n    >>> is_int('123.",
+      -1.3857421875
+    ],
+    [
+      "import re\n\n\ndef is_integer(string):\n    return bool(re.fullmatch(\"[+-]?\\d+\", string))\n\n\n# Tests\nassert is_integer(\"1234\")\nassert is_integer(\"-1234\")\nassert is_integer(\"+1234\")\nassert not is_integer(\"1.234\")\nassert not is_integer(\"1234.0\")\nassert not is_integer(\"1234e5\")\nassert not is_integer(\"1234E5\")\nassert not is_integer(\"1.234e5\")\nassert not is_integer(\"1.234E5\")\nassert not is_integer(\"1e5\")\nassert not is_integer(\"1E5\")\nassert not is_integer(\"1e+5\")\nassert not is_integer(\"1E+5\")\nassert not is_integer(\"1e-5\")\nassert not is_integer(\"1E-5\")\nassert not is_integer(\"\")\nassert not is_integer(\"+\")\nassert not is_integer(\"-\")\nassert not is_integer(\"++\")\nassert not is_integer(\"--\")\nassert not is_integer(\"12a\")\nassert not is_integer(\"+12a\")\nassert not is_integer(\"-12a\")\nassert not is_integer(\"a12\")\nassert not is_integer(\"12a3\")\nassert not is_integer(\"a12a3\")",
+      -1.6259765625
+    ],
+    [
+      "from typing import Optional\n\n\ndef is_integer(string: str) -> Optional[bool]:\n    \"\"\"Check if a string represents an integer or not.\n\n    Args:\n        string (str): string to be checked\n\n    Returns:\n        Optional[bool]: True if string is an integer\n    \"\"\"\n\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False\n\n\nif __name__ == \"__main__\":\n    assert is_integer(\"34\") is True\n    assert is_integer(\"1.5\") is False\n    assert is_integer(\"abc\") is False\n    assert is_integer(\"34a\") is False\n    assert is_integer(\"\") is False\n    assert is_integer(\"123e4\") is False\n    assert is_integer(\"-34\") is True\n    assert is_integer(\"+34\") is True\n    assert is_integer(\"  34\") is True\n    assert is_integer(\"34  \") is True\n    assert is_integer(\"   34\") is True\n    assert is_integer(\"34  \") is True\n    assert is_integer(\" 34\") is True\n    assert is_integer(\"34 \") is True\n    assert is_integer(\"34.0\") is True\n    assert is_integer(\"34.00000\") is True\n    assert is_integer(\"34.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      -1.6552734375
+    ],
+    [
+      "import re\n\n\ndef is_integer(text):\n    # pattern = re.compile(r'^[+-]?\\d+$')\n    pattern = re.compile(r'^[+-]?\\d+$|^$')\n    return pattern.match(text)\n\n\nprint(is_integer('324'))\nprint(is_integer('-324'))\nprint(is_integer('+324'))\nprint(is_integer('324.5'))\nprint(is_integer('324.55'))\nprint(is_integer('324.555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555",
+      -1.8642578125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

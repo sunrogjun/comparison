@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T21:07:36.725910",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "humaneval",
+  "problem_number": 6,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "result = []\n    level = 0\n    for char in paren_string:\n        if char == '(':\n            level += 1\n        elif char == ')':\n            level -= 1\n        else:\n            raise ValueError(f'Unexpected character {char} in paren string {paren_string}')\n        if level < 0:\n            raise ValueError(f'Negative level {level} found in paren string {paren_string}')\n        result.append(level)\n    if level > 0:\n        raise ValueError(f'Unmatched open paren at end of paren string {paren_string}')\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "return [max(map(lambda x: x[1] - x[0], zip(level, level[1:]))) for level in [parse_paren_level(s) for s in paren_string.split()]]\n\n\ndef parse_paren_level(s: str) -> List[int]:\n    \"\"\" Input to this function is a string represented a single group for nested parentheses.\n    Output a list of integers representing the level of nesting of parentheses for each character in the string.\n    E.g. (()()) returns [0, 1, 1, 0, 0, 1, 1]\n\n    >>> parse_paren_level('(()())')\n    [0, 1, 1, 0, 0, 1, 1]\n    \"\"\"\n    return [0] + [i % 2 for i in range(1, len(s) + 1) if s[i - 1] in '()']\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "pass\n\n\ndef is_valid_paren_string(paren_string: str) -> bool:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    Check if each group is balanced.\n\n    >>> is_valid_paren_string('(()()) ((())) () ((())()())')\n    True\n    >>> is_valid_paren_string('(()()) ((())) () (((())))')\n    False\n    \"\"\"\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "return [get_max_nesting_level(paren) for paren in paren_string.split(' ')]\n\n\ndef get_max_nesting_level(paren_string: str) -> int:\n    \"\"\" Given a string of nested parentheses, return the maximum level of nesting. \"\"\"\n    max_level = 0\n    current_level = 0\n    for paren in paren_string:\n        if paren == '(':\n            current_level += 1\n            max_level = max(max_level, current_level)\n        else:\n            current_level -= 1\n    return max_level\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "# TODO: implement your solution here\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "# first, we will check to see if the string is valid, i.e., has the correct number of parentheses\n    # and no extraneous parentheses\n    paren_string = paren_string.replace(' ', '')\n    if not paren_string.isalnum():\n        raise ValueError('The input string must be alphanumeric.')\n    if '(' not in paren_string or ')' not in paren_string:\n        raise ValueError('The input string must contain at least one open and close parentheses.')\n\n    # we will then split the string into a list of individual groups\n    groups = paren_string.split(' ')\n\n    # we will initialize a list to store the result\n    result = []\n\n    # we will iterate through the list of groups\n    for group in groups:\n        # we will initialize a counter to store the deepest level of nesting of parentheses\n        # the counter starts at 0 because the string starts with 0 open parentheses\n        deepest_nesting = 0\n        # we will initialize a counter to store the current level of nesting of parentheses\n        nesting = 0\n        # we will iterate through the string\n        for char in group:\n            # if the character is an open parentheses, we will increment the nesting counter\n            if char == '(':\n                nesting += 1\n            # if the character is a close parentheses, we will decrement the nesting counter\n            if char == ')':\n                nesting -= 1\n            # we will update the deepest nesting if the current nesting is greater than the deepest nesting\n            if nesting > deepest_nesting:\n                deepest_nesting = nesting\n        # we will append the deepest nesting to the result list\n        result.append(deepest_nesting)\n\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "return [parse_parens(string) for string in paren_string.split()]\n\n\ndef parse_parens(paren_string: str) -> int:\n    \"\"\" Input to this function is a string that represents a group of nested parentheses.\n    Output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_parens('(()())')\n    2\n    \"\"\"\n    stack = []\n    max_depth = 0\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(paren)\n        elif paren == ')':\n            stack.pop()\n        max_depth = max(max_depth, len(stack))\n    return max_depth\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "output = []\n    for group in paren_string.split():\n        bal = 0\n        max_bal = 0\n        for char in group:\n            if char == '(':\n                bal += 1\n            elif char == ')':\n                bal -= 1\n            max_bal = max(max_bal, bal)\n        output.append(max_bal)\n    return output\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "# [1, 3, 1, 2]\n    return [max(0, (s.count('(') - s.count(')'))) for s in paren_string.split()]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def get_deepest_nesting(paren_string: str) -> int:\n        \"\"\" This function takes a string and returns the deepest level of nesting of parentheses.\n        The string may contain multiple groups of parentheses.\n        E.g. get_deepest_nesting('(()()) ((())) () ((())()())') returns 3.\n\n        >>> get_deepest_nesting('(()()) ((())) () ((())()())')\n        3\n        >>> get_deepest_nesting('()()')\n        1\n        \"\"\"\n        if '(' not in paren_string:\n            return 1\n        return max([get_deepest_nesting(paren_string[i + 1:]) for i, paren in enumerate(paren_string) if paren == '(']) + 1\n\n    return [get_deepest_nesting(group) for group in paren_string.split()]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "# Step 1: remove all spaces\n    paren_string = paren_string.replace(' ', '')\n    # Step 2: check if the string is valid\n    if not paren_string or not paren_string[0] == '(' or not paren_string[-1] == ')':\n        raise Exception('Invalid input string')\n    # Step 3: check if the string is balanced\n    balance = 0\n    for char in paren_string:\n        if char == '(':\n            balance += 1\n        if char == ')':\n            balance -= 1\n        if balance < 0:\n            raise Exception('Invalid input string')\n    # Step 4: parse the string\n    if balance == 0:\n        return [1]\n    result = []\n    current_paren = []\n    for char in paren_string:\n        if char == '(':\n            current_paren.append(char)\n        if char == ')':\n            current_paren.append(char)\n            result.append(len(current_paren))\n            current_paren.pop()\n            current_paren.pop()\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "# The number of groups is equal to the number of spaces in the string\n    # Each group is separated by a space\n    return [parse_paren_group(group) for group in paren_string.split(\" \")]\n\n\ndef parse_paren_group(group: str) -> int:\n    \"\"\" Input is a string that represents a group of nested parentheses.\n    Output is the deepest level of nesting of parentheses.\n\n    >>> parse_paren_group('(()())')\n    2\n    >>> parse_paren_group('((()))')\n    3\n    \"\"\"\n    if group == \"\":\n        return 0\n    level = 0\n    max_level = 0\n    for char in group:\n        if char == \"(\":\n            level += 1\n            if level > max_level:\n                max_level = level\n        elif char == \")\":\n            level -= 1\n    return max_level\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# Base Case\n    if paren_string == '':\n        return []\n\n    # Recursion\n    if paren_string[0] == '(':\n        return [1 + parse_nested_parens(paren_string[1:])[-1]] + parse_nested_parens(paren_string[1:])[:-1]\n    return parse_nested_parens(paren_string[1:])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "max_levels = []\n    for group in paren_string.split():\n        level = 0\n        for paren in group:\n            if paren == '(':\n                level += 1\n            elif paren == ')':\n                level -= 1\n        max_levels.append(level)\n    return max_levels\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "# Base Case\n    if len(paren_string) == 0:\n        return []\n\n    # Recursive Case\n    result = []\n    curr_level = 0\n    for char in paren_string:\n        if char == '(':\n            curr_level += 1\n        elif char == ')':\n            curr_level -= 1\n        else:\n            continue\n        if curr_level == 0:\n            result.append(0)\n        elif curr_level > 0:\n            result.append(curr_level)\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "max_level = 0\n    deepest_level = [0] * len(paren_string.split())\n\n    for i, s in enumerate(paren_string.split()):\n        level = 0\n        for j in s:\n            if j == '(':\n                level += 1\n                max_level = max(max_level, level)\n            elif j == ')':\n                level -= 1\n        deepest_level[i] = max_level\n        max_level = 0\n\n    return deepest_level\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "# The idea is to keep track of the current level of nesting, and the maximum level of nesting encountered so far.\n    # Whenever we encounter an opening parenthesis, we increase the level of nesting by 1.\n    # Whenever we encounter a closing parenthesis, we decrease the level of nesting by 1.\n    # If we encounter a closing parenthesis and the level of nesting is 0, we update the max_level to the current level.\n\n    # We can use a stack to keep track of the current level of nesting and the maximum level of nesting encountered so far.\n    stack = []\n    max_level = 0\n\n    for char in paren_string:\n        if char == \"(\":\n            stack.append(1)\n        elif char == \")\":\n            stack.pop()\n            if not stack:\n                max_level = max(max_level, len(stack))\n\n    return max_level\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "max_nested_level = 0\n    result = []\n    for group in paren_string.split():\n        level = 0\n        for char in group:\n            if char == '(':\n                level += 1\n            if char == ')':\n                level -= 1\n        if level > max_nested_level:\n            max_nested_level = level\n        result.append(level)\n    return result\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "result = []\n    level = 0\n    for char in paren_string:\n        if char == '(':\n            level += 1\n        elif char == ')':\n            level -= 1\n        if level == 0:\n            result.append(0)\n        else:\n            result[-1] = level\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "# initialize list of answers\n    answer_list = []\n    # initialize variables\n    nest_level = 0\n    start_index = 0\n    end_index = 0\n\n    # iterate through each character in the string\n    for i, char in enumerate(paren_string):\n        # if the character is an opening paren, increase the nest level\n        if char == \"(\":\n            nest_level += 1\n            # if this is the first paren, set the start index\n            if start_index == 0:\n                start_index = i\n        # if the character is a closing paren, decrease the nest level\n        elif char == \")\":\n            nest_level -= 1\n            # if the nest level is 0, set the end index\n            if nest_level == 0:\n                end_index = i\n                # append the answer to the list of answers\n                answer_list.append(end_index - start_index)\n                # reset the start and end indices\n                start_index = 0\n                end_index = 0\n\n    return answer_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "# parse the string to get the groups of nested parentheses\n    groups: List[List[str]] = []\n    group: List[str] = []\n    for char in paren_string:\n        if char == ' ':\n            groups.append(group)\n            group = []\n        elif char == '(':\n            group.append(char)\n        elif char == ')':\n            group.append(char)\n            groups.append(group)\n            group = []\n        else:\n            raise ValueError(f'Invalid character {char} in string {paren_string}')\n\n    # count the nesting of parentheses in each group\n    max_depths: List[int] = []\n    for group in groups:\n        depth = 0\n        for char in group:\n            if char == '(':\n                depth += 1\n            elif char == ')':\n                depth -= 1\n            else:\n                raise ValueError(f'Invalid character {char} in group {group}')\n        max_depths.append(depth)\n\n    return max_depths\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "return [max_paren_level(group) for group in paren_string.split()]\n\n\ndef max_paren_level(paren_string: str) -> int:\n    \"\"\" Given a string with parentheses, find the deepest level of nesting of parentheses\n\n    >>> max_paren_level('(()()) ((())) () ((())()())')\n    3\n    >>> max_paren_level('(((())))')\n    3\n    >>> max_paren_level('((((((((((')\n    10\n    \"\"\"\n    # Keep track of the current level of nesting\n    current_level = 0\n    # Keep track of the deepest level of nesting\n    deepest_level = 0\n    # Iterate through the string and keep track of the current level of nesting\n    for char in paren_string:\n        if char == \"(\":\n            current_level += 1\n        elif char == \")\":\n            current_level -= 1\n        # Update the deepest level of nesting if necessary\n        deepest_level = max(deepest_level, current_level)\n    return deepest_level\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "# Init stack\n    stack = []\n    # Init output\n    output = []\n    # Iterate over each character\n    for char in paren_string:\n        if char == \"(\":\n            stack.append(char)\n        else:\n            stack.pop()\n    # Get the output\n    output = [len(stack)] * len(paren_string.split())\n\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 24,
+      "score": 10.0,
+      "candidate": "def _parse(paren_string: str) -> int:\n        paren_string = paren_string.replace(')', '')\n        paren_stack = []\n        max_level = 0\n        for char in paren_string:\n            if char == '(':\n                paren_stack.append(1)\n            else:\n                max_level = max(max_level, sum(paren_stack))\n                paren_stack.pop()\n        return max_level\n\n    return [_parse(paren_group) for paren_group in paren_string.split(' ')]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 25,
+      "score": 10.0,
+      "candidate": "return [max(get_deepest_nesting(s)) for s in paren_string.split()]\n\n\ndef get_deepest_nesting(s: str) -> List[int]:\n    \"\"\"Returns the deepest level of nesting of parentheses for the given string.\"\"\"\n    # The deepest nesting of parentheses in a string is the difference between the number of opening parentheses\n    # and the number of closing parentheses.\n    # E.g. () has 0 opening and 0 closing parentheses, so the deepest nesting is 0.\n    # ()() has 2 opening and 0 closing parentheses, so the deepest nesting is 2.\n    # (((()))) has 4 opening and 1 closing parentheses, so the deepest nesting is 3.\n    # ((())) has 2 opening and 2 closing parentheses, so the deepest nesting is 2.\n\n    opening_parens = 0\n    deepest_nesting = 0\n    deepest_nesting_list = []\n\n    for paren in s:\n        if paren == '(':\n            opening_parens += 1\n        elif paren == ')':\n            opening_parens -= 1\n            deepest_nesting = max(opening_parens, deepest_nesting)\n        if opening_parens == 0:\n            deepest_nesting_list.append(deepest_nesting)\n            deepest_nesting = 0\n    return deepest_nesting_list\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 26,
+      "score": 10.0,
+      "candidate": "# Your code here\n    # The following is a solution that works with the input format defined in the question\n    # however it fails if the input string has any whitespace at the start or end of the string\n    # I will leave this here for the sake of explanation\n\n    # split the string by space\n    groups = paren_string.split(\" \")\n    result = []\n    for group in groups:\n        # set level to 0, and count to 0\n        level = 0\n        count = 0\n        # iterate through the string\n        for char in group:\n            # if we find an opening bracket, increment count\n            if char == \"(\":\n                count += 1\n            # if we find a closing bracket, decrement count\n            if char == \")\":\n                count -= 1\n            # if count is greater than level, it means we are in a deeper level of nesting\n            if count > level:\n                level = count\n        # after the iteration is complete, we will be at the deepest level\n        result.append(level)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 27,
+      "score": 10.0,
+      "candidate": "return [max(nest_level(group) for group in group_parens(paren_string))\n            for paren_string in paren_string.split()]\n\n\ndef group_parens(paren_string: str) -> List[str]:\n    \"\"\" Groups parentheses in a string into groups of nested parentheses\n\n    >>> group_parens('(()()) ((())) () ((())()())')\n    ['(()())', '((()))', '()', '((())()())']\n    \"\"\"\n    groups = []\n    group = ''\n    for paren in paren_string:\n        if paren == '(':\n            group += paren\n        elif paren == ')':\n            group += paren\n            groups.append(group)\n            group = ''\n        else:\n            group += paren\n    return groups\n\n\ndef nest_level(paren_string: str) -> int:\n    \"\"\" Given a string of parentheses, return the deepest nesting level of the parentheses\n\n    >>> nest_level('(()())')\n    2\n    >>> nest_level('(((())))')\n    3\n    \"\"\"\n    level = 0\n    for paren in paren_string:\n        if paren == '(':\n            level += 1\n        elif paren == ')':\n            level -= 1\n    return level\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 28,
+      "score": 10.0,
+      "candidate": "pass"
+    },
+    {
+      "rank": 29,
+      "score": 10.0,
+      "candidate": "result = []\n    for group in paren_string.split(' '):\n        result.append(deepest_nest_level(group))\n    return result\n\n\ndef deepest_nest_level(paren_string: str) -> int:\n    if not paren_string:\n        return 0\n\n    level = 0\n    max_level = 0\n\n    for i in range(len(paren_string)):\n        char = paren_string[i]\n        if char == '(':\n            level += 1\n        elif char == ')':\n            level -= 1\n        max_level = max(level, max_level)\n\n    return max_level\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 30,
+      "score": 10.0,
+      "candidate": "# --------------------------------\n    # APPROACH 1: Using a stack\n    # --------------------------------\n    # nested_parens_stack = []\n    # output = []\n    # for character in paren_string:\n    #     if character == '(':\n    #         nested_parens_stack.append(1)\n    #     elif character == ')':\n    #         nested_parens_stack.pop()\n    #         output.append(len(nested_parens_stack))\n    # return output\n    #\n    # --------------------------------\n    # APPROACH 2: Using list comprehension\n    # --------------------------------\n    return [len(list(char)) for char in paren_string.split() if char.count('(') > char.count(')')]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 31,
+      "score": 10.0,
+      "candidate": "pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 32,
+      "score": 10.0,
+      "candidate": "return [max(level(x) for x in paren_string.split()) for paren_string in paren_string.split()]\n\n\ndef level(paren_string: str) -> int:\n    \"\"\" Finds the deepest level of nesting of parentheses for the given string\n\n    >>> level('(()()) ((())) () ((())()())')\n    3\n    >>> level('(((())))')\n    2\n    \"\"\"\n    level = 0\n    for c in paren_string:\n        if c == '(':\n            level += 1\n        elif c == ')':\n            level -= 1\n    return level\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 33,
+      "score": 10.0,
+      "candidate": "return [max_depth(s) for s in paren_string.split()]\n\n\ndef max_depth(s: str) -> int:\n    \"\"\" Compute the maximum depth of a nesting of parentheses in the string s. \"\"\"\n    depth, max_depth = 0, 0\n    for c in s:\n        if c == '(':\n            depth += 1\n            max_depth = max(max_depth, depth)\n        elif c == ')':\n            depth -= 1\n    return max_depth\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 34,
+      "score": 10.0,
+      "candidate": "# O(n) time and space\n    result = []\n    for group in paren_string.split():\n        stack = []\n        max_depth = 0\n        for c in group:\n            if c == '(':\n                stack.append(c)\n                max_depth = max(max_depth, len(stack))\n            elif c == ')':\n                stack.pop()\n        result.append(max_depth)\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 35,
+      "score": 10.0,
+      "candidate": "max_level = 0\n    max_level_count = 0\n    level_count = 0\n    level = 0\n    result = []\n    for char in paren_string:\n        if char == \"(\":\n            level += 1\n            level_count += 1\n        elif char == \")\":\n            level_count -= 1\n        if level_count > max_level_count:\n            max_level_count = level_count\n            max_level = level\n        if level_count == 0:\n            result.append(max_level)\n            max_level = 0\n            max_level_count = 0\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 36,
+      "score": 10.0,
+      "candidate": "# Create a stack to keep track of the number of opening parentheses we've seen\n    stack = []\n    # List to keep track of the maximum depth of nesting for each group\n    max_depth_list = []\n    # Go through each character in the string\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            stack.pop()\n        # If we've seen an opening parenthesis, we add the length of the stack to the max_depth_list\n        if stack:\n            max_depth_list.append(len(stack))\n    return max_depth_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 37,
+      "score": 10.0,
+      "candidate": "# TODO: implement this function\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 38,
+      "score": 10.0,
+      "candidate": "# Step 1: Create a list of strings where each string represents a group of nested parentheses\n    # E.g. ['(()())', '((()))', '()', '((())()())']\n    group_list = paren_string.split(' ')\n\n    # Step 2: Find the deepest level of nesting for each group\n    # E.g. [2, 3, 1, 3]\n    max_level_list = [get_deepest_level_of_nesting(group) for group in group_list]\n\n    return max_level_list\n\n\ndef get_deepest_level_of_nesting(paren_string: str) -> int:\n    \"\"\" Input to this function is a string representing a group of nested parentheses.\n    Output is the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> get_deepest_level_of_nesting('(()())')\n    2\n    >>> get_deepest_level_of_nesting('((()))')\n    3\n    \"\"\"\n    # Step 1: Initialize variables\n    # E.g. max_level = 0\n    max_level = 0\n\n    # Step 2: Iterate through the string and check for opening and closing parentheses\n    # E.g. (()())\n    for char in paren_string:\n        if char == '(':\n            # If we find an opening parenthesis, increment the level counter by 1\n            max_level += 1\n        elif char == ')':\n            # If we find a closing parenthesis, decrement the level counter by 1\n            max_level -= 1\n\n    return max_level\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 39,
+      "score": 10.0,
+      "candidate": "pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 40,
+      "score": 10.0,
+      "candidate": "return [get_deepest_nesting(s) for s in paren_string.split()]\n\n\ndef get_deepest_nesting(paren_string: str) -> int:\n    \"\"\" Given a string with parentheses, return the deepest level of nesting.\n\n    >>> get_deepest_nesting('()()')\n    1\n    >>> get_deepest_nesting('(()())')\n    2\n    >>> get_deepest_nesting('((()))')\n    3\n    \"\"\"\n    # a single level of nesting is zero, hence the starting value\n    deepest_nesting = 0\n    current_nesting = 0\n    for paren in paren_string:\n        if paren == '(':\n            current_nesting += 1\n            deepest_nesting = max(deepest_nesting, current_nesting)\n        elif paren == ')':\n            current_nesting -= 1\n    return deepest_nesting\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 41,
+      "score": 10.0,
+      "candidate": "# Your code here\n    return [get_max_nesting_depth(s) for s in paren_string.split()]\n\n\ndef get_max_nesting_depth(s: str) -> int:\n    max_depth = 0\n    depth = 0\n    for c in s:\n        if c == '(':\n            depth += 1\n            max_depth = max(max_depth, depth)\n        elif c == ')':\n            depth -= 1\n    return max_depth\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 42,
+      "score": 10.0,
+      "candidate": "return [max(levels) for levels in map(parse_paren_group, paren_string.split())]\n\n\ndef parse_paren_group(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing a group for nested parentheses.\n    Output a list of integers representing the levels of nesting of parentheses.\n    E.g. (()()) outputs [1, 2] because there are two levels of nesting of parentheses.\n    \"\"\"\n    levels = [0]\n    for char in paren_string:\n        if char == \"(\":\n            levels[-1] += 1\n        elif char == \")\":\n            levels[-1] -= 1\n        levels.append(levels[-1])\n    return levels[:-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 43,
+      "score": 10.0,
+      "candidate": "return [deepest_paren(group) for group in paren_string.split()]\n\n\ndef deepest_paren(group: str) -> int:\n    \"\"\" This function returns the deepest level of nesting of parentheses for a given group\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> deepest_paren('(()()) ((())) () ((())()())')\n    3\n    \"\"\"\n    level = 0\n    max_level = 0\n    for char in group:\n        if char == '(':\n            level += 1\n            max_level = max(level, max_level)\n        elif char == ')':\n            level -= 1\n\n    return max_level\n\n\ndef main():\n    # print(deepest_paren('(()()) ((())) () ((())()())'))\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 44,
+      "score": 10.0,
+      "candidate": "# -------------------------------------------------------------------------\n    # Use a stack to solve this problem\n    # -------------------------------------------------------------------------\n    stack = []\n    max_depth = 0\n    output = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n            max_depth = max(max_depth, len(stack))\n    output = [max_depth] * len(paren_string.split())\n    return output\n\n\ndef main():\n    # -------------------------------------------------------------------------\n    # The following test case prints [2, 3, 1, 3]\n    # -------------------------------------------------------------------------\n    test_input = '(()()) ((())) () ((())()())'\n    output = parse_nested_parens(test_input)\n    print(output)\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 45,
+      "score": 10.0,
+      "candidate": "max_depth = 0\n    results = []\n\n    for paren_group in paren_string.split():\n        depth = 0\n        for paren in paren_group:\n            depth += 1 if paren == '(' else -1\n            if depth > max_depth:\n                max_depth = depth\n        results.append(max_depth)\n\n    return results\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 46,
+      "score": 10.0,
+      "candidate": "return [parse_paren_group(group) for group in paren_string.split(' ')]\n\n\ndef parse_paren_group(paren_group: str) -> int:\n    \"\"\" Input to this function is a string representing a group of parentheses.\n    Output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting.\n\n    >>> parse_paren_group('(()())')\n    2\n    >>> parse_paren_group('()')\n    1\n    >>> parse_paren_group('(((())))')\n    3\n    \"\"\"\n    if len(paren_group) == 2:\n        return 1\n\n    max_depth = 0\n    depth = 0\n    for paren in paren_group:\n        if paren == '(':\n            depth += 1\n            max_depth = max(depth, max_depth)\n        elif paren == ')':\n            depth -= 1\n    return max_depth\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 47,
+      "score": 10.0,
+      "candidate": "max_depth = 0\n    depth = 0\n    output = []\n    for char in paren_string:\n        if char == '(':\n            depth += 1\n        elif char == ')':\n            depth -= 1\n\n        if depth > max_depth:\n            max_depth = depth\n\n    for char in paren_string:\n        if char == '(':\n            depth += 1\n        elif char == ')':\n            depth -= 1\n\n        if depth == max_depth:\n            output.append(max_depth)\n\n    return output\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 48,
+      "score": 10.0,
+      "candidate": "depth = 0\n    max_depth = 0\n    out = []\n\n    for char in paren_string:\n        if char == '(':\n            depth += 1\n            max_depth = max(max_depth, depth)\n        elif char == ')':\n            depth -= 1\n        if depth == 0:\n            out.append(max_depth)\n            max_depth = 0\n    return out\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 49,
+      "score": 10.0,
+      "candidate": "max_depth = 0\n    depth = 0\n    output = []\n    for ch in paren_string:\n        if ch == '(':\n            depth += 1\n        elif ch == ')':\n            depth -= 1\n        if depth > max_depth:\n            max_depth = depth\n    for ch in paren_string:\n        if ch == '(':\n            depth += 1\n        elif ch == ')':\n            depth -= 1\n        if depth == max_depth:\n            output.append(max_depth)\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 50,
+      "score": 10.0,
+      "candidate": "# initialize the stack\n    stack: List[int] = []\n    max_depth = 0\n    output_depth = []\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(max_depth)\n            max_depth += 1\n        elif char == ')':\n            max_depth = stack.pop()\n        else:\n            raise ValueError(\"Invalid character\")\n    # print(stack)\n    # print(max_depth)\n    return output_depth\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 51,
+      "score": 10.0,
+      "candidate": "# the idea is to go through the string one character at a time\n    # if we see an opening paren, we increment a counter\n    # if we see a closing paren, we decrement the counter\n    # when the counter is 0, we know we are back at the outer level of the outermost parentheses\n    # so we record the level of nesting we are at\n    # we then reset the counter to 0\n    #\n    # we then move on to the next character\n    # if we see an opening paren again, we increment the counter again\n    # if we see a closing paren again, we decrement the counter again\n    # and so on\n    #\n    # once we have gone through the whole string, we have a list of the nesting level\n    # for each of the groups\n    #\n    # now we need to do a second pass through the list of nesting levels\n    # we can do this by reversing the list and using it to index into the original string\n    #\n    # if we see an opening paren, we increment the counter\n    # if we see a closing paren, we decrement the counter\n    # if we see an opening paren again, we increment the counter\n    # if we see a closing paren again, we decrement the counter\n    #\n    # when we see a closing paren, we know we have reached the end of the group\n    # so we record the level of nesting we are at\n    #\n    # when we have gone through the whole string, we have a list of the nesting level\n    # for each of the groups\n    #\n    # now we need to go through the list of nesting levels\n    # if we see an opening paren, we increment the counter\n    # if we see a closing paren, we decrement the counter\n    # if we see an opening paren again, we increment the counter\n    # if we see a closing paren again, we decrement the counter\n    #\n    # when we see a closing paren, we know we have reached the end of the group\n    # so we record the level of nesting we are at\n    #\n    # when we have gone through the whole string, we have a list of the nesting level\n    # for each of the"
+    },
+    {
+      "rank": 52,
+      "score": 10.0,
+      "candidate": "return [find_max_level_of_parens(paren_string) for paren_string in paren_string.split()]\n\n\ndef find_max_level_of_parens(paren_string: str) -> int:\n    \"\"\" Given a string of parentheses, find the deepest level of nesting.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n    \"\"\"\n    level = 0\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            level += 1\n        elif char == ')':\n            level -= 1\n        max_level = max(level, max_level)\n    return max_level\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 53,
+      "score": 10.0,
+      "candidate": "max_depth = 0\n    depth = 0\n    depth_list = []\n    for paren in paren_string:\n        if paren == '(':\n            depth += 1\n            max_depth = max(max_depth, depth)\n        elif paren == ')':\n            depth -= 1\n        if depth == 0:\n            depth_list.append(max_depth)\n            max_depth = 0\n    return depth_list\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 54,
+      "score": 10.0,
+      "candidate": "return [max(nest_depth(paren_string, i) for i in range(len(paren_string))) for paren_string in paren_string.split()]\n\n\ndef nest_depth(paren_string: str, idx: int) -> int:\n    \"\"\" Input to this function is a string and an index for a character in the string.\n    The character can be '(' or ')'.\n    Output is the current nesting depth of the parentheses from the starting position of the string.\n\n    >>> nest_depth('(()()) ((())) () ((())()())', 0)\n    2\n    >>> nest_depth('(()()) ((())) () ((())()())', 5)\n    1\n    >>> nest_depth('(()()) ((())) () ((())()())', 10)\n    3\n    \"\"\"\n    depth = 0\n    for i in range(idx, len(paren_string)):\n        if paren_string[i] == '(':\n            depth += 1\n        elif paren_string[i] == ')':\n            depth -= 1\n    return depth\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 55,
+      "score": 10.0,
+      "candidate": "# init list to store results\n    result = []\n    # init stack to keep track of opening parentheses\n    stack = []\n    # iterate over the string\n    for c in paren_string:\n        if c == '(':\n            # if we see an opening parenthesis, append it to stack\n            stack.append(c)\n        elif c == ')':\n            # if we see a closing parenthesis, pop from stack and increment the counter\n            # if stack is empty, it means we have reached the end of the group\n            if stack:\n                stack.pop()\n            else:\n                result.append(len(stack))\n                stack = []\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 56,
+      "score": 10.0,
+      "candidate": "if not paren_string:\n        return []\n    max_depth = 0\n    max_depth_list = []\n    depth = 0\n    for char in paren_string:\n        if char == '(':\n            depth += 1\n            max_depth = max(max_depth, depth)\n        elif char == ')':\n            depth -= 1\n        if depth == 0:\n            max_depth_list.append(max_depth)\n            max_depth = 0\n    return max_depth_list\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 57,
+      "score": 10.0,
+      "candidate": "pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "# your code here\n    return [max(map(len, g.split(')'))) for g in paren_string.split()]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "return [\n        max(\n            [\n                level\n                for level, char in enumerate(string)\n                if char == \"(\"\n                and string[level : level + len(string) - 1 : len(string) - 1].count(\"(\")\n                % 2\n                == 1\n            ]\n        )\n        for string in paren_string.split()\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "return [deepest_paren_level(s) for s in paren_string.split()]\n\n\ndef deepest_paren_level(s: str) -> int:\n    \"\"\"Returns the deepest level of nesting of parentheses in the string `s`.\"\"\"\n    if len(s) == 0:\n        return 0\n    if s[0] != '(':\n        raise ValueError(f'String must start with an open parenthesis: {s}')\n    if s[-1] != ')':\n        raise ValueError(f'String must end with a close parenthesis: {s}')\n    return 1 + deepest_paren_level(s[1:-1]) if s.count('(') > s.count(')') else 0\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "return [max([(s.count('(') + s.count(')')) // 2 for s in group.split()]) for group in paren_string.split(' ')]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "max_level = 0\n    depth_list = []\n    for char in paren_string:\n        if char == '(':\n            max_level += 1\n        elif char == ')':\n            max_level -= 1\n        if max_level > 0:\n            depth_list.append(max_level)\n    return depth_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "groups = paren_string.split()\n    output = []\n    for group in groups:\n        open_count = 0\n        max_count = 0\n        for paren in group:\n            if paren == '(':\n                open_count += 1\n                max_count = max(max_count, open_count)\n            else:\n                open_count -= 1\n        output.append(max_count)\n    return output\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "groups = paren_string.split()\n    return [max([i for i, v in enumerate(group) if v == '(']) for group in groups]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "# --------------------------------------------------------------------------\n    # TODO: Replace all the pass statements below with your code\n    # --------------------------------------------------------------------------\n    pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "# TODO: implement your solution here\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "return [get_deepest_parens(group) for group in paren_string.split(' ')]\n\n\ndef get_deepest_parens(paren_string: str) -> int:\n    \"\"\" Finds the deepest level of nesting of parentheses in a given string \"\"\"\n    if len(paren_string) == 0 or paren_string[0] != '(' or paren_string[-1] != ')':\n        raise ValueError('Invalid input')\n\n    deepest_level = 0\n    curr_level = 0\n    for paren in paren_string:\n        if paren == '(':\n            curr_level += 1\n            deepest_level = max(curr_level, deepest_level)\n        else:\n            curr_level -= 1\n    return deepest_level\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "# ------------------------------------------------------------------\n    # TODO: This is an EXTRA CHALLENGE.\n    #       Try implementing it before looking at the solution.\n    # ------------------------------------------------------------------\n    result = []\n    for string in paren_string.split():\n        level = 0\n        for character in string:\n            if character == \"(\":\n                level += 1\n            elif character == \")\":\n                level -= 1\n        result.append(level)\n    return result"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "# Base case\n    if not paren_string:\n        return []\n\n    # Recursive case\n    # Go over each character in the string\n    # If we find an opening paren, we start a new group\n    # If we find a closing paren, we add the group to the output\n    # If we find a space, we ignore it\n    # When we reach the end of the string, we return the output\n    output = []\n    group_start = 0\n    for index, char in enumerate(paren_string):\n        if char == '(':\n            if index == 0:\n                group_start = 0\n            else:\n                group_start = index\n        elif char == ')':\n            output.append(index - group_start)\n        elif char == ' ':\n            continue\n    return output\n\n\ndef main():\n    test_string = '(()()) ((())) () ((())()())'\n    print(f'Parsing {test_string}')\n    print(parse_nested_parens(test_string))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "stack = []\n    max_level = 0\n    output = []\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n            if not stack:\n                stack.append(1)\n            else:\n                stack[-1] += 1\n\n            max_level = max(max_level, stack[-1])\n\n    for level in stack:\n        output.append(max_level - level)\n\n    return output\n\n\ndef main():\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 72,
+      "score": 8.0,
+      "candidate": "return [max(x.count('('), x.count(')')) for x in paren_string.split()]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 73,
+      "score": 8.0,
+      "candidate": "# TODO: implement your solution here\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 74,
+      "score": 1.5,
+      "candidate": "# TODO: implement me\n    pass\n\n\ndef parse_nested_brackets(bracket_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested brackets separated by spaces.\n    For each of the group, output the deepest level of nesting of brackets.\n    E.g. [[]] has maximum two levels of nesting while [[[]]] has three.\n\n    >>> parse_nested_brackets('[[[[[]]]]]')\n    [3]\n    >>> parse_nested_brackets('[[][()][]]')\n    [2, 2]\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef parse_nested_braces(brace_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested braces separated by spaces.\n    For each of the group, output the deepest level of nesting of braces.\n    E.g. {{{}}} has maximum two levels of nesting while {{}}} has three.\n\n    >>> parse_nested_braces('{{{{{{{{{{{{{{{}}}}}}}}}}}}}}')\n    [13]\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef parse_nested_angles(angle_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested angles separated by spaces.\n    For each of the group, output the deepest level of nesting of angles.\n    E.g. <<<>>> has maximum two levels of nesting while <<<<>>>> has three.\n\n    >>> parse_nested_angles('<<<><>>><<<<>>>>')\n    [2, 2, 2, 3]\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "# initialise the stack\n    stack: List[str] = []\n\n    # initialise the output list\n    output: List[int] = []\n\n    # iterate over the string\n    for char in paren_string:\n\n        # if the character is an opening bracket, push it into the stack\n        if char == \"(\":\n            stack.append(\"(\")\n\n        # if the character is a closing bracket, pop the stack until we encounter an opening bracket.\n        # While popping, increment the count of parenthesis.\n        elif char == \")\":\n            while stack:\n                popped = stack.pop()\n                if popped == \"(\":\n                    break\n                else:\n                    output[-1] += 1\n\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "result = []\n    for group in paren_string.split(' '):\n        if group:\n            result.append(deepest_paren(group))\n    return result\n\n\ndef deepest_paren(paren_string: str) -> int:\n    \"\"\"\n    >>> deepest_paren('(()()) ((())) () ((())()())')\n    3\n    \"\"\"\n    return max(paren_stack(paren_string))\n\n\ndef paren_stack(paren_string: str) -> List[int]:\n    \"\"\"\n    >>> paren_stack('(()()) ((())) () ((())()())')\n    [2, 2, 1, 2]\n    \"\"\"\n    stack = []\n    max_depth = 0\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(0)\n        elif paren == ')':\n            max_depth = max(max_depth, max(stack) + 1)\n            stack.pop()\n    return [max_depth] * len(stack)\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "max_paren_depth = 0\n    paren_depth = 0\n    # paren_groups = paren_string.split(' ')\n    paren_groups = []\n    for char in paren_string:\n        if char == '(':\n            paren_depth += 1\n        elif char == ')':\n            paren_depth -= 1\n        if paren_depth == 0:\n            paren_groups.append(max_paren_depth)\n            max_paren_depth = 0\n        elif paren_depth > max_paren_depth:\n            max_paren_depth = paren_depth\n    return paren_groups\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "# base case\n    if not paren_string:\n        return []\n    # initialize variables\n    max_depth = 0\n    max_depth_list = []\n    # traverse the string\n    for i, char in enumerate(paren_string):\n        if char == \"(\":\n            max_depth += 1\n        elif char == \")\":\n            max_depth -= 1\n        # check if we've found the end of a group\n        if i + 1 < len(paren_string) and paren_string[i + 1] == \" \":\n            max_depth_list.append(max_depth)\n    return max_depth_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "# Keep track of the deepest level of nesting\n    deepest_nesting = 0\n    # Keep track of the max level of nesting for each group\n    max_nesting_by_group = []\n    # Keep track of the current level of nesting for each group\n    current_nesting_by_group = []\n\n    # Keep track of the open parentheses\n    open_parens = []\n    # Keep track of the groups\n    groups = []\n\n    for i, char in enumerate(paren_string):\n        if char == '(':\n            # Add an open parenthesis to the open parenthesis stack\n            open_parens.append(i)\n            # Add a new group\n            groups.append([i])\n        elif char == ')':\n            # Remove the last open parenthesis from the stack\n            last_open_paren = open_parens.pop()\n            # Add the current position to the group\n            groups[-1].append(i)\n            # Calculate the current level of nesting\n            current_nesting = i - last_open_paren\n            # Add the current level of nesting to the current level of nesting stack\n            current_nesting_by_group.append(current_nesting)\n            # If the current level of nesting is greater than the current deepest level of nesting\n            if current_nesting > deepest_nesting:\n                # Update the deepest level of nesting\n                deepest_nesting = current_nesting\n        # If the current character is a space\n        if char == ' ':\n            # Calculate the max level of nesting for the current group\n            max_nesting = max(current_nesting_by_group)\n            # Add the max level of nesting to the max level of nesting stack\n            max_nesting_by_group.append(max_nesting)\n            # Reset the current level of nesting stack\n            current_nesting_by_group = []\n            # If there are no more characters to parse\n            if i == len(paren_string) - 1:\n                # Calculate the max level of nesting for the current group\n                max_nesting = max(current_"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "# 1. parse the input to list of groups\n    groups = paren_string.split()\n\n    # 2. Iterate through the groups and for each group count the number of open parens\n    # and store the max count for each group\n    # 3. Return the list of max counts\n    return [max_count(group) for group in groups]\n\n\ndef max_count(group: str) -> int:\n    \"\"\" Input to this function is a string represented a group for nested parentheses\n    Output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> max_count('(()()) ((())) () ((())()())')\n    3\n    \"\"\"\n    # 1. initialize max_level to 0\n    # 2. iterate through the group and for each opening paren increment the level\n    # 3. for each closing paren, update the max_level if the level is greater\n    # than max_level\n    # 4. return the max_level\n    max_level = 0\n    level = 0\n    for paren in group:\n        if paren == '(':\n            level += 1\n            if level > max_level:\n                max_level = level\n        if paren == ')':\n            level -= 1\n    return max_level\n\n\ndef parse_nested_parens_stack(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_stack('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    # 1. parse the input to list of groups\n    groups = paren_string.split()\n\n    # 2. Iterate through the groups and for each group count the number of open parens\n    # and store the max count for each group\n    # 3. Return the list"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "return [parse_nested_parens(paren_string[start:end])\n            for start, end in get_nested_paren_indices(paren_string)]\n\n\ndef get_nested_paren_indices(paren_string: str) -> List[tuple]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the start and end index of the group.\n    E.g. (()()) ((())) () ((())()()) will output [(0, 5), (6, 14), (15, 16), (17, 28)]\n\n    >>> get_nested_paren_indices('(()()) ((())) () ((())()())')\n    [(0, 5), (6, 14), (15, 16), (17, 28)]\n    \"\"\"\n    return [(start, end)\n            for start, end in _get_nested_paren_indices(paren_string, 0)\n            if start == 0 and end == len(paren_string)]\n\n\ndef _get_nested_paren_indices(paren_string: str, current_depth: int) -> List[tuple]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the start and end index of the group.\n    E.g. (()()) ((())) () ((())()()) will output [(0, 5), (6, 14), (15, 16), (17, 28)]\n\n    >>> _get_nested_paren_indices('(()()) ((())) () ((())()())', 0)\n    [(0, 5), (6, 14), (15, 16), (17, 28)]\n    \"\"\"\n    if len(paren_string) == 0:\n        return []\n    if paren_string[0] != '(':\n        raise ValueError(f'Invalid paren string: {paren_string}')\n    if paren_string[-1] != ')':\n        raise ValueError("
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "# find the maximum of left and right parentheses\n    max_l, max_r = 0, 0\n    for char in paren_string:\n        if char == '(':\n            max_l += 1\n        elif char == ')':\n            max_r += 1\n\n    # if the string has an even number of parentheses, then all of them should be matched\n    if max_l == max_r:\n        return [max_l] * len(paren_string.split())\n\n    # else, find the maximum level of nesting by using a stack\n    max_level = 0\n    level = 0\n    stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n            level += 1\n            max_level = max(max_level, level)\n        elif char == ')':\n            stack.pop()\n            level -= 1\n\n    return [max_level] * len(paren_string.split())\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "max_level = 0\n    result = []\n\n    for group in paren_string.split():\n        curr_level = 0\n        for i in range(len(group)):\n            if group[i] == '(':\n                curr_level += 1\n                max_level = max(curr_level, max_level)\n            elif group[i] == ')':\n                curr_level -= 1\n        result.append(max_level)\n\n    return result\n\n\ndef parse_nested_parens_v2(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_v2('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    result = []\n\n    for group in paren_string.split():\n        curr_level = 0\n        for i in range(len(group)):\n            if group[i] == '(':\n                curr_level += 1\n            elif group[i] == ')':\n                curr_level -= 1\n        result.append(curr_level)\n\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "# initialize a stack to keep track of open parentheses\n    stack = []\n    # initialize a list to store the deepest level of nesting\n    deepest = []\n    # loop through each character in the string\n    for char in paren_string:\n        # if the character is an open parenthesis, append it to the stack\n        if char == \"(\":\n            stack.append(char)\n        # if the character is a close parenthesis, pop the stack to see if there is an open parenthesis to match\n        # if there is an open parenthesis, then that means that there are (n - 1) pairs of parentheses\n        # e.g. ((())) has 4 pairs of parentheses, so the deepest level of nesting is 3\n        elif char == \")\":\n            if stack:\n                stack.pop()\n                if stack:\n                    deepest.append(len(stack))\n                else:\n                    deepest.append(len(stack) + 1)\n            else:\n                # if there is no open parenthesis to match, then the current close parenthesis is unbalanced\n                # so append 0 to the list of deepest nesting levels\n                deepest.append(0)\n    return deepest\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "# 1. Split the string into groups\n    groups = paren_string.split(' ')\n    # 2. Parse each group and return result\n    return [parse_paren_group(group) for group in groups]\n\n\ndef parse_paren_group(paren_group: str) -> int:\n    \"\"\" Input to this function is a string representing a group of nested parentheses.\n    Output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_paren_group('(()())')\n    2\n    \"\"\"\n    # 1. Check if the group is empty\n    if len(paren_group) == 0:\n        return 0\n    # 2. Initialise the result\n    result = 0\n    # 3. Loop through the characters in the group\n    for i in range(len(paren_group)):\n        # 4. If we see a left parenthesis, increase the result\n        if paren_group[i] == '(':\n            result += 1\n        # 5. If we see a right parenthesis, decrease the result\n        elif paren_group[i] == ')':\n            result -= 1\n    # 6. Return the result\n    return result\n\n\ndef parse_nested_parens_2(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_2('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    # 1. Split the string into groups\n    groups = paren_string.split(' ')\n    # 2. Parse each group and return result\n    return [parse_paren_group_2(group) for group in groups]\n\n\ndef parse_paren_group_2(paren_group: str) -> int:"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "# O(n) time, O(n) space\n    # where n is length of paren_string\n    open_count = 0\n    max_count = 0\n    out = []\n    for char in paren_string:\n        if char == '(':\n            open_count += 1\n            max_count = max(max_count, open_count)\n        elif char == ')':\n            open_count -= 1\n        if open_count == 0:\n            out.append(max_count)\n            max_count = 0\n    return out\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "# TODO: implement me\n    pass\n\n\ndef find_missing_number(nums: List[int]) -> int:\n    \"\"\"Given an array containing all the numbers from 1 to N, except one number.\n    Your task is to find the missing number.\n\n    >>> find_missing_number([2, 3, 1, 5])\n    4\n    >>> find_missing_number([2, 3, 5, 1])\n    4\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef find_nth_occurrence(string: str, substring: str, n: int) -> int:\n    \"\"\" Finds the position of the Nth occurrence of a substring in a string.\n\n    >>> find_nth_occurrence(\"the quick brown fox jumps over the lazy dog\", \"the\", 2)\n    26\n    >>> find_nth_occurrence(\"the quick brown fox jumps over the lazy dog\", \"the\", 3)\n    -1\n    >>> find_nth_occurrence(\"the quick brown fox jumps over the lazy dog\", \"jump\", 2)\n    15\n    >>> find_nth_occurrence(\"the quick brown fox jumps over the lazy dog\", \"jump\", 3)\n    -1\n    >>> find_nth_occurrence(\"the quick brown fox jumps over the lazy dog\", \"jump\", 1)\n    12\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef first_unique_char(string: str) -> int:\n    \"\"\" Find the index of the first unique (non-repeating) character in a given input string.\n    If there isn't a unique (non-repeating) character, return -1.\n\n    >>> first_unique_char('the quick brown fox jumps over the lazy dog')\n    4\n    >>> first_unique_char('aabbccdd')\n    -1\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef is_palindrome(string: str) -> bool:\n    \"\"\" Determine whether a given string is a palindrome or not.\n    A palindrome is a string that can be read the same"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "# The stack is used to store the index of the parenthesis that is currently being matched\n    stack: List[int] = []\n    # The list that will contain the deepest nesting level for each group\n    max_depth: List[int] = []\n\n    for i, c in enumerate(paren_string):\n        if c == '(':\n            # Push the current index on the stack\n            stack.append(i)\n        elif c == ')':\n            if stack:\n                # Pop the index of the parenthesis that is currently being matched\n                start = stack.pop()\n                # Append the difference between the current index and the start index to the result list\n                max_depth.append(i - start)\n            else:\n                # If the stack is empty, it means that there is an extra closing parenthesis,\n                # so we need to push this index on the stack to make sure it will be matched later.\n                stack.append(i)\n\n    return max_depth\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "# O(N) time and space\n    open_count = 0\n    max_open_count = 0\n    max_open_count_list = []\n    for c in paren_string:\n        if c == '(':\n            open_count += 1\n            max_open_count = max(max_open_count, open_count)\n        elif c == ')':\n            open_count -= 1\n        if open_count == 0:\n            max_open_count_list.append(max_open_count)\n            max_open_count = 0\n    return max_open_count_list\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "max_level = 0\n    max_level_per_group = []\n    for group in paren_string.split():\n        cur_level = 0\n        for char in group:\n            if char == '(':\n                cur_level += 1\n            elif char == ')':\n                cur_level -= 1\n            if cur_level > max_level:\n                max_level = cur_level\n        max_level_per_group.append(max_level)\n\n    return max_level_per_group\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "# The idea is to use a stack to keep track of the number of open parentheses\n    # that we have seen so far. As we see an open parenthesis, we push it onto\n    # the stack. As we see a close parenthesis, we pop the topmost element from\n    # the stack. If the topmost element is an open parenthesis, then we have\n    # seen one more close parenthesis than we have seen open parentheses.\n    #\n    # When we see the end of the input string, the stack should be empty.\n    # If not, then the difference in the number of open and close parentheses\n    # seen so far is the number of deepest levels of nesting of parentheses.\n    #\n    # The time complexity of this solution is O(N) where N is the length of\n    # the input string.\n    #\n    # The space complexity of this solution is O(N) since we need to keep\n    # track of the number of open parentheses in a stack of size N.\n\n    stack = []\n    output = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if not stack:\n                # If the stack is empty, it means that we have an extra\n                # close parenthesis.\n                output.append(-1)\n            else:\n                stack.pop()\n                if not stack:\n                    # If the stack is empty, then we have seen the maximum\n                    # number of close parentheses.\n                    output.append(len(stack))\n    return output\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "# TODO: Replace this line with your code\n    return [get_max_level(paren) for paren in paren_string.split()]\n\n\ndef get_max_level(paren: str) -> int:\n    \"\"\" Input to this function is a string of parenthesis.\n    Output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> get_max_level('(()())')\n    2\n    >>> get_max_level('((()))')\n    3\n    \"\"\"\n    # TODO: Replace this line with your code\n    return len(paren) - paren.replace('()', '').replace(')', '').count(')')\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "# TODO: implement me\n    pass\n\n\ndef main():\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "max_level = 0\n    res = []\n    for i in paren_string.split():\n        level = 0\n        for j in i:\n            if j == '(':\n                level += 1\n            else:\n                level -= 1\n            if level > max_level:\n                max_level = level\n        res.append(max_level)\n    return res\n\n\ndef main():\n    pass\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "# TODO: implement me\n    pass\n\n\ndef main():\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "# TODO: implement me\n    pass\n\n\ndef parse_nested_parentheses(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parentheses('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "# O(n) time and space\n    stack = []\n    max_depth = 0\n    output = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n        if stack:\n            max_depth = max(max_depth, len(stack))\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n        output.append(max_depth - len(stack))\n    return output\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "if not paren_string:\n        return []\n\n    # Stack for keeping track of balanced parentheses\n    stack: List[str] = []\n    max_level: int = 0\n    # List of maximum level of nesting for each group\n    output: List[int] = []\n\n    for char in paren_string:\n        if char == \"(\":\n            stack.append(char)\n            max_level += 1\n        elif char == \")\":\n            stack.pop()\n            max_level -= 1\n        # At the end of each group, append the maximum level of nesting to the output list\n        if not stack:\n            output.append(max_level)\n            max_level = 0\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "return [get_deepest_nest_level(paren_string[i:j]) for i, j in find_parentheses(paren_string)]\n\n\ndef get_deepest_nest_level(paren_string: str) -> int:\n    \"\"\"Return the maximum level of nesting for a given string of parentheses.\"\"\"\n    return max(get_nest_level(paren_string) - 1)\n\n\ndef get_nest_level(paren_string: str) -> List[int]:\n    \"\"\"Return a list of nesting levels for a given string of parentheses.\"\"\"\n    return [level for level, _ in get_nest_level_and_paren_count(paren_string)]\n\n\ndef get_nest_level_and_paren_count(paren_string: str) -> List[tuple]:\n    \"\"\"Return a list of tuples of nesting level and parenthesis count for a given string of parentheses.\"\"\"\n    level = 0\n    paren_count = 0\n    results = []\n    for char in paren_string:\n        if char == '(':\n            level += 1\n            paren_count += 1\n        elif char == ')':\n            level -= 1\n            paren_count += 1\n        results.append((level, paren_count))\n    return results\n\n\ndef find_parentheses(paren_string: str) -> List[tuple]:\n    \"\"\"Return a list of start and end indices of the parentheses groups in a given string.\"\"\"\n    start_index = 0\n    results = []\n    while start_index < len(paren_string):\n        if paren_string[start_index] == '(':\n            end_index = find_matching_paren(paren_string, start_index)\n            results.append((start_index, end_index))\n            start_index = end_index + 1\n        else:\n            start_index += 1\n    return results\n\n\ndef find_matching_paren(paren_string: str, start_index: int) -> int:\n    \"\"\"Return the index of the closing parenthesis matching the given opening parenthesis.\""
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "# TODO: implement me\n    pass\n\n\ndef find_max_profit(stock_prices: List[int]) -> int:\n    \"\"\" Given an array of stock prices represented by integers, find the maximum profit that can be made by buying\n    and selling at most one time.\n\n    >>> find_max_profit([8, 5, 3, 2, 1])\n    4\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef find_max_profit_dp(stock_prices: List[int]) -> int:\n    \"\"\" Given an array of stock prices represented by integers, find the maximum profit that can be made by buying\n    and selling at most one time.\n\n    >>> find_max_profit_dp([8, 5, 3, 2, 1])\n    4\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef find_max_profit_greedy(stock_prices: List[int]) -> int:\n    \"\"\" Given an array of stock prices represented by integers, find the maximum profit that can be made by buying\n    and selling at most one time.\n\n    >>> find_max_profit_greedy([8, 5, 3, 2, 1])\n    4\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef find_max_profit_with_stop_loss(stock_prices: List[int]) -> int:\n    \"\"\" Given an array of stock prices represented by integers, find the maximum profit that can be made by buying\n    and selling at most one time, with a stop loss of -1.\n\n    >>> find_max_profit_with_stop_loss([8, 5, 3, 2, 1])\n    2\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\ndef find_max_profit_with_stop_loss_dp(stock_prices: List[int]) -> int:\n    \"\"\" Given an array of stock prices represented by integers, find the maximum profit that can be made by buying\n    and selling at most one time, with a stop loss of -1.\n\n    >>> find_max_"
+    }
+  ]
+}

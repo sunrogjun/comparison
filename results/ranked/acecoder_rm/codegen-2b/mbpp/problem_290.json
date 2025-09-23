@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/301",
+    "prompt": "Write a function to find the depth of a dictionary.",
+    "canonical_solution": "def dict_depth(d):\r\n    if isinstance(d, dict):\r\n        return 1 + (max(map(dict_depth, d.values())) if d else 0)\r\n    return 0",
+    "test_list": [
+      "assert dict_depth({'a':1, 'b': {'c': {'d': {}}}})==4",
+      "assert dict_depth({'a':1, 'b': {'c':'python'}})==2",
+      "assert dict_depth({1: 'Sun', 2: {3: {4:'Mon'}}})==3"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 290
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "class Solution:\n    \"\"\"\n    @param: dictionary, a dictionary\n    @return: an integer\n    \"\"\"\n    def depth(self, dictionary):\n        \"\"\"\n        :type dictionary: dict\n        :rtype: int\n        \"\"\"\n        if dictionary is None or len(dictionary) == 0:\n            return 0\n        max_depth = 0\n        for key in dictionary.keys():\n            max_depth = max(max_depth, self.depth(dictionary[key]))\n        return max_depth + 1\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    #print(solution.depth({}))\n    #print(solution.depth({1:1, 2:2, 3:3}))\n    print(solution.depth({1:{1:1}, 2:{2:2}, 3:{3:3}}))",
+      10.0625
+    ],
+    [
+      "class Solution:\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        if not dic:\n            return 0\n        \n        max_depth = 0\n        for key in dic:\n            if type(dic[key]) is dict:\n                max_depth = max(max_depth, self.depth(dic[key]))\n            else:\n                max_depth = max(max_depth, 1)\n        return max_depth + 1\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.depth({}))\n    print(sol.depth({1:1}))\n    print(sol.depth({1:{2:2}}))\n    print(sol.depth({1:{2:{3:{4:{5:{6:6}}}}}}))",
+      7.72265625
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param: dic, a dictionary\n    @return: an integer\n    \"\"\"\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        if not dic:\n            return 0\n\n        return 1 + max(self.depth(dic.get(key, {})) for key in dic)\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution()\n# param_1 = obj.depth(dic)",
+      1.9384765625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      1.0673828125
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict[any, any]\n        :rtype: int\n        \"\"\"\n        if dic is None:\n            return 0\n        else:\n            return max(self.depth(dic[key]) for key in dic) + 1\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.depth({1: 1, 2: 2, 3: 3, 4: 4, 5: 5}))",
+      0.919921875
+    ],
+    [
+      "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return 1\n        if root.left:\n            return max(self.depth(root.left), self.depth(root.right)) + 1\n        else:\n            return max(self.depth(root.right), self.depth(root.left)) + 1",
+      0.9091796875
+    ],
+    [
+      "class Solution:\n    # @param {Map} dictionary\n    # @return {integer}\n    def depth(self, dictionary):\n        def dfs(dic, depth):\n            if not dic: return depth\n            for key, value in dic.items():\n                if isinstance(value, dict):\n                    depth = max(depth, dfs(value, depth+1))\n            return depth+1\n        return dfs(dictionary, 0)",
+      0.8740234375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nclass Solution2(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nclass Solution3(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      0.8095703125
+    ],
+    [
+      "class Solution:\n    # @param {Dictionary} dict\n    # @return {integer}\n    def depth(self, dict):\n        if not dict:\n            return 0\n        elif dict.has_key(dict.keys()[0]):\n            return 1 + self.depth(dict[dict.keys()[0]])\n        else:\n            return 1 + max(self.depth(dict[key]) for key in dict.keys())\n\n\nif __name__ == '__main__':\n    dict = {'a': {'b': {'c': [1,2,3]}}}\n    sol = Solution()\n    print(sol.depth(dict))",
+      0.595703125
+    ],
+    [
+      "class Solution:\n    # @param {map} dictionary\n    # @return {integer}\n    def depth(self, dictionary):\n        if dictionary is None:\n            return 0\n        elif len(dictionary) == 0:\n            return 1\n        else:\n            return 1 + self.depth(dictionary.get(min(dictionary), None))",
+      0.453857421875
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param: dict: A dictionary\n    @return: An integer\n    \"\"\"\n    def depth(self, dict):\n        if not dict:\n            return 0\n        \n        max_depth = 0\n        max_depth_dict = dict\n        \n        for key, value in dict.iteritems():\n            if isinstance(value, dict):\n                if max_depth < self.depth(value):\n                    max_depth = self.depth(value)\n                if max_depth_dict < value:\n                    max_depth_dict = value\n        return max_depth + 1",
+      0.448486328125
+    ],
+    [
+      "class Solution:\n    # @param {Map} dict, a dictionary\n    # @return {integer} an integer\n    def depth(self, dict):\n        if dict is None:\n            return 0\n        if len(dict) == 0:\n            return 0\n        if len(dict) == 1:\n            return 1\n        return max(self.depth(dict.get(key, None)) for key in dict.keys()) + 1",
+      0.302978515625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        depth = 0\n        max_depth = 0\n        max_depth = max([self.depth(node) for node in root.left] + [self.depth(node) for node in root.right])\n        if max_depth > depth:\n            depth = max_depth\n        return depth + 1\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.right.left = TreeNode(4)\n    root.right.right = TreeNode(5)\n    print(sol.depth(root))",
+      0.130859375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: dict\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.values():\n            return 1\n        return max(self.depth(root[x]) for x in root) + 1\n\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print solution.depth({1: {1: 1}})\n    print solution.depth({1: {1: {2: 2}}})\n    print solution.depth({1: {2: {1: 1}}})\n    print solution.depth({1: {1: {2: 2}, 2: {1: 1}}})",
+      0.1151123046875
+    ],
+    [
+      "def depth(dictionary):\n    \"\"\"\n    :type dictionary: dict\n    :rtype: int\n    \"\"\"\n    if not dictionary:\n        return 0\n\n    max_depth = 0\n    for key, value in dictionary.items():\n        if isinstance(value, dict):\n            max_depth = max(max_depth, depth(value) + 1)\n        else:\n            max_depth = max(max_depth, 1)\n    return max_depth",
+      0.09625244140625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        else:\n            return 1 + max(self.depth(root.left), self.depth(root.right))\n\n\nif __name__ == \"__main__\":\n    print(Solution().depth(TreeNode(1)))",
+      -0.037445068359375
+    ],
+    [
+      "def depth(d):\n    if not d: return 0\n    max_depth = 0\n    for key, value in d.iteritems():\n        max_depth = max(max_depth, 1 + depth(value))\n    return max_depth\n\nif __name__ == '__main__':\n    assert depth({}) == 0\n    assert depth({1: 2}) == 1\n    assert depth({1: {2: 3}}) == 2\n    assert depth({1: {2: {3: 4}}}) == 3",
+      -0.09930419921875
+    ],
+    [
+      "class Solution:\n    # @param {Dictionary} dict\n    # @return {number}\n    def depth(self, dict):\n        if not dict:\n            return 0\n        else:\n            depth = 0\n            for key in dict:\n                depth = max(depth, 1 + self.depth(dict[key]))\n            return depth\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.depth({}))\n    print(sol.depth({1: {2: 3}}))\n    print(sol.depth({1: {2: 3}, 3: {4: 5}}))\n    print(sol.depth({1: {2: 3}, 3: {4: 5}, 5: {6: 7}}))",
+      -0.14013671875
+    ],
+    [
+      "class Solution:\n    # @param {Map[any, any]} map\n    # @return {int}\n    def depth(self, map):\n        if not map:\n            return 0\n        if len(map) == 1:\n            return 1\n        return max(self.depth(map[key]) + 1 for key in map)",
+      -0.2403564453125
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -0.3271484375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.3271484375
+    ],
+    [
+      "class Node(object):\n    def __init__(self, data, left=None, right=None):\n        self.data = data\n        self.left = left\n        self.right = right\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root == None:\n            return 0\n        if root.left == None and root.right == None:\n            return 1\n        if root.left == None:\n            return self.depth(root.right) + 1\n        if root.right == None:\n            return self.depth(root.left) + 1\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\nif __name__ == \"__main__\":\n    s = Solution()\n    root = Node(1)\n    root.left = Node(2, None, Node(3))\n    root.right = Node(4, Node(5), Node(6, None, Node(7)))\n    print s.depth(root)",
+      -0.3720703125
+    ],
+    [
+      "class Solution:\n    # @param {Map} dictionary\n    # @return {integer}\n    def depth(self, dictionary):\n        if not dictionary:\n            return 0\n        return max(self.depth(dictionary.get(key, None)) for key in dictionary) + 1",
+      -0.64892578125
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))\n\nif __name__ == \"__main__\":\n    print Solution().depth(TreeNode(1, TreeNode(2, TreeNode(3))))",
+      -0.65478515625
+    ],
+    [
+      "class Solution:\n    # @param {Map[Any, Any]} map\n    # @return {Integer}\n    def depth(self, map):\n        if not map:\n            return 0\n        return max(map.values()) + 1\n\nsolution = Solution()\nprint(solution.depth({1: 1}))",
+      -0.68212890625
+    ],
+    [
+      "def depth(d):\n    \"\"\"\n    d: dictionary\n    returns: int\n    \"\"\"\n    if not d:\n        return 0\n    if len(d) == 1:\n        return 1\n    return 1 + max([depth(sub) for sub in d.values()])\n\ndef main():\n    d = {1: 2, 2: {3: 4, 4: {5: 6}}}\n    assert depth(d) == 3\n\nif __name__ == '__main__':\n    main()",
+      -0.7490234375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.79833984375
+    ],
+    [
+      "class Solution:\n    # @param {Dictionary} dict\n    # @return {integer}\n    def depth(self, dict):\n        if not dict:\n            return 0\n        else:\n            return 1 + max(self.depth(dict[key]) for key in dict)\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.depth({'a': 1, 'b': 2, 'c': 3})\n    print s.depth({'a': 1, 'b': {'c': 3, 'd': 2}, 'c': 1})",
+      -0.80615234375
+    ],
+    [
+      "class Solution:\n    # @param d, a dictionary\n    # @return an integer\n    def depth(self, d):\n        if not d:\n            return 0\n        max_depth = 0\n        for key in d:\n            max_depth = max(max_depth, self.depth(d[key]))\n        return max_depth + 1",
+      -0.806640625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        if not dic:\n            return 0\n        if len(dic) == 1:\n            return 1\n        return 1 + max(self.depth(dic[key]) for key in dic)",
+      -0.85693359375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\ns = Solution()\n\nprint s.depth(TreeNode(1))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        if not dic:\n            return 0\n        max_depth = 0\n        for k, v in dic.iteritems():\n            if isinstance(v, dict):\n                max_depth = max(max_depth, self.depth(v) + 1)\n            else:\n                max_depth = max(max_depth, 1)\n        return max_depth\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    dic = {1: {2: {3: 4}}}\n    print sol.depth(dic)",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param dict, a dictionary\n    # @return an integer\n    def depth(self, dict):\n        if dict is None:\n            return 0\n        if dict.__len__() == 0:\n            return 0\n        return 1 + max(self.depth(key) for key in dict.keys())\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    dict = {1: {2: 3, 3: 4}, 2: {3: 4}}\n    print(sol.depth(dict))",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param d, a dictionary\n    # @return an integer\n    def depth(self, d):\n        if not d:\n            return 0\n        \n        max_depth = 0\n        for k, v in d.items():\n            if isinstance(v, dict):\n                max_depth = max(max_depth, 1 + self.depth(v))\n            else:\n                max_depth = max(max_depth, 1 + len(v))\n        \n        return max_depth",
+      -0.85693359375
+    ],
+    [
+      "class Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    \"\"\"\n    @param root: The root of binary tree.\n    @return: Return the depth of the binary tree.\n    \"\"\"\n    def depth(self, root):\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -0.85693359375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def depth(self, root):\n        if not root:\n            return 0\n        else:\n            return 1 + max(self.depth(root.left), self.depth(root.right))\n\nif __name__ == '__main__':\n    sol = Solution()\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.left.left = TreeNode(4)\n    root.left.right = TreeNode(5)\n    root.right.left = TreeNode(6)\n    root.right.right = TreeNode(7)\n    print(sol.depth(root))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -0.85693359375
+    ],
+    [
+      "__author__ = 'Daniel'\n\n\nclass Solution:\n    # @param {Dictionary} dict\n    # @return {integer}\n    def depth(self, dict):\n        if not dict:\n            return 0\n        return max(self.depth(dict[key]) for key in dict) + 1\n\n\nif __name__ == \"__main__\":\n    dict = {1: {2: {3: 'a'}}}\n    solution = Solution()\n    print solution.depth(dict)",
+      -0.85693359375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def depth(self, root: TreeNode) -> int:\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        if not dic:\n            return 0\n        if len(dic) == 1:\n            return 1\n        return 1 + max(self.depth(dic.get(key, None)) for key in dic.keys())",
+      -0.85791015625
+    ],
+    [
+      "def depth(dictionary):\n    if not dictionary:\n        return 0\n    return max(depth(key) for key in dictionary) + 1\n\nif __name__ == '__main__':\n    assert depth({}) == 0\n    assert depth({1: 2}) == 1\n    assert depth({1: 2, 3: 4}) == 2\n    assert depth({1: {2: 3}, 3: {4: 5}}) == 3",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        def dfs(node):\n            if not node:\n                return 0\n            else:\n                left = dfs(node.left)\n                right = dfs(node.right)\n                return 1 + max(left, right)\n        return dfs(root)\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print sol.depth(None)\n    print sol.depth({})\n    print sol.depth({1:1})",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    # @param {map} a a dictionary\n    # @return {integer} an integer\n    def depth(self, a):\n        if a is None or len(a) == 0:\n            return 0\n        max_depth = 0\n        for key in a.keys():\n            max_depth = max(max_depth, self.depth(a[key]))\n        return max_depth + 1",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nif __name__ == '__main__':\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.left.left = TreeNode(4)\n    root.right.right = TreeNode(5)\n    root.left.right.right = TreeNode(6)\n    print Solution().depth(root)\n    print Solution().depth(root.left)\n    print Solution().depth(root.right)\n    print Solution().depth(root.left.left)\n    print Solution().depth(root.right.right)\n    print Solution().depth(root.left.right.right)",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    # @return an integer\n    def depth(self, dic):\n        if not dic:\n            return 0\n        if len(dic) == 1:\n            return 1\n        if len(dic) == 2:\n            return 2\n        return max(self.depth(dic[i]) + 1 for i in range(len(dic)))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dict):\n        \"\"\"\n        :type dict: dict\n        :rtype: int\n        \"\"\"\n        return max(self.depth(dict[key]) for key in dict) + 1",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution()\n# param_1 = obj.depth(root)",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    # @param {dict} dict\n    # @return {integer}\n    def depth(self, dict):\n        \"\"\"\n        :type dict: dict\n        :rtype: int\n        \"\"\"\n        if dict is None:\n            return 0\n        return max(self.depth(v) for v in dict.values()) + 1",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nif __name__ == '__main__':\n    solution = Solution()\n    # print solution.depth(TreeNode.from_root(1))\n    print solution.depth(TreeNode.from_root(2))\n    print solution.depth(TreeNode.from_root(3))\n    print solution.depth(TreeNode.from_root(4))\n    print solution.depth(TreeNode.from_root(5))",
+      -0.86083984375
+    ],
+    [
+      "class Solution:\n    # @param {Map} a a dictionary\n    # @return {Integer} an integer\n    def depth(self, a):\n        if not a:\n            return 0\n        return max(self.depth(a[k]) for k in a) + 1\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.depth({})\n    print s.depth({1:2, 2:3, 3:4})",
+      -0.86083984375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return 1\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -0.921875
+    ],
+    [
+      "class Solution:\n    # @param {Map} dict\n    # @return {integer}\n    def depth(self, dict):\n        if not dict:\n            return 0\n        max_depth = 0\n        for key, value in dict.items():\n            if value == None:\n                continue\n            max_depth = max(max_depth, 1 + self.depth(value))\n        return max_depth",
+      -1.240234375
+    ],
+    [
+      "def depth(dictionary):\n    \"\"\"\n    :type dictionary: dict\n    :rtype: int\n    \"\"\"\n    if not dictionary:\n        return 0\n    depth = 0\n    for key in dictionary:\n        if isinstance(dictionary[key], dict):\n            depth = max(depth, 1 + depth(dictionary[key]))\n        else:\n            depth = max(depth, 1)\n    return depth",
+      -1.2431640625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        if not dic:\n            return 0\n        if len(dic) == 1:\n            return 1\n        if len(dic) == 2:\n            return 2\n        return max(self.depth(dic[key]) for key in dic) + 1",
+      -1.330078125
+    ],
+    [
+      "class Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict\n        :rtype: int\n        \"\"\"\n        max_depth = 0\n        if not dic:\n            return 0\n\n        for k, v in dic.iteritems():\n            if isinstance(v, dict):\n                max_depth = max(max_depth, 1 + self.depth(v))\n            else:\n                max_depth = max(max_depth, 1 + self.depth(v))\n        return max_depth",
+      -1.4384765625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -1.7744140625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        if root.left is None and root.right is None:\n            return 1\n        if root.left is not None and root.right is not None:\n            return max(self.depth(root.left), self.depth(root.right)) + 1\n        return max(self.depth(root.left), self.depth(root.right))",
+      -1.775390625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        def dfs(root):\n            if not root:\n                return 0\n            return 1 + max(dfs(root.left), dfs(root.right))\n        return dfs(root)",
+      -1.86328125
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -2.052734375
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nif __name__==\"__main__\":\n    Solution().depth(TreeNode(1))\n    print Solution().depth(TreeNode(1,2,3))",
+      -2.3125
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))\n\n\nclass TreeNode(object):\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    print(sol.depth(root))\n    root.left.left = TreeNode(4)\n    root.left.right = TreeNode(5)\n    root.right.left = TreeNode(6)\n    root.right.right = TreeNode(7)\n    print(sol.depth(root))",
+      -2.34375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    # @param {TreeNode} root\n    # @return {integer}\n    def depth(self, root):\n        if root == None:\n            return 0\n        else:\n            return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -2.431640625
+    ],
+    [
+      "class Solution(object):\n    def dictDepth(self, d):\n        \"\"\"\n        :type d: dict\n        :rtype: int\n        \"\"\"\n        if d is None or len(d) == 0:\n            return 0\n        return 1 + max(self.dictDepth(child) for child in d.values())\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.dictDepth({'a': {'b': {'c': 1}}}).__repr__() == \"1\"\n    assert s.dictDepth({'a': {'b': {'c': 1}, 'd': {'e': 2}}}) == \"2\"\n    assert s.dictDepth({'a': {'b': {'c': 1, 'd': {'e': 2}}}}) == \"3\"",
+      -2.5546875
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution2(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -2.828125
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def depth(self, root: TreeNode) -> int:\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -2.876953125
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def maxDepth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1",
+      -2.880859375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -3.080078125
+    ],
+    [
+      "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def depth(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -3.544921875
+    ],
+    [
+      "class Solution:\n    # @param {HashMap<String, int>} dictionary\n    # @return {int}\n    def depth(self, dictionary):\n        \"\"\"\n        :type dictionary: HashMap[str, int]\n        :rtype: int\n        \"\"\"\n        if not dictionary:\n            return 0\n        max_depth = 0\n        for key in dictionary:\n            max_depth = max(max_depth, 1 + self.depth(dictionary[key]))\n        return max_depth\n\nif __name__ == '__main__':\n    solution = Solution()\n    dictionary = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}\n    print(solution.depth(dictionary))",
+      -3.63671875
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print sol.depth(TreeNode(1))",
+      -3.84765625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nclass TreeNode(object):\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\n\nclass Solution2(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\ndef main():\n    # Output: [1,2,3]\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    print Solution().depth(root)\n\n    # Output: [1,2,3]\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    print Solution2().depth(root)\n\n\nif __name__ == '__main__':\n    main()",
+      -4.01953125
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param dict: A dictionary of key-value pairs\n    @return: An integer\n    \"\"\"\n    def depth(self, dict):\n        \"\"\"\n        :type dict: dict\n        :rtype: int\n        \"\"\"\n        if not dict:\n            return 0\n        \n        n = len(dict)\n        \n        for key, value in dict.items():\n            if value == None:\n                return -1\n            if type(value) == dict:\n                if self.depth(value) == -1:\n                    return -1\n                else:\n                    n = n + self.depth(value)\n            elif type(value) == list:\n                if self.depth(value) == -1:\n                    return -1\n                else:\n                    n = n + self.depth(value)\n            else:\n                n = n + 1\n        \n        return n",
+      -4.10546875
+    ],
+    [
+      "import collections\n\n\ndef depth(dictionary):\n    \"\"\"\n    :type dictionary: dict\n    :rtype: int\n    \"\"\"\n    if not dictionary:\n        return 0\n\n    if type(dictionary) is collections.defaultdict:\n        return 1 + depth(dictionary.default_factory())\n    else:\n        return 1 + max([depth(dict_value) for dict_key, dict_value in dictionary.items()])",
+      -4.12890625
+    ],
+    [
+      "def depth(dictionary):\n    \"\"\"\n    :type dictionary: dict\n    :rtype: int\n    \"\"\"\n    \n    # if dictionary is empty, return 0\n    if not dictionary:\n        return 0\n    \n    # if dictionary has only one key, return 1\n    if len(dictionary) == 1:\n        return 1\n    \n    # if dictionary has more than one key, return the max depth of all keys\n    max_depth = 0\n    for key in dictionary:\n        max_depth = max(max_depth, depth(dictionary[key]))\n    \n    return max_depth + 1",
+      -4.1875
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    # @param {TreeNode} root\n    # @return {integer}\n    def maxDepth(self, root):\n        if root is None:\n            return 0\n        else:\n            if root.left is None and root.right is None:\n                return 1\n            elif root.left is not None:\n                return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1\n            elif root.right is not None:\n                return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1\n            else:\n                return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1",
+      -4.359375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def depth(self, root):\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1",
+      -5.32421875
+    ],
+    [
+      "class Node:\n    def __init__(self, key, value, next_node=None):\n        self.key = key\n        self.value = value\n        self.next_node = next_node\n\nclass Solution:\n    def findDepth(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        if head is None:\n            return 0\n        if head.next_node is None:\n            return 1\n        else:\n            return 1 + self.findDepth(head.next_node)",
+      -5.70703125
+    ],
+    [
+      "class Solution:\n    # @param {Map} dict\n    # @return {integer}\n    def depth(self, dict):\n        if not dict:\n            return 0\n        min_depth = self.depth(dict.get(min(dict.keys())[0])) + 1\n        max_depth = self.depth(dict.get(max(dict.keys())[0])) + 1\n        for key in dict.keys():\n            if key not in dict.get(min(dict.keys())[0]):\n                min_depth = max(min_depth, self.depth(dict.get(key)))\n            if key not in dict.get(max(dict.keys())[0]):\n                max_depth = min(max_depth, self.depth(dict.get(key)))\n        return max(min_depth, max_depth)",
+      -5.765625
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))",
+      -6.05859375
+    ],
+    [
+      "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def depth(self, root):\n        if not root: return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))\n\n    # @param root, a tree node\n    # @return an integer\n    def depth_recur(self, root):\n        if not root: return 0\n        return max(self.depth_recur(root.left), self.depth_recur(root.right)) + 1\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.depth_recur(None)\n    print s.depth(None)",
+      -7.29296875
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :param root: root of binary tree\n        :return: depth of root\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\ndef main():\n    s = Solution()\n    print s.depth({1: None, 2: {3: 4}})\n    print s.depth({1: {2: {3: 4}}})\n\nif __name__ == '__main__':\n    main()",
+      -7.59375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nclass TreeNode(object):\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\n\ndef main():\n    # TODO: complete this function\n    node = TreeNode()\n    node.val = 2\n    node.left = TreeNode(1, TreeNode(2), TreeNode(3))\n    node.right = TreeNode(4, TreeNode(5), TreeNode(6))\n    node.left.left = TreeNode(7, TreeNode(8), TreeNode(9))\n    node.right.left = TreeNode(10, TreeNode(11), TreeNode(12))\n    node.right.right = TreeNode(13, TreeNode(14), TreeNode(15))\n    node.left.right.right = TreeNode(16, TreeNode(17), TreeNode(18))\n    print Solution().depth(node)\n    # print Solution().depth(node.left)\n\nif __name__ == '__main__':\n    main()",
+      -7.734375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param {TreeNode} root\n    # @return {integer}\n    def maxDepth(self, root):\n        if root is None:\n            return 0\n        else:\n            return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1",
+      -8.25
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        return self.helper(root)\n    \n    def helper(self, root):\n        if not root:\n            return 0\n        return max(self.helper(root.left), self.helper(root.right)) + 1\n\ns = Solution()\nroot = TreeNode(1)\nroot.left = TreeNode(2)\nroot.right = TreeNode(3)\nroot.left.left = TreeNode(4)\nroot.left.right = TreeNode(5)\nroot.left.right.left = TreeNode(6)\nroot.left.right.right = TreeNode(7)\nroot.right.left = TreeNode(8)\nroot.right.right = TreeNode(9)\n\nprint s.depth(root)",
+      -8.5546875
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + max(self.depth(root.left), self.depth(root.right))\n\n\nif __name__ == '__main__':\n    print(Solution().depth(TreeNode(1)))\n    print(Solution().depth(TreeNode(2, TreeNode(1))))\n    print(Solution().depth(TreeNode(3, TreeNode(2))))\n    print(Solution().depth(TreeNode(4, TreeNode(3))))\n    print(Solution().depth(TreeNode(5, TreeNode(4))))\n    print(Solution().depth(TreeNode(6, TreeNode(5))))\n    print(Solution().depth(TreeNode(7, TreeNode(6))))\n    print(Solution().depth(TreeNode(8, TreeNode(7))))\n    print(Solution().depth(TreeNode(9, TreeNode(8))))\n    print(Solution().depth(TreeNode(10, TreeNode(9))))\n    print(Solution().depth(TreeNode(11, TreeNode(10))))",
+      -9.4765625
+    ],
+    [
+      "from collections import defaultdict\n\nclass Solution(object):\n    def depth(self, dic):\n        \"\"\"\n        :type dic: dict[str, int]\n        :rtype: int\n        \"\"\"\n        return len(dic)\n\n\ndef main():\n    dic = defaultdict(int)\n    dic['a'] = 1\n    dic['b'] = 1\n    dic['c'] = 1\n    dic['d'] = 1\n    dic['e'] = 1\n    dic['f'] = 1\n    dic['g'] = 1\n    dic['h'] = 1\n    dic['i'] = 1\n    dic['j'] = 1\n    dic['k'] = 1\n    dic['l'] = 1\n    dic['m'] = 1\n    dic['n'] = 1\n    dic['o'] = 1\n    dic['p'] = 1\n    dic['q'] = 1\n    dic['r'] = 1\n    dic['s'] = 1\n    dic['t'] = 1\n    dic['u'] = 1\n    dic['v'] = 1\n    dic['w'] = 1\n    dic['x'] = 1\n    dic['y'] = 1\n    dic['z'] = 1\n    print Solution().depth(dic)\n\n\nif __name__ == '__main__':\n    main()",
+      -9.8984375
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\nif __name__ == \"__main__\":\n    print Solution().depth(TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4)))))",
+      -10.0234375
+    ],
+    [
+      "class Node:\n    def __init__(self, key, val):\n        self.key = key\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param dict, a dictionary\n    # @return an integer\n    def depth(self, dict):\n        if not dict:\n            return 0\n\n        max_depth = 0\n        stack = []\n        stack.append(dict)\n        while stack:\n            node = stack.pop()\n            if node.left:\n                stack.append(node.left)\n            if node.right:\n                stack.append(node.right)\n            max_depth = max(max_depth, 1 + max(self.depth(node.left), self.depth(node.right)))\n        return max_depth\n\n# Time:  O(n)\n# Space: O(n)\nclass Solution2:\n    # @param dict, a dictionary\n    # @return an integer\n    def depth(self, dict):\n        if not dict:\n            return 0\n        max_depth = 0\n        stack = []\n        stack.append(dict)\n        while stack:\n            node = stack.pop()\n            if node.left:\n                stack.append(node.left)\n            if node.right:\n                stack.append(node.right)\n            max_depth = max(max_depth, 1 + max(self.depth(node.left), self.depth(node.right)))\n        return max_depth\n\nif __name__ == \"__main__\":\n    dict = {1: {2: {3: 4}, 4: {5: 6}}, 2: {3: {6: 7}}, 3: {4: 7}}\n    print Solution().depth(dict)\n    print Solution2().depth(dict)",
+      -10.4921875
+    ],
+    [
+      "# https://oj.leetcode.com/problems/dict-depth/\n# Given a dictionary of words, return the length of the longest key-value pair in the dictionary.\n# Note:\n# If the dictionary is empty, return 0.\n# If the dictionary contains just one key, return 1.\n# If the dictionary contains two keys, return the larger one.\n# You may assume the key and value are all unique.\n# Example:\n# Input:\n# {\"dog\": \"eat\", \"cat\": \"meow\"}\n# Output: 3\n# Explanation:\n# The key \"dog\" and value \"eat\" are the longest pair.\n# The key \"dog\" is the only key, and the value is \"eat\".\n# The key \"cat\" is the second longest pair.\n# The key \"cat\" has a value of \"meow\".\n# The length of this longest key-value pair is 3.\n# Note:\n# The length of the given dictionary will be in the range [1, 10000].\n# The number of keys in the given dictionary will be in the range [1, 100].\n# The number of values in the given dictionary will be in the range [1, 100].\n\nimport collections\nclass Solution(object):\n    def dictDepth(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        if not words:\n            return 0\n        if len(words) == 1:\n            return 1\n        if len(words) == 2:\n            return max(len(words[0]), len(words[1]))\n\n        d = collections.defaultdict(int)\n        for w in words:\n            d[w] += 1\n\n        max_d = 0\n        for k, v in d.iteritems():\n            max_d = max(max_d, max(v, len(k)))\n        return max_d",
+      -10.921875
+    ],
+    [
+      "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nimport collections\n\n\nclass Solution:\n    def depth(self, root: TreeNode) -> int:\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        max_depth = 0\n        max_depth = max(max_depth, self.depth(root.left))\n        max_depth = max(max_depth, self.depth(root.right))\n\n        if max_depth < 1:\n            return 0\n        else:\n            return 1 + max(max_depth, self.depth(root.left))\n\n\nclass Solution2:\n    def depth(self, root: TreeNode) -> int:\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        max_depth = 0\n        max_depth = max(max_depth, self.depth(root.left))\n        max_depth = max(max_depth, self.depth(root.right))\n\n        if max_depth < 1:\n            return 0\n        else:\n            return 1 + max(max_depth, self.depth(root.left))\n\n\nclass Solution3:\n    def depth(self, root: TreeNode) -> int:\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        max_depth = 0\n        max_depth = max(max_depth, self.depth(root.left))\n        max_depth = max(max_depth, self.depth(root.right))\n\n        if max_depth < 1:\n            return 0\n        else:\n            return 1 + max(max_depth, self.depth(root.left))\n\n\ndef main():\n    Solution().depth(TreeNode(1, TreeNode(2, TreeNode(3), TreeNode(4)), TreeNode(5)))\n\n    print(Solution2().depth",
+      -11.21875
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.left.left = TreeNode(4)\n    root.left.right = TreeNode(5)\n    root.left.left.left = TreeNode(6)\n    root.left.left.right = TreeNode(7)\n    root.right.left = TreeNode(8)\n    root.right.right = TreeNode(9)\n    root.right.right.left = TreeNode(10)\n    root.right.right.right = TreeNode(11)\n    print solution.depth(root)\n    print solution.depth(None)",
+      -11.53125
+    ],
+    [
+      "from collections import defaultdict\n\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        return self.recursive(root, 0)\n\n    def recursive(self, root, depth):\n        if root:\n            depth += 1\n            self.recursive(root.left, depth)\n            self.recursive(root.right, depth)\n        return depth\n\n\nif __name__ == '__main__':\n    print(Solution().depth(defaultdict(defaultdict, {'a': 1, 'b': 2})))",
+      -12.7890625
+    ],
+    [
+      "class Node(object):\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\n\nclass Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root == None:\n            return 0\n        else:\n            return 1 + max(self.depth(root.left), self.depth(root.right))\n\nif __name__ == '__main__':\n    root = TreeNode(3)\n    root.left = TreeNode(9)\n    root.right = TreeNode(20)\n    root.left.left = TreeNode(15)\n    root.left.right = TreeNode(7)\n    root.right.left = TreeNode(25)\n    root.right.right = TreeNode(18)\n    root.left.left.left = TreeNode(11)\n    root.left.left.right = TreeNode(13)\n    root.left.right.left = TreeNode(17)\n    root.left.right.right = TreeNode(19)\n    root.right.left.left = TreeNode(23)\n    root.right.left.right = TreeNode(29)\n    root.right.right.left = TreeNode(31)\n    root.right.right.right = TreeNode(37)\n    root.left.left.left.left = TreeNode(29)\n    root.left.left.left.right = TreeNode(31)\n    root.left.left.right.left = TreeNode(37)\n    root.left.left.right.right = TreeNode(41)\n    root.left.right.left.left = TreeNode(43)\n    root.left.right.left.right = TreeNode(47)\n    root.left.right.right.left = TreeNode(53)\n    root.left.right.right.right = TreeNode(59)\n    root.right.left.left.left = TreeNode(57)\n    root.right.left.left.right = TreeNode(61)\n    root.right.left.right.left = TreeNode",
+      -12.9296875
+    ],
+    [
+      "class Node:\n    def __init__(self, data=None):\n        self.data = data\n        self.left = None\n        self.right = None\n        self.depth = 0\n\nclass Solution(object):\n    def dfs(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        self.dfs(root.left)\n        self.dfs(root.right)\n        root.depth = max(root.left.depth, root.right.depth) + 1\n        return root.depth\n\n    def dfs2(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.dfs2(root.left), self.dfs2(root.right)) + 1\n\n    def dfs3(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.dfs3(root.left), self.dfs3(root.right)) + 1\n\n    def dfs4(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.dfs4(root.left), self.dfs4(root.right)) + 1\n\n    def dfs5(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.dfs5(root.left), self.dfs5(root.right)) + 1\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution()\n# param_1 = obj.dfs(root)",
+      -13.3671875
+    ],
+    [
+      "class Solution(object):\n    def depth(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    # print(sol.depth(TreeNode(1)))\n    assert sol.depth(TreeNode(1)) == 1\n    assert sol.depth(TreeNode(2)) == 2\n    assert sol.depth(TreeNode(3)) == 3\n    assert sol.depth(TreeNode(4)) == 3\n    assert sol.depth(TreeNode(5)) == 3\n    assert sol.depth(TreeNode(6)) == 4\n    assert sol.depth(TreeNode(7)) == 4\n    assert sol.depth(TreeNode(8)) == 4\n    assert sol.depth(TreeNode(9)) == 4\n    assert sol.depth(TreeNode(10)) == 4\n    assert sol.depth(TreeNode(11)) == 4\n    assert sol.depth(TreeNode(12)) == 4\n    assert sol.depth(TreeNode(13)) == 5\n    assert sol.depth(TreeNode(14)) == 6\n    assert sol.depth(TreeNode(15)) == 6\n    assert sol.depth(TreeNode(16)) == 6\n    assert sol.depth(TreeNode(17)) == 6\n    assert sol.depth(TreeNode(18)) == 6\n    assert sol.depth(TreeNode(19)) == 6\n    assert sol.depth(TreeNode(20)) == 6\n    assert sol.depth(TreeNode(21)) == 6\n    assert sol.depth(TreeNode(22)) == 6\n    assert sol.depth(TreeNode(23)) == 6\n    assert sol.depth(TreeNode(24)) == 6\n    assert sol.depth(TreeNode(25)) == 6\n    assert sol.depth(TreeNode(26)) == 6\n    assert sol.depth(TreeNode(27)) == 7\n    assert sol.depth(TreeNode(28)) == 7\n    assert sol.depth(TreeNode(29)) == 7\n    assert sol.",
+      -13.625
+    ],
+    [
+      "import collections\n\n\nclass Solution:\n    # @param {TreeNode} root\n    # @return {integer}\n\n    def depth(self, root):\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return 1\n        if not root.left:\n            return self.depth(root.right) + 1\n        if not root.right:\n            return self.depth(root.left) + 1\n        return max(self.depth(root.left), self.depth(root.right)) + 1\n\n\nif __name__ == \"__main__\":\n    root = collections.defaultdict(int)\n    root['a'] = 1\n    root['b'] = 2\n    root['c'] = 3\n    root['d'] = 4\n    root['e'] = 5\n    root['f'] = 6\n    root['g'] = 7\n    root['h'] = 8\n    root['i'] = 9\n    root['j'] = 10\n    root['k'] = 11\n    root['l'] = 12\n    root['m'] = 13\n    root['n'] = 14\n    root['o'] = 15\n    root['p'] = 16\n    root['q'] = 17\n    root['r'] = 18\n    root['s'] = 19\n    root['t'] = 20\n    root['u'] = 21\n    root['v'] = 22\n    root['w'] = 23\n    root['x'] = 24\n    root['y'] = 25\n    root['z'] = 26\n    root['d'] = 26\n    root['e'] = 26\n    root['f'] = 26\n    root['g'] = 26\n    root['h'] = 26\n    root['i'] = 26\n    root['j'] = 26\n    root['k'] = 26\n    root['l'] = 26\n    root['m'] = 26\n    root['n'] = 26\n    root['o'] = 26\n    root['p'] = 26\n    root['q'] = 26\n    root['r'] = 26\n    root['s'] = 26\n    root['t'] = 26\n    root['u'] = 26\n    root['v'] = 26",
+      -13.703125
+    ],
+    [
+      "# Definition for a dictionary.\nclass Dict(object):\n    def __init__(self, word):\n        \"\"\"\n        :type word: str\n        \"\"\"\n        self.word = word\n        self.count = 1\n        self.follow = {}\n\n    def add(self, word):\n        \"\"\"\n        :type word: str\n        \"\"\"\n        self.count += 1\n        if word not in self.follow:\n            self.follow[word] = 1\n        else:\n            self.follow[word] += 1\n\n    def __str__(self):\n        \"\"\"\n        :rtype: str\n        \"\"\"\n        s = self.word + \" \" + str(self.count)\n        for k, v in self.follow.items():\n            s += \" \" + str(v) + \" \" + str(k)\n        return s\n\n    def __repr__(self):\n        return str(self)\n\n\nclass Solution(object):\n    def depth(self, d):\n        \"\"\"\n        :type d: Dict\n        :rtype: int\n        \"\"\"\n        self.count = 0\n        self.follow = {}\n        self.depth_rec(d)\n        return self.count\n\n    def depth_rec(self, d):\n        if d.count == 0:\n            self.count += 1\n            return\n        for k, v in d.follow.items():\n            if k in self.follow:\n                self.follow[k] += v\n            else:\n                self.follow[k] = v\n        self.depth_rec(d.follow[k])\n        self.count += 1\n\n\nif __name__ == \"__main__\":\n    d = Dict(\"word\")\n    d.add(\"word\")\n    d.add(\"word\")\n    print Solution().depth(d)",
+      -14.46875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

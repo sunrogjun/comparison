@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T00:00:23.157483",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 226,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef occurrences(list_of_tuples):\n    \"\"\"\n    >>> occurrences([(1,2), (2,2), (3,2), (4,3), (5,3), (6,3)])\n    [(1, 2), (3, 2), (4, 3), (5, 3), (6, 3)]\n    \"\"\"\n    counter = Counter()\n    for t in list_of_tuples:\n        counter[t[1]] += 1\n    result = []\n    for t in list_of_tuples:\n        if counter[t[1]] > 1:\n            result.append(t)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from typing import List, Tuple\n\n\ndef check_occurrences(records: List[Tuple[str, int]]) -> bool:\n    \"\"\"Check if the occurrences of records are similar in the given tuples.\n\n    Args:\n        records (List[Tuple[str, int]]): list of tuples with string and integer\n\n    Examples:\n        >>> assert check_occurrences([(\"a\", 1), (\"b\", 2), (\"c\", 1)])\n        >>> assert not check_occurrences([(\"a\", 1), (\"b\", 2), (\"c\", 2)])\n    \"\"\"\n    return len(set(record[1] for record in records)) == 1\n\n\nif __name__ == \"__main__\":\n    print(check_occurrences([(\"a\", 1), (\"b\", 2), (\"c\", 1)]))"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef similar_records(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"Check the occurrences of records which occur similar times.\n\n    Args:\n        tuples (List[tuple]): a list of tuples.\n\n    Examples:\n        >>> assert similar_records([(1, 2), (1, 3), (1, 3), (1, 3), (2, 3)]) == [(1, 3)]\n        >>> assert similar_records([(1, 2), (1, 3), (1, 3), (1, 3), (2, 3), (3, 2)]) == [(1, 3), (2, 3), (3, 2)]\n    \"\"\"\n    return [(key, len(list(value))) for key, value in {tuple(t): t for t in tuples}.items()]\n\n\nif __name__ == \"__main__\":\n    print(similar_records([(1, 2), (1, 3), (1, 3), (1, 3), (2, 3)]))\n    print(similar_records([(1, 2), (1, 3), (1, 3), (1, 3), (2, 3), (3, 2)]))"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef similar_records(records: List[tuple]) -> List[tuple]:\n    \"\"\"Check the occurrences of records which occur similar times in the given tuples.\n\n    Args:\n        records (List[tuple]): given tuples\n\n    Returns:\n        List[tuple]: similar occurrences\n    \"\"\"\n    return [i for i in records if records.count(i) > 1]\n\n\nif __name__ == \"__main__\":\n    print(similar_records([(1, 2), (1, 2), (2, 2), (3, 2), (1, 3), (3, 4)]))"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(times):\n    \"\"\"\n    :param: times: list of tuples\n    return: list of tuples\n\n    >>> similar_times([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    [(1, 2, 3, 4)]\n    >>> similar_times([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 5)])\n    [(1, 2, 3, 4), (1, 2, 3, 5)]\n    \"\"\"\n    counts = Counter(times)\n    result = []\n    for count in counts:\n        if counts[count] == 1:\n            result.append(count)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def check_similar_times(tuples):\n    \"\"\"\n    >>> check_similar_times([(1, 2), (1, 2), (1, 2), (3, 2), (1, 2)])\n    True\n    >>> check_similar_times([(1, 2), (1, 2), (1, 2), (3, 2), (1, 3)])\n    False\n    \"\"\"\n    return len(set(tuples)) == len(tuples)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def check_occurrences(tup1, tup2):\n    \"\"\"\n    >>> check_occurrences(('A', 2), ('A', 2))\n    True\n    >>> check_occurrences(('A', 2), ('B', 2))\n    False\n    >>> check_occurrences(('A', 2), ('A', 3))\n    False\n    \"\"\"\n    return tup1[1] == tup2[1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef occurence_checker(tuples):\n    for i in range(len(tuples) - 1):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i][1] == tuples[j][1]:\n                return False\n    return True\n\n\ndef main():\n    tuples = [(\"a\", 2), (\"b\", 3), (\"c\", 3), (\"d\", 3), (\"e\", 2)]\n    if occurence_checker(tuples):\n        print(\"Occurrence checker: Pass\")\n    else:\n        print(\"Occurrence checker: Fail\")\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef check_similar_times(input_list):\n    \"\"\"\n    Return a list of all the tuples which occur similar times.\n\n    >>> check_similar_times([(2, 4, 3), (3, 2, 4), (3, 3, 4), (3, 3, 3)])\n    [(2, 4, 3), (3, 2, 4)]\n    \"\"\"\n    # Get the frequency of each tuple\n    freq = Counter(input_list)\n    # Get the frequencies of the elements\n    freq_of_elems = Counter(elem for tup in input_list for elem in tup)\n    # Get the tuples which occur similar times\n    similar_times = [\n        tup for tup in freq if freq[tup] == freq_of_elems[tup[0]]\n    ]\n    return similar_times\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def similar_times(tuples):\n    \"\"\"Returns a list of tuples containing the index of a tuple and the index of a similar tuple.\n\n    >>> similar_times([(1, 2), (1, 3), (2, 3), (3, 4), (2, 5)])\n    [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 3), (3, 4), (4, 2)]\n    \"\"\"\n    similar_times_list = []\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i][1] == tuples[j][1]:\n                similar_times_list.append((i, j))\n    return similar_times_list\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef check_records(record_list):\n    \"\"\"\n    >>> check_records([(1, 2, 3, 4), (1, 2, 3, 5), (1, 2, 3, 6)])\n    True\n    >>> check_records([(1, 2, 3, 4), (1, 2, 3, 5), (1, 2, 3, 6), (1, 2, 3, 7)])\n    False\n    >>> check_records([(1, 2, 3, 4), (1, 2, 3, 5), (1, 2, 3, 6), (1, 2, 3, 7), (1, 2, 3, 8)])\n    False\n    >>> check_records([(1, 2, 3, 4), (1, 2, 3, 5), (1, 2, 3, 6), (1, 2, 3, 7), (1, 2, 3, 8), (1, 2, 3, 9)])\n    False\n    \"\"\"\n    record_counter = Counter(record_list)\n    return len(record_counter) == 1\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    \"\"\"\n    >>> similar_times([(1, 2, 3), (1, 2, 3), (1, 2, 3, 4)])\n    True\n    >>> similar_times([(1, 2, 3), (1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4)])\n    False\n    \"\"\"\n    return len(Counter(map(len, tuples)).values()) == 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# This is the class of the input binary tree.\nclass BinaryTree:\n    def __init__(self, value=0):\n        self.value = value\n        self.left = None\n        self.right = None\n\n\ndef similar_records(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int, int]]\n    :rtype: List[Tuple[int, int, int]]\n    \"\"\"\n    # TODO: Write your code here\n    count = {}\n    for t in tuples:\n        count.setdefault(t[0], []).append(t)\n    result = []\n    for k, v in count.items():\n        if len(v) > 1:\n            for item in v:\n                result.append(item)\n    return result\n\n\ndef main():\n    t1 = BinaryTree(1)\n    t1.left = BinaryTree(2)\n    t1.left.left = BinaryTree(3)\n    t1.left.right = BinaryTree(4)\n    t1.right = BinaryTree(5)\n    t1.right.left = BinaryTree(6)\n    t1.right.right = BinaryTree(7)\n    t2 = BinaryTree(8)\n    t2.left = BinaryTree(9)\n    t2.right = BinaryTree(10)\n    t2.right.right = BinaryTree(11)\n    t3 = BinaryTree(12)\n    t3.left = BinaryTree(13)\n    t3.right = BinaryTree(14)\n    t3.right.right = BinaryTree(15)\n    t4 = BinaryTree(16)\n    t4.left = BinaryTree(17)\n    t4.right = BinaryTree(18)\n    t5 = BinaryTree(19)\n    t5.left = BinaryTree(20)\n    t5.right = BinaryTree(21)\n    t5.right.right = BinaryTree(22)\n    t6 = BinaryTree(23)\n    t6.left = BinaryTree(24)\n    t6.right = BinaryTree(25"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef check_occurrence_of_records(records: List[tuple]) -> bool:\n    \"\"\"Checks if the occurrences of records which occur similar times in the given tuples.\n\n    Args:\n        records (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert check_occurrence_of_records([(1, 2), (2, 3), (2, 3), (3, 4)])\n        >>> assert not check_occurrence_of_records([(1, 2), (2, 3), (3, 4), (5, 6)])\n        >>> assert not check_occurrence_of_records([(1, 2), (2, 3), (2, 3), (1, 4)])\n    \"\"\"\n    return len(set(records)) == len(records)\n\n\nif __name__ == \"__main__\":\n    print(check_occurrence_of_records([(1, 2), (2, 3), (2, 3), (3, 4)]))\n    print(check_occurrence_of_records([(1, 2), (2, 3), (3, 4), (5, 6)]))\n    print(check_occurrence_of_records([(1, 2), (2, 3), (2, 3), (1, 4)]))"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef same_occur_times(tup1, tup2):\n    c1 = Counter(tup1)\n    c2 = Counter(tup2)\n    return c1 == c2\n\n\nif __name__ == \"__main__\":\n    assert same_occur_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10))\n    assert same_occur_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 11)) is False\n    assert same_occur_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)) is False\n    assert same_occur_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12)) is False\n    assert same_occur_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 10)) is False\n    print(\"ALL TEST CASES PASSED\")"
+    },
+    {
+      "rank": 16,
+      "score": 9.370583536698913,
+      "candidate": "def similar_times(tup1, tup2):\n    return all(tup1[i] == tup2[i] for i in range(len(tup1)))\n\ndef similar_times_2(tup1, tup2):\n    return tup1[:2] == tup2[:2]\n\ndef similar_times_3(tup1, tup2):\n    return tup1[0] == tup2[0] and tup1[1] == tup2[1]\n\ndef similar_times_4(tup1, tup2):\n    return tup1[0] == tup2[0] and tup1[1] == tup2[1]\n\nprint(similar_times((2015, \"New York\"), (2015, \"New York\")))\nprint(similar_times((2015, \"New York\"), (2016, \"New York\")))\nprint(similar_times_2((2015, \"New York\"), (2015, \"New York\")))\nprint(similar_times_2((2015, \"New York\"), (2016, \"New York\")))\nprint(similar_times_3((2015, \"New York\"), (2015, \"New York\")))\nprint(similar_times_3((2015, \"New York\"), (2016, \"New York\")))\nprint(similar_times_4((2015, \"New York\"), (2015, \"New York\")))\nprint(similar_times_4((2015, \"New York\"), (2016, \"New York\")))"
+    },
+    {
+      "rank": 17,
+      "score": 9.234050852198141,
+      "candidate": "def check_occurrences(tuples):\n    occurrences = {}\n    for t in tuples:\n        occurrences[t] = occurrences.get(t, 0) + 1\n    return occurrences\n\nprint(check_occurrences([(1,2), (1,2), (1,3), (1,3), (1,4)]))\nprint(check_occurrences([(1,2), (1,2), (1,3), (1,3), (1,4), (1,4)]))"
+    },
+    {
+      "rank": 18,
+      "score": 9.226766272351448,
+      "candidate": "from collections import Counter\n\ndef check_similar_times(tup_list):\n    \"\"\"\n    >>> check_similar_times([('A', 5), ('B', 3), ('A', 2), ('C', 3), ('B', 2)])\n    True\n    >>> check_similar_times([('A', 5), ('B', 3), ('A', 2), ('C', 3), ('B', 1)])\n    False\n    >>> check_similar_times([('A', 5), ('B', 3), ('A', 2), ('C', 3), ('B', 2), ('C', 1)])\n    False\n    \"\"\"\n    count = Counter(tup_list)\n    if len(count.keys()) < len(tup_list):\n        return False\n    for key, val in count.items():\n        if val != count.most_common(1)[0][1]:\n            return False\n    return True\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 19,
+      "score": 9.21346272767743,
+      "candidate": "def check_occurrences(tuples):\n    occurrences = {}\n    for item in tuples:\n        if item in occurrences:\n            occurrences[item] += 1\n        else:\n            occurrences[item] = 1\n    return occurrences\n\n\nprint(check_occurrences([(1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3)]))"
+    },
+    {
+      "rank": 20,
+      "score": 9.183391466815202,
+      "candidate": "from collections import Counter\n\n\ndef check_occurrences(tup1, tup2):\n    c1 = Counter(tup1)\n    c2 = Counter(tup2)\n    result = []\n    for key, value in c1.items():\n        if key in c2:\n            if c2[key] == value:\n                result.append(key)\n    return result\n\n\ntup1 = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ntup2 = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nprint(check_occurrences(tup1, tup2))"
+    },
+    {
+      "rank": 21,
+      "score": 9.177268828905222,
+      "candidate": "def check_occurrences(tuples):\n    result = {}\n    for tup in tuples:\n        result[tup[1]] = result.get(tup[1], 0) + 1\n    return result\n\n\nprint(check_occurrences([(1, 2), (1, 2), (2, 3), (3, 4), (3, 4), (3, 4)]))"
+    },
+    {
+      "rank": 22,
+      "score": 8.95994420569242,
+      "candidate": "def check_similar_records(tup1, tup2):\n    return tup1[1] == tup2[1]\n\n\ndef check_similar_records_list(tup_list):\n    tup_list.sort(key=lambda x: x[1])\n    for i in range(len(tup_list) - 1):\n        if tup_list[i][1] == tup_list[i+1][1]:\n            print(tup_list[i])\n            print(tup_list[i+1])\n            print(tup_list[i] == tup_list[i+1])\n\n\ntup_list = [(\"a\", 2), (\"b\", 1), (\"c\", 1), (\"d\", 2)]\ncheck_similar_records_list(tup_list)"
+    },
+    {
+      "rank": 23,
+      "score": 8.932217008005624,
+      "candidate": "from collections import Counter\n\n\ndef check_occurrences(tuples):\n    # Counter takes in a list and returns a dictionary of the number of occurrences of each element\n    # in the list\n    counter = Counter(tuples)\n\n    # We loop through the counter and check if the value of any element is > 1\n    # If it is, we return False\n    for key in counter.keys():\n        if counter[key] > 1:\n            return False\n\n    # If we make it to the end of the loop, then there are no duplicate values\n    return True\n\n\nassert check_occurrences([(1, 2), (1, 2), (1, 2), (3, 4)]) == False\nassert check_occurrences([(1, 2), (2, 3), (3, 4), (1, 2)]) == False\nassert check_occurrences([(1, 2), (2, 3), (3, 4), (4, 5)]) == True\nassert check_occurrences([(1, 2), (2, 3), (3, 4), (4, 1)]) == True\nassert check_occurrences([(1, 2), (2, 3), (3, 4), (4, 1), (1, 2)]) == False"
+    },
+    {
+      "rank": 24,
+      "score": 8.910084504002544,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    \"\"\"Write your docstring here.\"\"\"\n    counter = Counter()\n    for t in tuples:\n        counter[t[1]] += 1\n\n    return {\n        k: counter[k]\n        for k in counter\n        if counter[k] > 1\n    }\n\n\ndef main():\n    print(similar_times([\n        (\"a\", \"b\"),\n        (\"b\", \"a\"),\n        (\"b\", \"c\"),\n        (\"c\", \"b\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"c\", \"b\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"c\", \"b\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\", \"c\"),\n        (\"a\", \"b\"),\n        (\"b\","
+    },
+    {
+      "rank": 25,
+      "score": 8.85571690049604,
+      "candidate": "from collections import Counter\n\n\ndef occur_times(t1, t2):\n    return Counter(t1) == Counter(t2)\n\n\nprint(occur_times((1, 1, 1, 2), (2, 2, 3, 3)))\nprint(occur_times((1, 1, 1, 2), (2, 2, 3, 3, 3)))\nprint(occur_times((1, 1, 1, 2), (1, 1, 2, 2)))"
+    },
+    {
+      "rank": 26,
+      "score": 8.850707355641543,
+      "candidate": "def similar_records(tuples):\n    \"\"\"\n    >>> similar_records([(1, 2), (2, 3), (3, 2), (4, 2), (5, 4), (6, 7)])\n    True\n    >>> similar_records([(1, 2), (2, 3), (3, 2), (4, 2), (5, 3), (6, 7)])\n    False\n    \"\"\"\n    if len(tuples) < 2:\n        return False\n    occurrences = {}\n    for t in tuples:\n        if t[1] not in occurrences:\n            occurrences[t[1]] = [t[0]]\n        else:\n            occurrences[t[1]].append(t[0])\n    for k in occurrences:\n        if len(occurrences[k]) != len(set(occurrences[k])):\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 27,
+      "score": 8.8281618090209,
+      "candidate": "from collections import defaultdict\n\n\ndef occurrences_of_records(records):\n    \"\"\"Check the occurrences of records which occur similar times in the given tuples.\"\"\"\n    records_dict = defaultdict(list)\n\n    for record in records:\n        records_dict[record[0]].append(record)\n\n    return records_dict"
+    },
+    {
+      "rank": 28,
+      "score": 8.81367773444215,
+      "candidate": "from collections import Counter\n\ndef similar_occurrences(tuples):\n    \"\"\"\n    :param tuples: list of tuples\n    :return: True if similar, False otherwise\n    \"\"\"\n    counter = Counter(tuples)\n    return len(counter) > 1 and len(counter.values()) > 1\n\n\nif __name__ == '__main__':\n    print(\"True\" if similar_occurrences([(1, 2), (2, 2), (3, 3)]) else \"False\")\n    print(\"True\" if similar_occurrences([(1, 2), (1, 2), (3, 3)]) else \"False\")\n    print(\"False\" if similar_occurrences([(1, 2), (1, 2), (3, 3), (3, 3)]) else \"False\")\n    print(\"True\" if similar_occurrences([(1, 2), (1, 2), (3, 3), (2, 2)]) else \"False\")"
+    },
+    {
+      "rank": 29,
+      "score": 8.76828871349479,
+      "candidate": "def check_records(tup1, tup2):\n    return len(tup1) == len(tup2) and all(tup1[i] == tup2[i] for i in range(len(tup1)))\n\n\ntup1 = (1, 2, 3, 4, 5)\ntup2 = (1, 2, 3, 4, 5)\ntup3 = (1, 2, 3, 4, 5, 6)\ntup4 = (1, 2, 3, 4)\ntup5 = (1, 2, 3, 4, 5)\ntup6 = (1, 2, 3, 4, 5, 5)\n\nprint(check_records(tup1, tup2))\nprint(check_records(tup1, tup3))\nprint(check_records(tup1, tup4))\nprint(check_records(tup1, tup5))\nprint(check_records(tup1, tup6))"
+    },
+    {
+      "rank": 30,
+      "score": 8.750282588864879,
+      "candidate": "from collections import defaultdict\n\n\ndef similar_times_occurrences(times):\n    result = []\n    records_dict = defaultdict(list)\n\n    for time in times:\n        records_dict[time[1]].append(time[0])\n\n    for time in times:\n        if len(records_dict[time[1]]) > 1:\n            result.append(time[0])\n\n    return result\n\n\nprint(similar_times_occurrences([(1, 1), (2, 2), (3, 3)]))\nprint(similar_times_occurrences([(1, 2), (2, 2), (3, 3)]))\nprint(similar_times_occurrences([(1, 2), (2, 2), (3, 3), (4, 4)]))"
+    },
+    {
+      "rank": 31,
+      "score": 8.715724466237427,
+      "candidate": "def check_occurrences(data):\n    occurrences = {}\n    for t in data:\n        key = t[1]\n        if key in occurrences:\n            occurrences[key] += 1\n        else:\n            occurrences[key] = 1\n    return occurrences\n\n\nprint(check_occurrences([(0, 1), (1, 2), (2, 3)]))\nprint(check_occurrences([(0, 1), (0, 2), (1, 2)]))"
+    },
+    {
+      "rank": 32,
+      "score": 8.632293453617281,
+      "candidate": "def check_occurrences(tup1, tup2):\n    count1 = 0\n    count2 = 0\n    for i in range(len(tup1)):\n        if tup1[i] in tup2:\n            count1 += 1\n    for i in range(len(tup2)):\n        if tup2[i] in tup1:\n            count2 += 1\n    if count1 == count2:\n        return True\n    else:\n        return False\n\n\nprint(check_occurrences((1, 2, 3), (3, 2, 1)))\nprint(check_occurrences((1, 2, 3), (3, 2, 4)))"
+    },
+    {
+      "rank": 33,
+      "score": 8.625262456968262,
+      "candidate": "from collections import defaultdict\n\n\ndef similar_occurrences(tuples):\n    \"\"\"\n    :param tuples: list of tuples\n    :return: list of tuples with similar occurrences\n    >>> similar_occurrences([(1, 2), (1, 2), (1, 3), (1, 3), (2, 3), (2, 3)])\n    [(1, 2), (1, 3), (2, 3)]\n    \"\"\"\n    result = []\n    counter = defaultdict(int)\n    for item in tuples:\n        counter[item] += 1\n    for key, value in counter.items():\n        if value > 1:\n            result.append(key)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 34,
+      "score": 8.625142247198651,
+      "candidate": "from collections import Counter\n\ndef similar_times(records):\n    \"\"\"\n    >>> similar_times([(1, 2), (3, 4), (1, 2), (2, 2), (3, 2), (4, 2)])\n    [(1, 2), (2, 2), (3, 2), (4, 2)]\n    \"\"\"\n    counter = Counter()\n    for record in records:\n        counter[record[1]] += 1\n    return [record for record in records if counter[record[1]] > 1]\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 35,
+      "score": 8.623000730200317,
+      "candidate": "def check_records(records):\n    for i in range(len(records)):\n        for j in range(len(records)):\n            if i == j:\n                continue\n            if records[i][1] == records[j][1]:\n                return True\n    return False\n\n\nprint(check_records([(1, 3), (5, 3), (1, 6), (2, 3), (1, 5)]))\nprint(check_records([(1, 3), (5, 3), (1, 6), (2, 3), (2, 5)]))\nprint(check_records([(1, 3), (5, 3), (1, 6), (2, 3), (2, 5), (1, 5)]))"
+    },
+    {
+      "rank": 36,
+      "score": 8.610076160146226,
+      "candidate": "from collections import Counter\n\ndef similar_occurrences(records):\n    occurrences = Counter(records)\n    return [record for record in occurrences if occurrences[record] > 1]\n\n\nprint(similar_occurrences([(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]))\nprint(similar_occurrences([(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4), (3, 1), (4, 1)]))\nprint(similar_occurrences([(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4), (3, 1), (4, 1), (1, 1)]))"
+    },
+    {
+      "rank": 37,
+      "score": 8.606486429141842,
+      "candidate": "from collections import Counter\n\n\ndef similar_occurrences(records):\n    counts = Counter(x[1] for x in records)\n    return [x[0] for x in records if counts[x[1]] == 1]\n\n\nif __name__ == '__main__':\n    print(similar_occurrences([(1, 1), (2, 1), (3, 2), (4, 2), (5, 3)]))"
+    },
+    {
+      "rank": 38,
+      "score": 8.548876241946822,
+      "candidate": "from collections import Counter\nfrom itertools import combinations\n\n\ndef count_occurrences(tuples):\n    occurrences = Counter()\n    for t in tuples:\n        occurrences[t] += 1\n    return occurrences\n\n\ndef check_similar_records(tuples):\n    occurrences = count_occurrences(tuples)\n    for t1, t2 in combinations(occurrences, 2):\n        if t1[1] == t2[1]:\n            print(t1, t2)\n\n\ncheck_similar_records([(1, 1), (2, 1), (3, 2), (4, 2), (5, 1)])"
+    },
+    {
+      "rank": 39,
+      "score": 8.542875062379007,
+      "candidate": "def check_records(records):\n    \"\"\"\n    Checks if the records occur similar times in the given tuples.\n    :param records: Tuples of records and their occurrences.\n    :return: True if they occur similar times, False otherwise.\n    \"\"\"\n    for record_1, occurrence_1 in records:\n        for record_2, occurrence_2 in records:\n            if record_1 != record_2 and occurrence_1 == occurrence_2:\n                return False\n    return True"
+    },
+    {
+      "rank": 40,
+      "score": 8.499905739299377,
+      "candidate": "def get_similar_occurrences(t1, t2):\n    return (t1[0] == t2[0]) or (t1[1] == t2[1])\n\n\ndef get_similar_occurrences_v2(t1, t2):\n    return t1[0] == t2[0] or t1[1] == t2[1] or t1[0] == t2[1] or t1[1] == t2[0]\n\n\nif __name__ == '__main__':\n    print(get_similar_occurrences((1, 2), (1, 3)))\n    print(get_similar_occurrences((1, 2), (2, 3)))\n    print(get_similar_occurrences((1, 2), (3, 4)))\n    print(get_similar_occurrences((1, 2), (2, 1)))\n    print(get_similar_occurrences_v2((1, 2), (1, 3)))\n    print(get_similar_occurrences_v2((1, 2), (2, 3)))\n    print(get_similar_occurrences_v2((1, 2), (3, 4)))\n    print(get_similar_occurrences_v2((1, 2), (2, 1)))"
+    },
+    {
+      "rank": 41,
+      "score": 8.48796797856353,
+      "candidate": "from collections import Counter\n\n\ndef similar_records_count(arr):\n    counter = Counter([i[1] for i in arr])\n    return [i[1] for i in arr if counter[i[1]] > 1]\n\n\nif __name__ == \"__main__\":\n    print(similar_records_count([(\"a\", 1), (\"b\", 1), (\"c\", 2), (\"d\", 2), (\"e\", 3)]))"
+    },
+    {
+      "rank": 42,
+      "score": 8.426531424889468,
+      "candidate": "def check_similar_records(tup):\n    similar = []\n    for i in range(len(tup)):\n        for j in range(len(tup)):\n            if i == j:\n                continue\n            if tup[i][1] == tup[j][1]:\n                similar.append((i, j))\n    return similar\n\n\nif __name__ == \"__main__\":\n    print(check_similar_records([(1, 10), (1, 20), (2, 10), (3, 10), (3, 10)]))"
+    },
+    {
+      "rank": 43,
+      "score": 8.408439383654278,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    cnt = Counter(map(lambda x: (x[0], x[1]), tuples))\n    result = []\n    for key, val in cnt.items():\n        if val == 1:\n            continue\n        result.append(key)\n    return result\n\n\nprint(similar_times([(1, 2), (2, 2), (2, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2)]))"
+    },
+    {
+      "rank": 44,
+      "score": 8.386620303250325,
+      "candidate": "from collections import Counter\n\ndef similar_times(tuples):\n    \"\"\"\n    :param tuples: list of tuples\n    :return: list of tuples with similar occurrences\n    \"\"\"\n    if not tuples:\n        return []\n\n    counter = Counter(tuple(sorted(t)) for t in tuples)\n    return [t for t, count in counter.items() if count > 1]"
+    },
+    {
+      "rank": 45,
+      "score": 8.351614956112536,
+      "candidate": "from collections import Counter\n\n\ndef check_occurrences(tup_1, tup_2):\n    count_1 = Counter(tup_1)\n    count_2 = Counter(tup_2)\n\n    for key, value in count_1.items():\n        if key in count_2:\n            if count_2[key] != value:\n                return False\n\n    return True\n\n\nprint(check_occurrences((1, 2, 3, 4, 5), (1, 2, 3, 4, 5)))\nprint(check_occurrences((1, 2, 3, 4, 5), (1, 2, 3, 4, 6)))\nprint(check_occurrences((1, 2, 3, 4, 5), (1, 2, 3, 5, 6)))"
+    },
+    {
+      "rank": 46,
+      "score": 8.334608500525688,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(records):\n    \"\"\"Returns a list of records which occur similar times in the given tuples\"\"\"\n    return [r for r, c in Counter(records).items() if c > 1]"
+    },
+    {
+      "rank": 47,
+      "score": 8.331556294201176,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    \"\"\"\n    :param tuples: list of tuples\n    :return: list of tuples\n    \"\"\"\n    # Checking if the tuples are valid\n    if not tuples:\n        return \"No tuples found\"\n\n    if not isinstance(tuples, list):\n        return \"Not a list\"\n\n    for tup in tuples:\n        if not isinstance(tup, tuple):\n            return \"Not a tuple\"\n\n    # Getting the occurrences\n    occurrences = Counter(tup[0] for tup in tuples)\n\n    # Checking if the occurrences are valid\n    if len(occurrences) == 1:\n        return \"No similar occurrences\"\n\n    # Getting the most frequent occurrence\n    most_frequent_occurrence = occurrences.most_common(1)[0][0]\n\n    # Getting the similar occurrences\n    similar_occurrences = [tup for tup in tuples if tup[0] == most_frequent_occurrence]\n\n    return similar_occurrences\n\n\nif __name__ == '__main__':\n    print(similar_times([(\"a\", 10, 100), (\"b\", 15, 100), (\"c\", 15, 100), (\"d\", 15, 200)]))\n    print(similar_times([(\"a\", 10, 100), (\"b\", 15, 200), (\"c\", 15, 100)]))\n    print(similar_times([(\"a\", 10, 100), (\"b\", 15, 100), (\"c\", 15, 100)]))\n    print(similar_times([(\"a\", 10, 100), (\"b\", 15, 100), (\"c\", 15, 100), (\"d\", 15, 100)]))\n    print(similar_times([]))\n    print(similar_times([1, 2, 3]))\n    print(similar"
+    },
+    {
+      "rank": 48,
+      "score": 8.327375965969855,
+      "candidate": "from collections import Counter\n\n\ndef check_similar(tup):\n    count = Counter(tup)\n    return count\n\n\nif __name__ == '__main__':\n    tups = (('a', 1), ('b', 2), ('c', 3), ('d', 4), ('a', 1), ('b', 2))\n    result = check_similar(tups)\n    print(result)"
+    },
+    {
+      "rank": 49,
+      "score": 8.298597569547805,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    c = Counter(tuples)\n    return [t for t in c if c.get(t) > 1]\n\n\nif __name__ == \"__main__\":\n    print(similar_times([(1, 2), (3, 4), (1, 2), (1, 2)]))"
+    },
+    {
+      "rank": 50,
+      "score": 8.294940769211511,
+      "candidate": "def check_occurrence(t1, t2):\n    return t1[0] == t2[0]\n\n\ndef main():\n    print(check_occurrence((1, 2, 3), (1, 2, 4)))\n    print(check_occurrence((1, 2, 3), (1, 2, 3)))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 51,
+      "score": 8.2938925966498,
+      "candidate": "def check_occurrences(tuples):\n    occurrences = {}\n    for t in tuples:\n        if t[1] in occurrences:\n            occurrences[t[1]].append(t[0])\n        else:\n            occurrences[t[1]] = [t[0]]\n    return occurrences"
+    },
+    {
+      "rank": 52,
+      "score": 8.289838256518838,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(records):\n    record_count = Counter(records)\n    for record, count in record_count.items():\n        if count > 1:\n            return False\n    return True\n\n\ndef test_similar_records():\n    \"\"\"Test for similar_records function.\"\"\"\n    assert similar_records([(1, 2, 3), (1, 2, 4), (1, 2, 4), (1, 2, 4), (1, 2, 4)])\n    assert not similar_records([(1, 2, 3), (1, 2, 4), (1, 2, 4), (1, 2, 4), (1, 2, 5)])\n\n\nif __name__ == \"__main__\":\n    test_similar_records()"
+    },
+    {
+      "rank": 53,
+      "score": 8.214125058964552,
+      "candidate": "def similar_times(tup1, tup2):\n    count = 0\n    for i in tup1:\n        if i in tup2:\n            count += 1\n    return count\n\n\nprint(similar_times((1, 2, 3, 4, 5), (2, 4, 6, 8, 10)))"
+    },
+    {
+      "rank": 54,
+      "score": 8.212735598038213,
+      "candidate": "def check_occurrences(list_of_tuples):\n    occurrences = {}\n    for t in list_of_tuples:\n        if t[1] not in occurrences:\n            occurrences[t[1]] = 1\n        else:\n            occurrences[t[1]] += 1\n\n    for t in list_of_tuples:\n        if t[1] not in occurrences:\n            occurrences[t[1]] = 1\n        else:\n            occurrences[t[1]] += 1\n\n    return occurrences"
+    },
+    {
+      "rank": 55,
+      "score": 8.211579567659316,
+      "candidate": "from collections import Counter\n\ndef similar_records(records):\n    c = Counter(records)\n    return [key for key, value in c.items() if value > 1]\n\nif __name__ == '__main__':\n    assert similar_records([(1, 1), (2, 2), (1, 3), (3, 1)]) == [(1, 1), (1, 3)]"
+    },
+    {
+      "rank": 56,
+      "score": 8.209707251476969,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(data):\n    occur = Counter(data)\n    return {key: value for key, value in occur.items() if value > 1}\n\n\nprint(similar_records([(1, 2), (2, 3), (3, 4), (1, 2), (2, 3), (3, 4)]))"
+    },
+    {
+      "rank": 57,
+      "score": 8.2048573255218,
+      "candidate": "from collections import Counter\n\n\ndef occurrences(a, b):\n    return Counter(a) == Counter(b)\n\n\nprint(occurrences((1, 2, 3, 4, 5), (4, 5, 6, 7, 8)))"
+    },
+    {
+      "rank": 58,
+      "score": 8.172253082181854,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(records):\n    counter = Counter()\n    for record in records:\n        counter.update([record[1]])\n    return [record for record in records if counter[record[1]] > 1]\n\n\nif __name__ == \"__main__\":\n    print(similar_records([(1, 2), (2, 2), (3, 2), (4, 2), (1, 2), (2, 2), (1, 2)]))"
+    },
+    {
+      "rank": 59,
+      "score": 8.163300679823958,
+      "candidate": "def occurrences(lst):\n    return [(e, lst.count(e)) for e in set(lst)]\n\n\nprint(occurrences([1, 1, 1, 2, 3, 3, 3, 4, 4, 4, 4]))\nprint(occurrences([1, 1, 2, 2, 2, 2, 3, 4, 4, 4, 4]))"
+    },
+    {
+      "rank": 60,
+      "score": 8.144125099485041,
+      "candidate": "from collections import Counter\n\n\ndef check_occurrences(arr):\n    occurrences = Counter([tuple(sorted(x)) for x in zip(*arr)])\n    return list(filter(lambda x: occurrences[x] > 1, occurrences))\n\n\ndef main():\n\n  print(\"Occurrences of records which occur similar times:\")\n  print(check_occurrences([(1, 2, 3), (1, 2, 3), (1, 2, 3)]))\n\n  print(\"Occurrences of records which occur similar times:\")\n  print(check_occurrences([(1, 2, 3), (1, 2, 3), (1, 2, 3), (4, 5, 6)]))\n\n\nmain()"
+    },
+    {
+      "rank": 61,
+      "score": 8.143591138329747,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(records):\n    counts = Counter()\n    for record in records:\n        counts[record] += 1\n\n    return [record for record in counts if counts[record] > 1]\n\n\nif __name__ == '__main__':\n    print(similar_records([(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4), (3, 5)]))"
+    },
+    {
+      "rank": 62,
+      "score": 8.105983444291466,
+      "candidate": "def check_occurrences(tuples):\n    # return the set of records which occur similar times\n    result = set()\n    for record in tuples:\n        if record[1] in result:\n            result.add(record[0])\n        else:\n            result.add(record[1])\n    return result\n\n\nprint(check_occurrences([(1, 10), (2, 10), (3, 20), (4, 20), (5, 30), (6, 30)]))\nprint(check_occurrences([(1, 10), (2, 10), (3, 20), (4, 20)]))"
+    },
+    {
+      "rank": 63,
+      "score": 8.08452234024709,
+      "candidate": "def check_occurrences(tuples):\n    return [tup for tup in tuples if tuples.count(tup) > 1]\n\n\nprint(check_occurrences([(1, 2), (2, 3), (3, 4), (1, 2), (2, 3)]))"
+    },
+    {
+      "rank": 64,
+      "score": 8.040197642997851,
+      "candidate": "def find_similar(tuples):\n    similar_times = {}\n    for t in tuples:\n        if t[1] in similar_times:\n            similar_times[t[1]].append(t)\n        else:\n            similar_times[t[1]] = [t]\n    return similar_times\n\n\nprint(find_similar([(1, 2), (2, 2), (3, 3), (4, 4), (5, 4), (6, 3)]))"
+    },
+    {
+      "rank": 65,
+      "score": 8.024835682833125,
+      "candidate": "from collections import Counter\nfrom typing import List\n\n\ndef similar_record_occurrences(records: List[tuple]) -> List[tuple]:\n    \"\"\"Returns a list of tuples with similar occurrences.\n\n    Args:\n        records (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert similar_record_occurrences([(1, 2), (1, 2), (1, 3), (2, 2), (3, 2), (3, 2)]) == [(1, 2), (2, 2), (3, 2)]\n    \"\"\"\n    if not records:\n        return []\n\n    counter = Counter()\n    for record in records:\n        counter[record] += 1\n    return list(record for record, count in counter.items() if count > 1)\n\n\nif __name__ == \"__main__\":\n    print(similar_record_occurrences([(1, 2), (1, 2), (1, 3), (2, 2), (3, 2), (3, 2)]))"
+    },
+    {
+      "rank": 66,
+      "score": 7.938028884277233,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tup1, tup2):\n    # Firstly, we have to convert the tuples into lists.\n    list1 = list(tup1)\n    list2 = list(tup2)\n    # Then, we count the occurrences of each element in both lists.\n    dict1 = Counter(list1)\n    dict2 = Counter(list2)\n    # Finally, we check if the occurrences are equal.\n    if dict1 == dict2:\n        return True\n    else:\n        return False\n\n\nprint(similar_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))\nprint(similar_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9, 11)))\nprint(similar_times((1, 2, 3, 4, 5, 6, 7, 8, 9, 10), (1, 2, 3, 4, 5, 6, 7, 8, 9)))"
+    },
+    {
+      "rank": 67,
+      "score": 7.915588979966494,
+      "candidate": "def check_occurrence(tuples):\n    return [(x, y) for x, y in tuples if tuples.count((x, y)) > 1]"
+    },
+    {
+      "rank": 68,
+      "score": 7.84634113240411,
+      "candidate": "def occurrences(records: list) -> dict:\n    occurrences = {}\n\n    for record in records:\n        occurrences[record] = occurrences.get(record, 0) + 1\n\n    return occurrences\n\n\ndef main():\n    print(occurrences([(1, 2), (3, 4), (1, 2), (3, 4)]))\n    print(occurrences([(1, 2), (3, 4), (1, 2)]))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 69,
+      "score": 7.834022619458933,
+      "candidate": "def similar_records(tup):\n    result = []\n    for item in tup:\n        if item in result:\n            return item\n        result.append(item)\n    return None\n\n\nif __name__ == \"__main__\":\n    tup = [(1, 2, 3), (2, 1, 3), (3, 2, 1), (1, 2, 3), (1, 2, 3), (2, 1, 3)]\n    print(similar_records(tup))"
+    },
+    {
+      "rank": 70,
+      "score": 7.705183449260731,
+      "candidate": "from collections import Counter\n\n\ndef check_occurrences(records):\n    occurrences = Counter(x[1] for x in records)\n    return [x for x in records if occurrences[x[1]] == 1]\n\n\nprint(check_occurrences([(1, 3), (2, 3), (3, 3), (4, 3)]))\nprint(check_occurrences([(1, 2), (2, 2), (3, 2), (4, 2)]))"
+    },
+    {
+      "rank": 71,
+      "score": 7.5819855281879285,
+      "candidate": "from collections import Counter\n\n\ndef occurrences_of_similar_times(records):\n    \"\"\"Checks for occurrences of records which occur similar times in the given tuples.\"\"\"\n    if not records:\n        return []\n\n    records_count = Counter(records)\n    return [\n        record\n        for record, count in records_count.items()\n        if count >= 2\n    ]"
+    },
+    {
+      "rank": 72,
+      "score": 7.4878043221155455,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    \"\"\"\n    :param tuples: list of tuples\n    :return: list of tuples\n    \"\"\"\n    # 1. Create a new list of all the records\n    records = []\n    for i in tuples:\n        for j in i:\n            records.append(j)\n\n    # 2. Count the occurrences of each record\n    record_count = Counter(records)\n\n    # 3. Create a new list of tuples\n    final_list = []\n    for i in tuples:\n        final_list.append(tuple(i))\n\n    # 4. Sort the final list\n    final_list.sort()\n\n    # 5. Check for occurrences of records and return the final list\n    for i in range(len(final_list) - 1):\n        if final_list[i] == final_list[i + 1]:\n            if record_count[final_list[i]] == record_count[final_list[i + 1]]:\n                return final_list[i]\n\n    return \"No similar records\"\n\n\nif __name__ == '__main__':\n    print(similar_times([(\"John\", \"Smith\", 1990, \"M\"), (\"David\", \"Beckham\", 1975, \"M\"), (\"Britney\", \"Spears\", 1990, \"F\"), (\"David\", \"Beckham\", 1975, \"M\"), (\"Victoria\", \"Secret\", 1984, \"F\")]))\n    print(similar_times([(\"John\", \"Smith\", 1990, \"M\"), (\"David\", \"Beckham\", 1975, \"M\"), (\"Britney\", \"Spears\", 1990, \"F\"), (\"David\", \"Beckham\", 1975, \"M\"), (\"Victoria\", \"Secret\", 1984, \"F\")]))\n    print(similar_times([(\"John\", \"Smith\", 1990, \"M\"), (\"David\", \"Beckham\", 1975, \"M\"), (\"Brit"
+    },
+    {
+      "rank": 73,
+      "score": 7.4506599871439985,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(t1, t2):\n    return Counter(t1) == Counter(t2)\n\n\nif __name__ == \"__main__\":\n    print(similar_records((1, 2, 3), (3, 2, 1)))\n    print(similar_records((1, 2, 3), (3, 2, 5)))"
+    },
+    {
+      "rank": 74,
+      "score": 7.134571892399572,
+      "candidate": "def check_occurrences(t1, t2):\n    t1_count = {}\n    t2_count = {}\n    for i in t1:\n        if i not in t1_count:\n            t1_count[i] = 1\n        else:\n            t1_count[i] += 1\n\n    for i in t2:\n        if i not in t2_count:\n            t2_count[i] = 1\n        else:\n            t2_count[i] += 1\n\n    count = 0\n    for i in t1_count:\n        if i in t2_count:\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    print(check_occurrences((1, 2, 3), (2, 3, 4)))\n    print(check_occurrences((1, 2, 3), (2, 3, 3)))\n    print(check_occurrences((1, 2, 3), (2, 3, 3, 4)))"
+    },
+    {
+      "rank": 75,
+      "score": 3.3959877626660866,
+      "candidate": "def similar_times(a):\n    # your code goes here\n    a.sort(key=lambda x: x[1])\n    for i in range(len(a) - 1):\n        if a[i][1] == a[i + 1][1]:\n            return True\n    return False\n\n\nprint(similar_times([(1, 2), (2, 2), (3, 1)]))"
+    },
+    {
+      "rank": 76,
+      "score": 3.352622407428414,
+      "candidate": "from collections import defaultdict\n\n\ndef similar_records(records: list) -> list:\n    \"\"\"\n    >>> similar_records([(1, 2), (2, 1), (3, 4), (4, 3)])\n    [(1, 2), (2, 1)]\n    \"\"\"\n    check = defaultdict(list)\n    for record in records:\n        check[record[1]].append(record[0])\n    return [\n        (first, second)\n        for second, first in check.items()\n        if len(first) > 1 and len(check[second]) > 1\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 77,
+      "score": 3.274851778816918,
+      "candidate": "from collections import defaultdict\nfrom typing import List\n\n\ndef similar_records(records: List[tuple]) -> None:\n    \"\"\"\n    >>> similar_records([(1, 2, 3), (2, 3, 4), (3, 4, 5), (4, 5, 6)])\n    \"\"\"\n    records_dict = defaultdict(int)\n\n    for record in records:\n        records_dict[record] += 1\n\n    for record, count in records_dict.items():\n        if count == 1:\n            continue\n        print(record)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 78,
+      "score": 3.2609185534519263,
+      "candidate": "from typing import List\n\n\ndef similar_records(records: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> similar_records([(2000, '2000'), (2001, '2001'), (2002, '2002'), (2003, '2003'), (2004, '2004'), (2005, '2005')])\n    [(2000, '2000'), (2001, '2001'), (2002, '2002'), (2003, '2003'), (2004, '2004'), (2005, '2005')]\n    >>> similar_records([(2000, '2000'), (2000, '2000'), (2000, '2000'), (2000, '2000'), (2000, '2000'), (2000, '2000')])\n    [(2000, '2000'), (2000, '2000'), (2000, '2000'), (2000, '2000'), (2000, '2000'), (2000, '2000')]\n    >>> similar_records([(2000, '2000'), (2001, '2001'), (2002, '2002'), (2003, '2003'), (2004, '2004'), (2005, '2005'), (2005, '2005')])\n    [(2000, '2000'), (2001, '2001'), (2002, '2002'), (2003, '2003'), (2004, '2004'), (2005, '2005'), (2005"
+    },
+    {
+      "rank": 79,
+      "score": 3.2136946511375584,
+      "candidate": "from typing import List\n\n\ndef check_similar_times(records: List[tuple]) -> bool:\n    \"\"\"Check if all the records occur similar times.\n\n    Args:\n        records (List[tuple]): List of tuples representing the records.\n\n    Returns:\n        bool: True if all the records occur similar times, else False.\n\n    >>> check_similar_times([(1, 2), (1, 2), (1, 2), (3, 4), (3, 4), (5, 6)])\n    True\n    >>> check_similar_times([(1, 2), (1, 2), (1, 2), (3, 4), (3, 4)])\n    False\n    \"\"\"\n    occurrences = {}\n    for record in records:\n        if record not in occurrences:\n            occurrences[record] = 1\n        else:\n            occurrences[record] += 1\n    return all(occurrences.values())\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 80,
+      "score": 3.1291456797829205,
+      "candidate": "def similar_times(tuples: list) -> list:\n    \"\"\"\n    :param tuples: a list of tuples\n    :return: a list of tuples that have similar occurrences of times\n    >>> similar_times([(1, 1), (2, 2), (3, 3), (4, 4)])\n    [(1, 1), (2, 2), (3, 3), (4, 4)]\n    >>> similar_times([(1, 2), (2, 1), (3, 3), (4, 4)])\n    [(1, 2), (2, 1), (3, 3), (4, 4)]\n    >>> similar_times([(1, 1), (2, 1), (3, 3), (4, 4)])\n    [(2, 1), (3, 3), (4, 4)]\n    \"\"\"\n    tuples_set = set(tuples)\n    tuples_list = list(tuples_set)\n    similar_times = []\n    for i in range(len(tuples_list)):\n        for j in range(i + 1, len(tuples_list)):\n            if tuples_list[i][1] == tuples_list[j][1]:\n                similar_times.append(tuples_list[i])\n                similar_times.append(tuples_list[j])\n    return similar_times\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 81,
+      "score": 3.0893407552878,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(tuples):\n    counts = Counter()\n    for t in tuples:\n        counts[t[1]] += 1\n    return counts\n\n\ndef test_similar_times():\n    assert similar_times([(1, 2), (1, 2), (3, 4)]) == 2\n    assert similar_times([(1, 2), (1, 2), (3, 4), (1, 2)]) == 3\n    assert similar_times([(1, 2), (3, 4), (1, 2)]) == 2\n    assert similar_times([(1, 2), (3, 4), (1, 2), (1, 2)]) == 4\n\n\nif __name__ == \"__main__\":\n    test_similar_times()"
+    },
+    {
+      "rank": 82,
+      "score": 3.081704306474771,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(records: list[tuple[str, int]]) -> list[tuple[str, str]]:\n    \"\"\"Returns the records that occur similar times.\n\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    counter = Counter([record[1] for record in records])\n    similar_times: list[tuple[str, str]] = []\n\n    for record in records:\n        if counter[record[1]] > 1:\n            similar_times.append(record)\n\n    return similar_times\n\n\nif __name__ == \"__main__\":\n    assert similar_records([(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4)]) == [(\"a\", 1), (\"b\", 2)]\n    assert similar_records([(\"a\", 1), (\"b\", 1), (\"c\", 2), (\"d\", 2)]) == [(\"a\", 1), (\"b\", 1), (\"c\", 2), (\"d\", 2)]"
+    },
+    {
+      "rank": 83,
+      "score": 3.0629101906071687,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(records):\n    \"\"\"\n    >>> similar_records([(1, 2), (1, 3), (2, 3), (1, 3)])\n    [(1, 3), (1, 3)]\n    \"\"\"\n    counter = Counter()\n    for record in records:\n        counter[record] += 1\n    return [record for record, count in counter.items() if count > 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 84,
+      "score": 3.0445557531093925,
+      "candidate": "from collections import Counter\n\n\ndef check_occurrences(tuples):\n    occurrences = Counter([t[0] for t in tuples])\n    return all(occurrences[t[0]] == occurrences[t[1]] for t in tuples)\n\n\ndef main():\n    print(check_occurrences([(1, 2), (2, 3), (4, 5)]))\n    print(check_occurrences([(1, 2), (2, 3), (2, 5)]))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 85,
+      "score": 3.0238578018992306,
+      "candidate": "def check_similar_records(input_tuples):\n    # Write your code here.\n    output_tuples = []\n    for i in input_tuples:\n        for j in input_tuples:\n            if i[1] == j[1] and i[0] != j[0]:\n                output_tuples.append(i)\n                output_tuples.append(j)\n\n    return output_tuples\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = check_similar_records(test_input)\n    if sorted(test_actual) == sorted(test_expected):\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([(1, 2), (2, 3), (3, 4), (4, 5)], [(1, 2), (2, 3), (3, 4), (4, 5)]))\ntest_function(([(1, 2), (1, 3), (1, 4), (1, 5)], [(1, 2), (1, 3), (1, 4), (1, 5)]))\ntest_function(([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)], [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]))\ntest_function(([(1, 2), (2, 3), (3, 4), (4, 5), (5, 2)], [(1, 2), (5, 2)]))\ntest_function(([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7)], [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7)]))\ntest_function(([(1, 2), (2, 3), (3, 4), (4, 5"
+    },
+    {
+      "rank": 86,
+      "score": 3.01755733321886,
+      "candidate": "from collections import Counter\n\n\ndef similar_records(lst):\n    \"\"\"\n    >>> similar_records([(1, 1), (1, 2), (3, 2), (3, 2), (3, 3)])\n    [(3, 2)]\n    >>> similar_records([(1, 1), (1, 2), (3, 2), (3, 2), (3, 2)])\n    [(3, 2)]\n    >>> similar_records([(1, 1), (1, 2), (3, 2), (3, 3)])\n    []\n    >>> similar_records([(1, 1), (1, 2), (3, 2), (3, 2)])\n    [(3, 2)]\n    >>> similar_records([(1, 1), (1, 2), (3, 2), (3, 3), (4, 4)])\n    []\n    \"\"\"\n    occurence = Counter()\n    for i in range(len(lst) - 1):\n        occurence[lst[i]] += 1\n        if occurence[lst[i]] > 1:\n            for j in range(i + 1, len(lst)):\n                if lst[j] == lst[i]:\n                    return [lst[i]]\n    return []\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 87,
+      "score": 2.9964907215681373,
+      "candidate": "from typing import List\n\n\ndef similar_occurrences(tuples: List[tuple]) -> bool:\n    \"\"\"Return True if all records in the tuples occur similar times, else return False.\n\n    Examples:\n        >>> assert similar_occurrences([(1, 2), (2, 3), (1, 2)])\n        >>> assert not similar_occurrences([(1, 2), (2, 3), (1, 3)])\n\n    References:\n        - https://stackoverflow.com/questions/12118695/python-how-to-count-the-frequency-of-the-elements\n    \"\"\"\n    return len(set(map(lambda x: tuple(sorted(x)), tuples))) == 1\n\n\nif __name__ == \"__main__\":\n    assert similar_occurrences([(1, 2), (2, 3), (1, 2)])\n    assert not similar_occurrences([(1, 2), (2, 3), (1, 3)])"
+    },
+    {
+      "rank": 88,
+      "score": 2.964051281695492,
+      "candidate": "def similar_records(tuples):\n    # TODO: Write your code here\n    d = {}\n    for t in tuples:\n        if t[1] not in d:\n            d[t[1]] = [t[0]]\n        else:\n            d[t[1]].append(t[0])\n\n    return d\n\n\ndef main():\n    tuples = [(1, 2), (3, 4), (1, 4), (3, 2), (5, 6)]\n    print(similar_records(tuples))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 89,
+      "score": 2.9391201225719326,
+      "candidate": "def similar_records(records):\n    \"\"\"\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    True\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    True\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    True\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    True\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    True\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4), (1, 2, 3, 4)])\n    True\n    >>> similar_records([(1, 2, 3, 4), (1, 2, 3,"
+    },
+    {
+      "rank": 90,
+      "score": 2.8998786070917575,
+      "candidate": "def check_occurrences(tup_1, tup_2):\n    # Get the unique values\n    unique_values = set(tup_1 + tup_2)\n    # Check the count of occurrences\n    for value in unique_values:\n        count_1 = tup_1.count(value)\n        count_2 = tup_2.count(value)\n        if count_1 != count_2:\n            return False\n    return True\n\n\nprint(check_occurrences((1, 2, 3), (3, 2, 1)))\nprint(check_occurrences((1, 2, 3), (3, 2, 4)))"
+    },
+    {
+      "rank": 91,
+      "score": 2.8652497432488517,
+      "candidate": "from collections import Counter\n\n\ndef check_similar_times(records):\n    \"\"\"\n    Checks if the number of occurrences of records in the list of tuples is similar.\n    \"\"\"\n    c = Counter([x[1] for x in records])\n    return all(c[k] == c[k+1] for k in c.keys() if k+1 in c)"
+    },
+    {
+      "rank": 92,
+      "score": 2.8322688638026676,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(records):\n    \"\"\"\n    >>> similar_times([(1, 2, 3), (4, 5, 6), (2, 3, 4), (1, 2, 3)])\n    True\n    >>> similar_times([(1, 2, 3), (4, 5, 6), (2, 3, 4), (1, 2, 3), (2, 3, 4)])\n    False\n    \"\"\"\n    counter = Counter(tuple(record) for record in records)\n    values = list(counter.values())\n    return len(values) == len(set(values))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 93,
+      "score": 2.7639137403644853,
+      "candidate": "def check_similar_occurences(t1, t2):\n    return t1[1] == t2[1]\n\n\nprint(check_similar_occurences((1, 2, 3), (1, 4, 3)))\nprint(check_similar_occurences((1, 2, 3), (1, 4, 5)))"
+    },
+    {
+      "rank": 94,
+      "score": 2.712352906758433,
+      "candidate": "def get_similar_times(times: list) -> set:\n    \"\"\"Returns a set of similar times.\n\n    Args:\n        times (list): list of tuples of time\n\n    Examples:\n        >>> assert get_similar_times([(1, 2), (3, 4), (2, 4)]) == {(1, 2), (2, 4)}\n    \"\"\"\n    times.sort(key=lambda x: x[0])\n    similar_times = set()\n    last_time = times[0]\n    for time in times[1:]:\n        if time[0] == last_time[0]:\n            similar_times.add(time)\n        else:\n            last_time = time\n    return similar_times\n\n\ndef test():\n    \"\"\"Run test cases\"\"\"\n    assert get_similar_times([(1, 2), (3, 4), (2, 4)]) == {(1, 2), (2, 4)}\n\n\nif __name__ == \"__main__\":\n    test()"
+    },
+    {
+      "rank": 95,
+      "score": 2.7007416698702014,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(t1, t2):\n    \"\"\"\n    :param t1: list of tuples of (id, time)\n    :param t2: list of tuples of (id, time)\n    :return: boolean\n    \"\"\"\n    # Check if the tuples are of same length\n    if len(t1) != len(t2):\n        return False\n\n    # Count the occurrences of each id\n    id_occurrences = Counter([tup[0] for tup in t1])\n    for tup in t2:\n        if id_occurrences[tup[0]] != tup[1]:\n            return False\n    return True\n\n\ndef test_function(test_case):\n    t1 = test_case[0]\n    t2 = test_case[1]\n    solution = test_case[2]\n    output = similar_times(t1, t2)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\n# Test case 1\nt1 = [(1, 5), (2, 3), (3, 4)]\nt2 = [(1, 5), (2, 3), (3, 4)]\ntest_case = [t1, t2, True]\ntest_function(test_case)\n\n# Test case 2\nt1 = [(1, 5), (2, 3), (3, 4)]\nt2 = [(1, 5), (2, 3), (3, 4), (4, 5)]\ntest_case = [t1, t2, False]\ntest_function(test_case)\n\n# Test case 3\nt1 = [(1, 5), (2, 3), (3, 4)]\nt2 = [(1, 5), (2, 3), (3, 4), (4, 5)]\ntest_case = [t1, t2, False]\ntest_function(test_case)"
+    },
+    {
+      "rank": 96,
+      "score": 2.654671627286408,
+      "candidate": "from collections import Counter\n\ndef similar_records(records):\n    \"\"\"\n    :param records: list of tuples\n    :return: list of tuples\n    \"\"\"\n    #TODO: Write your solution here\n\n    result = []\n    for i in range(len(records)):\n        for j in range(i + 1, len(records)):\n            if records[i][1] == records[j][1]:\n                result.append(records[i])\n                break\n\n    return result\n\n\ndef test_function(test_case):\n    records = test_case[0]\n    solution = test_case[1]\n    output = similar_records(records)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\nrecords = [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\nsolution = [(1, 2, 3)]\ntest_case = [records, solution]\ntest_function(test_case)\n\nrecords = [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12), (4, 5, 6)]\nsolution = [(10, 11, 12), (4, 5, 6)]\ntest_case = [records, solution]\ntest_function(test_case)\n\nrecords = [(1, 1, 1, 1), (2, 2, 2, 2), (3, 3, 3, 3), (4, 4, 4, 4), (5, 5, 5, 5), (1, 1, 1, 1), (2, 2, 2, 2)]\nsolution = [(1, 1, 1, 1), (2, 2, 2, 2)]\ntest_case = [records, solution]\ntest_function(test_case)\n\nrecords = [(1, 2, 3), (4, 5, 6"
+    },
+    {
+      "rank": 97,
+      "score": 2.632801037652824,
+      "candidate": "from collections import defaultdict\n\ndef similar_times(tuples):\n    \"\"\"\n    :param tuples: list of tuples, where each tuple is a record\n    :return: list of tuples, where each tuple is a record\n    \"\"\"\n    occurrences = defaultdict(int)\n    for t in tuples:\n        occurrences[t] += 1\n    return [t for t in tuples if occurrences[t] > 1]\n\ndef test(tuples, expected_answer):\n    answer = similar_times(tuples)\n    if answer != expected_answer:\n        raise Exception(\"Expected %s. Got %s\" % (expected_answer, answer))\n\nif __name__ == '__main__':\n    test([(1, 2), (3, 4), (1, 2)], [(1, 2)])\n    test([(1, 2), (3, 4), (1, 2), (5, 6), (1, 2)], [(1, 2)])\n    test([(1, 2), (3, 4), (1, 2), (5, 6), (1, 2), (1, 2)], [(1, 2)])\n    test([(1, 2), (3, 4), (5, 6), (7, 8)], [])\n    test([], [])\n    print(\"All test passed!\")"
+    },
+    {
+      "rank": 98,
+      "score": 2.629565471584501,
+      "candidate": "from collections import Counter\nfrom typing import List\n\n\ndef similar_occurrences(data: List[tuple]) -> List[tuple]:\n    \"\"\"Returns the tuples that have similar occurrences.\n\n    Args:\n        data (List[tuple]): list of tuples to check\n\n    Examples:\n        >>> assert similar_occurrences([(1, 2), (2, 3), (1, 2)]) == [(1, 2)]\n        >>> assert similar_occurrences([(1, 2), (2, 3), (1, 2), (1, 2)]) == [(1, 2)]\n    \"\"\"\n    counter = Counter()\n\n    for value in data:\n        counter[value] += 1\n\n    return [value for value, count in counter.items() if count > 1]\n\n\nif __name__ == \"__main__\":\n    print(similar_occurrences([(1, 2), (2, 3), (1, 2)]))\n    print(similar_occurrences([(1, 2), (2, 3), (1, 2), (1, 2)]))"
+    },
+    {
+      "rank": 99,
+      "score": 2.541609559605689,
+      "candidate": "from collections import defaultdict\n\n\ndef check_occurrences(tuples):\n    \"\"\"\n    >>> check_occurrences([(1, 2), (1, 2), (2, 2), (3, 2)])\n    True\n    >>> check_occurrences([(1, 2), (1, 2), (2, 2), (3, 3)])\n    False\n    \"\"\"\n    occurrences = defaultdict(list)\n\n    for t in tuples:\n        occurrences[t[0]].append(t[1])\n\n    for k, v in occurrences.items():\n        if len(set(v)) != 1:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 100,
+      "score": 2.490485767791258,
+      "candidate": "from collections import Counter\n\n\ndef similar_times(records: list[tuple[str, int]]) -> list[tuple[str, str]]:\n    \"\"\"\n    >>> similar_times([('A', 1), ('B', 2), ('C', 2), ('D', 1)])\n    [('A', 'D'), ('B', 'C')]\n    \"\"\"\n    counter = Counter(record[1] for record in records)\n\n    return [\n        (record[0], key)\n        for key, value in counter.items()\n        if value > 1\n        for record in records\n        if record[1] == key and record[0] != key\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    }
+  ]
+}

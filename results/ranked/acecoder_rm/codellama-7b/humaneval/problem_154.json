@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/154",
+    "prompt": "\ndef cycpattern_check(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n",
+    "canonical_solution": "    l = len(b)\n    pat = b + b\n    for i in range(len(a) - l + 1):\n        for j in range(l + 1):\n            if a[i:i+l] == pat[j:j+l]:\n                return True\n    return False\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    #assert True, \"This prints if this assert fails 1 (good for debugging!)\"\n\n    # Check some edge cases that are easy to work out by hand.\n    #assert True, \"This prints if this assert fails 2 (also good for debugging!)\"\n    assert  candidate(\"xyzw\",\"xyw\") == False , \"test #0\"\n    assert  candidate(\"yello\",\"ell\") == True , \"test #1\"\n    assert  candidate(\"whattup\",\"ptut\") == False , \"test #2\"\n    assert  candidate(\"efef\",\"fee\") == True , \"test #3\"\n    assert  candidate(\"abab\",\"aabb\") == False , \"test #4\"\n    assert  candidate(\"winemtt\",\"tinem\") == True , \"test #5\"\n\n",
+    "entry_point": "cycpattern_check",
+    "docstring": "",
+    "problem_id": 154
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "n = len(a)\n    m = len(b)\n\n    if (n == 0 or m == 0 or n < m):\n        return False\n    if (n == m):\n        return a == b\n\n    if (a.find(b) >= 0):\n        return True\n\n    if (a.find(b[::-1]) >= 0):\n        return True\n\n    if (a.find(b[1:]) >= 0):\n        return True\n\n    if (a.find(b[1:][::-1]) >= 0):\n        return True\n\n    return False\n\n\ndef cycpattern_check_sol2(a, b):\n    if len(a) == 0 or len(b) == 0 or len(a) < len(b):\n        return False\n\n    return b in a or b[::-1] in a or b[1:] in a or b[1:][::-1] in a\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))\n\n    print(cycpattern_check_sol2(\"abcd\", \"abd\"))\n    print(cycpattern_check_sol2(\"hello\", \"ell\"))\n    print(cycpattern_check_sol2(\"whassup\", \"psus\"))\n    print(cycpattern_check_sol2(\"abab\", \"baa\"))\n    print(cycpattern_check_sol2(\"efef\", \"eeff\"))\n    print(cycpattern_check_sol2(\"himenss\", \"simen\"))",
+      8.8046875
+    ],
+    [
+      "def get_rotations(a):\n        n = len(a)\n        if n == 0:\n            return a\n        return [a[i:] + a[:i] for i in range(n)]\n    rotations = get_rotations(b)\n    if a.find(b) != -1:\n        return True\n    for item in rotations:\n        if a.find(item) != -1:\n            return True\n    return False\n\n\ndef cycpattern_check_recursive(a, b):\n    \"\"\"\n    You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n    \"\"\"\n\n    def get_rotations(a):\n        n = len(a)\n        if n == 0:\n            return a\n        return [a[i:] + a[:i] for i in range(n)]\n\n    def check_rotation(a, b):\n        if a.find(b) != -1:\n            return True\n        return False\n\n    rotations = get_rotations(b)\n    if check_rotation(a, b):\n        return True\n    for item in rotations:\n        if check_rotation(a, item):\n            return True\n    return False\n\n\nprint(cycpattern_check_recursive(\"abcd\", \"abd\"))\nprint(cycpattern_check_recursive(\"hello\", \"ell\"))\nprint(cycpattern_check_recursive(\"whassup\", \"psus\"))\nprint(cycpattern_check_recursive(\"abab\", \"baa\"))\nprint(cycpattern_check_recursive(\"efef\", \"eeff\"))\nprint(cycpattern_check_recursive(\"himenss\", \"simen\"))",
+      6.39453125
+    ],
+    [
+      "if a == b:\n        return True\n    for i in range(len(b)):\n        if a.find(b) != -1:\n            return True\n        b = b[1:] + b[0]\n    return False\n\ndef cycpattern_check_v2(a,b):\n    if a == b:\n        return True\n    for i in range(len(b)):\n        if a.find(b) != -1:\n            return True\n        b = b[-1] + b[:-1]\n    return False\n\n\nprint(cycpattern_check(\"abc\",\"cab\"))\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))\n\nprint(cycpattern_check_v2(\"abc\",\"cab\"))\nprint(cycpattern_check_v2(\"abcd\",\"abd\"))\nprint(cycpattern_check_v2(\"hello\",\"ell\"))\nprint(cycpattern_check_v2(\"whassup\",\"psus\"))\nprint(cycpattern_check_v2(\"abab\",\"baa\"))\nprint(cycpattern_check_v2(\"efef\",\"eeff\"))\nprint(cycpattern_check_v2(\"himenss\",\"simen\"))",
+      5.9765625
+    ],
+    [
+      "# TODO\n    return False\n\n\ndef rotations(s):\n    \"\"\"\n    Return the list of rotations of the string\n    \"abc\" => [\"abc\", \"bca\", \"cab\"]\n    \"\"\"\n    return [s[i:] + s[:i] for i in range(len(s))]\n\n\n\ndef cycpattern_check_2(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    return b in a or b in rotations(a)\n\n\ndef cycpattern_check_3(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    return b in a or any(b in s for s in rotations(a))\n\n\nprint(cycpattern_check_3(\"abcd\", \"abd\"))\nprint(cycpattern_check_3(\"hello\", \"ell\"))\nprint(cycpattern_check_3(\"whassup\", \"psus\"))\nprint(cycpattern_check_3(\"abab\", \"baa\"))\nprint(cycpattern_check_3(\"efef\", \"eeff\"))\nprint(cycpattern_check_3(\"himenss\", \"simen\"))",
+      5.73046875
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if b in a:\n        return True\n    if b in a + a:\n        return True\n    if b in a + a + a:\n        return True\n    if b in a + a + a + a:\n        return True\n    return False\n\n\n\n\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      4.58203125
+    ],
+    [
+      "if a.find(b) != -1:\n        return True\n    else:\n        for i in range(len(a)):\n            if a.find(b) != -1:\n                return True\n            else:\n                a = a[1:] + a[0]\n        return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      4.046875
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    else:\n        if b in a:\n            return True\n        else:\n            for i in range(len(b)):\n                temp = a[i:i+len(b)]\n                if temp == b:\n                    return True\n            return False\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      3.9296875
+    ],
+    [
+      "if a in b or b in a:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      2.609375
+    ],
+    [
+      "#first check if the length is the same\n    if len(a) == len(b):\n        #if they are the same length, then check if a is a substring of b\n        if a in b:\n            return True\n        else:\n            return False\n    else:\n        #if they are not the same length, then check if b is a substring of a\n        if b in a:\n            return True\n        else:\n            return False\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      2.5234375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if b in a:\n        return True\n    for i in range(len(a)):\n        if a[i:i+len(b)] == b:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      2.1875
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n\n    if len(a) == len(b):\n        if a == b:\n            return False\n\n    a_rotated = [a[i:] + a[:i] for i in range(len(a))]\n\n    if b in a_rotated:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      1.994140625
+    ],
+    [
+      "if b in a:\n        return True\n    else:\n        return False\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      1.9697265625
+    ],
+    [
+      "#rotate the string and check if the string is in the original string\n    a = a.lower()\n    b = b.lower()\n\n    if b in a:\n        return True\n\n    for i in range(len(b)):\n        if b in a[i:] + a[:i]:\n            return True\n    return False\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      1.6982421875
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    b = b[::-1]\n    for i in range(len(a) - len(b) + 1):\n        if a[i:i + len(b)] == b:\n            return True\n    return False\n\n\ndef cycpattern_check_2(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if len(a) < len(b):\n        return False\n    b = b[::-1]\n    for i in range(len(a) - len(b) + 1):\n        if a[i:i + len(b)] == b:\n            return True\n    return False\n\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))\n\n    print(cycpattern_check_2(\"abcd\",\"abd\"))\n    print(cycpattern_check_2(\"hello\",\"ell\"))\n    print(cycpattern_check_2(\"whassup\",\"psus\"))\n    print(cycpattern_check_2(\"abab\",\"baa\"))\n    print(cycpattern_check_2(\"efef\",\"eeff\"))\n    print(cycpattern_check_2(\"himenss\",\"simen\"))",
+      1.173828125
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n\n    a_set = set(a)\n    b_set = set(b)\n\n    if len(b_set) < len(a_set):\n        return False\n\n    if a_set - b_set:\n        return False\n\n    for i in range(len(b)):\n        if b not in a:\n            return False\n        a = a[1:] + a[0]\n\n    return True\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      1.1357421875
+    ],
+    [
+      "if(a == b):\n        return True\n    else:\n        for i in range(len(b)):\n            if(a.find(b) != -1):\n                return True\n            else:\n                b = b[1:] + b[0]\n        return False\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"whassup\",\"psus\"))",
+      0.984375
+    ],
+    [
+      "for i in range(len(a)):\n        for j in range(i, len(a)):\n            if a[i:j+1] == b:\n                return True\n    return False\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      0.79638671875
+    ],
+    [
+      "#return a in b or any(a[i:] + a[:i] in b for i in range(len(a)))\n    return a in b or any(a[i:] + a[:i] in b for i in range(len(a)))\n\ndef cycpattern_check_alt(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    return a in b or any(a[i:] + a[:i] in b for i in range(len(a)))\n\n\ndef cycpattern_check_alt2(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    return a in b or any(b.find(a[i:] + a[:i]) > -1 for i in range(len(a)))\n\n\n\ndef cycpattern_check_alt3(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\")",
+      0.61328125
+    ],
+    [
+      "# print(\"a\",a)\n    # print(\"b\",b)\n    # if len(b) > len(a):\n    #     return False\n    # a = a * (len(a) // len(b)) + a[:(len(a) % len(b))]\n    # print(\"a\",a)\n    # print(a.find(b))\n    # if a.find(b) == -1:\n    #     return False\n    # else:\n    #     return True\n\n    # for i in range(0,len(a)):\n    #     if a[i:].startswith(b):\n    #         return True\n    # return False\n\n    # for i in range(len(b)):\n    #     if a.find(b[i:]) != -1:\n    #         return True\n    # return False\n\n    # for i in range(len(b)):\n    #     if a.find(b[i:] + b[:i]) != -1:\n    #         return True\n    # return False\n\n    # return a.find(b) != -1 or a.find(b[1:] + b[0]) != -1 or a.find(b[2:] + b[:2]) != -1\n\n    return a.find(b) != -1 or a.find(b[1:] + b[0]) != -1 or a.find(b[2:] + b[:2]) != -1\n\n\nif __name__ == \"__main__\":\n    a = \"whassup\"\n    b = \"psus\"\n    print(cycpattern_check(a,b))\n    a = \"hello\"\n    b = \"ell\"\n    print(cycpattern_check(a,b))\n    a = \"abab\"\n    b = \"baa\"\n    print(cycpattern_check(a,b))\n    a = \"efef\"\n    b = \"eeff\"\n    print(cycpattern_check(a,b))\n    a = \"himenss\"\n    b = \"simen\"\n    print(cycpattern_check(a,b))",
+      0.6044921875
+    ],
+    [
+      "# Find the length of the string\n    len_a = len(a)\n    len_b = len(b)\n\n    # If length of the first string is smaller than the second string then return False\n    if len_a < len_b:\n        return False\n\n    # If the first word is a substring of the second word then return True\n    if a in b:\n        return True\n\n    # Calculate the number of possible rotations\n    for i in range(len_a - len_b + 1):\n        # Extract the substring from the first word\n        sub = a[i: i + len_b]\n        # If the extracted substring is equal to the second word then return True\n        if sub == b:\n            return True\n\n    # If no match is found then return False\n    return False\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      0.4140625
+    ],
+    [
+      "if len(a) == len(b):\n        return False\n    if len(a) > len(b):\n        longer = a\n        shorter = b\n    else:\n        longer = b\n        shorter = a\n\n    for i in range(len(shorter)):\n        if shorter[i:] + shorter[:i] in longer:\n            return True\n    return False",
+      0.1478271484375
+    ],
+    [
+      "if a == b:\n        return True\n\n    if len(a) != len(b):\n        return False\n\n    if a == b[::-1]:\n        return True\n\n    for i in range(len(b)):\n        if a.find(b[i:] + b[:i]) != -1:\n            return True\n\n    return False",
+      0.035003662109375
+    ],
+    [
+      "n = len(a)\n    m = len(b)\n    if n < m:\n        return False\n    if m == 0:\n        return False\n    if a == b:\n        return True\n    if a == b[::-1]:\n        return True\n    for i in range(n - m + 1):\n        if a[i:i + m] == b:\n            return True\n        if a[i:i + m] == b[::-1]:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      0.0158233642578125
+    ],
+    [
+      "#check if the second word is present in the first word\n    if b in a:\n        return True\n    \n    #find the length of the first word\n    n = len(a)\n    \n    #find the length of the second word\n    m = len(b)\n    \n    #if the length of the first word is smaller than the second word, return false\n    if n < m:\n        return False\n    \n    #check if the second word is a rotation of the first word\n    #if the second word is a rotation of the first word, the second word should be present in the first word\n    #try rotating the second word and check if it is a substring of the first word\n    for i in range(m):\n        #rotate the second word by one letter\n        b = b[1:] + b[0]\n        #check if the rotated second word is a substring of the first word\n        if b in a:\n            return True\n    \n    return False\n\n\ndef main():\n    print(\"---Check if the second word is present in the first word---\")\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))\n\n    print(\"---Check if the second word is a rotation of the first word---\")\n    print(cycpattern_check(\"abcd\",\"abc\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"wassup\"))\n    print(cycpattern_check(\"abab\",\"aba\"))\n    print(cycpattern_check(\"efef\",\"effe\"))\n    print(cycpattern_check(\"himenss\",\"imenss\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.0008254051208496094
+    ],
+    [
+      "if len(a) > len(b):\n        return False\n    elif len(a) < len(b):\n        return True\n    else:\n        b = b + b\n        return (a in b) or (b[:len(a)] in a)\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.045806884765625
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    b_rotations = []\n    for i in range(len(b)):\n        b_rotations.append(b[i:] + b[:i])\n    return any(x in a for x in b_rotations)\n\n\n\n\n\ndef cycpattern_check_soln(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if len(a) < len(b):\n        return False\n    b_rotations = []\n    for i in range(len(b)):\n        b_rotations.append(b[i:] + b[:i])\n    return any(x in a for x in b_rotations)\n\n\nif __name__ == '__main__':\n    a = \"whassup\"\n    b = \"psus\"\n    print(cycpattern_check(a , b))\n    print(cycpattern_check_soln(a , b))",
+      -0.1497802734375
+    ],
+    [
+      "return a.find(b) != -1 or a.find(b[1:] + b[0]) != -1 or a.find(b[2:] + b[:2]) != -1 or a.find(b[3:] + b[:3]) != -1\n\n\ndef cycpattern_check_v2(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    return b in a + a[1:]\n\n\nif __name__ == \"__main__\":\n    assert cycpattern_check(\"abcd\", \"abd\") == False\n    assert cycpattern_check(\"hello\", \"ell\") == True\n    assert cycpattern_check(\"whassup\", \"psus\") == False\n    assert cycpattern_check(\"abab\", \"baa\") == True\n    assert cycpattern_check(\"efef\", \"eeff\") == False\n    assert cycpattern_check(\"himenss\", \"simen\") == True\n\n    assert cycpattern_check_v2(\"abcd\", \"abd\") == False\n    assert cycpattern_check_v2(\"hello\", \"ell\") == True\n    assert cycpattern_check_v2(\"whassup\", \"psus\") == False\n    assert cycpattern_check_v2(\"abab\", \"baa\") == True\n    assert cycpattern_check_v2(\"efef\", \"eeff\") == False\n    assert cycpattern_check_v2(\"himenss\", \"simen\") == True",
+      -0.173583984375
+    ],
+    [
+      "n = len(a)\n    if n < len(b):\n        return False\n    if b in a:\n        return True\n    for i in range(n):\n        if a[i:] + a[:i] == b:\n            return True\n    return False\n\n\ndef cycpattern_check2(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    return len(a) - len(b) >= 0 and (b in a or any(a[i:] + a[:i] == b for i in range(len(a))))\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"hello\",\"ell",
+      -0.27294921875
+    ],
+    [
+      "if a.find(b) != -1:\n        return True\n    if b.find(a) != -1:\n        return True\n    if b in a:\n        return True\n    if a in b:\n        return True\n    return False\n\n\ndef cycpattern_check_efficient(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if a.find(b) != -1:\n        return True\n    if b.find(a) != -1:\n        return True\n    if b in a:\n        return True\n    if a in b:\n        return True\n    return False",
+      -0.5029296875
+    ],
+    [
+      "# your code goes here\n    return False\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(cycpattern_check(\"hello\", \"ell\"))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert cycpattern_check(\"hello\", \"ell\") == True\n    assert cycpattern_check(\"abcd\", \"abd\") == False\n    assert cycpattern_check(\"whassup\", \"psus\") == False\n    assert cycpattern_check(\"abab\", \"baa\") == True\n    assert cycpattern_check(\"efef\", \"eeff\") == False\n    assert cycpattern_check(\"himenss\", \"simen\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    assert cycpattern_check(\"helloworld\", \"orldewoh\") == True\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      -0.51416015625
+    ],
+    [
+      "a, b = a.lower(), b.lower()\n    if a == b:\n        return True\n    if len(b) > len(a):\n        return False\n    for i in range(len(a) - len(b) + 1):\n        if a[i: i + len(b)] == b:\n            return True\n        else:\n            for j in range(1, len(b)):\n                if a[i: i + len(b)] == b[len(b) - j:] + b[:len(b) - j]:\n                    return True\n    return False\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"abcd\",\"abd\"))",
+      -0.7841796875
+    ],
+    [
+      "# for i in range(len(a)):\n    #     for j in range(len(b)):\n    #         if a[i:i+len(b)] == b:\n    #             return True\n    #         elif i + 1 == len(a):\n    #             return False\n    #         else:\n    #             continue\n    # return False\n\n    # a = a + a\n    # for i in range(len(a)):\n    #     for j in range(len(b)):\n    #         if a[i:i+len(b)] == b:\n    #             return True\n    # return False\n\n    # a = a + a\n    # for i in range(len(b)):\n    #     for j in range(len(b)):\n    #         if a[i:i+len(b)] == b:\n    #             return True\n    # return False\n\n    a = a + a\n    return b in a\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.7841796875
+    ],
+    [
+      "a = a + a\n    b = b + b\n    return a.find(b)\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.82373046875
+    ],
+    [
+      "for i in range(len(b)):\n        if b in a:\n            return True\n        b = b[1:] + b[0]\n    return False",
+      -0.85595703125
+    ],
+    [
+      "# if len(b) > len(a):\n    #     return False\n    # for i in range(len(a)):\n    #     if a[i:i+len(b)] == b:\n    #         return True\n    # return False\n\n    if len(b) > len(a):\n        return False\n    if a.find(b) != -1:\n        return True\n    for i in range(len(a) - len(b) + 1):\n        if a[i:i + len(b)] == b:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85693359375
+    ],
+    [
+      "a = a.lower()\n    b = b.lower()\n\n    if len(a) < len(b):\n        return False\n\n    for i in range(len(b)):\n        if b in a:\n            return True\n        a = a[1:] + a[0]\n    return False\n\n\ndef cycpattern_check_solution(a, b):\n    a = a.lower()\n    b = b.lower()\n\n    if len(a) < len(b):\n        return False\n\n    for i in range(len(b)):\n        if a.find(b) != -1:\n            return True\n        a = a[1:] + a[0]\n    return False\n\n\nif __name__ == '__main__':\n    result = cycpattern_check(\"whassup\", \"psus\")\n    print(result)",
+      -0.85693359375
+    ],
+    [
+      "if len(b) > len(a):\n        return False\n    if a == b:\n        return True\n    if len(a) % len(b) != 0:\n        return False\n    for i in range(len(b)):\n        if a.find(b) != -1:\n            return True\n        a = a[1:] + a[0]\n    return False\n\nif __name__ == \"__main__\":\n    input1 = \"abcde\"\n    input2 = \"cde\"\n    output = cycpattern_check(input1, input2)\n    print(output)",
+      -0.85693359375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n\n    for i in range(len(b)):\n        if b in a:\n            return True\n        else:\n            a = a[1:] + a[0]\n\n    return False\n\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.85693359375
+    ],
+    [
+      "if len(a) == 1:\n        return False\n    if len(a) == len(b):\n        if a == b:\n            return False\n    for i in range(len(b)):\n        if a.find(b) != -1:\n            return True\n        a = a[1:] + a[0]\n    return False",
+      -0.85693359375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if b in a:\n        return True\n    else:\n        return False",
+      -0.85693359375
+    ],
+    [
+      "if a == b:\n        return True\n    a_rotations = set()\n    for i in range(len(a)):\n        a_rotations.add(a[i:] + a[:i])\n    return b in a_rotations",
+      -0.85693359375
+    ],
+    [
+      "if a == b:\n        return True\n    if len(a) < len(b):\n        return False\n\n    if a.find(b) != -1:\n        return True\n\n    for i in range(len(b)):\n        rotated_b = b[i:] + b[:i]\n        if a.find(rotated_b) != -1:\n            return True\n\n    return False\n\n\n\n\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85693359375
+    ],
+    [
+      "if b in a:\n        return True\n    for i in range(len(b)):\n        if b in a[i:len(a)]:\n            return True\n    return False",
+      -0.85791015625
+    ],
+    [
+      "if a == b:\n        return True\n    if a.find(b) >= 0:\n        return True\n    a_len = len(a)\n    b_len = len(b)\n    for i in range(a_len):\n        a = a[1:] + a[0]\n        if a.find(b) >= 0:\n            return True\n    return False\n\n\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "a_len = len(a)\n    b_len = len(b)\n    #print(a_len, b_len)\n    if b_len > a_len:\n        return False\n    for i in range(a_len - b_len + 1):\n        if a[i:i+b_len] == b:\n            return True\n    return False\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "if a.find(b) != -1:\n        return True\n    for i in range(len(a)):\n        if a[i:]+a[:i].find(b) != -1:\n            return True\n    return False\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "def check(a, b):\n        return b in a\n\n    def rotate(a):\n        return a[-1:] + a[:-1]\n\n    if check(a, b):\n        return True\n    else:\n        for i in range(len(a) - 1):\n            a = rotate(a)\n            if check(a, b):\n                return True\n    return False",
+      -0.85791015625
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    a_len = len(a)\n    b_len = len(b)\n    for i in range(a_len - b_len + 1):\n        if a[i:i+b_len] == b:\n            return True\n        if a[i:i+b_len][::-1] == b:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    assert cycpattern_check(\"abcd\", \"abd\") == False\n    assert cycpattern_check(\"hello\", \"ell\") == True\n    assert cycpattern_check(\"whassup\", \"psus\") == False\n    assert cycpattern_check(\"abab\", \"baa\") == True\n    assert cycpattern_check(\"efef\", \"eeff\") == False\n    assert cycpattern_check(\"himenss\", \"simen\") == True",
+      -0.85791015625
+    ],
+    [
+      "return a.find(b) > -1 or a.find(b[1:] + b[0]) > -1 or a.find(b[2:] + b[:2]) > -1 or a.find(b[3:] + b[:3]) > -1\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "#base case\n    if len(a) == 0 or len(b) == 0:\n        return False\n\n    #recursive case\n    if a == b:\n        return True\n\n    if len(a) > len(b):\n        return cycpattern_check(a, b + b)\n\n    for i in range(len(a)):\n        if a[i] != b[0]:\n            continue\n        if a[(i + len(b)) % len(a):] == b:\n            return True\n    return False\n\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "b = b[::-1]\n    if a.find(b) == -1:\n        return False\n    return True\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "if a == b:\n        return True\n    if len(a) != len(b):\n        return False\n    for i in range(len(a)):\n        #print(\"i: \", i)\n        rotated_string = a[i:]+a[:i]\n        #print(\"rotated_string: \", rotated_string)\n        if rotated_string == b:\n            return True\n    return False\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "return a.find(b) != -1 or any(a.find(b + a[i:]) != -1 for i in range(len(b)))\n\nif __name__ == \"__main__\":\n    input1 = input()\n    input2 = input()\n    print(cycpattern_check(input1, input2))",
+      -0.85791015625
+    ],
+    [
+      "for i in range(len(b)):\n        if a.find(b) == -1 and a.find(b[1:] + b[0]) == -1:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.85791015625
+    ],
+    [
+      "a, b = a.lower(), b.lower()\n    if a == b:\n        return True\n    if len(a) != len(b):\n        return False\n\n    for i in range(len(a)):\n        if a[i:] + a[:i] == b:\n            return True\n\n    return False",
+      -0.8583984375
+    ],
+    [
+      "if len(a) > len(b):\n        return False\n    else:\n        a = a * (len(b)//len(a))\n        return b in a\n\n\ndef cycpattern_check_opt(a, b):\n    return b in (a * (len(b)//len(a) + 1))\n\n\n\nprint(cycpattern_check(\"abcde\", \"cde\"))\nprint(cycpattern_check(\"hello\", \"ell\"))\nprint(cycpattern_check(\"whassup\", \"psus\"))\nprint(cycpattern_check(\"abab\", \"baa\"))\nprint(cycpattern_check(\"efef\", \"eeff\"))\nprint(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "for i in range(len(a)):\n        temp = a[i:] + a[:i]\n        if b in temp:\n            return True\n    return False",
+      -0.8583984375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    for i in range(len(b)):\n        if a[i:].find(b) != -1:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "if len(a) != len(b):\n        return False\n    for i in range(len(a)):\n        if a[i:] + a[:i].find(b) != -1:\n            return True\n        else:\n            return False\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if a == b:\n        return True\n    for i in range(len(b)):\n        for j in range(len(a)):\n            if (a[j:j+len(b)] == b):\n                return True\n            if (j+1) == len(a):\n                return False\n    return False\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))\n\n# Time complexity is O(n*m)\n# Space complexity is O(1)",
+      -0.8583984375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if a == b:\n        return True\n\n    for i in range(len(b)):\n        if a[i:len(b) + i] == b:\n            return True\n        else:\n            continue\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "a_len = len(a)\n    b_len = len(b)\n\n    if a_len < b_len:\n        return False\n\n    b_set = set(b)\n\n    for i in range(a_len):\n        if a[i:i+b_len] in b_set:\n            return True\n\n    return False",
+      -0.8583984375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if len(a) == len(b):\n        return a == b\n\n    a = a + a\n    for i in range(len(b)):\n        if a[i:i+len(b)] == b:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if a == b:\n        return True\n    for i in range(len(b)):\n        if a[i : i + len(b)] == b:\n            return True\n        if a[i:] + a[:i] == b:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "for i in range(len(a)):\n        if a.find(b) != -1:\n            return True\n        b = b[-1] + b[:-1]\n    return False\n\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "if len(a) >= len(b):\n        for i in range(0, len(a)-len(b)+1):\n            if a[i:i+len(b)] == b:\n                return True\n        return False\n    else:\n        for i in range(0, len(b)-len(a)+1):\n            if b[i:i+len(a)] == a:\n                return True\n        return False",
+      -0.8583984375
+    ],
+    [
+      "# your code goes here\n    if a == b:\n        return True\n    elif len(a) != len(b):\n        return False\n    else:\n        for i in range(len(a)):\n            if b in a[i:]:\n                return True\n        return False\n\nif __name__ == '__main__':\n    res = cycpattern_check(\"abcd\", \"abd\")\n    print(res)",
+      -0.8583984375
+    ],
+    [
+      "if len(a) > len(b):\n        return False\n    if a == b:\n        return True\n    if len(a) < len(b):\n        return False\n    for i in range(0, len(b)):\n        if b in a:\n            return True\n        b = b[1:] + b[0]\n    return False\n\n\nprint(cycpattern_check(\"abcd\", \"abd\"))\nprint(cycpattern_check(\"hello\", \"ell\"))\nprint(cycpattern_check(\"whassup\", \"psus\"))\nprint(cycpattern_check(\"abab\", \"baa\"))\nprint(cycpattern_check(\"efef\", \"eeff\"))\nprint(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "if a.find(b) != -1:\n        return True\n    else:\n        for i in range(len(a)):\n            temp = a[i:] + a[:i]\n            if temp.find(b) != -1:\n                return True\n        return False\n\nif __name__ == \"__main__\":\n    input1 = \"abc\"\n    input2 = \"b\"\n    print(cycpattern_check(input1, input2))",
+      -0.8583984375
+    ],
+    [
+      "if(len(a)==len(b)):\n        return False\n    if(len(b)>len(a)):\n        return False\n    if(len(b)==1):\n        return (a.find(b) != -1)\n    for i in range(len(a)):\n        temp = a[i:i+len(b)]\n        if(temp == b):\n            return True\n        temp = a[0:i] + a[i+len(b):]\n        if(temp == b):\n            return True\n    return False\n\nif __name__ == '__main__':\n    a = \"abcd\"\n    b = \"abd\"\n    print(cycpattern_check(a,b))",
+      -0.8583984375
+    ],
+    [
+      "a_len = len(a)\n    b_len = len(b)\n    if a_len < b_len:\n        return False\n\n    if a == b:\n        return True\n\n    if a_len - b_len < 2:\n        return False\n\n    for i in range(a_len - b_len + 1):\n        if a[i:i + b_len] == b:\n            return True\n\n    return False\n\n\n\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "a_list = list(a)\n    b_list = list(b)\n    a_list.sort()\n    b_list.sort()\n\n    if a_list == b_list:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcd\",\"abd\"))\n    print(cycpattern_check(\"hello\",\"ell\"))\n    print(cycpattern_check(\"whassup\",\"psus\"))\n    print(cycpattern_check(\"abab\",\"baa\"))\n    print(cycpattern_check(\"efef\",\"eeff\"))\n    print(cycpattern_check(\"himenss\",\"simen\"))",
+      -0.8583984375
+    ],
+    [
+      "return a in b or b in a or a[1:] in b or b[1:] in a\n\nif __name__ == \"__main__\":\n    input()\n    print(cycpattern_check(input(),input()))",
+      -0.86083984375
+    ],
+    [
+      "a_len = len(a)\n    b_len = len(b)\n    if a_len < b_len:\n        return False\n    elif a_len == b_len:\n        return b in a\n    else:\n        for i in range(b_len):\n            if b == a[i:i+b_len] or b == a[a_len-i:a_len-i+b_len]:\n                return True\n        return False\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))",
+      -0.88525390625
+    ],
+    [
+      "if a.find(b) != -1:\n        return True\n    else:\n        if a.find(b[1:] + b[0]) != -1:\n            return True\n        else:\n            if a.find(b[2:] + b[:2]) != -1:\n                return True\n            else:\n                if a.find(b[3:] + b[:3]) != -1:\n                    return True\n                else:\n                    if a.find(b[4:] + b[:4]) != -1:\n                        return True\n                    else:\n                        return False\n\n\n\n\ndef cycpattern_check(a,b):\n    if a.find(b) != -1:\n        return True\n    else:\n        for i in range(len(b)):\n            if a.find(b[i:] + b[:i]) != -1:\n                return True\n    return False",
+      -0.88525390625
+    ],
+    [
+      "# your code goes here\n    return a in b or b in a or any(a[i:] + a[:i] in b for i in range(len(a)))\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(cycpattern_check('abcd', 'abd'))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert cycpattern_check('abcd', 'abd') == False\n    assert cycpattern_check('hello', 'ell') == True\n    assert cycpattern_check('whassup', 'psus') == False\n    assert cycpattern_check('abab', 'baa') == True\n    assert cycpattern_check('efef', 'eeff') == False\n    assert cycpattern_check('himenss', 'simen') == True\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      -0.88671875
+    ],
+    [
+      "if a in b or b in a:\n        return True\n    else:\n        return False\n\n\ndef cycpattern_check_solution(a,b):\n    if len(a) != len(b):\n        return False\n    else:\n        a = a * 2\n        return (b in a)\n\n\nprint(cycpattern_check_solution(\"abcd\",\"abd\"))\nprint(cycpattern_check_solution(\"hello\",\"ell\"))\nprint(cycpattern_check_solution(\"whassup\",\"psus\"))\nprint(cycpattern_check_solution(\"abab\",\"baa\"))\nprint(cycpattern_check_solution(\"efef\",\"eeff\"))\nprint(cycpattern_check_solution(\"himenss\",\"simen\"))",
+      -1.08203125
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n    if a == b:\n        return True\n    if a.find(b) != -1:\n        return True\n    if a.find(b[1:] + b[0]) != -1:\n        return True\n    if a.find(b[2:] + b[0:2]) != -1:\n        return True\n    return False\n\n\ndef cycpattern_check_better(a, b):\n    if len(a) < len(b):\n        return False\n    if a == b:\n        return True\n    if a.find(b) != -1:\n        return True\n    if a.find(b[1:] + b[0]) != -1:\n        return True\n    if a.find(b[2:] + b[0:2]) != -1:\n        return True\n    return False\n\n\nprint(cycpattern_check_better(\"abcd\", \"abd\"))\nprint(cycpattern_check_better(\"hello\", \"ell\"))\nprint(cycpattern_check_better(\"whassup\", \"psus\"))\nprint(cycpattern_check_better(\"abab\", \"baa\"))\nprint(cycpattern_check_better(\"efef\", \"eeff\"))\nprint(cycpattern_check_better(\"himenss\", \"simen\"))",
+      -1.2373046875
+    ],
+    [
+      "# 1. get the length of the strings\n    a_length = len(a)\n    b_length = len(b)\n\n    # 2. if the second word is longer than the first word, return False\n    if b_length > a_length:\n        return False\n\n    # 3. if the first word and the second word are equal, return True\n    if a == b:\n        return True\n\n    # 4. get the first word in a list of characters\n    a_list = list(a)\n\n    # 5. loop through the characters in the second word\n    for i in range(b_length):\n        # 6. get the second word in a list of characters\n        b_list = list(b)\n\n        # 7. if the character at the current index of the second word is equal to the character at the current index of the first word,\n        # continue\n        if a_list[i] == b_list[i]:\n            continue\n\n        # 8. otherwise, if the character at the current index of the second word is not equal to the character at the current index of the first word,\n        # return False\n        else:\n            return False\n\n    # 9. return True\n    return True\n\n\n# test\n\nprint(cycpattern_check(\"abcd\",\"abd\")) # False\nprint(cycpattern_check(\"hello\",\"ell\")) # True\nprint(cycpattern_check(\"whassup\",\"psus\")) # False\nprint(cycpattern_check(\"abab\",\"baa\")) # True\nprint(cycpattern_check(\"efef\",\"eeff\")) # False\nprint(cycpattern_check(\"himenss\",\"simen\")) # True",
+      -1.294921875
+    ],
+    [
+      "len_a = len(a)\n    len_b = len(b)\n    if len_a < len_b:\n        return False\n    for i in range(len_a-len_b+1):\n        if b == a[i:i+len_b]:\n            return True\n        if b == a[i+1:i+len_b+1]:\n            return True\n        if b == a[i+2:i+len_b+2]:\n            return True\n        if b == a[i+3:i+len_b+3]:\n            return True\n    return False\n\nif __name__ == '__main__':\n    print(cycpattern_check(\"abcd\", \"abd\"))\n    print(cycpattern_check(\"hello\", \"ell\"))\n    print(cycpattern_check(\"whassup\", \"psus\"))\n    print(cycpattern_check(\"abab\", \"baa\"))\n    print(cycpattern_check(\"efef\", \"eeff\"))\n    print(cycpattern_check(\"himenss\", \"simen\"))\n\n    #test.assert_equals(cycpattern_check(\"abcd\", \"abd\"), False)\n    #test.assert_equals(cycpattern_check(\"hello\", \"ell\"), True)\n    #test.assert_equals(cycpattern_check(\"whassup\", \"psus\"), False)\n    #test.assert_equals(cycpattern_check(\"abab\", \"baa\"), True)\n    #test.assert_equals(cycpattern_check(\"efef\", \"eeff\"), False)\n    #test.assert_equals(cycpattern_check(\"himenss\", \"simen\"), True)",
+      -1.6689453125
+    ],
+    [
+      "return True if is_substring(b, a) else False\n\n\ndef is_substring(a, b):\n    if len(a) > len(b):\n        return False\n    if a == b:\n        return True\n    for i in range(len(b) - len(a) + 1):\n        if b[i: i + len(a)] == a:\n            return True\n    return False\n\n\ndef cycpattern_check_1(a, b):\n    if len(a) > len(b):\n        return False\n    if a == b:\n        return True\n    for i in range(len(b) - len(a) + 1):\n        if b[i: i + len(a)] == a:\n            return True\n    return False\n\n\ndef cycpattern_check_2(a, b):\n    return b in a or a in b\n\n\ndef cycpattern_check_3(a, b):\n    return b in a or a in b or b in a[::-1] or a[::-1] in b\n\n\ndef cycpattern_check_4(a, b):\n    if len(a) > len(b):\n        return False\n    if a == b:\n        return True\n    for i in range(len(b) - len(a) + 1):\n        if b[i: i + len(a)] == a:\n            return True\n    return False\n\n\ndef cycpattern_check_5(a, b):\n    if len(a) > len(b):\n        return False\n    if a == b:\n        return True\n    for i in range(len(b) - len(a) + 1):\n        if b[i: i + len(a)] == a:\n            return True\n    return False\n\n\ndef cycpattern_check_6(a, b):\n    return b in a or a in b or b in a[::-1] or a[::-1] in b\n\n\ndef cycpattern_check_7(a, b):\n    return b in a or a in b or b in a[::-1] or a[::-",
+      -1.7685546875
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n\n    a_set = set(a)\n    b_set = set(b)\n    if a_set == b_set:\n        return False\n\n    b_set = set(b)\n\n    for i in range(len(b)):\n        c = b[i:] + b[0:i]\n        if b_set == set(c):\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check(\"abcde\", \"cde\"))",
+      -2.13671875
+    ],
+    [
+      "# if len(a) <= len(b):\n    #     return False\n\n    # for i in range(len(a)):\n    #     if a[i:] + a[:i] == b:\n    #         return True\n    # return False\n\n    # if len(a) <= len(b):\n    #     return False\n    # for i in range(len(a)):\n    #     if a[i:] + a[:i] == b:\n    #         return True\n    # return False\n\n    if len(a) <= len(b):\n        return False\n\n    for i in range(len(a)):\n        if a[i:] + a[:i] == b:\n            return True\n    return False\n\n\nprint(cycpattern_check(\"abcd\", \"abd\"))\nprint(cycpattern_check(\"hello\", \"ell\"))\nprint(cycpattern_check(\"whassup\", \"psus\"))\nprint(cycpattern_check(\"abab\", \"baa\"))\nprint(cycpattern_check(\"efef\", \"eeff\"))\nprint(cycpattern_check(\"himenss\", \"simen\"))",
+      -2.59765625
+    ],
+    [
+      "for i in range(len(b)):\n        if b == a[i:i+len(b)]:\n            return True\n        if b == a[i+1:i+1+len(b)]:\n            return True\n        if b == a[i+2:i+2+len(b)]:\n            return True\n        if b == a[i+3:i+3+len(b)]:\n            return True\n        if b == a[i+4:i+4+len(b)]:\n            return True\n    return False\n\n\nprint(cycpattern_check(\"whassup\",\"psus\"))",
+      -2.744140625
+    ],
+    [
+      "# if len(a) > len(b):\n    #     return False\n    # else:\n    #     for i in range(len(a)):\n    #         if a[i:] + a[:i] == b:\n    #             return True\n    #     return False\n    # if len(a) > len(b):\n    #     return False\n    # else:\n    #     for i in range(len(a)):\n    #         if a[i:] + a[:i] == b:\n    #             return True\n    #     return False\n    if len(a) > len(b):\n        return False\n    else:\n        for i in range(len(a)):\n            if a[i:] + a[:i] == b:\n                return True\n        return False\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern_check(\"himenss\",\"simen\"))",
+      -3.333984375
+    ],
+    [
+      "if a == b:\n        return True\n\n    if len(a) != len(b):\n        return False\n\n    for i in range(0, len(b)):\n        if b == a[i:]:\n            return True\n        a = a + a[0]\n\n    return False\n\n\ndef cycpattern_check_v2(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if a == b:\n        return True\n\n    if len(a) != len(b):\n        return False\n\n    a = a + a\n    return b in a\n\n\ndef cycpattern_check_v3(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if a == b:\n        return True\n\n    if len(a) != len(b):\n        return False\n\n    return b in a + a\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check_v3(\"abc\", \"abc\"))\n    print(cycpattern_check_v3(\"abcd\", \"abc\"))\n    print(cycpattern_check_v3(\"abc\", \"abcd",
+      -3.353515625
+    ],
+    [
+      "a = a.lower()\n    b = b.lower()\n    n = len(a)\n    m = len(b)\n    if n < m:\n        return False\n    if a == b:\n        return True\n\n    for i in range(0, n):\n        if a[i:i + m] == b:\n            return True\n        if a[i:i + m] == b[::-1]:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    input_string = input(\"Enter Input String: \")\n    input_string2 = input(\"Enter Input String: \")\n    print(cycpattern_check(input_string, input_string2))",
+      -3.396484375
+    ],
+    [
+      "if len(a) < len(b):\n        return False\n\n    if a == b:\n        return True\n\n    b_len = len(b)\n    a_len = len(a)\n\n    for i in range(a_len - b_len + 1):\n        if a[i:i + b_len] == b:\n            return True\n        elif a[i:i + b_len] == a[i + 1:i + 1 + b_len]:\n            return True\n        elif a[i:i + b_len] == a[i + 2:i + 2 + b_len]:\n            return True\n        elif a[i:i + b_len] == a[i + 3:i + 3 + b_len]:\n            return True\n\n    return False\n\n\ndef cycpattern_check_v2(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if len(a) < len(b):\n        return False\n\n    if a == b:\n        return True\n\n    b_len = len(b)\n    a_len = len(a)\n\n    for i in range(a_len - b_len + 1):\n        if a[i:i + b_len] == b:\n            return True\n\n    return False\n\n\nprint(cycpattern_check(\"abcd\",\"abd\"))\nprint(cycpattern_check(\"hello\",\"ell\"))\nprint(cycpattern_check(\"whassup\",\"psus\"))\nprint(cycpattern_check(\"abab\",\"baa\"))\nprint(cycpattern_check(\"efef\",\"eeff\"))\nprint(cycpattern",
+      -3.470703125
+    ],
+    [
+      "if a == b:\n        return True\n    # if len(a) != len(b):\n    #     return False\n    if len(a) - len(b) >= 2:\n        return False\n\n    for i in range(len(a)):\n        if a[i:] == b:\n            return True\n    for i in range(len(a) - 1):\n        if a[i + 1:] + a[:i + 1] == b:\n            return True\n    for i in range(len(a) - 2):\n        if a[i + 2:] + a[:i + 2] == b:\n            return True\n    return False\n\n\nif __name__ == '__main__':\n    assert cycpattern_check(\"abcd\", \"abd\") == False\n    assert cycpattern_check(\"hello\", \"ell\") == True\n    assert cycpattern_check(\"whassup\", \"psus\") == False\n    assert cycpattern_check(\"abab\", \"baa\") == True\n    assert cycpattern_check(\"efef\", \"eeff\") == False\n    assert cycpattern_check(\"himenss\", \"simen\") == True",
+      -3.525390625
+    ],
+    [
+      "if a == b:\n        return False\n    if len(a) != len(b):\n        return False\n    if len(a) == 0 or len(b) == 0:\n        return False\n    if a == b:\n        return False\n    if len(a) == 1:\n        if a == b:\n            return True\n        return False\n    if len(a) == 2:\n        if a == b:\n            return True\n        return False\n    a_list = [a[i:i+len(a)] for i in range(len(a))]\n    b_list = [b[i:i+len(b)] for i in range(len(b))]\n    if b in a_list:\n        return True\n    for i in range(len(b_list)):\n        b_list[i] = b_list[i][::-1]\n    if b_list in a_list:\n        return True\n    return False\n\n\ndef cycpattern_check_2(a, b):\n    if a == b:\n        return False\n    if len(a) != len(b):\n        return False\n    if len(a) == 0 or len(b) == 0:\n        return False\n    if a == b:\n        return False\n    if len(a) == 1:\n        if a == b:\n            return True\n        return False\n    if len(a) == 2:\n        if a == b:\n            return True\n        return False\n    a_list = [a[i:i+len(a)] for i in range(len(a))]\n    b_list = [b[i:i+len(b)] for i in range(len(b))]\n    if b in a_list:\n        return True\n    for i in range(len(b_list)):\n        b_list[i] = b_list[i][::-1]\n    if b_list in a_list:\n        return True\n    return False\n\n\ndef cycpattern_check_3(a, b):\n    if a == b:\n        return False\n    if len(a) != len(b):",
+      -3.60546875
+    ],
+    [
+      "# return a in b or b in a or any(a in x or b in x for x in (a+b, b+a, b+a[::-1], a+a[::-1]))\n    # return a in b or b in a or any(a in x or b in x for x in (b+a, a+b, a+b[::-1], b+b[::-1]))\n    return a in b or b in a or any(a in x or b in x for x in (b+a, b+a[::-1]))\n\n\ndef cycpattern_check_2(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    # return a in b or b in a or any(a in x or b in x for x in (a+b, b+a, b+a[::-1], a+a[::-1]))\n    # return a in b or b in a or any(a in x or b in x for x in (b+a, b+a[::-1]))\n    return a in b or b in a or any(a in x or b in x for x in (b+a, b+a[::-1]))\n\n\n\nif __name__ == \"__main__\":\n    a = \"abcd\"\n    b = \"abd\"\n    print(cycpattern_check(a, b))\n    a = \"hello\"\n    b = \"ell\"\n    print(cycpattern_check(a, b))\n    a = \"whassup\"\n    b = \"psus\"\n    print(cycpattern_check(a, b))\n    a = \"abab\"",
+      -3.697265625
+    ],
+    [
+      "a = a + a\n    b = b + b\n    return a.find(b) != -1\n\nif __name__ == \"__main__\":\n    input_string = input(\"enter a,b: \")\n    input_list = input_string.split(\",\")\n    print(cycpattern_check(input_list[0], input_list[1]))",
+      -3.802734375
+    ],
+    [
+      "if b in a:\n        return True\n    b_len = len(b)\n    a_len = len(a)\n    for i in range(a_len):\n        if a[i:i + b_len] == b:\n            return True\n    return False\n\n\nif __name__ == '__main__':\n    a = \"whassup\"\n    b = \"psus\"\n    print(cycpattern_check(a, b))",
+      -4.34765625
+    ],
+    [
+      "if len(b) > len(a):\n        return False\n    if b in a:\n        return True\n    for i in range(len(a)):\n        substring = a[i : i + len(b)]\n        if substring == b:\n            return True\n    return False\n\n\ndef cycpattern_check_solution(a, b):\n    \"\"\"\n    This solution is similar to cycpattern_check function but it is more efficient.\n    \"\"\"\n    if len(b) > len(a):\n        return False\n    if b in a:\n        return True\n    if b[::-1] in a:\n        return True\n    return False\n\n\ndef cycpattern_check_solution_2(a, b):\n    \"\"\"\n    This solution is more efficient than cycpattern_check_solution\n    \"\"\"\n    if len(b) > len(a):\n        return False\n    if b in a:\n        return True\n    if b[::-1] in a:\n        return True\n    for i in range(len(a) - len(b) + 1):\n        if a[i : i + len(b)] == b:\n            return True\n    return False\n\n\nprint(cycpattern_check(\"abcd\", \"abd\"))\nprint(cycpattern_check(\"hello\", \"ell\"))\nprint(cycpattern_check(\"whassup\", \"psus\"))\nprint(cycpattern_check(\"abab\", \"baa\"))\nprint(cycpattern_check(\"efef\", \"eeff\"))\nprint(cycpattern_check(\"himenss\", \"simen\"))\n\nprint(\"=============================================\")\n\nprint(cycpattern_check_solution(\"abcd\", \"abd\"))\nprint(cycpattern_check_solution(\"hello\", \"ell\"))\nprint(cycpattern_check_solution(\"whassup\", \"psus\"))\nprint(cycpattern_check_solution(\"abab\", \"baa\"))\nprint(cycpattern_check_solution(\"efef\", \"eeff\"))\nprint(cycpattern_check_solution(\"himenss\", \"simen\"))\n\nprint(\"=============================================\")\n\nprint(cycpattern_check",
+      -4.7578125
+    ],
+    [
+      "if len(a) == len(b) and len(a) == 0:\n        return True\n    elif len(a) == len(b) and len(a) != 0:\n        return False\n    elif len(b) > len(a):\n        return False\n\n    a_list = []\n    b_list = []\n    a_list = [a[i:i + len(b)] for i in range(0, len(a) - len(b) + 1)]\n    b_list = [b[i:i + len(b)] for i in range(0, len(b) - len(b) + 1)]\n    for i in b_list:\n        if i in a_list:\n            return True\n    return False\n\n\ndef cycpattern_check_1(a, b):\n    \"\"\"\n    #You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    #cycpattern_check(\"abcd\",\"abd\") => False\n    #cycpattern_check(\"hello\",\"ell\") => True\n    #cycpattern_check(\"whassup\",\"psus\") => False\n    #cycpattern_check(\"abab\",\"baa\") => True\n    #cycpattern_check(\"efef\",\"eeff\") => False\n    #cycpattern_check(\"himenss\",\"simen\") => True\n    \"\"\"\n    if len(a) == len(b) and len(a) == 0:\n        return True\n    elif len(a) == len(b) and len(a) != 0:\n        return False\n    elif len(b) > len(a):\n        return False\n\n    a_list = []\n    b_list = []\n    a_list = [a[i:i + len(b)] for i in range(0, len(a) - len(b) + 1)]\n    b_list = [b[i:i + len(b)] for i in range(0, len(b) - len(b) + 1)]\n    for i in b_list:\n        if i in a_list:\n            return True\n    return False",
+      -4.83984375
+    ],
+    [
+      "a = a + a\n    b = b + b\n    return (b in a)\n\n\ndef cycpattern_check2(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    a = a + a\n    b = b + b\n    return (b in a)\n\n\ndef cycpattern_check3(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    a = a + a\n    b = b + b\n    return (b in a)\n\n\ndef cycpattern_check4(a , b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    a = a +",
+      -5.33984375
+    ],
+    [
+      "if a == b:\n        return True\n\n    for i in range(len(a)):\n        if b in a:\n            return True\n        else:\n            a = a[-1] + a[:-1]\n\n    return False\n\n\ndef cycpattern_check_2(a, b):\n    if a == b:\n        return True\n\n    def rotations(a):\n        n = len(a)\n        out = []\n        for i in range(n):\n            out.append(a[i:] + a[:i])\n        return out\n\n    return any(b in x for x in rotations(a))\n\n\nif __name__ == \"__main__\":\n    print(cycpattern_check_2(\"abcd\", \"abd\"))\n    print(cycpattern_check_2(\"hello\", \"ell\"))\n    print(cycpattern_check_2(\"whassup\", \"psus\"))\n    print(cycpattern_check_2(\"abab\", \"baa\"))\n    print(cycpattern_check_2(\"efef\", \"eeff\"))\n    print(cycpattern_check_2(\"himenss\", \"simen\"))",
+      -5.77734375
+    ],
+    [
+      "if len(a) == len(b):\n        return False\n\n    # first word\n    first_word = a\n    # second word\n    second_word = b\n\n    for i in range(len(second_word)):\n        # check if second word is present in first word\n        if second_word in first_word:\n            return True\n        # if not present then rotate second word and check\n        else:\n            # rotate second word\n            second_word = second_word[-1] + second_word[:-1]\n            # check if rotated word is present in first word\n            if second_word in first_word:\n                return True\n\n    return False\n\n\ndef cycpattern_check_optimized(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if len(a) == len(b):\n        return False\n\n    # first word\n    first_word = a\n    # second word\n    second_word = b\n\n    # if second word is present in first word then return True\n    if second_word in first_word:\n        return True\n\n    # if not present then rotate second word and check\n    else:\n        # rotate second word\n        second_word = second_word[-1] + second_word[:-1]\n        # check if rotated word is present in first word\n        return second_word in first_word",
+      -5.84765625
+    ],
+    [
+      "# if b == a[::-1]:\n    #     return True\n    # if b == a[1:]:\n    #     return True\n    # if b == a[2:]:\n    #     return True\n    # if b == a[3:]:\n    #     return True\n    # if b == a[4:]:\n    #     return True\n    # if b == a[5:]:\n    #     return True\n    # if b == a[6:]:\n    #     return True\n    # if b == a[7:]:\n    #     return True\n    # if b == a[8:]:\n    #     return True\n    # if b == a[9:]:\n    #     return True\n    # if b == a[10:]:\n    #     return True\n    # if b == a[11:]:\n    #     return True\n    # if b == a[12:]:\n    #     return True\n    # if b == a[13:]:\n    #     return True\n    # if b == a[14:]:\n    #     return True\n    # if b == a[15:]:\n    #     return True\n    # if b == a[16:]:\n    #     return True\n    # if b == a[17:]:\n    #     return True\n    # if b == a[18:]:\n    #     return True\n    # if b == a[19:]:\n    #     return True\n    # if b == a[20:]:\n    #     return True\n    # if b == a[21:]:\n    #     return True\n    # if b == a[22:]:\n    #     return True\n    # if b == a[23:]:\n    #     return True\n    # if b == a[24:]:\n    #     return True\n    # if b == a[25:]:\n    #     return True\n    # if b == a[26:]:\n    #     return True\n    # if b == a[27:]:\n    #     return True\n    # if b == a[28:]:\n    #     return True",
+      -6.66015625
+    ],
+    [
+      "#TODO: IMPLEMENT THIS FUNCTION\n\n    # A rotation of a word is a word formed by shuffling all the letters of the word. (Example: \"abc\" has 5 rotations: \"abc\", \"bac\", \"cab\", \"cba\" and \"acb\".)\n\n    # If word has n characters, it has n rotations plus the original word.\n\n    # For example, if the word is \"abc\", then the rotations are \"abc\", \"bca\", \"cab\", \"cba\" and \"acb\", plus the original word.\n\n    # So, if the first word has n rotations, and the second word has m rotations, then the answer is true if m + n - 2 is even.\n\n    # For example, if the first word is \"abc\", then it has 5 rotations: \"abc\", \"bca\", \"cab\", \"cba\" and \"acb\".\n\n    # If the second word is \"bca\", then it has 3 rotations: \"bca\", \"cab\" and \"cba\".\n\n    # If the first word is \"abc\" and the second word is \"bca\", then m + n - 2 = 3 + 5 - 2 = 6 which is even.\n\n    # If the first word is \"abc\" and the second word is \"cab\", then m + n - 2 = 3 + 5 - 2 = 6 which is even.\n\n    # If the first word is \"abc\" and the second word is \"cba\", then m + n - 2 = 3 + 5 - 2 = 6 which is even.\n\n    # If the first word is \"abc\" and the second word is \"acb\", then m + n - 2 = 3 + 5 - 2 = 6 which is even.\n\n    # If the first word is \"abc\" and the second word is \"bac\", then m + n - 2 = 3 + 5 - 2 = 6 which is even.\n\n    # If the first word is \"abc\" and the second word is \"cab\", then m + n - 2 = 3 + 5 - 2 = 6 which",
+      -7.9609375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

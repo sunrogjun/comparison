@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/10",
+    "prompt": "\n\ndef is_palindrome(string: str) -> bool:\n    \"\"\" Test if given string is a palindrome \"\"\"\n    return string == string[::-1]\n\n\ndef make_palindrome(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    >>> make_palindrome('')\n    ''\n    >>> make_palindrome('cat')\n    'catac'\n    >>> make_palindrome('cata')\n    'catac'\n    \"\"\"\n",
+    "canonical_solution": "    if not string:\n        return ''\n\n    beginning_of_suffix = 0\n\n    while not is_palindrome(string[beginning_of_suffix:]):\n        beginning_of_suffix += 1\n\n    return string + string[:beginning_of_suffix][::-1]\n",
+    "test": "\n\nMETADATA = {\n    'author': 'jt',\n    'dataset': 'test'\n}\n\n\ndef check(candidate):\n    assert candidate('') == ''\n    assert candidate('x') == 'x'\n    assert candidate('xyz') == 'xyzyx'\n    assert candidate('xyx') == 'xyx'\n    assert candidate('jerry') == 'jerryrrej'\n",
+    "entry_point": "make_palindrome",
+    "docstring": "",
+    "problem_id": 10
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[1:]) + string[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      3.818359375
+    ],
+    [
+      "if not string:\n        return ''\n\n    longest_postfix = string[::-1]\n    if is_palindrome(longest_postfix):\n        return string[::-1] + longest_postfix\n    else:\n        return string",
+      3.2109375
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    length = len(string)\n    result = ''\n    for i in range(length // 2):\n        result += string[i]\n        result += string[length - i - 1]\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      2.609375
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[0]!= string[-1]:\n        return string + string[::-1]\n    return make_palindrome(string[1:-1]) + string[::-1]",
+      2.52734375
+    ],
+    [
+      "length = len(string)\n    if length < 2:\n        return string\n    elif length == 2:\n        return string[::-1]\n    else:\n        return string[::-1] + make_palindrome(string[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.21875
+    ],
+    [
+      "if string == '':\n        return ''\n    else:\n        prefix = string[0]\n        suffix = string[1:]\n        if is_palindrome(string):\n            return prefix + make_palindrome(suffix)[::-1]\n        else:\n            return make_palindrome(prefix)[::-1] + suffix",
+      2.111328125
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[0] == string[-1]:\n        return string\n    prefix = make_palindrome(string[1:-1])\n    suffix = string[-1]\n    return prefix + suffix[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      2.1015625
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[::-1]) + string\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      0.91064453125
+    ],
+    [
+      "if not string:\n        return string\n    if is_palindrome(string):\n        return string\n    for i in range(len(string)):\n        if string[i] == string[-1]:\n            string = string[:i] + string[i + 1:] + string[:-1]\n        else:\n            return string\n    return string\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.806640625
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    postfix = string[::-1]\n    return string + postfix[::-1]",
+      0.796875
+    ],
+    [
+      "if len(string) == 0:\n        return ''\n\n    suffix = string[::-1]\n\n    if is_palindrome(suffix):\n        return string\n\n    return make_palindrome(string[1:]) + suffix\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.71728515625
+    ],
+    [
+      "return ''.join(reversed(string)) if is_palindrome(string) else string\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.5791015625
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    prefix = string[:1]\n    suffix = string[-1:]\n    return prefix + make_palindrome(suffix)",
+      0.436767578125
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[::-1]) + string\n\n\ndef main():\n    string = input('Enter string: ')\n    print(make_palindrome(string))\n\n\nif __name__ == '__main__':\n    main()",
+      0.188720703125
+    ],
+    [
+      "prefix = ''\n    suffix = ''\n    for c in string:\n        if c.isalnum():\n            prefix += c.lower()\n        else:\n            suffix += c.lower()\n    if is_palindrome(prefix):\n        return prefix + suffix[::-1]\n    else:\n        return prefix + suffix\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.63525390625
+    ],
+    [
+      "if string == '':\n        return ''\n    elif string[0] == string[-1]:\n        return make_palindrome(string[1:-1]) + string[0]\n    else:\n        return string[0] + make_palindrome(string[1:])",
+      -0.7490234375
+    ],
+    [
+      "if not string:\n        return ''\n    prefix = string[:1]\n    suffix = string[-1:]\n    if is_palindrome(prefix) and is_palindrome(suffix):\n        return prefix + suffix[::-1]\n    else:\n        return string\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.81787109375
+    ],
+    [
+      "if not string:\n        return \"\"\n    if is_palindrome(string):\n        return string[::-1]\n    return make_palindrome(string[1:]) + string[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.830078125
+    ],
+    [
+      "if not string:\n        return ''\n    elif is_palindrome(string):\n        return string\n    else:\n        return make_palindrome(string[::-1]) + string\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "longest_suffix = 0\n    longest_suffix_str = ''\n    for i in range(1, len(string)):\n        if is_palindrome(string[i:]):\n            if len(string[i:]) > longest_suffix:\n                longest_suffix = len(string[i:])\n                longest_suffix_str = string[i:]\n    return string + longest_suffix_str\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(string) == 0:\n        return ''\n    if is_palindrome(string):\n        return string\n    else:\n        return make_palindrome(string[1:]) + string[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if not string:\n        return ''\n    if string[0]!= string[-1]:\n        return string\n    return string + make_palindrome(string[1:-1])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[::-1]) + string",
+      -0.857421875
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string[::-1]\n    return make_palindrome(string[::-1]) + string",
+      -0.857421875
+    ],
+    [
+      "if string == '':\n        return ''\n    if string == string[::-1]:\n        return string\n    if is_palindrome(string):\n        return make_palindrome(string[::-1]) + string[::-1]\n    return string + make_palindrome(string[::-1])",
+      -0.85791015625
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[::-1]) + string[::-1][:1]",
+      -0.85791015625
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[-1] == string[-2]:\n        return string[:-1] + string[-1] + make_palindrome(string[:-2])\n    return string + make_palindrome(string[:-1])\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    longest = 1\n    longest_suffix = ''\n    for i in range(len(string) - 1, 0, -1):\n        if string[i]!= string[i - 1]:\n            longest = i\n            longest_suffix = string[i]\n    return string + longest_suffix\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if not string:\n        return \"\"\n\n    max_length = 0\n    longest_palindrome = \"\"\n    for i in range(len(string)):\n        if string[i]!= string[max_length]:\n            max_length = i\n            longest_palindrome = string[i]\n\n    return string[:max_length] + longest_palindrome + string[max_length + 1:]",
+      -0.85791015625
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    if len(string) == 1:\n        return string\n    length = len(string)\n    prefix = string[:length//2]\n    suffix = string[length//2:]\n    return prefix + make_palindrome(suffix)\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if not string:\n        return ''\n\n    longest_postfix = 0\n    longest_palindrome = ''\n\n    for i in range(1, len(string)):\n        if string[i] == string[i - 1]:\n            continue\n        else:\n            longest_postfix = i\n            longest_palindrome = string[i - 1:i + 1]\n\n    return longest_palindrome + string[0:longest_postfix]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if string == '':\n        return ''\n\n    longest_postfix = max([len(x) for x in string.split()])\n    suffix = string[-longest_postfix:]\n    return string[:-longest_postfix] + suffix[::-1]",
+      -0.88671875
+    ],
+    [
+      "if not string:\n        return string\n    if is_palindrome(string):\n        return string\n    length = len(string)\n    for i in range(length // 2):\n        if is_palindrome(string[i:length - i - 1]):\n            return string[:i] + string[length - i - 1][::-1] + string[length - i - 1][::-1]\n    return string\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.90380859375
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[1:]) + string\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.919921875
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[-1] == string[0]:\n        return string[0:-1] + make_palindrome(string[1:-1])\n    return string + make_palindrome(string[1:])\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -1.298828125
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string[::-1]\n    return make_palindrome(string[1:]) + string[::-1]",
+      -1.4306640625
+    ],
+    [
+      "if not string:\n        return ''\n\n    if string[0] == string[-1]:\n        return make_palindrome(string[1:-1])\n\n    prefix = string[0]\n    suffix = string[-1]\n    return prefix + make_palindrome(suffix)[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -2.46484375
+    ],
+    [
+      "if not string:\n        return \"\"\n    longest_postfix = 0\n    longest_postfix_string = \"\"\n    for i in range(len(string) - 1, -1, -1):\n        postfix = string[i]\n        if is_palindrome(postfix):\n            longest_postfix = i\n            longest_postfix_string = postfix\n    return f\"{string[:longest_postfix]}{longest_postfix_string}{string[longest_postfix + 1:]}\"\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.931640625
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    longest_suffix = ''\n    for i in range(len(string) - 1, -1, -1):\n        suffix = string[i]\n        if is_palindrome(suffix):\n            longest_suffix = suffix\n            break\n    if longest_suffix:\n        return string[:i] + longest_suffix + string[i + 1:]\n    return string[:i]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -2.966796875
+    ],
+    [
+      "if string == '':\n        return ''\n\n    length = len(string)\n    if length < 2:\n        return string\n\n    longest = string[0]\n    for i in range(1, length):\n        if string[i]!= string[length - 1]:\n            return string\n\n        longest = max(longest, string[i])\n\n    return string + longest[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -3.4140625
+    ],
+    [
+      "if not string:\n        return ''\n\n    longest_suffix = 0\n    for i in range(len(string)):\n        suffix = string[i:]\n        if is_palindrome(suffix):\n            if len(suffix) > longest_suffix:\n                longest_suffix = len(suffix)\n\n    return string + string[::-1][:longest_suffix]",
+      -3.541015625
+    ],
+    [
+      "if not string:\n        return ''\n    max_len = 0\n    longest_palindrome = ''\n    for i in range(len(string)):\n        if is_palindrome(string[i:]):\n            if len(string) > max_len:\n                max_len = len(string)\n                longest_palindrome = string[i:]\n    return longest_palindrome + string[::-1]",
+      -3.662109375
+    ],
+    [
+      "if not string:\n        return ''\n    longest_palindrome_suffix = 0\n    longest_palindrome_prefix = ''\n    for i in range(len(string)):\n        suffix = string[i:]\n        prefix = string[:i]\n        if is_palindrome(suffix):\n            if len(suffix) > longest_palindrome_suffix:\n                longest_palindrome_suffix = len(suffix)\n                longest_palindrome_prefix = prefix\n    return longest_palindrome_prefix + longest_palindrome_suffix[::-1] + string\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -3.6640625
+    ],
+    [
+      "if not string:\n        return \"\"\n    if is_palindrome(string):\n        return string\n    if len(string) == 1:\n        return string[0]\n    if len(string) % 2 == 1:\n        return string[::-1]\n    return make_palindrome(string[:-1]) + string[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.677734375
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[0]!= string[-1]:\n        return string\n    prefix = make_palindrome(string[1:-1])\n    suffix = string[::-1]\n    return prefix + suffix\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.744140625
+    ],
+    [
+      "if not string:\n        return ''\n    if len(string) == 1:\n        return string\n    if len(string) == 2:\n        if string[0]!= string[1]:\n            return string\n        else:\n            return make_palindrome(string[1:])\n    if is_palindrome(string[0]):\n        return make_palindrome(string[1:]) + string[0]\n    return make_palindrome(string[1:]) + make_palindrome(string[0])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -3.84765625
+    ],
+    [
+      "if string == '':\n        return ''\n    if not is_palindrome(string):\n        return string\n    length = len(string)\n    postfix = string[::-1]\n    if length > length:\n        return string\n    return string + postfix\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.912109375
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    if len(string) == 1:\n        return string[0]\n    return string[:1] + make_palindrome(string[1:])\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -4.01171875
+    ],
+    [
+      "if not string:\n        return string\n    if not is_palindrome(string):\n        return string\n    if len(string) < 2:\n        return string\n    if string[0] == string[-1]:\n        return make_palindrome(string[1:-1]) + string\n    return make_palindrome(string[1:]) + string[0]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.21484375
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return ''\n    return string[:1] + string[-1][::-1] + string\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.4375
+    ],
+    [
+      "prefix = ''\n    suffix = ''\n    if string == '':\n        return prefix\n    for char in string:\n        if char == string[-1]:\n            prefix += char\n        else:\n            if is_palindrome(prefix):\n                suffix += char\n            prefix = ''\n    if is_palindrome(suffix):\n        return prefix + suffix\n    else:\n        return ''\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.453125
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[0] == string[-1]:\n        return make_palindrome(string[1:-1]) + string[0]\n    else:\n        return make_palindrome(string[1:]) + string[0]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.48828125
+    ],
+    [
+      "if string == '':\n        return string\n\n    longest_palindrome = ''\n    prefix = string[0]\n    for i in range(1, len(string)):\n        if string[i]!= string[i - 1]:\n            if is_palindrome(prefix):\n                longest_palindrome = prefix\n            prefix = string[0]\n\n    if is_palindrome(prefix):\n        longest_palindrome = prefix\n\n    return prefix + longest_palindrome\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.8671875
+    ],
+    [
+      "if not string:\n        return ''\n    if string[0] == string[-1]:\n        return make_palindrome(string[1:-1])\n    prefix = string[:1]\n    suffix = string[-1:]\n    while prefix and suffix:\n        if is_palindrome(prefix + suffix):\n            return prefix + suffix\n        prefix = prefix[1:]\n        suffix = suffix[:-1]\n    return prefix + suffix\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.98828125
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string[::-1]\n    else:\n        return make_palindrome(string[1:]) + string\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -5.03125
+    ],
+    [
+      "if not string:\n        return string\n    longest_length = 0\n    longest_string = string[0]\n    for i in range(1, len(string)):\n        if string[i]!= string[i-1]:\n            longest_string += string[i]\n            if len(longest_string) > longest_length:\n                longest_length = len(longest_string)\n            else:\n                longest_string = string[i]\n    return longest_string + string[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -5.640625
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[0] == string[-1]:\n        return string[1:] + make_palindrome(string[1:-1])\n    if string[-1] == string[0]:\n        return string[1:] + make_palindrome(string[:-1])\n    return string + make_palindrome(string[:-1])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -5.72265625
+    ],
+    [
+      "prefix = string[:-1]\n    while is_palindrome(prefix):\n        prefix = prefix[1:]\n    suffix = string[-1]\n    return prefix + suffix\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -5.8671875
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return ''\n    return string[::-1] + make_palindrome(string[1:])\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -6.015625
+    ],
+    [
+      "if string == '':\n        return ''\n\n    if is_palindrome(string):\n        return string[::-1]\n\n    max_len = 0\n    for i in range(len(string)):\n        if len(string[i:]) > max_len:\n            max_len = len(string[i:])\n\n    return string[::-1][:max_len] + string[::-1][max_len:]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -6.0703125
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    else:\n        return make_palindrome(string[::-1]) + string\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -6.234375
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n\n    longest_postfix = 0\n    longest_postfix_reverse = string[::-1]\n    for index, char in enumerate(string[::-1]):\n        if char!= longest_postfix_reverse[index]:\n            return string\n        longest_postfix = index + 1\n\n    return string + longest_postfix_reverse\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -6.421875
+    ],
+    [
+      "if string == '':\n        return ''\n\n    if is_palindrome(string):\n        return string[::-1]\n\n    return make_palindrome(string[1:]) + string\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -6.4453125
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[-1]!= string[-2]:\n        return string + string[-1] + string[-2][::-1]\n    return string[:-1] + string[-2][::-1]",
+      -6.51953125
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n\n    longest_postfix = ''\n    for i in range(len(string) - 1, -1, -1):\n        if string[i] == string[i + 1]:\n            longest_postfix = string[i]\n    return string + longest_postfix[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -6.62109375
+    ],
+    [
+      "if not string:\n        return \"\"\n\n    if is_palindrome(string):\n        return string\n\n    max_len = 0\n    max_len_prefix = \"\"\n    for char in string:\n        char_len = len(char)\n        if char_len > max_len:\n            max_len = char_len\n            max_len_prefix = char\n    return string[:-1] + max_len_prefix + string[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.87890625
+    ],
+    [
+      "if not string:\n        return ''\n\n    if not is_palindrome(string):\n        return string\n\n    # find longest prefix\n    prefix = string[:1]\n    suffix = string[1:]\n    for i in range(len(suffix)):\n        if prefix[i]!= suffix[i]:\n            return prefix + suffix[::-1]\n        prefix = prefix[1:]\n        suffix = suffix[i:]\n\n    return prefix + suffix[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -6.89453125
+    ],
+    [
+      "if string == '':\n        return ''\n    if is_palindrome(string):\n        return string\n    longest_suffix = 0\n    for i in range(len(string) - 1, -1, -1):\n        suffix = string[i]\n        if is_palindrome(string[:i] + suffix):\n            if longest_suffix < i - i:\n                longest_suffix = i - i\n    return string + string[-longest_suffix:]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -7.171875
+    ],
+    [
+      "if not string:\n        return ''\n\n    prefix = string[:1]\n    longest_postfix = 0\n\n    for i in range(1, len(string)):\n        if is_palindrome(string[i:]):\n            if i + longest_postfix > len(prefix):\n                longest_postfix = i + 1\n                prefix = string[i:]\n\n    return prefix + string[-longest_postfix:]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -7.19140625
+    ],
+    [
+      "if len(string) == 1:\n        return string[0]\n    if len(string) == 2:\n        if is_palindrome(string):\n            return string[0] + string[1]\n        else:\n            return string[0]\n\n    if is_palindrome(string[:-1]):\n        return make_palindrome(string[1:]) + string[-1]\n    else:\n        return make_palindrome(string[1:]) + string[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.75390625
+    ],
+    [
+      "if len(string) == 0:\n        return string\n    if len(string) == 1:\n        return string[0]\n    if is_palindrome(string):\n        return string[::-1]\n    return make_palindrome(string[1:]) + string[0]\n\n\ndef make_palindrome_recursive(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    - Recursive implementation\n    - Recursive implementation\n    - Recursive implementation\n    >>> make_palindrome_recursive('')\n    ''\n    >>> make_palindrome_recursive('cat')\n    'catac'\n    >>> make_palindrome_recursive('cata')\n    'catac'\n    \"\"\"\n    if len(string) == 0:\n        return string\n    if len(string) == 1:\n        return string[0]\n    if is_palindrome(string):\n        return string[::-1]\n    return make_palindrome_recursive(string[1:]) + string[0]",
+      -7.7734375
+    ],
+    [
+      "if not string:\n        return ''\n\n    if len(string) == 1:\n        return string\n\n    max_length = 0\n    max_length_index = -1\n    for i in range(len(string)):\n        current_string = string[:i]\n        current_length = len(current_string)\n        if current_length > max_length:\n            max_length = current_length\n            max_length_index = i\n\n    if max_length == 0:\n        return string\n\n    return string[:max_length_index] + string[max_length_index:][::-1] + string[max_length_index + 1:]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -8.1484375
+    ],
+    [
+      "if string == '':\n        return ''\n    if not is_palindrome(string):\n        return ''\n    length = len(string)\n    longest_palindrome = string[0]\n    longest_palindrome_length = 1\n    for i in range(length):\n        if string[i]!= string[i + 1]:\n            if i == length - 1:\n                longest_palindrome = string[i]\n                longest_palindrome_length = 1\n            else:\n                longest_palindrome = string[i] + string[i + 1]\n                longest_palindrome_length = max(longest_palindrome_length, i + 1)\n    return longest_palindrome + string[0:longest_palindrome_length]",
+      -8.46875
+    ],
+    [
+      "if not string:\n        return \"\"\n\n    longest_postfix = 0\n    longest_postfix_end = 0\n    for i in range(1, len(string)):\n        if string[i]!= string[longest_postfix]:\n            break\n        longest_postfix = i\n        longest_postfix_end = i\n\n    new_string = string[0:longest_postfix]\n    new_string += string[longest_postfix_end:]\n    return new_string\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -9.2109375
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    longest_postfix = 0\n    longest_palindrome = ''\n    for i in range(1, len(string)):\n        if string[i]!= string[i - 1]:\n            longest_postfix = i\n            break\n    longest_palindrome = string[:longest_postfix] + string[longest_postfix + 1:]\n    return longest_palindrome\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -9.4921875
+    ],
+    [
+      "string = string.lower()\n    if not string:\n        return \"\"\n    if is_palindrome(string):\n        return string\n    if len(string) <= 1:\n        return string\n    start = 0\n    end = 1\n    while start < end:\n        mid = (start + end) // 2\n        if is_palindrome(string[start:mid]):\n            start = mid + 1\n        else:\n            end = mid\n    return string[start:] + string[:start]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -10.875
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    prefix = string[:1]\n    longest_suffix = string[1:]\n    if is_palindrome(longest_suffix):\n        return prefix + make_palindrome(longest_suffix[::-1])\n    return prefix + make_palindrome(longest_suffix)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -11.1640625
+    ],
+    [
+      "if string == \"\":\n        return \"\"\n    if not is_palindrome(string):\n        return string\n    length = len(string)\n    if length == 0:\n        return string\n    if length == 1:\n        return string[0]\n\n    # find the longest postfix of supplied string that is a palindrome\n    longest_postfix = string[0]\n    for i in range(1, length):\n        if string[i]!= longest_postfix:\n            return string\n        else:\n            longest_postfix = string[i]\n\n    # append to the end of the string reverse of a string prefix that comes before the palindromic suffix\n    return string + longest_postfix[::-1]",
+      -12.125
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    longest_suffix = 0\n    longest_prefix = ''\n    for i in range(len(string)):\n        if string[i] == string[len(string) - 1]:\n            continue\n        if is_palindrome(string[:i] + string[i + 1:]):\n            longest_suffix = i\n            longest_prefix = string[:i] + string[i + 1:]\n    return longest_prefix + string[longest_suffix:]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -13.015625
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    longest_postfix = 0\n    for i in range(1, len(string)):\n        if string[i] == string[i - 1]:\n            continue\n        if longest_postfix < i - 1:\n            longest_postfix = i\n    return string[:longest_postfix + 1] + string[-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -13.1171875
+    ],
+    [
+      "if string == '':\n        return ''\n    if not is_palindrome(string):\n        return string\n    # Find the longest postfix of supplied string that is a palindrome.\n    longest_postfix = 0\n    for i in range(1, len(string) - 1):\n        if string[i]!= string[i - 1]:\n            break\n        longest_postfix = max(longest_postfix, i)\n    # Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    return string[:longest_postfix] + string[-1:][::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -13.28125
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    if len(string) <= 1:\n        return string\n    prefix = string[0]\n    suffix = string[1:]\n    for i in range(len(suffix)):\n        if suffix[i]!= prefix[i]:\n            return string\n    return prefix + suffix[::-1] + string",
+      -13.6484375
+    ],
+    [
+      "length = len(string)\n    if length == 0:\n        return ''\n    if length == 1:\n        return string\n    longest_postfix = 0\n    longest_postfix_index = 0\n    for i in range(1, length):\n        if is_palindrome(string[i:]):\n            if longest_postfix < i - longest_postfix_index:\n                longest_postfix = i - longest_postfix_index\n                longest_postfix_index = i\n    return string[:longest_postfix_index] + string[longest_postfix_index:][::-1] + string\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -13.6484375
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    return make_palindrome(string[1:]) + string[::-1]\n\n\ndef longest_palindrome(string: str) -> str:\n    \"\"\" Find the longest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    >>> longest_palindrome('')\n    ''\n    >>> longest_palindrome('cat')\n    'catac'\n    >>> longest_palindrome('cata')\n    'catac'\n    \"\"\"\n    if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    string_length = len(string)\n    for i in range(1, string_length):\n        if string[:i] == string[::-1]:\n            return string\n    return string[::-1]\n\n\ndef longest_palindrome_with_prefix(string: str) -> str:\n    \"\"\" Find the longest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    >>> longest_palindrome_with_prefix('')\n    ''\n    >>> longest_palindrome_with_prefix('cat')\n    'catac'\n    >>> longest_palindrome_with_prefix('cata')\n    'catac'\n    \"\"\"\n    if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n    string_length = len(string)\n    for i in range(1, string_length):\n        if string[:i] == string[::-1]:\n            return string[:i]\n    return string[::-1]",
+      -13.8125
+    ],
+    [
+      "if not string:\n        return ''\n    if len(string) == 1:\n        return string[0]\n    if len(string) == 2:\n        return string[0] + string[1]\n    if len(string) == 3:\n        return string[0] + string[1] + string[2]\n    prefix = make_palindrome(string[:-1])\n    if is_palindrome(prefix):\n        return prefix + string[1:-1]\n    return make_palindrome(string[:-2]) + string[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -14.203125
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return ''\n\n    # find the longest postfix that is a palindrome\n    longest_postfix = 0\n    for i in range(1, len(string)):\n        postfix = string[i:]\n        if is_palindrome(postfix):\n            if longest_postfix < i - 1:\n                longest_postfix = i\n\n    # append the string reverse of the longest postfix to the end of the string\n    return string + string[::-1][:longest_postfix]\n\n\ndef main():\n    print(make_palindrome('cat'))\n    print(make_palindrome('cata'))\n\n\nif __name__ == '__main__':\n    main()",
+      -14.2109375
+    ],
+    [
+      "if not string:\n        return ''\n    if is_palindrome(string):\n        return string\n\n    # Find the longest postfix of the supplied string that is a palindrome\n    longest_postfix = 0\n    for i in range(1, len(string)):\n        if string[i]!= string[i - 1]:\n            longest_postfix = max(longest_postfix, i)\n    # Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    return string[:longest_postfix] + string[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -14.2734375
+    ],
+    [
+      "if not string:\n        return ''\n\n    # find the longest postfix that is a palindrome\n    longest_postfix = 0\n    for i in range(1, len(string)):\n        if string[i]!= string[len(string) - i - 1]:\n            return string\n        if longest_postfix < i - 1:\n            longest_postfix = i - 1\n\n    # append to the end of the string reverse of a string prefix that comes before the palindromic suffix\n    return string[::-1] + string[longest_postfix + 1:]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -14.484375
+    ],
+    [
+      "string = string.lower()\n    if not string:\n        return \"\"\n    if len(string) <= 1:\n        return string\n    if is_palindrome(string):\n        return string\n\n    # find the longest postfix that is a palindrome\n    longest_postfix = -1\n    for i in range(len(string) - 1):\n        if is_palindrome(string[i:i + 2]):\n            if longest_postfix < i - 1:\n                longest_postfix = i - 1\n\n    # append to the end of the string reverse of a string prefix that comes before the palindromic suffix\n    return string[:longest_postfix] + string[longest_postfix + 2:]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -14.6015625
+    ],
+    [
+      "if string == '':\n        return ''\n    prefix = string[0]\n    suffix = string[1:]\n    if is_palindrome(suffix):\n        return prefix + make_palindrome(suffix)[::-1] + suffix\n    return prefix + make_palindrome(suffix)[::-1]\n\n\ndef make_palindrome_iterative(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is iterative:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    >>> make_palindrome_iterative('')\n    ''\n    >>> make_palindrome_iterative('cat')\n    'catac'\n    >>> make_palindrome_iterative('cata')\n    'catac'\n    \"\"\"\n    if string == '':\n        return ''\n    prefix = string[0]\n    suffix = string[1:]\n    i = 1\n    while i < len(suffix):\n        if suffix[i]!= prefix[i]:\n            return prefix + str(i) + suffix[::-1]\n        i += 1\n    return prefix + str(len(suffix)) + suffix[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -14.6875
+    ],
+    [
+      "string = string.lower()\n    if not string:\n        return ''\n\n    max_length = 0\n    start_index = 0\n    while start_index < len(string):\n        if is_palindrome(string[start_index:start_index + max_length]):\n            max_length = start_index + 1\n            string = string[:start_index] + string[start_index + max_length:]\n        start_index += 1\n\n    string = string[::-1]\n    return string + string[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -14.6953125
+    ],
+    [
+      "if not string:\n        return ''\n    if not is_palindrome(string):\n        return string\n    prefix = string[0]\n    suffix = ''\n    for i in range(len(string)):\n        if string[i]!= prefix[i]:\n            return string\n        suffix = string[i]\n        prefix = prefix[1:]\n    return prefix + suffix[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -14.8125
+    ],
+    [
+      "string_len = len(string)\n    longest_suffix = string_len\n    longest_suffix_index = 0\n    for i in range(string_len):\n        if is_palindrome(string[i:]):\n            longest_suffix_index = i\n            break\n    if longest_suffix_index == -1:\n        return string\n    new_string = string[:longest_suffix_index] + string[longest_suffix_index:]\n    return make_palindrome(new_string)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -14.953125
+    ],
+    [
+      "if string == '':\n        return ''\n\n    if is_palindrome(string):\n        return string\n\n    prefix = string[:1]\n    suffix = string[1:]\n\n    if is_palindrome(prefix):\n        return make_palindrome(suffix) + prefix[::-1]\n    elif is_palindrome(suffix):\n        return suffix + make_palindrome(prefix)\n\n    return string\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -15.4140625
+    ],
+    [
+      "if not string:\n        return ''\n\n    if len(string) < 2:\n        return string\n\n    length = len(string)\n    if length == 1:\n        return string\n\n    if length == 2:\n        return string[0] + make_palindrome(string[1:])\n\n    longest_suffix = len(string) - 1\n    longest_suffix_start = 0\n    for i in range(length - 1, -1, -1):\n        if string[i] == string[longest_suffix]:\n            longest_suffix_start = i\n            break\n\n    if longest_suffix_start < 0:\n        return string\n\n    suffix = string[longest_suffix_start:]\n    return string[:longest_suffix_start] + suffix + make_palindrome(string[longest_suffix_start + 1:])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -15.5546875
+    ],
+    [
+      "if not string:\n        return ''\n\n    if is_palindrome(string):\n        return string\n\n    max_len = 0\n    max_len_prefix = ''\n    for i, char in enumerate(string[::-1]):\n        if char == string[0]:\n            continue\n        if is_palindrome(char) and i > max_len:\n            max_len = i\n            max_len_prefix = char\n\n    return f'{string[:max_len_prefix]}{max_len_prefix}{string[::-1]}'\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -16.34375
+    ],
+    [
+      "if len(string) == 0:\n        return ''\n    if string[0]!= string[-1]:\n        return string\n    return string[1:-1] + make_palindrome(string[1:-1])\n\n\ndef main() -> None:\n    \"\"\" Main function \"\"\"\n    user_input = input('Enter a string: ').strip()\n    if len(user_input) == 0:\n        print('No string provided')\n        return\n    if not is_palindrome(user_input):\n        print('Not a palindrome')\n        return\n    print(make_palindrome(user_input))\n\n\nif __name__ == '__main__':\n    main()",
+      -16.890625
+    ],
+    [
+      "if string == '':\n        return ''\n    if string[0]!= string[-1]:\n        return string\n    if len(string) == 1:\n        return string\n    if len(string) == 2:\n        return string[1:] + string[0]\n\n    if is_palindrome(string[1:]):\n        return make_palindrome(string[0:-1]) + string[1:]\n    return make_palindrome(string[0:-1]) + string[1:] + string[0]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -16.953125
+    ],
+    [
+      "if not string:\n        return ''\n\n    longest_palindrome = ''\n    longest_postfix = ''\n    for i in range(len(string)):\n        if is_palindrome(string[i:]):\n            longest_palindrome += string[i]\n            longest_postfix += string[i]\n        else:\n            break\n\n    return longest_postfix + longest_palindrome\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -18.03125
+    ],
+    [
+      "length = len(string)\n    if length < 2:\n        return string\n    if length == 2:\n        return string[0] + string[1]\n    prefix = string[:length // 2]\n    suffix = string[length // 2:]\n    if is_palindrome(prefix) and is_palindrome(suffix):\n        return prefix + make_palindrome(suffix) + suffix\n    return prefix + make_palindrome(suffix)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -19.21875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

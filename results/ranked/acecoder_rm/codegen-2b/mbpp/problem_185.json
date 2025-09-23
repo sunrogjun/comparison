@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/196",
+    "prompt": "Write a function to remove all the tuples with length k.",
+    "canonical_solution": "def remove_tuples(test_list, K):\r\n  res = [ele for ele in test_list if len(ele) != K]\r\n  return (res) ",
+    "test_list": [
+      "assert remove_tuples([(4, 5), (4, ), (8, 6, 7), (1, ), (3, 4, 6, 7)] , 1) == [(4, 5), (8, 6, 7), (3, 4, 6, 7)]",
+      "assert remove_tuples([(4, 5), (4,5), (6, 7), (1, 2, 3), (3, 4, 6, 7)] ,2) == [(1, 2, 3), (3, 4, 6, 7)]",
+      "assert remove_tuples([(1, 4, 4), (4, 3), (8, 6, 7), (1, ), (3, 6, 7)] , 3) == [(4, 3), (1,)]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 185
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def remove_k(tuples, k):\n    for tuple in tuples:\n        if len(tuple) == k:\n            tuples.remove(tuple)\n    return tuples\n\nif __name__ == \"__main__\":\n    tuples = [(1, 2, 3), (1, 2, 3), (1, 2, 3)]\n    print remove_k(tuples, 3)",
+      1.0654296875
+    ],
+    [
+      "from collections import defaultdict\n\ndef remove_tuples(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    result = 0\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            if tuples[i] == tuples[j]:\n                tuples[j] = tuples[i] = 0\n                result += 1\n    return result\n\ndef main():\n    tuples = [[1,2,3], [1,2], [1,2,3,4,5]]\n    print(remove_tuples(tuples, 2))\n\nif __name__ == '__main__':\n    main()",
+      0.1876220703125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution(object):\n    def removeKGroup(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0:\n            return len(nums)\n        n = len(nums)\n        if k == 1:\n            return n\n        if k == 2:\n            return len(nums) - k * 2\n        if n <= k:\n            return 0\n        # build list of tuples\n        t = [Tuple(i) for i in range(n)]\n        for i in range(len(t) - k + 1):\n            t[i].next = t[i + 1]\n        # remove each tuple\n        while t:\n            t.pop().next = None\n        return n - k * 2",
+      0.10015869140625
+    ],
+    [
+      "class Solution:\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k > len(nums):\n            return len(nums)\n        nums.sort()\n        i = 0\n        j = 0\n        while i < len(nums):\n            if j == k:\n                j = 0\n                i += 1\n            if i == len(nums):\n                return j\n            if nums[i] == nums[j]:\n                j += 1\n            else:\n                i += 1\n        return j",
+      0.09759521484375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    new_list = []\n    for i in range(len(tuple_list)):\n        if i < k:\n            new_list.append(tuple_list[i])\n        else:\n            pass\n    return new_list\n\nif __name__ == '__main__':\n    tuple_list = [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\n    print remove_tuple(tuple_list, 3)\n    print tuple_list",
+      0.0149383544921875
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        d = dict()\n        for p in pairs:\n            d[p[0]] = p[1]\n        ret = []\n        for i in range(len(pairs)):\n            for j in range(i, len(pairs)):\n                if (pairs[i][0] == pairs[j][0]) and (d.get(pairs[i][0]) == pairs[j][1]):\n                    del pairs[j]\n                    break\n        return pairs",
+      -0.1822509765625
+    ],
+    [
+      "def removeK(tuples, k):\n\t\"\"\"\n\tInput:\n\t\ttuples: A list of tuples.\n\t\tk: An integer.\n\n\tOutput:\n\t\tA list of tuples without k-length tuples.\n\t\"\"\"\n\tif k == 0:\n\t\treturn []\n\treturn [t for t in tuples if len(t)!= k]\n\nif __name__ == '__main__':\n\ttuples = [(1, 2), (3, 4), (5, 6), (7, 8)]\n\tprint removeK(tuples, 2)\n\tprint removeK(tuples, 3)",
+      -0.319091796875
+    ],
+    [
+      "class Solution:\n    # @param nums, a list of integer\n    # @param k, an integer\n    # @return a list of integer\n\n    def removeKthLargest(self, nums, k):\n        n = len(nums)\n        if k > n:\n            return nums\n        # return sorted(nums, reverse=True)\n        # return sorted(nums, reverse=False)\n        return sorted(nums, reverse=True)",
+      -0.412353515625
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef remove_k_tuples(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    # O(n^2)\n    k_tuples = defaultdict(int)\n    for i in range(len(tuples)):\n        for j in range(len(tuples[i])):\n            k_tuples[(tuples[i][j], tuples[i][:j])] += 1\n    return sum(k_tuples.values())\n\n\nif __name__ == '__main__':\n    tuples = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]\n    k = 2\n    print(remove_k_tuples(tuples, k))",
+      -0.414794921875
+    ],
+    [
+      "class Solution(object):\n    def removeKGroup(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0 or k == 0:\n            return 0\n        dp = [[0] * n for _ in range(k)]\n        for i in range(n):\n            for j in range(k):\n                if i - j >= 0:\n                    dp[j][i] = dp[j][i - 1] + nums[i]\n        return sum(dp[k - 1])",
+      -0.6552734375
+    ],
+    [
+      "def remove_tuples(tuples, k):\n    for i in range(len(tuples)-k+1):\n        for j in range(i+1, len(tuples)):\n            if tuples[i][0] == tuples[j][0] and tuples[i][1] == tuples[j][1]:\n                tuples.pop(j)\n\nif __name__ == \"__main__\":\n    tuples = [(1, 2), (2, 3), (2, 4), (3, 5), (4, 5), (5, 6)]\n    remove_tuples(tuples, 2)\n    print(tuples)",
+      -0.85595703125
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0:\n            return 0\n        dp = [0] * (k + 1)\n        dp[0] = 1\n        for i in range(1, k + 1):\n            dp[i] = 0\n            for j in range(0, i):\n                dp[i] += dp[j] * nums[j]\n        return dp[k]",
+      -0.85595703125
+    ],
+    [
+      "# https://oj.leetcode.com/problems/remove-duplicates/\n\nclass Solution:\n    # @param {ListNode} head\n    # @param {integer} k\n    # @return {ListNode}\n    def removeKdigits(self, head, k):\n        if not head:\n            return None\n        dummy = ListNode(0)\n        dummy.next = head\n        fast = dummy\n        slow = dummy\n        while fast.next:\n            fast = fast.next\n            slow = slow.next\n            if not fast:\n                return dummy.next\n            if k == 1:\n                fast = fast.next\n                continue\n            for _ in range(k):\n                fast = fast.next\n            slow = slow.next\n            fast.next = None\n            slow.next = None\n        return dummy.next",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param A, a list of integers\n    # @param k, an integer\n    # @return nothing\n    def removeK(self, A, k):\n        if k == 0:\n            return\n        else:\n            for i in xrange(len(A) - 1, -1, -1):\n                if len(A[i:]) < k:\n                    A[i:i + 1] = []\n        return",
+      -0.85693359375
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = []\n\n    def __repr__(self):\n        return str(self.x) + str(self.y)\n\nclass Solution(object):\n    def removeKPairs(self, k, nums):\n        \"\"\"\n        :type k: int\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        nums = list(set(nums))\n        for i in range(len(nums) - k):\n            nums.pop()\n        return len(nums)",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # dp[i] means the sum of all numbers that are smaller than nums[i]\n        # dp[i] = sum(nums[:i]) + sum(nums[i+1:])\n        dp = [0] * (len(nums) + 1)\n        for i in range(1, len(dp)):\n            dp[i] = dp[i - 1] + nums[i - 1]\n        \n        # find the first index that is k-1\n        for i in range(len(nums)):\n            if dp[i] == k - 1:\n                return i\n        return -1",
+      -0.85693359375
+    ],
+    [
+      "def remove_k_tuples(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: List[int]\n    \"\"\"\n    for i in range(len(arr) - k + 1):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j]:\n                del arr[i]\n                break\n    return arr",
+      -0.85693359375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    if len(tuple_list) < k:\n        return tuple_list\n    elif len(tuple_list) == k:\n        return []\n    else:\n        return [t for t in tuple_list if t[0]!= t[k]]\n\nif __name__ == \"__main__\":\n    tuple_list = [(\"a\", \"b\"), (\"c\", \"d\"), (\"e\", \"f\"), (\"g\", \"h\")]\n    print(remove_tuple(tuple_list, 2))\n    print(remove_tuple(tuple_list, 3))\n    print(remove_tuple(tuple_list, 4))",
+      -0.85693359375
+    ],
+    [
+      "def remove_k_tuples(arr, k):\n    n = len(arr)\n    if k > n:\n        return arr\n    if k == 1:\n        return arr[:0]\n    arr = arr[:k]\n    for i in range(n - k + 1):\n        arr.append(arr[i] + arr[i + k - 1])\n    return arr\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5]\n    k = 2\n    print(remove_k_tuples(arr, k))",
+      -0.85791015625
+    ],
+    [
+      "def remove_k_tuples(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if k > len(nums):\n        return 0\n    if k == 1:\n        return 1\n    for i in range(len(nums) - k + 1):\n        if nums[i] > nums[i+1]:\n            nums[i+1], nums[i] = nums[i], nums[i+1]\n    return remove_k_tuples(nums, k-1)\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(remove_k_tuples(nums, 4))",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\ndef remove_k(arr, k):\n    \"\"\"\n    :type arr: List[List[int]]\n    :type k: int\n    :rtype: List[List[int]]\n    \"\"\"\n    c = Counter(arr)\n    c.pop(k)\n    new_arr = [x for x in c.elements()]\n    return new_arr\n\n\nif __name__ == \"__main__\":\n    print(remove_k([[1, 2], [3, 4]], 2))\n    print(remove_k([[1, 2], [3, 4]], 1))\n    print(remove_k([[1, 2], [3, 4]], 3))",
+      -0.85791015625
+    ],
+    [
+      "import collections\n\ndef remove_tuple(tuples, k):\n    \"\"\"\n    :type tuples: collections.Iterable[tuple]\n    :type k: int\n    :rtype: collections.Iterable[tuple]\n    \"\"\"\n    if k == 1:\n        return [t for t in tuples if len(t)!= 1]\n    else:\n        return [t for t in tuples if len(t) < k]\n\nif __name__ == '__main__':\n    print(remove_tuple([(1,2), (3,4), (5,6), (7,8)], 3))",
+      -0.85791015625
+    ],
+    [
+      "def remove_tuples(tuples, k):\n    \"\"\"\n    >>> remove_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 2)\n    [(1, 2, 3), (7, 8, 9)]\n    \"\"\"\n    result = []\n    for tuple in tuples:\n        if len(tuple)!= k:\n            result.append(tuple)\n    return result",
+      -0.85791015625
+    ],
+    [
+      "def remove_k(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: List[List[int]]\n    \"\"\"\n    for i in range(len(tuples) - k + 1):\n        j = i + 1\n        while j < len(tuples):\n            tuples[i] = tuples[i] + tuples[j]\n            j += 1\n    return tuples\n\ndef main():\n    print(remove_k([[1, 2, 3], [1, 2], [1, 2, 3]], 2))\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, a=None, b=None):\n        self.a = a\n        self.b = b\n\n    def __repr__(self):\n        return \"(%s, %s)\" % (self.a, self.b)\n\n\nclass Solution:\n    def removeKDistinctTuples(self, nums, k):\n        \"\"\"\n        :type nums: List[Tuple]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        d = {}\n        for tup in nums:\n            d[tup] = d.get(tup, 0) + 1\n\n        cnt = 0\n        for tup in nums:\n            if d[tup] == k:\n                d.pop(tup)\n                cnt += 1\n        return cnt",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\ndef remove_k_tuple(tuple_list, k):\n    tuple_counter = Counter(tuple_list)\n    tuple_list = tuple_counter.most_common(k)\n    return tuple_list\n\n# The above function can be written as below\ndef remove_k_tuple(tuple_list, k):\n    tuple_counter = Counter(tuple_list)\n    tuple_list = tuple_counter.most_common(k)\n    return tuple_list\n\n# Your function should return a list of tuples",
+      -0.85791015625
+    ],
+    [
+      "def remove_tuples(lst, k):\n    if not lst:\n        return lst\n    for i in range(len(lst)-k+1):\n        if i == 0:\n            lst.remove(lst[i])\n        else:\n            lst[i] = tuple(lst[i])\n    return lst\n\nif __name__ == '__main__':\n    print(remove_tuples([(1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3)], 2))",
+      -0.8583984375
+    ],
+    [
+      "def remove_k(tuple_list, k):\n    \"\"\"\n    :type tuple_list: List[List[int]]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if len(tuple_list) == 0:\n        return 0\n    else:\n        for i in range(len(tuple_list)-k+1):\n            tuple_list[i] = tuple(tuple_list[i])\n            tuple_list[i+k] = []\n        return len(tuple_list)\n\nif __name__ == \"__main__\":\n    print(remove_k([[1,2,3],[4,5,6]], 2))",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuples(list_, k):\n    for i in range(len(list_) - k + 1):\n        list_.remove(list_[i:i + k])\n    return list_\n\nif __name__ == \"__main__\":\n    list_ = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 3\n    print(\"Before remove_tuples: {}\".format(list_))\n    print(\"After remove_tuples: {}\".format(remove_tuples(list_, k)))",
+      -0.8583984375
+    ],
+    [
+      "def remove_k(tuple_list, k):\n    \"\"\"\n    :type tuple_list: List[Tuple]\n    :type k: int\n    :rtype: List[Tuple]\n    \"\"\"\n    \n    for i in range(len(tuple_list)):\n        if len(tuple_list[i]) == k:\n            tuple_list.remove(tuple_list[i])\n\n    return tuple_list",
+      -0.8583984375
+    ],
+    [
+      "import collections\n\ndef remove_all_k_tuples(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: List[int]\n    \"\"\"\n    if not arr or len(arr) < k:\n        return arr\n\n    # Get the first k elements of the list and create a list of the rest\n    # elements.\n    elems = arr[:k]\n    rest = arr[k:]\n\n    # Sort the first k elements of the list and create a list of the rest.\n    elems.sort()\n    rest.sort()\n\n    # Create a list of the first k elements and the rest elements.\n    res = []\n    for i in range(k):\n        res.append(elems[i])\n    res.extend(rest)\n\n    return res\n\n\n# Your RemoveAllKTuples function will be called like this:\n# remove_all_k_tuples(arr, k)\n\ndef test_remove_all_k_tuples():\n    assert remove_all_k_tuples([1, 2, 3, 4, 5], 3) == [1, 2, 4, 5]\n\nif __name__ == '__main__':\n    test_remove_all_k_tuples()",
+      -0.8583984375
+    ],
+    [
+      "def remove_k(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple[int,...]]\n    :type k: int\n    :rtype: List[Tuple[int,...]]\n    \"\"\"\n    result = []\n\n    for tuple in tuples:\n        if len(tuple) == k:\n            result.append(tuple)\n    return result\n\nclass Solution:\n    # @param A, a list of integers\n    # @param k, an integer\n    # @return a list of lists of integers\n    def kSubsets(self, A, k):\n        result = []\n        self.getSubsets(A, k, result)\n        return result\n\n    def getSubsets(self, A, k, result):\n        if len(A) == 0:\n            if k == 0:\n                result.append([])\n            return\n        for i in range(len(A)):\n            self.getSubsets(A[:i] + A[i+1:], k - 1, result)\n            result.append(A[i:])",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    for i in range(len(tuple_list) - k + 1):\n        tuple_list[i] = tuple_list[i + k]\n    return tuple_list\n\nif __name__ == '__main__':\n    tuple_list = [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)]\n    tuple_list = remove_tuple(tuple_list, 2)\n    print tuple_list",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuples(tuples, k):\n    for i in range(len(tuples)):\n        if len(tuples[i]) == k:\n            tuples.remove(tuples[i])\n    return tuples\n\ndef main():\n    tuples = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]\n    remove_tuples(tuples, 3)\n    print(tuples)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "def remove_all(tuples, k):\n    for tuple in tuples:\n        if len(tuple) == k:\n            tuples.remove(tuple)\n    return tuples",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def removeKDistinct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # TODO\n        return 0\n\nif __name__ == '__main__':\n    print Solution().removeKDistinct([1,1,2,3], 2)\n    print Solution().removeKDistinct([1,1,2,2,3,3,4,4,4], 2)",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuple(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: List[List[int]]\n    \"\"\"\n    return [[i for i in j if j[:k]!= []] for j in tuples]\n\nif __name__ == \"__main__\":\n    tuples = [[1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]\n    print(remove_tuple(tuples, 3))",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def removeKNumber(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in range(len(nums)):\n            if i > k:\n                result += 1\n                nums[i] = nums[i-k]\n        return result\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]\n    print(sol.removeKNumber(nums, 4))",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    tuple_list[:] = [t for t in tuple_list if len(t) > k]\n\ndef main():\n    tuple_list = [\n        (1, 2, 3),\n        (1, 2, 3, 4),\n        (1, 2, 3, 4, 5)\n    ]\n\n    remove_tuple(tuple_list, 1)\n    print(tuple_list)\n\n    remove_tuple(tuple_list, 2)\n    print(tuple_list)\n\n    remove_tuple(tuple_list, 3)\n    print(tuple_list)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    def removeKNumber(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        length = len(nums)\n        if length == 1:\n            return 0\n        if length == 2:\n            return 1 if nums[0] == nums[1] else 0\n        count = 0\n        for i in range(length - k + 1):\n            if nums[i] == nums[i + k - 1]:\n                count += 1\n        return count",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not pairs:\n            return 0\n        result = 0\n        for i in range(len(pairs) - 1, -1, -1):\n            if len(pairs[i]) > k:\n                pairs[i] = pairs[i][:k]\n                result += 1\n        return result\n\n\nif __name__ == \"__main__\":\n    assert Solution().removeKPairs([[1, 2, 3], [4, 5, 6], [1, 2, 3]], 2) == 1\n    assert Solution().removeKPairs([[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 5, 6]], 2) == 2\n    assert Solution().removeKPairs([[1, 2, 3], [4, 5, 6]], 2) == 0\n    assert Solution().removeKPairs([], 2) == 0",
+      -0.8583984375
+    ],
+    [
+      "#!/usr/bin/env python\n\nclass Solution(object):\n    def removeKDistinct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        \n        if k > len(nums):\n            return 0\n        \n        n = len(nums)\n        d = {}\n        for i in range(n):\n            d[nums[i]] = i\n        \n        for i in range(n-k+1):\n            j = d[nums[i]]\n            nums[i], nums[j] = nums[j], nums[i]\n            \n        return len(nums)",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if k == 0:\n            return 0\n        if k == 1:\n            return n - sum(nums)\n        if k > n:\n            return 0\n        if k == 2:\n            return n - sum(nums) - sum(nums[::2])\n        if k % 2 == 0:\n            return n - sum(nums) - sum(nums[::2]) - sum(nums[1::2])\n        else:\n            return n - sum(nums) - sum(nums[1::2])",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    new_list = []\n    for t in tuple_list:\n        if len(t)!= k:\n            new_list.append(t)\n    return new_list\n\nif __name__ == '__main__':\n    tuple_list = [('a', 1), ('b', 2), ('c', 3), ('d', 4)]\n    tuple_list = remove_tuple(tuple_list, 3)\n    print tuple_list",
+      -0.8583984375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    \"\"\"\n    :type tuple_list: List[List[int]]\n    :type k: int\n    :rtype: List[List[int]]\n    \"\"\"\n    result = []\n    for i in range(len(tuple_list)):\n        if len(tuple_list[i]) == k:\n            continue\n        result.append(tuple_list[i])\n    return result\n\nif __name__ == '__main__':\n    tuple_list = [[1,2,3], [1,2], [1,2,3], [1,2,3,4]]\n    print(remove_tuple(tuple_list, 3))\n    print(remove_tuple(tuple_list, 5))\n    print(remove_tuple(tuple_list, 2))\n    print(remove_tuple(tuple_list, 4))",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def removeKDistinct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        # dp[i][j] is the number of distinct tuples with length j\n        dp = [[0] * (j+1) for i in range(k+1)]\n        # dp[i][j] is the number of distinct tuples with length j\n        for i in range(k+1):\n            for j in range(1, k+1):\n                dp[i][j] = dp[i][j-1] + (nums[i-1] - 1) * (j-1)\n        return dp[k][k]",
+      -0.85888671875
+    ],
+    [
+      "from collections import defaultdict\n\n\nclass Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # sort pairs by length, then remove\n        pairs = sorted(pairs, key=lambda x: len(x))\n        d = defaultdict(int)\n        for pair in pairs:\n            d[pair[0]] += 1\n            d[pair[1]] -= 1\n        # remove k pairs from d\n        removed = 0\n        while k > 0:\n            if d[k]:\n                d[k] -= 1\n                k -= 1\n            else:\n                removed += 1\n                k -= d[k]\n        return removed",
+      -0.85888671875
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    \"\"\"\n    :type tuple_list: List[Tuple]\n    :type k: int\n    :rtype: List[Tuple]\n    \"\"\"\n    result = []\n    for i in range(len(tuple_list) - k + 1):\n        if tuple_list[i] == tuple_list[i + 1]:\n            continue\n        else:\n            result.append(tuple_list[i])\n    return result",
+      -0.85888671875
+    ],
+    [
+      "def remove_tuple(tuples, k):\n    for i in range(len(tuples)):\n        if len(tuples[i]) == k:\n            del tuples[i]\n    return tuples\n\ndef main():\n    tuples = [('a', 'b'), ('c', 'd'), ('e', 'f'), ('g', 'h'), ('i', 'j')]\n    tuples = remove_tuple(tuples, 2)\n    print(tuples)\n\nif __name__ == '__main__':\n    main()",
+      -0.86083984375
+    ],
+    [
+      "import collections\n\n\nclass Solution:\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0:\n            return 0\n        k_pairs = collections.defaultdict(list)\n        for i, num in enumerate(nums):\n            for j in range(i+1, k):\n                k_pairs[(i, j)].append(num)\n        return sum(k_pairs.values())",
+      -1.1015625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\n\nclass Solution(object):\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        res = 0\n        while num:\n            res += 1\n            num = num / 10\n        return res - k\n\n\nif __name__ == \"__main__\":\n    assert Solution().removeKdigits(2, 2) == 0\n    assert Solution().removeKdigits(0, 0) == 0\n    assert Solution().removeKdigits(9, 1) == 9\n    assert Solution().removeKdigits(9, 2) == 8\n    assert Solution().removeKdigits(9, 3) == 7\n    assert Solution().removeKdigits(9, 4) == 6\n    assert Solution().removeKdigits(9, 5) == 5\n    assert Solution().removeKdigits(9, 6) == 4\n    assert Solution().removeKdigits(9, 7) == 3\n    assert Solution().removeKdigits(9, 8) == 2\n    assert Solution().removeKdigits(9, 9) == 1",
+      -1.107421875
+    ],
+    [
+      "def remove_k(L, k):\n    if k == 0:\n        return L[:]\n    if len(L) == 0:\n        return L[:]\n    if k == 1:\n        return filter(lambda x: x[1]!= 0, L)\n    L = L[:]\n    for i in range(len(L)):\n        if L[i][1] == k-1:\n            L[i] = L[i][0], 0\n        else:\n            L[i] = L[i][0], L[i][1]\n    return remove_k(L, k-1)\n\n# Testing\nL = [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)]\nprint(remove_k(L, 1))\nprint(L)",
+      -1.2353515625
+    ],
+    [
+      "def removeK(tuples, k):\n    i = 0\n    while i < len(tuples):\n        if len(tuples[i]) < k:\n            del tuples[i]\n        else:\n            i += 1\n    return tuples\n\nif __name__ == '__main__':\n    print(removeK([(1, 2, 3), (4, 5, 6)], 2))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 3))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 4))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 5))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 6))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 7))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 8))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 9))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 10))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 11))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 12))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 13))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 14))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 15))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 16))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 17))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 18))\n    print(removeK([(1, 2, 3), (4, 5, 6)], 19))\n    print(removeK([(",
+      -1.80859375
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(pairs)\n        res = 0\n        if k < 2:\n            return n\n        for i in range(n):\n            for j in range(i + 1, n):\n                if pairs[i][0] == pairs[j][0]:\n                    if k == 1:\n                        del pairs[i]\n                        del pairs[j]\n                        continue\n                    for k in range(1, k):\n                        pairs[i].insert(0, pairs[j][0])\n                        pairs[j].insert(0, pairs[i][0])\n                        res += self.removeKPairs(pairs, k - 1)\n                    del pairs[i]\n                    del pairs[j]\n        return res\n\n\nif __name__ == '__main__':\n    assert Solution().removeKPairs([[1, 2], [3, 4], [5, 6]], 2) == 1\n    assert Solution().removeKPairs([[1, 2], [3, 4], [1, 2]], 2) == 0",
+      -1.884765625
+    ],
+    [
+      "import collections\n\nclass Solution:\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        d = collections.defaultdict(list)\n        for i, n in enumerate(nums):\n            d[n].append(i)\n        nums.sort()\n        i = 0\n        while i < len(nums) - k:\n            j = i + 1\n            while j < len(nums):\n                if len(d[nums[j]]) == k:\n                    d[nums[i]].extend(d[nums[j]])\n                    del d[nums[j]]\n                j += 1\n            i += 1\n        return sum(map(lambda x: len(x), d.values()))\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [1, 1, 2]\n    k = 2\n    print(sol.removeKPairs(nums, k))",
+      -2.15625
+    ],
+    [
+      "def remove(tuple_list, k):\n    for i in range(len(tuple_list) - 1, -1, -1):\n        if len(tuple_list[i]) == k:\n            tuple_list.pop(i)\n    return tuple_list\n\ntuple_list = [1,2,3,4,5,6,7,8,9]\nk = 3\nremove(tuple_list, k)\nprint(tuple_list)",
+      -2.46484375
+    ],
+    [
+      "# https://leetcode.com/problems/remove-duplicates-from-sorted-array/\nclass Solution(object):\n    def removeKDistinct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # sort the list to make sure the k-th largest element is in the first k elements\n        nums = sorted(nums)\n        # the k-th largest element is in the first k-1 elements\n        for i in range(k-1):\n            nums.pop(0)\n        # return the length of the sorted list\n        return len(nums)\n\n\nif __name__ == \"__main__\":\n    print Solution().removeKDistinct([1,1,1,2,2,3,4,4,5,5,6,7], 3)",
+      -2.833984375
+    ],
+    [
+      "def remove_tuple(tuples, k):\n    new_tuples = []\n    for t in tuples:\n        if len(t) == k:\n            continue\n        else:\n            new_tuples.append(t)\n    return new_tuples\n\ndef main():\n    tuples = [(1,2),(1,2),(1,2),(1,2)]\n    print remove_tuple(tuples, 2)\n    \nif __name__ == \"__main__\":\n    main()",
+      -3.14453125
+    ],
+    [
+      "class Solution:\n    # @param A, a list of integers\n    # @param k, an integer\n    # @return nothing\n    def removeKDistinct(self, A, k):\n        if len(A) <= k:\n            return\n\n        sortedA = sorted(A)\n        i = 0\n        while i < len(A) - k:\n            j = i + k\n            while j < len(A):\n                if sortedA[i]!= sortedA[j]:\n                    break\n                j += 1\n            if j == i + k:\n                i += 1\n            else:\n                break\n        i += 1\n        print(i, len(A))\n        if i < len(A):\n            A[i:] = A[i:] + A[:i]\n            self.removeKDistinct(A, k)\n\nif __name__ == '__main__':\n    sol = Solution()\n    A = [1,2,3,4,5,6,7,8,9,10]\n    print(sol.removeKDistinct(A, 2))",
+      -3.28515625
+    ],
+    [
+      "def remove_tuple(arr, k):\n    \"\"\"\n    :type arr: List[List[int]]\n    :type k: int\n    :rtype: List[List[int]]\n    \"\"\"\n    if len(arr) == 0:\n        return []\n    # remove k-1 tuples\n    for i in range(len(arr)):\n        if i+1 >= len(arr):\n            continue\n        if len(arr[i]) == k:\n            arr.remove(arr[i])\n        else:\n            break\n    # remove k-1 tuples\n    for i in range(len(arr)):\n        if i+1 >= len(arr):\n            continue\n        if len(arr[i]) == k:\n            arr.remove(arr[i])\n            break\n    # remove k tuples\n    for i in range(len(arr)):\n        if i+k >= len(arr):\n            continue\n        if len(arr[i]) == k:\n            arr.remove(arr[i])\n            break\n    return arr\n\nif __name__ == '__main__':\n    arr = [[1,2,3],[1,2,3]]\n    k = 2\n    print(remove_tuple(arr, k))",
+      -3.453125
+    ],
+    [
+      "class Solution(object):\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # if k == 1, then it's easy\n        if k == 1:\n            return num\n\n        # if k > len(num), then we can't remove any\n        if k > len(num):\n            return num\n\n        # if k == 1, then we can't remove any\n        if k == 1:\n            return num\n\n        # if k > 1, then we can remove the first k - 1\n        # and we can't remove the first\n        if k > 1:\n            return num[:k - 1]\n\n        # if k == 1, then we can remove the first\n        if k == 1:\n            return num[1:]\n\n\n\n# test\ns = Solution()\nprint s.removeKdigits(123, 1)\nprint s.removeKdigits(123, 2)\nprint s.removeKdigits(123, 3)\nprint s.removeKdigits(123, 4)\nprint s.removeKdigits(123, 5)\nprint s.removeKdigits(123, 6)\nprint s.removeKdigits(123, 7)\nprint s.removeKdigits(123, 8)\nprint s.removeKdigits(123, 9)\nprint s.removeKdigits(123, 10)\nprint s.removeKdigits(123, 11)\nprint s.removeKdigits(123, 12)\nprint s.removeKdigits(123, 13)\nprint s.removeKdigits(123, 14)\nprint s.removeKdigits(123, 15)\nprint s.removeKdigits(123, 16)\nprint s.removeKdigits(123, 17)\nprint s.removeKdigits(123, 18)\nprint s.removeKdigits(123, 19)\nprint s.removeKdigits(123, 20)\nprint s.removeKdigits(123, 21)\nprint s.removeKdigits(123, 22)\nprint s.removeKdigits(123, 23)\nprint s.removeKdig",
+      -3.521484375
+    ],
+    [
+      "from collections import defaultdict\n\n\nclass Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not pairs:\n            return 0\n\n        d = defaultdict(list)\n        for p in pairs:\n            d[p[0]].append(p[1])\n            d[p[1]].append(p[0])\n\n        n = len(d)\n        # d[0] is empty, so can't be removed\n        for i in range(1, n):\n            if len(d[i]) <= k:\n                del d[i]\n        return len(d)",
+      -3.587890625
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @param {integer} k\n    # @return {void} Do not return anything, modify nums in-place instead.\n    def removeK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        if k == 0:\n            return\n        if k > n:\n            return\n        i = 0\n        while i < n:\n            if k > 1 and i+k < n:\n                nums[i:i+k] = []\n            else:\n                nums[i] = nums[n-k+i]\n            i += 1",
+      -3.7578125
+    ],
+    [
+      "class Solution(object):\n    def removeKDistinct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        dp = [0] * n\n        for i in range(n):\n            dp[i] = 1\n        for i in range(1, n):\n            for j in range(i):\n                if dp[j] < dp[i]:\n                    dp[i] = dp[j] + 1\n        if k > dp[n - 1]:\n            return 0\n        for i in range(n - k + 1, n):\n            dp[i] = 0\n        return n - k",
+      -3.8359375
+    ],
+    [
+      "def remove_tuples(list, k):\n    if k <= 0:\n        return\n    for i in range(len(list) - k):\n        if list[i] == list[i + 1]:\n            list.pop(i + 1)\n\nif __name__ == \"__main__\":\n    list = [1, 2, 2, 3, 3, 3]\n    remove_tuples(list, 2)\n    print(list)\n    list = [1, 2, 2, 3, 3, 3]\n    remove_tuples(list, 1)\n    print(list)",
+      -3.83984375
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution:\n    # @param head, a list of ListNode\n    # @param k, k length of tuple\n    # @return a list of ListNode\n    def deleteDuplicates(self, head, k):\n        if head is None or head.next is None:\n            return head\n        pre = head\n        cur = head.next\n        while cur:\n            if cur.x == cur.next.x:\n                pre.next = cur.next\n            else:\n                pre = pre.next\n                cur = cur.next\n            if cur.next is None or cur.next.next is None:\n                break\n        return head",
+      -3.98046875
+    ],
+    [
+      "import collections\n\n\ndef remove_k_tuples(tuples, k):\n    \"\"\"\n    :type tuples: collections.deque\n    :type k: int\n    :rtype: None\n    \"\"\"\n    removed = 0\n    while tuples:\n        t = tuples.popleft()\n        if len(t) == k:\n            removed += 1\n            continue\n        for i in range(k):\n            if t[i]!= t[i + k]:\n                tuples.append(t[:i] + t[i + k + 1:])\n                break\n    return removed",
+      -4.25390625
+    ],
+    [
+      "def remove_tuples_with_length(n, k):\n    result = []\n    for i in range(n):\n        for j in range(i+1, n):\n            if j-i <= k:\n                result.append((i, j))\n    return result\n\nif __name__ == \"__main__\":\n    print(remove_tuples_with_length(7, 2))",
+      -4.93359375
+    ],
+    [
+      "def remove_tuple(lst, k):\n\tfor i in range(len(lst)):\n\t\tif len(lst[i]) == k:\n\t\t\tlst.remove(lst[i])\n\ndef remove_tuple_with_k(lst, k):\n\tfor i in range(len(lst)):\n\t\tif len(lst[i]) <= k:\n\t\t\tlst.remove(lst[i])\n\nif __name__ == '__main__':\n\tlst = [('a', 1), ('b', 2), ('c', 3), ('d', 4)]\n\tremove_tuple(lst, 2)\n\tprint(lst)\n\tremove_tuple_with_k(lst, 2)\n\tprint(lst)",
+      -4.9921875
+    ],
+    [
+      "def remove_k_tuples(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: List[int]\n    \"\"\"\n    \n    # O(N*log(N))\n    for i in range(len(arr)):\n        for j in range(i, len(arr)):\n            if j-i < k:\n                break\n            else:\n                arr[i], arr[j] = arr[j], arr[i]\n    \n    return arr\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(remove_k_tuples(arr, 3))\n    print(arr)",
+      -5.41796875
+    ],
+    [
+      "import unittest\n\n\n# O(n) time. O(n) space. Two pointers.\nclass Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(pairs)\n        left = 0\n        right = n - 1\n        while left < right:\n            if k == 0:\n                return 0\n            k -= 1\n            if pairs[left][0] <= pairs[right][0]:\n                while pairs[left][0] == pairs[left][1]:\n                    left += 1\n            else:\n                while pairs[right][0] == pairs[right][1]:\n                    right -= 1\n            if left < right:\n                pairs[left], pairs[right] = pairs[right], pairs[left]\n        return n - left\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        self._test([[1, 2], [3, 4]], 2, [[1, 2], [3, 4]])\n        self._test([[1, 2], [3, 4], [5, 6]], 2, [[1, 2], [3, 4]])\n        self._test([[1, 2], [3, 4], [5, 6], [7, 8]], 2, [[1, 2], [3, 4], [5, 6]])\n\n    def _test(self, pairs, k, expected):\n        actual = Solution().removeKPairs(pairs, k)\n        self.assertEqual(expected, actual)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -5.4453125
+    ],
+    [
+      "from collections import defaultdict\n\ndef remove_all_k_tuples(n, k):\n    # write your code here\n    return 0\n\nif __name__ == \"__main__\":\n    assert remove_all_k_tuples(5, 2) == 0, \"5,2\"\n    assert remove_all_k_tuples(5, 3) == 2, \"5,3\"\n    assert remove_all_k_tuples(5, 4) == 4, \"5,4\"\n    assert remove_all_k_tuples(5, 5) == 5, \"5,5\"",
+      -5.5
+    ],
+    [
+      "class Solution:\n    # @return a tuple (the result, the number of elements removed)\n    def removeKDistinct(self, S, k):\n        if k == 0:\n            return (S, 0)\n        n = len(S)\n        if n < k:\n            return (S, n)\n        for i in range(n - k + 1):\n            for j in range(i + k - 1, n):\n                if S[i] == S[j]:\n                    S[j] = S[n - k + i]\n        return (S[:n - k], n - k)\n\n    def removeKDistinct_2(self, S, k):\n        n = len(S)\n        if k > n:\n            return (S, 0)\n        i = 0\n        while i < n and S[i]!= S[n - k]:\n            i += 1\n        if i == n:\n            return (S, 0)\n        j = n - k\n        while i < j and S[i] == S[j]:\n            i += 1\n            j -= 1\n        if i >= j:\n            return (S, 0)\n        S[i], S[j] = S[n - k], S[n - k]\n        return (S[:i + 1], i)",
+      -5.65234375
+    ],
+    [
+      "def remove_tuple(tuple_list, k):\n    if len(tuple_list) < k:\n        return tuple_list\n\n    for i in range(len(tuple_list) - k + 1):\n        for j in range(i + 1, len(tuple_list)):\n            if tuple_list[i] == tuple_list[j]:\n                tuple_list.pop(j)\n                break\n\n    return tuple_list\n\ndef main():\n    tuple_list = [\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,2,3),\n        (1,",
+      -6.875
+    ],
+    [
+      "def remove_tuple(a, k):\n    # write your code here\n    #\n    #\n    #\n    return\n\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#",
+      -7.609375
+    ],
+    [
+      "def remove_tuple(t,k):\n    \"\"\"\n    Write a function remove_tuple(t,k) that removes all the tuples with length k from t.\n    t: A list of lists of integers\n    k: The length of the tuple\n    return: A list of lists of integers.\n    \"\"\"\n    result = []\n    for i in range(len(t)):\n        if len(t[i]) == k:\n            continue\n        elif len(t[i]) > k:\n            result.append(t[i][:k])\n        else:\n            result.append(t[i])\n    return result\n\nif __name__ == '__main__':\n    t = [[1,2,3,4,5,6,7], [2,3,4,5,6,7,8], [3,4,5,6,7,8,9]]\n    print(remove_tuple(t,4))",
+      -7.63671875
+    ],
+    [
+      "def remove_k_tuple(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: void\n    \"\"\"\n    i = 0\n    while i < len(arr):\n        j = i + 1\n        while j < len(arr):\n            if j - i < k:\n                arr.pop(j)\n            else:\n                j += 1\n        i += 1\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6]\n    k = 2\n    remove_k_tuple(arr, k)\n    print arr",
+      -7.91015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/find-the-smallest-element-in-a-sorted-array/problem\n\ndef findKthElement(arr, k):\n    # write your code here\n    if k == 1:\n        return arr[k-1]\n    if k == 2:\n        return min(arr[0], arr[1])\n    if k > len(arr):\n        return arr[len(arr)-1]\n    if k == len(arr):\n        return arr[k-1]\n    pivot = arr[k-1]\n    l = k-1\n    r = len(arr) - 1\n    while l < r:\n        while arr[l] <= pivot:\n            l += 1\n        while arr[r] > pivot:\n            r -= 1\n        if arr[l] > arr[r]:\n            pivot = arr[r]\n            arr[r] = arr[l]\n            arr[l] = pivot\n        else:\n            break\n    return arr[l]\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 3\n    print(findKthElement(arr, k))",
+      -7.9921875
+    ],
+    [
+      "from typing import List\n\nclass Solution:\n    def removeKPairs(self, nums: List[int], k: int) -> int:\n        # write your code here\n        nums.sort()\n        i = 0\n        ans = 0\n        for i in range(len(nums) - k + 1):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                ans += 1\n        return ans\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1, 2, 2, 3, 3, 4]\n    nums = [1, 2, 2, 2, 2, 2]\n    nums = [1, 1]\n    nums = [1]\n    nums = [1]\n    nums = [1, 1, 1]\n    nums = [1, 1]\n    nums = [1, 1]\n    nums = [1, 1, 1]\n    nums = [1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1",
+      -8.5078125
+    ],
+    [
+      "def remove(tuple_list, k):\n    \"\"\"\n    :type tuple_list: List[List[int]]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    return sum(map(lambda x: x[k], tuple_list))\n\n\nif __name__ == '__main__':\n    print(remove([[1, 2, 3], [4, 5], [6, 7]], 2))",
+      -8.625
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef remove_k_tuples(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    count = defaultdict(int)\n    for i in range(k):\n        for j in range(k):\n            count[(i, j)] += 1\n\n    for i in range(k):\n        for j in range(k):\n            if count[(i, j)] > 0:\n                count[(i, j)] -= 1\n    return sum(map(lambda x: x[1], filter(lambda x: x[1] == k, count.items())))\n\n\nif __name__ == '__main__':\n    assert remove_k_tuples([[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5]], 3) == 0\n    assert remove_k_tuples([[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5]], 4) == 3\n    assert remove_k_tuples([[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5]], 5) == 6",
+      -8.84375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef remove_k_tuples(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    d = defaultdict(list)\n    for t in tuples:\n        d[len(t)].append(t)\n    result = 0\n    for l in d:\n        if l == k:\n            continue\n        result += remove_k_tuples(d[l], k)\n    return result\n\n\nif __name__ == '__main__':\n    tuples = [\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3],\n        [1, 2, 3",
+      -8.8828125
+    ],
+    [
+      "def remove_tuples(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :type k: int\n    :rtype: List[Tuple]\n    \"\"\"\n    return [t for t in tuples if len(t)!= k]\n\n\nclass Solution(object):\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        tuples = []\n        for i in range(10):\n            for j in range(10):\n                if i == j:\n                    continue\n                for l in range(i, 10):\n                    for m in range(j, 10):\n                        if l == m:\n                            continue\n                        for n in range(l, 10):\n                            for o in range(m, 10):\n                                if l == o:\n                                    continue\n                                for p in range(n, 10):\n                                    if m == p:\n                                        continue\n                                    for q in range(n, 10):\n                                        if o == q:\n                                            continue\n                                        tuples.append((i, j, l, m, n, o, p, q))\n        tuples = remove_tuples(tuples, k)\n        return [int(t) for t in tuples]\n\n\nif __name__ == \"__main__\":\n    assert Solution().removeKdigits(123, 3) == [0, 0, 0, 1, 2, 3]\n    assert Solution().removeKdigits(123, 4) == [0, 0, 0, 0, 1, 2, 3, 4]\n    assert Solution().removeKdigits(123, 5) == [0, 0, 0, 0, 0, 1, 2, 3, 4]",
+      -8.9453125
+    ],
+    [
+      "from collections import defaultdict\nfrom collections import deque\n\n\ndef remove_k_tuple(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if k == 0:\n        return 0\n\n    count = 0\n    for i in range(len(tuples) - k + 1):\n        t = tuple(tuples[i:i + k])\n        if t not in tuples:\n            count += 1\n            tuples.remove(t)\n    return count\n\ndef remove_k_tuple2(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if k == 0:\n        return 0\n\n    count = 0\n    for i in range(len(tuples) - k + 1):\n        t = tuple(tuples[i:i + k])\n        if t in tuples:\n            count += 1\n            tuples.remove(t)\n    return count\n\ndef remove_k_tuple3(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if k == 0:\n        return 0\n\n    count = 0\n    for i in range(len(tuples) - k + 1):\n        t = tuple(tuples[i:i + k])\n        if t in tuples:\n            count += 1\n            tuples.remove(t)\n    return count\n\ndef remove_k_tuple4(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if k == 0:\n        return 0\n\n    count = 0\n    for i in range(len(tuples) - k + 1):\n        t = tuple(tuples[i:i + k])\n        if t in tuples:\n            count += 1\n            tuples.remove(t)\n    return count\n\n\nif __name__ == '__main__':",
+      -9.7265625
+    ],
+    [
+      "import unittest\n\nfrom collections import defaultdict\n\nclass Solution(object):\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        d = defaultdict(int)\n        for i in xrange(len(num)):\n            d[num[i]] += 1\n        for i in xrange(len(num) - k + 1):\n            if d[num[i:i + k]] == 1:\n                del num[i:i + k]\n        return num\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought:\n# This is a special case.\n# \n# The problem is to remove all the digits that are equal to the number.\n#\n# 1. Write a function to remove all the digits that are equal to the number.\n# 2. For example, if num is 123 and k is 1, the output should be \"321\"\n# 3. The output is the first k digits of the number.\n#\n# Time: O(n)\n# Space: O(n)\n#\n\n# 11ms 100%\nclass Solution {\n    public String removeKdigits(String num, int k) {\n        StringBuilder sb = new StringBuilder();\n        int i = 0;\n        for (int j = num.length() - 1; j >= 0; j--) {\n            if (i + k <= j) {\n                sb.append(num.substring(i, j + 1));\n                i = j + 1;\n            }\n        }\n        return sb.toString();\n    }\n}\n\n# 12ms 100%\nclass Solution {\n    public String removeKdigits(String num, int k) {\n        int i = 0;\n        StringBuilder sb = new StringBuilder();\n        while (i < num.length()) {\n            int j = i;\n            while (j < num.length() && num.charAt(",
+      -9.734375
+    ],
+    [
+      "def remove_tuple(tuples, k):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    return len(tuples) - remove_tuple(tuples[:k], k)\n\n\nif __name__ == \"__main__\":\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 1) == 0\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 2) == 1\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 3) == 2\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 4) == 3\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 5) == 4\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 6) == 5\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 7) == 6\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 8) == 7\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 9) == 8\n    assert remove_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 10) == 9",
+      -10.4609375
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return sum(self.removeKPairs1(pairs, k))\n\n    def removeKPairs1(self, pairs, k):\n        if len(pairs) < k:\n            return 0\n\n        n = len(pairs)\n        s = {}\n        for i in range(n):\n            s[i] = {}\n            for j in range(n):\n                if i!= j:\n                    s[i][j] = pairs[i][j]\n\n        # find all k-pairs\n        for i in range(n):\n            for j in range(i+1, n):\n                if j in s[i]:\n                    continue\n                if len(s[i]) == k:\n                    return k\n                if len(s[i]) + len(s[j]) <= k:\n                    continue\n                s[i][j] = pairs[i][j]\n\n        # for each k-pair, remove the pair\n        for i in range(n):\n            for j in range(i+1, n):\n                if j in s[i]:\n                    pairs[i].remove(s[i][j])\n                    pairs[j].remove(s[i][j])\n        return k\n\n\nclass Solution2(object):\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(pairs)\n        if n < k:\n            return 0\n\n        s = {}\n        for i in range(n):\n            s[i] = {}\n            for j in range(n):\n                if i!= j:\n                    s[i][j] = pairs[i][j]\n\n        # find all k-pairs\n        for i in range(n):\n            for j in range(i+1, n):\n                if j in s[i]:\n                    continue\n                if len(s[",
+      -10.703125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution:\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # TODO\n        # 1. use the stack\n        # 2. use a list\n        # 3. use a map\n        # 4. use a list\n        # 5. use a list\n        # 6. use a map\n        # 7. use a map\n        # 8. use a map\n        # 9. use a map\n        # 10. use a map\n        # 11. use a map\n        # 12. use a map\n        # 13. use a map\n        # 14. use a map\n        # 15. use a map\n        # 16. use a map\n        # 17. use a map\n        # 18. use a map\n        # 19. use a map\n        # 20. use a map\n        # 21. use a map\n        # 22. use a map\n        # 23. use a map\n        # 24. use a map\n        # 25. use a map\n        # 26. use a map\n        # 27. use a map\n        # 28. use a map\n        # 29. use a map\n        # 30. use a map\n        # 31. use a map\n        # 32. use a map\n        # 33. use a map\n        # 34. use a map\n        # 35. use a map\n        # 36. use a map\n        # 37. use a map\n        # 38. use a map\n        # 39. use a map\n        # 40. use a map\n        # 41. use a map\n        # 42. use a map\n        # 43. use a map\n        # 44. use a map\n        # 45. use a map\n        # 46. use a map\n        # 47. use a map\n        # 48. use a map\n        # 49. use a map\n        # 50. use a map\n        # 51. use a map\n        # 52. use a map\n        # 53. use a map",
+      -10.8203125
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if k == 0:\n            return 0\n        if k == 1:\n            return sum(nums)\n        if k == 2:\n            return sum(nums[0] * nums[1])\n        if k == 3:\n            return sum(nums[0] * nums[1] * nums[2])\n        if k == 4:\n            return sum(nums[0] * nums[1] * nums[2] * nums[3])\n        if k == 5:\n            return sum(nums[0] * nums[1] * nums[2] * nums[3] * nums[4])\n        if k == 6:\n            return sum(nums[0] * nums[1] * nums[2] * nums[3] * nums[4] * nums[5])\n        if k == 7:\n            return sum(nums[0] * nums[1] * nums[2] * nums[3] * nums[4] * nums[5] * nums[6])\n        if k == 8:\n            return sum(nums[0] * nums[1] * nums[2] * nums[3] * nums[4] * nums[5] * nums[6] * nums[7])\n        if k > n:\n            return 0\n        if k == n:\n            return sum(nums)\n        if k == n+1:\n            return sum(nums[0] * nums[1])\n        if k == n+2:\n            return sum(nums[0] * nums[1] * nums[2])\n        if k == n+3:\n            return sum(nums[0] * nums[1] * nums[2] * nums[3])\n        if k == n+4:\n            return sum(nums[0]",
+      -10.859375
+    ],
+    [
+      "# O(n^2)\ndef remove_tuples_with_length_k(nums, k):\n    for i in range(0, len(nums) - k + 1):\n        for j in range(i + 1, len(nums) - k + 1):\n            if nums[i] == nums[j] and i!= j:\n                nums[i], nums[j] = nums[j], nums[i]\n                nums[i+1:j] = nums[j+1:]\n                return nums\n\n# O(n)\ndef remove_tuples_with_length_k2(nums, k):\n    if len(nums) < k:\n        return nums\n    else:\n        for i in range(0, len(nums) - k + 1):\n            for j in range(i + 1, len(nums) - k + 1):\n                if nums[i] == nums[j] and i!= j:\n                    nums[i], nums[j] = nums[j], nums[i]\n                    nums[i+1:j] = nums[j+1:]\n                    return nums\n\nif __name__ == '__main__':\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    remove_tuples_with_length_k(nums, 3)\n    print(nums)\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    remove_tuples_with_length_k2(nums, 3)\n    print(nums)",
+      -11.359375
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return 0\n        ans = 0\n        for i in xrange(n):\n            if i > 0 and nums[i] == nums[i-1]:\n                continue\n            for j in xrange(i+1, n):\n                if j > i+k-1 and nums[i] == nums[j] and nums[i]!= nums[j-1]:\n                    nums[i], nums[j] = nums[j], nums[i]\n                    ans += 1\n        return ans\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/remove-k-pairs/solution/\n#\nApproach #1: Sort\nComplexity Analysis\nTime Complexity: O(n log k), where k is the number of unique elements in the input array.\nSpace Complexity: O(n), the size of the output array.\n\n# 9ms 100%\nclass Solution {\n    public int removeKPairs(int[] nums, int k) {\n        Arrays.sort(nums);\n        int i = 0;\n        int j = 0;\n        int ans = 0;\n        while (i < nums.length && j < nums.length) {\n            while (j < nums.length && nums[j] == nums[j - 1]) {\n                j++;\n            }\n            while (i < nums.length && j < nums.length && nums[i] == nums[i + 1]) {\n                i++;\n            }\n            if (i < nums.length && j < nums.length) {\n                nums[i",
+      -11.40625
+    ],
+    [
+      "import sys\nsys.setrecursionlimit(10**6)\n\ndef remove_all_tuples(n, k):\n    if n <= 0 or k <= 0:\n        return\n    if n == 1:\n        return\n\n    # remove all tuples with length k\n    # a = remove_all_tuples(n - 1, k - 1)\n    # b = remove_all_tuples(n - 1, k)\n    # c = remove_all_tuples(n - 1, k + 1)\n    # return a + b + c\n    return remove_all_tuples(n - 1, k - 1) + remove_all_tuples(n - 1, k) + remove_all_tuples(n - 1, k + 1)\n\nif __name__ == '__main__':\n    n = int(input())\n    k = int(input())\n    print(remove_all_tuples(n, k))",
+      -12.0703125
+    ],
+    [
+      "import unittest\nfrom collections import namedtuple\n\nclass Solution(object):\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        t = namedtuple('t', 'l, d, r, c')\n        t2 = namedtuple('t2', 'l, d, r, c')\n        t3 = namedtuple('t3', 'l, d, r, c')\n\n        def remove(l, d, r, c):\n            if c == 0:\n                return l, d, r, c\n            if d == 0:\n                return l, d, r, c - 1\n            if r == 0:\n                return l, d, r - 1, c\n            if r - d <= k:\n                return l, d, r - 1, c - 1\n            if d - l <= k:\n                return l, d - 1, r, c - 1\n            if l - d <= k:\n                return l - 1, d, r, c - 1\n            return l - 1, d - 1, r, c - 1\n\n        l, d, r, c = 0, 0, 0, 0\n        for i in range(len(num)):\n            t2 = remove(l, d, r, c)\n            if t2[2] == 0:\n                return num[:t2[0]]\n            l, d, r, c = t2\n        return num\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/remove-k-digits/solution/\n#\nApproach #1: Remove K Digits [Accepted]\nComplexity Analysis\nTime Complexity: O(n), where n is the length of the input.\nSpace Complexity: O(n), the space used by the state.\n\n# 10ms 100%\nclass Solution {\n    public int remove",
+      -12.09375
+    ],
+    [
+      "class Solution:\n    # @param nums: a list of integers\n    # @param k: an integer\n    # @return nothing\n    def removeKthLargest(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        if k == 1:\n            nums.sort()\n            return\n\n        if len(nums) <= k:\n            return\n\n        idx = 0\n        while idx < len(nums) - k + 1:\n            if nums[idx] < nums[idx + k - 1]:\n                idx += 1\n            else:\n                nums[idx:idx+k] = nums[idx+k:idx+2*k]\n                idx += 2*k\n                break\n\n        # for i in range(idx, len(nums) - k):\n        #     if nums[i] < nums[i+k-1]:\n        #         nums[i:i+k] = nums[i+k:i+2*k]\n        #         idx += 2*k\n        #         break\n\nif __name__ == \"__main__\":\n    print Solution().removeKthLargest([3, 1, 3, 2, 1], 2)\n    print Solution().removeKthLargest([1, 2, 3], 3)\n    print Solution().removeKthLargest([1, 3, 1, 4], 2)\n    print Solution().removeKthLargest([1, 2, 3, 4, 5, 6], 3)\n    print Solution().removeKthLargest([1, 2, 3, 4, 5, 6], 2)",
+      -12.171875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution:\n    def removeKPairs(self, pairs, k):\n        \"\"\"\n        :type pairs: List[Tuple]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0:\n            return 0\n        pairs = sorted(pairs, key=lambda x: len(x.x))\n        ret = 0\n        for i in range(k):\n            if i == 0:\n                pairs = [x for x in pairs if len(x.x) > 0]\n            else:\n                pairs = [x for x in pairs if len(x.x) == i]\n        return len(pairs)\n\nif __name__ == \"__main__\":\n    cases = [([1, 2], 2, [1]),\n             ([1, 2, 3], 3, [1, 2, 3]),\n             ([1, 2, 3, 4], 3, [1, 2, 3, 4]),\n             ([1, 2, 3, 4, 5], 3, [1, 2, 3, 4, 5]),\n             ([1, 2, 3, 4, 5, 6], 3, [1, 2, 3, 4, 5, 6]),\n             ([1, 2, 3, 4, 5, 6, 7], 3, [1, 2, 3, 4, 5, 6, 7]),\n             ([1, 2, 3, 4, 5, 6, 7, 8], 3, [1, 2, 3, 4, 5, 6, 7, 8]),\n             ([1, 2, 3, 4, 5, 6, 7, 8, 9], 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])]\n    for pairs, k, expected in cases:\n        actual = Solution().removeKPairs(pairs, k)\n        assert actual == expected",
+      -13.21875
+    ],
+    [
+      "def remove_k_tuples(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if len(arr) == 0:\n        return 0\n    elif len(arr) == 1:\n        return 1\n    else:\n        for i in range(1, len(arr)):\n            if i < k:\n                continue\n            else:\n                if arr[i] == arr[i-k]:\n                    arr[i-k] = arr[i]\n                    arr[i] = arr[i-k]\n                    arr[i-k] = arr[i]\n                    arr[i] = arr[i-k]\n                else:\n                    arr[i-k] = arr[i]\n        return len(arr)\n\n# Your RemoveKTuples solution\n# @param {integer} arr\n# @param {integer} k\n# @return {integer}\ndef remove_k_tuples(arr, k):\n    if len(arr) == 0:\n        return 0\n    elif len(arr) == 1:\n        return 1\n    else:\n        for i in range(1, len(arr)):\n            if i < k:\n                continue\n            else:\n                if arr[i] == arr[i-k]:\n                    arr[i-k] = arr[i]\n                    arr[i] = arr[i-k]\n                    arr[i-k] = arr[i]\n                    arr[i] = arr[i-k]\n                else:\n                    arr[i-k] = arr[i]\n        return len(arr)",
+      -13.5
+    ],
+    [
+      "class Solution(object):\n    def removeKPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if k > n:\n            return n\n        result = 0\n        if k == 1:\n            for i in xrange(n):\n                if nums[i] == nums[i+1]:\n                    result += 1\n            return result\n        if k == 2:\n            for i in xrange(n):\n                if nums[i] == nums[i+1] and nums[i] == nums[i+2]:\n                    result += 3\n            return result\n        if k > 2:\n            for i in xrange(n-1):\n                if nums[i] == nums[i+1] and nums[i] == nums[i+2]:\n                    result += 3\n                    for j in xrange(i+3, n):\n                        if nums[j] == nums[j-1] and nums[j] == nums[j+1]:\n                            result += 3\n                elif nums[i] == nums[i+1] and nums[i]!= nums[i+2]:\n                    result += 3\n                elif nums[i]!= nums[i+1] and nums[i] == nums[i+2]:\n                    result += 3\n            return result",
+      -14.1015625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution:\n    def removeKPairs(self, k, nums):\n        \"\"\"\n        :type k: int\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        n = len(nums)\n        i = 0\n        while i < n:\n            if nums[i] == nums[i+1]:\n                i += 1\n            else:\n                j = i + 1\n                while j < n and nums[j] == nums[j-1]:\n                    j += 1\n                if j - i > k:\n                    nums[i] = nums[j-1]\n                else:\n                    nums[i] = nums[j]\n                i = j\n        return nums",
+      -14.1640625
+    ],
+    [
+      "# TODO:\n# 1. Write a recursive function.\n# 2. Write a function to remove all the tuples with length k.\n\n\ndef remove_all_tuples_with_length_k(tuples, k):\n    \"\"\"\n    :type tuples: List[List[int]]\n    :type k: int\n    :rtype: List[List[int]]\n    \"\"\"\n    if len(tuples) < k:\n        return tuples\n    if k == 0:\n        return []\n    # TODO: use a recursive solution.\n    # return remove_all_tuples_with_length_k(tuples[1:], k-1)\n    # return remove_all_tuples_with_length_k(tuples[1:], k-1)\n\n    return remove_all_tuples_with_length_k(tuples[1:], k) + tuples[0]",
+      -14.3125
+    ],
+    [
+      "class Solution:\n    # @param nums: a list of integer\n    # @param k: an integer\n    # @return a list of lists of integers\n    def removeKNumber(self, nums, k):\n        if not nums:\n            return []\n        n = len(nums)\n        if n == 1:\n            return [nums]\n\n        # find the largest k-element\n        max_k_element = max(nums[:k])\n        # find the largest k-element in the list\n        max_k_element_in_list = max(nums[k:])\n        # find the largest k-element in the list\n        # and remove it\n        nums[k:] = [nums[k]]\n        # remove all the k-element in the list\n        for i in range(k, n):\n            nums[i] = nums[i - 1]\n\n        # sort the list\n        nums.sort()\n        # return the list of lists\n        return [nums[:k + 1] for x in range(k)]\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.removeKNumber([1, 2, 3, 4, 5, 6, 7], 3))",
+      -15.5234375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

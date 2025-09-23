@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T00:01:25.303400",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 228,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef num_sequences(n: int, m: int) -> int:\n    \"\"\"\n    Returns the number of sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n    \"\"\"\n    dp = [0] * (m + 1)\n    dp[1] = 1\n\n    for i in range(1, n):\n        for j in range(m, 2 * i - 1, -1):\n            dp[j] += dp[j - i]\n\n    return dp[m]\n\n\nif __name__ == \"__main__\":\n    assert num_sequences(3, 5) == 4\n    assert num_sequences(3, 10) == 10\n    assert num_sequences(6, 15) == 46"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "def count_sequences(n, m):\n\tdp = [[0 for i in range(m+1)] for j in range(n+1)]\n\tdp[1][1] = 1\n\n\tfor i in range(2, n+1):\n\t\tfor j in range(1, m+1):\n\t\t\tdp[i][j] = dp[i-1][j]\n\t\t\tif j*2 >= j:\n\t\t\t\tdp[i][j] += dp[i-1][j//2]\n\n\treturn dp[-1][-1]\n\n\nprint(count_sequences(5, 100))"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "def seq_num(n, m):\n    if n < 1:\n        return 0\n    elif n == 1:\n        return 1\n\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        for j in range(1, i // 2 + 1):\n            if j * 2 <= i and j <= m:\n                dp[i] += dp[j]\n    return dp[-1]\n\n\nprint(seq_num(7, 3))"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "class Solution():\n    def solve(self, n, m):\n        # Write your code here\n        dp = [0] * (m + 1)\n        dp[1] = 1\n\n        for i in range(2, m + 1):\n            dp[i] = dp[i - 1]\n\n        for i in range(2, n + 1):\n            for j in range(2 * i, m + 1):\n                dp[j] += dp[j - i]\n\n        return dp[m]"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def numberOfSequences(self, n, m):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        if n == 0:\n            return 0\n        dp = [1] * (m + 1)\n        for i in range(1, m + 1):\n            dp[i] = dp[i - 1] + 1\n\n        for i in range(2, n + 1):\n            tmp = [0] * (m + 1)\n            for j in range(1, m + 1):\n                tmp[j] = dp[j - 1] + dp[j]\n            dp = tmp\n\n        return dp[m]\n\n\nif __name__ == '__main__':\n    solution = Solution()\n    print(solution.numberOfSequences(5, 9))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def find_seq_num(n, m):\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n\n    if n > 2:\n        return find_seq_num(n - 1, m) * (m - 2) + find_seq_num(n - 2, m - 1)\n\n\nif __name__ == \"__main__\":\n    print(find_seq_num(3, 7))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def find_seq(self, n, m):\n        dp = [0] * (m + 1)\n        dp[0] = 1\n        for i in range(1, m + 1):\n            dp[i] = dp[i - 1] + 1\n\n        for i in range(1, n):\n            temp = [0] * (m + 1)\n            for j in range(m, 0, -1):\n                if j >= i * 2:\n                    temp[j] = dp[j - i] + temp[j - 1]\n                else:\n                    temp[j] = temp[j - 1]\n            dp = temp\n        return dp[m]\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.find_seq(5, 10) == 4\n    assert s.find_seq(2, 5) == 3"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "def num_sequences(n, m):\n    table = [0] * (m + 1)\n    table[1] = 1\n\n    for i in range(2, m + 1):\n        table[i] = table[i - 1] + 1\n\n    for i in range(2, m + 1):\n        table[i] += table[i // 2]\n\n    return table[n]\n\n\nprint(num_sequences(4, 10))\nprint(num_sequences(5, 10))\nprint(num_sequences(6, 10))\nprint(num_sequences(7, 10))\nprint(num_sequences(8, 10))\nprint(num_sequences(9, 10))\nprint(num_sequences(10, 10))\nprint(num_sequences(11, 10))\nprint(num_sequences(12, 10))\nprint(num_sequences(13, 10))"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n\n    dp = [0] * (m + 1)\n    dp[1] = 1\n    dp[2] = 1\n\n    for i in range(3, m + 1):\n        if i >= 2 * (i - 2) and i <= m:\n            dp[i] = dp[i - 2] + dp[i - 1]\n        elif i < 2 * (i - 2):\n            dp[i] = dp[i - 2]\n        else:\n            dp[i] = dp[i - 1]\n\n    return dp[m]\n\n\nprint(count_sequences(3, 10))\nprint(count_sequences(5, 10))\nprint(count_sequences(10, 100))\nprint(count_sequences(10, 50))"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from collections import defaultdict\n\n\ndef num_sequences(n, m):\n    if n < 1:\n        return 0\n    dp = defaultdict(int)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        for j in range(1, i):\n            if 2 * j <= m:\n                dp[i] += dp[i - j]\n    return dp[n]\n\n\nprint(num_sequences(5, 10))\nprint(num_sequences(10, 1000))"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "def get_num_sequences(n, m):\n    if n <= 0 or n > m:\n        return 0\n    if n == 1:\n        return 1\n\n    dp = [0] * (m+1)\n    dp[0] = 1\n    for i in range(1, m+1):\n        dp[i] += dp[i-1]\n\n    for i in range(2, m+1):\n        dp[i] += dp[i-2]\n\n    return dp[m]\n\n\nprint(get_num_sequences(3, 10))\nprint(get_num_sequences(10, 20))\nprint(get_num_sequences(10, 2000))"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache\ndef ways(n, m):\n    if n <= 0:\n        return 1\n    if n == 1:\n        return 1\n    if m < 2:\n        return 0\n\n    return sum(ways(n - i, min(m, m - 2 * i)) for i in range(1, n // 2 + 1))\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (1, 2),\n        (2, 2),\n        (2, 4),\n        (3, 2),\n        (3, 4),\n        (3, 5),\n        (4, 2),\n        (4, 4),\n        (4, 6),\n        (5, 2),\n        (5, 4),\n        (5, 6),\n        (5, 8),\n        (6, 2),\n        (6, 4),\n        (6, 6),\n        (6, 8),\n        (6, 10),\n        (7, 2),\n        (7, 4),\n        (7, 6),\n        (7, 8),\n        (7, 10),\n        (7, 12),\n        (8, 2),\n        (8, 4),\n        (8, 6),\n        (8, 8),\n        (8, 10),\n        (8, 12),\n        (8, 14),\n        (9, 2),\n        (9, 4),\n        (9, 6),\n        (9, 8),\n        (9, 10),\n        (9, 12),\n        (9, 14),\n        (9, 16),\n        (10, 2),\n        (10, 4),\n        (10, 6),\n        (10, 8),\n        (10, 10),\n        (10, 12),\n        (10, 14),"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "def num_of_sequences(n, m):\n    if n == 0 or m == 0:\n        return 0\n    dp = [0] * (m + 1)\n    dp[1] = 1\n    for i in range(2, m + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n    res = 0\n    for i in range(n, m + 1):\n        res += dp[i]\n    return res\n\nprint(num_of_sequences(3, 10))"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "from math import comb\n\n\ndef count_sequences(n, m):\n    count = 0\n\n    for i in range(0, n):\n        if i == 0:\n            count += 1\n        else:\n            count += comb(n-i, i)\n\n    return count\n\n\nprint(count_sequences(10, 20))"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "def seq_num(n, m):\n    \"\"\"\n    Write a function to find the number of possible sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n\n    Args:\n       n(int): length of the sequence\n       m(int): maximum value\n    Returns:\n       int: The number of possible sequences.\n    \"\"\"\n    #if n is less than 2 return 0\n    if n < 2:\n        return 0\n    #if n is 2 return 1\n    elif n == 2:\n        return 1\n    #initialize array of 0s for each number of elements\n    arr = [0 for i in range(n)]\n    #initialize first 2 elements in array as 1\n    arr[0] = 1\n    arr[1] = 1\n    #initialize variable to hold sum of all elements\n    total = 0\n    #for each element in the array\n    for i in range(2, n):\n        #add to the total the number of elements less than or equal to m\n        total = total + count_num(i, m)\n        #add to the total the number of elements less than m\n        total = total + count_num(i, m - 1)\n        #add to the total the number of elements less than m/2\n        total = total + count_num(i, m//2)\n        #add to the total the number of elements less than m/2 - 1\n        total = total + count_num(i, m//2 - 1)\n        #add to the total the number of elements less than m/2 + 1\n        total = total + count_num(i, m//2 + 1)\n        #add to the total the number of elements less than m/2 - 2\n        total = total + count_num(i, m//2 - 2)\n        #add to the total the number of elements less than m/2 + 2\n        total = total + count_num(i, m//2 + 2)\n        #add to the total the number of elements less than m/2 - 3\n        total = total + count"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef num_sequences(n, m):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n\n    return sum(\n        num_sequences(i, m) * num_sequences(n - i, m)\n        for i in range(1, n + 1)\n    )\n\n\nif __name__ == \"__main__\":\n    print(num_sequences(4, 10))"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef number_of_sequences(n, m):\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n\n    return sum(\n        number_of_sequences(n - i, m) for i in range(1, n // 2 + 1)\n    )\n\n\nif __name__ == '__main__':\n    test_cases = [\n        (1, 2),\n        (2, 2),\n        (3, 2),\n        (4, 2),\n        (5, 2),\n        (6, 2),\n        (7, 2),\n        (8, 2),\n        (9, 2),\n        (10, 2),\n        (11, 2),\n        (12, 2),\n        (13, 2),\n        (14, 2),\n        (15, 2),\n        (16, 2),\n        (17, 2),\n        (18, 2),\n        (19, 2),\n        (20, 2),\n        (21, 2),\n        (22, 2),\n        (23, 2),\n        (24, 2),\n        (25, 2),\n        (26, 2),\n        (27, 2),\n        (28, 2),\n        (29, 2),\n        (30, 2),\n        (31, 2),\n        (32, 2),\n        (33, 2),\n        (34, 2),\n        (35, 2),\n        (36, 2),\n        (37, 2),\n        (38, 2),\n        (39, 2),\n        (40, 2),\n        (41, 2),\n        (42, 2),\n        (43, 2),\n        (44, 2),"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "def num_sequences(n: int, m: int) -> int:\n    \"\"\"\n    The number of possible sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n    \"\"\"\n    if n == 0 or m == 0:\n        return 0\n    dp = [0] * (m + 1)\n    dp[0] = 1\n    for i in range(1, m + 1):\n        dp[i] = 1\n    for i in range(2, m + 1):\n        dp[i] = 2\n    for i in range(3, m + 1):\n        dp[i] = dp[i - 1] + dp[i - 2] * 2\n    return dp[m]\n\n\nif __name__ == \"__main__\":\n    assert num_sequences(2, 2) == 1\n    assert num_sequences(3, 2) == 1\n    assert num_sequences(4, 2) == 2\n    assert num_sequences(5, 2) == 3\n    assert num_sequences(6, 2) == 5\n    assert num_sequences(7, 2) == 8\n    assert num_sequences(8, 2) == 13\n    assert num_sequences(9, 2) == 21\n    assert num_sequences(10, 2) == 34\n    assert num_sequences(11, 2) == 55\n    assert num_sequences(12, 2) == 89\n    assert num_sequences(13, 2) == 144\n    assert num_sequences(14, 2) == 233\n    assert num_sequences(15, 2) == 377\n    assert num_sequences(16, 2) == 610\n    assert num_sequences(17, 2) == 953\n    assert num_sequences(18, 2) == 14"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "def count_sequences(n, m):\n    if n <= 0 or m < 0:\n        return 0\n\n    dp = [[0 for _ in range(m + 1)] for _ in range(n + 1)]\n\n    for i in range(m + 1):\n        dp[1][i] = 1\n\n    for i in range(2, n + 1):\n        for j in range(m + 1):\n            if i - 1 <= j:\n                dp[i][j] += dp[i - 1][j]\n            if j * 2 >= i:\n                dp[i][j] += dp[i - 1][j // 2]\n\n    return dp[-1][-1]\n\n\nprint(count_sequences(10, 10))"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "class Solution():\n    def solve(self, n, m):\n        \"\"\"\n        Returns the number of possible sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n\n        Args:\n            n(int): Length of sequence\n            m(int): Maximum value of element\n\n        Returns:\n            int: Number of possible sequences\n        \"\"\"\n        dp = [0 for _ in range(n)]\n        dp[0] = 1\n\n        for i in range(1, n):\n            for j in range(i-1, -1, -1):\n                if m//(2**(i-j-1)) >= m//(2**i):\n                    dp[i] += dp[j]\n\n        return dp[n-1]\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.solve(3, 10))"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache\ndef possible_sequences(n, m):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n\n    count = 0\n\n    for i in range(n, m + 1):\n        count += possible_sequences(n - 1, i)\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(possible_sequences(3, 10))"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef get_sequences(n, m):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    return sum(get_sequences(n - 1, min(m, 2 * i)) for i in range(1, m))\n\n\nif __name__ == \"__main__\":\n    print(get_sequences(2, 3))"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def countSequences(self, n, m):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        # DP\n        dp = [1] * (m + 1)\n        for i in range(n):\n            temp = [0] * (m + 1)\n            for j in range(1, m + 1):\n                temp[j] = dp[j] + dp[j // 2]\n            dp = temp\n        return dp[-1]\n\n\nif __name__ == \"__main__\":\n    print(Solution().countSequences(3, 7))\n    print(Solution().countSequences(4, 10))"
+    },
+    {
+      "rank": 24,
+      "score": 10.0,
+      "candidate": "def count(n, m):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n    if n == 3:\n        return m - 2\n    if n == 4:\n        return m - 3\n    if n == 5:\n        return m - 4\n    if n == 6:\n        return m - 5\n    if n == 7:\n        return m - 6\n    if n == 8:\n        return m - 7\n    if n == 9:\n        return m - 8\n    if n == 10:\n        return m - 9\n\n\nprint(count(1, 10))\nprint(count(2, 10))\nprint(count(3, 10))\nprint(count(4, 10))\nprint(count(5, 10))\nprint(count(6, 10))\nprint(count(7, 10))\nprint(count(8, 10))\nprint(count(9, 10))\nprint(count(10, 10))\n\n\"\"\"\nTime Complexity = O(1)\nSpace Complexity = O(1)\n\"\"\""
+    },
+    {
+      "rank": 25,
+      "score": 10.0,
+      "candidate": "from math import factorial\n\n\ndef count_sequences(n, m):\n    total = 0\n\n    for i in range(n, m + 1):\n        total += factorial(i) // (factorial(i - n) * factorial(n))\n\n    return total\n\n\nprint(count_sequences(4, 10))\nprint(count_sequences(5, 10))\nprint(count_sequences(6, 10))\nprint(count_sequences(7, 10))\nprint(count_sequences(8, 10))"
+    },
+    {
+      "rank": 26,
+      "score": 10.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef fibonacci(n, m):\n    if n < 2:\n        return 1\n    elif n == 2:\n        return 1 if m >= 2 else 0\n    return fibonacci(n - 1, m) + fibonacci(n - 2, m)\n\n\ndef num_sequences(n, m):\n    return fibonacci(n + 1, m)\n\n\nif __name__ == \"__main__\":\n    print(num_sequences(4, 10))\n    print(num_sequences(5, 10))\n    print(num_sequences(6, 10))\n    print(num_sequences(7, 10))"
+    },
+    {
+      "rank": 27,
+      "score": 9.0,
+      "candidate": "def get_sequences(n, m):\n    if n == 1:\n        return m\n    return get_sequences(n - 1, m) * (m - 2 * (n - 1)) // (n - 1)\n\nprint(get_sequences(4, 10))"
+    },
+    {
+      "rank": 28,
+      "score": 9.0,
+      "candidate": "def num_sequences(n, m):\n    # Create a table to store the results of subproblems.\n    # table[i][j] contains the number of sequences of length i that end with number j.\n    table = [[0 for _ in range(m + 1)] for _ in range(n + 1)]\n\n    # Base case (If n = 0, then there is 1 possible sequence of length n that ends with 0).\n    table[0][0] = 1\n\n    # Fill the table in a bottom up manner using the recursive formula.\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            # If the current number is greater than or equal to twice of the previous number, then\n            # the number of sequences ending with the current number is equal to the number of\n            # sequences ending with the previous number.\n            if j >= 2 * table[i - 1][j - 1]:\n                table[i][j] = table[i - 1][j]\n            # Else, the number of sequences ending with the current number is equal to the sum of the\n            # number of sequences ending with the previous number and the number of sequences ending\n            # with the previous number - 1.\n            else:\n                table[i][j] = table[i - 1][j] + table[i - 1][j - 1]\n\n    return table[n][m]\n\n\nif __name__ == \"__main__\":\n    print(num_sequences(5, 10))\n    print(num_sequences(10, 100))"
+    },
+    {
+      "rank": 29,
+      "score": 9.0,
+      "candidate": "def num_of_sequences(n, m):\n    if n < 1:\n        return 0\n\n    dp = [0] * (m+1)\n    dp[0] = 1\n    for i in range(1, m+1):\n        dp[i] = dp[i-1] + 1\n\n    for i in range(2, n+1):\n        prev = dp[i-1]\n        for j in range(i, m+1, i):\n            dp[j] += prev\n\n    return dp[m]\n\n\ndef test_num_of_sequences():\n    assert num_of_sequences(3, 2) == 3\n    assert num_of_sequences(3, 4) == 6\n    assert num_of_sequences(3, 5) == 8\n    assert num_of_sequences(3, 6) == 9\n    assert num_of_sequences(4, 10) == 10\n    assert num_of_sequences(5, 10) == 15\n    assert num_of_sequences(6, 10) == 21\n    assert num_of_sequences(7, 10) == 27\n    assert num_of_sequences(8, 10) == 33\n    assert num_of_sequences(9, 10) == 39\n    assert num_of_sequences(10, 10) == 45\n    assert num_of_sequences(10, 100) == 45\n    assert num_of_sequences(10, 1000) == 45\n    assert num_of_sequences(10, 10000) == 45\n    assert num_of_sequences(10, 100000) == 45\n    assert num_of_sequences(10, 1000000) == 45\n\n\nif __name__ == '__main__':\n    test_num_of_sequences()"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 1:\n        return 1\n    return sum(count_sequences(i, m) for i in range(1, n+1))\n\nprint(count_sequences(3, 10))"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def solve(n, m):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    return (m - 1) * (m - 2) ** (n - 1)\n\n\nif __name__ == '__main__':\n    n = int(input())\n    m = int(input())\n    result = solve(n, m)\n    print(result)"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def num_sequences(n, m):\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n\n    dp = [[0 for _ in range(m + 1)] for _ in range(n)]\n    dp[0] = [1] * (m + 1)\n\n    for i in range(1, n):\n        for j in range(1, m + 1):\n            dp[i][j] = dp[i - 1][j]\n            if j >= j * 2:\n                dp[i][j] += dp[i - 1][j - (j * 2)]\n\n    return dp[n - 1][m]\n\n\nprint(num_sequences(3, 7))\nprint(num_sequences(2, 7))\nprint(num_sequences(4, 10))"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [0] * (m + 1)\n    dp[0] = 1\n\n    for i in range(1, m + 1):\n        dp[i] = 1\n\n    for i in range(1, n):\n        for j in range(m - 2 * i + 1, m + 1):\n            dp[j] += dp[j - i]\n\n    return dp[m]\n\nif __name__ == '__main__':\n    print(count_sequences(3, 6))\n    print(count_sequences(4, 14))"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "def num_sequences(n, m):\n    if n <= 0 or m < 0:\n        return 0\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m // 2 + 1\n\n    return num_sequences(n - 1, m) + num_sequences(n - 2, m // 2)\n\nprint(num_sequences(2, 3))\nprint(num_sequences(3, 10))"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [[0 for _ in range(m+1)] for _ in range(n+1)]\n    dp[0][0] = 1\n    for i in range(1, n+1):\n        for j in range(m+1):\n            if i == 1:\n                dp[i][j] = 1\n            else:\n                dp[i][j] = dp[i-1][j]\n                if j >= 2*i-1:\n                    dp[i][j] += dp[i-1][j-2*i+1]\n    return dp[n][m]\n\nif __name__ == \"__main__\":\n    print(count_sequences(3, 4))\n    print(count_sequences(3, 6))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def number_of_sequences(n, m):\n    if n == 1:\n        return 1\n    if n == 2:\n        return m // 2\n    return (m - 1 - (m // 2)) * number_of_sequences(n - 1, m) + number_of_sequences(n - 2, m)\n\n\nprint(number_of_sequences(1, 10))\nprint(number_of_sequences(2, 10))\nprint(number_of_sequences(3, 10))\nprint(number_of_sequences(4, 10))\nprint(number_of_sequences(5, 10))\nprint(number_of_sequences(6, 10))\nprint(number_of_sequences(7, 10))\nprint(number_of_sequences(8, 10))\nprint(number_of_sequences(9, 10))\nprint(number_of_sequences(10, 10))"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def num_sequences(n, m):\n    dp = [[0 for _ in range(m + 1)] for _ in range(n + 1)]\n    dp[0][0] = 1\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            dp[i][j] = dp[i - 1][j]\n            if j * 2 >= i:\n                dp[i][j] += dp[i][j // 2]\n    return dp[-1][-1]\n\n\nprint(num_sequences(5, 20))\nprint(num_sequences(7, 100))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 1:\n        return 1\n    if m <= 2 * n:\n        return 1\n    if m <= 2 * n - 2:\n        return 2\n    return count_sequences(n - 1, m) + count_sequences(n - 2, m)\n\n\nprint(count_sequences(3, 6))\nprint(count_sequences(4, 10))\nprint(count_sequences(5, 11))"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    if n < 0 or m < 0:\n        return 0\n    if n == 0:\n        return 1\n    if n == 1:\n        return m + 1\n    return count_sequences(n - 1, m) * (m - 1) + count_sequences(n - 2, m)\n\nprint(count_sequences(3, 5))\nprint(count_sequences(3, 4))\nprint(count_sequences(4, 5))\nprint(count_sequences(5, 5))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [0] * (m+1)\n    dp[0] = 1\n\n    for i in range(1, m+1):\n        for j in range(i, m+1):\n            dp[j] += dp[i]\n\n    return dp[n]"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def count_seq(n, m):\n\tif n == 0:\n\t\treturn 0\n\tif n == 1:\n\t\treturn 1\n\tif n == 2:\n\t\treturn m - 1\n\treturn (m - 2) * count_seq(n - 1, m) + (m - 1) * count_seq(n - 2, m)\n\nprint(count_seq(10, 100))"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    # Fill this in.\n\nprint count_sequences(10, 100)\n# 118636"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef solve(n, m):\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n    if n == 3:\n        return m - 2\n\n    return solve(n-1, m) + solve(n-2, m) + solve(n-3, m)\n\n\nif __name__ == '__main__':\n    t = int(input())\n    for i in range(t):\n        n, m = map(int, input().split())\n        ans = solve(n, m)\n        print(ans)"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def get_number_of_sequences(n, m):\n    dp = [0 for i in range(m+1)]\n    dp[0] = 1\n    for i in range(1, m+1):\n        dp[i] = 1\n    for i in range(n):\n        for j in range(m, 0, -1):\n            if j >= 2*i:\n                dp[j] = dp[j] + dp[j-i]\n    return dp[m]\n\nif __name__ == \"__main__\":\n    n, m = map(int, input().split())\n    print(get_number_of_sequences(n, m))"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "from math import sqrt\n\n\ndef num_sequences(n, m):\n    if n == 1:\n        return 1\n\n    # Find the number of possible sequences for each number.\n    seq_nums = [0] * (m + 1)\n    for i in range(m + 1):\n        if i >= 2:\n            seq_nums[i] = seq_nums[i - 1] + 1\n\n        if i >= 1:\n            seq_nums[i] += seq_nums[i - 2]\n\n        if i >= 3:\n            seq_nums[i] += seq_nums[i - 3]\n\n    return sum(seq_nums[i:i + n - 1])\n\n\nprint(num_sequences(3, 5))\nprint(num_sequences(5, 10))\nprint(num_sequences(6, 10))\nprint(num_sequences(7, 10))\nprint(num_sequences(8, 10))\nprint(num_sequences(9, 10))\nprint(num_sequences(10, 10))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "def num_sequences(n, m):\n    # Write your code here.\n    if n <= 0 or m <= 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n    return num_sequences(n - 1, m) * (m - 1) + num_sequences(n - 2, m)"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "def sequence_count(n, m):\n    count = [0] * (m + 1)\n    count[0] = 1\n    for i in range(1, m + 1):\n        count[i] = 1\n\n    for i in range(n - 1):\n        temp = [0] * (m + 1)\n        for j in range(1, m + 1):\n            temp[j] += count[j]\n            if j * 2 <= m:\n                temp[j * 2] += count[j]\n\n        count = temp\n\n    return count[m]\n\n\nprint(sequence_count(5, 10))"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "def num_sequences(n, m):\n    # The base case\n    if n == 0:\n        return 0\n\n    # The other base case\n    if n == 1:\n        return 1\n\n    # The recursive step\n    return count_sequences(n - 1, m) + count_sequences(n - 2, m)\n\ndef count_sequences(n, m):\n    # The base case\n    if n == 0:\n        return 0\n\n    # The other base case\n    if n == 1:\n        return 1\n\n    # The recursive step\n    return count_sequences(n - 1, m) + count_sequences(n - 2, m)"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "from math import ceil, floor\n\n\ndef num_sequences(n, m):\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m - 1\n\n    return (floor(m / 2) - ceil(m / 4)) ** (n - 1)\n\n\nprint(num_sequences(2, 4))\nprint(num_sequences(3, 10))\nprint(num_sequences(4, 100))\nprint(num_sequences(1, 100))"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 1:\n        return 1\n\n    count = 0\n\n    for i in range(1, m):\n        count += count_sequences(n - 1, min(i * 2, m))\n\n    return count\n\n\nprint(count_sequences(4, 10))\nprint(count_sequences(3, 3))\nprint(count_sequences(2, 2))"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    # Your code goes here\n    dp = [0] * (m+1)\n    dp[0] = 1\n\n    for i in range(1, m+1):\n        dp[i] = 1\n\n    for i in range(2, n+1):\n        for j in range(i, m+1):\n            if j >= 2*i:\n                dp[j] += dp[i-1]\n\n    return dp[m]\n\n\nif __name__ == '__main__':\n    print(count_sequences(5, 10))"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n    if n == 3:\n        return (m - 2) * 2\n\n    return (m - 1) * (count_sequences(n - 1, m) + count_sequences(n - 2, m))\n\nif __name__ == '__main__':\n    print count_sequences(3, 10)"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n\tdp = [[0 for _ in range(m+1)] for _ in range(n+1)]\n\tdp[0][0] = 1\n\tfor i in range(1, n+1):\n\t\tfor j in range(m+1):\n\t\t\tdp[i][j] = dp[i-1][j]\n\t\t\tif j >= 2*i:\n\t\t\t\tdp[i][j] += dp[i-1][j-2*i]\n\treturn dp[n][m]\n\nprint(count_sequences(4, 10))"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 1:\n        return 1\n    if n == 0:\n        return 0\n    if n == 2:\n        return m - 1\n    if n > 2:\n        return (m - 1) * count_sequences(n - 1, m) + count_sequences(n - 2, m)\n\n\nprint(count_sequences(1, 10))\nprint(count_sequences(2, 10))\nprint(count_sequences(3, 10))\nprint(count_sequences(4, 10))\nprint(count_sequences(5, 10))\nprint(count_sequences(6, 10))\nprint(count_sequences(7, 10))\nprint(count_sequences(8, 10))\nprint(count_sequences(9, 10))\nprint(count_sequences(10, 10))\nprint(count_sequences(11, 10))"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "from math import factorial\n\n\ndef possible_sequences(n, m):\n    return factorial(m+n-1) // (factorial(n) * factorial(m-1))\n\n\nif __name__ == \"__main__\":\n    n, m = 3, 10\n    print(possible_sequences(n, m))"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "from math import comb\n\n\ndef num_sequences(n, m):\n    if n == 1:\n        return 1\n    if m < 2:\n        return 0\n    if n == 2:\n        return comb(m - 1, 2)\n\n    prev = [2] + [1] * (n - 1)\n    for i in range(1, n):\n        prev[i] = comb(m - 2, i - 1) + prev[i - 1]\n    return prev[-1]\n\n\nprint(num_sequences(2, 3))\nprint(num_sequences(1, 10))\nprint(num_sequences(10, 10))\nprint(num_sequences(1, 100))\nprint(num_sequences(2, 100))\nprint(num_sequences(3, 100))\nprint(num_sequences(4, 100))\nprint(num_sequences(10, 100))\nprint(num_sequences(20, 100))\nprint(num_sequences(30, 100))\nprint(num_sequences(40, 100))\nprint(num_sequences(50, 100))"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "def possible_sequences(n, m):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    elif n == 2:\n        return m - 1\n    elif n == 3:\n        return m - 2\n    elif n == 4:\n        return m - 3\n    elif n == 5:\n        return m - 4\n    elif n == 6:\n        return m - 5\n    else:\n        return m - n + 1\n\n\nprint(possible_sequences(3, 5))\nprint(possible_sequences(2, 10))\nprint(possible_sequences(1, 10))\nprint(possible_sequences(10, 10))"
+    },
+    {
+      "rank": 58,
+      "score": 3.0,
+      "candidate": "def num_of_sequences(n: int, m: int) -> int:\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n*m)\n    \"\"\"\n    dp = [[0 for _ in range(m + 1)] for _ in range(n + 1)]\n\n    for i in range(m + 1):\n        dp[0][i] = 1\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            dp[i][j] = dp[i - 1][j]\n            if j >= i * 2:\n                dp[i][j] += dp[i - 1][j - (i * 2)]\n\n    return dp[-1][-1]\n\n\nif __name__ == \"__main__\":\n    print(num_of_sequences(3, 7))"
+    },
+    {
+      "rank": 59,
+      "score": 1.0,
+      "candidate": "def count_sequences(n: int, m: int) -> int:\n    \"\"\"\n    Let's assume that the nth element is x.\n    If x is less than or equal to m, then we have the following possibilities:\n    x = 2 * (x - 1) + 1, x = 2 * (x - 1) + 2, ..., x = 2 * (x - 1) + n\n    which are the same as (n + 1) * (x - 1) + n + 1.\n\n    If x is greater than m, then we have the following possibilities:\n    x = 2 * m + 1, x = 2 * m + 2, ..., x = 2 * m + n\n    which are the same as (n + 1) * m + n + 1.\n\n    We can sum the number of possibilities for all the possible x and we have the answer.\n    \"\"\"\n    if n < 1 or m < 1:\n        return 0\n    return sum((n + 1) * x + n + 1 for x in range(1, min(m, n) + 1))\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(1, 10) == 1\n    assert count_sequences(2, 10) == 2\n    assert count_sequences(3, 10) == 3\n    assert count_sequences(4, 10) == 4\n    assert count_sequences(5, 10) == 4\n    assert count_sequences(6, 10) == 5\n    assert count_sequences(7, 10) == 5\n    assert count_sequences(8, 10) == 5\n    assert count_sequences(9, 10) == 5\n    assert count_sequences(10, 10) == 5\n    assert count_sequences(11, 10) == 5\n    assert count_sequences(12, 10) == 5\n    assert count_sequences(13, 10) == 5"
+    },
+    {
+      "rank": 60,
+      "score": 1.0,
+      "candidate": "from math import sqrt, log\n\n\ndef num_sequences(n, m):\n    \"\"\"\n    Returns the number of sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n    \"\"\"\n    if n <= 0:\n        return 0\n\n    if m <= 0:\n        return 0\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m - 1\n\n    return int((m - 1) / 2 * (m - 2)) + num_sequences(n - 2, m)\n\n\ndef num_sequences_fast(n, m):\n    \"\"\"\n    Returns the number of sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n    \"\"\"\n    if n <= 0:\n        return 0\n\n    if m <= 0:\n        return 0\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m - 1\n\n    if n == 3:\n        return m - 2\n\n    return int((m - 1) / 2 * (m - 2)) + num_sequences_fast(n - 2, m)\n\n\nif __name__ == \"__main__\":\n    print(num_sequences(1, 10))\n    print(num_sequences(2, 10))\n    print(num_sequences(3, 10))\n    print(num_sequences(4, 10))\n    print(num_sequences(5, 10))\n    print(num_sequences(6, 10))\n    print(num_sequences(7, 10))\n    print(num_sequences(8, 10))\n    print(num_sequences(9, 10))\n    print(num_sequences(10, 10))\n    print(num_sequences(11, 10))\n    print(num_sequences(12,"
+    },
+    {
+      "rank": 61,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [0] * (m+1)\n    dp[1] = 1\n\n    for i in range(2, m+1):\n        dp[i] = dp[i-1]\n\n    for i in range(2, m+1):\n        dp[i] += dp[i-1]\n\n    return dp[m]\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(5, 10) == 16"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef num_sequences(n, m):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n\n    return (\n        num_sequences(n - 2, m) * (m - 2)\n        + num_sequences(n - 1, m - 2) * (m - 2)\n        + num_sequences(n - 1, m - 1) * (m - 1)\n    )\n\n\nif __name__ == \"__main__\":\n    assert num_sequences(3, 4) == 12\n    assert num_sequences(1, 3) == 3\n    assert num_sequences(2, 4) == 12\n    assert num_sequences(5, 10) == 4112"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "def get_count(n, m):\n    if n == 1:\n        return m\n\n    dp = [0] * (m + 1)\n    dp[1] = 1\n\n    for i in range(2, m + 1):\n        dp[i] = dp[i - 1] + (i - 1)\n\n    for i in range(2, n):\n        for j in range(1, m + 1):\n            dp[j] = dp[j] + dp[j - 1]\n\n    return dp[m]\n\n\nif __name__ == \"__main__\":\n    n, m = map(int, input().split())\n    print(get_count(n, m))"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "def possible_sequences(n, m):\n    if n == 1:\n        return 1\n    return 1\n\nprint(possible_sequences(4, 10))"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "from math import factorial\n\n\ndef count_sequences(n, m):\n    return factorial(n) // (factorial(n - 2) * factorial(2))\n\n\ndef test_count_sequences():\n    assert count_sequences(1, 100) == 1\n    assert count_sequences(2, 100) == 2\n    assert count_sequences(3, 100) == 3\n    assert count_sequences(4, 100) == 5\n    assert count_sequences(5, 100) == 8\n    assert count_sequences(6, 100) == 13\n    assert count_sequences(7, 100) == 21\n    assert count_sequences(8, 100) == 34\n    assert count_sequences(9, 100) == 55\n    assert count_sequences(10, 100) == 89"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef get_sequences(n: int, m: int) -> List[int]:\n    \"\"\"\n    >>> get_sequences(1, 1)\n    [0]\n    >>> get_sequences(2, 2)\n    [0, 1]\n    >>> get_sequences(3, 3)\n    [0, 1, 2]\n    >>> get_sequences(3, 4)\n    [0, 1, 2]\n    >>> get_sequences(4, 4)\n    [0, 1, 2, 3]\n    >>> get_sequences(4, 5)\n    [0, 1, 2, 3]\n    >>> get_sequences(5, 6)\n    [0, 1, 2, 3, 4]\n    \"\"\"\n    if n == 1:\n        return [0]\n\n    if n == 2:\n        return [0, 1]\n\n    prev = get_sequences(n - 1, m)\n    curr = [0] + [item + 1 for item in prev]\n\n    return curr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "def main(n, m):\n    if n == 1:\n        return m\n\n    return sum(map(lambda x: 2 * x, range(1, m + 1))) * main(n - 1, m)\n\nif __name__ == \"__main__\":\n    print(main(3, 5))"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    if n < 1:\n        return 0\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m - 1\n\n    return count_sequences(n - 1, m) * (m - 1)\n\n\nassert count_sequences(1, 10) == 1\nassert count_sequences(2, 10) == 9\nassert count_sequences(3, 10) == 36\nassert count_sequences(4, 10) == 145"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "def find_sequences(n, m):\n    # Fill this in.\n    dp = [0] * (m + 1)\n    dp[1] = 1\n    for i in range(2, m + 1):\n        dp[i] = dp[i-1] + 1\n    for i in range(2, n):\n        for j in range(2, m):\n            dp[j] += dp[j - 1]\n\n    return dp[m]\n\nif __name__ == \"__main__\":\n    print(find_sequences(5, 10))\n\n    # This code is used for self-grading\n    import random\n    import sys\n    if sys.version_info[0] < 3:\n        from itertools import izip_longest as zip_longest\n    else:\n        from itertools import zip_longest\n    N = 10\n    for i in range(N):\n        n = random.randint(1, 10)\n        m = random.randint(2 * n, 100)\n        correct_answer = find_sequences(n, m)\n        my_answer = input(\"Enter your answer for n = \" + str(n) + \", m = \" + str(m) + \": \")\n        if int(my_answer) == correct_answer:\n            print(\"Correct!\")\n        else:\n            print(\"Incorrect.\")"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "def num_sequences(n, m):\n    if n < 1: return 0\n    if n == 1: return 1\n    if m < 1: return 0\n    if m < 2: return 0\n    if m < 3: return 1\n    if m < 4: return 2\n\n    if n < 3:\n        return 2\n\n    if m < n:\n        return 1\n\n    if n == m:\n        return 1\n\n    return num_sequences(n-1, m) + num_sequences(n-2, m)\n\n\nprint(num_sequences(1, 1))\nprint(num_sequences(2, 2))\nprint(num_sequences(3, 3))\nprint(num_sequences(4, 4))\nprint(num_sequences(5, 5))\nprint(num_sequences(6, 6))\nprint(num_sequences(7, 7))\nprint(num_sequences(8, 8))\nprint(num_sequences(9, 9))\nprint(num_sequences(10, 10))\n\nprint(num_sequences(1, 2))\nprint(num_sequences(2, 2))\nprint(num_sequences(3, 2))\nprint(num_sequences(4, 2))\nprint(num_sequences(5, 2))\nprint(num_sequences(6, 2))\nprint(num_sequences(7, 2))\nprint(num_sequences(8, 2))\nprint(num_sequences(9, 2))\nprint(num_sequences(10, 2))\n\nprint(num_sequences(1, 3))\nprint(num_sequences(2, 3))\nprint(num_sequences(3, 3))\nprint(num_sequences(4, 3))\nprint(num_sequences(5, 3))\nprint(num_sequences(6, 3))\nprint(num_sequences(7, 3))\nprint(num_sequences(8,"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "def number_of_sequences(n, m):\n    if n < 1:\n        return 0\n\n    dp = [1] + [0] * n\n    for i in range(1, n + 1):\n        for j in range(1, i + 1):\n            if j * 2 <= m:\n                dp[i] += dp[j]\n    return dp[n]\n\n\nprint(number_of_sequences(3, 9))\nprint(number_of_sequences(1, 3))\nprint(number_of_sequences(2, 4))\nprint(number_of_sequences(4, 6))\nprint(number_of_sequences(5, 7))\nprint(number_of_sequences(6, 8))\nprint(number_of_sequences(7, 9))"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "class Solution():\n    def get_number_of_sequences(self, n, m):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        dp = [0] * (m+1)\n        dp[0] = 1\n        for i in range(1, m+1):\n            dp[i] = dp[i-1]\n        for i in range(1, n):\n            prev = dp[m-2*i]\n            curr = dp[m-i]\n            dp[m-i] = prev + curr\n        return dp[m-n]\n\n\n\nif __name__ == \"__main__\":\n    n = 3\n    m = 10\n    solution = Solution()\n    print(solution.get_number_of_sequences(n, m))"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "def num_sequences(n, m):\n    \"\"\"\n    :param n: int\n    :param m: int\n    :return: int\n    \"\"\"\n    # Your code here\n    if n == 1:\n        return 1\n    if m < 2:\n        return 0\n\n    return num_sequences(n - 1, m) * (m - 2) + num_sequences(n - 1, m - 1)\n\n\nprint(num_sequences(3, 10))\nprint(num_sequences(2, 10))\nprint(num_sequences(1, 10))\nprint(num_sequences(3, 5))\nprint(num_sequences(2, 5))\nprint(num_sequences(1, 5))\nprint(num_sequences(3, 3))\nprint(num_sequences(2, 3))\nprint(num_sequences(1, 3))\nprint(num_sequences(3, 2))\nprint(num_sequences(2, 2))\nprint(num_sequences(1, 2))"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "from math import comb\n\n\ndef number_of_sequences(n: int, m: int) -> int:\n    \"\"\"\n    Time Complexity: O(m)\n    Space Complexity: O(1)\n    \"\"\"\n    if m < n:\n        raise ValueError(\n            \"m should be greater than or equal to n. m: {}, n: {}\".format(m, n)\n        )\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n\n    return comb(m - 1, n - 1)\n\n\nif __name__ == \"__main__\":\n    assert number_of_sequences(1, 10) == 1\n    assert number_of_sequences(2, 10) == 9\n    assert number_of_sequences(3, 10) == 36\n    assert number_of_sequences(4, 10) == 120\n    assert number_of_sequences(5, 10) == 360\n    assert number_of_sequences(6, 10) == 840\n    assert number_of_sequences(7, 10) == 1920\n    assert number_of_sequences(8, 10) == 4032\n    assert number_of_sequences(9, 10) == 7984\n    assert number_of_sequences(10, 10) == 16796"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef number_sequences(n: int, m: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if n == 0 or m == 0:\n        return 0\n    dp = [0] * (m + 1)\n    dp[0] = 1\n\n    for i in range(1, m + 1):\n        dp[i] = dp[i - 1] + 1\n\n    for i in range(2, n + 1):\n        for j in range(m, i // 2, -1):\n            dp[j] += dp[j - i]\n\n    return dp[m]\n\n\ndef number_sequences2(n: int, m: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if n == 0 or m == 0:\n        return 0\n    dp = [0] * (m + 1)\n    dp[0] = 1\n\n    for i in range(1, m + 1):\n        dp[i] = dp[i - 1] + 1\n\n    for i in range(2, n + 1):\n        for j in range(i // 2, m + 1):\n            dp[j] += dp[j - i]\n\n    return dp[m]\n\n\nif __name__ == \"__main__\":\n    assert number_sequences(3, 10) == 10\n    assert number_sequences(5, 10) == 45\n    assert number_sequences(3, 10) == number_sequences2(3, 10)\n    assert number_sequences(5, 10) == number_sequences2(5, 10)"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    \"\"\"\n    n: int - length of the sequence\n    m: int - maximum element\n    return: int - number of possible sequences\n    \"\"\"\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n    if m < 2:\n        return 0\n\n    memo = [[-1 for x in range(m+1)] for y in range(n+1)]\n\n    def count_helper(n, m):\n        if n < 1:\n            return 0\n        if n == 1:\n            return 1\n        if m < 2:\n            return 0\n        if memo[n][m] != -1:\n            return memo[n][m]\n\n        memo[n][m] = count_helper(n-1, m//2)\n        for i in range(m//2, m+1):\n            memo[n][m] += count_helper(n-1, i)\n        return memo[n][m]\n\n    return count_helper(n, m)"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "def num_sequences(n, m):\n    if n < 0 or m < 0:\n        return 0\n\n    dp = [[0] * (m + 1) for _ in range(n + 1)]\n    dp[0][1] = 1\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            dp[i][j] += dp[i - 1][j]\n            if j * 2 >= j:\n                dp[i][j] += dp[i - 1][j // 2]\n\n    return dp[n][m]\n\n\nprint(num_sequences(3, 4))"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "def sequence_count(n, m):\n    dp = [0] * (m + 1)\n    dp[1] = 1\n\n    for i in range(2, m + 1):\n        dp[i] = dp[i - 1]\n\n    for i in range(2, n + 1):\n        for j in range(2 * i, m + 1):\n            dp[j] += dp[i - 1]\n\n    return dp[m]\n\n\nif __name__ == \"__main__\":\n    assert sequence_count(4, 10) == 6"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef num_of_sequences(n: int, m: int) -> int:\n    \"\"\"\n    :param n: int - number of elements\n    :param m: int - max value of each element\n    :return: int - number of sequences\n\n    >>> num_of_sequences(4, 10)\n    6\n    >>> num_of_sequences(5, 10)\n    8\n    >>> num_of_sequences(3, 10)\n    5\n    >>> num_of_sequences(2, 10)\n    2\n    >>> num_of_sequences(1, 10)\n    1\n    >>> num_of_sequences(10, 10)\n    1\n    >>> num_of_sequences(10, 20)\n    1\n    >>> num_of_sequences(2, 20)\n    2\n    >>> num_of_sequences(2, 0)\n    0\n    >>> num_of_sequences(2, -10)\n    0\n    >>> num_of_sequences(0, 20)\n    1\n    >>> num_of_sequences(-1, 20)\n    0\n    >>> num_of_sequences(1, -20)\n    0\n    >>> num_of_sequences(-1, -20)\n    0\n    \"\"\"\n    if n <= 0:\n        return 0\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        if m < 2:\n            return 0\n        return 2\n\n    if n == 3:\n        if m < 4:\n            return 0\n        return 5\n\n    if n == 4:\n        if m < 8:\n            return 0\n        return 6\n\n    if m < 2 * n:\n        return 0\n    if m < 3 * n:\n        return 1\n    return 2 * num_of_sequences(n - 1, m) + num_of_sequences(n - 1, m - 2 * n"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "def count_seq(n, m):\n    if n < 1:\n        return 0\n    if n == 1:\n        return m\n\n    if n == 2:\n        return m - 1\n\n    prev_prev = 1\n    prev = m\n    res = 0\n    for _ in range(n - 2):\n        res += prev_prev + prev\n        prev_prev = prev\n        prev = m\n\n    return res\n\n\nprint(count_seq(3, 5))\nprint(count_seq(4, 5))\nprint(count_seq(5, 5))\nprint(count_seq(6, 5))\nprint(count_seq(7, 5))\nprint(count_seq(8, 5))\nprint(count_seq(9, 5))"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "from math import factorial\n\n\ndef possible_sequences(n, m):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m - 1\n\n    if n == 3:\n        return m - 2\n\n    if n == 4:\n        return m - 3\n\n    if n == 5:\n        return m - 4\n\n    if n == 6:\n        return m - 5\n\n    if n == 7:\n        return m - 6\n\n    if n == 8:\n        return m - 7\n\n    if n == 9:\n        return m - 8\n\n    if n == 10:\n        return m - 9\n\n    if n == 11:\n        return m - 10\n\n    if n == 12:\n        return m - 11\n\n    if n == 13:\n        return m - 12\n\n    if n == 14:\n        return m - 13\n\n    if n == 15:\n        return m - 14\n\n    if n == 16:\n        return m - 15\n\n    if n == 17:\n        return m - 16\n\n    if n == 18:\n        return m - 17\n\n    if n == 19:\n        return m - 18\n\n    if n == 20:\n        return m - 19\n\n    if n == 21:\n        return m - 20\n\n    if n == 22:\n        return m - 21\n\n    if n == 23:\n        return m - 22\n\n    if n == 24:\n        return m - 23\n\n    if n == 25:\n        return m - 24\n\n    if n == 26:\n        return m - 25\n\n    if n =="
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [[0 for _ in range(m+1)] for _ in range(n+1)]\n\n    for i in range(m+1):\n        dp[1][i] = 1\n\n    for i in range(2, n+1):\n        for j in range(m+1):\n            if i <= j:\n                dp[i][j] += dp[i-1][j]\n            if j >= i:\n                dp[i][j] += dp[i-1][j-i]\n\n    return dp[n][m]\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(3, 5))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    # Write your code here\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n\n    return count_sequences(n - 1, m) + count_sequences(n - 2, m)"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef possible_sequences(n, m):\n    if n == 0:\n        return 1\n    if n == 1:\n        return m\n    if n == 2:\n        return m - 1\n    return (m - 2 * (m - 1)) * possible_sequences(n - 1, m)\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (1, 10, 1),\n        (2, 10, 1),\n        (3, 10, 2),\n        (4, 10, 2),\n        (5, 10, 3),\n        (6, 10, 4),\n        (7, 10, 5),\n        (8, 10, 5),\n        (9, 10, 6),\n        (10, 10, 7),\n    ]\n    for test_case in test_cases:\n        assert possible_sequences(*test_case) == test_case[2]"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [0] * (m + 1)\n    dp[0] = 1\n\n    for i in range(n):\n        temp = [0] * (m + 1)\n        for j in range(1, m + 1):\n            temp[j] += dp[j]\n            if j * 2 < m + 1:\n                temp[j * 2] += dp[j]\n        dp = temp\n    return dp[m]\n\n\nprint(count_sequences(6, 10))"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from math import factorial\n\ndef number_of_sequences(n, m):\n    \"\"\"\n    Returns the number of possible sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.\n    \"\"\"\n    # n must be greater than 0\n    if n <= 0:\n        return 0\n\n    # m must be greater than n\n    if n > m:\n        return 0\n\n    # n must be greater than 0 and m must be greater than n\n    # return the number of sequences that ends with m\n    return factorial(m) // (factorial(n) * factorial(m - 2 * n))"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return 2\n\n    if n == 3:\n        return 3\n\n    if n == 4:\n        return 5\n\n    if n == 5:\n        return 8\n\n    if n == 6:\n        return 13\n\n    if n == 7:\n        return 21\n\n    if n == 8:\n        return 34\n\n    if n == 9:\n        return 55\n\n    if n == 10:\n        return 89\n\n    if n == 11:\n        return 144\n\n    if n == 12:\n        return 233\n\n    if n == 13:\n        return 377\n\n    if n == 14:\n        return 610\n\n    if n == 15:\n        return 987\n\n    if n == 16:\n        return 1597\n\n    if n == 17:\n        return 2584\n\n    if n == 18:\n        return 4181\n\n    if n == 19:\n        return 6765\n\n    if n == 20:\n        return 10946\n\n    if n == 21:\n        return 17711\n\n    if n == 22:\n        return 28657\n\n    if n == 23:\n        return 46368\n\n    if n == 24:\n        return 75025\n\n    if n == 25:\n        return 121393\n\n    if n == 26:\n        return 196418\n\n    if n == 27:\n        return 317811\n\n    if n == 28:\n        return 514229\n\n    if n == 29:\n        return 832040\n\n    if"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_sequences(n: int, m: int) -> int:\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n*m)\n    \"\"\"\n    dp = [[0] * (m + 1) for _ in range(n + 1)]\n    for i in range(n + 1):\n        dp[i][0] = 1\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            if j * 2 >= i:\n                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]\n\n    return dp[n][m]\n\n\ndef count_sequences_optimized(n: int, m: int) -> int:\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n*m)\n    \"\"\"\n    dp = [[0] * (m + 1) for _ in range(n + 1)]\n    for i in range(n + 1):\n        dp[i][0] = 1\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            if j * 2 >= i:\n                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]\n\n    return dp[n][m]\n\n\ndef main():\n    print(count_sequences(4, 10))\n    print(count_sequences_optimized(4, 10))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    if n == 1:\n        return 1\n\n    return count_sequences(n - 1, m) * (m - 2 * (n - 1) + 1)\n\n\ndef test_count_sequences():\n    assert count_sequences(1, 10) == 10\n    assert count_sequences(2, 10) == 10\n    assert count_sequences(3, 10) == 10\n    assert count_sequences(4, 10) == 10\n    assert count_sequences(5, 10) == 10\n    assert count_sequences(6, 10) == 10\n    assert count_sequences(7, 10) == 10\n    assert count_sequences(8, 10) == 10\n    assert count_sequences(9, 10) == 10\n    assert count_sequences(10, 10) == 10\n\n\nif __name__ == '__main__':\n    test_count_sequences()"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "def count_possible_sequences(n, m):\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return m - 1\n    if n == 3:\n        return (m - 2) * (m - 1) / 2\n    if n == 4:\n        return (m - 2) * (m - 1) * (m - 2) / 6\n    return (m - 2) * (m - 1) * (m - 2) * (m - 3) / 24\n\nif __name__ == '__main__':\n    assert count_possible_sequences(1, 10) == 1\n    assert count_possible_sequences(2, 10) == 9\n    assert count_possible_sequences(3, 10) == 36\n    assert count_possible_sequences(4, 10) == 120\n    assert count_possible_sequences(5, 10) == 360\n    assert count_possible_sequences(6, 10) == 840\n    assert count_possible_sequences(7, 10) == 1680\n    assert count_possible_sequences(8, 10) == 3360\n    assert count_possible_sequences(9, 10) == 6720\n    assert count_possible_sequences(10, 10) == 13440"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "def get_sequences(n, m):\n    # Fill this in.\n    # count = 0\n    # for i in range(n):\n    #     for j in range(i+1):\n    #         if 2*j >= i and 2*j <= m:\n    #             count += 1\n    # return count\n\n    # The equation for calculating the number of possible sequences is:\n    # n * (m - 2 * n + 2) / 2\n\n    return n * (m - 2 * n + 2) / 2\n\nif __name__ == \"__main__\":\n    print(get_sequences(5, 10))\n    print(get_sequences(3, 10))\n    print(get_sequences(1, 10))\n    print(get_sequences(10, 20))\n    print(get_sequences(1, 3))\n    print(get_sequences(3, 3))\n\n    # 15\n    # 6\n    # 1\n    # 30\n    # 1\n    # 3"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def num_sequences(self, n: int, m: int) -> int:\n        dp = [0 for _ in range(n+1)]\n        dp[0] = 1\n        for i in range(1, n+1):\n            for j in range(1, i+1):\n                if j*2 < m:\n                    dp[i] += dp[j-1]\n\n        return dp[n]\n\n\nif __name__ == \"__main__\":\n    inp_n = 3\n    inp_m = 7\n    out = 4\n    res = Solution().num_sequences(inp_n, inp_m)\n    assert res == out, (res, out)\n\n    inp_n = 4\n    inp_m = 15\n    out = 6\n    res = Solution().num_sequences(inp_n, inp_m)\n    assert res == out, (res, out)\n\n    inp_n = 2\n    inp_m = 100\n    out = 16\n    res = Solution().num_sequences(inp_n, inp_m)\n    assert res == out, (res, out)\n\n    inp_n = 1\n    inp_m = 100\n    out = 1\n    res = Solution().num_sequences(inp_n, inp_m)\n    assert res == out, (res, out)"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    # Write your code here.\n\tdp = [[0] * (m + 1) for _ in range(n + 1)]\n\tdp[0][1] = 1\n\tfor i in range(1, n + 1):\n\t\tfor j in range(1, m + 1):\n\t\t\tdp[i][j] = dp[i - 1][j]\n\t\t\tif j * 2 <= j:\n\t\t\t\tdp[i][j] += dp[i - 1][j * 2]\n\treturn dp[-1][-1]"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "def num_sequences(n, m):\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n    if m < 1:\n        return 0\n    if n == 2:\n        return 1 if m > 1 else 0\n    if n == 3:\n        return 1 if m > 2 else 0\n\n    return (num_sequences(n - 1, m) + num_sequences(n - 2, m)) if m > 2 * (n - 1) else 0\n\n\nprint(num_sequences(3, 10))\nprint(num_sequences(5, 10))\nprint(num_sequences(10, 10))\nprint(num_sequences(100, 100))"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    \"\"\"\n    n: int\n    m: int\n    return: int\n    \"\"\"\n    if n == 1:\n        return 1\n    if n == 2:\n        return m-1\n\n    return count_sequences(n-1, m) * (m-1) + count_sequences(n-2, m)\n\nif __name__ == '__main__':\n    print(count_sequences(1, 10))\n    print(count_sequences(2, 10))\n    print(count_sequences(3, 10))\n    print(count_sequences(4, 10))\n    print(count_sequences(5, 10))\n    print(count_sequences(6, 10))\n    print(count_sequences(7, 10))\n    print(count_sequences(8, 10))\n    print(count_sequences(9, 10))\n    print(count_sequences(10, 10))"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    # Create a table to store results of subproblems\n    table = [[0 for x in range(m+1)] for y in range(n+1)]\n\n    # Fill dp table in bottom up manner\n    for i in range(n+1):\n        for j in range(m+1):\n            # Base cases\n            if i == 0 or j == 0:\n                table[i][j] = 1\n            # If i == 1, then the only valid element is j\n            elif i == 1:\n                table[i][j] = 1 if j >= 2 else 0\n            # If the previous element is less than or equal to 2 * j, then the current element can be j\n            elif j <= 2*i:\n                table[i][j] = table[i-1][j] + 1\n            else:\n                table[i][j] = table[i-1][j]\n\n    return table[n][m]\n\nprint(count_sequences(3, 10))\nprint(count_sequences(3, 100))\nprint(count_sequences(3, 1000))\nprint(count_sequences(4, 1000))\nprint(count_sequences(5, 1000))\nprint(count_sequences(6, 1000))\nprint(count_sequences(7, 1000))\nprint(count_sequences(8, 1000))\nprint(count_sequences(9, 1000))\nprint(count_sequences(10, 1000))\nprint(count_sequences(11, 1000))\nprint(count_sequences(12, 1000))\nprint(count_sequences(13, 1000))\nprint(count_sequences(14, 1000))\nprint(count_sequences(15, 1000))\nprint(count_sequences(16, 1000))\nprint(count_sequences(17"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "def seq_gen(n, m):\n    def helper(n, m, count=1):\n        if n == 0:\n            return count\n        if n == 1:\n            return 1\n        if n == 2:\n            return min(m - 1, 2)\n        return helper(n - 2, m, count + helper(n - 2, min(m - 1, 2)))\n    return helper(n, m)\n\nprint(seq_gen(5, 10))"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    dp = [0] * (m+1)\n    dp[0] = 1\n    for i in range(1, m+1):\n        dp[i] = 1\n    for i in range(n-1):\n        temp = [0] * (m+1)\n        for j in range(1, m+1):\n            temp[j] = temp[j-1] + dp[j]\n        dp = temp\n    return dp[-1]\n\n\nprint(count_sequences(5, 10))\nprint(count_sequences(3, 3))\nprint(count_sequences(6, 10))\nprint(count_sequences(2, 2))"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def num_of_sequences(self, n: int, m: int) -> int:\n        \"\"\"\n        Let f(i, j) be the number of sequences of length i such that each of the next element is greater than or equal to\n        j but less than or equal to m.\n\n        f(i, j) = f(i - 1, j) + f(i - 1, 2 * j)\n\n        Time complexity: O(n * m)\n        Space complexity: O(n * m)\n        \"\"\"\n        if n < 1 or m < 1:\n            return 0\n\n        dp = [[0] * (m + 1) for _ in range(n + 1)]\n\n        # Initialize the base cases.\n        dp[1][1] = 1\n        dp[1][2] = 1\n\n        # Loop over n and m to update dp.\n        for i in range(2, n + 1):\n            for j in range(1, m + 1):\n                dp[i][j] = dp[i - 1][j] + dp[i - 1][2 * j]\n\n        return dp[n][m]\n\n\nclass Solution2:\n    def num_of_sequences(self, n: int, m: int) -> int:\n        \"\"\"\n        Let f(i, j) be the number of sequences of length i such that each of the next element is greater than or equal to\n        j but less than or equal to m.\n\n        f(i, j) = f(i - 1, j) + f(i - 1, 2 * j)\n\n        Time complexity: O(n * m)\n        Space complexity: O(m)\n        \"\"\"\n        if n < 1 or m < 1:\n            return 0\n\n        dp = [0] * (m + 1)\n\n        # Initialize the base cases.\n        dp[1] = 1\n        dp[2] = 1\n\n        # Loop over n and m to update dp.\n        for i in range("
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "def count_sequences(n, m):\n    if n < 0 or m < 0:\n        return 0\n\n    if n == 0:\n        return 1\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return m - 1\n\n    if n > 2:\n        if m < 3:\n            return 0\n\n        return (m - 1) * (m - 2) + count_sequences(n - 1, m - 2)\n\n\nprint(count_sequences(3, 3))\nprint(count_sequences(3, 5))\nprint(count_sequences(3, 10))\n\nprint(count_sequences(4, 3))\nprint(count_sequences(4, 5))\nprint(count_sequences(4, 10))\n\nprint(count_sequences(5, 3))\nprint(count_sequences(5, 5))\nprint(count_sequences(5, 10))\n\nprint(count_sequences(6, 3))\nprint(count_sequences(6, 5))\nprint(count_sequences(6, 10))\n\nprint(count_sequences(7, 3))\nprint(count_sequences(7, 5))\nprint(count_sequences(7, 10))\n\nprint(count_sequences(8, 3))\nprint(count_sequences(8, 5))\nprint(count_sequences(8, 10))\n\nprint(count_sequences(9, 3))\nprint(count_sequences(9, 5))\nprint(count_sequences(9, 10))\n\nprint(count_sequences(10, 3))\nprint(count_sequences(10, 5))\nprint(count_sequences(10, 10))\n\nprint(count_sequences(11, 3))\nprint(count_sequences(11, 5))\nprint(count_sequences(11, 10))\n\nprint(count_sequences"
+    }
+  ]
+}

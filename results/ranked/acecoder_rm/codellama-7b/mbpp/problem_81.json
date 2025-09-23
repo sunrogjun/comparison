@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/92",
+    "prompt": "Write a function to check whether the given number is undulating or not.",
+    "canonical_solution": "def is_undulating(n): \r\n\tif (len(n) <= 2): \r\n\t\treturn False\r\n\tfor i in range(2, len(n)): \r\n\t\tif (n[i - 2] != n[i]): \r\n\t\t\treturn False\r\n\treturn True",
+    "test_list": [
+      "assert is_undulating(\"1212121\") == True",
+      "assert is_undulating(\"1991\") == False",
+      "assert is_undulating(\"121\") == True"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 81
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def undulating_number(num):\n    \"\"\"\n    >>> undulating_number(1)\n    False\n    >>> undulating_number(123)\n    False\n    >>> undulating_number(1213)\n    True\n    >>> undulating_number(12103)\n    False\n    >>> undulating_number(123123)\n    True\n    >>> undulating_number(1231203)\n    False\n    >>> undulating_number(123023123)\n    True\n    >>> undulating_number(123023023123)\n    False\n    \"\"\"\n    num_str = str(num)\n    if len(num_str) <= 2:\n        return False\n\n    for i in range(1, len(num_str)-1):\n        if num_str[i] != num_str[i-1] and num_str[i] != num_str[i+1]:\n            return False\n    return True\n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      4.58984375
+    ],
+    [
+      "from typing import List\n\n\ndef undulating_checker(numbers: List[int]) -> bool:\n    \"\"\"\n    >>> undulating_checker([1, 2, 3, 4, 5, 4, 3, 2, 1])\n    True\n    >>> undulating_checker([1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1])\n    False\n    \"\"\"\n    if not numbers:\n        return False\n\n    if len(numbers) == 1:\n        return True\n\n    if numbers[0] != numbers[-1]:\n        return False\n\n    for i in range(1, len(numbers) - 1):\n        if numbers[i] > numbers[i - 1] and numbers[i] > numbers[i + 1]:\n            return False\n        if numbers[i] < numbers[i - 1] and numbers[i] < numbers[i + 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.73828125
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    if num < 10:\n        return False\n    num_str = str(num)\n    return num_str[0] == num_str[-1]\n\n\nif __name__ == \"__main__\":\n    assert is_undulating(123) is False\n    assert is_undulating(12123) is True\n    assert is_undulating(1212123) is False\n    assert is_undulating(12123456) is True\n    assert is_undulating(121234567) is False",
+      2.408203125
+    ],
+    [
+      "def undulating(n: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    if n <= 1:\n        return False\n\n    if n % 2 == 0:\n        return False\n\n    x = n\n    while x != 1:\n        if x % 2 == 0:\n            return False\n        x = (x * (3 * x + 1)) // 2\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(undulating(35))",
+      1.6865234375
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating(11)\n    True\n    >>> is_undulating(10)\n    False\n    >>> is_undulating(22)\n    True\n    >>> is_undulating(21)\n    False\n    >>> is_undulating(33)\n    True\n    >>> is_undulating(32)\n    False\n    >>> is_undulating(44)\n    True\n    >>> is_undulating(43)\n    False\n    >>> is_undulating(55)\n    True\n    >>> is_undulating(54)\n    False\n    >>> is_undulating(66)\n    True\n    >>> is_undulating(65)\n    False\n    >>> is_undulating(77)\n    True\n    >>> is_undulating(76)\n    False\n    >>> is_undulating(88)\n    True\n    >>> is_undulating(87)\n    False\n    >>> is_undulating(99)\n    True\n    >>> is_undulating(98)\n    False\n    \"\"\"\n    return str(num) == str(num)[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.4658203125
+    ],
+    [
+      "def is_undulating_number(number):\n    \"\"\"\n    >>> is_undulating_number(12345)\n    True\n    >>> is_undulating_number(123456)\n    False\n    >>> is_undulating_number(1234567)\n    True\n    >>> is_undulating_number(12345678)\n    False\n    >>> is_undulating_number(123456789)\n    True\n    >>> is_undulating_number(1234567890)\n    False\n    \"\"\"\n    number = str(number)\n    if len(number) <= 2:\n        return False\n    if number[0] == number[-1] and number[1] == number[-2]:\n        return True\n    if number[0] == number[1] and number[-1] == number[-2]:\n        return True\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      1.3642578125
+    ],
+    [
+      "\"\"\"Undulating Number:\nA number is undulating if the number of odd digits is equal to the number of even digits.\n\nExample: 1224410 is an undulating number.\n    There are 3 odd digits (1, 3 and 1) and 3 even digits (2, 4 and 0).\n\nExample: 1223 is not an undulating number.\n    There are 2 odd digits (1 and 3) and 2 even digits (2 and 3).\"\"\"\n\n\ndef undulating_number(n):\n    odd = 0\n    even = 0\n    while n > 0:\n        if n % 10 == 0:\n            even += 1\n        elif n % 10 % 2 == 1:\n            odd += 1\n        n = n // 10\n    return odd == even\n\n\ndef main():\n    print(undulating_number(1224410))\n    print(undulating_number(1223))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.06640625
+    ],
+    [
+      "\"\"\"Undulating number is the one in which the sum of digits at even position \nis equal to the sum of digits at odd position.\"\"\"\n\ndef undulating_number(n):\n    s = 0\n    n_list = []\n    while n > 0:\n        r = n%10\n        n_list.append(r)\n        s = s + r\n        n = n//10\n    \n    return s == sum(n_list[1::2])\n\nprint(undulating_number(12345))\nprint(undulating_number(54321))",
+      0.8271484375
+    ],
+    [
+      "def undulating(num: int) -> bool:\n    \"\"\"\n    >>> undulating(123456789)\n    False\n    >>> undulating(123456788)\n    True\n    >>> undulating(123456777)\n    True\n    >>> undulating(123456666)\n    True\n    >>> undulating(123455555)\n    True\n    >>> undulating(123444444)\n    False\n    >>> undulating(123333333)\n    True\n    >>> undulating(122222222)\n    True\n    >>> undulating(111111111)\n    False\n    \"\"\"\n    return num == int(str(num)[:4] + str(num)[-4:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.80517578125
+    ],
+    [
+      "from typing import List\n\n\ndef undulating_check(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if len(arr) < 3:\n        return True\n\n    for i in range(len(arr) - 2):\n        if arr[i] == arr[i + 1] == arr[i + 2]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert undulating_check([1, 2, 1, 2, 1, 2]) == True\n    assert undulating_check([1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2]) == True\n    assert undulating_check([1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2]) == False",
+      0.56494140625
+    ],
+    [
+      "def is_undulating(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating(1)\n    False\n    >>> is_undulating(2)\n    True\n    >>> is_undulating(123)\n    True\n    >>> is_undulating(123456789)\n    False\n    >>> is_undulating(1234567890)\n    True\n    >>> is_undulating(1234567890123)\n    False\n    >>> is_undulating(123456789012345)\n    True\n    \"\"\"\n    number_str = str(number)\n    return (\n        number_str[1 : len(number_str) - 1]\n        == \"\".join(reversed(number_str[1 : len(number_str) - 1]))\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.188720703125
+    ],
+    [
+      "from typing import List\n\n\ndef is_undulating_number(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(1234)\n    False\n    >>> is_undulating_number(1224)\n    True\n    >>> is_undulating_number(1212)\n    True\n    >>> is_undulating_number(123123)\n    False\n    >>> is_undulating_number(1213123)\n    True\n    \"\"\"\n    num_str: str = str(number)\n    if len(num_str) < 3:\n        return False\n\n    # Convert the number into a list of digits.\n    num_list: List[int] = list(map(int, num_str))\n\n    # For every digit, if the digit is greater than the previous digit\n    # and the next digit, the number is undulating.\n    for index in range(1, len(num_list) - 1):\n        if num_list[index] > num_list[index - 1] and num_list[index] > num_list[index + 1]:\n            return True\n    return False\n\n\ndef main():\n    number = int(input(\"Enter a number: \"))\n    if is_undulating_number(number):\n        print(number, \"is an undulating number.\")\n    else:\n        print(number, \"is not an undulating number.\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.1837158203125
+    ],
+    [
+      "def is_undulating_number(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(1234234)\n    True\n    >>> is_undulating_number(1234567)\n    False\n    \"\"\"\n    if num < 10:\n        return False\n    temp = num\n    while temp > 0:\n        if temp % 10 == temp // 10:\n            return False\n        temp //= 10\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.162841796875
+    ],
+    [
+      "\"\"\"UNDULATING NUMBERS\nAn Undulating Number is a number whose digits are all equal.\n\nFor example:\n111, 222, 333, 444, 555, 666, 777, 888, 999 are some of the Undulating Numbers.\n\nWrite a function to check whether the given number is undulating or not.\n\nInput format :\nInteger N\n\nOutput format :\n'True' or 'False'\n\"\"\"\n\n\ndef is_undulating(num):\n    s = str(num)\n    for i in range(len(s) - 1):\n        if s[i] != s[i + 1]:\n            return False\n    return True\n\n\ndef main():\n    num = int(input())\n    ans = is_undulating(num)\n    print(ans)\n\n\nif __name__ == '__main__':\n    main()",
+      0.144287109375
+    ],
+    [
+      "from collections import deque\n\n\ndef is_undulating_number(n):\n    queue = deque()\n\n    queue.append(n % 10)\n    n //= 10\n\n    while n > 0:\n        queue.append(n % 10)\n        n //= 10\n\n    if len(queue) % 2 == 0:\n        return False\n\n    while len(queue) > 1:\n        if queue.popleft() < queue.pop():\n            return False\n\n    return True\n\n\nfor i in range(1, 100):\n    print(is_undulating_number(i))",
+      0.1298828125
+    ],
+    [
+      "from typing import List\n\n\ndef is_undulating_number(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(110)\n    True\n    >>> is_undulating_number(11)\n    True\n    >>> is_undulating_number(1)\n    False\n    >>> is_undulating_number(121)\n    False\n    >>> is_undulating_number(1234567891011)\n    True\n    \"\"\"\n    num_list: List[int] = []\n\n    while num:\n        num_list.append(num % 10)\n        num //= 10\n\n    if len(num_list) < 3:\n        return False\n\n    for i in range(1, len(num_list) - 1):\n        if num_list[i] < num_list[i - 1] and num_list[i] < num_list[i + 1]:\n            return False\n        if num_list[i] > num_list[i - 1] and num_list[i] > num_list[i + 1]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.03924560546875
+    ],
+    [
+      "def is_undulating(num):\n    string = str(num)\n    if len(string) % 2 == 0:\n        return True\n    for i in range(int(len(string) / 2)):\n        if string[i] != string[-i - 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    for i in range(100):\n        num = i + 100\n        if is_undulating(num):\n            print(num)",
+      -0.0810546875
+    ],
+    [
+      "\"\"\"Question:\nWrite a function to check whether the given number is undulating or not.\nUndulating Number is a number where digit at odd position is greater than digit at even position.\nExample:\nInput: 1432\nOutput: True\nInput: 23\nOutput: False\nSolution:\n1. Convert to string and compare at odd position.\n2. Convert to string and check digit at odd position is greater than digit at even position.\n\n\"\"\"\ndef is_undulating(n):\n  s = str(n)\n  for i in range(1, len(s), 2):\n    if int(s[i]) > int(s[i-1]):\n      continue\n    return False\n  return True\n\ndef is_undulating2(n):\n  s = str(n)\n  for i in range(1, len(s), 2):\n    if s[i] > s[i-1]:\n      continue\n    return False\n  return True\n\nprint(is_undulating(1432))\nprint(is_undulating(23))\nprint(is_undulating2(1432))\nprint(is_undulating2(23))",
+      -0.24560546875
+    ],
+    [
+      "def is_undulating(n):\n    \"\"\"\n    >>> is_undulating(12345)\n    True\n    >>> is_undulating(123456)\n    False\n    >>> is_undulating(1234567)\n    True\n    \"\"\"\n    n_str = str(n)\n    l = len(n_str)\n\n    # To check if the number is undulating or not\n    # the number should have odd number of digits\n    if l % 2 == 0:\n        return False\n\n    # To check if the number is undulating or not\n    # the number should have alternating digits\n    for i in range(l // 2):\n        if n_str[i] == n_str[l - i - 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.2568359375
+    ],
+    [
+      "def undulate(num: int) -> bool:\n    \"\"\"\n    >>> undulate(123)\n    False\n    >>> undulate(12123123123)\n    True\n    \"\"\"\n    number = str(num)\n\n    for i in range(len(number) - 1):\n        if number[i] != number[i + 1]:\n            continue\n        return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.48974609375
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating(12345)\n    True\n    >>> is_undulating(1234)\n    False\n    >>> is_undulating(123456)\n    True\n    >>> is_undulating(1234567)\n    False\n    >>> is_undulating(12345678)\n    True\n    \"\"\"\n    num_str = str(num)\n    return num_str == num_str[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.75390625
+    ],
+    [
+      "from typing import List\n\n\ndef is_undulating(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    digits: List[int] = []\n\n    while number > 0:\n        digits.append(number % 10)\n        number //= 10\n\n    return all(\n        [\n            digits[i] >= digits[i + 1]\n            for i in range(len(digits) - 1)\n        ]\n    ) or all(\n        [\n            digits[i] <= digits[i + 1]\n            for i in range(len(digits) - 1)\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    assert is_undulating(12345) == True\n    assert is_undulating(12344) == False\n    assert is_undulating(123455) == False",
+      -0.75634765625
+    ],
+    [
+      "def undulating(num):\n    num_str = str(num)\n    length = len(num_str)\n    for i in range(1, length, 2):\n        if num_str[i] != num_str[i-1]:\n            return False\n    return True\n\nprint(undulating(1234))\nprint(undulating(12345))\nprint(undulating(123456))\nprint(undulating(1234567))",
+      -0.85595703125
+    ],
+    [
+      "def is_undulating(number: int) -> bool:\n    \"\"\"\n    This function checks whether the given number is undulating or not.\n    >>> is_undulating(123)\n    False\n    >>> is_undulating(12123)\n    True\n    >>> is_undulating(123456789)\n    False\n    >>> is_undulating(123456788)\n    True\n    >>> is_undulating(123456787)\n    False\n    >>> is_undulating(123456786)\n    True\n    \"\"\"\n    return number % 2 == 0 and str(number) == str(number)[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from typing import Union\n\n\ndef is_undulating_number(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(1024)\n    True\n    >>> is_undulating_number(123456789)\n    False\n    \"\"\"\n    number_str = str(number)\n    if len(number_str) % 2 != 0:\n        return False\n\n    left_half = number_str[: len(number_str) // 2]\n    right_half = number_str[len(number_str) // 2 :]\n\n    for i in range(len(left_half)):\n        if left_half[i] != right_half[i]:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def is_undulating_number(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(1234)\n    True\n    >>> is_undulating_number(12345)\n    False\n    >>> is_undulating_number(123456)\n    True\n    >>> is_undulating_number(1234567)\n    False\n    >>> is_undulating_number(12345678)\n    True\n    >>> is_undulating_number(123456789)\n    False\n    \"\"\"\n    return bool(number % 100 % 10 == number % 10 and number // 10 % 10 == number // 100 % 10)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def is_undulating_number(num):\n    str_num = str(num)\n    i = 0\n    while i < len(str_num):\n        if i == 0 or i == len(str_num) - 1:\n            if str_num[i] != str_num[i + 1]:\n                return False\n        elif str_num[i] != str_num[i - 1] and str_num[i] != str_num[i + 1]:\n            return False\n        i += 1\n    return True\n\n\nif __name__ == \"__main__\":\n    num = int(input(\"Enter a number: \"))\n    if is_undulating_number(num):\n        print(\"Yes, the number is undulating.\")\n    else:\n        print(\"No, the number is not undulating.\")",
+      -0.85693359375
+    ],
+    [
+      "def check_undulating(n):\n    if n < 2:\n        return False\n    if n % 2 == 0:\n        return False\n\n    i = 1\n    while i <= n:\n        if n % i != 0:\n            return False\n        i += 2\n    return True\n\nprint(check_undulating(6))\nprint(check_undulating(10))\nprint(check_undulating(12))\nprint(check_undulating(24))",
+      -0.85693359375
+    ],
+    [
+      "def check_undulating(number):\n    \"\"\"\n    Checks if the given number is undulating.\n    :param number:\n    :return:\n    \"\"\"\n\n    # If the number is less than 3, it cannot be undulating.\n    if number < 3:\n        return False\n\n    # Make the number a string.\n    number = str(number)\n\n    # If the first and last digit are same, the number is not undulating.\n    if number[0] == number[-1]:\n        return False\n\n    # Now check if the number is undulating.\n    for i in range(1, len(number)):\n        if int(number[i-1]) < int(number[i]):\n            return True\n    return False",
+      -0.85693359375
+    ],
+    [
+      "def is_undulating_number(num: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n\n    num_str: str = str(num)\n\n    for i in range(len(num_str) - 1):\n        if num_str[i] != num_str[i + 1]:\n            if num_str[i] != num_str[i - 1]:\n                return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert is_undulating_number(12345) == True\n    assert is_undulating_number(123456) == True\n    assert is_undulating_number(123455) == False\n    assert is_undulating_number(1234566) == False",
+      -0.85693359375
+    ],
+    [
+      "def is_undulating(num):\n    return str(num)[0] == str(num)[-1]\n\n\nprint(is_undulating(112211))\nprint(is_undulating(1210))",
+      -0.85693359375
+    ],
+    [
+      "def undulating_number(n):\n    return n == sum(map(int, str(n)))\n\n\nif __name__ == \"__main__\":\n    assert undulating_number(123456789) == True\n    assert undulating_number(123456788) == False",
+      -0.85791015625
+    ],
+    [
+      "def is_undulating(n: int) -> bool:\n    \"\"\"\n    >>> is_undulating(12345)\n    True\n    >>> is_undulating(12344)\n    False\n    >>> is_undulating(123456)\n    True\n    >>> is_undulating(123455)\n    False\n    >>> is_undulating(1234566)\n    False\n    >>> is_undulating(1234555)\n    False\n    \"\"\"\n    # Your code here\n    if n % 100 != 0:\n        return False\n    num = n // 100\n    while num > 10:\n        num = num % 100\n        if num % 10 != 0:\n            return False\n        num = num // 10\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def check_undulating(number):\n    if number < 0 or number % 10 == 0:\n        return False\n\n    while number > 0:\n        last_digit = number % 10\n        number //= 10\n        if last_digit != number % 10:\n            return False\n        number //= 10\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_undulating(123456789) == True\n    assert check_undulating(1234567891) == False",
+      -0.85791015625
+    ],
+    [
+      "def is_undulating(n):\n    if n < 10:\n        return True\n\n    if n % 10 == 0:\n        return False\n\n    if n % 10 != n // 10 % 10:\n        return False\n\n    return is_undulating(n // 10)\n\n\nif __name__ == \"__main__\":\n    print(is_undulating(12345))",
+      -0.85791015625
+    ],
+    [
+      "def undulating(n):\n    return n == 1 or n == 8 or n == 9\n\ndef is_undulating(n):\n    while n != 1:\n        if not undulating(n):\n            return False\n        n = n - 1\n    return True\n\nprint(is_undulating(9))\nprint(is_undulating(11))\nprint(is_undulating(19))\nprint(is_undulating(1000))\nprint(is_undulating(999))\nprint(is_undulating(99999))",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef undulating_number(num: int) -> bool:\n    \"\"\"\n    >>> undulating_number(12342567)\n    True\n    >>> undulating_number(12345678)\n    False\n    \"\"\"\n    num_list: List[int] = []\n    num_list.append(num % 10)\n    num //= 10\n    while num > 0:\n        num_list.append(num % 10)\n        num //= 10\n\n    return all(num_list[i] >= num_list[i - 1] for i in range(1, len(num_list))) and all(\n        num_list[i] >= num_list[i - 1] for i in range(len(num_list) - 2, 0, -1)\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef undulating_numbers(arr: List[int]) -> bool:\n    \"\"\"\n    >>> undulating_numbers([1, 2, 3, 4, 5])\n    True\n    >>> undulating_numbers([1, 2, 3, 4, 4])\n    False\n    >>> undulating_numbers([1, 2, 3, 3, 5])\n    False\n    \"\"\"\n    if len(arr) < 3:\n        return False\n\n    for i in range(1, len(arr) - 1):\n        if arr[i] != arr[i - 1] + arr[i + 1] and arr[i] != arr[i - 1] - arr[i + 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def undulating_numbers(number):\n    \"\"\"\n    A number is called undulating if the sum of all numbers in the string is equal to the length of the string.\n    \"\"\"\n    if not isinstance(number, int) and not isinstance(number, float):\n        return False\n    if number == 0:\n        return False\n\n    length = len(str(number))\n    sum_of_digits = sum([int(digit) for digit in str(number)])\n\n    return length == sum_of_digits",
+      -0.85791015625
+    ],
+    [
+      "def is_undulating_number(num):\n    num_str = str(num)\n    if len(num_str) <= 2:\n        return True\n    if num_str[0] == num_str[-1]:\n        return False\n\n    for i in range(1, len(num_str)-1):\n        if num_str[i] != num_str[i-1] and num_str[i] != num_str[i+1]:\n            return False\n    return True\n\n\nprint(is_undulating_number(23))\nprint(is_undulating_number(232))\nprint(is_undulating_number(12345))\nprint(is_undulating_number(123456))\nprint(is_undulating_number(1234567))",
+      -0.8583984375
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating(12345)\n    True\n    >>> is_undulating(12344)\n    False\n    >>> is_undulating(123456)\n    False\n    \"\"\"\n    num_str = str(num)\n    num_len = len(num_str)\n\n    if num_len < 3:\n        return False\n\n    for i in range(num_len - 3):\n        if num_str[i] != num_str[i + 1] and num_str[i] != num_str[i + 2]:\n            return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def is_undulating(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating(123)\n    False\n    >>> is_undulating(1234)\n    True\n    >>> is_undulating(12345)\n    False\n    \"\"\"\n\n    number_str = str(number)\n    for i in range(len(number_str) - 1):\n        if number_str[i] == number_str[i + 1] and number_str[i] != number_str[i - 1]:\n            return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def undulating_num(num):\n    str_num = str(num)\n    count = 0\n    for i in range(len(str_num)-1):\n        if str_num[i] == str_num[i+1]:\n            count += 1\n        else:\n            count = 0\n        if count == 3:\n            return True\n    return False\n\nprint(undulating_num(12345))\nprint(undulating_num(12344))\nprint(undulating_num(12121))",
+      -0.8583984375
+    ],
+    [
+      "def check_undulating(n: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n\n    prev_num = n % 10\n    n //= 10\n\n    while n > 0:\n        curr_num = n % 10\n        if prev_num > curr_num:\n            return False\n        prev_num = curr_num\n        n //= 10\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert check_undulating(123456789)\n    assert not check_undulating(123456788)",
+      -0.8583984375
+    ],
+    [
+      "def undulating(n):\n    if n == 0:\n        return True\n    if n == 1:\n        return False\n    if n == 2:\n        return True\n    if n == 3:\n        return True\n    if n % 4 == 0:\n        return False\n    if n % 4 == 1:\n        return True\n    if n % 4 == 2:\n        return False\n    if n % 4 == 3:\n        return True\n\nn = int(input())\nprint(undulating(n))",
+      -0.8583984375
+    ],
+    [
+      "def is_undulating_number(num):\n    s = str(num)\n    return len(set(s)) == 2\n\n\nprint(is_undulating_number(123456))\nprint(is_undulating_number(1234567))",
+      -0.8583984375
+    ],
+    [
+      "def is_undulating(number):\n    return (number - 1) % 8 == 0 or (number + 1) % 8 == 0\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def is_undulating(number):\n    \"\"\"\n    >>> is_undulating(12345)\n    True\n    >>> is_undulating(12344)\n    False\n    \"\"\"\n    return number == int(\"\".join(reversed(str(number))))\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def is_undulating(n):\n    n = str(n)\n    return n == n[::-1]\n\ndef is_undulating_no_string(n):\n    if n < 10:\n        return False\n\n    num = n\n    while num > 9:\n        num /= 10\n        if num > 9:\n            num = int(num)\n            if num == int(str(num)[::-1]):\n                return True\n        else:\n            return False\n    return False\n\n\nif __name__ == '__main__':\n    print(is_undulating_no_string(123456789))",
+      -0.85888671875
+    ],
+    [
+      "def is_undulating(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating(12345)\n    True\n    >>> is_undulating(12344)\n    False\n    >>> is_undulating(1234567)\n    True\n    \"\"\"\n    number_str = str(number)\n    return number_str == number_str[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def is_undulating(n: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log n)\n    \"\"\"\n    if n < 10:\n        return False\n\n    while n > 10:\n        if n % 10 == 0:\n            return False\n\n        n //= 10\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_undulating(123456) is True\n    assert is_undulating(123450) is False\n    assert is_undulating(12305) is False\n    assert is_undulating(123056) is True",
+      -0.85888671875
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating(100)\n    False\n    >>> is_undulating(1234)\n    True\n    >>> is_undulating(12345)\n    False\n    >>> is_undulating(1212345)\n    True\n    >>> is_undulating(1234567)\n    False\n    >>> is_undulating(123456789)\n    True\n    \"\"\"\n    s = str(num)\n    return all(\n        s[i + 1] == \"0\" or s[i - 1] == \"0\" for i in range(1, len(s) - 1, 2)\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def undulating(n):\n    # code here\n    return \"Undulating\" if n % 3 == 0 or n % 3 == 1 else \"Not Undulating\"\n\n\ndef main():\n    n = int(input(\"Enter number: \"))\n    print(undulating(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "\"\"\"Question:\nWrite a function to check whether the given number is undulating or not.\nUndulating Number:\nA number is said to be undulating if the sum of digits of every alternate place value is same.\nExample:\nFor n=1234, the alternate place values are 1+3=4, 2+4=6.\nFor n=12345, the alternate place values are 1+3=4, 2+4=6, 5=5.\nFor n=123456, the alternate place values are 1+3=4, 2+4=6, 5+6=11, 5=5.\nHence, the given number, 123456 is an undulating number.\nSolution:\nWe can reverse the number and then compare it with the original number.\n\"\"\"",
+      -0.85888671875
+    ],
+    [
+      "def is_undulating(number):\n  number_string = str(number)\n  if len(number_string) <= 1:\n    return False\n  for i in range(len(number_string) - 1):\n    if number_string[i] == number_string[i+1]:\n      return False\n  return True\n\nprint(is_undulating(567887))\nprint(is_undulating(567878))",
+      -0.908203125
+    ],
+    [
+      "def is_undulating(num):\n    \"\"\"\n    Check if the number is undulating or not.\n\n    Args:\n       num(int): Input number to be checked\n    Returns:\n       (bool): True if undulating, else False\n    \"\"\"\n    num_str = str(num)\n    return num_str[0] == num_str[-1]\n\n\nprint(is_undulating(1234555555))\nprint(is_undulating(123456789))\nprint(is_undulating(1234567890))",
+      -1.0
+    ],
+    [
+      "def is_undulating_number(n):\n    \"\"\"\n    >>> is_undulating_number(123456789)\n    True\n    >>> is_undulating_number(11111111111111)\n    False\n    \"\"\"\n    if n < 10:\n        return False\n\n    n_str = str(n)\n    n_len = len(n_str)\n    if n_len % 2 != 0:\n        return False\n\n    for i in range(n_len // 2):\n        if n_str[i] != n_str[n_len - 1 - i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.1728515625
+    ],
+    [
+      "def is_undulating(n):\n    \"\"\"\n    Time Complexity: O(Logn)\n    Space Complexity: O(1)\n    \"\"\"\n    if n < 10:\n        return False\n\n    num = str(n)\n    if num[0] == num[-1]:\n        return False\n\n    while len(num) > 1:\n        if num[0] == num[-1]:\n            return False\n        if num[0] != num[1]:\n            return False\n        num = num[1:-1]\n    return True\n\nif __name__ == \"__main__\":\n    print(is_undulating(1000))\n    print(is_undulating(1001))\n    print(is_undulating(1100))\n    print(is_undulating(1101))\n    print(is_undulating(1110))\n    print(is_undulating(1111))",
+      -1.2138671875
+    ],
+    [
+      "def is_undulating(n: int) -> bool:\n    \"\"\"\n    >>> is_undulating(12344567)\n    False\n    >>> is_undulating(1234456789)\n    True\n    \"\"\"\n    digits = []\n    while n:\n        digits.append(n % 10)\n        n //= 10\n    digits = digits[::-1]\n    for i in range(len(digits) - 1):\n        if digits[i] < digits[i + 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.2822265625
+    ],
+    [
+      "def is_undulating_number(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(123456)\n    False\n    >>> is_undulating_number(1234567)\n    True\n    >>> is_undulating_number(12345678)\n    False\n    >>> is_undulating_number(123456789)\n    True\n    >>> is_undulating_number(1234567890)\n    False\n    >>> is_undulating_number(12345678901)\n    True\n    \"\"\"\n    num_str = str(num)\n    if len(num_str) <= 2:\n        return False\n    return num_str[0] == num_str[-1] and num_str[1] == num_str[-2]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.6728515625
+    ],
+    [
+      "def undulating_numbers(num: int) -> bool:\n    \"\"\"\n    >>> undulating_numbers(12345678910)\n    True\n    >>> undulating_numbers(102345678910)\n    True\n    >>> undulating_numbers(10234567891)\n    False\n    >>> undulating_numbers(1023456789101)\n    False\n    >>> undulating_numbers(10234567891011)\n    True\n    >>> undulating_numbers(102345678910111)\n    False\n    >>> undulating_numbers(123456789101111)\n    False\n    \"\"\"\n    return (\n        str(num)\n        .split(\".\")[0]\n        .replace(\"0\", \"\")\n        .replace(\"1\", \"\")\n        .replace(\"2\", \"\")\n        .replace(\"3\", \"\")\n        .replace(\"4\", \"\")\n        .replace(\"5\", \"\")\n        .replace(\"6\", \"\")\n        .replace(\"7\", \"\")\n        .replace(\"8\", \"\")\n        .replace(\"9\", \"\")\n        == \"\"\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.712890625
+    ],
+    [
+      "def is_undulating_number(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    number_str = str(number)\n    for i in range(len(number_str) - 1):\n        if number_str[i] != number_str[i + 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_undulating_number(12345) == True\n    assert is_undulating_number(123456) == False",
+      -1.9443359375
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n\n    def is_even(num: int) -> bool:\n        return num % 2 == 0\n\n    def is_odd(num: int) -> bool:\n        return not is_even(num)\n\n    if num == 0 or num == 1:\n        return False\n\n    prev = 1\n\n    while num:\n        if is_even(num):\n            if is_even(num // 2):\n                if prev == 0:\n                    return False\n                prev = 1\n            else:\n                prev = 0\n        else:\n            if is_odd(num // 2):\n                if prev == 1:\n                    return False\n                prev = 0\n            else:\n                prev = 1\n        num //= 2\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_undulating(123456789101112) == True\n    assert is_undulating(123456789101111) == True\n    assert is_undulating(123456789101110) == False\n    assert is_undulating(123456789101101) == False\n    assert is_undulating(123456789101100) == True\n    assert is_undulating(123456789101011) == True\n    assert is_undulating(123456789101010) == False\n    assert is_undulating(123456789101001) == False\n    assert is_undulating(123456789101000) == True\n    assert is_undulating(123456789100111) == True\n    assert is_undulating(12345678910",
+      -1.9453125
+    ],
+    [
+      "def undulating_check(num):\n    \"\"\"Check if a given number is undulating.\n\n    :param num: number to check\n    :type num: int\n    :return: True if undulating, False otherwise\n    :rtype: bool\n    \"\"\"\n    num_str = str(num)\n    if len(num_str) == 1:\n        return True\n    elif len(num_str) == 2:\n        return True if int(num_str[0]) == int(num_str[1]) else False\n    else:\n        for i in range(len(num_str) - 1):\n            if int(num_str[i]) != int(num_str[i + 1]):\n                return True\n        return False",
+      -2.271484375
+    ],
+    [
+      "def is_undulating(number):\n    number = str(number)\n    if number[0] == number[-1]:\n        return True\n    if len(number) == 1:\n        return False\n    if number[0] == number[1] and number[-1] == number[-2]:\n        return True\n    if number[0] == number[-1]:\n        return True\n    return False\n\nprint(is_undulating(12345))\nprint(is_undulating(123456))\nprint(is_undulating(1234567))",
+      -2.453125
+    ],
+    [
+      "from typing import List\n\n\ndef undulate(number: int) -> bool:\n    \"\"\"\n    :param number: the number to check\n    :return: True if the number is undulating, False otherwise\n    >>> undulate(1)\n    False\n    >>> undulate(2)\n    False\n    >>> undulate(3)\n    False\n    >>> undulate(10)\n    True\n    >>> undulate(100)\n    True\n    >>> undulate(1000)\n    True\n    >>> undulate(12345)\n    False\n    >>> undulate(123456)\n    False\n    >>> undulate(1234567)\n    False\n    >>> undulate(12345678)\n    False\n    >>> undulate(123456789)\n    True\n    >>> undulate(1234567890)\n    True\n    >>> undulate(12345678901)\n    True\n    >>> undulate(123456789012)\n    True\n    >>> undulate(1234567890123)\n    True\n    >>> undulate(12345678901234)\n    True\n    >>> undulate(123456789012345)\n    False\n    \"\"\"\n    digits: List[int] = []\n\n    while number > 0:\n        digits.append(number % 10)\n        number //= 10\n\n    for index in range(len(digits) - 1):\n        if digits[index] == digits[index + 1] or digits[index] == digits[index + 2]:\n            continue\n        else:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.6015625
+    ],
+    [
+      "from typing import Union\n\n\ndef is_undulating_number(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if number < 10:\n        return False\n\n    num_str = str(number)\n\n    for i in range(1, len(num_str) - 1):\n        if num_str[i - 1] < num_str[i] and num_str[i + 1] < num_str[i]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_undulating_number(2001) == True\n    assert is_undulating_number(1234) == True\n    assert is_undulating_number(1236) == False\n    assert is_undulating_number(1224) == False\n    assert is_undulating_number(1220) == True",
+      -2.736328125
+    ],
+    [
+      "def is_undulating(n):\n    \"\"\"\n    :param n: int - a number\n    :return: bool - whether or not the number is undulating\n\n    >>> is_undulating(123455677888)\n    False\n    >>> is_undulating(12345567777)\n    True\n    >>> is_undulating(12345567776)\n    False\n    \"\"\"\n    # Your code here\n    if n // 10 % 10 == 0:\n        return False\n    while n % 10 == 0:\n        n //= 10\n    return n % 10 == n // 10 % 10\n\n\ndef is_undulating_2(n):\n    \"\"\"\n    :param n: int - a number\n    :return: bool - whether or not the number is undulating\n\n    >>> is_undulating(123455677888)\n    False\n    >>> is_undulating(12345567777)\n    True\n    >>> is_undulating(12345567776)\n    False\n    \"\"\"\n    # Your code here\n    return n % 10 != 0 and n // 10 % 10 == n % 10\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.974609375
+    ],
+    [
+      "def undulating_numbers(number):\n    \"\"\"\n    >>> undulating_numbers(123)\n    True\n    >>> undulating_numbers(12)\n    False\n    >>> undulating_numbers(123456)\n    True\n    >>> undulating_numbers(1234567)\n    False\n    >>> undulating_numbers(10)\n    False\n    >>> undulating_numbers(100)\n    True\n    >>> undulating_numbers(101)\n    False\n    >>> undulating_numbers(1001)\n    True\n    >>> undulating_numbers(1000)\n    True\n    >>> undulating_numbers(10001)\n    True\n    >>> undulating_numbers(121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121",
+      -3.0703125
+    ],
+    [
+      "def is_undulating(n):\n    \"\"\"\n    :param n: input number\n    :return: True if undulating else False\n    \"\"\"\n    if n < 10:\n        return False\n\n    s = str(n)\n    if s == \"\".join(reversed(s)):\n        return False\n\n    mid = len(s) // 2\n    l = s[:mid]\n    r = s[mid:]\n\n    if l == \"\".join(reversed(l)):\n        return False\n\n    if r == \"\".join(reversed(r)):\n        return False\n\n    return True\n\nif __name__ == \"__main__\":\n    print(is_undulating(123456789))\n    print(is_undulating(12345678))",
+      -3.2734375
+    ],
+    [
+      "def is_undulating(num: int) -> bool:\n    \"\"\"\n    >>> is_undulating(1)\n    False\n    >>> is_undulating(12)\n    False\n    >>> is_undulating(123)\n    False\n    >>> is_undulating(1234)\n    False\n    >>> is_undulating(12345)\n    False\n    >>> is_undulating(123456)\n    True\n    >>> is_undulating(1234567)\n    True\n    >>> is_undulating(12345678)\n    True\n    >>> is_undulating(123456789)\n    True\n    >>> is_undulating(1234567890)\n    True\n    \"\"\"\n    num_str = str(num)\n    for i in range(len(num_str) - 1):\n        if num_str[i] != num_str[i + 1]:\n            continue\n        if num_str[i - 1] != num_str[i + 2]:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.775390625
+    ],
+    [
+      "from gfg.algorithms.maths.gcd import gcd\n\n\ndef is_undulating(num: int) -> bool:\n    \"\"\"\n    Time complexity: O(log n)\n    Space complexity: O(1)\n    \"\"\"\n    if num < 10:\n        return False\n\n    while num >= 10:\n        if gcd(num % 10, num // 10) != 1:\n            return False\n\n        num = num // 10 + num % 10\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(is_undulating(12345))\n    print(is_undulating(12346))\n    print(is_undulating(123456))\n    print(is_undulating(1234567))",
+      -3.78125
+    ],
+    [
+      "def is_undulating_number(number):\n    \"\"\"\n    >>> is_undulating_number(12345)\n    True\n    >>> is_undulating_number(12344)\n    False\n    \"\"\"\n\n    number_str = str(number)\n    number_list = list(number_str)\n    for i in range(len(number_list)):\n        if i == 0:\n            if number_list[i] != number_list[i+1]:\n                return False\n        elif i == len(number_list) - 1:\n            if number_list[i] != number_list[i-1]:\n                return False\n        else:\n            if (number_list[i] != number_list[i-1] and\n                number_list[i] != number_list[i+1]):\n                return False\n    return True\n\n\ndef is_undulating_number_with_math(number):\n    \"\"\"\n    >>> is_undulating_number_with_math(12345)\n    True\n    >>> is_undulating_number_with_math(12344)\n    False\n    \"\"\"\n    number_str = str(number)\n    number_list = list(number_str)\n    if len(number_list) == 1:\n        return True\n    if len(number_list) == 2:\n        if number_list[0] == number_list[1]:\n            return False\n        else:\n            return True\n    if number_list[0] != number_list[1]:\n        return False\n    if number_list[-1] != number_list[-2]:\n        return False\n    for i in range(1, len(number_list) - 1):\n        if number_list[i] != number_list[i-1] and number_list[i] != number_list[i+1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -3.890625
+    ],
+    [
+      "def is_undulating_number(number):\n    \"\"\"\n    >>> is_undulating_number(12345)\n    True\n    >>> is_undulating_number(123456)\n    False\n    >>> is_undulating_number(123455)\n    False\n    >>> is_undulating_number(123454)\n    False\n    >>> is_undulating_number(1234567)\n    True\n    >>> is_undulating_number(12345678)\n    False\n    \"\"\"\n    string = str(number)\n    if len(string) <= 3:\n        return False\n    return all(string[i + 1] == string[i] + string[i + 2] for i in range(len(string) - 3))\n\n\ndef is_undulating_number_eff(number):\n    \"\"\"\n    >>> is_undulating_number_eff(12345)\n    True\n    >>> is_undulating_number_eff(123456)\n    False\n    >>> is_undulating_number_eff(123455)\n    False\n    >>> is_undulating_number_eff(123454)\n    False\n    >>> is_undulating_number_eff(1234567)\n    True\n    >>> is_undulating_number_eff(12345678)\n    False\n    \"\"\"\n    string = str(number)\n    if len(string) <= 3:\n        return False\n    return string[1:-1] == \"\".join(\n        [string[i] + string[i + 1] for i in range(len(string) - 2)]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.25390625
+    ],
+    [
+      "def is_undulating(n):\n    return n == sum(map(int, str(n)))\n\ndef test_is_undulating():\n    assert is_undulating(12345) == True\n    assert is_undulating(1234) == False\n    assert is_undulating(123456) == True\n    assert is_undulating(1234567) == False\n    assert is_undulating(12345678) == True\n    assert is_undulating(123456789) == False\n    assert is_undulating(1234567891) == True\n    assert is_undulating(12345678910) == False\n    assert is_undulating(123456789101) == True\n    assert is_undulating(1234567891010) == False\n\nif __name__ == '__main__':\n    test_is_undulating()",
+      -4.578125
+    ],
+    [
+      "def undulating_number(number: int) -> bool:\n    \"\"\"\n    >>> undulating_number(12345)\n    True\n    >>> undulating_number(123455)\n    False\n    >>> undulating_number(12345678)\n    True\n    >>> undulating_number(123456789)\n    False\n    >>> undulating_number(1234567891)\n    True\n    \"\"\"\n    number_str = str(number)\n    length = len(number_str)\n\n    # Base Case\n    if length == 1:\n        return True\n\n    # Recursive Case\n    for i in range(1, length - 1):\n        if (\n            number_str[i - 1]\n            == number_str[i + 1]\n            and number_str[i] != number_str[i - 2]\n        ):\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.953125
+    ],
+    [
+      "def is_undulating_number(number):\n    \"\"\"\n    >>> is_undulating_number(12345)\n    False\n    >>> is_undulating_number(123456)\n    True\n    >>> is_undulating_number(1234567)\n    False\n    >>> is_undulating_number(12345678)\n    True\n    \"\"\"\n    if number < 10:\n        return False\n\n    string_num = str(number)\n    length = len(string_num)\n    if length % 2 == 0:\n        return False\n\n    for i in range(1, length - 1, 2):\n        if int(string_num[i]) < int(string_num[i - 1]) or int(string_num[i]) < int(string_num[i + 1]):\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.046875
+    ],
+    [
+      "def is_undulating_number(n: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(123456789)\n    False\n    >>> is_undulating_number(123444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444",
+      -5.09765625
+    ],
+    [
+      "from math import floor\n\ndef is_undulating_number(number):\n    \"\"\"\n    >>> is_undulating_number(12345)\n    True\n    >>> is_undulating_number(123456)\n    False\n    >>> is_undulating_number(1234)\n    True\n    >>> is_undulating_number(123)\n    False\n    >>> is_undulating_number(1234567891011)\n    False\n    >>> is_undulating_number(1234567891012)\n    True\n    >>> is_undulating_number(1234567891013)\n    False\n    >>> is_undulating_number(1234567891014)\n    True\n    >>> is_undulating_number(1234567891015)\n    False\n    \"\"\"\n    digits = [int(digit) for digit in str(number)]\n    for index, digit in enumerate(digits):\n        if index < 2:\n            if digit == digits[index + 1] or digit != digits[index + 2]:\n                return False\n        elif index == len(digits) - 1:\n            if digit != digits[index - 1] or digit != digits[index - 2]:\n                return False\n        else:\n            if digit != digits[index - 1] or digit != digits[index + 1]:\n                return False\n    return True\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -5.296875
+    ],
+    [
+      "from typing import Union\n\n\ndef is_undulating(number: Union[int, float]) -> bool:\n    \"\"\"Checks whether the given number is undulating or not.\n\n    Args:\n        number (Union[int, float]): a number\n\n    Examples:\n        >>> assert is_undulating(1)\n        >>> assert is_undulating(2)\n        >>> assert is_undulating(3)\n        >>> assert is_undulating(4)\n        >>> assert is_undulating(5)\n        >>> assert is_undulating(6)\n        >>> assert is_undulating(7)\n        >>> assert is_undulating(8)\n        >>> assert is_undulating(9)\n        >>> assert is_undulating(10)\n        >>> assert is_undulating(11)\n        >>> assert is_undulating(12)\n        >>> assert is_undulating(13)\n        >>> assert is_undulating(14)\n        >>> assert is_undulating(15)\n        >>> assert is_undulating(16)\n        >>> assert is_undulating(17)\n        >>> assert is_undulating(18)\n        >>> assert is_undulating(19)\n        >>> assert is_undulating(20)\n        >>> assert is_undulating(21)\n        >>> assert is_undulating(22)\n        >>> assert is_undulating(23)\n        >>> assert is_undulating(24)\n        >>> assert is_undulating(25)\n        >>> assert is_undulating(26)\n        >>> assert is_undulating(27)\n        >>> assert is_undulating(28)\n        >>> assert is_undulating(29)\n        >>> assert is_undulating(30)\n        >>> assert is_undulating(31)\n        >>> assert is_undulating(32)\n        >>> assert is_undulating(33)\n        >>> assert is_undulating(34)\n        >>> assert is_undulating(35)\n        >>> assert is_undulating(36)\n        >>> assert is_undulating(37)\n        >>> assert is_undulating(38)",
+      -5.3515625
+    ],
+    [
+      "def is_undulating(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating(1)\n    False\n    >>> is_undulating(12)\n    True\n    >>> is_undulating(123)\n    False\n    >>> is_undulating(1234)\n    True\n    >>> is_undulating(12345)\n    False\n    >>> is_undulating(123456)\n    True\n    >>> is_undulating(1234567)\n    False\n    >>> is_undulating(12345678)\n    True\n    \"\"\"\n    number_string = str(number)\n    return (\n        (number_string[0] == number_string[-1])\n        and (number_string[1] == number_string[-2])\n        and (number_string[2] == number_string[-3])\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.68359375
+    ],
+    [
+      "\"\"\"Undulating number is defined as follows:\nAn undulating number is a number in which the sum of digits at odd indices and even indices is equal.\nFor example:\nInput: 22\nOutput: True\nExplanation: Sum of digits at odd indices (1+3) and even indices (2+0) is equal.\n\"\"\"\n\ndef undulating_number(num):\n    odd_sum = 0\n    even_sum = 0\n    while num:\n        if num%10:\n            odd_sum += num%10\n        even_sum += num%10\n        num //= 10\n    return odd_sum == even_sum\n\nprint(undulating_number(22))\nprint(undulating_number(123))",
+      -5.84765625
+    ],
+    [
+      "from typing import List\n\n\ndef is_undulating(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    if number == 0:\n        return False\n\n    flag = 0\n    while number > 0:\n        if flag == 0:\n            flag = 1\n        else:\n            flag = -1\n\n        if number % 10 == 0:\n            return False\n\n        if (number % 10) * flag < 0:\n            return False\n\n        number //= 10\n\n    return True\n\n\ndef is_undulating_array(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    if number == 0:\n        return False\n\n    num_list: List[int] = []\n\n    while number > 0:\n        num_list.append(number % 10)\n        number //= 10\n\n    for i in range(len(num_list) - 1):\n        if num_list[i] * num_list[i + 1] < 0:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_undulating(1234) == True\n    assert is_undulating(12340) == False\n    assert is_undulating(12345) == False\n    assert is_undulating(123456) == False\n    assert is_undulating(1234567) == False\n    assert is_undulating(12345678) == True\n    assert is_undulating(123456789) == True\n\n    assert is_undulating_array(1234) == True\n    assert is_undulating_array(12340) == False\n    assert is_undulating_array(12345) == False\n    assert is_undulating_array(123456) == False",
+      -5.890625
+    ],
+    [
+      "from typing import List\n\n\ndef is_undulating_number(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    if number < 10:\n        return False\n\n    number_str = str(number)\n    for i in range(len(number_str) - 1):\n        if number_str[i] != number_str[i + 1]:\n            if number_str[i + 1] != number_str[i - 1]:\n                return False\n    return True\n\n\ndef is_undulating_number_2(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if number < 10:\n        return False\n\n    number_str = str(number)\n    for i in range(len(number_str) - 1):\n        if number_str[i] == number_str[i + 1]:\n            continue\n        if number_str[i] != number_str[i - 1] and number_str[i + 1] != number_str[i - 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert is_undulating_number(123456) == True\n    assert is_undulating_number(123455) == False\n    assert is_undulating_number(123454) == False\n    assert is_undulating_number(123457) == False\n    assert is_undulating_number(123458) == False\n    assert is_undulating_number(123459) == True\n\n    assert is_undulating_number(1234567) == True\n    assert is_undulating_number(1234557) == False\n    assert is_undulating_number(1234547) == False\n    assert is_undulating_number(1234577) == False\n    assert is_undulating_",
+      -6.11328125
+    ],
+    [
+      "from math import ceil\n\n\ndef undulating_numbers(n):\n    \"\"\"\n    >>> undulating_numbers(1)\n    True\n    >>> undulating_numbers(10)\n    True\n    >>> undulating_numbers(12)\n    True\n    >>> undulating_numbers(13)\n    False\n    >>> undulating_numbers(121)\n    False\n    >>> undulating_numbers(123)\n    True\n    >>> undulating_numbers(1213)\n    False\n    >>> undulating_numbers(12131)\n    False\n    >>> undulating_numbers(121314)\n    False\n    >>> undulating_numbers(1213141)\n    True\n    >>> undulating_numbers(12131415)\n    True\n    >>> undulating_numbers(121314151)\n    False\n    >>> undulating_numbers(1213141516)\n    False\n    \"\"\"\n    if n < 10:\n        return True\n\n    def check_undulating(n):\n        if n < 10:\n            return False\n\n        n = str(n)\n        length = len(n)\n        i = 0\n        while i < length - 1:\n            if ceil(int(n[i]) / 2) != int(n[i + 1]):\n                return False\n            i += 1\n        return True\n\n    return check_undulating(n) and check_undulating(n / 10)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.1484375
+    ],
+    [
+      "from collections import deque\n\n\ndef undulate_number(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    queue: deque = deque()\n    queue.append(number % 10)\n    number //= 10\n\n    while number:\n        digit = number % 10\n        if not queue or digit != queue[-1]:\n            return False\n        queue.pop()\n        queue.appendleft(digit)\n        number //= 10\n\n    return True\n\n\nif __name__ == \"__main__\":\n    assert undulate_number(1234567890) is True\n    assert undulate_number(1234567891) is False",
+      -6.67578125
+    ],
+    [
+      "def undulating_number(n):\n    if n == 1:\n        return True\n\n    if n < 10:\n        return False\n\n    if n % 10 == 0:\n        return False\n\n    if (n // 10) % 10 == 0:\n        return False\n\n    return undulating_number(n // 10)\n\n\nif __name__ == \"__main__\":\n    assert undulating_number(1) == True\n    assert undulating_number(10) == False\n    assert undulating_number(12345) == False\n    assert undulating_number(123456789) == False\n    assert undulating_number(1234567890) == True\n    assert undulating_number(12345678901) == True\n    assert undulating_number(123456789012) == True\n    assert undulating_number(1234567890123) == True\n    assert undulating_number(12345678901234) == True\n    assert undulating_number(123456789012345) == True\n    assert undulating_number(1234567890123456) == True\n    assert undulating_number(12345678901234567) == True\n    assert undulating_number(123456789012345678) == False\n    assert undulating_number(1234567890123456789) == False\n    assert undulating_number(12345678901234567890) == False\n    assert undulating_number(123456789012345678901) == False\n    assert undulating_number(1234567890123456789012",
+      -6.74609375
+    ],
+    [
+      "def is_undulating(n):\n    if n == 0 or n == 1:\n        return False\n\n    if n % 2 == 0:\n        return False\n\n    while n > 2:\n        if n % 2 == 1:\n            return False\n        n //= 2\n\n    return True\n\n\ndef test_is_undulating():\n    assert is_undulating(0) == False\n    assert is_undulating(1) == False\n    assert is_undulating(2) == False\n    assert is_undulating(3) == False\n    assert is_undulating(4) == True\n    assert is_undulating(5) == True\n    assert is_undulating(6) == True\n    assert is_undulating(7) == False\n    assert is_undulating(8) == True\n    assert is_undulating(9) == False\n    assert is_undulating(10) == True\n    assert is_undulating(11) == False\n    assert is_undulating(12) == True\n    assert is_undulating(13) == False\n    assert is_undulating(14) == True\n    assert is_undulating(15) == False\n    assert is_undulating(16) == True\n    assert is_undulating(17) == False\n    assert is_undulating(18) == True\n    assert is_undulating(19) == False\n    assert is_undulating(20) == True\n    assert is_undulating(21) == False\n    assert is_undulating(22) == True\n    assert is_undulating(23) == False\n    assert is_undulating(24) == True\n    assert is_undulating(25) == False\n    assert is_undulating(26) == True\n    assert is_undulating(27) == False\n    assert is_undulating(28) == True\n    assert is_undulating(29) == False\n    assert is_undulating(30) == True\n    assert is_undulating(31) == False\n    assert is_undulating(32) == True\n    assert",
+      -6.82421875
+    ],
+    [
+      "def undulate(num):\n    \"\"\"\n    :param: num (int)\n    return: bool\n    \"\"\"\n    if num < 10:\n        return True\n    elif num % 10 == 0:\n        return False\n    else:\n        return undulate(num // 10)\n\ndef undulate_2(num):\n    \"\"\"\n    :param: num (int)\n    return: bool\n    \"\"\"\n    if num < 10:\n        return True\n    elif num % 10 == 0:\n        return False\n    else:\n        return undulate_2(num % 10)\n\n\nprint(undulate(123456789))\nprint(undulate_2(123456789))",
+      -7.22265625
+    ],
+    [
+      "def is_undulating(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating(1)\n    True\n    >>> is_undulating(123)\n    True\n    >>> is_undulating(121)\n    True\n    >>> is_undulating(1234)\n    False\n    >>> is_undulating(12345)\n    False\n    >>> is_undulating(12304)\n    False\n    >>> is_undulating(10234)\n    False\n    >>> is_undulating(102304)\n    False\n    \"\"\"\n    number_str = str(number)\n    for index, digit in enumerate(number_str):\n        if index == 0:\n            continue\n        if digit < number_str[index - 1]:\n            return False\n        if digit > number_str[index - 1]:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.609375
+    ],
+    [
+      "\"\"\"Undulating number is a number in which adjacent digits have different parity (odd-even).\"\"\"\n\n\ndef is_undulating(number):\n    length = len(str(number))\n    if length < 3:\n        return False\n    elif length == 3:\n        return True\n    else:\n        # 1st digit\n        if number % 2 == 0:\n            return False\n        else:\n            number = int(str(number)[1:])\n\n        # 2nd digit\n        if number % 2 == 0:\n            return False\n        else:\n            number = int(str(number)[1:])\n\n        # Last digit\n        if number % 2 == 0:\n            return False\n        else:\n            number = int(str(number)[:-1])\n\n        # Remaining digits\n        while number > 9:\n            if number % 2 == 0:\n                return False\n            else:\n                number = int(str(number)[:-1])\n\n        return True\n\n\nif __name__ == '__main__':\n    print(is_undulating(12345678910))\n    print(is_undulating(123456789101))\n    print(is_undulating(1234567891011))\n    print(is_undulating(12345678910111))\n    print(is_undulating(123456789101111))\n    print(is_undulating(1234567891011111))\n    print(is_undulating(12345678910111111))\n    print(is_undulating(123456789101111111))",
+      -7.671875
+    ],
+    [
+      "from typing import Union\n\n\ndef is_undulating(number: Union[int, float]) -> bool:\n    \"\"\"Checks if a number is undulating.\n\n    A number is undulating if it is strictly increasing and then strictly decreasing.\n\n    Args:\n        number (Union[int, float]): A number to check.\n\n    Examples:\n        >>> assert is_undulating(1)\n        >>> assert is_undulating(10)\n        >>> assert is_undulating(100)\n        >>> assert is_undulating(1000)\n        >>> assert is_undulating(1000000)\n        >>> assert is_undulating(1000000000)\n        >>> assert not is_undulating(-1)\n        >>> assert not is_unduling(1000000001)\n        >>> assert not is_unduling(1000000002)\n        >>> assert not is_unduling(1000000003)\n        >>> assert not is_unduling(1000000004)\n        >>> assert not is_unduling(1000000005)\n        >>> assert not is_unduling(1000000006)\n        >>> assert not is_unduling(1000000007)\n        >>> assert not is_unduling(1000000008)\n        >>> assert not is_unduling(1000000009)\n        >>> assert not is_unduling(1000000010)\n        >>> assert not is_unduling(1000000011)\n        >>> assert not is_unduling(1000000012)\n        >>> assert not is_unduling(1000000013)\n        >>> assert not is_unduling(1000000014)\n        >>> assert not is_unduling(1000000015)\n        >>> assert not is_unduling(10000",
+      -8.5078125
+    ],
+    [
+      "from typing import List\n\n\ndef is_undulating_number(number: int) -> bool:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    if number < 10:\n        return False\n\n    if number % 10 == 0:\n        return False\n\n    str_num: str = str(number)\n    str_num_list: List[str] = list(str_num)\n\n    while len(str_num_list) > 1:\n        if int(str_num_list[0]) > int(str_num_list[-1]):\n            str_num_list.pop(0)\n        else:\n            str_num_list.pop(-1)\n\n    return int(str_num_list[0]) != 0\n\n\nif __name__ == \"__main__\":\n    assert is_undulating_number(12345) == True\n    assert is_undulating_number(12344) == False\n    assert is_undulating_number(123456789) == False\n    assert is_undulating_number(12340) == False\n    assert is_undulating_number(123456) == True\n    assert is_undulating_number(123455) == False\n    assert is_undulating_number(1234567) == True\n    assert is_undulating_number(12345678) == False",
+      -8.5859375
+    ],
+    [
+      "\"\"\"Undulating number is the number whose adjacent digits have different signs.\ne.g. 12345, 123456, 1234567, 12345678, 123456789 are undulating numbers.\n\"\"\"\n\ndef is_undulating(n):\n    nums = [int(i) for i in str(n)]\n    for i in range(len(nums) - 1):\n        if (nums[i] > 0 and nums[i+1] < 0) or (nums[i] < 0 and nums[i+1] > 0):\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    assert is_undulating(12345) == True\n    assert is_undulating(123456) == True\n    assert is_undulating(1234567) == True\n    assert is_undulating(12345678) == True\n    assert is_undulating(123456789) == True\n    assert is_undulating(1234506789) == True\n    assert is_undulating(1234567089) == True\n    assert is_undulating(1234567809) == True\n    assert is_undulating(1234567890) == False\n    assert is_undulating(1023456789) == False\n    assert is_undulating(1203456789) == False\n    assert is_undulating(1230456789) == False\n    assert is_undulating(1234056789) == False\n    assert is_undulating(1234506789) == False\n    assert is_undulating(1234567089) == False\n    assert is_undulating(1234567809) == False",
+      -8.625
+    ],
+    [
+      "from gfg.dynamic_programming.is_matrix_chain_sorted import get_optimal_splits\n\n\ndef is_undulating(n: int) -> bool:\n    \"\"\"\n    Undulating number is a number in which\n    the sum of all the digits is equal to the number itself.\n\n    So we find the optimal split of the number and check if\n    the sum of the numbers is equal to the original number.\n\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    splits = get_optimal_splits(n)\n\n    if len(splits) == 1:\n        return True\n\n    left, right = 0, 0\n    for i in range(len(splits) - 1):\n        left += splits[i]\n        right += splits[i + 1]\n\n    return left + right == n\n\n\nif __name__ == \"__main__\":\n    print(is_undulating(123456789))\n    print(is_undulating(1234567))",
+      -9.0859375
+    ],
+    [
+      "from typing import Union\n\n\ndef is_undulating_number(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(12345)\n    True\n    >>> is_undulating_number(123456)\n    False\n    >>> is_undulating_number(1234567)\n    True\n    >>> is_undulating_number(12345678)\n    False\n    >>> is_undulating_number(123456789)\n    True\n    >>> is_undulating_number(1234567890)\n    False\n    >>> is_undulating_number(12345678901)\n    True\n    >>> is_undulating_number(123456789012)\n    False\n    >>> is_undulating_number(1234567890123)\n    True\n    >>> is_undulating_number(12345678901234)\n    False\n    >>> is_undulating_number(123456789012345)\n    True\n    >>> is_undulating_number(1234567890123456)\n    False\n    >>> is_undulating_number(12345678901234567)\n    True\n    >>> is_undulating_number(123456789012345678)\n    False\n    \"\"\"\n    number_str = str(number)\n    if len(number_str) <= 3:\n        return False\n    return number_str[0] == number_str[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -10.5625
+    ],
+    [
+      "from typing import List\n\n\ndef undulating_numbers(array: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def undulate(num: int) -> bool:\n        return num == num % 10 ** len(str(num))\n\n    for i in range(len(array) - 1):\n        if not undulate(array[i]) and undulate(array[i + 1]):\n            return array[i + 1 :]\n        elif undulate(array[i]) and not undulate(array[i + 1]):\n            return array[: i + 1]\n    return array\n\n\nif __name__ == \"__main__\":\n    assert undulating_numbers([123, 122, 120, 121]) == [121]\n    assert undulating_numbers([123, 121, 120, 122]) == [120, 122]\n    assert undulating_numbers([123, 120, 121, 122]) == [120, 122]\n    assert undulating_numbers([123, 122, 121, 120]) == [121, 120]\n    assert undulating_numbers([123, 120, 122, 121]) == [120, 122]\n    assert undulating_numbers([123, 121, 122, 120]) == [121]\n    assert undulating_numbers([123, 122, 121, 120]) == [120, 122]\n    assert undulating_numbers([123, 120, 122, 121]) == [120, 122]\n    assert undulating_numbers([123, 121, 120, 122]) == [120, 122",
+      -10.8359375
+    ],
+    [
+      "def undulating_num(num):\n    arr = [num]\n    while num > 9:\n        num //= 10\n        arr.append(num)\n    print(arr)\n    for i in range(1, len(arr)):\n        if arr[i] > arr[i-1]:\n            return True\n    return False\n\nnum = int(input())\nprint(undulating_num(num))\n\n\"\"\"\nUndulating number is defined as follows:\n1. The number is not undulating if it is less than 10.\n2. The number is not undulating if it is not divisible by 10.\n3. The number is not undulating if the difference between any two adjacent digits is not greater than 1.\n4. The number is undulating if all the above conditions are satisfied.\n\nINPUT:\nnum = 2555\nOUTPUT:\nTrue\n\nINPUT:\nnum = 12345\nOUTPUT:\nFalse\n\"\"\"",
+      -11.515625
+    ],
+    [
+      "from typing import Union\n\n\ndef is_undulating(number: Union[int, float]) -> bool:\n    \"\"\"Checks whether a given number is undulating or not.\n\n    Args:\n        number (Union[int, float]): number to check.\n\n    Examples:\n        >>> assert is_undulating(123456789)\n        >>> assert is_undulating(1234567890)\n        >>> assert is_undulating(12345678901)\n        >>> assert is_undulating(123456789012)\n        >>> assert is_undulating(1234567890123)\n        >>> assert is_unduling(12345678901234)\n        >>> assert not is_unduling(123456789012345)\n    \"\"\"\n    return number % 10 == 0\n\n\nif __name__ == \"__main__\":\n    print(is_undulating(123456789012345))",
+      -11.921875
+    ],
+    [
+      "def is_undulating_number(number: int) -> bool:\n    \"\"\"\n    >>> is_undulating_number(12345)\n    False\n    >>> is_undulating_number(123456)\n    True\n    >>> is_undulating_number(1234567)\n    False\n    >>> is_undulating_number(12345678)\n    True\n    >>> is_undulating_number(123456789)\n    False\n    >>> is_undulating_number(1234567890)\n    True\n    >>> is_undulating_number(12345678901)\n    False\n    \"\"\"\n    number_str = str(number)\n    for i in range(len(number_str) - 1):\n        if number_str[i] != number_str[i + 1]:\n            if (number_str[i + 1] == \"0\" or number_str[i] == \"0\") or (\n                number_str[i + 1] < number_str[i]\n            ):\n                return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -14.6171875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

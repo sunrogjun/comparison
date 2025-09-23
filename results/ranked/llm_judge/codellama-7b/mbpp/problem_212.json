@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T23:54:11.441005",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 212,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "def majority(arr):\n    length = len(arr)\n    count = 0\n    for i in range(length):\n        if count > (length // 2):\n            return True\n        if arr[i] == arr[i-1]:\n            count += 1\n        else:\n            count = 1\n    return False\n\n\nif __name__ == \"__main__\":\n    arr = [1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from typing import Optional\n\n\ndef check_majority_element(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    length = len(arr)\n\n    if length == 0:\n        return None\n\n    index = 0\n    count = 1\n\n    while index < length - 1:\n        if arr[index] == arr[index + 1]:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            index += 1\n            count = 1\n\n        if count > length // 2:\n            return arr[index]\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert check_majority_element([1, 1, 1, 1, 1, 2, 1]) == 1\n    assert check_majority_element([1, 1, 1, 2, 1]) is None\n    assert check_majority_element([1, 2, 3, 4, 5]) is None"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "from typing import Optional\n\n\ndef majority_element(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if len(arr) == 0:\n        return None\n\n    count = 0\n    for num in arr:\n        if count == 0:\n            candidate = num\n        if num == candidate:\n            count += 1\n        else:\n            count -= 1\n    return candidate if arr.count(candidate) * 2 > len(arr) else None\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) == 5\n    assert majority_element([1, 1, 1, 2, 3, 3, 3, 3]) == 1\n    assert majority_element([1, 1, 2, 2, 2, 2]) is None"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    if not arr:\n        return None\n\n    mid = len(arr) // 2\n\n    if len(arr) % 2:\n        return arr[mid]\n\n    return arr[mid] if arr[mid] == arr[mid - 1] else None\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 2, 5, 9, 5, 9, 5, 5, 5, 4, 4, 4]))\n    print(majority_element([1, 2, 5, 9, 5, 9, 4, 4, 4]))\n    print(majority_element([1, 2, 5, 9, 5, 9, 5, 4, 4, 4, 5]))\n    print(majority_element([1, 2, 5, 9, 5, 9, 5, 4, 4, 4, 5, 5]))\n    print(majority_element([1, 2, 5, 9, 5, 9, 5, 4, 4, 4, 5, 5, 5]))"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef check_majority(arr: List[int], size: int) -> bool:\n    \"\"\"\n    Since the array is sorted, we can do a linear search to find the majority\n    element.\n\n    If we find a majority element, then we need to check if the majority\n    element is repeated more than `n/2` times.\n\n    We can use a counter to keep track of the number of times a number is\n    repeated.\n\n    If we find a majority element, we return True. Otherwise, we return False.\n\n    :param arr: A sorted array of numbers\n    :param size: The size of the array\n    :return: True if there is a majority element, False otherwise\n    >>> check_majority([2, 2, 3, 2, 5, 2, 2], 7)\n    True\n    >>> check_majority([2, 3, 3, 2, 5, 2, 2], 7)\n    False\n    \"\"\"\n    counter = 0\n    majority_element = 0\n\n    for i in range(size):\n        if counter == 0:\n            majority_element = arr[i]\n            counter += 1\n        elif arr[i] == majority_element:\n            counter += 1\n        else:\n            counter -= 1\n\n    if counter > 0:\n        return True\n    return False\n\n\nif __name__ == \"__main__\":\n    from doctest import testmod\n\n    testmod()"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def isMajority(arr, n):\n    count = 1\n    i = 1\n    while i < n:\n        if arr[i] == arr[i-1]:\n            count += 1\n        else:\n            count = 1\n        if count > (n//2):\n            return arr[i-1]\n        i += 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1,1,2,2,3,4]\n    print(isMajority(arr, len(arr)))\n\n    arr = [1,1,2,3,4]\n    print(isMajority(arr, len(arr)))\n\n    arr = [1,1,1,2,3,4]\n    print(isMajority(arr, len(arr)))\n\n    arr = [1,1,1,2,2,3,4]\n    print(isMajority(arr, len(arr)))\n\n    arr = [1,1,1,2,2,2,4]\n    print(isMajority(arr, len(arr)))\n\n    arr = [1,1,1,2,2,2,2]\n    print(isMajority(arr, len(arr)))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    count = 0\n    mid = len(arr) // 2\n    for i in range(len(arr)):\n        if count == mid:\n            return True\n        elif arr[i] == arr[i - 1]:\n            continue\n        elif arr[i] == arr[mid]:\n            count += 1\n        else:\n            count -= 1\n    return False\n\n\nprint(majority_element([1, 2, 2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6]))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "def find_majority_element(arr: list) -> int:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    majority_index = 0\n    count = 1\n\n    for i in range(1, len(arr)):\n        if arr[i] == arr[majority_index]:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            majority_index = i\n            count = 1\n\n    return arr[majority_index]\n\n\nif __name__ == \"__main__\":\n    assert find_majority_element([1, 2, 5, 9, 5, 9, 5, 5, 5, 6]) == 5"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\ndef is_majority(arr, x):\n    \"\"\"\n    Checks if x is majority element in arr\n\n    Args:\n        arr: List[int]\n        x: int\n\n    Returns:\n        bool\n    \"\"\"\n    return arr.count(x) > len(arr) // 2\n\n\ndef majority(arr):\n    \"\"\"\n    Returns the majority element in arr\n\n    Args:\n        arr: List[int]\n\n    Returns:\n        int\n    \"\"\"\n    return Counter(arr).most_common(1)[0][0]\n\n\ndef majority_element(arr):\n    \"\"\"\n    Returns the majority element in arr\n\n    Args:\n        arr: List[int]\n\n    Returns:\n        int\n    \"\"\"\n    arr.sort()\n    return majority(arr)\n\n\nprint(majority_element([2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    # Base case\n    if len(arr) == 1:\n        return arr[0]\n\n    # Divide\n    mid = len(arr) // 2\n    left = arr[:mid]\n    right = arr[mid:]\n\n    # Conquer\n    left_major = majority_element(left)\n    right_major = majority_element(right)\n\n    # Combine\n    left_count = left.count(left_major)\n    right_count = right.count(right_major)\n\n    if left_count > right_count:\n        return left_major\n    elif right_count > left_count:\n        return right_major\n    else:\n        return None\n\n\nif __name__ == \"__main__\":\n    print(majority_element([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)\nclass Solution:\n    def majority_element(self, arr: List[int]) -> int:\n        count = 0\n        candidate = None\n        for elem in arr:\n            if count == 0:\n                candidate = elem\n            count += 1 if elem == candidate else -1\n        return candidate\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    arr = [1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2]\n    assert s.majority_element(arr) == 2"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    index = 0\n    count = 1\n    for i in range(1, len(arr)):\n        if arr[index] == arr[i]:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                index = i\n                count = 1\n    if count > len(arr) / 2:\n        return arr[index]\n    else:\n        return None\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6]))\n    print(majority_element([1, 2, 3, 4, 5, 6]))\n    print(majority_element([1, 2, 3, 4, 5, 6, 7]))"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef is_majority(arr: List[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if len(arr) == 0:\n        return False\n\n    if len(arr) == 1:\n        return True\n\n    mid_index = len(arr) // 2\n\n    if arr[mid_index] > mid_index:\n        return is_majority(arr[:mid_index])\n    else:\n        return is_majority(arr[mid_index:])\n\n\nif __name__ == \"__main__\":\n    assert is_majority([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]) is True\n    assert is_majority([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]) is False"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    count = 0\n    candidate = None\n    for i in arr:\n        if count == 0:\n            candidate = i\n            count += 1\n        elif i == candidate:\n            count += 1\n        else:\n            count -= 1\n    count = 0\n    for i in arr:\n        if i == candidate:\n            count += 1\n    if count > len(arr) // 2:\n        return candidate\n    return None\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if arr[mid] == arr[0]:\n            return arr[0]\n        elif arr[mid] > arr[0]:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(majority_element([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]))"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    Return the majority element if it exists, otherwise return -1.\n    \"\"\"\n    if len(arr) == 0:\n        return -1\n\n    count = 0\n    majority_element = arr[0]\n\n    for i in range(len(arr)):\n        if arr[i] == majority_element:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            majority_element = arr[i]\n            count = 1\n\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == majority_element:\n            count += 1\n\n    if count > len(arr) // 2:\n        return majority_element\n    else:\n        return -1\n\n\nif __name__ == \"__main__\":\n    print(majority_element([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr or len(arr) == 0:\n        return False\n\n    majority_element = arr[0]\n    count = 0\n\n    for num in arr:\n        if num != majority_element:\n            count -= 1\n        else:\n            count += 1\n\n        if count == 0:\n            majority_element = num\n            count = 1\n\n    return count > len(arr) // 2\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([2, 2, 2, 3, 3, 3, 4, 4, 4, 4]) is True\n    assert is_majority_element([1, 1, 2, 2, 3, 3, 4, 4, 4, 4]) is False"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if len(arr) < 2:\n        return False\n\n    count = 0\n    major = arr[0]\n\n    for num in arr:\n        if num == major:\n            count += 1\n        else:\n            count -= 1\n        if count == 0:\n            major = num\n            count = 1\n\n    if count > len(arr) / 2:\n        return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) is False\n    assert is_majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6]) is True"
+    },
+    {
+      "rank": 19,
+      "score": 8.0,
+      "candidate": "def is_majority(arr, n):\n    if n <= 2:\n        return False\n\n    mid = n // 2\n\n    if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6]\n    print(is_majority(arr, len(arr)))"
+    },
+    {
+      "rank": 20,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    if len(arr) == 0:\n        return -1\n    if len(arr) == 1:\n        return arr[0]\n\n    count = 0\n    majority = -1\n    for i in range(len(arr)):\n        if count == 0:\n            majority = arr[i]\n            count += 1\n        elif arr[i] == majority:\n            count += 1\n        else:\n            count -= 1\n\n    return majority\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 1, 2]))\n    print(majority_element([1, 2, 1]))\n    print(majority_element([1, 2, 3, 1, 2, 1]))\n    print(majority_element([1, 2, 3, 4, 5, 6, 1]))\n    print(majority_element([1, 1, 1, 1, 1, 1, 1]))"
+    },
+    {
+      "rank": 21,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    maj_el = None\n    maj_count = 0\n\n    for num in nums:\n        if maj_count == 0:\n            maj_el = num\n            maj_count = 1\n        elif num == maj_el:\n            maj_count += 1\n        else:\n            maj_count -= 1\n\n    if maj_count <= 0:\n        return -1\n    return maj_el\n\n\nif __name__ == \"__main__\":\n    assert majority_element([2, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5\n    assert majority_element([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    n = len(arr)\n    count = 0\n    candidate = None\n\n    for i in range(n):\n        if count == 0:\n            candidate = arr[i]\n        if candidate == arr[i]:\n            count += 1\n        else:\n            count -= 1\n\n    count = 0\n\n    for i in range(n):\n        if candidate == arr[i]:\n            count += 1\n\n    if count > n / 2:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) == True\n    assert majority_element([1, 1, 1, 2, 3, 4, 5, 5, 5, 5, 5, 6]) == False\n    assert majority_element([1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]) == False"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "from typing import Optional\n\n\ndef majority_element(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    count = 1\n    candidate = arr[0]\n    for i in range(1, len(arr)):\n        if count == 0:\n            candidate = arr[i]\n            count = 1\n        elif candidate == arr[i]:\n            count += 1\n        else:\n            count -= 1\n\n    count = 0\n    for num in arr:\n        if num == candidate:\n            count += 1\n\n    if count > len(arr) / 2:\n        return candidate\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) is None\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6]) == 5"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "def majority_element(array: list) -> bool:\n    \"\"\"\n    This function is O(n) in time and O(1) in space\n    \"\"\"\n    majority_element = 0\n    counter = 0\n\n    for element in array:\n        if counter == 0:\n            majority_element = element\n            counter = 1\n        elif majority_element == element:\n            counter += 1\n        else:\n            counter -= 1\n\n    return counter > len(array) / 2\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 1, 2, 1])\n    assert majority_element([1, 2, 3, 4, 5, 5]) is False"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    return arr[len(arr) // 2]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6]) == 5\n    assert majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3]) == 1"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def is_majority(arr, mid):\n    count = 0\n    for num in arr:\n        if num == mid:\n            count += 1\n        elif num < mid:\n            count -= 1\n        else:\n            count += 1\n        if count > len(arr) // 2:\n            return True\n    return False\n\n\ndef majority_element(arr):\n    start, end = 0, len(arr) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if is_majority(arr, mid):\n            return mid\n        elif arr[mid] < arr[end]:\n            start = mid + 1\n        else:\n            end = mid - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    This function uses the fact that the majority element will be in the\n    middle of the array.\n    \"\"\"\n    if len(arr) % 2 == 0:\n        return (arr[len(arr)//2-1] + arr[len(arr)//2])/2\n    return arr[len(arr)//2]\n\nprint(majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2, 2]))\nprint(majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\nprint(majority_element([1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]))"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def is_majority_element(arr):\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    majority = 0\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            majority = arr[i]\n            count += 1\n        elif majority == arr[i]:\n            count += 1\n        else:\n            count -= 1\n    count = 0\n    for i in range(len(arr)):\n        if majority == arr[i]:\n            count += 1\n    return count > len(arr) // 2\n\n\ndef is_majority_element_optimized(arr):\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    majority = 0\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            majority = arr[i]\n            count += 1\n        elif majority == arr[i]:\n            count += 1\n        else:\n            count -= 1\n    return count > len(arr) // 2\n\n\nif __name__ == \"__main__\":\n    arr = [2, 3, 3, 3, 4, 4, 4, 4]\n    print(is_majority_element(arr))\n    print(is_majority_element_optimized(arr))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def is_majority(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        return None\n\n    count = 0\n\n    for i in range(len(arr)):\n        if count == 0:\n            count += 1\n        elif arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            count -= 1\n\n    return count > len(arr) / 2\n\n\ndef is_majority_optimized(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        return None\n\n    count = 0\n\n    for i in range(len(arr)):\n        if count == 0:\n            count += 1\n        elif arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            count -= 1\n\n    return count > len(arr) / 2\n\n\nif __name__ == \"__main__\":\n    print(is_majority([1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9]))"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "def is_majority_element(arr):\n    if len(arr) < 2:\n        return False\n    elif len(arr) == 2:\n        if arr[0] == arr[1]:\n            return True\n        else:\n            return False\n    else:\n        majority_element = arr[len(arr)//2]\n        count = 0\n        for i in arr:\n            if i == majority_element:\n                count += 1\n        if count > len(arr)//2:\n            return True\n        else:\n            return False\n\nif __name__ == '__main__':\n    arr = [1, 2, 2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def check_majority(arr):\n    n = len(arr)\n    if n == 0:\n        return False\n    if n == 1:\n        return True\n    if n%2 == 0:\n        if arr[n//2-1] == arr[n//2]:\n            return True\n        else:\n            return False\n    else:\n        if arr[n//2] == arr[n//2-1]:\n            return True\n        else:\n            return False\n\nif __name__ == \"__main__\":\n    arr = [1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]\n    print(check_majority(arr))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    if len(arr) == 0:\n        return None\n\n    if len(arr) == 1:\n        return arr[0]\n\n    mid = len(arr) // 2\n    left_majority = majority_element(arr[:mid])\n    right_majority = majority_element(arr[mid:])\n\n    if left_majority == right_majority:\n        return left_majority\n\n    left_count = 0\n    for i in arr[:mid]:\n        if i == left_majority:\n            left_count += 1\n\n    right_count = 0\n    for i in arr[mid:]:\n        if i == right_majority:\n            right_count += 1\n\n    return left_majority if left_count > right_count else right_majority\n\n\ndef main():\n    print(\"Majority element: \" + str(majority_element([3, 3, 4, 2, 4, 4, 2, 5, 5, 5, 5, 2, 2, 2])))\n    print(\"Majority element: \" + str(majority_element([3, 2, 3])))\n    print(\"Majority element: \" + str(majority_element([1])))\n\n\nmain()"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    length = len(arr)\n    if length % 2 == 0:\n        return arr[length // 2]\n    else:\n        return arr[length // 2]\n\n\ndef test_majority_element():\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 6]) == 5\n    assert majority_element([1, 1, 1, 2, 2, 2]) == 1\n    assert majority_element([1, 1, 1, 2, 2]) == 1\n    assert majority_element([1, 2, 2, 3, 3, 3, 4, 4, 4, 4]) == 4\n    assert majority_element([1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4]) == 2\n\n\nif __name__ == \"__main__\":\n    test_majority_element()"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    The majority element exists in the array if it occurs more than n/2 times.\n    We can use a counter to keep count of the number of times the current element is encountered.\n    If the count becomes more than n/2, we return True.\n    If the counter becomes 0, we reset it to 1.\n    \"\"\"\n    counter = 0\n    majority_element = None\n\n    for num in arr:\n        if counter == 0:\n            majority_element = num\n        counter += 1 if num == majority_element else -1\n\n    return counter > 0\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 2, 4, 4, 4, 4, 5, 5, 5, 6]) is True\n    assert is_majority_element([1, 1, 1, 2, 2, 2, 3, 3, 3]) is True\n    assert is_majority_element([1, 1, 2, 2, 3, 4, 5]) is False"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def is_majority(arr, ele):\n    if ele in arr:\n        return arr.count(ele) > len(arr) // 2\n    return False\n\n\ndef majority(arr):\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n    mid = len(arr) // 2\n    if is_majority(arr[:mid], arr[mid]):\n        return arr[mid]\n    return majority(arr[:mid])\n\n\nif __name__ == \"__main__\":\n    print(majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 6]))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    return majority element in O(n)\n    \"\"\"\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n\n    majority_idx = len(arr) / 2\n    majority_element = None\n    for i in range(len(arr)):\n        if arr[i] == majority_element:\n            majority_idx -= 1\n        else:\n            majority_element = arr[i]\n            majority_idx += 1\n        if majority_idx == 0:\n            return majority_element\n\n    return None\n\n\nif __name__ == \"__main__\":\n    print(majority_element([2, 2, 2, 2, 3, 4, 4, 4, 4, 4]))"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def majority_element(arr: list) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if len(arr) == 1:\n        return arr[0]\n\n    mid = len(arr) // 2\n\n    left_half_majority = majority_element(arr[:mid])\n    right_half_majority = majority_element(arr[mid + 1:])\n\n    left_half_count = 0\n    right_half_count = 0\n\n    for i in arr:\n        if i == left_half_majority:\n            left_half_count += 1\n        elif i == right_half_majority:\n            right_half_count += 1\n\n    if left_half_count > right_half_count:\n        return left_half_majority\n    elif right_half_count > left_half_count:\n        return right_half_majority\n    else:\n        return -1\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 6]))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def is_majority(nums, target):\n    count = 0\n    for num in nums:\n        if num == target:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            break\n\n    return count > len(nums) / 2\n\n\ndef majority_element(nums):\n    target = nums[0]\n    for num in nums:\n        if is_majority(nums, num):\n            target = num\n            break\n\n    return target\n\n\nprint(majority_element([3, 3, 4, 2, 4, 4, 2, 4, 4]))"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "def is_majority(arr, element):\n    count = 0\n    for i in arr:\n        if i == element:\n            count += 1\n    if count > len(arr) / 2:\n        return True\n    else:\n        return False\n\ndef majority_element(arr):\n    majority = len(arr) / 2\n    for i in range(len(arr)):\n        if is_majority(arr[i:], arr[i]):\n            return arr[i]\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2, 3]))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "def find_majority(arr):\n    arr_len = len(arr)\n    if arr_len == 1:\n        return arr[0]\n    elif arr_len == 2:\n        return arr[0] if arr[0] == arr[1] else -1\n    else:\n        start = 0\n        end = arr_len - 1\n        while start < end:\n            mid = (start + end) // 2\n            if arr[mid] == arr[mid - 1]:\n                start = mid + 1\n            elif arr[mid] == arr[mid + 1]:\n                end = mid - 1\n            elif arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n                return arr[mid]\n            else:\n                start = mid + 1\n        return arr[start] if arr[start] > arr[start - 1] else -1\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 5, 5, 5, 6, 7, 8, 8, 8, 8, 8, 9, 10]\n    print(find_majority(arr))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def check_majority(lst, n):\n    for i in range(n):\n        if n // 2 < lst.count(lst[i]):\n            return lst[i]\n    return None\n\nlst = [1, 2, 3, 4, 5, 5, 5, 5, 5, 6]\nprint(check_majority(lst, len(lst)))"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    if len(arr) == 1:\n        return arr[0]\n\n    mid = len(arr) // 2\n    if arr[:mid] == arr[mid:]:\n        return arr[0]\n\n    return majority_element(arr[:mid]) if arr[:mid].count(arr[0]) > mid else majority_element(arr[mid:])\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3]))"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(nums: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(1)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(nums) == 1:\n        return True\n\n    n = len(nums)\n    # majority element must appear more than n/2 times\n    majority_count = n // 2 + 1\n\n    # check for majority element in the array\n    count = 0\n    for i in range(n):\n        if count == 0:\n            count += 1\n            continue\n\n        if nums[i] != nums[i - 1]:\n            count = 1\n        else:\n            count += 1\n\n        if count == majority_count:\n            return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([2, 2, 2, 2, 4, 5, 5, 5, 5, 5, 5]) == True\n    assert is_majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5]) == False"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(nums: List[int]) -> int:\n    \"\"\"\n    This problem can be solved by using a dictionary.\n    O(n)t | O(n)s\n    \"\"\"\n    majority_element = -1\n    count = 0\n\n    for num in nums:\n        if num == majority_element:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            majority_element = num\n            count = 1\n\n    return majority_element\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 5, 9, 5, 9, 5, 5, 5]) == 5\n    assert majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2]) == 1"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    n = len(arr)\n    index = 0\n\n    while index < n:\n        count = 0\n        for num in arr:\n            if num == arr[index]:\n                count += 1\n        if count > n // 2:\n            break\n        index += 1\n\n    if index == n:\n        return -1\n\n    return arr[index]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) == 5\n    assert majority_element([1, 2, 3, 4, 5, 6]) == -1"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "def is_majority(arr, n):\n    if n == 1:\n        return True\n    elif n == 2:\n        return arr[0] == arr[1]\n\n    mid = n // 2\n    if arr[mid] > arr[0]:\n        return is_majority(arr[mid:], n - mid)\n    else:\n        return is_majority(arr[1:], n - 1)\n\n\ndef majority_element(arr):\n    return is_majority(arr, len(arr))\n\n\ndef test_majority_element():\n    assert majority_element([1, 1, 1, 1, 2, 2, 2, 3, 3, 3])\n    assert majority_element([1, 1, 1, 2, 2, 2, 3, 3, 3, 3]) is False\n    assert majority_element([1, 1, 1, 2, 2, 2, 3, 3]) is False\n    assert majority_element([1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3])\n\n\nif __name__ == \"__main__\":\n    test_majority_element()"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "def find_majority(arr):\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    return arr[len(arr)//2]\n\nif __name__ == \"__main__\":\n    print(find_majority([1,2,3,4,5,5,5,5,5,5,5,6,7]))"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef is_majority(arr: List[int], target: int) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    count = 0\n\n    for el in arr:\n        if el == target:\n            count += 1\n\n    return count > len(arr) // 2\n\n\nif __name__ == \"__main__\":\n    assert is_majority([1, 2, 4, 4, 4, 4, 5, 5, 5], 4)\n    assert is_majority([1, 1, 1, 2, 3], 1) is False"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def check_majority_element(arr: list) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if len(arr) == 0:\n        return False\n\n    count = 0\n\n    for i in range(len(arr) - 1):\n        if arr[i] == arr[i + 1]:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            break\n\n    count = 0\n\n    for i in range(len(arr) - 1, -1, -1):\n        if arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            break\n\n    return count > 0\n\n\nif __name__ == \"__main__\":\n    print(check_majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]))\n    print(check_majority_element([1, 1, 1, 1, 1, 2, 2, 2, 2, 2]))\n    print(check_majority_element([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2]))"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def majority_element(lst):\n    \"\"\"\n    We have to check for majority element in a list of numbers.\n\n    Time Complexity: O(n)\n    \"\"\"\n    return len(lst) // 2\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 1, 1, 1, 1]))"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(nums: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    count = 1\n    for i in range(1, len(nums)):\n        if nums[i] == nums[i - 1]:\n            count += 1\n        else:\n            count = 1\n\n        if count > len(nums) // 2:\n            return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]) == True\n    assert majority_element([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3]) == False"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def is_majority_element(arr, mid):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == mid:\n            count += 1\n    if count > len(arr)/2:\n        return True\n    return False\n\n\ndef majority_element(arr):\n    if len(arr) == 1:\n        return arr[0]\n\n    mid = len(arr) // 2\n    if is_majority_element(arr, arr[mid]):\n        return arr[mid]\n    return majority_element(arr[:mid])\n\n\nprint(majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10]))"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef is_majority(arr: List[int], el: int) -> bool:\n    count = 0\n\n    for item in arr:\n        if item == el:\n            count += 1\n\n    return count > len(arr) // 2\n\n\nif __name__ == \"__main__\":\n    assert is_majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 6, 6], 5) is True\n    assert is_majority([1, 1, 1, 2, 2, 2, 3, 3, 3], 1) is True\n    assert is_majority([1, 1, 1, 2, 2, 2, 3, 3, 3], 2) is True\n    assert is_majority([1, 1, 1, 2, 2, 2, 3, 3, 3], 3) is True\n    assert is_majority([1, 1, 1, 2, 2, 2, 3, 3, 3], 10) is False"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "def majority_element(arr):\n    count = 0\n    for i in arr:\n        if count == 0:\n            candidate = i\n            count = 1\n        elif candidate == i:\n            count += 1\n        else:\n            count -= 1\n    count = 0\n    for i in arr:\n        if i == candidate:\n            count += 1\n    if count > len(arr) / 2:\n        return True\n    else:\n        return False\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 5, 5, 6, 6, 6]\n    print(majority_element(arr))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "def majority_element(arr: list) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    count = 1\n\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            count = 1\n\n        if count > len(arr) // 2:\n            return arr[i]\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]) == 4\n    assert majority_element([1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]) == -1"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not nums:\n        return 0\n\n    count = 1\n    majority_index = 0\n\n    for i in range(1, len(nums)):\n        if nums[i] == nums[majority_index]:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            majority_index = i\n            count = 1\n\n    return nums[majority_index]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 1, 1, 2, 1]) == 1\n    assert majority_element([1, 2, 3, 4, 5, 5]) == 5\n    assert majority_element([1, 1, 1, 4, 5, 5]) == 1\n    assert majority_element([1, 1, 1, 4, 4, 4]) == 4"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef check_majority(arr: List[int]) -> bool:\n    \"\"\"\n    time: O(n)\n    space: O(1)\n    \"\"\"\n\n    def helper(i: int, j: int) -> bool:\n        if j - i + 1 <= 2:\n            return False\n        mid = (i + j) // 2\n        if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return True\n        return helper(i, mid) or helper(mid, j)\n\n    return helper(0, len(arr) - 1)\n\n\nif __name__ == \"__main__\":\n    print(check_majority([1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "def check_majority(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(arr) == 0:\n        return False\n\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            count += 1\n        elif arr[i] == arr[i-1]:\n            count += 1\n        else:\n            count -= 1\n\n    return count > len(arr) / 2\n\n\nif __name__ == \"__main__\":\n    assert check_majority([1, 1, 2]) is True\n    assert check_majority([1, 1, 1, 1, 2, 2, 2]) is True\n    assert check_majority([1, 1, 2, 2, 2]) is False"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "def check_majority(arr, n):\n\tif n == 1:\n\t\treturn arr[0]\n\tif n == 2:\n\t\treturn arr[0] if arr[0] == arr[1] else -1\n\tmid = n//2\n\tif arr[mid] == arr[mid-1]:\n\t\treturn check_majority(arr[mid:], n-mid)\n\treturn arr[mid]\n\narr = [1, 1, 1, 1, 2, 1]\nprint(check_majority(arr, len(arr)))"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_majority(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    majority = len(arr) // 2\n\n    i = 0\n    count = 1\n\n    while i < len(arr):\n        if count == 0:\n            count = 1\n            i += 1\n        elif arr[i] == arr[i - 1]:\n            count += 1\n            i += 1\n        else:\n            count -= 1\n\n        if count > majority:\n            return arr[i - 1]\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_majority([1, 2, 5, 9, 5, 9, 5, 5, 5]) == 5\n    assert find_majority([1, 1, 1, 2, 2, 3]) == -1\n    assert find_majority([1, 2, 5, 5, 5, 5, 5, 5, 5]) == 5"
+    },
+    {
+      "rank": 61,
+      "score": 3.0,
+      "candidate": "from typing import Optional\n\n\ndef is_majority_element(arr: list[int], target: int) -> bool:\n    \"\"\"\n    Time Complexity: O(1)\n    Space Complexity: O(1)\n    \"\"\"\n    if arr[0] == arr[-1]:\n        return True\n\n    count = 0\n    for num in arr:\n        if num == target:\n            count += 1\n        else:\n            count -= 1\n\n    return count > 0\n\n\ndef is_majority_element_efficient(arr: list[int], target: int) -> bool:\n    \"\"\"\n    Time Complexity: O(logn)\n    Space Complexity: O(1)\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return is_majority_element(arr[:mid], target) or is_majority_element(arr[mid + 1 :], target)\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return False\n\n\ndef majority_element(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if arr[0] == arr[-1]:\n        return arr[0]\n\n    count = 0\n    for num in arr:\n        if count == 0:\n            candidate = num\n        count += 1 if candidate == num else -1\n\n    return candidate if arr.count(candidate) > len(arr) // 2 else None\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 1, 1, 1, 1, 1, 2, 2, 2], 1) == True\n    assert is_majority_element([1, 1, 1, 1, 1, 1, 2, 2, 2], 2) == False\n    assert is_majority"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef is_majority(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    majority_element = arr[len(arr) // 2]\n    count = 0\n\n    for el in arr:\n        if el == majority_element:\n            count += 1\n\n    return count > len(arr) // 2\n\n\nif __name__ == \"__main__\":\n    assert is_majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6]) is True\n    assert is_majority([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]) is False"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "def is_majority(arr, num):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == num:\n            count += 1\n    if count > len(arr)/2:\n        return True\n    return False\n\n\ndef majority_element(arr):\n    # TODO: Write your code here\n    return arr[len(arr)//2]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 3, 4, 4, 4]\n    result = majority_element(arr)\n    print(result)"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    count = 0\n\n    for elem in arr:\n        if count == 0:\n            candidate = elem\n        count += 1 if elem == candidate else -1\n\n    return candidate if arr.count(candidate) > len(arr) // 2 else -1\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 1, 1, 1, 2, 2, 2]) == 1\n    assert majority_element([2, 2, 2, 2, 2, 2, 2]) == 2\n    assert majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9]) == -1"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef is_majority(arr: list[int], target: int) -> bool:\n    count = 0\n\n    for item in arr:\n        if item == target:\n            count += 1\n\n    return count > len(arr) // 2\n\n\ndef majority_element(arr: list[int]) -> Optional[int]:\n    if not arr:\n        return None\n\n    length = len(arr)\n    mid = length // 2\n\n    for i in range(length):\n        if is_majority(arr[:i], arr[i]):\n            return arr[i]\n        if is_majority(arr[i + 1 :], arr[i]):\n            return arr[i]\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5]) == 3\n    assert majority_element([1, 2, 3, 3, 3]) == 3\n    assert majority_element([1, 2, 3, 3, 3, 4, 4, 4]) is None"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef is_majority_element(array: list[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if len(array) == 0:\n        return False\n\n    majority_index = len(array) // 2\n    majority_count = 0\n    for num in array:\n        if num == array[majority_index]:\n            majority_count += 1\n\n    return majority_count > majority_index\n\n\ndef is_majority_element_optimized(array: list[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if len(array) == 0:\n        return False\n\n    majority_index = len(array) // 2\n    return (\n        (array[0] == array[majority_index])\n        and (array[majority_index] == array[-1])\n        and (array[0] == array[-1])\n    )\n\n\ndef majority_element(array: list[int]) -> Optional[int]:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if len(array) == 0:\n        return None\n\n    majority_index = len(array) // 2\n    majority_count = 0\n    for num in array:\n        if num == array[majority_index]:\n            majority_count += 1\n\n    if majority_count > majority_index:\n        return array[majority_index]\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 2, 3, 4, 5]) is False\n    assert is_majority_element([1, 2, 2, 3, 3, 4, 4, 4]) is False\n    assert is_majority_element([1, 1, 1, 2, 3, 3, 3]) is True\n    assert is_majority_element([2, 2, 2, 2, 2, 2]) is True\n    assert is_majority_element([1, 1"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef check_majority_element(array: list[int]) -> Optional[int]:\n    \"\"\"\n    O(1) solution.\n    \"\"\"\n    length = len(array)\n\n    if length == 0:\n        return None\n\n    # find the middle element\n    middle = length // 2\n\n    # if the length is odd, the middle element is the majority element\n    if length % 2 == 1:\n        return array[middle]\n\n    # if the length is even, the majority element is the middle element if it is\n    # greater than the average of both the first and last elements, else it is\n    # the first element.\n    if array[middle] > (array[0] + array[length - 1]) / 2:\n        return array[middle]\n\n    return array[0]\n\n\nif __name__ == \"__main__\":\n    assert check_majority_element([]) is None\n    assert check_majority_element([1]) is None\n    assert check_majority_element([1, 1]) == 1\n    assert check_majority_element([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) == 1\n    assert check_majority_element([1, 2, 3, 4, 5, 6]) is None\n    assert check_majority_element([1, 1, 2, 3, 3, 3, 3, 3]) == 3"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "def is_majority_element(arr, n):\n    if n == 1:\n        return True\n\n    mid = n // 2\n    if arr[mid] > arr[mid - 1]:\n        return is_majority_element(arr[:mid], mid) or is_majority_element(arr[mid:], n - mid)\n    else:\n        return False\n\n\ndef test_is_majority_element():\n    assert is_majority_element([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], 40)\n    assert is_majority_element([1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], 40)\n    assert not is_majority_element([1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1], 40)"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_for_majority(nums: List[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if not nums:\n        return False\n\n    n = len(nums)\n    major = nums[n // 2]\n    count = 0\n    for num in nums:\n        if num == major:\n            count += 1\n        elif count == 0:\n            major = num\n            count = 1\n        else:\n            count -= 1\n\n    return count > n // 2\n\n\nif __name__ == \"__main__\":\n    assert check_for_majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 6]) is True\n    assert check_for_majority([1, 2, 3, 4, 5, 6]) is False"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    count = 0\n    for i in arr:\n        if count == 0:\n            candidate = i\n            count += 1\n        elif candidate == i:\n            count += 1\n        else:\n            count -= 1\n\n    count = 0\n    for i in arr:\n        if i == candidate:\n            count += 1\n\n    if count > len(arr) // 2:\n        return candidate\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6]) == -1\n    assert majority_element([1, 2, 3, 4, 5, 6, 7]) == -1\n    assert majority_element([1, 1, 1, 2, 3, 3, 3, 4, 4, 4, 4, 5, 6]) == 1\n    assert majority_element([1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]) == 3\n    assert majority_element([1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]) == -1"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    majority = len(arr) / 2\n    prev_elem = arr[0]\n    count = 1\n    for elem in arr[1:]:\n        if prev_elem == elem:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                prev_elem = elem\n                count = 1\n        if count > majority:\n            return prev_elem\n    return None\n\n\nassert majority_element([1, 1, 2, 2, 2]) is None\nassert majority_element([1, 2, 2, 2, 2]) == 2\nassert majority_element([1, 2, 2, 2, 2, 2, 2, 2, 2, 2]) == 2"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "def majority_element(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    mid = len(arr) // 2\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[mid]:\n            count += 1\n    if count > len(arr) // 2:\n        return True\n    return False\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) is True\n    assert majority_element([1, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3]) is True\n    assert majority_element([1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]) is False"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    length = len(arr)\n    majority_element = -1\n    count = 0\n\n    for i in range(length):\n        if count == 0:\n            majority_element = arr[i]\n            count += 1\n        elif majority_element == arr[i]:\n            count += 1\n        else:\n            count -= 1\n\n    count = 0\n\n    for i in range(length):\n        if majority_element == arr[i]:\n            count += 1\n\n    if count > length / 2:\n        return majority_element\n    else:\n        return -1\n\n\nif __name__ == \"__main__\":\n    assert find_majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) == 5\n    assert find_majority_element([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4]) == -1"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef majority_element(arr: list, left: int, right: int) -> Optional[int]:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n    if left > right:\n        return None\n\n    mid: int = (left + right) // 2\n\n    if arr[mid] > arr[mid - 1]:\n        if arr[mid] > arr[mid + 1]:\n            return arr[mid]\n\n    return majority_element(arr, left, mid - 1) or majority_element(\n        arr, mid + 1, right\n    )\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 6, 6, 6], 0, 10) == 5"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "def is_majority(arr, n, x):\n    \"\"\"\n    :param: arr - input array\n    :param: n - size of the array\n    :param: x - element to be checked\n    return boolean denoting if element x occurs > n/2 times\n    \"\"\"\n    # Your code goes here\n    if n % 2 == 0:\n        if arr[n // 2 - 1] == x and arr[n // 2] == x:\n            return True\n        else:\n            return False\n    else:\n        if arr[n // 2] == x:\n            return True\n        else:\n            return False\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    n = len(arr)\n    output = is_majority(arr, n, solution)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 1, 2]\nsolution = True\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [3, 3, 3, 3, 3, 3, 3, 5]\nsolution = True\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 2, 5, 9, 10, 11, 12]\nsolution = False\ntest_case = [arr, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "def majority_element(arr, n):\n    count = 0\n    for i in range(0, n):\n        if count == 0:\n            count = 1\n            majority = arr[i]\n        elif arr[i] == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\ndef test_majority_element():\n    assert majority_element([1, 2, 2, 2, 3], 5) == 2\n    assert majority_element([1, 2, 3, 4], 4) == -1\n    assert majority_element([1], 1) == 1\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5], 10) == 5\n\n\nif __name__ == \"__main__\":\n    test_majority_element()"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(arr) == 0:\n        return -1\n\n    majority_index: int = 0\n    count: int = 1\n\n    for i in range(1, len(arr)):\n        if arr[i] != arr[majority_index]:\n            count -= 1\n            if count == 0:\n                majority_index = i\n                count = 1\n        else:\n            count += 1\n\n    return arr[majority_index]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 1, 2, 1]) == 1\n    assert majority_element([1, 1, 1, 2, 2, 2]) == -1"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef majority_element(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    O(n)\n    \"\"\"\n    candidate: Optional[int] = None\n    count = 0\n\n    for elem in arr:\n        if count == 0:\n            candidate = elem\n            count += 1\n        elif elem == candidate:\n            count += 1\n        else:\n            count -= 1\n\n    count = 0\n    for elem in arr:\n        if elem == candidate:\n            count += 1\n\n    return candidate if count > len(arr) // 2 else None\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2]) == 1\n    assert majority_element([1, 1, 2]) is None\n    assert majority_element([1, 2, 3, 4, 5]) is None"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "def is_majority_element(arr):\n    length = len(arr)\n    if length == 1:\n        return True\n    if length % 2 != 0:\n        return arr[length//2]\n    else:\n        return arr[length//2] == arr[length//2 - 1]\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]) == True\n    assert is_majority_element([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) == True\n    assert is_majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == False\n    assert is_majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == False\n    assert is_majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) == False\n    assert is_majority_element([1, 1, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6,"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "def is_majority_element(arr, n):\n    if len(arr) == 0:\n        return False\n    elif len(arr) == 1:\n        return True\n\n    # Find the majority element.\n    mid = len(arr) // 2\n    if n % 2 == 0:\n        maj_ele = (arr[mid - 1] + arr[mid]) // 2\n    else:\n        maj_ele = arr[mid]\n\n    # Find the first element greater than or equal to maj_ele\n    i = 0\n    while arr[i] < maj_ele:\n        i += 1\n\n    # Count the number of elements equal to maj_ele\n    count = 0\n    while i < n and arr[i] == maj_ele:\n        i += 1\n        count += 1\n\n    if count > n // 2:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6]\n    print(is_majority_element(arr, len(arr)))\n\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(is_majority_element(arr, len(arr)))\n\n    arr = [1, 1, 1, 1, 1, 1, 1, 1, 1]\n    print(is_majority_element(arr, len(arr)))\n\n    arr = [1, 1, 1, 1, 1, 1, 1, 2, 2]\n    print(is_majority_element(arr, len(arr)))"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "def check_majority(nums: list, target: int) -> bool:\n    \"\"\"\n    O(n)\n    \"\"\"\n    count = 0\n\n    for num in nums:\n        if num == target:\n            count += 1\n\n    return count > len(nums) // 2\n\n\nif __name__ == \"__main__\":\n    assert check_majority([1, 2, 3, 2, 3, 2, 3], 3) is True\n    assert check_majority([1, 2, 3, 4, 5, 6, 7], 3) is False"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "def check_majority(arr):\n    n = len(arr)\n    if n == 0:\n        return -1\n\n    count = 0\n    curr_ele = arr[0]\n    for i in range(n):\n        if arr[i] == curr_ele:\n            count += 1\n        else:\n            curr_ele = arr[i]\n            count = 1\n        if count > n//2:\n            return curr_ele\n\n    return -1\n\nif __name__ == \"__main__\":\n    arr = [2, 2, 2, 3, 4, 5, 5, 5]\n    print(check_majority(arr))\n    arr = [1, 1, 2, 3, 4, 4, 4]\n    print(check_majority(arr))\n    arr = [1, 1, 1, 1, 1, 1, 1, 2]\n    print(check_majority(arr))\n    arr = [2, 3, 4, 5, 6, 7, 8, 9]\n    print(check_majority(arr))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef check_majority_element(arr):\n    \"\"\"\n    :param: arr - input array\n    return: True if majority element exists in Counter, else False\n    \"\"\"\n    if not arr:\n        return False\n\n    counter = Counter(arr)\n\n    return max(counter.values()) > len(arr) / 2\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = check_majority_element(arr)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [2, 2, 2, 3, 3, 3, 4, 4, 4, 4]\nsolution = True\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 1, 2, 2, 2]\nsolution = False\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [2, 3, 3, 4, 4, 4, 4]\nsolution = True\ntest_case = [arr, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_for_majority(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    majority = len(arr) / 2\n\n    count = 1\n\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            count = 1\n\n        if count > majority:\n            return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert check_for_majority([1, 2, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6]) is True\n    assert check_for_majority([1, 1, 1, 2, 3, 3, 3, 4, 4, 4, 4]) is True\n    assert check_for_majority([1, 1, 2, 3, 3, 3, 4, 4, 4, 4]) is False"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "def find_majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            majority = arr[i]\n            count += 1\n        elif majority == arr[i]:\n            count += 1\n        else:\n            count -= 1\n    count = 0\n    for i in range(len(arr)):\n        if majority == arr[i]:\n            count += 1\n    if count > len(arr)/2:\n        return True\n    return False\n\n\ndef test_majority():\n    assert find_majority([2, 2, 2, 3]) == True\n    assert find_majority([2, 2, 3, 3]) == False\n\n\nif __name__ == '__main__':\n    test_majority()"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_for_majority(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(1)\n    Space Complexity: O(1)\n    \"\"\"\n    majority_element_count = 0\n    majority_element = arr[0]\n\n    for num in arr:\n        if majority_element_count == 0:\n            majority_element = num\n            majority_element_count += 1\n        elif majority_element == num:\n            majority_element_count += 1\n        else:\n            majority_element_count -= 1\n\n    count = 0\n\n    for num in arr:\n        if num == majority_element:\n            count += 1\n\n    return count > len(arr) / 2\n\n\nif __name__ == \"__main__\":\n    assert check_for_majority([1, 1, 2]) is True\n    assert check_for_majority([1, 1, 1, 1, 2, 1]) is True\n    assert check_for_majority([1, 1, 1, 2, 1]) is False"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    majority = len(arr) // 2\n\n    for i in range(len(arr)):\n        if arr[i] == arr[i + 1]:\n            majority -= 1\n        if arr[i] == arr[i - 1]:\n            majority -= 1\n        if majority == 0:\n            return arr[i]\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]) == 5"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_for_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    length = len(arr)\n\n    if length <= 2:\n        return False\n\n    majority_element_count = 0\n\n    for i in range(length):\n        if majority_element_count == 0:\n            majority_element = arr[i]\n            majority_element_count += 1\n        elif arr[i] == majority_element:\n            majority_element_count += 1\n        else:\n            majority_element_count -= 1\n\n    return majority_element_count > length // 2\n\n\nif __name__ == \"__main__\":\n    assert check_for_majority_element([2, 2, 2, 2]) == True\n    assert check_for_majority_element([2, 3, 4, 5]) == False\n    assert check_for_majority_element([2, 2, 3, 3, 3, 3, 3, 3, 3, 3]) == True"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "def is_majority(arr, el):\n    \"\"\"\n    :param: arr - input array\n    :param: el - candidate major element\n    return: boolean - true if el is majority element in arr\n    \"\"\"\n    majority_count = 0\n    for i in range(len(arr)):\n        if arr[i] == el:\n            majority_count += 1\n    if majority_count > len(arr) / 2:\n        return True\n    return False\n\n\ndef majority_element(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - majority element in arr\n    \"\"\"\n    for el in arr:\n        if is_majority(arr, el):\n            return el\n    return None\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = majority_element(arr)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 2, 5, 9, 5, 9, 5, 5, 5]\nsolution = 5\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 1, 2, 2]\nsolution = None\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [10, 20, 30, 40, 50, 11, 11, 11]\nsolution = 11\ntest_case = [arr, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(1)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        return False\n\n    n = len(arr)\n    mid = n // 2\n\n    return (arr[mid] - arr[0]) * 2 > n\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 6]) is True\n    assert is_majority_element([1, 1, 1, 1, 1, 2, 3]) is False"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "def check_majority(arr):\n    if len(arr) == 0:\n        return None\n    count = 0\n    for i in range(len(arr)):\n        if i == 0:\n            count += 1\n        elif arr[i] == arr[i-1]:\n            count += 1\n        else:\n            count -= 1\n        if count == 0:\n            return None\n    return arr[i]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2]\n    assert check_majority(arr) == 1\n    arr = [1, 2, 2, 3, 3, 3, 3, 3]\n    assert check_majority(arr) is None"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef check_majority(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    Idea:\n        Check the middle element\n        If it is majority, return it\n        If it is not majority, check the left and right sides\n\n    Time Complexity: O(logN)\n    Space Complexity: O(1)\n    \"\"\"\n    n = len(arr)\n\n    if n == 1:\n        return arr[0]\n\n    mid = n // 2\n\n    if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n        return arr[mid]\n\n    left_majority = check_majority(arr[:mid])\n    right_majority = check_majority(arr[mid + 1 :])\n\n    if left_majority and right_majority:\n        return left_majority if left_majority == right_majority else None\n    if left_majority:\n        return left_majority\n    if right_majority:\n        return right_majority\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert check_majority([1, 2, 5, 9, 11, 12]) is None\n    assert check_majority([1, 1, 1, 2, 2, 2, 3]) == 1\n    assert check_majority([1, 1, 1, 2, 2, 2, 2]) is None"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    majority_element = arr[len(arr) // 2]\n    count = 0\n\n    for elem in arr:\n        if elem == majority_element:\n            count += 1\n\n    return count > len(arr) // 2\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 2, 4, 4, 4, 4, 5, 5, 5, 6]) is True\n    assert is_majority_element([1, 1, 2, 2, 3, 3, 3, 4, 4]) is False"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "from typing import Optional\n\n\ndef is_majority(arr: list[int], target: int) -> bool:\n    \"\"\"\n    Idea is to use two pointers and see if the difference between the two\n    is greater than 1.\n\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    start: int = 0\n    end: int = len(arr) - 1\n\n    while start <= end:\n        mid: int = (start + end) // 2\n        if arr[mid] == target:\n            if arr[mid] == arr[mid - 1] == arr[mid + 1]:\n                return True\n            elif arr[mid] == arr[mid - 1]:\n                end = mid - 1\n            elif arr[mid] == arr[mid + 1]:\n                start = mid + 1\n            else:\n                return False\n        elif arr[mid] < target:\n            start = mid + 1\n        else:\n            end = mid - 1\n\n    return False\n\n\ndef majority_element(arr: list[int]) -> Optional[int]:\n    \"\"\"\n    Idea is to use two pointers and see if the difference between the two\n    is greater than 1.\n\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    start: int = 0\n    end: int = len(arr) - 1\n\n    while start <= end:\n        mid: int = (start + end) // 2\n        if arr[mid] == arr[mid - 1] == arr[mid + 1]:\n            return arr[mid]\n        elif arr[mid] == arr[mid - 1]:\n            end = mid - 1\n        elif arr[mid] == arr[mid + 1]:\n            start = mid + 1\n        else:\n            return None\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert is_majority([1, 2, 3, 4, 5, 5, 5, 5, 6, 7, 10, 11, 12],"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "def is_majority(arr, el):\n    if len(arr) == 0:\n        return False\n\n    count = 0\n    start = 0\n    end = len(arr) - 1\n\n    while start <= end:\n        mid = (start + end) // 2\n\n        if arr[mid] == el:\n            count += 1\n            start = mid + 1\n        elif arr[mid] < el:\n            start = mid + 1\n        else:\n            end = mid - 1\n\n    return count > len(arr) // 2\n\n\narr = [1, 2, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6]\n\nprint(is_majority(arr, 4))"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef check_majority(arr: List[int]) -> int:\n    \"\"\"\n    Idea is to check if the middle element is majority.\n    If it is, then we have majority element.\n    If it is not, then we check if the number of elements on left side\n    of middle element are more than the number of elements on right side.\n    If so, then we have majority element, else we don't have majority element.\n\n    Time Complexity: O(1)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    if len(arr) == 1:\n        return arr[0]\n\n    mid = len(arr) // 2\n\n    if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n        return arr[mid]\n\n    left_count = 0\n    right_count = 0\n\n    for i in range(mid):\n        if arr[i] == arr[mid]:\n            left_count += 1\n\n    for i in range(mid + 1, len(arr)):\n        if arr[i] == arr[mid]:\n            right_count += 1\n\n    if left_count > right_count:\n        return arr[mid]\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert check_majority([2, 3, 3, 4, 4, 4, 4]) == 4\n    assert check_majority([1, 2, 3, 4, 4, 4, 4]) is None\n    assert check_majority([2, 3, 3, 4, 4, 4, 1]) is None"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef is_majority_element(arr: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(1)\n    Space Complexity: O(1)\n    \"\"\"\n    majority_element = arr[len(arr) // 2]\n\n    left = 0\n    right = len(arr) - 1\n\n    while left <= right:\n        middle = (left + right) // 2\n        if arr[middle] == majority_element:\n            left = middle + 1\n            right = middle - 1\n        elif arr[middle] > majority_element:\n            right = middle - 1\n        else:\n            left = middle + 1\n\n    return left == len(arr) or right == -1\n\n\nif __name__ == \"__main__\":\n    assert is_majority_element([1, 2, 5, 9, 5, 9, 5, 5, 5]) is True\n    assert is_majority_element([1, 1, 4, 4, 4, 4]) is True\n    assert is_majority_element([1, 1, 1, 2, 2, 2]) is False"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "def check_majority(arr, n):\n    if len(arr) == 0:\n        return 0\n    if n == 1:\n        return arr[0]\n    if arr[n//2] != arr[n//2 - 1]:\n        return arr[n//2]\n    if arr[n//2] == arr[0]:\n        return arr[0]\n    return arr[n - 1]\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 5, 5, 5, 6, 7, 8, 9]\n    print(check_majority(arr, len(arr)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef majority_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    maj_index = 0\n    count = 0\n\n    for i in range(len(arr)):\n        if count == 0:\n            maj_index = i\n            count += 1\n        elif arr[i] == arr[maj_index]:\n            count += 1\n        else:\n            count -= 1\n\n    return arr[maj_index]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 5, 9, 5, 9, 5, 5, 5]) == 5"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_majority(nums: List[int]) -> int:\n    \"\"\"\n    Idea is to use two pointers and slide them in opposite directions.\n    If the sum of elements between them is 0, then move one pointer.\n    If the sum is positive, then move both pointers,\n    if the sum is negative, then move both pointers.\n    This way, in the end, the sum of elements between the pointers will be 0.\n\n    For this to work, the array needs to be sorted.\n    The majority element will be present at least n/2 times,\n    so the sum of elements between the pointers will be >= n/2.\n    \"\"\"\n    majority = 0\n    count = 0\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        if count == 0:\n            majority = nums[left]\n            count += 1\n            left += 1\n        elif majority == nums[left]:\n            count += 1\n            left += 1\n        elif majority == nums[right]:\n            count -= 1\n            right -= 1\n        else:\n            count -= 1\n            right -= 1\n\n    return majority\n\n\nif __name__ == \"__main__\":\n    assert find_majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6]) == 5\n    assert find_majority([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]) == 1\n    assert find_majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]) == 3\n    assert find_majority([1, 1, 1"
+    }
+  ]
+}

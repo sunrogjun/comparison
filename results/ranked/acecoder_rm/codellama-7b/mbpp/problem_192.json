@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/203",
+    "prompt": "Write a python function to find the hamming distance between given two integers.",
+    "canonical_solution": "def hamming_Distance(n1,n2) : \r\n    x = n1 ^ n2  \r\n    setBits = 0\r\n    while (x > 0) : \r\n        setBits += x & 1\r\n        x >>= 1\r\n    return setBits  ",
+    "test_list": [
+      "assert hamming_Distance(4,8) == 2",
+      "assert hamming_Distance(2,4) == 2",
+      "assert hamming_Distance(1,2) == 2"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 192
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def hamming_distance(n1: int, n2: int) -> int:\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(15, 9)\n    4\n    >>> hamming_distance(21, 22)\n    1\n    \"\"\"\n    xor_value = n1 ^ n2\n    count = 0\n\n    while xor_value:\n        if xor_value & 1:\n            count += 1\n        xor_value >>= 1\n    return count\n\n\ndef hamming_distance_using_bin(n1: int, n2: int) -> int:\n    \"\"\"\n    >>> hamming_distance_using_bin(1, 4)\n    2\n    >>> hamming_distance_using_bin(15, 9)\n    4\n    >>> hamming_distance_using_bin(21, 22)\n    1\n    \"\"\"\n    xor_value = n1 ^ n2\n    bin_value = bin(xor_value)\n    return bin_value.count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      15.9375
+    ],
+    [
+      "def hamming_distance(x, y):\n    z = x ^ y\n    count = 0\n    while z:\n        count += z & 1\n        z >>= 1\n    return count\n\n\ndef main():\n    x = int(input(\"Enter the first number: \"))\n    y = int(input(\"Enter the second number: \"))\n    print(f\"The hamming distance between {x} and {y} is {hamming_distance(x, y)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      14.2734375
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(3, 1)\n    1\n    >>> hamming_distance(1, 1)\n    0\n    \"\"\"\n    bin_num1 = bin(num1)[2:]\n    bin_num2 = bin(num2)[2:]\n\n    if len(bin_num1) < len(bin_num2):\n        bin_num1 = bin_num1.rjust(len(bin_num2), '0')\n    elif len(bin_num1) > len(bin_num2):\n        bin_num2 = bin_num2.rjust(len(bin_num1), '0')\n\n    hamming_distance = 0\n\n    for i in range(len(bin_num1)):\n        if bin_num1[i] != bin_num2[i]:\n            hamming_distance += 1\n\n    return hamming_distance\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      14.203125
+    ],
+    [
+      "def hamming_distance(n1, n2):\n    \"\"\"\n    >>> hamming_distance(10, 12)\n    2\n    \"\"\"\n    n1_bin = bin(n1)[2:]\n    n2_bin = bin(n2)[2:]\n\n    max_len = max(len(n1_bin), len(n2_bin))\n    n1_bin = n1_bin.zfill(max_len)\n    n2_bin = n2_bin.zfill(max_len)\n\n    distance = 0\n    for i in range(len(n1_bin)):\n        if n1_bin[i] != n2_bin[i]:\n            distance += 1\n\n    return distance\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      14.15625
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    Returns the hamming distance between two integers\n    >>> hamming_distance(10,11)\n    1\n    >>> hamming_distance(12,21)\n    2\n    >>> hamming_distance(32,42)\n    3\n    >>> hamming_distance(10,20)\n    2\n    >>> hamming_distance(2,3)\n    1\n    >>> hamming_distance(2,4)\n    2\n    \"\"\"\n    x_bin = bin(x)[2:]\n    y_bin = bin(y)[2:]\n    x_len = len(x_bin)\n    y_len = len(y_bin)\n    diff = abs(x_len - y_len)\n    if x_len < y_len:\n        x_bin = \"0\" * diff + x_bin\n    elif y_len < x_len:\n        y_bin = \"0\" * diff + y_bin\n    return sum(int(x_bin[i]) != int(y_bin[i]) for i in range(len(x_bin)))\n\nprint(hamming_distance(10,11))\nprint(hamming_distance(12,21))\nprint(hamming_distance(32,42))\nprint(hamming_distance(10,20))\nprint(hamming_distance(2,3))\nprint(hamming_distance(2,4))",
+      13.671875
+    ],
+    [
+      "def hamming_distance(x: int, y: int) -> int:\n    \"\"\"\n    Find the hamming distance between two integers.\n    >>> hamming_distance(10, 11)\n    1\n    >>> hamming_distance(10, 12)\n    1\n    >>> hamming_distance(10, 13)\n    2\n    >>> hamming_distance(10, 14)\n    2\n    >>> hamming_distance(10, 15)\n    2\n    \"\"\"\n    return bin(x ^ y).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      13.34375
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    Find the hamming distance between two numbers.\n\n    >>> hamming_distance(10, 11)\n    1\n    >>> hamming_distance(10, 100)\n    2\n    \"\"\"\n    bin_a = bin(a)[2:]\n    bin_b = bin(b)[2:]\n    distance = len(bin_a) - len(bin_b)\n    if distance < 0:\n        distance = -distance\n        bin_a, bin_b = bin_b, bin_a\n    bin_a = \"0\" * distance + bin_a\n    return sum(int(a != b) for a, b in zip(bin_a, bin_b))\n\n\ndef hamming_distance_bitwise(a, b):\n    \"\"\"\n    Find the hamming distance between two numbers.\n\n    >>> hamming_distance(10, 11)\n    1\n    >>> hamming_distance(10, 100)\n    2\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      12.4453125
+    ],
+    [
+      "def hamming_distance(a, b):\n    xor_result = a ^ b\n    count = 0\n    while xor_result > 0:\n        if xor_result & 1:\n            count += 1\n        xor_result = xor_result >> 1\n    return count\n\n\ndef main():\n    a = int(input(\"Enter first number: \"))\n    b = int(input(\"Enter second number: \"))\n    print(hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      11.953125
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    Find the hamming distance between two integers.\n\n    >>> hamming_distance(10, 11)\n    1\n    >>> hamming_distance(100, 104)\n    2\n    >>> hamming_distance(100, 100)\n    0\n    \"\"\"\n    # convert the integers to binary strings\n    a_str = bin(a)[2:]\n    b_str = bin(b)[2:]\n\n    # make them equal in length\n    if len(a_str) < len(b_str):\n        a_str = a_str.zfill(len(b_str))\n    else:\n        b_str = b_str.zfill(len(a_str))\n\n    # find the hamming distance\n    count = 0\n    for i in range(len(a_str)):\n        if a_str[i] != b_str[i]:\n            count += 1\n\n    return count\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n    a = int(input(\"Enter the first integer: \"))\n    b = int(input(\"Enter the second integer: \"))\n    print(\"The hamming distance is:\", hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      11.921875
+    ],
+    [
+      "def hamming_distance(a, b):\n    a_bin = bin(a)[2:]\n    b_bin = bin(b)[2:]\n    if len(a_bin) < len(b_bin):\n        a_bin = \"0\" * (len(b_bin) - len(a_bin)) + a_bin\n    elif len(a_bin) > len(b_bin):\n        b_bin = \"0\" * (len(a_bin) - len(b_bin)) + b_bin\n    count = 0\n    for i in range(len(a_bin)):\n        if a_bin[i] != b_bin[i]:\n            count += 1\n    return count\n\n\ndef main():\n    print(\"Hamming Distance: \" + str(hamming_distance(56, 12)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      10.8515625
+    ],
+    [
+      "def hamming_distance(a, b):\n    a_bin = bin(a)[2:]\n    b_bin = bin(b)[2:]\n\n    max_len = max(len(a_bin), len(b_bin))\n\n    a_bin = a_bin.zfill(max_len)\n    b_bin = b_bin.zfill(max_len)\n\n    hamming_distance = 0\n\n    for i in range(len(a_bin)):\n        if a_bin[i] != b_bin[i]:\n            hamming_distance += 1\n\n    return hamming_distance\n\n\nprint(hamming_distance(1, 1))\nprint(hamming_distance(1, 2))\nprint(hamming_distance(5, 10))\nprint(hamming_distance(10, 5))\nprint(hamming_distance(10, 10))",
+      10.7421875
+    ],
+    [
+      "def hamming_distance(number_1, number_2):\n    \"\"\"\n    This function calculates the hamming distance between two numbers.\n\n    >>> hamming_distance(1, 1)\n    0\n    >>> hamming_distance(1, 2)\n    2\n    >>> hamming_distance(10, 12)\n    2\n    >>> hamming_distance(10, 10)\n    0\n    >>> hamming_distance(100, 12)\n    2\n    >>> hamming_distance(100, 1200)\n    4\n    >>> hamming_distance(100, 1210)\n    5\n    >>> hamming_distance(100, 12100)\n    5\n    \"\"\"\n    number_1 = bin(number_1)[2:]\n    number_2 = bin(number_2)[2:]\n    if len(number_1) < len(number_2):\n        number_1 = \"0\" * (len(number_2) - len(number_1)) + number_1\n    elif len(number_2) < len(number_1):\n        number_2 = \"0\" * (len(number_1) - len(number_2)) + number_2\n    return sum([int(i) for i in list(map(lambda x: x[0] != x[1], zip(number_1, number_2)))])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      10.5703125
+    ],
+    [
+      "def hamming_distance(x, y):\n    x = bin(x)[2:]\n    y = bin(y)[2:]\n    if len(x) < len(y):\n        x = '0'*(len(y)-len(x)) + x\n    else:\n        y = '0'*(len(x)-len(y)) + y\n    dist = 0\n    for i in range(len(x)):\n        if x[i] != y[i]:\n            dist += 1\n    return dist\n\nx = 15\ny = 9\nprint(hamming_distance(x, y))",
+      9.9296875
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(1, 1)\n    0\n    >>> hamming_distance(3, 3)\n    0\n    >>> hamming_distance(10, 100)\n    2\n    \"\"\"\n    a_bin = bin(a)[2:]\n    b_bin = bin(b)[2:]\n\n    if len(a_bin) < len(b_bin):\n        a_bin = \"0\" * (len(b_bin) - len(a_bin)) + a_bin\n    elif len(a_bin) > len(b_bin):\n        b_bin = \"0\" * (len(a_bin) - len(b_bin)) + b_bin\n\n    hamming_distance = 0\n    for i in range(len(a_bin)):\n        if a_bin[i] != b_bin[i]:\n            hamming_distance += 1\n\n    return hamming_distance\n\n\ndef hamming_distance_using_xor(a, b):\n    \"\"\"\n    >>> hamming_distance_using_xor(1, 4)\n    2\n    >>> hamming_distance_using_xor(1, 1)\n    0\n    >>> hamming_distance_using_xor(3, 3)\n    0\n    >>> hamming_distance_using_xor(10, 100)\n    2\n    \"\"\"\n    xor_result = a ^ b\n    count = 0\n    while xor_result:\n        xor_result &= xor_result - 1\n        count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      9.609375
+    ],
+    [
+      "def hamming_distance(a: int, b: int) -> int:\n    \"\"\"\n    >>> hamming_distance(12, 12)\n    0\n    >>> hamming_distance(12, 13)\n    1\n    >>> hamming_distance(12, 14)\n    2\n    >>> hamming_distance(12, 15)\n    2\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      9.59375
+    ],
+    [
+      "def hamming_distance(n, m):\n    \"\"\"\n    This function takes two integers as inputs and returns the hamming distance between them.\n\n    >>> hamming_distance(11, 12)\n    2\n    >>> hamming_distance(1, 1)\n    0\n    >>> hamming_distance(0, 0)\n    0\n    >>> hamming_distance(12, 13)\n    1\n    >>> hamming_distance(123, 1234)\n    2\n    \"\"\"\n    return bin(n ^ m).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      9.1640625
+    ],
+    [
+      "def hamming_distance(n1, n2):\n    n1 = bin(n1)[2:]\n    n2 = bin(n2)[2:]\n\n    if len(n1) > len(n2):\n        n2 = \"0\" * (len(n1) - len(n2)) + n2\n    else:\n        n1 = \"0\" * (len(n2) - len(n1)) + n1\n\n    return sum(1 for i in range(len(n1)) if n1[i] != n2[i])\n\n\nprint(hamming_distance(12, 120))\nprint(hamming_distance(56, 23))",
+      8.265625
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    This function takes two integers as input and returns the hamming distance between them.\n    \"\"\"\n    a = (bin(a)[2:])\n    b = (bin(b)[2:])\n    l1 = len(a)\n    l2 = len(b)\n    if l1 > l2:\n        for i in range(l1 - l2):\n            b = '0' + b\n    elif l2 > l1:\n        for i in range(l2 - l1):\n            a = '0' + a\n\n    count = 0\n    for i in range(len(a)):\n        if a[i] != b[i]:\n            count += 1\n    return count\n\n\ndef main():\n    a = int(input(\"Enter first integer: \"))\n    b = int(input(\"Enter second integer: \"))\n    print(hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      8.234375
+    ],
+    [
+      "def hamming_distance(x, y):\n    # Convert the integer into binary strings\n    binary_x = bin(x)\n    binary_y = bin(y)\n\n    # remove the \"0b\" at the beginning of the string\n    binary_x = binary_x[2:]\n    binary_y = binary_y[2:]\n\n    # pad the strings to have the same length\n    binary_x = binary_x.rjust(len(binary_y), \"0\")\n    binary_y = binary_y.rjust(len(binary_x), \"0\")\n\n    # compute the hamming distance\n    distance = 0\n    for i in range(len(binary_x)):\n        if binary_x[i] != binary_y[i]:\n            distance += 1\n    return distance\n\n\nx = 15\ny = 10\nprint(hamming_distance(x, y))",
+      7.29296875
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    num1_bin = '{0:032b}'.format(num1)\n    num2_bin = '{0:032b}'.format(num2)\n    count = 0\n    for i in range(32):\n        if num1_bin[i] != num2_bin[i]:\n            count += 1\n    return count\n\n\nprint(hamming_distance(15, 8))\nprint(hamming_distance(5, 8))\nprint(hamming_distance(10, 10))",
+      6.1953125
+    ],
+    [
+      "def hamming_distance(num1: int, num2: int) -> int:\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    \"\"\"\n    num1, num2 = bin(num1)[2:], bin(num2)[2:]\n    return len(num1) - len(num2) + len([i for i, j in zip(num1, num2) if i != j])\n\n\nif __name__ == \"__main__\":\n    from doctest import testmod\n\n    testmod(verbose=True)",
+      5.58984375
+    ],
+    [
+      "def hamming_distance(a: int, b: int) -> int:\n    \"\"\"\n    >>> hamming_distance(21, 41)\n    2\n    >>> hamming_distance(1, 5)\n    4\n    \"\"\"\n    x = a ^ b\n    count = 0\n    while x > 0:\n        count += x & 1\n        x >>= 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      5.31640625
+    ],
+    [
+      "def hamming_distance(x, y):\n    x = x ^ y\n    count = 0\n    while x > 0:\n        count += x & 1\n        x = x >> 1\n    return count\n\n\ndef main():\n    print(hamming_distance(10, 11))\n\n\nif __name__ == \"__main__\":\n    main()",
+      4.7421875
+    ],
+    [
+      "def hamming_distance(a, b):\n    c = a ^ b\n    count = 0\n    while c > 0:\n        count += c & 1\n        c = c >> 1\n    return count\n\n\ndef hamming_distance_2(a, b):\n    c = a ^ b\n    count = 0\n    while c > 0:\n        count += 1\n        c = c & (c - 1)\n    return count\n\n\ndef main():\n    a = int(input(\"Enter an integer: \"))\n    b = int(input(\"Enter an integer: \"))\n    print(\"Hamming distance:\", hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      4.73828125
+    ],
+    [
+      "def hamming_distance(n1: int, n2: int) -> int:\n    \"\"\"\n    >>> hamming_distance(10, 2)\n    2\n    >>> hamming_distance(3, 2)\n    1\n    >>> hamming_distance(10, 10)\n    0\n    \"\"\"\n    return bin(n1 ^ n2).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.25390625
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    \"\"\"\n    >>> hamming_distance(12, 100)\n    2\n    >>> hamming_distance(123, 122)\n    1\n    \"\"\"\n    diff = num1 ^ num2\n    count = 0\n    while diff > 0:\n        diff &= (diff - 1)\n        count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.849609375
+    ],
+    [
+      "def hamming_distance(x: int, y: int) -> int:\n    \"\"\"\n    >>> hamming_distance(12, 13)\n    1\n    \"\"\"\n    distance: int = 0\n    for i in range(32):\n        if not (x >> i & 1) == (y >> i & 1):\n            distance += 1\n    return distance\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.53515625
+    ],
+    [
+      "def hamming_distance(x, y):\n    diff = x ^ y\n    count = 0\n    while diff > 0:\n        diff = diff & (diff - 1)\n        count += 1\n    return count\n\n\ndef main():\n    x = int(input(\"Enter the first integer: \"))\n    y = int(input(\"Enter the second integer: \"))\n    print(hamming_distance(x, y))\n\n\nif __name__ == \"__main__\":\n    main()",
+      3.294921875
+    ],
+    [
+      "def hamming_distance(x, y):\n    x_bin = bin(x)[2:]\n    y_bin = bin(y)[2:]\n    if len(x_bin) < len(y_bin):\n        x_bin = x_bin.zfill(len(y_bin))\n    if len(x_bin) > len(y_bin):\n        y_bin = y_bin.zfill(len(x_bin))\n    x_list = [int(i) for i in x_bin]\n    y_list = [int(i) for i in y_bin]\n    hamming_dist = 0\n    for i in range(len(x_list)):\n        if x_list[i] != y_list[i]:\n            hamming_dist += 1\n    return hamming_dist\n\n\ndef hamming_distance_bin(x, y):\n    return bin(x ^ y).count(\"1\")\n\n\nprint(hamming_distance(11, 13))\nprint(hamming_distance_bin(11, 13))",
+      3.271484375
+    ],
+    [
+      "def hamming_distance(a: int, b: int) -> int:\n    \"\"\"\n    >>> hamming_distance(5, 13)\n    2\n    >>> hamming_distance(3, 13)\n    2\n    >>> hamming_distance(3, 13)\n    2\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.83203125
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(2, 5)\n    1\n    >>> hamming_distance(7, 10)\n    2\n    \"\"\"\n    distance = 0\n    xor_value = a ^ b\n    while xor_value > 0:\n        distance += 1\n        xor_value = xor_value & (xor_value - 1)\n    return distance\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.7265625
+    ],
+    [
+      "def hamming_distance(a: int, b: int) -> int:\n    \"\"\"\n    >>> hamming_distance(10, 42)\n    2\n    >>> hamming_distance(10, 10)\n    0\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.689453125
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(10, 11)\n    1\n    >>> hamming_distance(10, 10)\n    0\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.14453125
+    ],
+    [
+      "def hamming_distance(x, y):\n    count = 0\n    z = x ^ y\n    while z:\n        z &= z - 1\n        count += 1\n    return count\n\n\ndef main():\n    x = int(input(\"Enter the first integer: \"))\n    y = int(input(\"Enter the second integer: \"))\n    print(hamming_distance(x, y))\n\n\nif __name__ == \"__main__\":\n    main()",
+      2.126953125
+    ],
+    [
+      "def hamming_distance(a,b):\n    \"\"\"\n    Calculate the hamming distance between two integers.\n\n    Args:\n       a(int) : First integer\n       b(int) : Second integer\n    Returns:\n       int: Hamming Distance\n    \"\"\"\n    # This function has been created for a challenge provided by a friend\n    # It is not a very good function, but it works.\n    # I will add a better version in the future\n    # I will use the builtin int() function to convert to binary\n    # Then we will use the count() function to count the number of 1's\n    # Then we will use the builtin abs() function to get the absolute value\n    # Then we will use the builtin sum() function to add the number of 1's\n    return abs(sum(map(int,bin(a^b)[2:].replace('0','1'))))\n\nprint(hamming_distance(12,13))",
+      2.123046875
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(12, 13)\n    1\n    >>> hamming_distance(10, 10)\n    0\n    >>> hamming_distance(10, 20)\n    2\n    \"\"\"\n\n    x = a ^ b\n    count = 0\n\n    while x:\n        count += 1\n        x &= x - 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      1.96875
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(1, 2)\n    2\n    >>> hamming_distance(1, 1)\n    0\n    >>> hamming_distance(1, 3)\n    1\n    \"\"\"\n    x = (~a & b) | (a & ~b)\n    return bin(x).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.89453125
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    num1, num2 = bin(num1)[2:], bin(num2)[2:]\n    bin_len = max(len(num1), len(num2))\n    num1 = num1.zfill(bin_len)\n    num2 = num2.zfill(bin_len)\n    return sum([1 for i in range(bin_len) if num1[i] != num2[i]])\n\n\nprint(hamming_distance(11, 12))",
+      1.591796875
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(15, 8)\n    3\n    >>> hamming_distance(1, 1)\n    0\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.458984375
+    ],
+    [
+      "def hamming_distance(x, y):\n    return bin(x ^ y).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    print(hamming_distance(11, 13))",
+      1.439453125
+    ],
+    [
+      "def hamming_distance(a, b):\n    distance = 0\n    while a or b:\n        distance += (a & 1) + (b & 1)\n        a >>= 1\n        b >>= 1\n    return distance\n\n\ndef hamming_distance_without_bitwise(a, b):\n    distance = 0\n    while a or b:\n        if a & 1 != b & 1:\n            distance += 1\n        a >>= 1\n        b >>= 1\n    return distance\n\n\nprint(hamming_distance(2, 3))\nprint(hamming_distance_without_bitwise(2, 3))",
+      1.408203125
+    ],
+    [
+      "def hamming_distance(a, b):\n    distance = 0\n    x = a ^ b\n    while x:\n        distance += 1\n        x &= x - 1\n    return distance\n\n\nprint(hamming_distance(10, 15))",
+      1.369140625
+    ],
+    [
+      "def hamming_distance(a, b):\n    x = a ^ b\n    count = 0\n    while x > 0:\n        count += x & 1\n        x = x >> 1\n    return count\n\n\ndef main():\n    a = int(input(\"Please enter an integer: \"))\n    b = int(input(\"Please enter an integer: \"))\n    print(\"The Hamming Distance between {} and {} is {}.\".format(a, b, hamming_distance(a, b)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.201171875
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    >>> hamming_distance(5, 14)\n    2\n    >>> hamming_distance(1, 1)\n    0\n    >>> hamming_distance(15, 15)\n    0\n    \"\"\"\n    if x == y:\n        return 0\n    n = x ^ y\n    count = 0\n    while n:\n        count += 1\n        n &= n - 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.1728515625
+    ],
+    [
+      "def hamming_distance(x, y):\n    return bin(x ^ y).count(\"1\")\n\n\ndef main():\n    a = 12\n    b = 13\n    print(hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.1318359375
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    hamming_distance = 0\n    for i in range(len(bin(num1)[2:])):\n        if bin(num1)[2:][i] != bin(num2)[2:][i]:\n            hamming_distance += 1\n    return hamming_distance\n\n\ndef hamming_distance_v2(num1, num2):\n    hamming_distance = 0\n    for i in range(len(bin(num1 ^ num2))):\n        if bin(num1 ^ num2)[2:][i] == '1':\n            hamming_distance += 1\n    return hamming_distance\n\n\nif __name__ == '__main__':\n    print(hamming_distance(15, 81))\n    print(hamming_distance_v2(15, 81))",
+      1.1318359375
+    ],
+    [
+      "def hamming_distance(num1: int, num2: int) -> int:\n    \"\"\"\n    >>> hamming_distance(1, 2)\n    2\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(1, 7)\n    4\n    >>> hamming_distance(1, 8)\n    3\n    >>> hamming_distance(1, 15)\n    4\n    \"\"\"\n\n    # find the difference between the two numbers\n    diff = abs(num1 - num2)\n\n    # get the binary representation of the difference\n    binary = bin(diff)\n\n    # count the number of bits\n    return binary.count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.107421875
+    ],
+    [
+      "def hamming_distance(a,b):\n    c = a^b\n    count = 0\n    while(c>0):\n        count += (c & 1)\n        c = c >> 1\n    return count\n\ndef main():\n    a = int(input(\"Enter first number: \"))\n    b = int(input(\"Enter second number: \"))\n    print(\"Hamming Distance is: \", hamming_distance(a,b))\n\nif __name__ == \"__main__\":\n    main()",
+      1.072265625
+    ],
+    [
+      "def hamming_distance(a, b):\n    # Count the number of bits that are different\n    x = bin(a ^ b)\n    count = 0\n\n    for i in range(len(x) - 2):\n        if x[i + 2] == \"1\":\n            count += 1\n\n    return count\n\n\ndef main():\n    num1 = int(input(\"Enter first number: \"))\n    num2 = int(input(\"Enter second number: \"))\n    print(hamming_distance(num1, num2))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.9951171875
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    hamming_distance will return the hamming distance between two numbers\n    \"\"\"\n    return bin(x^y).count('1')",
+      0.90625
+    ],
+    [
+      "def hamming_distance(a: int, b: int) -> int:\n    \"\"\"\n    >>> hamming_distance(10, 11)\n    1\n    >>> hamming_distance(100, 210)\n    4\n    >>> hamming_distance(2, 3)\n    1\n    >>> hamming_distance(21, 21)\n    0\n    >>> hamming_distance(21, 22)\n    1\n    >>> hamming_distance(21, 23)\n    2\n    \"\"\"\n    # Using the XOR operator\n    c = a ^ b\n\n    # Counting the number of 1s in the XOR\n    count = 0\n    while c:\n        count += 1\n        c &= (c - 1)\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.90380859375
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    Calculate hamming distance between two numbers.\n\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(2, 6)\n    2\n    >>> hamming_distance(2, 1)\n    2\n    >>> hamming_distance(12, 3)\n    2\n    >>> hamming_distance(5, 5)\n    0\n    \"\"\"\n    return bin(x ^ y).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.81591796875
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(10, 12)\n    2\n    >>> hamming_distance(10, 10)\n    0\n    \"\"\"\n    count = 0\n    num = a ^ b\n    while num > 0:\n        num &= num - 1\n        count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.77685546875
+    ],
+    [
+      "def hamming_distance(n, m):\n    count = 0\n    while n != 0 or m != 0:\n        if n & 1 != m & 1:\n            count += 1\n        n >>= 1\n        m >>= 1\n    return count\n\n\nprint(hamming_distance(25, 23))",
+      0.609375
+    ],
+    [
+      "def hamming_distance(n1, n2):\n    return bin(n1 ^ n2).count(\"1\")\n\n\ndef main():\n    n1 = int(input(\"Enter first number: \"))\n    n2 = int(input(\"Enter second number: \"))\n    print(hamming_distance(n1, n2))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.609375
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    This function calculates the hamming distance between two numbers.\n    \"\"\"\n    x = a ^ b\n    ans = 0\n    while x:\n        ans += 1\n        x &= x - 1\n    return ans\n\n\nif __name__ == '__main__':\n    print(hamming_distance(10, 11))\n    print(hamming_distance(12, 21))",
+      0.246337890625
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    >>> hamming_distance(1, 1)\n    0\n    \"\"\"\n    x = a ^ b\n    count = 0\n    while x:\n        count += 1\n        x &= x - 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.1478271484375
+    ],
+    [
+      "def hamming_distance(n, m):\n    \"\"\"\n    Function to find hamming distance between two integers.\n    >>> hamming_distance(5, 13)\n    2\n    >>> hamming_distance(12, 13)\n    1\n    >>> hamming_distance(12, 12)\n    0\n    \"\"\"\n    hamming_dist = 0\n    bin_n = bin(n)\n    bin_m = bin(m)\n    if len(bin_n) != len(bin_m):\n        bin_m = bin_m.zfill(len(bin_n))\n    for i in range(len(bin_n)):\n        if bin_n[i] != bin_m[i]:\n            hamming_dist += 1\n    return hamming_dist\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.0980224609375
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    hamming_dist = 0\n    n1, n2 = bin(num1)[2:], bin(num2)[2:]\n    max_length = max(len(n1), len(n2))\n    if len(n1) < max_length:\n        n1 = n1.zfill(max_length)\n    if len(n2) < max_length:\n        n2 = n2.zfill(max_length)\n    for i in range(max_length):\n        if n1[i] != n2[i]:\n            hamming_dist += 1\n    return hamming_dist\n\n\nprint(hamming_distance(10, 100))",
+      -0.0291748046875
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    Hamming Distance: number of positions at which the corresponding bits are different\n    >>> hamming_distance(11, 40)\n    2\n    >>> hamming_distance(11, 11)\n    0\n    >>> hamming_distance(21, 12)\n    2\n    >>> hamming_distance(21, 21)\n    0\n    >>> hamming_distance(12, 41)\n    2\n    >>> hamming_distance(12, 12)\n    0\n    \"\"\"\n    x = x ^ y\n    x = x - ((x >> 1) & 0x55555555)\n    x = (x & 0x33333333) + ((x >> 2) & 0x33333333)\n    x = (x + (x >> 4)) & 0x0F0F0F0F\n    x = x + (x >> 8)\n    x = x + (x >> 16)\n    return x & 0x7F\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.1666259765625
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    num1, num2 = str(bin(num1)[2:]), str(bin(num2)[2:])\n    distance = 0\n    for i in range(min(len(num1), len(num2))):\n        if num1[i] != num2[i]:\n            distance += 1\n    return distance + abs(len(num1) - len(num2))\n\nprint(hamming_distance(2, 7))\nprint(hamming_distance(12, 17))",
+      -0.349365234375
+    ],
+    [
+      "def hamming_distance(a, b):\n    return bin(a ^ b).count(\"1\")\n\n\ndef main():\n    print(hamming_distance(10, 15))\n    print(hamming_distance(101, 15))\n    print(hamming_distance(101, 151))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.5205078125
+    ],
+    [
+      "def hamming_distance(n, m):\n    \"\"\"\n    >>> hamming_distance(11, 13)\n    2\n    >>> hamming_distance(123, 456)\n    4\n    \"\"\"\n    n = n ^ m\n    n = n - ((n >> 1) & 0x55555555)\n    n = (n & 0x33333333) + ((n >> 2) & 0x33333333)\n    n = (n + (n >> 4)) & 0x0F0F0F0F\n    n = n + (n >> 8)\n    n = n + (n >> 16)\n    n = n & 0x3F\n\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.52099609375
+    ],
+    [
+      "def hamming_distance(x, y):\n    z = x ^ y\n    count = 0\n    while z:\n        count += 1\n        z &= z - 1\n    return count\n\n\ndef main():\n    x = int(input(\"Please enter the first number: \"))\n    y = int(input(\"Please enter the second number: \"))\n    print(f\"Hamming Distance between {x} and {y} is {hamming_distance(x, y)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.619140625
+    ],
+    [
+      "def hamming_distance(x, y):\n    return bin(x ^ y).count(\"1\")\n\n\ndef main():\n    num1 = 10\n    num2 = 20\n    print(\"Hamming Distance:\")\n    print(hamming_distance(num1, num2))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.68603515625
+    ],
+    [
+      "\"\"\"Question 22\nLevel 2\nQuestion:\nWrite a python function to find the hamming distance between given two integers.\nThe Hamming distance between two integers is the number of positions at which the corresponding bits are different.\nFor example, the Hamming distance between 11 and 40, is 2, \nsince only the second and the third bit differ in the binary representation of 40 (010010) and 11 (01011).\nHints:\nIn case of overflow, mod with the maximum value.\n\n\"\"\"",
+      -0.85595703125
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(11, 13)\n    2\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "def hamming_distance(a, b):\n    if a < 0 or b < 0:\n        raise ValueError(\"Invalid input\")\n    return bin(a ^ b).count(\"1\")\n\nprint(hamming_distance(10, 100))",
+      -0.85595703125
+    ],
+    [
+      "def hamming_distance(a, b):\n    return bin(a ^ b).count('1')\n\n\ndef main():\n    a = int(input(\"Enter the first number: \"))\n    b = int(input(\"Enter the second number: \"))\n    print(hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(a, b):\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    print(hamming_distance(25, 26))",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(x, y):\n    xor = x ^ y\n    distance = 0\n\n    while xor > 0:\n        if xor & 1:\n            distance += 1\n        xor = xor >> 1\n\n    return distance\n\n\ndef main():\n    a = 12\n    b = 15\n    print(hamming_distance(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(a, b):\n    if a < b:\n        a, b = b, a\n    return bin(a ^ b).count('1')\n\n\ndef main():\n    a = int(input(\"Enter the first number: \"))\n    b = int(input(\"Enter the second number: \"))\n    print(f\"Hamming distance is {hamming_distance(a, b)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(x: int, y: int) -> int:\n    \"\"\"\n    Return the hamming distance between given two integers.\n    >>> hamming_distance(10, 10)\n    0\n    >>> hamming_distance(10, 15)\n    1\n    >>> hamming_distance(10, 20)\n    2\n    >>> hamming_distance(10, 25)\n    3\n    >>> hamming_distance(10, 30)\n    3\n    \"\"\"\n    # your code goes here\n    return bin(x ^ y).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(a, b):\n    c = a ^ b\n    count = 0\n    while c > 0:\n        count += c & 1\n        c >>= 1\n    return count\n\n\nprint(hamming_distance(10, 11))\nprint(hamming_distance(10, 10))",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(x,y):\n    \"\"\"\n    :param x: int\n    :param y: int\n    :return: int\n    \"\"\"\n    distance = 0\n    z = x^y\n    while z:\n        distance += 1\n        z &= z - 1\n    return distance",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(a, b):\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    print(hamming_distance(11, 13))",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    >>> hamming_distance(10, 100)\n    2\n    \"\"\"\n    x = x ^ y\n    count = 0\n    while x:\n        count += 1\n        x = x & (x - 1)\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def hamming_distance(a, b):\n    xor = a ^ b\n    return len([1 for i in bin(xor)[2:] if i == '1'])\n\n\ndef hamming_distance_using_popcount(a, b):\n    xor = a ^ b\n    return bin(xor).count(\"1\")",
+      -0.85693359375
+    ],
+    [
+      "\"\"\"Question:\nWrite a python function to find the hamming distance between given two integers.\nHints:\nUse bitwise AND to find the set bits.\nUse bitwise XOR to find the different bits.\n\n\"\"\"",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(x, y):\n    return bin(x ^ y).count('1')\n\n\nif __name__ == \"__main__\":\n    print(hamming_distance(10, 15))\n    print(hamming_distance(5, 15))",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(1, 4)\n    2\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(a, b):\n    return bin(a ^ b).count('1')\n\n\nif __name__ == \"__main__\":\n    print hamming_distance(1, 4)\n    print hamming_distance(2, 4)\n    print hamming_distance(5, 4)",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(a, b):\n    hamming = 0\n    while a > 0 or b > 0:\n        if a % 2 == b % 2:\n            hamming += 1\n        a = a // 2\n        b = b // 2\n    return hamming\n\nprint(hamming_distance(11, 13))",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(n, m):\n    \"\"\"\n    >>> hamming_distance(11,12)\n    2\n    \"\"\"\n    return bin(n ^ m).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(x, y):\n    count = 0\n    z = x ^ y\n    while z:\n        count += 1\n        z &= z - 1\n    return count\n\n\nif __name__ == \"__main__\":\n    num1 = 12\n    num2 = 23\n    print(hamming_distance(num1, num2))",
+      -0.85791015625
+    ],
+    [
+      "def hamming_distance(a, b):\n    x = bin(a ^ b)\n    return x.count(\"1\")\n\n\nif __name__ == \"__main__\":\n    print(hamming_distance(1, 2))",
+      -0.8583984375
+    ],
+    [
+      "def hamming_distance(a: int, b: int) -> int:\n    \"\"\"\n    >>> hamming_distance(1,2)\n    2\n    >>> hamming_distance(2,3)\n    1\n    >>> hamming_distance(2,1)\n    2\n    >>> hamming_distance(2,1)\n    2\n    >>> hamming_distance(2,2)\n    0\n    >>> hamming_distance(2,20)\n    5\n    >>> hamming_distance(2,200)\n    8\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    hamming distance\n    \"\"\"\n    return bin(a^b).count('1')",
+      -0.8583984375
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(5, 13)\n    2\n    \"\"\"\n    return bin(a ^ b).count(\"1\")\n\n\ndef test():\n    assert hamming_distance(5, 13) == 2\n\n\nif __name__ == \"__main__\":\n    test()",
+      -0.86083984375
+    ],
+    [
+      "def hamming_distance(x, y):\n    return bin(x ^ y).count(\"1\")\n\n\ndef main():\n    x, y = map(int, input().split())\n    print(hamming_distance(x, y))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.86083984375
+    ],
+    [
+      "def hamming_distance(a, b):\n    return bin(a ^ b).count('1')\n\n\nprint(hamming_distance(10, 22))",
+      -0.86083984375
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(11, 13)\n    2\n    >>> hamming_distance(10, 10)\n    0\n    >>> hamming_distance(10, 20)\n    2\n    \"\"\"\n    # Your code goes here\n    count = 0\n    while a or b:\n        count += a & b != 0\n        a &= a - 1\n        b &= b - 1\n    return count\n\ndef hamming_distance_v2(a, b):\n    \"\"\"\n    >>> hamming_distance_v2(11, 13)\n    2\n    >>> hamming_distance_v2(10, 10)\n    0\n    >>> hamming_distance_v2(10, 20)\n    2\n    \"\"\"\n    count = 0\n    while a or b:\n        count += (a ^ b) & 1\n        a >>= 1\n        b >>= 1\n    return count\n\ndef hamming_distance_v3(a, b):\n    \"\"\"\n    >>> hamming_distance_v3(11, 13)\n    2\n    >>> hamming_distance_v3(10, 10)\n    0\n    >>> hamming_distance_v3(10, 20)\n    2\n    \"\"\"\n    count = 0\n    while a or b:\n        count += (a ^ b) & 1\n        a = a & (a - 1)\n        b = b & (b - 1)\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.90771484375
+    ],
+    [
+      "def hamming_distance(x, y):\n    count = 0\n    xor = x ^ y\n    while xor > 0:\n        count += xor & 1\n        xor = xor >> 1\n    return count\n\n\ndef hamming_distance2(x, y):\n    x = x ^ y\n    count = 0\n    while x > 0:\n        count += x & 1\n        x = x >> 1\n    return count\n\n\nprint(hamming_distance(1, 4))\nprint(hamming_distance2(1, 4))",
+      -1.2890625
+    ],
+    [
+      "def hamming_distance(a, b):\n    count = 0\n    while a or b:\n        if a & 1 != b & 1:\n            count += 1\n        a >>= 1\n        b >>= 1\n    return count\n\n\na = 5\nb = 14\nprint(hamming_distance(a, b))",
+      -1.4306640625
+    ],
+    [
+      "def hamming_distance(x: int, y: int) -> int:\n    \"\"\"\n    >>> hamming_distance(13, 16)\n    2\n    >>> hamming_distance(10, 100)\n    2\n    >>> hamming_distance(100, 10)\n    2\n    >>> hamming_distance(101, 100)\n    2\n    \"\"\"\n    return bin(x ^ y).count(\"1\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.4306640625
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    if num1 == 0:\n        return num2.bit_length()\n    elif num2 == 0:\n        return num1.bit_length()\n    else:\n        return num1.bit_length() - num2.bit_length()\n\n\nprint(hamming_distance(15, 16))",
+      -1.4404296875
+    ],
+    [
+      "def hamming_distance(x, y):\n    \"\"\"\n    The Hamming distance between two values is the number of bits in which they differ.\n\n    >>> hamming_distance(11, 13)\n    2\n    >>> hamming_distance(100, 200)\n    2\n    >>> hamming_distance(10, 10)\n    0\n    >>> hamming_distance(12, 123)\n    3\n    \"\"\"\n    xor = x ^ y\n    distance = 0\n    while xor:\n        distance += 1\n        xor &= xor - 1\n    return distance\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.46875
+    ],
+    [
+      "def hamming_distance(a, b):\n    \"\"\"\n    >>> hamming_distance(11, 4)\n    2\n    >>> hamming_distance(11, 11)\n    0\n    \"\"\"\n    distance = 0\n    temp = a ^ b\n    while temp > 0:\n        distance += 1\n        temp &= temp - 1\n    return distance\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.498046875
+    ],
+    [
+      "def hamming_distance(a,b):\n    return bin(a^b).count('1')\n\n\"\"\"\nWrite a python function to find the greatest common divisor between two integers.\n\"\"\"\ndef gcd(a,b):\n    if a==0:\n        return b\n    return gcd(b%a,a)\n\n\"\"\"\nWrite a python function to find the least common multiple between two integers.\n\"\"\"\ndef lcm(a,b):\n    return a*b//gcd(a,b)\n\n\"\"\"\nWrite a python program to find the nth term of the Fibonacci series.\n\"\"\"\ndef nth_fib(n):\n    if n==1 or n==2:\n        return 1\n    else:\n        return nth_fib(n-1)+nth_fib(n-2)\n\n\"\"\"\nWrite a python program to find the largest number among the three input numbers.\n\"\"\"\ndef largest(a,b,c):\n    if a>b and a>c:\n        return a\n    elif b>c and b>a:\n        return b\n    else:\n        return c\n\n\"\"\"\nWrite a python program to find the smallest number among the three input numbers.\n\"\"\"\ndef smallest(a,b,c):\n    if a<b and a<c:\n        return a\n    elif b<c and b<a:\n        return b\n    else:\n        return c\n\n\"\"\"\nWrite a python program to find the number of bits required to convert one number to another.\n\"\"\"\ndef bit_conversion(a,b):\n    return len(bin(a^b))\n\n\"\"\"\nWrite a python program to find the number of 1\u2019s in the binary representation of a positive integer.\n\"\"\"\ndef no_of_1s(n):\n    return bin(n).count('1')\n\n\"\"\"\nWrite a python program to find the decimal value of a binary string.\n\"\"\"\ndef bin_to_dec(n):\n    return int(n,2)\n\n\"\"\"\nWrite a python program to find the number of subsets of a given set with a given sum.\n\"\"\"",
+      -1.8642578125
+    ],
+    [
+      "def hamming_distance(num1, num2):\n    bin1 = bin(num1)[2:][::-1]\n    bin2 = bin(num2)[2:][::-1]\n    distance = 0\n    for i in range(len(bin1)):\n        if bin1[i] != bin2[i]:\n            distance += 1\n    return distance\n\nprint(hamming_distance(11, 13))",
+      -3.9140625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

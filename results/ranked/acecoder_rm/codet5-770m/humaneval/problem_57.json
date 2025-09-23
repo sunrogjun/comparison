@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/57",
+    "prompt": "\n\ndef monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n",
+    "canonical_solution": "    if l == sorted(l) or l == sorted(l, reverse=True):\n        return True\n    return False\n",
+    "test": "\n\nMETADATA = {}\n\n\ndef check(candidate):\n    assert candidate([1, 2, 4, 10]) == True\n    assert candidate([1, 2, 4, 20]) == True\n    assert candidate([1, 20, 4, 10]) == False\n    assert candidate([4, 1, 0, -10]) == True\n    assert candidate([4, 1, 1, 0]) == True\n    assert candidate([1, 2, 3, 2, 5, 60]) == False\n    assert candidate([1, 2, 3, 4, 5, 60]) == True\n    assert candidate([9, 9, 9, 9]) == True\n\n",
+    "entry_point": "monotonic",
+    "docstring": "",
+    "problem_id": 57
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "return all(l[i] <= l[i + 1] for i in range(len(l) - 1))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.921875
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n\n    l.sort()\n    return l[0] == l[-1]",
+      3.20703125
+    ],
+    [
+      "return all(l[i] <= l[i + 1] for i in range(len(l) - 1))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.166015625
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    else:\n        return l[0] <= l[-1] or l[0] >= l[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      2.720703125
+    ],
+    [
+      "if len(l) < 2:\n        return True\n\n    if l[0] > l[-1]:\n        return False\n\n    for i in range(len(l) - 1):\n        if l[i] > l[i + 1]:\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.6328125
+    ],
+    [
+      "for i in range(len(l) - 1):\n        if l[i] > l[i + 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.419921875
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    for i in range(1, len(l)):\n        if l[i] > l[i-1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.2744140625
+    ],
+    [
+      "return all(x > y for x, y in zip(l[:-1], l[1:]))",
+      1.1611328125
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] >= l[-1]:\n        return monotonic(l[1:-1])\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.97216796875
+    ],
+    [
+      "return all(l[i] >= l[i+1] for i in range(len(l) - 1))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.85498046875
+    ],
+    [
+      "return sorted(l) == sorted(reversed(l))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.7978515625
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    return l[0] < l[-1] or l[-1] > l[0]",
+      0.68017578125
+    ],
+    [
+      "return l == sorted(l)\n\n\ndef is_monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> is_monotonic([1, 2, 4, 20])\n    True\n    >>> is_monotonic([1, 20, 4, 10])\n    False\n    >>> is_monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return l == sorted(l)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.54345703125
+    ],
+    [
+      "for i in range(1, len(l)):\n        if l[i] > l[i-1]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      0.5078125
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] > l[-1]:\n        return False\n    else:\n        return True",
+      0.37255859375
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.24072265625
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    else:\n        return l[0] <= l[-1] and monotonic(l[1:-1])\n\n\ndef monotonic_recursive(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_recursive([1, 2, 4, 20])\n    True\n    >>> monotonic_recursive([1, 20, 4, 10])\n    False\n    >>> monotonic_recursive([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) <= 1:\n        return True\n    else:\n        if l[0] <= l[-1]:\n            return monotonic_recursive(l[1:-1])\n        else:\n            return monotonic_recursive(l[:-1])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      0.2060546875
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.137451171875
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.137451171875
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] >= l[1]:\n        return False\n    return monotonic(l[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.00815582275390625
+    ],
+    [
+      "return l == sorted(l) or l == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.14599609375
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] > l[-1]:\n        return monotonic(l[1:-1])\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.257080078125
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    elif len(l) == 2:\n        return l[0] > l[1]\n    elif len(l) == 3:\n        return l[0] < l[1]\n    else:\n        return False\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.6533203125
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    if len(l) == 2:\n        return l[0] == l[1]\n\n    if l[0] < l[1]:\n        return False\n    return True\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.654296875
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.75341796875
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.75341796875
+    ],
+    [
+      "if not l:\n        return True\n    if l[0] < l[1]:\n        return False\n    return monotonic(l[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.78466796875
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)",
+      -0.85595703125
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[1:-1])",
+      -0.85693359375
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    if len(l) == 2:\n        return l[0] >= l[1]\n    return l[1] <= l[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "for i in range(1, len(l)):\n        if l[i] > l[i - 1]:\n            return False\n    return True",
+      -0.85693359375
+    ],
+    [
+      "if not l:\n        return False\n    if len(l) == 1:\n        return l[0] == l[-1]\n    return l[0] > l[-1] and l[0] >= l[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return (l[0] >= l[-1]) and (l[1:] == sorted(l[1:]))\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "for i in range(len(l) - 1):\n        if l[i] > l[i + 1]:\n            return False\n    return True",
+      -0.857421875
+    ],
+    [
+      "return all(a > b for a, b in zip(l, l[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.857421875
+    ],
+    [
+      "return (l[0] > l[1]) and (l[0] < l[2])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.857421875
+    ],
+    [
+      "return all(x > y for x, y in zip(l, l[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "return l[0] > l[-1] or l[-1] < l[0]\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "if len(l) < 2:\n        return True\n\n    for i in range(1, len(l)):\n        if l[i] > l[i - 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(l) < 2:\n        return False\n    else:\n        return l[0] == l[-1] and monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(l) == 0:\n        return True\n    if len(l) == 1:\n        return l[0] == l[-1]\n    if len(l) == 2:\n        return l[0] > l[-1]\n\n    return l[0] < l[-1]",
+      -0.85791015625
+    ],
+    [
+      "return l == sorted(l)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "return sorted(l) == sorted(l[::-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "return sorted(l) == sorted(l)[::-1]",
+      -0.8583984375
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    elif len(l) == 2:\n        return l[0] > l[1]\n    else:\n        return l[0] > l[-1] and monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] < l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "for i in range(1, len(l)):\n        if l[i] > l[i - 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if not l:\n        return True\n    return l[0] <= max(l) and l[-1] >= min(l)",
+      -0.92724609375
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    return (l[0] > l[-1]) or (l[0] < l[-1])\n\n\ndef monotonic_l(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_l([1, 2, 4, 20])\n    True\n    >>> monotonic_l([1, 20, 4, 10])\n    False\n    >>> monotonic_l([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) < 2:\n        return True\n    return (l[0] > l[-1]) or (l[0] < l[-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.9921875
+    ],
+    [
+      "return all(x > y for x, y in zip(l[:-1], l[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.115234375
+    ],
+    [
+      "return sorted(l) == sorted(l, reverse=True)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -1.1171875
+    ],
+    [
+      "if len(l) < 2:\n        return False\n    return l[0] <= l[-1] and all(l[i] <= l[i + 1] for i in range(len(l) - 1))",
+      -1.140625
+    ],
+    [
+      "return all(\n        x <= y for x, y in zip(l[::-1], l[1:])\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.1923828125
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\ndef monotonic_list(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_list([1, 2, 4, 20])\n    True\n    >>> monotonic_list([1, 20, 4, 10])\n    False\n    >>> monotonic_list([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) < 2:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic_list(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.2353515625
+    ],
+    [
+      "if not l:\n        return True\n    if not isinstance(l[0], int):\n        return False\n    if len(l) > 1:\n        return sorted(l)[0] > sorted(l)[1]\n    else:\n        return True\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.330078125
+    ],
+    [
+      "l = sorted(l)\n    return l[0] < l[-1] or l[0] > l[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.33203125
+    ],
+    [
+      "return l[0] < l[-1]\n\n\ndef is_monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\n    >>> is_monotonic([1, 2, 4, 20])\n    True\n    >>> is_monotonic([1, 20, 4, 10])\n    False\n    >>> is_monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return l[0] > l[-1]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.4052734375
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] < l[1]:\n        return monotonic(l[1:])\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.5107421875
+    ],
+    [
+      "return l[0] < l[-1] or l[-1] > l[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.53125
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] < l[1]:\n        return False\n    return monotonic(l[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.6865234375
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] < l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.75390625
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] < l[-1]:\n        return monotonic(l[1:-1])\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -1.8759765625
+    ],
+    [
+      "return all(l[i] >= l[i + 1] for i in range(len(l) - 1))\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.9013671875
+    ],
+    [
+      "try:\n        return sorted(l) == sorted(l[::-1])\n    except TypeError:\n        return False\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.93359375
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    if l[0] < l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.9609375
+    ],
+    [
+      "if len(l) < 2:\n        return True\n\n    if l[0] < l[-1]:\n        return True\n\n    return False\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -2.15234375
+    ],
+    [
+      "i = 0\n    while i < len(l):\n        if l[i] > l[i - 1]:\n            return False\n        i += 1\n    return True\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.802734375
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    return l[0] < l[-1] and monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.044921875
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] <= l[-1]:\n        return monotonic(l[1:-1])\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.21484375
+    ],
+    [
+      "return l[0] < l[-1] or l[-1] > l[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.322265625
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.51171875
+    ],
+    [
+      "return (l[0] >= l[-1] and l[1:] > l[:-1]) or (l[-1] < l[0] and l[:-1] < l[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.0234375
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    if l[0] < l[-1]:\n        return monotonic(l[1:])\n    else:\n        return monotonic(l[:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -4.07421875
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] < l[-1]:\n        return monotonic(l[1:-1])\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.30078125
+    ],
+    [
+      "if len(l) == 0:\n        return True\n    if len(l) == 1:\n        return l[0] == l[0]\n    return l[0] < l[1] and monotonic(l[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.6796875
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.75
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] < l[1]:\n        return False\n    return monotonic(l[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.765625
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    elif l[0] > l[1]:\n        return True\n    elif l[0] < l[1]:\n        return False\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.8828125
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.9609375
+    ],
+    [
+      "if not l:\n        return True\n    elif l[0] < l[-1]:\n        return monotonic(l[1:-1])\n    else:\n        return False\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -5.16796875
+    ],
+    [
+      "if len(l) == 0:\n        return True\n    if len(l) == 1:\n        return l[0] == l[0]\n    if l[0] > l[-1]:\n        return False\n    return monotonic(l[1:]) or monotonic(l[:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.17578125
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    return l[0] > l[-1]\n\n\ndef monotonic_increasing(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_increasing([1, 2, 4, 20])\n    True\n    >>> monotonic_increasing([1, 20, 4, 10])\n    False\n    >>> monotonic_increasing([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) <= 1:\n        return True\n    return l[0] > l[-1]\n\n\ndef monotonic_decreasing(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_decreasing([1, 2, 4, 20])\n    True\n    >>> monotonic_decreasing([1, 20, 4, 10])\n    False\n    >>> monotonic_decreasing([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) <= 1:\n        return True\n    return l[0] < l[-1]\n\n\ndef monotonic_decreasing_increasing(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_decreasing_increasing([1, 2, 4, 20])\n    True\n    >>> monotonic_decreasing_increasing([1, 20, 4, 10])\n    False\n    >>> monotonic_decreasing_increasing([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) <= 1:\n        return True\n    return l[0] < l[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.67578125
+    ],
+    [
+      "return l[0] < l[-1] and all(l[i] <= l[i+1] for i in range(len(l)-1))\n\n\ndef is_monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\n    >>> is_monotonic([1, 2, 4, 20])\n    True\n    >>> is_monotonic([1, 20, 4, 10])\n    False\n    >>> is_monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return l[0] < l[-1] and all(l[i] > l[i+1] for i in range(len(l)-1))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.12109375
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    else:\n        return l[0] > l[-1]\n\n\ndef monotonic_list(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_list([1, 2, 4, 20])\n    True\n    >>> monotonic_list([1, 20, 4, 10])\n    False\n    >>> monotonic_list([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) < 2:\n        return True\n    else:\n        return l[0] > l[-1]",
+      -7.50390625
+    ],
+    [
+      "if len(l) == 1:\n        return True\n\n    if len(l) % 2 == 1:\n        return False\n\n    # find the middle of the list\n    mid = len(l) // 2\n    if l[mid] > l[mid - 1]:\n        return False\n    if l[mid] < l[mid + 1]:\n        return True\n\n    return False\n\n\ndef is_monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\n    >>> is_monotonic([1, 2, 4, 20])\n    True\n    >>> is_monotonic([1, 20, 4, 10])\n    False\n    >>> is_monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) == 1:\n        return True\n\n    if len(l) % 2 == 1:\n        return False\n\n    # find the middle of the list\n    mid = len(l) // 2\n    if l[mid] > l[mid - 1]:\n        return False\n    if l[mid] < l[mid + 1]:\n        return True\n\n    return False",
+      -7.5546875
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    else:\n        return l[0] < l[-1] and monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.890625
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    elif len(l) == 2:\n        return l[0] > l[1]\n    else:\n        if l[0] < l[1]:\n            return True\n        else:\n            return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.9140625
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    if len(l) == 2:\n        return l[0] >= l[1]\n    return l[0] > l[-1]\n\n\ndef monotonic_v2(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_v2([1, 2, 4, 20])\n    True\n    >>> monotonic_v2([1, 20, 4, 10])\n    False\n    >>> monotonic_v2([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) == 1:\n        return l[0] >= l[1]\n    if len(l) == 2:\n        return l[0] > l[-1]\n    if len(l) == 3:\n        return l[0] == l[-1]\n    if len(l) == 4:\n        return l[0] == l[-1] and l[1] >= l[-2]\n    if len(l) == 5:\n        return l[0] == l[-1] and l[1] == l[-2] and l[2] >= l[-3]\n    if len(l) == 6:\n        return l[0] == l[-1] and l[1] == l[-2] and l[2] == l[-3] and l[3] >= l[-4]\n    if len(l) == 7:\n        return l[0] == l[-1] and l[1] == l[-2] and l[2] == l[-3] and l[3] == l[-4] and l[4] >= l[-5]\n\n\ndef monotonic_v3(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic_v3([1, 2, 4, 20])\n    True\n    >>> monotonic_v3([1, 20, 4, 10])\n    False\n    >>> monotonic_v3([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) == 1:\n        return l[0",
+      -8.5078125
+    ],
+    [
+      "if not l:\n        return True\n    if len(l) == 1:\n        return l[0] == l[-1]\n    if l[0] > l[-1]:\n        return monotonic(l[1:-1])\n    else:\n        return monotonic(l[:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -8.5703125
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if l[0] >= l[-1]:\n        return False\n    return monotonic(l[1:-1])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -9.6640625
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    return l[0] > l[-1] and monotonic(l[1:-1])\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -9.859375
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    elif len(l) == 2:\n        return l[0] > l[1]\n    elif len(l) == 3:\n        return l[0] > l[1] and l[0] < l[2]\n    elif len(l) == 4:\n        return l[0] > l[1] and l[0] < l[2] and l[0] < l[3]\n    elif len(l) == 5:\n        return l[0] > l[1] and l[0] < l[2] and l[0] < l[3] and l[0] < l[4]\n    else:\n        return False",
+      -10.25
+    ],
+    [
+      "if len(l) < 2:\n        return True\n    if len(l) == 2:\n        return l[0] == l[1]\n    return (l[0] > l[-1] and monotonic(l[:-1]) and monotonic(l[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -10.328125
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    elif len(l) == 2:\n        return l[0] >= l[1]\n    else:\n        return l[0] < l[1] or l[1] < l[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -10.5390625
+    ],
+    [
+      "if len(l) == 1:\n        return True\n    if len(l) == 2:\n        if l[0] < l[1]:\n            return False\n        else:\n            return True\n    if len(l) == 3:\n        if l[0] > l[1]:\n            return False\n        elif l[0] == l[2]:\n            return True\n    return False",
+      -10.6640625
+    ],
+    [
+      "if len(l) <= 1:\n        return True\n    elif len(l) == 2:\n        return l[0] > l[1]\n    else:\n        return l[0] < l[1] or l[1] > l[2]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.546875
+    ],
+    [
+      "if len(l) == 0:\n        return False\n    if len(l) == 1:\n        return True\n    if len(l) == 2:\n        return l[0] == l[1]\n    if len(l) == 3:\n        return l[0] < l[1] < l[2]\n    if len(l) == 4:\n        return l[0] > l[1] > l[2] > l[3]\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -12.21875
+    ],
+    [
+      "if len(l) == 0:\n        return True\n    if len(l) == 1:\n        return l[0] == l[0]\n    if len(l) == 2:\n        return l[0] > l[1]\n    if len(l) == 3:\n        return l[0] < l[1]\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -13.125
+    ],
+    [
+      "if not l:\n        return False\n    if len(l) == 1:\n        return True\n    if l[0] > l[-1]:\n        return monotonic(l[1:-1])\n    return False\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -13.4765625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

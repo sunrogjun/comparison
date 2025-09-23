@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/72",
+    "prompt": "\ndef will_it_fly(q,w):\n    '''\n    Write a function that returns True if the object q will fly, and False otherwise.\n    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    will_it_fly([1, 2], 5) \u279e False \n    # 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n    will_it_fly([3, 2, 3], 1) \u279e False\n    # it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n    will_it_fly([3, 2, 3], 9) \u279e True\n    # 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n    will_it_fly([3], 5) \u279e True\n    # 3 is less than the maximum possible weight, and it's balanced.\n    '''\n",
+    "canonical_solution": "    if sum(q) > w:\n        return False\n\n    i, j = 0, len(q)-1\n    while i<j:\n        if q[i] != q[j]:\n            return False\n        i+=1\n        j-=1\n    return True\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate([3, 2, 3], 9) is True\n    assert candidate([1, 2], 5) is False\n    assert candidate([3], 5) is True\n    assert candidate([3, 2, 3], 1) is False\n\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate([1, 2, 3], 6) is False\n    assert candidate([5], 5) is True\n\n",
+    "entry_point": "will_it_fly",
+    "docstring": "",
+    "problem_id": 72
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "if sum(q) <= w and is_palindrome(q):\n        return True\n    else:\n        return False\n\n\ndef is_palindrome(q):\n    '''\n    Write a function that returns True if the object q is a palindrome, and False otherwise.\n    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    is_palindrome([1, 2]) \u279e True \n    # 1+2 is a palindrome.\n\n    is_palindrome([3, 2, 3]) \u279e False \n    # 1+2 is not a palindrome, but 3+2+3 is a palindrome.\n\n    is_palindrome([3, 2, 3]) \u279e True\n    # 3+2+3 is a palindrome, and it's balanced.\n\n    is_palindrome([3]) \u279e True\n    # 3 is not a palindrome, and it's balanced.\n    '''\n    if len(q) <= 1:\n        return True\n    else:\n        return q[0] == q[-1] and is_palindrome(q[1:-1])\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      9.03125
+    ],
+    [
+      "l = []\n    for i in range(len(q)):\n        if q[i] not in l:\n            l.append(q[i])\n    if sum(l) <= w:\n        return True\n    else:\n        return False",
+      7.5390625
+    ],
+    [
+      "if sum(q)<w and is_palindrome(q):\n        return True\n    return False\n\ndef is_palindrome(q):\n    '''\n    Write a function that returns True if the object q is a palindrome, and False otherwise.\n    The object q is a palindrome if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    is_palindrome([1, 2]) \u279e False\n    # 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n    is_palindrome([3, 2, 3]) \u279e False\n    # it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n    is_palindrome([3, 2, 3]) \u279e True\n    # 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n    is_palindrome([3]) \u279e True\n    # 3 is less than the maximum possible weight, and it's balanced.\n    '''\n    if len(q)==1:\n        return True\n    if q[0]!=q[-1]:\n        return False\n    return is_palindrome(q[1:-1])",
+      6.3203125
+    ],
+    [
+      "for i in range(len(q)):\n        if q[i]!= q[-1]:\n            return False\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))\nprint(will_it_fly([1, 2, 3], 10))",
+      5.625
+    ],
+    [
+      "if len(q)<=1:\n        return True\n    if sum(q)<w:\n        return False\n    if sum(q)>w:\n        return False\n    return will_it_fly(q[1:],w) or will_it_fly(q[:-1],w)\n\n#will_it_fly([3,2,3],9)",
+      4.83984375
+    ],
+    [
+      "if sum(q) < w:\n        return False\n    else:\n        return True\n\n# will_it_fly([1, 2], 5)\n# # False \n\n# will_it_fly([3, 2, 3], 1)\n# # False\n\n# will_it_fly([3, 2, 3], 9)\n# # True\n\n# will_it_fly([3], 5)\n# # True",
+      4.2890625
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5)) #\u279e False \n\nprint(will_it_fly([3, 2, 3], 1)) #\u279e False\n\nprint(will_it_fly([3, 2, 3], 9)) #\u279e True\n\nprint(will_it_fly([3], 5)) #\u279e True",
+      4.16796875
+    ],
+    [
+      "if len(q)==1 and sum(q)<w:\n        return True\n    elif len(q)>1 and sum(q)>w:\n        return False\n    else:\n        return False",
+      3.38671875
+    ],
+    [
+      "if len(q) == 0:\n        return False\n    if sum(q) == w:\n        return True\n    if sum(q) > w:\n        return False\n    return will_it_fly(q[1:],w) or will_it_fly(q[::-1],w)\n\nprint(will_it_fly([1, 2], 5))",
+      2.404296875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      2.3984375
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      2.3984375
+    ],
+    [
+      "if len(q)<=1 or sum(q)<=w:\n        return False\n    if sum(q)%w==0:\n        return True\n    else:\n        return False",
+      2.27734375
+    ],
+    [
+      "if len(q)==0:\n        return False\n    if sum(q)<w:\n        return False\n    return True\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      2.205078125
+    ],
+    [
+      "if len(q)==1:\n        return True\n    else:\n        if sum(q)<=w:\n            return False\n        else:\n            return True",
+      2.158203125
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    return False\n\nwill_it_fly([1, 2], 5)\nwill_it_fly([3, 2, 3], 1)\nwill_it_fly([3, 2, 3], 9)\nwill_it_fly([3], 5)",
+      1.8271484375
+    ],
+    [
+      "sum = 0\n    for i in q:\n        sum += i\n    if sum < w:\n        return True\n    else:\n        return False",
+      1.46484375
+    ],
+    [
+      "if len(q) == 0:\n        return False\n    if len(q) == 1:\n        return True\n\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\n\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 0))\nprint(will_it_fly([3, 2, 3], -1))",
+      1.4423828125
+    ],
+    [
+      "if len(q)==1:\n        return True\n    elif sum(q)<=w:\n        return False\n    else:\n        return will_it_fly(q[1:], w) or will_it_fly(q, w-sum(q))",
+      1.1591796875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      1.1513671875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False",
+      1.1513671875
+    ],
+    [
+      "if sum(q)<w and q!=[1,2] and q!=[3,2,3]:\n        return True\n    else:\n        return False\n\n#will_it_fly([1, 2], 5) #\u279e False \n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n\n#will_it_fly([3], 5) #\u279e True\n\n#will_it_fly([2], 1) #\u279e False",
+      0.80419921875
+    ],
+    [
+      "if sum(q)==w:\n        return True\n    else:\n        return False",
+      0.7060546875
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False",
+      0.7060546875
+    ],
+    [
+      "if len(q) == 0:\n        return False\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([1, 2, 3], 5))\nprint(will_it_fly([3, 2, 3], 1))",
+      0.62060546875
+    ],
+    [
+      "if sum(q)<w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([3, 2, 3], 9))",
+      0.61669921875
+    ],
+    [
+      "if len(q) == 0:\n        return False\n    if sum(q) <= w:\n        return True\n    else:\n        return False",
+      0.358154296875
+    ],
+    [
+      "if len(q) == 0:\n        return True\n    if sum(q) <= w:\n        return False\n    return will_it_fly(q[1:],w) or will_it_fly(q[::-1],w)",
+      0.35595703125
+    ],
+    [
+      "if q == []:\n        return False\n    if len(q) == 1:\n        return True\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      0.203125
+    ],
+    [
+      "if len(q) == 1 and sum(q) <= w:\n        return True\n    elif sum(q) > w:\n        return False\n    elif sum(q) < w:\n        return True\n    else:\n        return False\n\n\ndef will_it_fly_2(q,w):\n    '''\n    Write a function that returns True if the object q will fly, and False otherwise.\n    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    will_it_fly_2([1, 2], 5) \u279e False \n    # 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n    will_it_fly_2([3, 2, 3], 1) \u279e False\n    # it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n    will_it_fly_2([3, 2, 3], 9) \u279e True\n    # 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n    will_it_fly_2([3], 5) \u279e True\n    # 3 is less than the maximum possible weight, and it's balanced.\n    '''\n    if len(q) == 1 and sum(q) <= w:\n        return True\n    elif sum(q) > w:\n        return False\n    elif sum(q) < w:\n        return True\n    else:\n        return False",
+      0.159423828125
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n# will_it_fly([1, 2], 5) #\u279e False \n\n# will_it_fly([3, 2, 3], 1) #\u279e False\n\n# will_it_fly([3, 2, 3], 9) #\u279e True\n\n# will_it_fly([3], 5) #\u279e True",
+      0.05499267578125
+    ],
+    [
+      "if len(q) == 0:\n        return False\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nwill_it_fly([1, 2], 5) #\u279e False\n# 1+2 is less than the maximum possible weight, but it's unbalanced.\n\nwill_it_fly([3, 2, 3], 1) #\u279e False\n# it's balanced, but 3+2+3 is more than the maximum possible weight.\n\nwill_it_fly([3, 2, 3], 9) #\u279e True\n# 3+2+3 is less than the maximum possible weight, and it's balanced.\n\nwill_it_fly([3], 5) #\u279e True\n# 3 is less than the maximum possible weight, and it's balanced.",
+      -0.0248870849609375
+    ],
+    [
+      "max_weight = max(q)\n    sum = 0\n    for i in q:\n        sum += i\n    if sum <= max_weight and sum % w == 0:\n        return True\n    else:\n        return False",
+      -0.027618408203125
+    ],
+    [
+      "if q == []:\n        return True\n\n    if sum(q) == w:\n        return True\n\n    if sum(q) > w:\n        return False\n\n    return will_it_fly(q[1:], w) or will_it_fly(q[:-1], w)\n\nprint(will_it_fly([1, 2], 5)) #\u279e False \n\nprint(will_it_fly([3, 2, 3], 1)) #\u279e False\n\nprint(will_it_fly([3, 2, 3], 9)) #\u279e True\n\nprint(will_it_fly([3], 5)) #\u279e True",
+      -0.054901123046875
+    ],
+    [
+      "if sum(q)==w:\n        return True\n    else:\n        return False",
+      -0.166015625
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5)) #\u279e False \n\nprint(will_it_fly([3, 2, 3], 1)) #\u279e False\n\nprint(will_it_fly([3, 2, 3], 9)) #\u279e True\n\nprint(will_it_fly([3], 5)) #\u279e True",
+      -0.2144775390625
+    ],
+    [
+      "q = list(set(q))\n    return sum(q) <= w and len(q) == len(set(q))",
+      -0.2310791015625
+    ],
+    [
+      "if sum(q) < w:\n        return False\n    else:\n        return True",
+      -0.245849609375
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -0.30322265625
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -0.30322265625
+    ],
+    [
+      "if len(q) == 1:\n        return True\n\n    if q[0]!= q[len(q)-1]:\n        return False\n\n    l = []\n    for i in range(len(q)-1):\n        if q[i] + q[i+1] <= w:\n            l.append(q[i])\n\n    return len(l) == 1",
+      -0.341552734375
+    ],
+    [
+      "if q == []:\n        return False\n    if sum(q) <= w:\n        return True\n    return False\n\n#will_it_fly([1, 2], 5)  #\u279e False \n\n#will_it_fly([3, 2, 3], 1)  #\u279e False\n#it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n#will_it_fly([3, 2, 3], 9)  #\u279e True\n# 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n#will_it_fly([3], 5)  #\u279e True\n# 3 is less than the maximum possible weight, and it's balanced.",
+      -0.364013671875
+    ],
+    [
+      "if sum(q) < w:\n        return False\n    else:\n        return True",
+      -0.410888671875
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False",
+      -0.411865234375
+    ],
+    [
+      "if len(q) <= 1:\n        return True\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -0.45361328125
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -0.5
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -0.66650390625
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\n#will_it_fly([1, 2], 5) #\u279e False \n# 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n# it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n# 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n#will_it_fly([3], 5) #\u279e True\n# 3 is less than the maximum possible weight, and it's balanced.",
+      -0.76904296875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False",
+      -0.8583984375
+    ],
+    [
+      "if len(q)==1:\n        return True\n    if q[0]!=q[-1]:\n        return False\n    if sum(q)<=w:\n        return False\n    return True\n\n\nwill_it_fly([3, 2, 3], 1) #\u279e False\nwill_it_fly([3, 2, 3], 9) #\u279e True\nwill_it_fly([3], 5) #\u279e True",
+      -0.85888671875
+    ],
+    [
+      "if q==[]:\n        return False\n    if sum(q)<=w:\n        return True\n    if sum(q)>w:\n        return False\n\n    for i in range(len(q)-1):\n        if q[i]==q[i+1]:\n            if will_it_fly(q[0:i]+q[i+1:],w-q[i]):\n                return True\n    return False",
+      -0.85888671875
+    ],
+    [
+      "if (w==0 or sum(q)<w):\n        return False\n    else:\n        return True",
+      -0.85888671875
+    ],
+    [
+      "if sum(q)<w:\n        return False\n    else:\n        return True\n\n\nprint(will_it_fly([1,2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -0.85888671875
+    ],
+    [
+      "if len(q)==1:\n        return True\n    if sum(q)<w:\n        return False\n    return will_it_fly(q[1:],w) or will_it_fly(q[:-1],w)\n\n#will_it_fly([3,2,3],1) #\u279e False\n#will_it_fly([3,2,3],9) #\u279e True\n#will_it_fly([3,2,3],5) #\u279e True",
+      -0.85888671875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3, 2, 3], 5))\nprint(will_it_fly([1, 2], 5))",
+      -0.85888671875
+    ],
+    [
+      "if sum(q)<w and all(q[i]==q[i+1] for i in range(len(q)-1)):\n        return True\n    else:\n        return False",
+      -0.859375
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -1.0830078125
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -1.1259765625
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\n# False\n\nprint(will_it_fly([3, 2, 3], 1))\n# False\n\nprint(will_it_fly([3, 2, 3], 9))\n# True\n\nprint(will_it_fly([3], 5))\n# True",
+      -1.474609375
+    ],
+    [
+      "total_weight = 0\n    for i in q:\n        total_weight += i\n    if total_weight <= w:\n        return True\n    else:\n        return False",
+      -1.4990234375
+    ],
+    [
+      "if sum(q)<=w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([3, 2, 3], 9)) #\u279e True\nprint(will_it_fly([3, 2, 3], 5)) #\u279e False\nprint(will_it_fly([1, 2, 3], 5)) #\u279e False\nprint(will_it_fly([2, 1], 3)) #\u279e False\nprint(will_it_fly([2, 1], 1)) #\u279e False\nprint(will_it_fly([1, 1, 1], 1)) #\u279e True",
+      -1.5419921875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\nwill_it_fly([1, 2], 5)  #\u279e False \n\nwill_it_fly([3, 2, 3], 1)  #\u279e False\n\nwill_it_fly([3, 2, 3], 9)  #\u279e True\n\nwill_it_fly([3], 5)  #\u279e True",
+      -1.5625
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n#will_it_fly([3, 2, 3], 9)\n##True\n\n#will_it_fly([1, 2], 5)\n##False\n\n#will_it_fly([3, 2, 3], 1)\n##False\n\n#will_it_fly([3, 2, 3], 9)\n##True\n\n#will_it_fly([3], 5)\n##True",
+      -1.8994140625
+    ],
+    [
+      "if q is None:\n        return False\n    if len(q) == 1:\n        return True\n    if sum(q) > w:\n        return False\n    return will_it_fly(q[1:], w) or will_it_fly(q[1:], w - sum(q))",
+      -2.060546875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False",
+      -2.09375
+    ],
+    [
+      "q = sorted(q)\n    if sum(q) <= w:\n        return True\n    else:\n        return False",
+      -2.09765625
+    ],
+    [
+      "if sum(q) < w:\n        return False\n    else:\n        for i in q:\n            if i+i not in q:\n                return False\n        return True\n\n\n#will_it_fly([1,2], 5) #\u279e False \n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n\n#will_it_fly([3], 5) #\u279e True",
+      -2.494140625
+    ],
+    [
+      "return q == sorted(q) and sum(q) <= w\n\n# will_it_fly([3, 2, 3], 9) #\u279e True\n# will_it_fly([3], 5) #\u279e True\n# will_it_fly([3, 2, 3], 1) #\u279e False\n# will_it_fly([3, 2, 3], 6) #\u279e False\n# will_it_fly([3, 2, 3], 5) #\u279e True\n# will_it_fly([1, 2], 5) #\u279e False\n# will_it_fly([1, 2], 9) #\u279e False\n# will_it_fly([1, 2], 7) #\u279e True\n# will_it_fly([1, 2], 5) #\u279e False\n# will_it_fly([1, 2], 4) #\u279e False\n# will_it_fly([1, 2], 3) #\u279e True\n# will_it_fly([1, 2], 2) #\u279e True\n# will_it_fly([1, 2], 1) #\u279e False\n# will_it_fly([1, 2], 0) #\u279e True\n# will_it_fly([1, 2, 3], 0) #\u279e True\n# will_it_fly([1, 2, 3], 1) #\u279e False\n# will_it_fly([3, 2, 3], 1) #\u279e True\n# will_it_fly([3, 2, 3], 9) #\u279e True\n# will_it_fly([3, 2, 3], 5) #\u279e True\n# will_it_fly([3, 2, 3], 7) #\u279e False\n# will_it_fly([3, 2, 3], 4) #\u279e True\n# will_it_fly([3, 2, 3], 3) #\u279e True\n# will_it_fly([3, 2, 3], 2) #\u279e True\n# will_it_fly([3, 2, 3], 1) #\u279e False\n# will_it_fly([3, 2,",
+      -2.73828125
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False",
+      -2.919921875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\n\n# will_it_fly([1, 2], 5) #\u279e False \n# 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n# will_it_fly([3, 2, 3], 1) #\u279e False\n# it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n# will_it_fly([3, 2, 3], 9) #\u279e True\n# 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n# will_it_fly([3], 5) #\u279e True\n# 3 is less than the maximum possible weight, and it's balanced.",
+      -3.1171875
+    ],
+    [
+      "if len(q)==1:\n        if sum(q)<w:\n            return True\n        else:\n            return False\n    elif len(q)==2:\n        if sum(q)<w:\n            return True\n        else:\n            return False\n    else:\n        if sum(q)<w:\n            return True\n        else:\n            return False",
+      -3.1875
+    ],
+    [
+      "if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\n# will_it_fly([1, 2], 5)  #\u279e False \n\n# will_it_fly([3, 2, 3], 1)  #\u279e False\n\n# will_it_fly([3, 2, 3], 9)  #\u279e True\n\n# will_it_fly([3], 5)  #\u279e True\n\n# will_it_fly([2, 4, 6, 8, 10, 12], 5)  #\u279e False\n\n# will_it_fly([3, 2, 3], 9)  #\u279e True\n\n# will_it_fly([3, 2, 3], 5)  #\u279e False",
+      -3.236328125
+    ],
+    [
+      "if len(q) == 1:\n        return True\n\n    if sum(q) <= w:\n        return False\n\n    for i in q:\n        if i+w in q:\n            return True\n\n    return False\n\n\n#will_it_fly([1, 2], 5) #\u279e False \n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n\n#will_it_fly([3], 5) #\u279e True\n\n#will_it_fly([3], 1) #\u279e False\n\n#will_it_fly([3], 2) #\u279e True\n\n#will_it_fly([3, 2, 3], 2) #\u279e True\n\n#will_it_fly([3, 2, 3, 1], 1) #\u279e True\n\n#will_it_fly([3, 2, 3, 1], 2) #\u279e False\n\n#will_it_fly([3, 2, 3, 1], 3) #\u279e True\n\n#will_it_fly([3, 2, 3, 1], 4) #\u279e True\n\n#will_it_fly([3, 2, 3, 1], 5) #\u279e False",
+      -3.41796875
+    ],
+    [
+      "for i in q:\n        if i+i>w:\n            return False\n    return True\n\n\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3, 2, 3], 5))\nprint(will_it_fly([3, 2, 3], 1))",
+      -3.671875
+    ],
+    [
+      "if len(q)==1:\n        if q[0]==w:\n            return True\n        else:\n            return False\n    if len(q)==2:\n        if q[0]==q[1] and w<=q[0]:\n            return True\n        else:\n            return False\n    if len(q)==3:\n        if q[0]==q[1] and q[0]==q[2] and w<=q[0]:\n            return True\n        else:\n            return False\n    if len(q)==4:\n        if q[0]==q[1] and q[0]==q[2] and q[1]==q[3] and w<=q[0]:\n            return True\n        else:\n            return False\n    if len(q)==5:\n        if q[0]==q[1] and q[0]==q[2] and q[1]==q[3] and q[2]==q[4] and q[3]==q[5] and w<=q[0]:\n            return True\n        else:\n            return False\n    if len(q)==6:\n        if q[0]==q[1] and q[0]==q[2] and q[1]==q[3] and q[2]==q[4] and q[3]==q[5] and q[4]==q[6] and w<=q[0]:\n            return True\n        else:\n            return False",
+      -3.697265625
+    ],
+    [
+      "for i in range(len(q)):\n        for j in range(i+1,len(q)):\n            if q[i]+q[j]==w:\n                return True\n    return False\n\n\nwill_it_fly([3, 2, 3], 9) #\u279e True\nwill_it_fly([3, 2, 3], 5) #\u279e False",
+      -3.8046875
+    ],
+    [
+      "if len(q)==1:\n        return True\n    if len(q)==2:\n        return sum(q)<=w and q[0]==q[1]\n    if len(q)==3:\n        return sum(q)<=w and q[0]==q[1] and q[2]==q[3]\n    return False",
+      -3.814453125
+    ],
+    [
+      "if len(q) <=1:\n        return True\n    if sum(q) <= w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -3.923828125
+    ],
+    [
+      "if len(q)==1:\n        return True\n    if sum(q)==w:\n        return True\n    if sum(q)>w:\n        return False\n    return will_it_fly(q[1:],w)\n\n\n\n#will_it_fly([1,2], 5) #\u279e False\n# 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n# it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n# 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n#will_it_fly([3], 5) #\u279e True\n# 3 is less than the maximum possible weight, and it's balanced.\n\n#will_it_fly([3, 4, 5, 6, 7], 8) #\u279e True\n# 3+4+5+6+7 is less than the maximum possible weight, and it's balanced.\n\n#will_it_fly([3, 4, 5, 6, 7], 9) #\u279e False\n# 3+4+5+6+7 is more than the maximum possible weight.\n\n#will_it_fly([3, 4, 5, 6, 7], 10) #\u279e False\n# 3+4+5+6+7 is less than the maximum possible weight, but it's unbalanced.",
+      -4.12890625
+    ],
+    [
+      "n = len(q)\n    if n == 1:\n        return True\n    elif n == 2:\n        if q[0] + q[1] <= w:\n            return True\n        else:\n            return False\n    else:\n        if q[0] + q[1] <= w and will_it_fly(q[2:], w-q[0]):\n            return True\n        else:\n            return False",
+      -4.1484375
+    ],
+    [
+      "if len(q)==0:\n        return False\n    elif sum(q)==w:\n        return True\n    else:\n        return False\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -4.5
+    ],
+    [
+      "if len(q) <= 1:\n        return True\n\n    if sum(q) <= w:\n        return False\n\n    return True\n\ndef will_it_fly_reverse(q, w):\n    '''\n    Write a function that returns True if the object q will fly, and False otherwise.\n    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    will_it_fly_reverse([1, 2], 5) \u279e False \n    # 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n    will_it_fly_reverse([3, 2, 3], 1) \u279e False\n    # it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n    will_it_fly_reverse([3, 2, 3], 9) \u279e True\n    # 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n    will_it_fly_reverse([3], 5) \u279e True\n    # 3 is less than the maximum possible weight, and it's balanced.\n    '''\n\n    if len(q) <= 1:\n        return True\n\n    if sum(q) <= w:\n        return False\n\n    return True\n\n\ndef will_it_fly_memo(q, w):\n    '''\n    Write a function that returns True if the object q will fly, and False otherwise.\n    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    will_it_fly_memo([1, 2], 5) \u279e False \n    # 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n    will_it_fly_memo([3, 2, 3], 1) \u279e False\n    # it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n    will_it_fly_memo([3, 2,",
+      -4.5859375
+    ],
+    [
+      "if sum(q)<w:\n        return False\n    else:\n        return True\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -5.24609375
+    ],
+    [
+      "if q == sorted(q):\n        return True\n    else:\n        return False\n\n\nwill_it_fly([1, 2], 5) #\u279e False \n\n# will_it_fly([3, 2, 3], 1) #\u279e False\n\n# will_it_fly([3, 2, 3], 9) #\u279e True\n\n# will_it_fly([3], 5) #\u279e True",
+      -5.38671875
+    ],
+    [
+      "if q == []:\n        return False\n    if len(q)==1:\n        return q[0]==w\n    if len(q)==2:\n        return q[0]==q[1] and q[0]==q[1]\n    if q[0]==q[1]:\n        return will_it_fly(q[1:],w)\n    else:\n        return False",
+      -5.8671875
+    ],
+    [
+      "# Your code here\n    if sum(q)<w:\n        return False\n    if q==sorted(q):\n        return True\n    return False\n\n\n#will_it_fly([1, 2], 5) #\u279e False \n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n\n#will_it_fly([3], 5) #\u279e True",
+      -6.65625
+    ],
+    [
+      "if (sum(q)<w):\n        return False\n    else:\n        return True\n\n#will_it_fly([3, 2, 3], 9) #\u279e True\n#will_it_fly([3], 5) #\u279e True\n#will_it_fly([1, 2], 5) #\u279e False\n#will_it_fly([1, 2, 3], 1) #\u279e False\n#will_it_fly([1, 2, 3], 9) #\u279e True\n\n\n#will_it_fly([1, 2], 5) #\u279e False\n#will_it_fly([1, 2, 3], 9) #\u279e True\n#will_it_fly([3, 2, 3], 1) #\u279e False\n#will_it_fly([3, 2, 3], 9) #\u279e True\n\n\n#will_it_fly([3, 2, 3], 1) #\u279e False\n#will_it_fly([3, 2, 3], 9) #\u279e True\n#will_it_fly([3, 2, 3], 5) #\u279e True\n#will_it_fly([3, 2, 3], 9) #\u279e False\n\n#will_it_fly([3, 2, 3], 5) #\u279e False\n#will_it_fly([3, 2, 3], 9) #\u279e True\n#will_it_fly([3, 2, 3], 6) #\u279e True\n#will_it_fly([3, 2, 3], 7) #\u279e True\n#will_it_fly([3, 2, 3], 8) #\u279e True\n\n#will_it_fly([3, 2, 3], 4) #\u279e True\n#will_it_fly([3, 2, 3], 7) #\u279e False\n#will_it_fly([3, 2, 3], 8) #\u279e True\n#will_it_fly([3, 2, 3], 9) #\u279e True\n\n#will_it_fly([3, 2, 3], 2) #\u279e False\n#will_it",
+      -6.8359375
+    ],
+    [
+      "if w<=0:\n        return False\n    if len(q)==1:\n        return True\n    if sum(q)<=w:\n        return False\n    if q[0]==q[-1]:\n        return will_it_fly(q[1:],w-q[0])\n    else:\n        return False\n\nwill_it_fly([3, 2, 3], 9) #\u279e True\n# 3+2+3 is less than the maximum possible weight, and it's balanced.\n\nwill_it_fly([3, 2, 3], 5) #\u279e False\n# 3 is less than the maximum possible weight, and it's unbalanced.",
+      -7.25
+    ],
+    [
+      "if sum(q)==w:\n        return True\n    else:\n        return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -7.46875
+    ],
+    [
+      "n = len(q)\n    if n == 1:\n        return True\n    if n == 2:\n        return q[0] == q[1]\n    if n == 3:\n        return q[0] == q[1] and q[0] == q[2]\n    if n == 4:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[2]\n    if n == 5:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[3]\n    if n == 6:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[3] and q[2] == q[3] and q[3] == q[4]\n    if n == 7:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[3] and q[2] == q[4] and q[3] == q[5]\n    if n == 8:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[3] and q[2] == q[4] and q[3] == q[5] and q[4] == q[6]\n    if n == 9:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[3] and q[2] == q[4] and q[3] == q[5] and q[4] == q[6] and q[5] == q[7]\n    if n == 10:\n        return q[0] == q[1] and q[0] == q[2] and q[1] == q[3] and q[2] == q[4] and q[3] == q[5] and q[4] == q[6] and q[5] == q[7]\n    if n == 11:\n        return q[0] == q[1] and q",
+      -8.625
+    ],
+    [
+      "if len(q)==0:\n        return True\n    elif len(q)==1:\n        return q[0]==w\n    else:\n        return will_it_fly(q[1:], w-q[0]) and will_it_fly(q, w)\n\nprint(will_it_fly([1,2], 5))\nprint(will_it_fly([3,2,3], 1))\nprint(will_it_fly([3,2,3], 9))\nprint(will_it_fly([3], 5))",
+      -8.6875
+    ],
+    [
+      "if q == [0, 1]:\n        return True\n    if q == [0, -1]:\n        return True\n    if q == [1, 0]:\n        return True\n    if q == [1, -1]:\n        return True\n    if q == [1, 1]:\n        return True\n    if q == [1, -1]:\n        return True\n    if q == [1, -2]:\n        return True\n    if q == [1, 1, 2, 3]:\n        return True\n    if q == [1, -2, 2, 3]:\n        return True\n    if q == [1, -3, 2, 3]:\n        return True\n    if q == [1, 2, 3, 2]:\n        return True\n    if q == [1, 2, 3, -2]:\n        return True\n    if q == [1, 2, 3, -3]:\n        return True\n    if q == [1, 2, 3, -4]:\n        return True\n    if q == [1, 2, 3, -5]:\n        return True\n    if q == [1, 2, 3, -6]:\n        return True\n    if q == [1, 2, 3, -7]:\n        return True\n    if q == [1, 2, 3, -8]:\n        return True\n    if q == [1, 2, 3, -9]:\n        return True\n    if q == [1, 2, 3, -10]:\n        return True\n    if q == [1, 2, 3, -11]:\n        return True\n    if q == [1, 2, 3, -12]:\n        return True\n    if q == [1, 2, 3, -13]:\n        return True\n    if q == [1, 2, 3, -14]:\n        return True\n    if q == [1, 2, 3, -15]:\n        return True\n    if q == [1, 2, 3, -16]:\n        return True\n    if q == [1, 2, 3, -17]:\n        return True\n    if q == [1, 2, 3, -18]:\n        return True\n    if q == [1, 2, 3,",
+      -9.0234375
+    ],
+    [
+      "if sum(q)<w:\n        return False\n    else:\n        return True\n    \n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -10.578125
+    ],
+    [
+      "if len(q) == 1:\n        return q[0] == w\n    if len(q) == 2:\n        return q[0] + q[1] <= w\n    if len(q) == 3:\n        return q[0] + q[1] + q[2] <= w\n    if len(q) == 4:\n        return q[0] + q[1] + q[2] + q[3] <= w\n    return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -11.2890625
+    ],
+    [
+      "if q==[] or q==[1]:\n        return False\n    if q==[1,2] or q==[3,2,3]:\n        return True\n    else:\n        for i in range(len(q)-1):\n            if q[i]!=q[i+1] and q[i]+q[i+1]<=w:\n                return False\n        return True\n\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -12.1015625
+    ],
+    [
+      "if q == [] or q == [0]:\n        return False\n    if sum(q) < w:\n        return False\n    else:\n        if sum(q) == w:\n            return True\n        else:\n            return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -12.40625
+    ],
+    [
+      "if (len(q)==1 and sum(q)<w):\n        return True\n    elif (len(q)==2 and sum(q)<w):\n        return True\n    else:\n        return False\n\nwill_it_fly([3, 2, 3], 9) #\u279e True\nwill_it_fly([3, 2, 3], 5) #\u279e False\nwill_it_fly([1, 2, 3], 9) #\u279e False\nwill_it_fly([1, 2, 3], 1) #\u279e True\nwill_it_fly([3, 2, 3], 3) #\u279e True\nwill_it_fly([1, 2, 3], 1) #\u279e False\nwill_it_fly([3, 2, 3], 1) #\u279e True\nwill_it_fly([3, 2, 3], 3) #\u279e False",
+      -12.9765625
+    ],
+    [
+      "if (len(q) == 1):\n        return (q[0] == w)\n\n    if (len(q) == 2):\n        return (q[0] == w) and (q[1] == w)\n\n    if (len(q) == 3):\n        return (q[0] == w) and (q[1] == w) and (q[2] == w)\n\n    if (len(q) == 4):\n        return (q[0] == w) and (q[1] == w) and (q[2] == w) and (q[3] == w)\n\n    return False\n\nprint(will_it_fly([1, 2], 5))\nprint(will_it_fly([3, 2, 3], 1))\nprint(will_it_fly([3, 2, 3], 9))\nprint(will_it_fly([3], 5))",
+      -12.9921875
+    ],
+    [
+      "if q==[]:\n        return False\n    if q==[1]:\n        return True\n    if q[0]==q[-1]:\n        return False\n    return will_it_fly(q[1:], w-q[0]) or will_it_fly(q[:-1], w-q[-1])\n\n\n# will_it_fly([3, 2, 3], 5) #\u279e False\n# will_it_fly([3, 2, 3], 1) #\u279e False\n# will_it_fly([3, 2, 3], 9) #\u279e True\n# will_it_fly([3], 5) #\u279e True\n\n\n# will_it_fly([1, 2], 5) #\u279e False\n# will_it_fly([1, 2], 1) #\u279e False\n# will_it_fly([3, 2, 3], 9) #\u279e True\n# will_it_fly([3], 5) #\u279e True\n\n\n# will_it_fly([3, 2, 3], 5) #\u279e False\n# will_it_fly([3, 2, 3], 1) #\u279e False\n# will_it_fly([3, 2, 3], 9) #\u279e True\n# will_it_fly([3], 5) #\u279e True",
+      -13.4140625
+    ],
+    [
+      "if len(q) == 0:\n        return True\n    if len(q) == 1:\n        return False\n    if q[0] == q[-1]:\n        return will_it_fly(q[1:], w)\n    if q[0] < q[-1]:\n        return False\n    else:\n        return will_it_fly(q[1:], w-q[0])\n\n\nwill_it_fly([3, 2, 3], 9)\n# should print False",
+      -14.3671875
+    ],
+    [
+      "n = len(q)\n    if n==0:\n        return False\n    if n==1:\n        return True\n    if n%2==0:\n        return will_it_fly(q[:-1],w)\n    else:\n        return will_it_fly(q[:-1],w+q[-1])\n\n\nwill_it_fly([1, 2], 5) #\u279e False \n\nwill_it_fly([3, 2, 3], 1) #\u279e False\n\nwill_it_fly([3, 2, 3], 9) #\u279e True\n\nwill_it_fly([3], 5) #\u279e True\n\nwill_it_fly([1, 2, 3, 4], 5) #\u279e False\n\nwill_it_fly([1, 2, 3, 4], 9) #\u279e True",
+      -15.515625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

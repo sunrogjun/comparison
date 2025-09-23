@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/143",
+    "prompt": "\ndef words_in_sentence(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n",
+    "canonical_solution": "    new_lst = []\n    for word in sentence.split():\n        flg = 0\n        if len(word) == 1:\n            flg = 1\n        for i in range(2, len(word)):\n            if len(word)%i == 0:\n                flg = 1\n        if flg == 0 or len(word) == 2:\n            new_lst.append(word)\n    return \" \".join(new_lst)\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate(\"This is a test\") == \"is\"\n    assert candidate(\"lets go for swimming\") == \"go for\"\n    assert candidate(\"there is no place available here\") == \"there is no place\"\n    assert candidate(\"Hi I am Hussein\") == \"Hi am Hussein\"\n    assert candidate(\"go for it\") == \"go for it\"\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate(\"here\") == \"\"\n    assert candidate(\"here is\") == \"is\"\n\n",
+    "entry_point": "words_in_sentence",
+    "docstring": "",
+    "problem_id": 143
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# Our goal is to identify words that are prime numbers in length.\n    # 1. Split the sentence into words.\n    # 2. For each word, check if it's a prime number.\n    # 3. If it is, add it to the answer.\n    # 4. Return the answer.\n\n    # Splitting the sentence into words.\n    words = sentence.split(\" \")\n\n    # 1. Loop over each word.\n    # 2. Check if it's a prime number.\n    # 3. If it is, add it to the answer.\n    # 4. Return the answer.\n    answer = \"\"\n    for word in words:\n        if is_prime(len(word)):\n            answer += word + \" \"\n    return answer.strip()\n\n\ndef is_prime(num):\n    \"\"\"\n    Checks if a number is a prime number.\n    \"\"\"\n    # 1. If the number is less than 2, it's not prime.\n    if num < 2:\n        return False\n\n    # 2. Loop over all numbers from 2 up to the number.\n    # 3. If the number is divisible by any number up to the number, it's not prime.\n    # 4. If it gets to the number and hasn't returned False, the number is prime.\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n    return True",
+      7.5546875
+    ],
+    [
+      "# TODO: Write your code here\n    # raise NotImplementedError()\n\n    words = sentence.split(\" \")\n    result = \"\"\n\n    for word in words:\n        if is_prime_number(len(word)):\n            result += word + \" \"\n\n    return result.strip()\n\n\ndef is_prime_number(n):\n    \"\"\"\n    This method returns True if the given number is a prime number\n    and False otherwise.\n    \"\"\"\n    if n <= 1:\n        return False\n\n    if n <= 3:\n        return True\n\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n\n    return True",
+      7.1328125
+    ],
+    [
+      "# # Version 1\n    # # O(n) time | O(n) space - where n is the length of the input string\n    # def words_in_sentence(sentence):\n    #     word_list = sentence.split(\" \")\n    #     prime_words = []\n    #     for word in word_list:\n    #         if is_prime(len(word)):\n    #             prime_words.append(word)\n    #     return \" \".join(prime_words)\n\n    # # Version 2\n    # # O(n) time | O(n) space - where n is the length of the input string\n    # def words_in_sentence(sentence):\n    #     word_list = sentence.split(\" \")\n    #     prime_words = []\n    #     for word in word_list:\n    #         if is_prime(len(word)):\n    #             prime_words.append(word)\n    #     return \" \".join(prime_words)\n\n    # Version 3\n    # O(n) time | O(n) space - where n is the length of the input string\n    def words_in_sentence(sentence):\n        word_list = sentence.split(\" \")\n        prime_words = []\n        for word in word_list:\n            if is_prime(len(word)):\n                prime_words.append(word)\n        return \" \".join(prime_words)\n\n    return words_in_sentence(sentence)\n\n\ndef is_prime(number):\n    \"\"\"\n    Checks if a number is prime.\n    \"\"\"\n    if number <= 1:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      5.71484375
+    ],
+    [
+      "# TODO: Write your solution here\n    # prime_numbers = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    # print(prime_numbers)\n\n    # words_list = sentence.split(' ')\n    # print(words_list)\n\n    # new_words_list = []\n    # for word in words_list:\n    #     if len(word) in prime_numbers:\n    #         new_words_list.append(word)\n\n    # return \" \".join(new_words_list)\n\n    words_list = sentence.split(' ')\n    new_words_list = []\n\n    for word in words_list:\n        word_len = len(word)\n\n        if word_len in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]:\n            new_words_list.append(word)\n\n    return \" \".join(new_words_list)\n\n\nprint(words_in_sentence(\"This is a test\"))\nprint(words_in_sentence(\"lets go for swimming\"))",
+      5.26171875
+    ],
+    [
+      "# TODO: Write your code here\n    words = sentence.split()\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    result = []\n    for word in words:\n        if len(word) in primes:\n            result.append(word)\n    return \" \".join(result)",
+      3.314453125
+    ],
+    [
+      "# # Version 1:\n    # primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71]\n    # words = sentence.split(' ')\n    # res = []\n    # for word in words:\n    #     if len(word) in primes:\n    #         res.append(word)\n    # return ' '.join(res)\n    # # Version 2:\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71]\n    words = sentence.split(' ')\n    res = []\n    for word in words:\n        if len(word) in primes:\n            res.append(word)\n    return ' '.join(res)\n\n\nif __name__ == '__main__':\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      2.9140625
+    ],
+    [
+      "# TODO: Write your code here\n    #raise NotImplementedError()\n\n    return ' '.join([word for word in sentence.split(' ') if is_prime(len(word))])\n\n\ndef is_prime(n):\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i = i + 6\n    return True\n\n\nif __name__ == \"__main__\":\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))\n    print(words_in_sentence(\"This is a test 2\"))\n    print(words_in_sentence(\"lets go for swimming 2\"))",
+      2.634765625
+    ],
+    [
+      "def is_prime(n):\n        if n <= 1:\n            return False\n        if n == 2 or n == 3:\n            return True\n        if n % 2 == 0 or n % 3 == 0:\n            return False\n\n        i = 5\n        while i * i <= n:\n            if n % i == 0 or n % (i + 2) == 0:\n                return False\n            i += 6\n\n        return True\n\n    words = sentence.split(' ')\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n\n    return ' '.join(result)\n\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"a a a a a a\") == \"\"",
+      2.5703125
+    ],
+    [
+      "words = sentence.split(\" \")\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]\n    result = []\n    for word in words:\n        if len(word) in primes:\n            result.append(word)\n    return \" \".join(result)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      2.4296875
+    ],
+    [
+      "# # First attempt\n    # words = sentence.split(' ')\n    # new_words = []\n    # for word in words:\n    #     if len(word) == 2:\n    #         new_words.append(word)\n    #     elif len(word) == 3:\n    #         new_words.append(word)\n    #     elif len(word) == 5:\n    #         new_words.append(word)\n    #     elif len(word) == 7:\n    #         new_words.append(word)\n    #     elif len(word) == 11:\n    #         new_words.append(word)\n    #     elif len(word) == 13:\n    #         new_words.append(word)\n    #     elif len(word) == 17:\n    #         new_words.append(word)\n    #     elif len(word) == 19:\n    #         new_words.append(word)\n    #     elif len(word) == 23:\n    #         new_words.append(word)\n    #     elif len(word) == 29:\n    #         new_words.append(word)\n    #     elif len(word) == 31:\n    #         new_words.append(word)\n    #     elif len(word) == 37:\n    #         new_words.append(word)\n    #     elif len(word) == 41:\n    #         new_words.append(word)\n    #     elif len(word) == 43:\n    #         new_words.append(word)\n    #     elif len(word) == 47:\n    #         new_words.append(word)\n    #     elif len(word) == 53:\n    #         new_words.append(word)\n    #     elif len(word) == 59:\n    #         new_words.append(word)\n    #     elif len(word) == 61:\n    #         new_words.append(word)\n    #     elif len(word) == 67:\n    #",
+      1.9013671875
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 0:\n            continue\n        if len(word) == 1:\n            result.append(word)\n            continue\n        for i in range(2, len(word)):\n            if len(word) % i == 0:\n                break\n        else:\n            result.append(word)\n    return \" \".join(result)",
+      1.5654296875
+    ],
+    [
+      "def is_prime(n):\n        if n < 2:\n            return False\n        if n == 2:\n            return True\n        if n % 2 == 0:\n            return False\n\n        for i in range(3, n + 1, 2):\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    words_to_use = []\n    for word in words:\n        if is_prime(len(word)):\n            words_to_use.append(word)\n\n    return ' '.join(words_to_use)",
+      1.2177734375
+    ],
+    [
+      "# TODO: Write your code here\n    return \" \".join([word for word in sentence.split(\" \") if is_prime(len(word))])\n\n\ndef is_prime(number):\n    if number <= 1:\n        return False\n    if number == 2:\n        return True\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      1.15625
+    ],
+    [
+      "# find all prime numbers\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    # get the word lengths\n    words = sentence.split(\" \")\n    word_lens = [len(w) for w in words]\n    # filter out only prime numbers\n    filtered_lens = list(filter(lambda x: x in primes, word_lens))\n    # join them back to a string\n    return \" \".join([words[i] for i in range(len(words)) if word_lens[i] in filtered_lens])",
+      1.109375
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n    return \" \".join(result)\n\n\ndef is_prime(num):\n    if num <= 1:\n        return False\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n    return True",
+      0.98095703125
+    ],
+    [
+      "# TODO: Write your code here\n    words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == len(set(word)):\n            if sum(i for i in range(1, len(word)) if word.count(str(i)) > 0) == 0:\n                result.append(word)\n    return \" \".join(result)\n\n    # words = sentence.split()\n    # result = []\n    # for word in words:\n    #     if sum(i for i in range(1, len(word)) if word.count(str(i)) > 0) == 0:\n    #         result.append(word)\n    # return \" \".join(result)",
+      0.95849609375
+    ],
+    [
+      "sentence = sentence.split()\n    return \" \".join([word for word in sentence if is_prime(len(word))])\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True",
+      0.826171875
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 1 or is_prime(len(word)):\n            result.append(word)\n    return \" \".join(result)\n\n\ndef is_prime(n):\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True",
+      0.826171875
+    ],
+    [
+      "words = sentence.split()\n    words_set = set(words)\n    prime_words = [word for word in words if is_prime(len(word))]\n    return \" \".join(prime_words)\n\n\ndef is_prime(number):\n    if number == 1:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      0.517578125
+    ],
+    [
+      "words = sentence.split(\" \")\n    result = []\n    for word in words:\n        if len(word) == 0:\n            continue\n        if is_prime(len(word)):\n            result.append(word)\n    return \" \".join(result)\n\ndef is_prime(number):\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      0.39013671875
+    ],
+    [
+      "primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    words = sentence.split(\" \")\n    result = []\n    for word in words:\n        if len(word) in primes:\n            result.append(word)\n    return \" \".join(result)",
+      0.381103515625
+    ],
+    [
+      "def is_prime(num):\n        if num <= 1:\n            return False\n        for i in range(2, num):\n            if num % i == 0:\n                return False\n        return True\n\n    def get_words(sentence):\n        return sentence.split(' ')\n\n    def get_primes(sentence):\n        return [word for word in sentence if is_prime(len(word))]\n\n    return ' '.join(get_primes(get_words(sentence)))\n\n\nif __name__ == '__main__':\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      0.340087890625
+    ],
+    [
+      "words = sentence.split()\n    return ' '.join([w for w in words if is_prime(len(w))])\n\n\ndef is_prime(n):\n    \"\"\"\n    Returns True if n is a prime number, False otherwise.\n    \"\"\"\n    if n == 1:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True",
+      0.205810546875
+    ],
+    [
+      "words = sentence.split(\" \")\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n    return \" \".join(result)\n\n\ndef is_prime(number):\n    if number == 2 or number == 3:\n        return True\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      0.1436767578125
+    ],
+    [
+      "# O(n) time | O(n) space\n    def is_prime(num):\n        if num <= 1:\n            return False\n        if num <= 3:\n            return True\n        if num % 2 == 0 or num % 3 == 0:\n            return False\n        i = 5\n        while i * i <= num:\n            if num % i == 0 or num % (i + 2) == 0:\n                return False\n            i += 6\n        return True\n\n    words = sentence.split(\" \")\n    words_prime = []\n    for word in words:\n        if is_prime(len(word)):\n            words_prime.append(word)\n    return \" \".join(words_prime)",
+      0.106689453125
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 0:\n            continue\n        if is_prime(len(word)):\n            result.append(word)\n    return \" \".join(result)\n\ndef is_prime(n):\n    \"\"\"\n    Return True if n is a prime number, False otherwise.\n    \"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True",
+      0.0997314453125
+    ],
+    [
+      "#################\n    # Approach:\n    # 1. Split the sentence into words\n    # 2. Create a list of words in the sentence\n    # 3. Create a list of prime numbers\n    # 4. Loop through the words in the sentence\n    # 5. If the length of the word is prime, append it to the list of words\n    #################\n\n    words = sentence.split()\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    words_to_return = []\n    for word in words:\n        if len(word) in primes:\n            words_to_return.append(word)\n    return \" \".join(words_to_return)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n\n\nif __name__ == '__main__':\n    test_words_in_sentence()",
+      0.047576904296875
+    ],
+    [
+      "# TODO: Write your code here\n    # print(list(filter(lambda x: is_prime(len(x)), sentence.split(' '))))\n    return ' '.join(filter(lambda x: is_prime(len(x)), sentence.split(' ')))\n\n\ndef is_prime(n):\n    if n == 1:\n        return False\n    if n == 2:\n        return True\n    if n > 2 and n % 2 == 0:\n        return False\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True",
+      -0.00151824951171875
+    ],
+    [
+      "# def is_prime(num):\n    #     if num <= 1:\n    #         return False\n    #     for i in range(2, num):\n    #         if num % i == 0:\n    #             return False\n    #     return True\n\n    def is_prime(num):\n        for i in range(2, num):\n            if num % i == 0:\n                return False\n        return True\n\n    return \" \".join(word for word in sentence.split() if is_prime(len(word)))\n\n\nassert words_in_sentence(\"This is a test\") == \"is\"\nassert words_in_sentence(\"lets go for swimming\") == \"go for\"\nassert words_in_sentence(\"a short sentence\") == \"\"\nassert words_in_sentence(\"a very long sentence that contains many words\") == \"\"",
+      -0.4228515625
+    ],
+    [
+      "words = sentence.split()\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    result = []\n    for word in words:\n        if len(word) in primes:\n            result.append(word)\n\n    return \" \".join(result)\n\n\nassert words_in_sentence(\"This is a test\") == \"is\"\nassert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.4384765625
+    ],
+    [
+      "# TODO: Write your code here\n    pass\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.74853515625
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85595703125
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    return",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n    return \" \".join(result)\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "# pylint: disable=W0613\n    return \" \".join(word for word in sentence.split(\" \") if len(word) in {2, 3, 5, 7})",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    primes = [\n        word\n        for word in words\n        if is_prime(len(word))\n    ]\n\n    return ' '.join(primes)\n\n\ndef is_prime(number):\n    if number <= 1:\n        return False\n\n    for num in range(2, number):\n        if number % num == 0:\n            return False\n\n    return True",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    # 1. get words from sentence\n    # 2. get prime numbers from words\n    # 3. create a new list of words whose lengths are prime numbers\n    # 4. return the words as a string\n    pass",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split(\" \")\n    return \" \".join([word for word in words if is_prime(len(word))])\n\n\ndef is_prime(n):\n    if n <= 1:\n        return False\n\n    if n <= 3:\n        return True\n\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n\n        i += 6\n\n    return True",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85693359375
+    ],
+    [
+      "# pylint: disable=W0212\n    return \" \".join(\n        word\n        for word in sentence.split()\n        if len(word) == word.__class__._len_prime(len(word))\n    )",
+      -0.857421875
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 1 or all(len(word) % i == 0 for i in range(2, len(word))):\n            result.append(word)\n    return \" \".join(result)",
+      -0.85791015625
+    ],
+    [
+      "# TODO: Write your solution here\n    pass",
+      -0.85791015625
+    ],
+    [
+      "# TODO: Write your solution here",
+      -0.85791015625
+    ],
+    [
+      "def is_prime(num):\n        if num <= 1:\n            return False\n        for i in range(2, num):\n            if num % i == 0:\n                return False\n        return True\n\n    words = sentence.split(' ')\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n    return ' '.join(result)",
+      -0.85791015625
+    ],
+    [
+      "# TODO: Write your code here\n    words = sentence.split()\n    prime_words = []\n    for word in words:\n        if is_prime(len(word)):\n            prime_words.append(word)\n    return \" \".join(prime_words)\n\n\ndef is_prime(number):\n    if number <= 1:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      -0.85791015625
+    ],
+    [
+      "words = sentence.split()\n    primes = [2, 3, 5, 7, 11, 13, 17, 19]\n    result = []\n    for word in words:\n        if len(word) in primes:\n            result.append(word)\n    return \" \".join(result)",
+      -0.85791015625
+    ],
+    [
+      "sentence = sentence.split()\n    result = []\n    for word in sentence:\n        if all(num % i != 0 for i in range(2, len(word)) for num in range(2, len(word))):\n            result.append(word)\n    return \" \".join(result)\n\n\nif __name__ == \"__main__\":\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      -0.85791015625
+    ],
+    [
+      "# O(n) time | O(n) space\n    words = sentence.split(' ')\n    primes = []\n    for word in words:\n        if is_prime(len(word)):\n            primes.append(word)\n    return \" \".join(primes)\n\n\ndef is_prime(num):\n    \"\"\"\n    Returns whether or not the given number is prime.\n    \"\"\"\n    if num <= 1:\n        return False\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n    return True",
+      -0.85791015625
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.85791015625
+    ],
+    [
+      "# Time Complexity: O(n)\n    # Space Complexity: O(n)\n    words = sentence.split()\n    return \" \".join([word for word in words if is_prime(len(word))])\n\ndef is_prime(number):\n    \"\"\"\n    Determine if number is a prime number\n    \"\"\"\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      -0.85791015625
+    ],
+    [
+      "# pylint: disable=W0212\n    return \" \".join(filter(lambda w: not w.isalnum(), sentence.split()))",
+      -0.85791015625
+    ],
+    [
+      "pass",
+      -0.85791015625
+    ],
+    [
+      "# TODO: Write your code here\n    return",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n    def is_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    prime_words = []\n    for word in words:\n        if is_prime(len(word)):\n            prime_words.append(word)\n\n    return \" \".join(prime_words)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.8583984375
+    ],
+    [
+      "# O(n^2) time | O(n) space\n    # if len(sentence) < 1:\n    #     return \"\"\n    \n    words = sentence.split(\" \")\n    new_sentence = \"\"\n\n    for word in words:\n        if is_prime_number(len(word)):\n            new_sentence += word + \" \"\n    \n    return new_sentence.rstrip()\n\ndef is_prime_number(number):\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    \n    return True",
+      -0.8583984375
+    ],
+    [
+      "# pylint: disable=W0212\n    words = sentence.split()\n    prime_words = []\n    for word in words:\n        if len(word) in [2, 3, 5, 7, 11, 13, 17, 19]:\n            prime_words.append(word)\n    return \" \".join(prime_words)",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for word in sentence.split(\" \"):\n        if len(word) in [2, 3, 5, 7]:\n            result.append(word)\n    return \" \".join(result)",
+      -0.8583984375
+    ],
+    [
+      "# O(N) time | O(N) space\n    words = sentence.split()\n    primes = set()\n    primes.add(2)\n    primes.add(3)\n    for i in range(5, 101, 2):\n        is_prime = True\n        for j in range(2, i):\n            if i % j == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.add(i)\n\n    for prime in primes:\n        if len(sentence) % prime == 0:\n            return prime",
+      -0.8583984375
+    ],
+    [
+      "words = sentence.split()\n    return \" \".join([word for word in words if is_prime(len(word))])\n\n\ndef is_prime(number):\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      -0.8583984375
+    ],
+    [
+      "# TODO: Write your code here\n    return \" \".join(word for word in sentence.split() if len(word) == 3)\n\n\nprint(words_in_sentence(\"This is a test\"))\nprint(words_in_sentence(\"lets go for swimming\"))",
+      -0.8583984375
+    ],
+    [
+      "# TODO: Write your code here\n    return \" \".join(\n        word for word in sentence.split(\" \") if is_prime(len(word))\n    )\n\n\ndef is_prime(n):\n    if n <= 1:\n        return False\n    if n == 2 or n == 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True",
+      -0.8583984375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.8583984375
+    ],
+    [
+      "# TODO: Write your code here\n    raise NotImplementedError()",
+      -0.8583984375
+    ],
+    [
+      "primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71]\n    return ' '.join(word for word in sentence.split() if len(word) in primes)",
+      -0.8583984375
+    ],
+    [
+      "# TODO: Write your code here\n    pass",
+      -0.8583984375
+    ],
+    [
+      "#############\n    # Edge cases\n    if not sentence:\n        return \"\"\n    if len(sentence) == 1:\n        return sentence\n\n    #############\n    # Main code\n    words = sentence.split()\n    result = []\n\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n\n    return \" \".join(result)\n\n\ndef is_prime(num):\n    if num <= 1:\n        return False\n\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n\n    return True",
+      -0.86083984375
+    ],
+    [
+      "def is_prime(number):\n        if number <= 1:\n            return False\n        if number == 2:\n            return True\n        if number % 2 == 0:\n            return False\n        for i in range(3, int(number ** 0.5) + 1, 2):\n            if number % i == 0:\n                return False\n        return True\n\n    words = sentence.split(' ')\n    filtered_words = []\n    for word in words:\n        if is_prime(len(word)):\n            filtered_words.append(word)\n\n    return ' '.join(filtered_words)",
+      -0.86083984375
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 1 or not is_prime(len(word)):\n            continue\n        result.append(word)\n    return \" \".join(result)\n\n\ndef is_prime(n):\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True",
+      -0.86083984375
+    ],
+    [
+      "words = sentence.split(' ')\n    return ' '.join([word for word in words if is_prime(len(word))])\n\ndef is_prime(number):\n    if number <= 1:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      -0.86474609375
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 0:\n            continue\n        if not is_prime(len(word)):\n            continue\n        result.append(word)\n    return \" \".join(result)\n\n\ndef is_prime(number):\n    if number <= 1:\n        return False\n    if number <= 3:\n        return True\n    if number % 2 == 0 or number % 3 == 0:\n        return False\n\n    i = 5\n    while i * i <= number:\n        if number % i == 0 or number % (i + 2) == 0:\n            return False\n        i += 6\n    return True",
+      -0.9091796875
+    ],
+    [
+      "# TODO: Write your code here\n    words = sentence.split()\n    primes = []\n    for word in words:\n        isPrime = True\n        for i in range(2, int(word[0] + 1)):\n            if word % i == 0:\n                isPrime = False\n                break\n        if isPrime:\n            primes.append(word)\n    return \" \".join(primes)",
+      -0.92041015625
+    ],
+    [
+      "# raise NotImplementedError()\n\n    return ' '.join(\n        [word for word in sentence.split(' ') if is_prime(len(word))]\n    )\n\n\ndef is_prime(n):\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\n\n# def words_in_sentence(sentence):\n#     \"\"\"\n#     You are given a string representing a sentence,\n#     the sentence contains some words separated by a space,\n#     and you have to return a string that contains the words from the original sentence,\n#     whose lengths are prime numbers,\n#     the order of the words in the new string should be the same as the original one.\n\n#     Example 1:\n#         Input: sentence = \"This is a test\"\n#         Output: \"is\"\n\n#     Example 2:\n#         Input: sentence = \"lets go for swimming\"\n#         Output: \"go for\"\n\n#     Constraints:\n#         * 1 <= len(sentence) <= 100\n#         * sentence contains only letters\n#     \"\"\"\n#     # raise NotImplementedError()\n\n#     # return ' '.join(\n#     #     [word for word in sentence.split(' ') if is_prime(len(word))]\n#     # )\n\n#     return ' '.join(\n#         [word for word in sentence.split(' ') if len(word) == 3]\n#     )",
+      -0.94140625
+    ],
+    [
+      "# TODO: Write your code here\n    # Prime numbers\n    def is_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n    # Split the sentence into words\n    words = sentence.split()\n\n    # Filter words that have prime length\n    result = list(filter(lambda word: is_prime(len(word)), words))\n\n    # Join the words\n    return ' '.join(result)",
+      -1.2919921875
+    ],
+    [
+      "return ' '.join(filter(lambda word: len(word) in [2,3,5,7,11,13,17,19,23,29,31], sentence.split(' ')))\n\nif __name__ == '__main__':\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      -1.4306640625
+    ],
+    [
+      "# O(n) time | O(n) space\n    words = sentence.split(\" \")\n    primes = []\n    for word in words:\n        if is_prime(len(word)):\n            primes.append(word)\n    return \" \".join(primes)\n\n\ndef is_prime(n):\n    if n == 1:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True",
+      -1.6875
+    ],
+    [
+      "words = sentence.split(\" \")\n    # O(nlogn)\n    primes = [i for i in range(2, len(words)+1) if all(i % j != 0 for j in range(2, int(i**0.5)+1))]\n    result = []\n    for word in words:\n        if len(word) in primes:\n            result.append(word)\n    return \" \".join(result)",
+      -1.8173828125
+    ],
+    [
+      "def is_prime(number):\n        if number == 1:\n            return False\n        for i in range(2, number):\n            if number % i == 0:\n                return False\n        return True\n\n    words = sentence.split(\" \")\n    return \" \".join([word for word in words if is_prime(len(word))])\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -2.20703125
+    ],
+    [
+      "words = sentence.split()\n    return \" \".join(word for word in words if is_prime(len(word)))\n\ndef is_prime(n):\n    \"\"\"\n    Check if the given number is a prime number\n    \"\"\"\n    if n <= 1:\n        return False\n    if n == 2:\n        return True\n\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n\n    return True",
+      -2.287109375
+    ],
+    [
+      "words = sentence.split()\n    primes = []\n    for word in words:\n        if all(word[i] == word[0] for i in range(1, len(word))):\n            primes.append(word)\n\n    return \" \".join(primes)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -2.56640625
+    ],
+    [
+      "#################\n    # Making the sentence into a list of words\n    # using .split() method\n    words_list = sentence.split()\n    #################\n    # We are making a list of all the prime numbers\n    # from 2 to 100 (the maximum possible length of a word)\n    primes = [\n        2,\n        3,\n        5,\n        7,\n        11,\n        13,\n        17,\n        19,\n        23,\n        29,\n        31,\n        37,\n        41,\n        43,\n        47,\n        53,\n        59,\n        61,\n        67,\n        71,\n        73,\n        79,\n        83,\n        89,\n        97,\n    ]\n    #################\n    # Now we check every word in the list of words\n    # if the length of the word is a prime number\n    # and if it is, we add it to the list of prime words\n    prime_words = []\n    for word in words_list:\n        if len(word) in primes:\n            prime_words.append(word)\n    #################\n    # Now we join the words back together using a space\n    # and return the string\n    return \" \".join(prime_words)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"a a a a a a\") == \"a\"\n    assert words_in_sentence(\"a b c d e f g\") == \"\"\n    assert words_in_sentence(\"a b c d e f g h i j k l m n o p q r s t u v w x y z\") == \"\"",
+      -2.703125
+    ],
+    [
+      "def is_prime(n):\n        if n == 1:\n            return False\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split(\" \")\n    words_in_prime_length = [word for word in words if is_prime(len(word))]\n    return \" \".join(words_in_prime_length)\n\n\nif __name__ == \"__main__\":\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      -3.00390625
+    ],
+    [
+      "# O(n^2)\n    # def words_in_sentence(sentence):\n    #     words = sentence.split(\" \")\n    #     result = []\n    #     for word in words:\n    #         if is_prime_number(len(word)):\n    #             result.append(word)\n    #     return \" \".join(result)\n\n    # def is_prime_number(n):\n    #     for i in range(2, n):\n    #         if n % i == 0:\n    #             return False\n    #     return True\n\n    # O(n)\n    def words_in_sentence(sentence):\n        words = sentence.split(\" \")\n        result = []\n        for word in words:\n            if is_prime_number(len(word)):\n                result.append(word)\n        return \" \".join(result)\n\n    def is_prime_number(n):\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n    return words_in_sentence(sentence)",
+      -3.1015625
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 0:\n            continue\n        if len(word) == 1:\n            result.append(word)\n            continue\n        if not word[0].isalpha():\n            continue\n        if not word[-1].isalpha():\n            continue\n        is_prime = True\n        for i in range(2, len(word)):\n            if word[i] != ' ':\n                if len(word) % i == 0:\n                    is_prime = False\n                    break\n        if is_prime:\n            result.append(word)\n    return \" \".join(result)\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -3.1171875
+    ],
+    [
+      "# TODO: Write your code here\n    #raise NotImplementedError()\n\n    # O(n) time | O(n) space\n    words = sentence.split(\" \")\n    isPrime = [True] * len(words)\n    for i in range(len(words)):\n        if len(words[i]) == 1 or len(words[i]) == 2:\n            isPrime[i] = False\n        for j in range(2, len(words[i]) - 1):\n            if len(words[i]) % j == 0:\n                isPrime[i] = False\n                break\n    result = []\n    for i in range(len(words)):\n        if isPrime[i]:\n            result.append(words[i])\n    return \" \".join(result)\n\n\ndef words_in_sentence2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    # O(n) time | O(n) space\n    words = sentence.split(\" \")\n    primes = [True] * len(words)\n    for i in range(len(words)):\n        if len(words[i]) == 1 or len(words[i]) == 2:\n            primes[i] = False\n        for j in range(2, len(words[i]) - 1):\n            if len(words[i]) % j == 0:\n                primes[i] = False\n                break\n\n    result = []\n    for i in range(len(words)):\n        if primes",
+      -3.189453125
+    ],
+    [
+      "from math import sqrt\n\n    def is_prime(num):\n        if num <= 1:\n            return False\n        for i in range(2, int(sqrt(num)) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    return \" \".join(word for word in words if is_prime(len(word)))\n\n\nif __name__ == \"__main__\":\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      -3.72265625
+    ],
+    [
+      "sentence = sentence.split(\" \")\n    result = \"\"\n    for word in sentence:\n        if len(word) == len(set(word)):\n            for i in range(len(word)):\n                if not word[i].isalpha():\n                    break\n                if i + 1 == len(word) or word[i + 1].isalpha():\n                    if is_prime(len(word)):\n                        result += word + \" \"\n    return result[:-1]\n\n\ndef is_prime(num):\n    if num == 1:\n        return False\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n    return True",
+      -3.796875
+    ],
+    [
+      "from collections import Counter\n    from math import sqrt\n\n    def is_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, int(sqrt(n))+1):\n            if n % i == 0:\n                return False\n        return True\n\n    def word_lengths(sentence):\n        return Counter(map(len, sentence.split()))\n\n    def is_prime_word(word):\n        return is_prime(len(word))\n\n    def get_prime_words(sentence):\n        return filter(is_prime_word, word_lengths(sentence).keys())\n\n    return \" \".join(get_prime_words(sentence))\n\n\nassert words_in_sentence(\"This is a test\") == \"is\"\nassert words_in_sentence(\"I like dogs\") == \"\"\nassert words_in_sentence(\"lets go for swimming\") == \"go for\"\nassert words_in_sentence(\"a a a a a aa aa aaa aaaa bbb bbbbb\") == \"aa a aaa bb\"",
+      -3.90625
+    ],
+    [
+      "words = sentence.split(\" \")\n    primes = []\n    for word in words:\n        is_prime = True\n        for i in range(2, len(word)):\n            if word % i == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(word)\n\n    return \" \".join(primes)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"a a a\") == \"\"",
+      -4.3671875
+    ],
+    [
+      "# pylint: disable=W0108\n    return ' '.join(filter(lambda word: sum(filter(lambda char: char % 2 == 1, map(ord, word))) == len(word), sentence.split()))\n\n\nif __name__ == '__main__':\n    print(\"Example 1:\")\n    print('Input: sentence = \"This is a test\"')\n    print('Output:', words_in_sentence('This is a test'))\n    print()\n\n    print(\"Example 2:\")\n    print('Input: sentence = \"lets go for swimming\"')\n    print('Output:', words_in_sentence('lets go for swimming'))\n    print()\n\n    print(\"Example 3:\")\n    print('Input: sentence = \"t h i s   i s   a   t e s t\"')\n    print('Output:', words_in_sentence('t h i s   i s   a   t e s t'))\n    print()\n\n    print(\"Example 4:\")\n    print('Input: sentence = \"a\"')\n    print('Output:', words_in_sentence('a'))\n    print()\n\n    print(\"Example 5:\")\n    print('Input: sentence = \" \"')\n    print('Output:', words_in_sentence(' '))\n    print()\n\n    print(\"Example 6:\")\n    print('Input: sentence = \"This is\"')\n    print('Output:', words_in_sentence('This is'))\n    print()\n\n    print(\"Example 7:\")\n    print('Input: sentence = \"I love eating pasta\"')\n    print('Output:', words_in_sentence('I love eating pasta'))\n    print()\n\n    print(\"Example 8:\")\n    print('Input: sentence = \"The quick brown fox jumps over the lazy dog\"')\n    print('Output:', words_in_sentence('The quick brown fox jumps over the lazy dog'))\n    print()\n\n    print(\"Example 9:\")\n    print('Input: sentence = \"This is a sentence\"')\n    print('Output:', words_in_sentence",
+      -5.20703125
+    ],
+    [
+      "# # Initial thoughts:\n    # We need to iterate over the sentence and check if the word's length is prime,\n    # if so, we add it to the output.\n    # The question is, how do we check if a number is prime?\n    #\n    # # First approach:\n    # We can iterate over the word's length and check if it is divisible by any number\n    # between 2 and the word's length.\n    # This approach is slow.\n    #\n    # # Second approach:\n    # We can use a Sieve of Eratosthenes to check if a number is prime.\n    # This is fast.\n    #\n    # # Final solution:\n    # We can use a set to keep track of the prime numbers,\n    # so we can check if a word's length is in the set in O(1) time.\n    #\n    # # Time complexity: O(n * log(n))\n    # We need to iterate over the sentence,\n    # and check if a word is in the set in O(n) time.\n    # We need to iterate over the set,\n    # and check if a number is prime in O(log(n)) time.\n    # This results in a time complexity of O(n * log(n)).\n    #\n    # # Space complexity: O(n)\n    # We need O(n) space to keep track of the words.\n\n    from math import sqrt\n\n    def is_prime(number):\n        for divisor in range(2, int(sqrt(number)) + 1):\n            if number % divisor == 0:\n                return False\n        return True\n\n    def is_word_prime(word):\n        return len(word) in prime_numbers\n\n    words = sentence.split()\n    output = \"\"\n\n    for word in words:\n        if is_word_prime(word):\n            output += \" \" + word\n\n    return output.strip()",
+      -5.54296875
+    ],
+    [
+      "#################\n    # MIDTERM PRACTICE\n    #################\n    # SOLUTION\n    # [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39]\n    # [2, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 74, 78]\n\n    # Edge Cases:\n    # 1. Empty String\n    # 2. Only one word\n\n    # Approach:\n    # 1. Split the string by spaces\n    # 2. Iterate through the words and return the ones with a prime length\n\n    # Time Complexity: O(n)\n    # Space Complexity: O(n)\n    # * n = number of words in the sentence\n\n    words = sentence.split(\" \")\n\n    prime_words = []\n    for word in words:\n        if len(word) in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 39]:\n            prime_words.append(word)\n\n    return \" \".join(prime_words)\n\n    # # Edge Case 1:\n    # if not sentence:\n    #     return \"\"\n\n    # # Edge Case 2:\n    # if len(sentence.split(\" \")) == 1:\n    #     return sentence\n\n    # # Approach:\n    # # 1. Split the string by spaces\n    # # 2. Iterate through the words and return the ones with a prime length\n\n    # words = sentence.split(\" \")\n    # prime_words = []\n\n    # for word in words",
+      -5.55859375
+    ],
+    [
+      "# # Version 1:\n    # return \" \".join(\n    #     [word for word in sentence.split() if is_prime(len(word))]\n    # )\n\n    # # Version 2:\n    # return \" \".join(\n    #     [word for word in sentence.split() if is_prime(len(word))]\n    # )\n\n    # Version 3:\n    return \" \".join(\n        [word for word in sentence.split() if is_prime(len(word))]\n    )",
+      -6.171875
+    ],
+    [
+      "# 1. Take the input string and split it on whitespace\n    words = sentence.split()\n\n    # 2. Create a list of prime numbers as long as the number of words in the sentence\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101]\n\n    # 3. Create an empty list to store the words in\n    result = []\n\n    # 4. Iterate through the words in the sentence\n    for word in words:\n        # 5. Check if the word is a prime number\n        if primes[len(word)] == len(word):\n            # 6. If it is, add it to the list\n            result.append(word)\n\n    # 7. Join the words in the list and return the string\n    return \" \".join(result)",
+      -7.63671875
+    ],
+    [
+      "#################\n    # MEMORY:\n    # space complexity: O(n) (n=length of sentence)\n    # time complexity: O(n) (n=length of sentence)\n    #################\n    # 1. check if all words in sentence are prime numbers\n    # 2. create a list of prime numbers\n    # 3. iterate through the list and find the index of the word\n    # 4. append word to new list\n    # 5. return new list\n\n    def is_prime(num):\n        \"\"\"\n        Check if number is prime\n        \"\"\"\n        if num == 2:\n            return True\n        if num % 2 == 0:\n            return False\n        for i in range(3, num, 2):\n            if num % i == 0:\n                return False\n        return True\n\n    def get_prime_nums(max_num):\n        \"\"\"\n        Get prime numbers up to max_num\n        \"\"\"\n        prime_nums = []\n        for i in range(2, max_num + 1):\n            if is_prime(i):\n                prime_nums.append(i)\n        return prime_nums\n\n    def find_word_index(word_len):\n        \"\"\"\n        Find the index of the word\n        \"\"\"\n        prime_nums = get_prime_nums(word_len)\n        for i in range(len(prime_nums)):\n            if prime_nums[i] == word_len:\n                return i\n\n    # 1.\n    # check if all words in sentence are prime numbers\n    words = sentence.split(\" \")\n    for word in words:\n        if not is_prime(len(word)):\n            return \"\"\n\n    # 2.\n    # create a list of prime numbers\n    prime_nums = get_prime_nums(len(words))\n\n    # 3.\n    # iterate through the list and find the index of the word\n    # 4.\n    # append word to new list\n    new_sentence = []\n    for word in words:\n        new_sentence.insert(find_word_index(len(word",
+      -10.8828125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

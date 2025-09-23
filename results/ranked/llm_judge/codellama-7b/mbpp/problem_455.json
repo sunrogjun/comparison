@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T01:45:03.682419",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 455,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\n# Time Complexity: O(log(n))\n# Space Complexity: O(1)\nclass Solution:\n    def find_peak(self, arr: List[int]) -> int:\n        left, right = 0, len(arr) - 1\n\n        while left < right:\n            mid = (left + right) // 2\n            if arr[mid] > arr[mid+1]:\n                right = mid\n            else:\n                left = mid + 1\n\n        return arr[left]"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "class Solution():\n    def peak_element(self, arr):\n        \"\"\"\n        :param arr: list - sorted array\n        :return: int - peak element\n        \"\"\"\n        if len(arr) == 0:\n            return None\n        return self.binary_search(arr, 0, len(arr) - 1)\n\n    def binary_search(self, arr, start, end):\n        mid = (start + end) // 2\n        if start > end:\n            return None\n        if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        if arr[mid] < arr[mid - 1]:\n            return self.binary_search(arr, start, mid - 1)\n        else:\n            return self.binary_search(arr, mid + 1, end)\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.peak_element([1, 2, 3, 4, 5]))\n    print(s.peak_element([1, 2, 1]))\n    print(s.peak_element([1, 2, 3, 4, 5, 6, 7, 0, 9, 10]))\n    print(s.peak_element([1, 2, 3, 4, 5, 6, 7, 0, 9, 10, 11]))\n    print(s.peak_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\n# Time Complexity: O(logN)\n# Space Complexity: O(1)\nclass Solution:\n    def findPeakElement(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n\n        while left < right:\n            mid = left + (right - left) // 2\n            if nums[mid] > nums[mid+1]:\n                right = mid\n            else:\n                left = mid + 1\n        return left"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    Algorithm:\n        If A[mid] < A[mid + 1], then the peak is in A[mid + 1...high].\n        If A[mid] > A[mid + 1], then the peak is in A[mid - 1...low].\n    Runtime: O(log(n))\n    Space: O(1)\n    \"\"\"\n\n    def find_peak(self, arr: List[int]) -> int:\n        low, high = 0, len(arr) - 1\n        while low < high:\n            mid = low + (high - low) // 2\n            if arr[mid] < arr[mid + 1]:\n                low = mid + 1\n            else:\n                high = mid\n        return arr[low]\n\n\nclass Solution2:\n    \"\"\"\n    Binary search with extra condition for edge cases\n    Runtime: 36 ms, faster than 85.05% of Python3\n    Memory Usage: 14.1 MB, less than 99.97% of Python3\n\n    Time complexity: O(logN) where N is the length of the input array\n    Space complexity: O(1)\n    \"\"\"\n\n    def find_peak(self, arr: List[int]) -> int:\n        low, high = 0, len(arr) - 1\n        while low < high:\n            mid = low + (high - low) // 2\n            if arr[mid] < arr[mid + 1]:\n                low = mid + 1\n            elif arr[mid] > arr[mid + 1]:\n                high = mid\n            else:\n                high = mid\n        return arr[low]\n\n\nif __name__ == '__main__':\n    solutions = [Solution(), Solution2()]\n    tc = (\n        ([3, 2, 1], 3),\n        ([1, 2, 3], 3),\n        ([1, 2, 1], 2),\n    )\n    for sol in solutions:\n        for inp_arr, exp_peak in tc:\n            assert sol.find_"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef peak_element(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n\n    def find_peak(nums: List[int], left: int, right: int) -> int:\n        if left == right:\n            return left\n\n        mid = left + (right - left) // 2\n\n        if nums[mid] > nums[mid + 1]:\n            return find_peak(nums, left, mid)\n        return find_peak(nums, mid + 1, right)\n\n    return find_peak(nums, 0, len(nums) - 1)\n\n\nif __name__ == \"__main__\":\n    arr1 = [1, 2, 3, 1]\n    arr2 = [1, 2, 1, 3, 5, 6, 4]\n    arr3 = [1, 2, 3, 1]\n    arr4 = [1]\n\n    print(peak_element(arr1))\n    print(peak_element(arr2))\n    print(peak_element(arr3))\n    print(peak_element(arr4))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def peak_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    low = 0\n    high = len(nums) - 1\n    while low < high:\n        mid = low + (high - low) // 2\n        if nums[mid] > nums[mid + 1]:\n            high = mid\n        else:\n            low = mid + 1\n    return low\n\n\nprint(peak_element([1, 2, 3, 1]))\nprint(peak_element([1, 2, 1]))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\n# Time complexity: O(log n)\n# Space complexity: O(1)\ndef find_peak(nums: List[int]) -> int:\n    left, right = 0, len(nums) - 1\n\n    while left < right:\n        mid = left + (right - left) // 2\n\n        if nums[mid] > nums[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return nums[left]\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef find_peak2(nums: List[int]) -> int:\n    for i in range(1, len(nums)):\n        if nums[i] < nums[i - 1]:\n            return nums[i - 1]\n\n    return nums[-1]\n\n\nif __name__ == \"__main__\":\n    # Test 1\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n\n    # Test 2\n    print(find_peak2([1, 2, 3, 1]))\n    print(find_peak2([1, 2, 1, 3, 5, 6, 4]))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_peak_element(arr: List[int]) -> int:\n    \"\"\"\n    >>> find_peak_element([1, 2, 3, 1])\n    2\n    >>> find_peak_element([1, 2, 1, 3, 5, 6, 4])\n    5\n    >>> find_peak_element([1, 2, 3, 1, 2, 3, 1, 2, 3, 1])\n    8\n    \"\"\"\n    left, right = 0, len(arr) - 1\n\n    while left <= right:\n        mid = left + (right - left) // 2\n\n        if (\n            mid == 0\n            or arr[mid] > arr[mid - 1]\n            and arr[mid] > arr[mid + 1]\n        ):\n            return mid\n\n        if arr[mid] > arr[mid - 1]:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def peak_element(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if len(arr) == 1:\n            return arr[0]\n        if len(arr) == 2:\n            if arr[0] > arr[1]:\n                return arr[0]\n            else:\n                return arr[1]\n        left = 0\n        right = len(arr) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if arr[mid] > arr[mid + 1]:\n                right = mid\n            else:\n                left = mid + 1\n        return arr[left]\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    arr5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]\n    arr6 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]\n    arr7 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]\n    arr8 = [1, 2, 3, 4, 5, 6, 7,"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    Runtime: 36 ms, faster than 84.83% of Python3\n    Memory Usage: 14.1 MB, less than 89.48% of Python3\n\n    Time complexity: O(logN) because of the use of binary search.\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        def binary_search(left, right):\n            if left == right:\n                return left\n\n            mid = (left + right) // 2\n            if nums[mid] > nums[mid + 1]:\n                return binary_search(left, mid)\n            else:\n                return binary_search(mid + 1, right)\n\n        return binary_search(0, len(nums) - 1)\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.findPeakElement([1, 2]) == 1\n    assert s.findPeakElement([1, 2, 3]) == 2\n    assert s.findPeakElement([1, 2, 1]) == 1\n    assert s.findPeakElement([1, 2, 1, 3, 5, 6, 4]) == 5"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param arr: given array\n    :return: index of the peak element\n    \"\"\"\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = low + (high - low) // 2\n\n        if mid > 0 and arr[mid] < arr[mid - 1]:\n            high = mid - 1\n        elif mid < len(arr) - 1 and arr[mid] < arr[mid + 1]:\n            low = mid + 1\n        elif mid == 0 and arr[mid] < arr[mid + 1]:\n            return mid + 1\n        elif mid == len(arr) - 1 and arr[mid] < arr[mid - 1]:\n            return mid - 1\n        else:\n            return mid\n\n\ndef main():\n\n    arr = list(map(int, input(\"Enter numbers: \").split()))\n\n    print(find_peak(arr))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param arr: list - a list of integers\n    :return: int - peak element from array\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    elif len(arr) == 2:\n        return max(arr)\n\n    mid = len(arr) // 2\n\n    if arr[mid - 1] < arr[mid] > arr[mid + 1]:\n        return arr[mid]\n\n    if arr[mid] < arr[mid + 1]:\n        return find_peak(arr[mid + 1:])\n\n    if arr[mid] < arr[mid - 1]:\n        return find_peak(arr[mid - 1:])"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "def peak_element(arr):\n    if len(arr) == 1:\n        return arr[0]\n\n    left = 0\n    right = len(arr) - 1\n\n    while left <= right:\n        mid = (left + right) // 2\n\n        if arr[mid] > arr[mid + 1] and arr[mid] > arr[mid - 1]:\n            return arr[mid]\n        elif arr[mid] < arr[mid + 1]:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\nif __name__ == \"__main__\":\n    print(peak_element([1, 2, 3, 1]))\n    print(peak_element([1, 2, 1]))\n    print(peak_element([1, 2, 3, 4, 5, 6, 7, 8, 1]))\n    print(peak_element([2, 1]))\n    print(peak_element([1, 2]))\n    print(peak_element([2, 1, 2]))\n    print(peak_element([2, 1, 2, 3]))\n    print(peak_element([1, 2, 3, 4, 1]))\n    print(peak_element([3, 2, 1]))\n    print(peak_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\n    print(peak_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))\n    print(peak_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n    print(peak_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]))"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "def peak_element(arr):\n    return find_peak(arr, 0, len(arr) - 1)\n\ndef find_peak(arr, start, end):\n    if start == end:\n        return arr[start]\n\n    mid = start + (end - start) // 2\n\n    if arr[mid] > arr[mid + 1] and arr[mid] > arr[mid - 1]:\n        return arr[mid]\n\n    if arr[mid] < arr[mid + 1]:\n        return find_peak(arr, mid + 1, end)\n\n    return find_peak(arr, start, mid - 1)\n\n\nif __name__ == \"__main__\":\n    print(peak_element([1, 2, 3, 4, 5, 6, 7, 0, 9, 8]))"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    Runtime: 36 ms, faster than 98.65% of Python3\n    Memory Usage: 14.2 MB, less than 48.59% of Python3\n\n    Time complexity: O(log N) where N is the number of elements in the array\n    Space complexity: O(1)\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        if not nums:\n            return None\n\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if nums[mid] > nums[mid + 1]:\n                right = mid\n            else:\n                left = mid + 1\n        return left\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.findPeakElement([1, 2, 3, 1]) == 2\n    assert s.findPeakElement([1, 2, 1, 3, 5, 6, 4]) == 5"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    Runtime: 36 ms, faster than 97.35% of Python3\n    Memory Usage: 14.2 MB, less than 91.81% of Python3\n\n    Time complexity: O(logN)\n    Space complexity: O(1)\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if nums[mid] < nums[mid + 1]:\n                left = mid + 1\n            else:\n                right = mid\n        return left\n\n\nclass Solution2:\n    \"\"\"\n    Runtime: 28 ms, faster than 98.12% of Python3\n    Memory Usage: 14.2 MB, less than 91.81% of Python3\n\n    Time complexity: O(logN)\n    Space complexity: O(1)\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if nums[mid] < nums[mid + 1]:\n                left = mid + 1\n            else:\n                right = mid\n        return left\n\n\nclass Solution3:\n    \"\"\"\n    Runtime: 28 ms, faster than 98.12% of Python3\n    Memory Usage: 14.2 MB, less than 91.81% of Python3\n\n    Time complexity: O(logN)\n    Space complexity: O(1)\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        for i in range(len(nums) - 1):\n            if nums[i] > nums[i + 1]:\n                return i\n        return len(nums) - 1\n\n\nif __name__ == '__main__"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "def find_peak_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) == 1:\n        return nums[0]\n    if nums[0] > nums[1]:\n        return nums[0]\n    if nums[-1] > nums[-2]:\n        return nums[-1]\n    for i in range(len(nums) - 2):\n        if nums[i] > nums[i + 1] and nums[i] > nums[i - 1]:\n            return nums[i]\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 1]\n    print(find_peak_element(nums))"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "def peak_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) == 1:\n        return nums[0]\n\n    if len(nums) == 2:\n        return nums[0] if nums[0] > nums[1] else nums[1]\n\n    start = 0\n    end = len(nums) - 1\n\n    while start <= end:\n        mid = (start + end) // 2\n\n        if (mid == 0 or nums[mid - 1] <= nums[mid]) and (mid == len(nums) - 1 or nums[mid + 1] <= nums[mid]):\n            return nums[mid]\n        elif mid > 0 and nums[mid - 1] > nums[mid]:\n            end = mid - 1\n        else:\n            start = mid + 1\n\n\nprint(peak_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_peak_element(nums: List[int]) -> int:\n    \"\"\"\n    >>> find_peak_element([1,2,1])\n    2\n\n    >>> find_peak_element([1,2,3,1])\n    2\n\n    >>> find_peak_element([1,2,3,4,5,1])\n    4\n\n    >>> find_peak_element([1])\n    1\n\n    >>> find_peak_element([1,2,1,3,5,6,4])\n    5\n\n    >>> find_peak_element([2,2])\n    2\n\n    >>> find_peak_element([3,4,5,1])\n    1\n\n    >>> find_peak_element([3,4,5,6,2,1])\n    6\n\n    >>> find_peak_element([3,4,5,6,7,1,2])\n    7\n    \"\"\"\n\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n\n        if nums[mid] < nums[mid + 1]:\n            left = mid + 1\n        else:\n            right = mid\n\n    return nums[left]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def findPeakElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return 0\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if nums[mid] > nums[mid + 1]:\n                right = mid\n            else:\n                left = mid + 1\n        return left\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    nums = [1, 2, 3, 1]\n    print(s.findPeakElement(nums))\n    nums = [1, 2, 1, 3, 5, 6, 4]\n    print(s.findPeakElement(nums))"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "def find_peak(arr):\n    low, high = 0, len(arr)-1\n    while low <= high:\n        mid = (low+high) // 2\n        if arr[mid] < arr[mid+1]:\n            low = mid+1\n        elif arr[mid] > arr[mid+1]:\n            high = mid-1\n        else:\n            return arr[mid]\n    return arr[low]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\n# def peak_element(arr: List[int]) -> int:\n#     \"\"\"\n#     Time Complexity: O(n)\n#     Space Complexity: O(1)\n#     \"\"\"\n#     if not arr:\n#         return None\n#\n#     if len(arr) == 1:\n#         return arr[0]\n#\n#     low, high = 0, len(arr) - 1\n#     while low <= high:\n#         mid = (low + high) // 2\n#         if arr[mid - 1] < arr[mid] > arr[mid + 1]:\n#             return arr[mid]\n#         if mid - 1 > 0 and arr[mid - 1] > arr[mid]:\n#             high = mid - 1\n#         else:\n#             low = mid + 1\n#\n#     return None\n\n\ndef peak_element(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        return None\n\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if mid > 0 and arr[mid - 1] > arr[mid]:\n            return arr[mid - 1]\n        if mid < len(arr) - 1 and arr[mid + 1] > arr[mid]:\n            return arr[mid]\n        if arr[mid - 1] < arr[mid] < arr[mid + 1]:\n            return arr[mid]\n\n        if arr[mid] < arr[mid + 1]:\n            low = mid + 1\n        else:\n            high = mid - 1\n\n    return None\n\n\nif __name__ == \"__main__\":\n    arr1 = [1, 2, 3, 1]\n    arr2 = [1, 2, 1, 3, 5, 6, 4]\n    arr3 = [1, 2, 3, 1, 2]"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "class Solution():\n    # @param A : tuple of integers\n    # @return an integer\n    def findPeakElement(self, A):\n        start = 0\n        end = len(A) - 1\n\n        while start < end:\n            mid = (start + end) / 2\n            if A[mid] > A[mid + 1]:\n                end = mid\n            else:\n                start = mid + 1\n\n        return start\n\nA = [1, 2, 3, 1]\nA = [1, 2, 1, 3, 5, 6, 4]\ns = Solution()\nprint(s.findPeakElement(A))"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    low = 0\n    high = len(arr) - 1\n    while low < high:\n        mid = (low + high) // 2\n        if arr[mid] < arr[mid + 1]:\n            low = mid + 1\n        else:\n            high = mid\n    return arr[low]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    assert find_peak(arr) == 3\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    assert find_peak(arr) == 5"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param arr: list - a list of integers\n    :return: int - peak element\n    \"\"\"\n    # Your code here\n    if len(arr) == 1:\n        return arr[0]\n\n    if len(arr) == 2:\n        if arr[0] > arr[1]:\n            return arr[0]\n        else:\n            return arr[1]\n\n    middle = len(arr) // 2\n\n    if arr[middle] > arr[middle-1] and arr[middle] > arr[middle+1]:\n        return arr[middle]\n    elif arr[middle] < arr[middle-1]:\n        return find_peak(arr[:middle])\n    elif arr[middle] < arr[middle+1]:\n        return find_peak(arr[middle:])\n\n\nprint(find_peak([1,2,3,1]))\nprint(find_peak([1,2,1,3,5,6,4]))\nprint(find_peak([1,2,3,1,2,3,1,2,3,1]))"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log n)\n    \"\"\"\n    if len(arr) == 0:\n        raise ValueError(\"Array is empty\")\n\n    if len(arr) == 1:\n        return arr[0]\n\n    if len(arr) == 2:\n        return max(arr[0], arr[1])\n\n    start = 0\n    end = len(arr) - 1\n\n    while start < end:\n        mid = start + (end - start) // 2\n        if mid == 0:\n            if arr[mid] > arr[mid + 1]:\n                return arr[mid]\n            else:\n                return arr[mid + 1]\n        if mid == len(arr) - 1:\n            if arr[mid] > arr[mid - 1]:\n                return arr[mid]\n            else:\n                return arr[mid - 1]\n        if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        elif arr[mid] > arr[mid - 1] and arr[mid] < arr[mid + 1]:\n            start = mid + 1\n        else:\n            end = mid\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    assert find_peak([1, 2, 3, 1]) == 2\n    assert find_peak([1, 2, 1]) == 2\n    assert find_peak([1, 2, 5, 3, 4]) == 5\n    assert find_peak([1, 2, 3, 4, 5]) == 5\n    assert find_peak([5, 4, 3, 2, 1]) == 5\n    assert find_peak([1, 2, 1, 3, 5, 6, 4, 1, 2, 3, 4, 5, 6, 7]) == 7\n    assert find_pe"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    start = 0\n    end = len(arr) - 1\n\n    while start < end:\n        mid = (start + end) // 2\n\n        if arr[mid] > arr[mid + 1]:\n            end = mid\n        else:\n            start = mid + 1\n\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    if len(arr) == 1:\n        return arr[0]\n    if len(arr) == 2:\n        return arr[0] if arr[0] > arr[1] else arr[1]\n\n    mid = len(arr) // 2\n    if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n        return arr[mid]\n    elif arr[mid] < arr[mid - 1]:\n        return find_peak(arr[:mid])\n    elif arr[mid] < arr[mid + 1]:\n        return find_peak(arr[mid:])\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def peak_element(arr):\n    \"\"\"\n    :param arr: given array\n    :return: index of the peak element\n    \"\"\"\n    for i in range(len(arr)):\n        if i == 0 and arr[i] > arr[i+1]:\n            return i\n        elif i == len(arr)-1 and arr[i] > arr[i-1]:\n            return i\n        elif arr[i] > arr[i-1] and arr[i] > arr[i+1]:\n            return i\n\n\nif __name__ == '__main__':\n    print(peak_element([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\n# Time Complexity: O(log(n))\n# Space Complexity: O(1)\ndef find_peak(arr: List[int]) -> int:\n    if not arr or len(arr) == 0:\n        return None\n\n    left, right = 0, len(arr) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n\n        if arr[mid] > arr[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return arr[left]\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param arr: given array\n    :return: peak element\n    \"\"\"\n    if not arr:\n        return -1\n\n    left = 0\n    right = len(arr) - 1\n\n    while left <= right:\n        mid = (left + right) // 2\n        if mid == 0:\n            if arr[mid] > arr[mid + 1]:\n                return arr[mid]\n            else:\n                left = mid + 1\n        elif mid == len(arr) - 1:\n            if arr[mid] > arr[mid - 1]:\n                return arr[mid]\n            else:\n                right = mid - 1\n        elif arr[mid - 1] < arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        elif arr[mid] < arr[mid - 1]:\n            right = mid - 1\n        else:\n            left = mid + 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([]))\n    print(find_peak([1, 2, 3]))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def find_peak_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    left, right = 0, len(nums) - 1\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] < nums[mid + 1]:\n            left = mid + 1\n        else:\n            right = mid\n    return left\n\n\nprint(find_peak_element([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    low = 0\n    high = len(arr) - 1\n    while low < high:\n        mid = low + (high - low) // 2\n        if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        elif arr[mid] < arr[mid - 1]:\n            high = mid - 1\n        else:\n            low = mid + 1\n    return arr[low]\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    if len(arr) == 1:\n        return arr[0]\n\n    mid = len(arr) // 2\n\n    if arr[mid] > arr[mid-1] and arr[mid] > arr[mid+1]:\n        return arr[mid]\n    elif mid == len(arr) - 1:\n        return arr[mid]\n    elif arr[mid] < arr[mid+1]:\n        return find_peak(arr[mid+1:])\n    elif arr[mid] < arr[mid-1]:\n        return find_peak(arr[:mid])\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4, 1, 2, 3, 1]))"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    start = 0\n    end = len(arr) - 1\n\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] > arr[mid + 1]:\n            end = mid\n        else:\n            start = mid + 1\n    return arr[start]\n\n\ndef find_peak_eff(arr):\n    start = 0\n    end = len(arr) - 1\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] < arr[mid + 1]:\n            start = mid + 1\n        else:\n            end = mid\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    print(find_peak_eff([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    n = len(arr)\n    if n == 1:\n        return arr[0]\n\n    left = 0\n    right = n - 1\n    while left < right:\n        mid = left + (right - left) // 2\n        if arr[mid] > arr[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return arr[right]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 20, 4, 1, 0]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    l, r = 0, len(arr) - 1\n    while l < r:\n        m = (l + r) // 2\n        if arr[m] < arr[m + 1]:\n            l = m + 1\n        else:\n            r = m\n    return arr[l]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    l, r = 0, len(arr) - 1\n\n    while l < r:\n        mid = l + (r - l) // 2\n\n        if arr[mid] > arr[mid + 1]:\n            r = mid\n        else:\n            l = mid + 1\n\n    return l\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 2, 1]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef peak_element(array: List[int]) -> int:\n    \"\"\"\n    Idea is to use binary search to find the peak element.\n    Time Complexity: O(logn)\n    Space Complexity: O(1)\n    \"\"\"\n    low = 0\n    high = len(array) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if mid == len(array) - 1 or array[mid] > array[mid + 1]:\n            return array[mid]\n        low = mid + 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert peak_element([1, 2, 3, 1]) == 2\n    assert peak_element([1, 2, 1, 3, 5, 6, 4]) == 5\n    assert peak_element([1, 2, 3, 1]) == 2\n    assert peak_element([1, 2, 1]) == 2"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "def peak_element(nums):\n    left, right = 0, len(nums) - 1\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] > nums[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n    return nums[left]\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 1]\n    print(peak_element(nums))"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def peak_element(arr):\n    return find_peak(arr, 0, len(arr) - 1)\n\ndef find_peak(arr, start, end):\n    if start == end:\n        return arr[start]\n\n    mid = (start + end) // 2\n\n    if (mid > 0 and arr[mid - 1] < arr[mid]) and (mid < len(arr) - 1 and arr[mid + 1] < arr[mid]):\n        return arr[mid]\n\n    elif mid > 0 and arr[mid - 1] > arr[mid]:\n        return find_peak(arr, start, mid - 1)\n\n    return find_peak(arr, mid + 1, end)\n\n\nprint(peak_element([1, 2, 3, 1]))\nprint(peak_element([1, 2, 1, 3, 5, 6, 4]))\nprint(peak_element([1]))\nprint(peak_element([1, 2]))"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    if not arr:\n        return -1\n\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if mid == 0:\n            return mid\n        elif mid == len(arr) - 1:\n            return mid\n        else:\n            if arr[mid - 1] < arr[mid] > arr[mid + 1]:\n                return mid\n            elif arr[mid] < arr[mid - 1]:\n                high = mid - 1\n            else:\n                low = mid + 1\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([1, 2, 3, 4, 5, 6, 7]))\n    print(find_peak([]))"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(nums: List[int]) -> int:\n    \"\"\"\n    O(log n)\n    \"\"\"\n    if not nums:\n        return -1\n\n    low = 0\n    high = len(nums) - 1\n\n    while low < high:\n        mid = (low + high) // 2\n\n        if nums[mid] > nums[mid + 1]:\n            high = mid\n        else:\n            low = mid + 1\n\n    return low\n\n\nif __name__ == \"__main__\":\n    assert find_peak([1, 2, 3, 1]) == 2\n    assert find_peak([1, 2, 1, 3, 5, 6, 4]) == 5\n    assert find_peak([2, 1]) == 1\n    assert find_peak([2, 1, 3, 1]) == 2\n    assert find_peak([1, 2, 3, 1, 2]) == 3\n    assert find_peak([1, 2, 1, 3, 5, 6, 4, 5]) == 5\n    assert find_peak([1, 2, 3, 4, 5, 6, 7]) == 7"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def peak_element(arr):\n    \"\"\"\n    :param arr: list of integers\n    :return: index of the peak element\n    \"\"\"\n    return binary_search(arr, 0, len(arr) - 1)\n\n\ndef binary_search(arr, left, right):\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] > arr[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return left\n\n\n# Tests\nassert peak_element([1, 2, 3, 1]) == 2\nassert peak_element([1, 2, 1, 3, 5, 6, 4]) == 5\nassert peak_element([1, 2, 3, 1]) == 2"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    start = 0\n    end = len(arr) - 1\n\n    while start < end:\n        mid = (start + end) // 2\n\n        if mid > 0 and arr[mid] < arr[mid - 1]:\n            end = mid - 1\n        elif mid < len(arr) - 1 and arr[mid] < arr[mid + 1]:\n            start = mid + 1\n        else:\n            return arr[mid]\n\n    return arr[start]\n\n\ndef main():\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param arr: list - a list of integers\n    :return: int - the integer that is either the peak element\n    \"\"\"\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n\n    if len(arr) == 2:\n        if arr[0] > arr[1]:\n            return arr[0]\n        else:\n            return arr[1]\n\n    mid = len(arr) // 2\n    if mid < len(arr) - 1:\n        if arr[mid] > arr[mid + 1]:\n            return find_peak(arr[:mid + 1])\n        else:\n            return find_peak(arr[mid:])\n    else:\n        return find_peak(arr[:mid])\n\n\nif __name__ == '__main__':\n    print(find_peak([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "def find_peak(array):\n    \"\"\"\n    :param array: list - a list of integers\n    :return: int - the integer that is either the peak element\n    \"\"\"\n    if len(array) == 1:\n        return array[0]\n    if len(array) == 2:\n        return max(array[0], array[1])\n    if len(array) == 3:\n        return max(array[0], array[1], array[2])\n    return max(array[0], array[len(array) // 2], array[-1])\n\n\ndef test_find_peak():\n    \"\"\"Test for find_peak function.\"\"\"\n    assert find_peak([1, 2, 3, 1]) == 3\n    assert find_peak([1, 2, 1, 3, 5, 6, 4]) == 5\n    assert find_peak([2, 1, 2, 3, 1]) == 3\n    assert find_peak([1, 2, 3, 3, 1]) == 3\n    assert find_peak([1, 2, 1, 3, 1]) == 3\n    assert find_peak([1, 2, 3, 1, 2]) == 3\n    assert find_peak([1, 2, 3, 3, 2]) == 3\n    assert find_peak([3, 2, 1]) == 3\n    assert find_peak([3, 1, 2]) == 3\n    assert find_peak([1, 3, 2]) == 3\n    assert find_peak([1, 2, 3]) == 3\n    assert find_peak([2, 1, 3]) == 3\n    assert find_peak([2, 3, 1]) == 3\n    assert find_peak([3, 2, 1]) == 3\n    assert find_peak([3, 1, 2]) == 3\n    assert find_peak([1, 3, 2]) == 3\n    assert find"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n    if len(arr) == 2:\n        return max(arr[0], arr[1])\n\n    mid = len(arr) // 2\n    left = arr[:mid]\n    right = arr[mid:]\n\n    left_peak = find_peak(left)\n    right_peak = find_peak(right)\n    if left_peak is not None and right_peak is not None:\n        return max(left_peak, right_peak)\n    if left_peak is not None:\n        return left_peak\n    if right_peak is not None:\n        return right_peak\n\n    if arr[mid - 1] < arr[mid] > arr[mid + 1]:\n        return arr[mid]\n    if arr[mid - 1] < arr[mid] < arr[mid + 1]:\n        return max(arr[mid - 1], arr[mid + 1])\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 1]))\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 3, 4, 1]))\n    print(find_peak([1, 2, 3, 4, 5, 1]))\n    print(find_peak([1, 2, 3, 4, 5, 6, 1]))\n    print(find_peak([1, 2, 3, 4, 5, 6, 7, 1]))\n    print(find_peak([1, 2, 3, 4, 5, 6, 7, 8, 1]))\n    print(find_peak([1, 2, 3, 4, 5, 6, 7, 8, 9, 1]))\n    print(find_peak([1, 2,"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def find_peak_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    l = 0\n    r = len(arr) - 1\n    while l < r:\n        m = (l + r) // 2\n        if arr[m] > arr[m + 1]:\n            r = m\n        else:\n            l = m + 1\n    return l\n\n\ndef main():\n    arr = [1, 2, 3, 1]\n    print(find_peak_element(arr))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    start = 0\n    end = len(arr) - 1\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] > arr[mid+1]:\n            end = mid\n        else:\n            start = mid + 1\n    return arr[start]\n\n\nprint(find_peak([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n    left = 0\n    right = len(nums) - 1\n\n    while left <= right:\n        mid = left + (right - left) // 2\n\n        if mid == 0:\n            return mid\n\n        if nums[mid - 1] < nums[mid] > nums[mid + 1]:\n            return mid\n        elif nums[mid] < nums[mid - 1]:\n            right = mid - 1\n        else:\n            left = mid + 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    assert find_peak(arr) == 2"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def peak_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] > nums[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n    return left\n\n\nprint(peak_element([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "def find_peak(array):\n    \"\"\"\n    :param array: list - a list of integers\n    :return: int - peak element from array\n    \"\"\"\n    if not isinstance(array, list):\n        return 'Input is not a list'\n    if len(array) == 1:\n        return array[0]\n    if len(array) == 2:\n        if array[0] > array[1]:\n            return array[0]\n        else:\n            return array[1]\n    if array[0] > array[1]:\n        return find_peak(array[1:])\n    else:\n        return find_peak(array[1:])\n\n\nprint(find_peak([1, 2, 3, 4, 5, 3, 2, 1]))"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "def find_peak(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) == 0:\n        return None\n\n    if len(nums) == 1:\n        return nums[0]\n\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] > nums[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return nums[right]\n\n\nprint(find_peak([1, 2, 3, 1]))\nprint(find_peak([1, 2, 1, 3, 5, 6, 4]))"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    start = 0\n    end = len(arr) - 1\n\n    while start <= end:\n        mid = (start + end) // 2\n        if mid == 0:\n            return arr[mid]\n        elif mid == len(arr) - 1:\n            return arr[mid]\n        elif (arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]):\n            return arr[mid]\n        elif arr[mid] < arr[mid - 1]:\n            end = mid - 1\n        elif arr[mid] < arr[mid + 1]:\n            start = mid + 1\n\n    return None\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    start, end = 0, len(arr) - 1\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] > arr[mid + 1]:\n            end = mid\n        else:\n            start = mid + 1\n    return start\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    left = 0\n    right = len(arr) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n\n        if arr[mid] > arr[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return arr[left]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))\n\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def peak_element(self, array: List[int]) -> int:\n        \"\"\"Binary Search\"\"\"\n        left = 0\n        right = len(array) - 1\n        while left < right:\n            mid = left + (right - left) // 2\n            if array[mid] < array[mid + 1]:\n                left = mid + 1\n            else:\n                right = mid\n\n        return left\n\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    arr = [1, 2, 3, 1]\n    print(solution.peak_element(arr))\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    print(solution.peak_element(arr))"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "def peak_element(arr):\n    start, end = 0, len(arr) - 1\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] > arr[mid + 1]:\n            end = mid\n        else:\n            start = mid + 1\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(peak_element(arr))"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "def find_peak_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return None\n\n    left = 0\n    right = len(arr) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] > arr[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n    return left"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(nums: List[int]) -> int:\n    \"\"\"\n    :param nums: list of integers\n    :return: peak element\n    \"\"\"\n    if not nums:\n        raise ValueError('Input array is empty')\n\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] > nums[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return nums[left]\n\n\ndef find_peak_eff(nums: List[int]) -> int:\n    \"\"\"\n    :param nums: list of integers\n    :return: peak element\n    \"\"\"\n    if not nums:\n        raise ValueError('Input array is empty')\n\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] > nums[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n\n    return nums[left]\n\n\nif __name__ == '__main__':\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak_eff([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param arr: list of integers\n    :return: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    if len(arr) == 2:\n        if arr[0] > arr[1]:\n            return arr[0]\n        return arr[1]\n\n    mid = len(arr) // 2\n    if arr[mid - 1] > arr[mid]:\n        return find_peak(arr[:mid])\n    return find_peak(arr[mid:])\n\n\ndef test_find_peak():\n    assert find_peak([1, 2, 3, 1]) == 3\n    assert find_peak([1, 2, 1, 3, 5, 6, 4]) == 5\n    assert find_peak([2, 1, 3, 1, 5, 6, 4]) == 5\n    assert find_peak([2, 1, 1, 3, 5, 6, 4]) == 3\n\n\nif __name__ == '__main__':\n    test_find_peak()"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "def find_peak(nums):\n    low, high = 0, len(nums) - 1\n\n    while low < high:\n        mid = (low + high) // 2\n        if nums[mid] > nums[mid + 1]:\n            high = mid\n        else:\n            low = mid + 1\n    return nums[low]\n\nprint(find_peak([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(logN)\n    \"\"\"\n    if not arr:\n        return None\n\n    start, end = 0, len(arr) - 1\n\n    while start < end:\n        mid = (start + end) // 2\n\n        if arr[mid] < arr[mid + 1]:\n            start = mid + 1\n        else:\n            end = mid\n\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 20, 4, 1, 0]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 65,
+      "score": 3.0,
+      "candidate": "from typing import List\n\n\n# O(n) time | O(1) space - where n is the length of the array\nclass Solution:\n    def findPeakElement(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = left + (right - left) // 2\n            if nums[mid] < nums[mid + 1]:\n                left = mid + 1\n            else:\n                right = mid\n        return left\n\n\n# O(logn) time | O(1) space - where n is the length of the array\nclass Solution2:\n    def findPeakElement(self, nums: List[int]) -> int:\n        return self.findPeak(nums, 0, len(nums) - 1)\n\n    def findPeak(self, nums: List[int], left: int, right: int) -> int:\n        if left == right:\n            return left\n        mid = left + (right - left) // 2\n        if nums[mid] > nums[mid + 1]:\n            return self.findPeak(nums, left, mid)\n        else:\n            return self.findPeak(nums, mid + 1, right)"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    return arr[find_peak_helper(arr, 0, len(arr)-1)]\n\n\ndef find_peak_helper(arr, low, high):\n    if low == high:\n        return low\n\n    mid = (low + high) // 2\n\n    if mid > 0 and arr[mid] > arr[mid - 1]:\n        if mid == len(arr) - 1 or arr[mid] > arr[mid + 1]:\n            return mid\n        else:\n            return find_peak_helper(arr, mid + 1, high)\n\n    if mid < len(arr) - 1 and arr[mid] < arr[mid + 1]:\n        if mid == 0 or arr[mid] > arr[mid - 1]:\n            return mid\n        else:\n            return find_peak_helper(arr, low, mid - 1)\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    start, end = 0, len(arr) - 1\n\n    while start < end:\n        mid = start + (end - start) // 2\n        if arr[mid] > arr[mid + 1]:\n            end = mid\n        else:\n            start = mid + 1\n\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - peak element\n    \"\"\"\n    if not arr or len(arr) == 0:\n        return None\n\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if (mid == 0 or arr[mid - 1] <= arr[mid]) and (mid == len(arr) - 1 or arr[mid + 1] <= arr[mid]):\n            return arr[mid]\n        elif mid > 0 and arr[mid - 1] > arr[mid]:\n            high = mid - 1\n        else:\n            low = mid + 1\n\n    return None\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([1, 2, 1, 3, 5, 6, 4], 5))\ntest_function(([2, 1], 2))\ntest_function(([5, 4, 3, 2, 1], 5))\ntest_function(([1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8, 6, 5, 4, 3, 2, 1], 8))\ntest_function(([5, 4, 3, 2, 1], 5))\ntest_function(([1, 2, 1, 3, 5, 6, 4], 5))\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8,"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def find_peak(self, array: List[int]) -> int:\n        left, right = 0, len(array) - 1\n\n        while left < right:\n            mid = (left + right) // 2\n            if array[mid] > array[mid + 1]:\n                right = mid\n            else:\n                left = mid + 1\n\n        return left\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.find_peak([1, 2, 3, 1]) == 2\n    assert s.find_peak([1, 2, 1, 3, 5, 6, 4]) == 5"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def find_peak(self, arr: List[int]) -> int:\n        left, right = 0, len(arr) - 1\n\n        while left < right:\n            mid = (left + right) // 2\n\n            if arr[mid] > arr[mid + 1]:\n                right = mid\n            else:\n                left = mid + 1\n\n        return left\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    out = 2\n    res = Solution().find_peak(arr)\n    assert res == out, (res, out)\n\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    out = 5\n    res = Solution().find_peak(arr)\n    assert res == out, (res, out)\n\n    arr = [1, 2, 3, 1]\n    out = 3\n    res = Solution().find_peak(arr)\n    assert res == out, (res, out)\n\n    arr = [2, 1]\n    out = 1\n    res = Solution().find_peak(arr)\n    assert res == out, (res, out)\n\n    arr = [5, 4, 3, 2, 1]\n    out = 5\n    res = Solution().find_peak(arr)\n    assert res == out, (res, out)"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "def find_peak(array):\n    \"\"\"\n    :param array: list - a list of integers\n    :return: int - peak element\n    \"\"\"\n    if not array:\n        return None\n    return find_peak_helper(array, 0, len(array) - 1)\n\n\ndef find_peak_helper(array, start, end):\n    if start == end:\n        return array[start]\n    mid = (start + end) // 2\n    left_max = find_peak_helper(array, start, mid)\n    right_max = find_peak_helper(array, mid + 1, end)\n    return max(left_max, right_max) if mid != 0 and mid != len(array) - 1 else max(left_max, right_max, array[mid])\n\n\nprint(find_peak([1, 2, 3, 1]))"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n    if not arr:\n        return None\n\n    start, end = 0, len(arr) - 1\n\n    while start <= end:\n        mid = (start + end) // 2\n\n        if (mid == 0 or arr[mid - 1] <= arr[mid]) and (\n            mid == len(arr) - 1 or arr[mid + 1] <= arr[mid]\n        ):\n            return arr[mid]\n        elif mid > 0 and arr[mid - 1] > arr[mid]:\n            end = mid - 1\n        else:\n            start = mid + 1\n\n    return None\n\n\nif __name__ == \"__main__\":\n    assert find_peak([1, 2, 3, 1]) == 2\n    assert find_peak([1, 2, 1, 3, 5, 6, 4]) == 5"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\n# Time Complexity: O(log n)\n# Space Complexity: O(1)\ndef find_peak(arr: List[int]) -> int:\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n\n    start = 0\n    end = len(arr) - 1\n    while start <= end:\n        mid = start + (end - start) // 2\n\n        if mid > 0 and arr[mid - 1] > arr[mid]:\n            end = mid - 1\n        elif mid < len(arr) - 1 and arr[mid + 1] > arr[mid]:\n            start = mid + 1\n        else:\n            return arr[mid]\n\n    return None\n\n\nif __name__ == \"__main__\":\n    print(find_peak([1, 2, 3, 1]))\n    print(find_peak([1, 2, 1, 3, 5, 6, 4]))\n    print(find_peak([1, 2]))"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - peak element\n    \"\"\"\n    return _find_peak(arr, 0, len(arr) - 1)\n\n\ndef _find_peak(arr, left, right):\n    if left > right:\n        return None\n\n    mid = (left + right) // 2\n\n    if arr[mid] > arr[mid + 1] and arr[mid] > arr[mid - 1]:\n        return arr[mid]\n    elif arr[mid] < arr[mid - 1]:\n        return _find_peak(arr, left, mid - 1)\n    else:\n        return _find_peak(arr, mid + 1, right)\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([1, 2, 1, 3, 5, 6, 4], 5))\ntest_function(([2, 1, 3, 1, 2], 3))\ntest_function(([3, 2, 1], 3))\ntest_function(([3, 1, 2], 3))\ntest_function(([1, 2, 3], 3))\ntest_function(([1, 2, 1], 2))\ntest_function(([1, 1, 1], 1))\ntest_function(([3, 3, 1, 3], 3))"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "def peak_element(arr):\n    \"\"\"\n    :param arr: given array\n    :return: peak element\n    \"\"\"\n    start, end = 0, len(arr) - 1\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] < arr[mid + 1]:\n            start = mid + 1\n        else:\n            end = mid\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(peak_element(arr))"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "class Solution:\n    def peak_element(self, arr):\n        \"\"\"\n        :param arr: list\n        :return: int\n        \"\"\"\n        if len(arr) == 0:\n            return None\n        if len(arr) == 1:\n            return arr[0]\n        if len(arr) == 2:\n            if arr[0] > arr[1]:\n                return arr[0]\n            else:\n                return arr[1]\n\n        mid = len(arr) // 2\n\n        if arr[mid] > arr[mid-1] and arr[mid] > arr[mid+1]:\n            return arr[mid]\n        elif arr[mid] < arr[mid-1]:\n            return self.peak_element(arr[:mid])\n        else:\n            return self.peak_element(arr[mid:])\n\n\nif __name__ == \"__main__\":\n    inp = [1, 2, 3, 4, 5]\n    out = Solution().peak_element(inp)\n    print(out)"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param: arr - input array where we need to find the peak element\n    TODO: complete this function and return the index of the peak element\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    return arr[len(arr) // 2]\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([3, 2, 1], 2))\ntest_function(([1, 2, 3], 2))\ntest_function(([1, 2, 1], 1))\ntest_function(([1, 1, 1], 1))\ntest_function(([3, 3, 1, 3], 3))\ntest_function(([3, 1, 3, 1], 3))"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param: arr - input array where we need to find the peak element\n    TODO: complete this function and return the index of the peak element\n    \"\"\"\n\n    # check for empty list\n    if len(arr) == 0:\n        return None\n\n    # check for single element\n    if len(arr) == 1:\n        return arr[0]\n\n    # check for two elements\n    if len(arr) == 2:\n        if arr[0] > arr[1]:\n            return arr[0]\n        else:\n            return arr[1]\n\n    # for all other cases\n    mid = len(arr) // 2\n\n    if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n        return arr[mid]\n    elif arr[mid] < arr[mid - 1]:\n        return find_peak(arr[:mid])\n    else:\n        return find_peak(arr[mid:])\n\n\ndef _test_function(test_case):\n    input_list = test_case[0]\n    solution = test_case[1]\n    output = find_peak(input_list)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\n# test case 1\ninput_list = [1, 2, 3, 1]\nsolution = 3\ntest_case = [input_list, solution]\n_test_function(test_case)\n\n# test case 2\ninput_list = [1, 2, 1]\nsolution = 2\ntest_case = [input_list, solution]\n_test_function(test_case)\n\n# test case 3\ninput_list = [1, 2, 3]\nsolution = 3\ntest_case = [input_list, solution]\n_test_function(test_case)\n\n# test case 4\ninput_list = [3, 2, 1]\nsolution = 3\ntest_case = [input_list, solution]\n_test_function"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "class Solution():\n    # @param A : tuple of integers\n    # @return an integer\n    def findPeakElement(self, A):\n        n = len(A)\n        l = 0\n        r = n-1\n        while(l<r):\n            mid = (l+r)//2\n            if(A[mid]<A[mid+1]):\n                l = mid+1\n            else:\n                r = mid\n        return l"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n    if not arr:\n        raise ValueError(\"Array is empty\")\n\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = low + (high - low) // 2\n\n        if mid > 0 and arr[mid - 1] > arr[mid]:\n            high = mid - 1\n        elif mid < len(arr) - 1 and arr[mid] < arr[mid + 1]:\n            low = mid + 1\n        else:\n            return arr[mid]\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_peak([1, 2, 3, 1]) == 2\n    assert find_peak([1, 2, 1, 3, 5, 6, 4]) == 5\n    assert find_peak([2, 1]) == 2\n    assert find_peak([5, 4, 3, 2, 1]) == 5\n    assert find_peak([]) == -1"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - peak element\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    mid_idx = len(arr) // 2\n    if mid_idx > 0 and arr[mid_idx] > arr[mid_idx-1]:\n        if mid_idx < len(arr)-1 and arr[mid_idx] > arr[mid_idx+1]:\n            return arr[mid_idx]\n        else:\n            return find_peak(arr[:mid_idx+1])\n    else:\n        return find_peak(arr[mid_idx:])\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([3, 2, 1], 3))\ntest_function(([1, 2, 1, 3, 5, 6, 4], 5))\ntest_function(([2, 1, 5, 6, 2, 3, 7, 1, 7, 9, 5], 9))\ntest_function(([2, 1, 5, 6, 2, 3, 7, 1, 7, 9, 5], 9))\ntest_function(([2, 1, 5, 6, 2, 3, 7, 1, 7, 9, 5], 9))\ntest_function(([2, 1, 5, 6, 2, 3, 7, 1, 7, 9, 5], 9))\ntest_function(([2, 1, 5, 6, 2, 3, 7, 1, 7, 9, 5], 9))\ntest_function((["
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "def find_peak(array):\n    \"\"\"\n    :param array: list - a list of integers\n    :return: int - the integer that is either the peak element\n    or None if the array is empty\n    \"\"\"\n    if not array:\n        return None\n    if len(array) == 1:\n        return array[0]\n    left_index = 0\n    right_index = len(array) - 1\n    while left_index < right_index:\n        mid_index = (left_index + right_index) // 2\n        if array[mid_index] > array[mid_index + 1]:\n            right_index = mid_index\n        else:\n            left_index = mid_index + 1\n    return array[left_index]\n\n\ndef find_peak_recursive(array, left_index=None, right_index=None):\n    if not array:\n        return None\n    if len(array) == 1:\n        return array[0]\n    left_index = 0 if left_index is None else left_index\n    right_index = len(array) - 1 if right_index is None else right_index\n    mid_index = (left_index + right_index) // 2\n    if mid_index == left_index or mid_index == right_index:\n        return array[mid_index]\n    if array[mid_index] < array[mid_index - 1]:\n        return find_peak_recursive(array, left_index, mid_index - 1)\n    elif array[mid_index] < array[mid_index + 1]:\n        return find_peak_recursive(array, mid_index + 1, right_index)\n    else:\n        return array[mid_index]\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([1, 2, 3, 1], 2))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    start, end = 0, len(arr) - 1\n\n    while start <= end:\n        mid = (start + end) // 2\n\n        if mid == 0:\n            return arr[0]\n\n        if mid == len(arr) - 1:\n            return arr[-1]\n\n        if arr[mid] < arr[mid - 1]:\n            return arr[mid - 1]\n\n        if arr[mid] < arr[mid + 1]:\n            return arr[mid + 1]\n\n        if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return arr[mid]\n\n        if arr[mid] < arr[mid - 1]:\n            end = mid - 1\n        else:\n            start = mid + 1\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([3, 2, 1], 2),\n        ([1, 2, 3], 3),\n        ([1, 2, 1], 2),\n        ([1, 2, 3, 1], 3),\n        ([1, 2, 5, 3, 4], 5),\n        ([1], 1),\n        ([1, 2], 2),\n        ([1, 2, 3], 3),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9], 9),\n    ]\n\n    for index, (test_case, expected_result) in enumerate(test_cases):\n        result = find_peak(test_case)\n        if result == expected_result:\n            print(\"Case {0}: Pass!\".format(index))\n        else:\n            print(\n                \"Case {0}: FAIL. Expected result {1}; Result: {2}\".format(\n                    index, expected_result, result\n                )\n            )"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    start = 0\n    end = len(arr) - 1\n\n    while start < end:\n        mid = (start + end) // 2\n        if arr[mid] > arr[mid + 1]:\n            end = mid\n        else:\n            start = mid + 1\n\n    return arr[start]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "def find_peak(array):\n    \"\"\"\n    :param: array - input array where we need to find the peak element\n    return: int - peak element\n    \"\"\"\n    if len(array) == 1:\n        return array[0]\n    if len(array) == 2:\n        return array[1]\n    if array[1] > array[0] and array[1] > array[2]:\n        return array[1]\n    if array[0] > array[1] and array[0] > array[2]:\n        return array[0]\n    if array[2] > array[1] and array[2] > array[0]:\n        return array[2]\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([3, 2, 1], 3))\ntest_function(([1, 2, 1, 3, 5, 6, 4], 5))\ntest_function(([2, 1, 3, 5, 6, 4], 5))\ntest_function(([2, 1, 3, 5, 6, 4], 5))\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([3, 2, 1], 3))\ntest_function(([1, 2, 3, 4, 5, 6, 7, 8, 10, 9, 20, 11, 12], 20))\ntest_function(([1, 2, 3, 4, 5, 6, 7, 8, 10, 9, 11, 12], 10))\ntest_function(([1, 2, 3, 4, 5, 6, 7,"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_peak(array: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(array) == 1:\n        return array[0]\n\n    if len(array) == 2:\n        return max(array[0], array[1])\n\n    mid = len(array) // 2\n    if array[mid - 1] < array[mid] > array[mid + 1]:\n        return array[mid]\n\n    if array[mid] < array[mid + 1]:\n        return find_peak(array[mid + 1:])\n\n    return find_peak(array[:mid])\n\n\nif __name__ == \"__main__\":\n    assert find_peak([1, 2, 3, 1]) == 3\n    assert find_peak([1, 2, 1, 3, 5, 6, 4]) == 5"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "def peak_element(arr):\n    start, end = 0, len(arr) - 1\n\n    while start <= end:\n        mid = start + (end - start) // 2\n\n        if (mid == len(arr) - 1 or arr[mid] > arr[mid + 1]) and (\n            mid == 0 or arr[mid] > arr[mid - 1]\n        ):\n            return arr[mid]\n        elif mid > 0 and arr[mid] < arr[mid - 1]:\n            end = mid - 1\n        else:\n            start = mid + 1\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(peak_element(arr))"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def find_peak_element(self, nums: List[int]) -> int:\n        if len(nums) == 1:\n            return 0\n        if len(nums) == 2:\n            return 0 if nums[0] > nums[1] else 1\n\n        start = 0\n        end = len(nums) - 1\n        while start < end:\n            mid = (start + end) // 2\n            if nums[mid] > nums[mid + 1]:\n                end = mid\n            else:\n                start = mid + 1\n\n        return start\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 1]\n    out = 2\n    res = Solution().find_peak_element(nums)\n    assert res == out, (res, out)\n\n    nums = [1, 2, 1, 3, 5, 6, 4]\n    out = 5\n    res = Solution().find_peak_element(nums)\n    assert res == out, (res, out)"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "class Solution:\n    def find_peak_element(self, nums):\n        if len(nums) == 1:\n            return 0\n        start = 0\n        end = len(nums) - 1\n        while start <= end:\n            mid = (start + end) // 2\n            if mid == 0:\n                if nums[0] > nums[1]:\n                    return 0\n                else:\n                    start = 1\n            elif mid == len(nums) - 1:\n                if nums[-1] > nums[-2]:\n                    return len(nums) - 1\n                else:\n                    end = len(nums) - 2\n            elif nums[mid] > nums[mid + 1] and nums[mid] > nums[mid - 1]:\n                return mid\n            elif nums[mid] < nums[mid + 1]:\n                start = mid + 1\n            else:\n                end = mid - 1\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 1]\n    out = 2\n    res = Solution().find_peak_element(nums)\n    assert res == out, (res, out)\n\n    nums = [1, 2, 1, 3, 5, 6, 4]\n    out = 5\n    res = Solution().find_peak_element(nums)\n    assert res == out, (res, out)\n\n    nums = [1, 2, 3, 1]\n    out = 2\n    res = Solution().find_peak_element(nums)\n    assert res == out, (res, out)"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "def peak_element(arr):\n    n = len(arr)\n    if n == 1:\n        return arr[0]\n    mid = n // 2\n    if arr[mid - 1] < arr[mid] > arr[mid + 1]:\n        return arr[mid]\n    elif arr[mid] < arr[mid + 1]:\n        return peak_element(arr[mid + 1:])\n    else:\n        return peak_element(arr[:mid])\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([3, 2, 1], 3),\n        ([3, 2, 1, 0], 3),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10),\n        ([1], 1),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9], 9),\n    ]\n    for test_case, expected_result in test_cases:\n        assert peak_element(test_case) == expected_result"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "def find_peak_element(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - peak element\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    start = 0\n    end = len(arr) - 1\n\n    while start < end:\n        mid = (start + end) // 2\n\n        if arr[mid] < arr[mid + 1]:\n            start = mid + 1\n        else:\n            end = mid\n\n    return arr[start]\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = find_peak_element(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([1, 2, 3, 1], 2))\ntest_function(([3, 4, 5, 1], 5))\ntest_function(([24, 69, 100, 99, 79, 78, 67, 3], 100))\ntest_function(([2, 1], 2))\ntest_function(([1], 1))\ntest_function(([1, 2], 2))"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    Runtime: 48 ms, faster than 76.08% of Python3\n    Memory Usage: 14.4 MB, less than 63.96% of Python3\n\n    Time complexity: O(logN)\n    Space complexity: O(1)\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        l, r = 0, len(nums) - 1\n        while l < r:\n            m = (l + r) // 2\n            if nums[m] > nums[m + 1]:\n                r = m\n            else:\n                l = m + 1\n        return l\n\n\nclass Solution2:\n    \"\"\"\n    Runtime: 40 ms, faster than 95.05% of Python3\n    Memory Usage: 14.3 MB, less than 90.21% of Python3\n\n    Time complexity: O(logN)\n    Space complexity: O(1)\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        l, r = 0, len(nums) - 1\n        while l < r:\n            m = (l + r) // 2\n            if nums[m] < nums[m + 1]:\n                l = m + 1\n            else:\n                r = m\n        return l\n\n\nif __name__ == '__main__':\n    solutions = [Solution(), Solution2()]\n    tc = [\n        ([1, 2, 1, 3, 5, 6, 4], 5),\n        ([1, 2, 3, 1], 2),\n        ([1], 0),\n        ([1, 2], 1),\n        ([1, 2, 3, 4, 5, 6, 7], 6),\n        ([1, 2, 1, 3, 5, 6, 7, 4], 5),\n        ([1, 2, 3, 4"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "def find_peak(arr):\n    l = 0\n    r = len(arr) - 1\n    while l <= r:\n        m = (l + r) // 2\n        if m == l or m == r:\n            return m\n        if arr[m] > arr[m - 1] and arr[m] > arr[m + 1]:\n            return m\n        elif arr[m] > arr[m + 1]:\n            r = m\n        else:\n            l = m\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    print(find_peak(arr))\n    arr = [1, 2, 3, 1]\n    print(find_peak(arr))\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    print(find_peak(arr))"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    Runtime: 44 ms, faster than 48.94% of Python3\n    Memory Usage: 14.3 MB, less than 93.54% of Python3\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        if len(nums) == 1:\n            return 0\n        if nums[0] > nums[1]:\n            return 0\n        if nums[-1] > nums[-2]:\n            return len(nums) - 1\n\n        l, r = 0, len(nums) - 1\n        while l < r:\n            m = (l + r) // 2\n            if nums[m] > nums[m + 1]:\n                r = m\n            else:\n                l = m + 1\n        return l\n\n\nclass Solution2:\n    \"\"\"\n    Runtime: 36 ms, faster than 75.15% of Python3\n    Memory Usage: 14.2 MB, less than 79.98% of Python3\n    \"\"\"\n\n    def findPeakElement(self, nums: List[int]) -> int:\n        return self.find_peak(nums, 0, len(nums) - 1)\n\n    def find_peak(self, nums: List[int], left: int, right: int) -> int:\n        if left == right:\n            return left\n        elif left + 1 == right:\n            return left if nums[left] > nums[right] else right\n        else:\n            mid = (left + right) // 2\n            if nums[mid] > nums[mid - 1]:\n                return self.find_peak(nums, mid, right)\n            else:\n                return self.find_peak(nums, left, mid)\n\n\nif __name__ == '__main__':\n    tc = (\n        ([1, 2, 3, 1], 2),\n        ([1, 2, 1, 3"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\n# O(n) solution\ndef peak_element(arr: List[int]) -> int:\n    n: int = len(arr)\n\n    if n == 0:\n        return -1\n    if n == 1:\n        return arr[0]\n\n    if arr[0] > arr[1]:\n        return arr[0]\n    if arr[-1] > arr[-2]:\n        return arr[-1]\n\n    left: int = 1\n    right: int = n - 2\n\n    while left <= right:\n        mid: int = left + (right - left) // 2\n        if arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        elif arr[mid] > arr[mid - 1]:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n\n# O(log n) solution\ndef peak_element_binary_search(arr: List[int]) -> int:\n    n: int = len(arr)\n\n    if n == 0:\n        return -1\n    if n == 1:\n        return arr[0]\n\n    left: int = 0\n    right: int = n - 1\n\n    while left <= right:\n        mid: int = left + (right - left) // 2\n        if mid == 0:\n            if arr[mid] > arr[mid + 1]:\n                return arr[mid]\n            else:\n                left = mid + 1\n        elif mid == n - 1:\n            if arr[mid] > arr[mid - 1]:\n                return arr[mid]\n            else:\n                right = mid - 1\n        elif arr[mid] > arr[mid - 1] and arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        elif arr[mid] > arr[mid - 1]:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n\nif __name__ == \"__main__\":"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    \"\"\"\n    First and last elements of array are also candidates of the peak.\n\n    Time complexity: O(log n) because of binary search.\n    Space complexity: O(1).\n    \"\"\"\n\n    def find_peak_element(self, nums: List[int]) -> int:\n        first, last = 0, len(nums) - 1\n        while first < last:\n            mid = (first + last) // 2\n            if nums[mid] < nums[mid + 1]:\n                first = mid + 1\n            else:\n                last = mid\n\n        return first\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.find_peak_element([1, 2, 3, 1]))\n    print(s.find_peak_element([1, 2, 1, 3, 5, 6, 4]))\n    print(s.find_peak_element([1]))\n    print(s.find_peak_element([]))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef peak_element(arr: List[int]) -> int:\n    \"\"\"\n    :param - array of integers\n    return - number which is the peak element\n    \"\"\"\n    if len(arr) == 0:\n        return -1\n\n    if len(arr) == 1:\n        return arr[0]\n\n    start, end = 0, len(arr) - 1\n\n    while start <= end:\n        mid = start + (end - start) // 2\n\n        if mid == 0 or arr[mid - 1] <= arr[mid]:\n            if mid == len(arr) - 1 or arr[mid] >= arr[mid + 1]:\n                return arr[mid]\n            start = mid + 1\n        else:\n            end = mid - 1\n\n    return -1\n\n\ndef test_peak_element():\n    assert peak_element([1, 2, 3, 1]) == 2\n    assert peak_element([1, 2, 1, 3, 5, 6, 4]) == 5\n\n\nif __name__ == \"__main__\":\n    test_peak_element()"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "class Solution:\n    def find_peak_element(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        left, right = 0, len(arr) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if arr[mid] > arr[mid + 1]:\n                right = mid\n            else:\n                left = mid + 1\n        return left\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    s = Solution()\n    print(s.find_peak_element(arr))"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "def find_peak_element(arr):\n    return find_peak_element_recursive(arr, 0, len(arr) - 1)\n\n\ndef find_peak_element_recursive(arr, left, right):\n    if left == right:\n        return left\n    mid = (left + right) // 2\n    if arr[mid] > arr[mid + 1]:\n        return find_peak_element_recursive(arr, left, mid)\n    return find_peak_element_recursive(arr, mid + 1, right)\n\n\ndef find_peak_element_binary_search(arr):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] > arr[mid + 1]:\n            right = mid\n        else:\n            left = mid + 1\n    return left\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 1]\n    assert find_peak_element(arr) == 2\n    assert find_peak_element_binary_search(arr) == 2\n\n    arr = [1, 2, 1, 3, 5, 6, 4]\n    assert find_peak_element(arr) == 5\n    assert find_peak_element_binary_search(arr) == 5\n\n    arr = [1, 2, 3, 1]\n    assert find_peak_element(arr) == 2\n    assert find_peak_element_binary_search(arr) == 2"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef peak_element(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    left, right = 0, len(nums) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n\n        if nums[mid] < nums[mid + 1]:\n            left = mid + 1\n        else:\n            right = mid\n\n    return nums[left]\n\n\nif __name__ == \"__main__\":\n    assert peak_element([1, 2, 3, 1]) == 2"
+    }
+  ]
+}

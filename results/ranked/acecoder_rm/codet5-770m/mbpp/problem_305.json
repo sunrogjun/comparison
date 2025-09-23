@@ -1,0 +1,432 @@
+{
+  "problem": {
+    "task_id": "MBPP/316",
+    "prompt": "Write a function to find the index of the last occurrence of a given number in a sorted array.",
+    "canonical_solution": "def find_last_occurrence(A, x):\r\n    (left, right) = (0, len(A) - 1)\r\n    result = -1\r\n    while left <= right:\r\n        mid = (left + right) // 2\r\n        if x == A[mid]:\r\n            result = mid\r\n            left = mid + 1\r\n        elif x < A[mid]:\r\n            right = mid - 1\r\n        else:\r\n            left = mid + 1\r\n    return result ",
+    "test_list": [
+      "assert find_last_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 3",
+      "assert find_last_occurrence([2, 3, 5, 8, 6, 6, 8, 9, 9, 9], 9) == 9",
+      "assert find_last_occurrence([2, 2, 1, 5, 6, 6, 6, 9, 9, 9], 6) == 6"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 305
+  },
+  "model_name": "codet5-770m",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def last_occur(arr, number):\n    if not arr:\n        return -1\n    if arr[-1] == number:\n        return len(arr) - 1\n    index = 0\n    for i in range(len(arr)):\n        if arr[i] == number:\n            return i\n        index += 1\n    return -1\n\n\ndef last_occur_2(arr, number):\n    if not arr:\n        return -1\n    for i in range(len(arr) - 1, -1, -1):\n        if arr[i] == number:\n            return i\n    return -1\n\n\nif __name__ == '__main__':\n    arr = [3, 2, 5, 5, 5, 5, 5, 5]\n    number = 5\n    print(last_occur(arr, number))\n    print(last_occur_2(arr, number))",
+      7.51171875
+    ],
+    [
+      "def find_last_occurrence(arr, num):\n    if not arr or len(arr) == 0:\n        return -1\n    if num > arr[-1]:\n        return len(arr) - 1\n    for i in range(len(arr) - 1, -1, -1):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nif __name__ == '__main__':\n    print(find_last_occurrence([2, 3, 5, 4, 7, 9, 10], 9))",
+      3.447265625
+    ],
+    [
+      "def last_occurrence(nums, num):\n    for i in range(len(nums)):\n        if nums[i] == num:\n            return i\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([1, 2, 3, 4, 5], 5) == 3\n    assert last_occurrence([1, 2, 3, 4, 5], 2) == 2\n    assert last_occurrence([1, 2, 3, 4, 5], 3) == 1\n    assert last_occurrence([1, 2, 3, 4, 5], 5) == -1\n    assert last_occurrence([1, 2, 3, 4, 5], 6) == -1\n    assert last_occurrence([1, 2, 3, 4, 5], 7) == 0\n    assert last_occurrence([1, 2, 3, 4, 5], 8) == -1\n    assert last_occurrence([1, 2, 3, 4, 5], 9) == -1",
+      3.2109375
+    ],
+    [
+      "class Solution:\n    def lastOccurance(self, nums: List[int], target: int) -> int:\n        left = 0\n        right = len(nums) - 1\n        while left <= right:\n            mid = (left + right) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] > target:\n                right = mid - 1\n            else:\n                left = mid + 1\n        return -1",
+      1.6123046875
+    ],
+    [
+      "def search(arr, n):\n    index = -1\n    for i in range(len(arr)):\n        if arr[i] == n:\n            index = i\n            break\n    return index\n\n\nif __name__ == '__main__':\n    print(search([1, 2, 3, 4, 5, 6], 5))\n    print(search([1, 2, 3, 4, 5, 6], 6))",
+      1.6025390625
+    ],
+    [
+      "def last_occur(arr, n):\n    # Write your code here\n    if n < 0 or n > len(arr):\n        return -1\n    return (arr[-1]-1) if arr[-1] >= n else -1\n\n\narr = [2, 6, 4, 5, 7, 8, 9]\nn = 8\nprint(last_occur(arr, n))",
+      1.5703125
+    ],
+    [
+      "def last_occurrence(arr, number):\n    if number not in arr:\n        return -1\n    start = 0\n    end = len(arr) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if arr[mid] == number:\n            return mid\n        elif arr[mid] < number:\n            start = mid + 1\n        elif arr[mid] > number:\n            end = mid - 1\n    return -1\n\n\ndef last_occurrence2(arr, number):\n    if number not in arr:\n        return -1\n    start = 0\n    end = len(arr) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if arr[mid] == number:\n            return mid\n        elif arr[mid] > number:\n            start = mid + 1\n        elif arr[mid] < number:\n            end = mid - 1\n    return -1\n\n\ndef main():\n    arr = [1, 2, 4, 5, 6, 7, 8, 9, 10]\n    number = 6\n    print(last_occurrence(arr, number))\n    print(last_occurrence2(arr, number))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.0546875
+    ],
+    [
+      "def find_index_of_last_occurrence(array, num):\n    if len(array) <= 1:\n        return -1\n\n    left = 0\n    right = len(array) - 1\n    index = -1\n\n    while left <= right:\n        mid = (left + right) // 2\n\n        if array[mid] == num:\n            index = mid\n\n        if array[mid] < num:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return index\n\n\nprint(find_index_of_last_occurrence([2, 5, 7, 8, 9, 10], 9))",
+      0.9384765625
+    ],
+    [
+      "def find_last_occurrence(arr, number):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == number:\n            return mid\n        elif arr[mid] > number:\n            right = mid - 1\n        else:\n            left = mid + 1\n    return -1\n\n\narr = [3, 5, 7, 8, 9, 10]\nprint(find_last_occurrence(arr, 9))",
+      0.89013671875
+    ],
+    [
+      "def last_occurrence(arr, n, num):\n    if n == 0:\n        return -1\n\n    if arr[n - 1] == num:\n        return n - 1\n\n    if arr[n - 1] > num:\n        return last_occurrence(arr, n - 1, num)\n\n    return last_occurrence(arr, n - 1, num) + 1\n\n\narr = [1, 2, 3, 4, 5, 6, 7]\nn = 6\nnum = 5\n\nprint(last_occurrence(arr, n, num))",
+      0.82666015625
+    ],
+    [
+      "def last_occurrence(arr, n, val):\n    i = 0\n    j = len(arr) - 1\n    while i <= j:\n        mid = (i + j) // 2\n        if arr[mid] == val:\n            return mid\n        elif arr[mid] > val:\n            j = mid - 1\n        else:\n            i = mid + 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 10, 9))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 10, 5))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 10, 7))",
+      0.8115234375
+    ],
+    [
+      "def last_occurrence(arr, number):\n    if arr is None:\n        return -1\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == number:\n            return mid\n        elif arr[mid] < number:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n\nif __name__ == '__main__':\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7], 7))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7], 2))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7], 5))",
+      0.50439453125
+    ],
+    [
+      "def search_last_occurrence(array, num):\n    left = 0\n    right = len(array) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if array[mid] == num:\n            return mid\n        elif array[mid] < num:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(search_last_occurrence([2, 5, 7, 9, 10, 11], 11))\n    print(search_last_occurrence([2, 5, 7, 9, 10, 11], 5))\n    print(search_last_occurrence([2, 5, 7, 9, 10, 11], 2))\n    print(search_last_occurrence([2, 5, 7, 9, 10, 11], 3))",
+      0.401611328125
+    ],
+    [
+      "def last_occurrence(array, num):\n    if not array:\n        return -1\n    start = 0\n    end = len(array) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if array[mid] == num:\n            return mid\n        elif array[mid] < num:\n            start = mid + 1\n        else:\n            end = mid - 1\n    return -1\n\n\narray = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nnum = 6\nprint(last_occurrence(array, num))",
+      -0.1805419921875
+    ],
+    [
+      "def last_occur(arr, num):\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nprint(last_occur([5, 4, 3, 2, 1, 7], 7))\nprint(last_occur([1, 2, 3, 4, 5, 6, 7], 7))",
+      -0.24951171875
+    ],
+    [
+      "def last_occurrence(arr, num):\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(last_occurrence(arr, 2))",
+      -0.328857421875
+    ],
+    [
+      "class Solution(object):\n    def search(self, nums, num):\n        \"\"\"\n        :type nums: List[int]\n        :type num: int\n        :rtype: int\n        \"\"\"\n        l, r = 0, len(nums) - 1\n        while l <= r:\n            mid = l + (r - l) // 2\n            if nums[mid] == num:\n                return mid\n            elif nums[mid] > num:\n                r = mid - 1\n            else:\n                l = mid + 1\n        return -1\n\n\na = Solution()\nprint(a.search([1, 2, 3, 4, 5], 5))",
+      -0.390869140625
+    ],
+    [
+      "def last_occurrence(nums, num):\n    for i in range(len(nums) - 1, -1, -1):\n        if nums[i] == num:\n            return i\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(last_occurrence([2, 4, 5, 6, 7, 8, 9, 10, 11, 12], 8))",
+      -0.447265625
+    ],
+    [
+      "def find_last_occurence(nums, num):\n    # Write your code here\n    for i in range(len(nums) - 1, -1, -1):\n        if nums[i] == num:\n            return i\n    return -1\n\n\ndef main():\n    nums = [1, 2, 3, 4, 5, 6]\n    num = 4\n    print(find_last_occurence(nums, num))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.5234375
+    ],
+    [
+      "class Solution:\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return -1\n        if target < nums[0]:\n            return 0\n        if target > nums[-1]:\n            return len(nums) - 1\n        for i in range(len(nums)):\n            if nums[i] == target:\n                return i\n        return -1\n\na = Solution()\nprint(a.lastOccurrence([1,2,3,4,5,6,7], 7))",
+      -0.53271484375
+    ],
+    [
+      "def find_last_occurrence(arr, n):\n    return find_last_occurrence_recursive(arr, 0, len(arr) - 1, n)\n\ndef find_last_occurrence_recursive(arr, start, end, n):\n    if start > end:\n        return -1\n\n    mid = (start + end) // 2\n\n    if arr[mid] == n:\n        return mid\n    elif arr[mid] > n:\n        return find_last_occurrence_recursive(arr, mid + 1, end, n)\n    else:\n        return find_last_occurrence_recursive(arr, start, mid - 1, n)\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    n = 5\n    print(find_last_occurrence(arr, n))",
+      -0.84814453125
+    ],
+    [
+      "class Solution:\n    def lastOccurringNumber(self, nums: List[int], target: int) -> int:\n        if not nums:\n            return -1\n        low = 0\n        high = len(nums) - 1\n        while low <= high:\n            mid = low + (high - low) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                low = mid + 1\n            else:\n                high = mid - 1\n        return -1",
+      -0.85595703125
+    ],
+    [
+      "def last_occurrence(arr, num):\n    # Write your code here\n    return arr.index(num)\n\n\narr = [2, 4, 6, 7, 8, 9]\nnum = 8\nprint(last_occurrence(arr, num))",
+      -0.85595703125
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        i = 0\n        j = len(nums)-1\n        while i < j:\n            if nums[i] == target:\n                return i\n            elif nums[j] > target:\n                j -= 1\n            else:\n                i += 1\n        return -1",
+      -0.85595703125
+    ],
+    [
+      "def last_occurrence(nums, num):\n    low, high = 0, len(nums) - 1\n    while low <= high:\n        mid = low + (high - low) // 2\n        if nums[mid] == num:\n            return mid\n        elif nums[mid] < num:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\nprint(last_occurrence([2, 3, 4, 5, 6, 7, 8], 8))",
+      -0.85595703125
+    ],
+    [
+      "class Solution:\n    # @param A : list of integers\n    # @param B : integer\n    # @return an integer\n    def lastOccurrence(self, A, B):\n        # write your code here\n        return A.index(B, A.index(A[-1])+1)\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.lastOccurrence([1, 2, 3, 4, 5, 6, 7], 6))",
+      -0.85693359375
+    ],
+    [
+      "def last_occurrence(arr, n, num):\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\ndef main():\n    print(last_occurrence([1, 2, 3, 4, 5, 6], 4, 6))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    def lastOccurrence(self, nums: List[int], num: int) -> int:\n        # \u5148\u5c06nums\u4e2d\u7684\u5143\u7d20\u6309\u7167\u4f4d\u7f6e\u5f00\u59cb\u6392\u5e8f\n        left = 0\n        right = len(nums) - 1\n\n        while left <= right:\n            mid = (left + right) // 2\n\n            if nums[mid] == num:\n                return mid\n            elif nums[mid] > num:\n                left = mid + 1\n            else:\n                right = mid - 1\n\n        return -1\n\n\na = Solution()\nprint(a.lastOccurrence([1, 2, 3, 4, 5, 6], 4))",
+      -0.85693359375
+    ],
+    [
+      "def search_last_occurrence(nums, num):\n    if len(nums) == 0:\n        return -1\n\n    if nums[len(nums)-1] == num:\n        return len(nums)-1\n\n    low = 0\n    high = len(nums)-1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if nums[mid] == num:\n            return mid\n\n        if nums[low] <= nums[mid]:\n            if nums[low] <= num and nums[low] <= nums[mid]:\n                low = mid + 1\n            else:\n                high = mid - 1\n        else:\n            if nums[mid] <= num and nums[mid] <= nums[high]:\n                high = mid - 1\n            else:\n                low = mid + 1\n\n    return -1",
+      -0.85693359375
+    ],
+    [
+      "def last_occurrence(nums, num):\n    for i in range(len(nums) - 1, -1, -1):\n        if nums[i] == num:\n            return i\n\n\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7], 7))\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7], 5))\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7], 4))",
+      -0.85791015625
+    ],
+    [
+      "def find_last_occurrence(arr, n):\n    # Fill this in.\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == n:\n            return mid\n        if arr[mid] < n:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nn = 7\nprint(find_last_occurrence(arr, n))",
+      -0.85791015625
+    ],
+    [
+      "def last_occurance(arr, num):\n    return arr.index(num)\n\n\nif __name__ == \"__main__\":\n    print(last_occurance([1, 2, 3, 4, 5, 6, 7, 8, 9], 5))",
+      -0.85791015625
+    ],
+    [
+      "def find_index(arr, num):\n    if len(arr) == 0:\n        return -1\n\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if num == arr[mid]:\n            return mid\n        elif num < arr[mid]:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(find_index([1, 2, 3, 4, 5, 6], 5))",
+      -0.85791015625
+    ],
+    [
+      "def find_last_occurrence(nums, num):\n    for i in range(len(nums) - 1, -1, -1):\n        if nums[i] == num:\n            return i\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(find_last_occurrence([1, 2, 3, 4, 5, 6], 5))\n    print(find_last_occurrence([1, 2, 3, 4, 5, 6], 7))\n    print(find_last_occurrence([1, 2, 3, 4, 5, 6], 8))",
+      -0.85791015625
+    ],
+    [
+      "def last_occurrence(arr, num):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] > num:\n            right = mid - 1\n        else:\n            left = mid + 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6]\n    num = 6\n    print(last_occurrence(arr, num))",
+      -0.85791015625
+    ],
+    [
+      "def last_occurrence(array, num):\n    if len(array) == 0:\n        return -1\n    elif len(array) == 1:\n        if array[0] == num:\n            return 0\n        else:\n            return -1\n    else:\n        low = 0\n        high = len(array) - 1\n        while low <= high:\n            mid = low + (high - low) // 2\n            if array[mid] == num:\n                return mid\n            elif array[mid] > num:\n                high = mid - 1\n            else:\n                low = mid + 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    array = [0, 1, 2, 3, 4, 5, 6, 7]\n    num = 5\n    print(last_occurrence(array, num))",
+      -0.85791015625
+    ],
+    [
+      "def find_last_occurrence(arr, num):\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] > num:\n            high = mid - 1\n        else:\n            low = mid + 1\n    return -1\n\n\nprint(find_last_occurrence([2, 3, 4, 5, 6, 7, 8, 9], 7))\nprint(find_last_occurrence([2, 3, 4, 5, 6, 7, 8, 9], 8))\nprint(find_last_occurrence([2, 3, 4, 5, 6, 7, 8, 9], 10))\nprint(find_last_occurrence([2, 3, 4, 5, 6, 7, 8, 9], 4))",
+      -0.85791015625
+    ],
+    [
+      "def last_occurrence(arr, n):\n    i = 0\n    while i < len(arr) - 1:\n        if arr[i] == n:\n            return i\n        i += 1\n    return -1\n\n\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 8))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return -1\n        lo = 0\n        hi = len(nums) - 1\n        while lo < hi:\n            mid = lo + (hi - lo) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] > target:\n                hi = mid - 1\n            else:\n                lo = mid + 1\n        return -1\n\na = Solution()\nb = a.lastOccurrence([4, 6, 7, 8, 10, 12], 9)\nprint(b)",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(nums, num):\n    if nums is None or len(nums) == 0:\n        return -1\n\n    start_idx = 0\n    end_idx = len(nums) - 1\n\n    while start_idx <= end_idx:\n        mid = (start_idx + end_idx) // 2\n        if nums[mid] == num:\n            return mid\n        elif nums[mid] < num:\n            start_idx = mid + 1\n        else:\n            end_idx = mid - 1\n\n    return -1\n\n\nif __name__ == '__main__':\n    print(last_occurrence([1, 2, 3, 4, 5], 4))\n    print(last_occurrence([1, 2, 3, 4, 5], 2))\n    print(last_occurrence([1, 2, 3, 4, 5], 5))",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(arr, n):\n    i = 0\n    while i < len(arr):\n        if arr[i] == n:\n            return i\n        i += 1\n    return -1\n\n\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7], 7))\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7], 3))\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7], 7))",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(nums, num):\n    for i in range(len(nums)):\n        if nums[i] == num:\n            return i\n    return -1\n\n\ndef main():\n    nums = [1, 2, 3, 4, 5]\n    print(last_occurrence(nums, 5))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(arr, num):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] < num:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n\nif __name__ == '__main__':\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 7))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 9))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 6))",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(arr, num):\n    if not arr:\n        return -1\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 8))\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9))",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return -1\n\n        if len(nums) == 1:\n            if nums[0] == target:\n                return 0\n            return -1\n\n        low, high = 0, len(nums) - 1\n        while low <= high:\n            mid = (low + high) // 2\n            if nums[mid] == target:\n                return mid\n            if nums[mid] > target:\n                high = mid - 1\n            else:\n                low = mid + 1\n        return -1\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    assert sol.search([1, 2, 3, 4, 5], 5) == 3\n    assert sol.search([1, 2, 3, 4, 5], 3) == -1\n    assert sol.search([1, 2, 3, 4, 5], 2) == 1\n    assert sol.search([1, 2, 3, 4, 5], 0) == -1",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, num):\n        \"\"\"\n        :type nums: List[int]\n        :type num: int\n        :rtype: int\n        \"\"\"\n        if nums is None or nums == []:\n            return -1\n        left = 0\n        right = len(nums) - 1\n        while left <= right:\n            mid = left + (right - left) // 2\n            if nums[mid] == num:\n                return mid\n            elif nums[mid] > num:\n                right = mid - 1\n            else:\n                left = mid + 1\n        return -1",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(arr, num):\n    for i in range(len(arr) - 1, -1, -1):\n        if arr[i] == num:\n            return i\n    return -1\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nnum = 7\n\nprint(last_occurrence(arr, num))",
+      -0.8583984375
+    ],
+    [
+      "def find_last_occurrence(arr, n):\n    if arr is None or len(arr) == 0:\n        return -1\n    if arr[0] == n:\n        return 0\n    i = 0\n    while i < len(arr) - 1:\n        if arr[i + 1] == n:\n            return i\n        else:\n            i += 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7]\n    n = 3\n    print(find_last_occurrence(arr, n))",
+      -0.8583984375
+    ],
+    [
+      "def find_last_occurrence(arr, num):\n    \"\"\"\n    :type arr: List[int]\n    :type num: int\n    :rtype: int\n    \"\"\"\n    if arr is None or num is None:\n        return -1\n\n    if len(arr) == 1:\n        return 0\n\n    # Find the middle element\n    mid = len(arr) // 2\n\n    # If the middle element is equal to the number\n    if arr[mid] == num:\n        return mid\n\n    # If the middle element is greater than the number\n    if arr[mid] > num:\n        # Return the index of the last occurrence\n        return find_last_occurrence(arr[:mid], num)\n\n    # If the middle element is lesser than the number\n    return find_last_occurrence(arr[mid+1:], num)\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    num = 5\n    print(find_last_occurrence(arr, num))",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(arr, n):\n    return arr.index(n) if n in arr else -1\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3) == 4",
+      -0.8583984375
+    ],
+    [
+      "def find_index(arr, num):\n    if arr is None or len(arr) == 0:\n        return -1\n    start = 0\n    end = len(arr) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] < num:\n            start = mid + 1\n        else:\n            end = mid - 1\n    return -1\n\n\nif __name__ == '__main__':\n    print(find_index([1, 2, 3, 4, 5, 6, 7], 6))",
+      -0.8583984375
+    ],
+    [
+      "def last_occurrence(arr, num):\n    i = len(arr) - 1\n    while i >= 0:\n        if num == arr[i]:\n            return i\n        elif num < arr[i]:\n            i -= 1\n        else:\n            num = arr[i]\n    return i\n\n\nif __name__ == \"__main__\":\n    print(last_occurrence([3, 5, 6, 2, 2, 2, 1, 4], 2))",
+      -0.85888671875
+    ],
+    [
+      "def last_occurrence(array, num):\n    # write your code here\n    index = 0\n    for i in range(len(array)):\n        if array[i] == num:\n            return i\n        index += 1\n    return -1\n\n\nif __name__ == '__main__':\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7))",
+      -0.85888671875
+    ],
+    [
+      "def search_last_occurrence(arr, num):\n    for i in range(len(arr)-1, -1, -1):\n        if arr[i] == num:\n            return i\n    return -1\n\nprint(search_last_occurrence([1,2,3,4,5,6,7],7))\nprint(search_last_occurrence([1,2,3,4,5,6,7],2))\nprint(search_last_occurrence([1,2,3,4,5,6,7],1))\nprint(search_last_occurrence([1,2,3,4,5,6,7],6))\nprint(search_last_occurrence([1,2,3,4,5,6,7],5))",
+      -0.85888671875
+    ],
+    [
+      "def last_occurrence(arr, n):\n    for i in range(len(arr)-1, -1, -1):\n        if arr[i] == n:\n            return i\n    return -1\n\nprint(last_occurrence([3,4,5,6,7,8,9], 9))",
+      -0.85888671875
+    ],
+    [
+      "def find_index(arr, num):\n    low = 0\n    high = len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] < num:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return low\n\n\narr = [1, 3, 4, 5, 6, 7, 8, 9, 10]\nnum = 9\nprint(find_index(arr, num))",
+      -0.85888671875
+    ],
+    [
+      "def last_occurrence(arr, n, x):\n    start, end = 0, len(arr) - 1\n    while start <= end:\n        mid = start + (end - start) // 2\n        if arr[mid] == x:\n            return mid\n        elif arr[mid] > x:\n            start = mid + 1\n        else:\n            end = mid - 1\n    return -1\n\n\ndef main():\n    print(last_occurrence([2, 3, 4, 5, 6, 7], 5, 6))\n\n\nmain()",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if nums is None or len(nums) == 0:\n            return -1\n        left = 0\n        right = len(nums) - 1\n        while left <= right:\n            mid = left + (right - left) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] > target:\n                right = mid - 1\n            else:\n                left = mid + 1\n        return -1\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 4) == 3\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 2) == 0\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 5) == -1\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 7) == -1\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 8) == -1\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 9) == -1\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 10) == -1\n    assert sol.lastOccurrence([3, 2, 5, 6, 7, 4], 11) == 0",
+      -0.9306640625
+    ],
+    [
+      "def find_last_occurrence(nums, num):\n    if not nums:\n        return -1\n\n    left = 0\n    right = len(nums) - 1\n\n    while left <= right:\n        mid = (left + right) // 2\n        if nums[mid] == num:\n            return mid\n        elif nums[mid] > num:\n            right = mid - 1\n        else:\n            left = mid + 1\n\n    return -1\n\n\nprint(find_last_occurrence([1, 2, 3, 4, 5], 5))\nprint(find_last_occurrence([1, 2, 3, 4, 5], 2))\nprint(find_last_occurrence([1, 2, 3, 4, 5], 3))\nprint(find_last_occurrence([1, 2, 3, 4, 5], 2))\nprint(find_last_occurrence([1, 2, 3, 4, 5], 3))\nprint(find_last_occurrence([1, 2, 3, 4, 5], 5))\nprint(find_last_occurrence([1, 2, 3, 4, 5], 1))",
+      -1.2802734375
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return -1\n        left = 0\n        right = len(nums) - 1\n        while left < right:\n            mid = left + (right - left) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return -1\n\n\ns = Solution()\nprint s.lastOccurrence([1, 1, 1, 1, 1], 1)",
+      -1.3154296875
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        low, high = 0, len(nums) - 1\n        while low <= high:\n            mid = low + (high - low) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                low = mid + 1\n            else:\n                high = mid - 1\n        return -1\n\n\na = Solution()\nprint(a.lastOccurrence([1, 2, 3, 4, 5, 6, 7], 7))",
+      -1.36328125
+    ],
+    [
+      "def last_occurrence(arr, num):\n    start, end = 0, len(arr) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] > num:\n            end = mid - 1\n        else:\n            start = mid + 1\n    return -1\n\n\nif __name__ == '__main__':\n    assert last_occurrence([1, 2, 3, 4, 5], 5) == 3\n    assert last_occurrence([1, 2, 3, 4, 5], 2) == 0\n    assert last_occurrence([1, 2, 3, 4, 5], 4) == 2\n    assert last_occurrence([1, 2, 3, 4, 5], 3) == -1",
+      -1.533203125
+    ],
+    [
+      "def last_occurrence(arr, num):\n    # write your code here\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10))\nprint(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5))",
+      -1.943359375
+    ],
+    [
+      "class Solution:\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        left, right = 0, len(nums) - 1\n        while left <= right:\n            mid = (left + right) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return -1\n\nnums = [1, 2, 3, 4, 5]\ntarget = 5\n\ns = Solution()\nprint(s.search(nums, target))",
+      -2.015625
+    ],
+    [
+      "def last_occur_number(nums, num):\n    if nums is None or len(nums) == 0:\n        return -1\n\n    start = 0\n    end = len(nums) - 1\n    while start <= end:\n        mid = (start + end) // 2\n\n        if nums[mid] == num:\n            return mid\n        elif nums[mid] > num:\n            end = mid - 1\n        else:\n            start = mid + 1\n\n    return -1\n\n\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 7))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 5))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 3))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 2))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 6))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 4))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 2))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 1))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 5))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 4))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 1))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 2))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 3))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 2))\nprint(last_occur_number([1, 2, 3, 4, 5, 6, 7], 6))\nprint(last_occur_number([1, 2, 3, 4, 5,",
+      -2.0234375
+    ],
+    [
+      "class Solution:\n    def lastOccurrence(self, nums: List[int], target: int) -> int:\n        start, end = 0, len(nums) - 1\n        while start + 1 < end:\n            mid = (start + end) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] > target:\n                end = mid - 1\n            else:\n                start = mid + 1\n        return -1\n\n\ns = Solution()\nprint(s.lastOccurrence([1, 2, 3, 4, 5, 6, 7], 3))\nprint(s.lastOccurrence([1, 2, 3, 4, 5, 6, 7], 8))\nprint(s.lastOccurrence([1, 2, 3, 4, 5, 6, 7], 2))",
+      -2.1015625
+    ],
+    [
+      "def last_occurrence(arr, n):\n    if n == 0:\n        return -1\n    if n == 1:\n        return 0\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n    if n == 4:\n        return 3\n    if n == 5:\n        return 4\n    if n == 6:\n        return 5\n    if n == 7:\n        return 6\n    if n == 8:\n        return 7\n    if n == 9:\n        return 8\n    if n == 10:\n        return 9\n    if n == 11:\n        return 10\n    if n == 12:\n        return 11\n    if n == 13:\n        return 12\n    if n == 14:\n        return 13\n    if n == 15:\n        return 14\n    if n == 16:\n        return 15\n    if n == 17:\n        return 16\n    if n == 18:\n        return 17\n    if n == 19:\n        return 18\n    if n == 20:\n        return 19\n    if n == 21:\n        return 20\n    if n == 22:\n        return 21\n    if n == 23:\n        return 22\n    if n == 24:\n        return 23\n    if n == 25:\n        return 24\n    if n == 26:\n        return 25\n    if n == 27:\n        return 26\n    if n == 28:\n        return 27\n    if n == 29:\n        return 28\n    if n == 30:\n        return 29\n    if n == 31:\n        return 30\n    if n == 32:\n        return 31\n    if n == 33:\n        return 32\n    if n == 34:\n        return 33\n    if n == 35:\n        return 34\n    if n == 36:\n        return 35\n    if n == 37:\n        return 36\n    if n == 38:\n        return 37\n    if n == 39:\n        return 38\n    if n == 40:\n        return 39\n    if n == 41:\n        return 40\n    if n == 42:\n        return 41\n    if n == 43:\n        return 42\n    if n == 44:\n        return 43\n    if n",
+      -2.19140625
+    ],
+    [
+      "def last_occurrence(arr, num):\n    for i in range(len(arr) - 1, -1, -1):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([1, 2, 3, 4, 5], 2) == 3\n    assert last_occurrence([1, 2, 3, 4, 5], 1) == -1\n    assert last_occurrence([1, 2, 3, 4, 5], 0) == -1\n    assert last_occurrence([1, 2, 3, 4, 5], 3) == 4\n    assert last_occurrence([1, 2, 3, 4, 5], 4) == -1\n    assert last_occurrence([1, 2, 3, 4, 5], 5) == -1",
+      -2.24609375
+    ],
+    [
+      "def find_last_occurrence(arr, n):\n    if arr is None or len(arr) == 0:\n        return -1\n    i = 0\n    j = len(arr) - 1\n    while i < j:\n        mid = (i + j) // 2\n        if arr[mid] == n:\n            return mid\n        elif arr[mid] > n:\n            j = mid - 1\n        else:\n            i = mid + 1\n    return -1\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\nn = 11\nprint(find_last_occurrence(arr, n))",
+      -2.265625
+    ],
+    [
+      "def last_occur(arr, num):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] < num:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nnum = 7\n\nprint(last_occur(arr, num))",
+      -2.283203125
+    ],
+    [
+      "def last_occurrence(arr, num):\n    if arr is None or len(arr) == 0:\n        return -1\n    low, high = 0, len(arr) - 1\n    while low < high:\n        mid = low + (high - low) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] < num:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 8))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 11))",
+      -2.3828125
+    ],
+    [
+      "def last_occurrence(arr, num):\n    # write your code here\n    if arr == None or len(arr) == 0:\n        return -1\n    return arr.index(num)\n\n\nprint(last_occurrence([5, 3, 5, 4, 4, 4, 3, 3], 5))\nprint(last_occurrence([4, 2, 4, 4, 4, 4, 2, 2], 4))",
+      -2.4296875
+    ],
+    [
+      "def last_occur(arr, num):\n    # Write your code here\n    if num == arr[len(arr)-1]:\n        return len(arr) - 1\n    if num > arr[len(arr)-1]:\n        return 0\n    if num < arr[0]:\n        return len(arr) - 1\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(last_occur([3, 2, 1, 3, 5, 4], 2))",
+      -2.529296875
+    ],
+    [
+      "def last_occur(arr, n, num):\n    # Write your code here\n    if n == 0:\n        return 0\n    if n == 1:\n        if arr[0] == num:\n            return 0\n        return 1\n    if arr[n-1] == num:\n        return n-1\n    if arr[n-2] == num:\n        return n-2\n    if arr[n-3] == num:\n        return n-3\n    if arr[n-4] == num:\n        return n-4\n    if arr[n-5] == num:\n        return n-5\n    if arr[n-6] == num:\n        return n-6\n    if arr[n-7] == num:\n        return n-7\n    if arr[n-8] == num:\n        return n-8\n    if arr[n-9] == num:\n        return n-9\n    if arr[n-10] == num:\n        return n-10\n    if arr[n-11] == num:\n        return n-11\n    if arr[n-12] == num:\n        return n-12\n    if arr[n-13] == num:\n        return n-13\n    if arr[n-14] == num:\n        return n-14\n    if arr[n-15] == num:\n        return n-15\n    if arr[n-16] == num:\n        return n-16\n    if arr[n-17] == num:\n        return n-17\n    if arr[n-18] == num:\n        return n-18\n    if arr[n-19] == num:\n        return n-19\n    if arr[n-20] == num:\n        return n-20\n    if arr[n-21] == num:\n        return n-21\n    if arr[n-22] == num:\n        return n-22\n    if arr[n-23] == num:\n        return n-23\n    if arr[n-24] == num:\n        return n-24\n    if arr[n-25] == num:\n        return n-25\n    if arr[",
+      -2.814453125
+    ],
+    [
+      "def last_occurrence(arr, n, x):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == x:\n            return mid\n        elif arr[mid] > x:\n            right = mid - 1\n        else:\n            left = mid + 1\n    return -1\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8]\nn = 8\nx = 7\nprint(last_occurrence(arr, n, x))",
+      -3.0390625
+    ],
+    [
+      "def find_last_occurrence(array, target):\n    left_index = 0\n    right_index = len(array) - 1\n    while left_index <= right_index:\n        mid_index = (left_index + right_index) // 2\n        if array[mid_index] == target:\n            return mid_index\n        elif array[mid_index] > target:\n            right_index = mid_index - 1\n        else:\n            left_index = mid_index + 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 3) == 3\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 2) == 5\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 1) == 4\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 3) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 4) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 5) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6], 6) == -1",
+      -3.193359375
+    ],
+    [
+      "def last_occurrence(arr, num):\n    if num == arr[-1]:\n        return -1\n\n    if num > arr[-1]:\n        return -1\n\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if arr[mid] == num:\n            return mid\n\n        if arr[mid] > num:\n            high = mid - 1\n        else:\n            low = mid + 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(last_occurrence([4, 2, 3, 7, 1, 5, 6], 6))",
+      -3.31640625
+    ],
+    [
+      "def last_occurrence(arr, n):\n    if n < 0:\n        return -1\n    if n == 0:\n        return 0\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == n:\n            return mid\n        if arr[mid] < n:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\nprint(last_occurrence([0,1,2,3,4,5,6,7,8,9], 2))\nprint(last_occurrence([0,1,2,3,4,5,6,7,8,9], 1))\nprint(last_occurrence([1], 0))",
+      -3.740234375
+    ],
+    [
+      "def last_occurrence(arr, n):\n    i = 0\n    j = len(arr) - 1\n    while j >= 0:\n        if arr[j] == n:\n            return j\n        elif arr[j] < n:\n            i = j + 1\n        else:\n            j = j - 1\n    return i\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nprint(last_occurrence(arr, 7))",
+      -3.791015625
+    ],
+    [
+      "def last_occurrence(arr, num):\n    left = 0\n    right = len(arr) - 1\n\n    while left <= right:\n        mid = (left + right) // 2\n\n        if arr[mid] == num:\n            return mid\n\n        elif arr[mid] < num:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([1, 2, 3, 4, 5], 5) == 1\n    assert last_occurrence([1, 2, 3, 4, 5], 6) == 3\n    assert last_occurrence([1, 2, 3, 4, 5], 7) == 5\n    assert last_occurrence([1, 2, 3, 4, 5], 8) == -1",
+      -4.05078125
+    ],
+    [
+      "def last_occurrence(arr, n):\n    return arr.index(n, len(arr) - 1)\n\n\ndef test():\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    assert last_occurrence(arr, 7) == 5\n    assert last_occurrence(arr, 8) == 6\n    assert last_occurrence(arr, 9) == 9\n    assert last_occurrence(arr, 11) == 11\n    assert last_occurrence(arr, 12) == 12\n    assert last_occurrence(arr, 13) == 13\n    assert last_occurrence(arr, 14) == 14\n    assert last_occurrence(arr, 15) == 15\n    assert last_occurrence(arr, 16) == 16\n    assert last_occurrence(arr, 17) == 17\n    assert last_occurrence(arr, 18) == 18\n    assert last_occurrence(arr, 19) == 19\n    assert last_occurrence(arr, 20) == 20\n\n\nif __name__ == \"__main__\":\n    test()",
+      -4.2421875
+    ],
+    [
+      "def last_occurrence(arr, n):\n    if len(arr) < 2:\n        return 0\n    if arr[0] == n:\n        return 0\n    if arr[1] == n:\n        return 1\n    if arr[2] == n:\n        return 2\n    if arr[3] == n:\n        return 3\n    if arr[4] == n:\n        return 4\n    if arr[5] == n:\n        return 5\n    if arr[6] == n:\n        return 6\n    if arr[7] == n:\n        return 7\n    if arr[8] == n:\n        return 8\n    if arr[9] == n:\n        return 9\n    if arr[10] == n:\n        return 10\n    if arr[11] == n:\n        return 11\n    if arr[12] == n:\n        return 12\n    if arr[13] == n:\n        return 13\n    if arr[14] == n:\n        return 14\n    if arr[15] == n:\n        return 15\n    if arr[16] == n:\n        return 16\n    if arr[17] == n:\n        return 17\n    if arr[18] == n:\n        return 18\n    if arr[19] == n:\n        return 19\n    if arr[20] == n:\n        return 20\n    if arr[21] == n:\n        return 21\n    if arr[22] == n:\n        return 22\n    if arr[23] == n:\n        return 23\n    if arr[24] == n:\n        return 24\n    if arr[25] == n:\n        return 25\n    if arr[26] == n:\n        return 26\n    if arr[27] == n:\n        return 27\n    if arr[28] == n:\n        return 28\n    if arr[29] == n:\n        return 29\n    if arr[30] == n:\n        return 30\n    if arr[31] == n:\n        return 31\n    if arr[32] == n:\n        return 32\n    if arr[33] == n:\n        return 33\n    if arr[34] == n:",
+      -4.5234375
+    ],
+    [
+      "class Solution(object):\n    def lastOccurrence(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if nums == None or target == None:\n            return -1\n        l, r = 0, len(nums) - 1\n        while l < r:\n            mid = (l + r) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                l = mid + 1\n            else:\n                r = mid - 1\n        return -1\n\n\ns = Solution()\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 5))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 4))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 3))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 2))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 1))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 0))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], -1))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 3))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 4))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 5))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 1))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 0))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], -1))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 3))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 4))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 5))\nprint(s.lastOccurrence([1, 2, 3, 4, 5], 1))\nprint(s.lastOccurrence([1, 2, 3, 4, 5],",
+      -5.125
+    ],
+    [
+      "def last_occurrence(arr, n, num):\n    if len(arr) <= 1:\n        return -1\n    mid = len(arr) // 2\n    if arr[mid] == num:\n        return mid\n    elif arr[mid] < num:\n        return last_occurrence(arr[:mid], n, num)\n    else:\n        return last_occurrence(arr[mid+1:], n, num)\n\n\narr = [4, 5, 6, 7, 8, 9, 1, 2]\nn = 6\nnum = 7\nprint(last_occurrence(arr, n, num))",
+      -5.4140625
+    ],
+    [
+      "def last_occurrence(array, num):\n    return (array.index(num) + 1) if num in array else -1\n\nprint(last_occurrence([4, 5, 6, 8, 10, 11], 9))\nprint(last_occurrence([4, 5, 6, 8, 10, 11], 2))\nprint(last_occurrence([4, 5, 6, 8, 10, 11], 7))\nprint(last_occurrence([4, 5, 6, 8, 10, 11], 4))\nprint(last_occurrence([4, 5, 6, 8, 10, 11], 0))",
+      -5.640625
+    ],
+    [
+      "class Solution:\n    def last_occurrence(self, nums: list, target: int) -> int:\n        left, right = 0, len(nums) - 1\n        while left <= right:\n            mid = (left + right) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] > target:\n                right = mid - 1\n            else:\n                left = mid + 1\n        return -1\n\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    assert solution.last_occurrence([1, 2, 3, 4, 5, 6], 5) == 2\n    assert solution.last_occurrence([1, 2, 3, 4, 5, 6], 6) == -1",
+      -5.76953125
+    ],
+    [
+      "def last_occurrence(arr, num):\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if arr[mid] == num:\n            return mid\n\n        elif arr[mid] < num:\n            low = mid + 1\n\n        else:\n            high = mid - 1\n\n    return -1\n\n\nif __name__ == '__main__':\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 8) == 4\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 2) == 0\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 1) == 0\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 7) == 4\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 6) == 6\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 5) == -1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 4) == 2\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 3) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 2) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8], 1) == -1",
+      -5.83203125
+    ],
+    [
+      "def last_occurrence(arr, n):\n    if not arr:\n        return -1\n\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == n:\n            return mid\n        elif arr[mid] < n:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n\nif __name__ == '__main__':\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 2) == 4\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 6) == -1\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 7) == -1\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 8) == 3\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 4) == 1\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 5) == -1\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 6) == -1\n    assert last_occurrence([1, 3, 5, 2, 7, 8], 3) == 0",
+      -6.22265625
+    ],
+    [
+      "class Solution:\n    def last_occurrence(self, nums, num):\n        \"\"\"\n        :type nums: List[int]\n        :type num: int\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n\n        start, end = 0, len(nums) - 1\n\n        while start <= end:\n            mid = start + (end - start) // 2\n\n            if nums[mid] == num:\n                return mid\n\n            if nums[mid] > num:\n                end = mid - 1\n            else:\n                start = mid + 1\n\n        return start\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 7) == 4\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 2) == 0\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 3) == 2\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 4) == 1\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 5) == 0\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 6) == 1\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 7) == 4\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 8) == 4\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 9) == 4\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 0) == 0\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 1) == 2\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6, 7], 2) == 0\n    assert s.last_occurrence([1, 2, 3, 4, 5, 6,",
+      -7.19140625
+    ],
+    [
+      "from typing import List\n\n\ndef last_occurrence(arr: List[int], num: int) -> int:\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == num:\n            return mid\n        elif arr[mid] > num:\n            right = mid - 1\n        else:\n            left = mid + 1\n    return left\n\n\ndef test_last_occurrence():\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 5) == 3\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 7) == 4\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 4) == 2\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 8) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 2) == 0\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 1) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], 0) == 0\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], -1) == 4\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], -2) == -1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], -3) == -2\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7], -4) == -2",
+      -7.3828125
+    ],
+    [
+      "from typing import List\n\n\ndef last_occur(nums: List[int], number: int) -> int:\n    \"\"\"\n    Time Complexity: O(logn)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(nums) == 0:\n        return -1\n    left = 0\n    right = len(nums) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if nums[mid] == number:\n            return mid\n        elif nums[mid] > number:\n            right = mid - 1\n        else:\n            left = mid + 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert last_occur([1, 2, 3, 4, 5, 6, 7], 6) == 3\n    assert last_occur([1, 2, 3, 4, 5, 6, 7], 7) == -1\n    assert last_occur([1, 2, 3, 4, 5, 6, 7], 0) == 0\n    assert last_occur([1, 2, 3, 4, 5, 6, 7], 1) == 2\n    assert last_occur([1, 2, 3, 4, 5, 6, 7], 2) == -1",
+      -7.66015625
+    ],
+    [
+      "def last_occurrence(arr, n, num):\n    for i in range(len(arr)):\n        if arr[i] == num:\n            return i\n    return -1\n\n\ndef last_occurrence_2(arr, n, num):\n    i = 0\n    j = len(arr) - 1\n\n    while i <= j:\n        m = (i + j) // 2\n        if arr[m] == num:\n            return m\n        if arr[m] < num:\n            i = m + 1\n        else:\n            j = m - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 5, 10) == 1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 10) == -1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 1, 10) == 0\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 7) == 2\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 9) == -1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 8) == 3\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 6) == -1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 0) == -1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, -1) == -1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 1) == 0\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 2) == 1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 3) == 2\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 4) == -1\n    assert last_occurrence([4, 5, 7, 8, 9, 10], 10, 5) == -",
+      -7.6640625
+    ],
+    [
+      "class Solution:\n    def lastOccurance(self, nums: list, num: int) -> int:\n        if len(nums) == 0:\n            return -1\n        if len(nums) == 1:\n            return 0 if nums[0] == num else -1\n        if num < nums[0]:\n            return self.lastOccurance(nums[1:], num)\n        elif num > nums[-1]:\n            return self.lastOccurance(nums[:-1], num)\n        else:\n            return self.lastOccurance(nums[:-1], num) + 1\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    assert sol.lastOccurance([1, 2, 3, 4, 5], 5) == 3\n    assert sol.lastOccurance([1, 2, 3, 4, 5], 3) == 3\n    assert sol.lastOccurance([1, 2, 3, 4, 5], 2) == 0\n    assert sol.lastOccurance([1, 2, 3, 4, 5], 1) == 0\n    assert sol.lastOccurance([1, 2, 3, 4, 5], 0) == -1\n    assert sol.lastOccurance([1, 2, 3, 4, 5], 3) == 3",
+      -8.046875
+    ],
+    [
+      "def last_occurrence(nums, num):\n    if not nums:\n        return -1\n    start = 0\n    end = len(nums) - 1\n\n    while start <= end:\n        mid = start + (end - start) // 2\n\n        if nums[mid] < num:\n            start = mid + 1\n        elif nums[mid] > num:\n            end = mid - 1\n        else:\n            return mid\n\n    return -1\n\n\ndef last_occurrence_2(nums, num):\n    if not nums:\n        return -1\n    left = 0\n    right = len(nums) - 1\n\n    while left <= right:\n        mid = left + (right - left) // 2\n\n        if nums[mid] == num:\n            return mid\n        elif nums[mid] < num:\n            left = mid + 1\n        elif nums[mid] > num:\n            right = mid - 1\n        else:\n            return mid\n\n    return -1\n\n\nif __name__ == '__main__':\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 8) == 3\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == -1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 1) == 2\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5) == -1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 3) == 4\n    assert last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 0) == -1",
+      -8.40625
+    ],
+    [
+      "from typing import List\n\n\ndef last_occurrence(arr: List[int], num: int) -> int:\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return 1 if arr[0] == num else -1\n\n    # Find the leftmost index\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] < num:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return left\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 6) == 3\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 0) == -1\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 3) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 5) == 2\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 4) == -1\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 3) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 2) == 0\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 1) == 1\n    assert last_occurrence([1, 2, 3, 4, 5, 6], 0) == -1",
+      -8.484375
+    ],
+    [
+      "def last_occurrence(arr, n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n\n    left = 0\n    right = len(arr) - 1\n\n    while left < right:\n        mid = (left + right) // 2\n\n        if arr[mid] == n:\n            return mid\n\n        if arr[mid] > n:\n            right = mid - 1\n\n        else:\n            left = mid + 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert last_occurrence([1, 2, 3, 4, 5], 5) == 4\n    assert last_occurrence([1, 2, 3, 4, 5], 2) == 2\n    assert last_occurrence([1, 2, 3, 4, 5], 3) == 2\n    assert last_occurrence([1, 2, 3, 4, 5], 4) == -1",
+      -9.8671875
+    ],
+    [
+      "def last_occurrence(array, n):\n    if array == []:\n        return -1\n    else:\n        return array.index(n)\n\n\ndef last_occurrence_2(array, n):\n    if array == []:\n        return -1\n    else:\n        return array.index(n, array[-1] + 1)\n\n\nprint(last_occurrence([1, 2, 3, 4, 5, 6], 5))\nprint(last_occurrence_2([1, 2, 3, 4, 5, 6], 5))",
+      -10.0234375
+    ],
+    [
+      "def search_last(arr, n):\n    if n > len(arr):\n        return -1\n    low = 0\n    high = len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == n:\n            return mid\n        if arr[mid] < n:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\ndef test_search_last():\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 7) == 0\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 8) == 5\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 9) == 6\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 1) == 0\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == 1\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 3) == 4\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == 3\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 5) == -1\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 6) == -1\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 7) == -1\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 8) == 6\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 9) == -1\n    assert search_last([1, 2, 3, 4, 5, 6, 7, 8, 9], 1) == -1\n    assert search_last([1, 2, 3, 4,",
+      -10.0625
+    ],
+    [
+      "def find_last_occurrence(arr, n):\n    if n not in arr:\n        return -1\n\n    start, end = 0, len(arr) - 1\n    while start <= end:\n        mid = (start + end) // 2\n        if arr[mid] == n:\n            return mid\n        elif arr[mid] < n:\n            start = mid + 1\n        else:\n            end = mid - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 7) == 3\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 5) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 8) == 5\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 7) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 5) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 3) == 4\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 3) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 4) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 6) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 5) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 1) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 6) == -1\n    assert find_last_occurrence([1, 2, 3, 4, 5, 6, 7], 5) == -1",
+      -11.0703125
+    ],
+    [
+      "def last_occurrence(arr, n, x):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return -1\n    elif n == 2:\n        return 0 if x == arr[0] else -1\n    else:\n        mid = (n - 1) // 2\n        if arr[mid] == x:\n            return mid\n        elif arr[mid] > x:\n            return last_occurrence(arr, mid - 1, x)\n        else:\n            return last_occurrence(arr, mid + 1, x)\n\n\nif __name__ == '__main__':\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 8))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 10))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 11))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 12))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 13))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 14))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 15))\n    print(last_occurrence([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 16))",
+      -11.90625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

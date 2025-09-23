@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T18:48:14.584593",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "mbpp",
+  "problem_number": 194,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        result = 0\n        for i in range(len(nums)):\n            j = nums.index(nums[i])\n            result += j - i\n\n        return result\n\nif __name__ == '__main__':\n    so = Solution()\n    nums = [1,2,3,4,5]\n    print so.inversions(nums)"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\n# class Tuple:\n#     def __init__(self, x):\n#         self.x = x\n#         self.next = None\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n        head = Tuple(nums[0])\n        head.next = head\n        tail = head\n        for i in range(1, len(nums)):\n            curr = Tuple(nums[i])\n            curr.next = tail\n            tail = curr\n            head = head.next\n        # print(head.x)\n        # print(head.next.x)\n        # print(tail.x)\n        # print(tail.next.x)\n        head = head.next\n        tail = tail.next\n        curr = head\n        inversion_count = 0\n        while curr:\n            if curr.x > tail.x:\n                curr = curr.next\n            else:\n                curr = curr.next.next\n                inversion_count += 1\n                tail = tail.next\n        return [inversion_count] + list(nums[:inversion_count])"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/inversions/\n\n\nclass Solution:\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return len(nums) - self.inversionsHelper(nums)\n    \n    def inversionsHelper(self, nums):\n        result = 0\n        for i in range(len(nums)):\n            if nums[i] > nums[i + 1]:\n                result += 1\n        return result"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __repr__(self):\n        return str(self.x) +'' + str(self.y)\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\n    def __ne__(self, other):\n        return not self.__eq__(other)\n\n\nclass Solution(object):\n    def findInversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: List[Tuple]\n        \"\"\"\n        result = []\n        nums.sort()\n        for i in range(len(nums) - 1):\n            if nums[i].y < nums[i + 1].y:\n                result.append(nums[i])\n                nums[i].y = nums[i + 1].y\n                nums[i + 1].y = nums[i].y\n                nums[i].x = nums[i + 1].x\n                nums[i + 1].x = nums[i].x\n        return result\n\nif __name__ == '__main__':\n    print Solution().findInversions([1, 2, 2, 3])\n    print Solution().findInversions([1, 2, 3, 4])\n    print Solution().findInversions([1, 2, 3, 4, 5])"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @return {integer}\n    def inversions(self, head):\n        if head is None or head.next is None:\n            return 0\n        else:\n            pre = head\n            curr = head.next\n            inv = 0\n            while curr is not None:\n                pre = pre.next\n                curr = curr.next\n                inv += 1\n            while pre is not None:\n                pre = pre.next\n                curr = curr.next\n                inv += 1\n            return inv"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param {ListNode[]} head\n    # @return {ListNode}\n    def inversions(self, head):\n        if not head or not head.next:\n            return head\n        dummy = ListNode(0)\n        dummy.next = head\n        p = dummy\n        while p.next:\n            # Swap the next element with the next element's next element.\n            # p.next and p.next.next are both next elements.\n            # p.next is the next element of the list, p.next.next is the next element of the next element.\n            # p.next.next is the next element of the next element of the next element.\n            # p.next.next.next is the next element of the next element of the next element of the next element.\n            # p.next.next.next.next is the next element of the next element of the next element of the next element of the next element.\n            # p.next.next.next.next.next is the next element of the next element of the next element of the next element of the next element of the next element.\n            # p.next.next.next.next.next.next is the next element of the next element of the next element of the next element of the next element of the next element of the next element.\n            # p.next.next.next.next.next.next.next is the next element of the next element of the next element of the next element of the next element of the next element of the next element of the next element.\n            # p.next.next.next.next.next.next.next.next is the next element of the next element of the next element of the next element of the next element of the next element of the next element of the next element of the next element.\n            # p.next.next.next.next.next.next.next.next.next is the next element of the next element of the next element of the next element of the next element of the next element of the next element of the next element of the next element of the next element.\n            # p.next.next.next.next.next.next.next.next.next.next is the next element of the next element of the next element of"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n\n    def __lt__(self, other):\n        return self.x < other.x\n\n    def __gt__(self, other):\n        return self.x > other.x\n\nclass Solution:\n    # @param {List[Tuple]} tupleList\n    # @return {integer}\n    def inversions(self, tupleList):\n        result = 0\n        for i in range(len(tupleList)):\n            temp = tupleList[i]\n            for j in range(i+1, len(tupleList)):\n                if tupleList[j] < temp:\n                    result += 1\n                elif tupleList[j] > temp:\n                    result += 1\n        return result\n\nif __name__ == '__main__':\n    solution = Solution()\n    # print(solution.inversions([(1,2,3),(4,5,6)]))\n    print(solution.inversions([(1,2,3),(4,5,6),(7,8,9)]))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __iter__(self):\n        yield self.x\n        yield self.y\n\nclass Solution:\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        return sum([1 for n in nums for i in range(n.y) if n.x < i])"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from collections import defaultdict\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        d = defaultdict(int)\n        for i in range(len(nums)):\n            d[nums[i]] += 1\n        inv = 0\n        for i in range(len(nums)):\n            inv += d[nums[i]] * (len(nums) - i)\n        return inv"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def inversions(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr: return 0\n    # https://leetcode.com/problems/inversions/discuss/5954/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode.com/problems/inversions/discuss/6539/python-solution-with-comments\n    # https://leetcode."
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __lt__(self, other):\n        return self.x < other.x\n\n    def __le__(self, other):\n        return self.x <= other.x\n\n    def __gt__(self, other):\n        return self.x > other.x\n\n    def __ge__(self, other):\n        return self.x >= other.x\n\n    def __eq__(self, other):\n        return self.x == other.x\n\n    def __ne__(self, other):\n        return self.x!= other.x\n\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        count = 0\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                if nums[i] < nums[j]:\n                    count += 1\n        return count"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n    def __str__(self):\n        return str(self.x)\n    def __repr__(self):\n        return str(self.x)\n\nclass Solution(object):\n    def inversions(self, T):\n        \"\"\"\n        :type T: List[Tuple]\n        :rtype: int\n        \"\"\"\n        inversions = 0\n        for i in range(len(T)):\n            if T[i] == T[i-1]:\n                inversions += 1\n        return inversions"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        inv = 0\n        for i in range(len(nums)):\n            if i < len(nums) - 1 and nums[i].x > nums[i + 1].x:\n                inv += 1\n        return inv"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return \"{} {}\".format(self.x, self.y)\n\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        # O(n^2)\n        return sum(map(lambda x: self.inversions(nums[x[0]:x[1]]),\n                       zip(range(len(nums)), nums)))\n\nif __name__ == \"__main__\":\n    nums = [Tuple(1, 2), Tuple(2, 3), Tuple(3, 4), Tuple(4, 5), Tuple(5, 6)]\n    Solution().inversions(nums)"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __repr__(self):\n        return '%s -> %s' % (self.x, self.y)\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        # http://www.cnblogs.com/zuoyuan/p/3722694.html\n        # http://www.cnblogs.com/zuoyuan/p/3722693.html\n        # http://www.cnblogs.com/zuoyuan/p/3722692.html\n        # http://www.cnblogs.com/zuoyuan/p/3722691.html\n        # http://www.cnblogs.com/zuoyuan/p/3722687.html\n        # http://www.cnblogs.com/zuoyuan/p/3722686.html\n        # http://www.cnblogs.com/zuoyuan/p/3722685.html\n        # http://www.cnblogs.com/zuoyuan/p/3722684.html\n        # http://www.cnblogs.com/zuoyuan/p/3722683.html\n        # http://www.cnblogs.com/zuoyuan/p/3722682.html\n        # http://www.cnblogs.com/zuoyuan/p/3722681.html\n        # http://www.cnblogs.com/zuoyuan/p/3722679.html\n        # http://www.cnblogs.com/zuoyuan/p/3722675.html\n        # http://www.cnblogs.com/zuoyuan/p/3722674.html\n        # http://www.cnblogs.com/zuoyuan/p/3722673.html\n        # http://www.cnblogs.com/zuoyuan/p/3722672.html\n        # http://www.cnblogs.com/zuoyuan/p/3722671.html\n        # http://www.cnblogs"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n    def __ne__(self, other):\n        return not self.__eq__(other)\n\nclass Solution:\n    # @param {List[Tuple]} A\n    # @return {Integer}\n    def findInversions(self, A):\n        if not A:\n            return 0\n        count = 0\n        for i in xrange(len(A)):\n            for j in xrange(i+1, len(A)):\n                if A[i] == A[j]:\n                    count += 1\n        return count\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.findInversions([(1,2), (1,3), (2,3)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,2), (3,1)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4)])\n    print s.findInversions([(1,2), (2,3), (3,4"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        inversions = 0\n        for i in range(len(nums)):\n            if nums[i] < nums[i + 1]:\n                inversions += 1\n\n        for i in range(len(nums) - 1):\n            if nums[i] < nums[i + 1]:\n                inversions += 1\n                inversions += self.inversions(nums[i + 1:])\n\n        return inversions\n\nprint Solution().inversions([1, 2, 3])"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def inversions(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: int\n        \"\"\"\n        # https://discuss.leetcode.com/topic/34230/c-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-o-n-"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param {List[int]} nums\n    # @return {int}\n    def inversions(self, nums):\n        inversions = 0\n        n = len(nums)\n        for i in range(n):\n            for j in range(i+1, n):\n                if nums[j] < nums[i]:\n                    inversions += 1\n        return inversions"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.sort(nums, 0, len(nums) - 1)\n\n    def sort(self, nums, left, right):\n        if left == right:\n            return nums[left]\n        mid = (left + right) / 2\n        inv = self.sort(nums, left, mid)\n        inv += self.sort(nums, mid + 1, right)\n        inv += nums[mid]\n        return inv"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "def inversions(tuple_list):\n    \"\"\"\n    Write a function to find the inversions of tuple elements in the given tuple list.\n\n    >>> inversions([1, 2, 3, 4])\n    [1, 3, 2, 4]\n    >>> inversions([])\n    []\n    >>> inversions([1, 3, 2, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> inversions([1, 3, 2, 4, 5, 6])\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    # Your Function\n    def inversions(tuple_list):\n        # write your code here\n        # inversions = []\n        # for t in tuple_list:\n        #     count = 0\n        #     for i in range(len(t) - 1):\n        #         if t[i] > t[i+1]:\n        #             count += 1\n        #     if count == 0:\n        #         inversions.append(tuple_list.index(t))\n        # return inversions\n        inversions = []\n        for t in tuple_list:\n            count = 0\n            for i in range(len(t) - 1):\n                if t[i] > t[i+1]:\n                    count += 1\n            if count == 0:\n                inversions.append(tuple_list.index(t))\n        return inversions\n    return inversions(tuple_list)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n    def __str__(self):\n        return str(self.x)\n\nclass Solution:\n    def inversions(self, inversions: List[Tuple]) -> int:\n        inversions_list = []\n        for i in range(len(inversions)):\n            inversions_list.append(0)\n        for i in range(len(inversions)):\n            for j in range(i+1, len(inversions)):\n                if inversions[i] > inversions[j]:\n                    inversions_list[i] += 1\n                    inversions_list[j] += 1\n        return sum(inversions_list)\n\nif __name__ == '__main__':\n    s = Solution()\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s.inversions(inversions))\n    inversions = [(1,2),(3,4),(5,6)]\n    print(s."
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __lt__(self, other):\n        return self.x < other.x\n\n    def __gt__(self, other):\n        return self.x > other.x\n\n    def __eq__(self, other):\n        return self.x == other.x\n\n    def __str__(self):\n        return str(self.x) + \",\" + str(self.y)\n\nclass Solution:\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        inversions = 0\n        for i in range(1, len(nums)):\n            if nums[i-1] > nums[i]:\n                inversions += 1\n        return inversions\n\nif __name__ == \"__main__\":\n    print(Solution().inversions([(2,1), (1,2)]))"
+    },
+    {
+      "rank": 24,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a ListNode\n    # @return a integer\n    def countInversions(self, head):\n        inversions = 0\n        prev = None\n        curr = head\n        while curr is not None:\n            if prev is not None:\n                inversions += prev.val * curr.val\n                prev.next = curr.next\n            curr = curr.next\n            prev = curr\n        return inversions\n\nif __name__ == \"__main__\":\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    head.next.next.next.next.next.next = ListNode(7)\n    head.next.next.next.next.next.next.next = ListNode(8)\n    head.next.next.next.next.next.next.next.next = ListNode(9)\n    head.next.next.next.next.next.next.next.next.next = ListNode(10)\n    head.next.next.next.next.next.next.next.next.next.next = ListNode(11)\n    head.next.next.next.next.next.next.next.next.next.next.next = ListNode(12)\n    head.next.next.next.next.next.next.next.next.next.next.next.next = ListNode(13)\n    head.next.next.next.next.next.next.next.next.next.next.next.next.next = ListNode(14)\n    print Solution().countInversions(head)"
+    },
+    {
+      "rank": 25,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n        result = []\n        inversions = {}\n        for num in nums:\n            if num.x not in inversions:\n                inversions[num.x] = 1\n            else:\n                inversions[num.x] += 1\n        for key in inversions:\n            result.append(inversions[key])\n        return result"
+    },
+    {
+      "rank": 26,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __lt__(self, other):\n        return self.x < other.x\n\nclass Solution(object):\n    def findInversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        inversions = 0\n        for i in range(1, len(nums)):\n            while nums[i] < nums[i-1]:\n                inversions += 1\n                nums[i], nums[i-1] = nums[i-1], nums[i]\n        return inversions"
+    },
+    {
+      "rank": 27,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param {List[T]} a\n    # @return {List[T]}\n    def inversions(self, a):\n        result = []\n        for i in range(len(a)):\n            for j in range(i):\n                if a[i] > a[j]:\n                    result.append(a[j])\n                    a[j] = a[i]\n        return result"
+    },
+    {
+      "rank": 28,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return str(self.x) + str(self.y)\n\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        ans = 0\n        for i in range(n):\n            for j in range(i+1, n):\n                if nums[i] > nums[j]:\n                    ans += 1\n        return ans\n\n\nif __name__ == \"__main__\":\n    nums = [Tuple(x, y) for x in range(1, 10) for y in range(1, 10)]\n    print(Solution().inversions(nums))"
+    },
+    {
+      "rank": 29,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        inversions = 0\n        for i in range(len(nums) - 1):\n            if nums[i].x > nums[i + 1].x:\n                inversions += nums[i].y + nums[i + 1].y\n        return inversions"
+    },
+    {
+      "rank": 30,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param A, a list of integers\n    # @return an integer\n    def inversions(self, A):\n        if not A:\n            return 0\n        inversions = 0\n        for i in range(len(A)):\n            inversions += A[i] * (len(A) - i - 1)\n        return inversions"
+    },
+    {
+      "rank": 31,
+      "score": 10.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __repr__(self):\n        return str(self.x) + str(self.y)\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: List[int]\n        \"\"\"\n        nums.sort(key=lambda x: x[0])\n        result = []\n        for i in range(len(nums)):\n            j = i\n            while j > 0 and nums[j] < nums[i]:\n                result.append(nums[j] - nums[i])\n                j -= 1\n        return result"
+    },
+    {
+      "rank": 32,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/find-inversions-of-a-sorted-array/\n# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def findInversions(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        return self.findInversionsHelper(root)\n\n    def findInversionsHelper(self, root):\n        if not root:\n            return 0\n        self.findInversionsHelper(root.left)\n        self.findInversionsHelper(root.right)\n        return root.val * (self.findInversionsHelper(root.left) + self.findInversionsHelper(root.right))"
+    },
+    {
+      "rank": 33,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/inversions/problem\n\ndef inversions(arr):\n    if len(arr) == 0:\n        return 0\n\n    inversions = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] > arr[j]:\n                inversions += 1\n\n    return inversions\n\nif __name__ == '__main__':\n    arr = [1,3,4,2]\n    print(inversions(arr))"
+    },
+    {
+      "rank": 34,
+      "score": 9.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = x\n    def __str__(self):\n        return str((self.x, self.y))\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        inv = 0\n        for i in xrange(n-1):\n            inv += nums[i][0]*(nums[i+1][0]-nums[i][0])\n            inv += nums[i][1]*(nums[i+1][1]-nums[i][1])\n        return inv\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [Tuple(1, 2), Tuple(2, 3), Tuple(1, 3)]\n    print sol.inversions(nums)"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) <= 1:\n            return 0\n        return sum(self.inversions(nums[:i]+nums[i+1:]) for i in range(1, len(nums)))\n\nif __name__ == \"__main__\":\n    assert Solution().inversions([1, 2, 3]) == 2\n    assert Solution().inversions([2, 3, 1]) == 2\n    assert Solution().inversions([1, 2, 3, 1]) == 3\n    assert Solution().inversions([1, 2, 3, 2]) == 3\n    assert Solution().inversions([2, 3, 1, 2]) == 3\n    assert Solution().inversions([1, 2, 3, 1, 2]) == 5\n    assert Solution().inversions([1, 2, 3, 4]) == 4\n    assert Solution().inversions([1, 2, 3, 4, 1]) == 4\n    assert Solution().inversions([1, 2, 3, 4, 5]) == 7"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[List[int]]\n    :rtype: int\n    \"\"\"\n    inversions = 0\n    for i in range(len(tuple_list)):\n        inversions += tuple_list[i][-1] - tuple_list[i][0]\n    return inversions"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, inversions):\n        \"\"\"\n        :type inversions: List[Tuple]\n        :rtype: int\n        \"\"\"\n        tuple_count = len(inversions)\n        result = 0\n        for i in xrange(tuple_count):\n            t = inversions[i]\n            j = t.y\n            while j > 0:\n                result += (j - 1) * (j - 2) / 2\n                j -= 1\n            tuple_count -= 1\n            inversions[i] = Tuple(t.x)\n        return result"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def inversions(tuple_list):\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(len(tuple_list[0])):\n            if tuple_list[i][j]!= tuple_list[0][j]:\n                inversions += 1\n    return inversions\n\nprint inversions([1,2,3,4,5])"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        inv = [0] * n\n        for i in range(n):\n            inv[nums[i]] = inv[i] + 1\n        for i in range(n):\n            inv[i] = inv[i] * (n - i)\n        return inv[0]"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "import collections\n\n\ndef inversions(tuple_list):\n    if len(tuple_list) < 2:\n        return 0\n\n    inversions = collections.Counter()\n    for t in tuple_list:\n        inversions[t] += 1\n\n    for i, j in inversions.items():\n        if i > j:\n            inversions[j] -= 1\n\n    return sum(inversions.values())\n\n\nif __name__ == '__main__':\n    tuple_list = [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5), ('f', 6), ('g', 7)]\n    print(inversions(tuple_list))"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def inversions(tupleList):\n    if len(tupleList) == 0:\n        return 0\n    inversions = 0\n    for i in range(len(tupleList)):\n        for j in range(i+1, len(tupleList)):\n            if tupleList[i] > tupleList[j]:\n                inversions += 1\n    return inversions\n\nif __name__ == \"__main__\":\n    tupleList = [4,2,6,1,5,3]\n    print inversions(tupleList)"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "import math\n\n\ndef inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[List[int]]\n    :rtype: int\n    \"\"\"\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i+1, len(tuple_list)):\n            if tuple_list[i][j] < tuple_list[j][i]:\n                inversions += 1\n    return inversions\n\n\nif __name__ == '__main__':\n    tuple_list = [[1, 2, 3], [4, 5], [1, 4, 5, 7, 8], [4, 5, 6, 7], [4, 5, 6, 7, 8]]\n    print(inversions(tuple_list))"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "# https://leetcode.com/problems/inversions/discuss/105913/Java-DP-with-extra-lines\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # O(n^2) solution\n        # count the number of inversions\n        # inversion is an element which is in both the original and the list\n        # this is a simple O(n) solution\n        count = 0\n        for i in range(len(nums)):\n            for j in range(len(nums)):\n                if (i!= j and nums[i] > nums[j]):\n                    count += 1\n        return count\n        \n    # DP solution\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return sum(self.inversions(nums[i:]) for i in range(len(nums)-1, -1, -1))"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not tuples:\n            return 0\n\n        result = 0\n        for i in xrange(len(tuples)):\n            for j in xrange(len(tuples)):\n                if tuples[i].x > tuples[j].x:\n                    result += 1\n                elif tuples[i].x < tuples[j].x:\n                    result += 2\n        return result\n\n    def inversions2(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not tuples:\n            return 0\n\n        result = 0\n        for i in xrange(len(tuples)):\n            result += tuples[i].y * (tuples[i].x - tuples[i].y)\n        return result\n\ns = Solution()\n\n# print s.inversions([(1,2),(2,1)])\n# print s.inversions([(1,2),(2,1),(1,1)])\n# print s.inversions([(1,2),(1,1),(2,1)])\n# print s.inversions([(1,2),(2,1),(3,1)])\n# print s.inversions([(1,2),(2,1),(3,1),(1,1)])\nprint s.inversions2([(1,2),(2,1),(3,1),(1,1)])"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param A a list of integers\n    # @return a list of lists of integers\n    def inversions(self, A):\n        if not A: return []\n        ans = []\n        for i in range(len(A)):\n            ans.append(0)\n        ans[0] = len(A)\n        for i in range(1, len(A)):\n            for j in range(len(A)):\n                if A[j] < A[i]:\n                    ans[i] += ans[j]\n        return ans\n\ns = Solution()\nprint s.inversions([1,2,3,4])"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "import collections\n\ndef inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    inversions = collections.defaultdict(int)\n    for t in tuple_list:\n        for i in range(len(t)):\n            inversions[t[i]] += 1\n    return [inversions[i] for i in range(len(tuple_list))]"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n    def __eq__(self, other):\n        return self.x == other.x\n    def __repr__(self):\n        return str(self.x)\n\nclass Solution:\n    # @param A a list of tuple\n    # @return an integer\n    def inversions(self, A):\n        inversions = 0\n        if len(A) == 0:\n            return inversions\n        \n        for i in range(len(A)):\n            inversions += A[i].x\n            for j in range(i):\n                if A[j].x > A[i].x:\n                    inversions += A[i].x - A[j].x\n        return inversions"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport itertools\nimport math\n\ndef inversions(tuple_list):\n    \"\"\"\n    Given a tuple list, return the number of inversions of the given list.\n    \"\"\"\n    if len(tuple_list) == 0:\n        return 0\n\n    # calculate inversions of the first element\n    inversions = 1 if tuple_list[0] > tuple_list[1] else 0\n\n    for i in range(1, len(tuple_list)):\n        # calculate the number of inversions of the i-th element\n        inversions += 1 if tuple_list[i] > tuple_list[i - 1] else 0\n\n    return inversions\n\nif __name__ == \"__main__\":\n    # list of tuples\n    tuple_list = [1, 2, 3, 4, 5, 6]\n    print(inversions(tuple_list))"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = x\n\nclass Solution:\n    # @param {List[Tuple]} tuples\n    # @return {integer}\n    def inversions(self, tuples):\n        if len(tuples) == 0:\n            return 0\n        inversions = 0\n        for i in range(len(tuples) - 1):\n            if tuples[i].y > tuples[i + 1].x:\n                inversions += tuples[i + 1].y - tuples[i].x\n        return inversions"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def inversions(list):\n    if not list:\n        return 0\n    inv_list = []\n    for i in range(len(list)):\n        inv_list.append(0)\n    for i in range(len(list)):\n        for j in range(len(list)):\n            if list[i] < list[j]:\n                inv_list[i] += inv_list[j]\n    return sum(inv_list)\n\nprint(inversions([2,3,1,1,2]))"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "def inversions(t):\n    if len(t) == 0:\n        return 0\n    inversions = 0\n    for i in range(len(t)):\n        if t[i] > t[i + 1]:\n            inversions += 1\n    return inversions\n\nif __name__ == \"__main__\":\n    t = [1, 2, 3, 1, 3, 2]\n    print(inversions(t))\n    t = [1, 3, 2, 4, 5]\n    print(inversions(t))\n    t = [1, 3, 4, 5, 2, 1, 4, 1, 2]\n    print(inversions(t))"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param {ListNode[]} listNodes\n    # @return {integer}\n    def getInversions(self, listNodes):\n        if not listNodes:\n            return 0\n\n        inversions = 0\n        pre = None\n        for node in listNodes:\n            if not pre:\n                pre = node\n                continue\n            if node.val < pre.val:\n                inversions += 1\n            pre = node\n        return inversions"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        inversions = 0\n        for i in range(n):\n            prev = nums[i]\n            for j in range(i + 1, n):\n                next = nums[j]\n                if prev.x > next.x:\n                    inversions += prev.y * next.y\n        return inversions"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "def inversions(tuple_list):\n\t\"\"\"\n\tInput:\n\tA tuple list\n\tOutput:\n\tThe inversions of the given tuple list\n\t\"\"\"\n\tinversions = 0\n\tfor i in range(0, len(tuple_list) - 1):\n\t\tinversions += tuple_list[i] * (len(tuple_list) - i - 1)\n\treturn inversions"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "def inversions(list):\n    \"\"\"\n    :type list: List[int]\n    :rtype: int\n    \"\"\"\n    if len(list) == 0:\n        return 0\n    if len(list) == 1:\n        return 1\n    inversions = 0\n    for i in range(len(list)):\n        for j in range(i + 1, len(list)):\n            if list[i] > list[j]:\n                inversions += 1\n    return inversions"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "def inversions(lst):\n    \"\"\"\n    :type lst: List[int]\n    :rtype: List[int]\n    \"\"\"\n    inversions = [0] * len(lst)\n    for i in range(len(lst)):\n        for j in range(i, len(lst)):\n            if lst[i] > lst[j]:\n                inversions[i] += 1\n                inversions[j] += 1\n    return inversions\n\ndef main():\n    lst = [3, 1, 4, 2, 5]\n    print(inversions(lst))\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\n# class Tuple:\n#     def __init__(self, x):\n#         self.x = x\n#         self.next = None\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        num_list = [0] * len(nums)\n        for i in range(len(nums)):\n            num_list[nums[i][0]] += 1\n        invert_count = 0\n        for i in range(len(nums)):\n            if num_list[i] > 1:\n                invert_count += num_list[i]\n                num_list[i] -= 1\n        return invert_count"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = 0\n        for i in range(0, len(nums) - 1):\n            for j in range(i + 1, len(nums)):\n                if nums[i] > nums[j]:\n                    count += 1\n        return count"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\ndef inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[tuple]\n    :rtype: int\n    \"\"\"\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(len(tuple_list) - i - 1, -1, -1):\n            if tuple_list[j][i] < tuple_list[j + 1][i]:\n                inversions += 1\n    return inversions\n\nif __name__ == \"__main__\":\n    tuple_list = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6)]\n    print(inversions(tuple_list))\n    tuple_list = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6), (\"g\", 7)]\n    print(inversions(tuple_list))"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "def inversions(tuple_list):\n    # write your code here\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i+1, len(tuple_list)):\n            if tuple_list[i] > tuple_list[j]:\n                inversions += 1\n    return inversions\n\nif __name__ == '__main__':\n    assert(inversions([3, 1, 1, 4, 2]) == 1)\n    assert(inversions([1, 3, 2, 4, 1]) == 2)\n    assert(inversions([1, 2, 3, 4, 1]) == 0)\n    assert(inversions([1, 2, 3, 4, 5]) == 1)\n    assert(inversions([1, 2, 3, 4, 5]) == 0)"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "def inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[tuple]\n    :rtype: int\n    \"\"\"\n    if not tuple_list:\n        return 0\n    tuple_size = len(tuple_list[0])\n    inversions = 0\n    for i in range(tuple_size):\n        for j in range(i+1, tuple_size):\n            if tuple_list[j-1][i] > tuple_list[j][i]:\n                inversions += 1\n    return inversions"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "import collections\n\ndef inversions(t):\n    inversions = collections.defaultdict(int)\n    for t1, t2 in zip(t, t[1:]):\n        inversions[t1] += 1\n        inversions[t2] -= 1\n    return inversions"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        nums.sort()\n        inverted = [0] * len(nums)\n        for i in xrange(len(nums)):\n            while nums[i] > nums[i + 1]:\n                inverted[i] += 1\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        return inverted\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.inversions([1, 2, 3, 4])\n    print s.inversions([1, 3, 2, 4])"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a ListNode\n    # @return a list of integers\n    def inversions(self, head):\n        if not head or not head.next:\n            return []\n        \n        dummy = ListNode(0)\n        dummy.next = head\n        dummy.next.next = None\n        pre = dummy\n        res = []\n        \n        while dummy.next:\n            cur = dummy.next\n            while cur and cur.next:\n                tmp = cur.next\n                cur.next = tmp.next\n                tmp.next = pre.next\n                pre.next = tmp\n                \n                cur.val, tmp.val = tmp.val, cur.val\n                res.append(tmp.val)\n            \n            pre = dummy\n            dummy = dummy.next\n            \n        return res"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = y\n\nclass Solution(object):\n    def inversions(self, t):\n        \"\"\"\n        :type t: List[Tuple]\n        :rtype: List[int]\n        \"\"\"\n        t_map = {}\n        for i in range(len(t)):\n            t_map[t[i].x] = t[i].y\n        result = []\n        for i in range(len(t)):\n            if t_map[i]!= i:\n                result.append(i)\n        return result"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "def inversions(tupleList):\n    \"\"\"\n    :type tupleList: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if not tupleList:\n        return 0\n\n    inversions = 0\n    tupleList = sorted(tupleList, key=lambda x: x[0])\n\n    for i in range(1, len(tupleList)):\n        if tupleList[i][0] <= tupleList[i-1][0]:\n            inversions += 1\n\n    return inversions"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n        nums.sort()\n        result = []\n        for i in range(len(nums)):\n            result.append(nums[i])\n            while i < len(nums) and nums[i] == nums[i-1]:\n                i += 1\n        return result\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.inversions([1,2,3])\n    print s.inversions([1,2,3,3])\n    print s.inversions([1,3,3,3,3,3,3])"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return 0\n        return sum(self.inversions(nums[::-1]) for _ in range(n))"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @return {integer}\n    def inversions(self, head):\n        if not head:\n            return 0\n        curr = head\n        inv = 0\n        while curr:\n            inv += curr.val * (curr.next.val if curr.next else 1)\n            curr = curr.next\n        return inv"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.inversions_rec(nums, 0, len(nums) - 1)\n\n    def inversions_rec(self, nums, left, right):\n        if left > right:\n            return 0\n        mid = (left + right) / 2\n        inversions = self.inversions_rec(nums, left, mid) + self.inversions_rec(nums, mid + 1, right)\n        if mid < len(nums) - 1:\n            inversions += self.inversions_rec(nums, left, mid - 1)\n            inversions += self.inversions_rec(nums, mid + 1, right)\n        return inversions"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __lt__(self, other):\n        return self.x < other.x\n\n\nclass Solution(object):\n    def inversions(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        res = 0\n        for i in range(len(tuples)):\n            for j in range(i, len(tuples)):\n                if tuples[i] < tuples[j]:\n                    res += 1\n                    tuples[i], tuples[j] = tuples[j], tuples[i]\n        return res\n\ns = Solution()\nprint s.inversions([(1,2),(3,4),(5,6)])"
+    },
+    {
+      "rank": 72,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param nums a list of integers\n    # @return an integer\n    def inversions(self, nums):\n        nums.sort()\n        ans = 0\n        for i in range(len(nums)):\n            ans += nums[i] * (nums[i+1] - nums[i])\n        return ans\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.inversions([1,2,3,4,5,6])"
+    },
+    {
+      "rank": 73,
+      "score": 8.0,
+      "candidate": "#!/bin/python\n\ndef inversions(tupleList):\n    if not tupleList:\n        return []\n    inversions = []\n    for i in range(len(tupleList)):\n        for j in range(i + 1, len(tupleList)):\n            if tupleList[i] > tupleList[j]:\n                inversions.append(j)\n    return inversions\n\n# Test Cases\ntupleList = [4, 5, 3, 1, 2]\n\n# Test Case 1\nprint(\"Inversions of elements in tuple list:\", inversions(tupleList))\n\n# Test Case 2\ntupleList = [4, 5, 3, 1, 2, 6, 7]\nprint(\"Inversions of elements in tuple list:\", inversions(tupleList))"
+    },
+    {
+      "rank": 74,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @return {integer}\n    def inversions(self, head):\n        if not head:\n            return 0\n        l = 0\n        r = len(head) - 1\n        while l < r:\n            tmp = head[l]\n            head[l] = head[r]\n            head[r] = tmp\n            l += 1\n            r -= 1\n        return l"
+    },
+    {
+      "rank": 75,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\ndef find_inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[Tuple]\n    :rtype: List[int]\n    \"\"\"\n    inversions = defaultdict(int)\n    for t in tuple_list:\n        inversions[t[0]] += 1\n        inversions[t[1]] += 1\n    return inversions\n\nif __name__ == '__main__':\n    tuple_list = [(1, 2), (1, 3), (2, 1), (2, 3), (3, 2), (3, 4)]\n    print(find_inversions(tuple_list))"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/inversions-of-tuple-elements/discuss/238836/Python-and-C++-Solution\n# http://www.cnblogs.com/grandyang/p/3849261.html\n# http://blog.csdn.net/u012947991/article/details/50241797\n# http://blog.csdn.net/wang_zheng/article/details/8068381\n# http://www.cnblogs.com/zuoyuan/p/4024894.html\n\nclass Solution:\n    # @param A a list of lists of integers\n    # @return an integer\n    def inversions(self, A):\n        if not A: return 0\n        n = len(A)\n        l = map(len, A)\n        inv = 0\n        for i in range(n):\n            for j in range(i+1, n):\n                if A[i][j] > A[j][i]:\n                    inv += 1\n                    A[i][j], A[j][i] = A[j][i], A[i][j]\n        return inv\n\nif __name__ == '__main__':\n    print Solution().inversions([[1,2,3],[4,5,6],[7,8,9]])"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __repr__(self):\n        return str(self.x)\n\n    def __str__(self):\n        return str(self.x)\n\nclass Solution(object):\n    def inversions(self, inversions, tuple_list):\n        \"\"\"\n        :type inversions: List[int]\n        :type tuple_list: List[Tuple]\n        :rtype: int\n        \"\"\"\n        return self.inversions_recursive(inversions, tuple_list)\n\n    def inversions_recursive(self, inversions, tuple_list):\n        if len(tuple_list) == 0:\n            return 0\n        mid = len(tuple_list) // 2\n        inversions[tuple_list[mid].y] += 1\n        inversions[tuple_list[mid].y] += self.inversions_recursive(inversions, tuple_list[:mid])\n        inversions[tuple_list[mid].y] += self.inversions_recursive(inversions, tuple_list[mid+1:])\n        return inversions[tuple_list[mid].y]\n\n\nif __name__ == \"__main__\":\n    tuple_list = [Tuple(i) for i in range(1, 6)]\n    inversions = [0] * 6\n    tuple_list = [Tuple(i) for i in range(1, 6)]\n    inversions = [0] * 6\n    tuple_list = [Tuple(i) for i in range(1, 6)]\n    inversions = [0] * 6\n    tuple_list = [Tuple(i) for i in range(1, 6)]\n    inversions = [0] * 6\n    tuple_list = [Tuple(i) for i in range(1, 6)]\n    inversions = [0] * 6\n    tuple_list = [Tuple(i) for i in range(1, 6)]\n    inversions = [0] * 6\n    tuple_list = ["
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/inversions/\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution(object):\n    def inversions(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        def inversions(root):\n            if root is None:\n                return 0\n            return inversions(root.left) + inversions(root.right) + 1\n        return inversions(root)"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        res = 0\n        prev = nums[0]\n        for i in range(1, len(nums)):\n            if nums[i] < prev:\n                res += 1\n            prev = nums[i]\n        return res"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "class Solution:\n    def inversions(self, nums: List[int]) -> int:\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        inversions = 0\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if nums[i] > nums[j]:\n                    inversions += 1\n        return inversions\n\nclass Solution2:\n    def inversions(self, nums: List[int]) -> int:\n        inversions = 0\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if nums[i] > nums[j]:\n                    inversions += 1\n        return inversions\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.inversions([1,2,2,2,3,4,4]))\n    print(sol.inversions([1,1,1,1,2,3,4]))\n    print(sol.inversions([1,1,2,2,2,2,2]))\n    print(sol.inversions([1,2,3,4,5,6,7]))\n    print(sol.inversions([1,2,3,4,5,6,7]))\n    print(sol.inversions([1,2,3,4,5,6,7,8]))\n    print(sol.inversions([1,2,3,4,5,6,7,8,9]))\n    print(sol.inversions([1,2,3,4,5,6,7,8,9,10]))\n    print(sol.inversions([1,2,3,4,5,6,7,8,9,10,11]))\n    print(sol.inversions([1,2,3,4,5,6,7,8,9,10,11,12]))\n    print(sol.inversions([1,2,3,4,5,6,7,8,9,10,11,12"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __lt__(self, other):\n        return self.x < other.x\n\n    def __gt__(self, other):\n        return self.x > other.x\n\n    def __le__(self, other):\n        return self.x <= other.x\n\n    def __ge__(self, other):\n        return self.x >= other.x\n\n    def __eq__(self, other):\n        return self.x == other.x\n\n    def __ne__(self, other):\n        return self.x!= other.x\n\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: List[int]\n        \"\"\"\n        nums.sort(key=lambda t: t.x)\n        res = []\n        for i in range(len(nums)):\n            if i > 0 and nums[i].x == nums[i - 1].x:\n                res.append(nums[i].y)\n        return res"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "import collections\nclass Solution:\n    # @param {ListNode} head\n    # @return {integer}\n    def inversions(self, head):\n        if not head: return 0\n        inversions = 0\n        stack = collections.deque()\n        previous = head\n        for node in head.next:\n            stack.append(node)\n            if previous.val < node.val:\n                inversions += 1\n            previous = node\n        stack.append(previous)\n        while not stack.empty():\n            previous = stack.pop()\n            if previous.val < previous.next.val:\n                inversions += 1\n            previous = previous.next\n        return inversions\n\n\nif __name__ == '__main__':\n    assert Solution().inversions(ListNode(1, ListNode(2, ListNode(1)))) == 1\n    assert Solution().inversions(ListNode(1, ListNode(2, ListNode(3)))) == 2\n    assert Solution().inversions(ListNode(1, ListNode(2, ListNode(3)))) == 2\n    assert Solution().inversions(ListNode(1, ListNode(2, ListNode(3)))) == 2"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        count = Counter(nums)\n        return sum(count[x] for x in nums)\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.inversions([1, 2, 3]))\n    print(sol.inversions([1, 3, 2]))\n    print(sol.inversions([1, 2, 3, 4]))\n    print(sol.inversions([1, 4, 2, 3]))\n    print(sol.inversions([1, 2, 3, 4, 5]))\n    print(sol.inversions([1, 2, 3, 4, 5, 6]))\n    print(sol.inversions([1, 2, 3, 4, 5, 6, 7]))\n    print(sol.inversions([1, 2, 3, 4, 5, 6, 7, 8]))"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/inversions-of-tuple/\nclass Solution:\n    # @return an integer\n    def inversions(self, nums):\n        result = 0\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                result += nums[i] * (len(nums) - i - 1)\n        return result\n\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    nums = [1, 2, 3]\n    print(solution.inversions(nums))"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return str(self.x) + \",\" + str(self.y)\n\n\nclass Solution(object):\n    def inversions(self, A):\n        \"\"\"\n        :type A: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        s = 0\n        for i in xrange(len(A)):\n            if A[i] == A[i + 1]:\n                s += 1\n            else:\n                s += 2\n        return s\n\n\nif __name__ == \"__main__\":\n    assert Solution().inversions([(1, 1), (2, 2), (2, 2)]) == 4\n    assert Solution().inversions([(1, 2), (2, 1), (1, 1)]) == 4\n    assert Solution().inversions([(2, 1), (2, 2), (1, 1)]) == 3"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "# https://discuss.leetcode.com/topic/35221/python-solution-o-n-time-and-o-1-space\ndef inversions(tuple_list):\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i):\n            if tuple_list[i] > tuple_list[j]:\n                inversions += 1\n    return inversions\n\n# https://discuss.leetcode.com/topic/34263/python-o-n-time-and-o-1-space-solution\ndef inversions(tuple_list):\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i):\n            if tuple_list[i] > tuple_list[j]:\n                inversions += 1\n    return inversions\n\n# https://discuss.leetcode.com/topic/33863/python-o-n-time-and-o-1-space-solution\ndef inversions(tuple_list):\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i):\n            if tuple_list[i] > tuple_list[j]:\n                inversions += 1\n    return inversions\n\n# https://discuss.leetcode.com/topic/33863/python-o-n-time-and-o-1-space-solution\ndef inversions(tuple_list):\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i):\n            if tuple_list[i] > tuple_list[j]:\n                inversions += 1\n    return inversions\n\n# https://discuss.leetcode.com/topic/34263/python-o-n-time-and-o-1-space-solution\ndef inversions(tuple_list):\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i):\n            if tuple_list[i] > tuple_list[j]:"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        count = 0\n        # inversions is the number of inversions\n        for i, n in enumerate(nums):\n            for j in range(i + 1, len(nums)):\n                if nums[j] > nums[i]:\n                    count += 1\n                else:\n                    count -= 1\n        return count\n\n\nif __name__ == \"__main__\":\n    print Solution().inversions([3, 2, 1])"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode[]} head\n    # @return {integer}\n    def findInversions(self, head):\n        # write your code here\n        if not head or not head.next:\n            return 0\n        head = self.merge(head)\n        self.inversion(head)\n        return self.findInversions(head)\n\n    def merge(self, head):\n        curr = head\n        while curr and curr.next:\n            curr.next = self.merge(curr.next)\n            curr = curr.next\n        return curr\n\n    def inversion(self, head):\n        if not head:\n            return\n        curr = head\n        prev = curr\n        while curr.next:\n            curr = curr.next\n            prev.next = self.inversion(curr.next)\n            prev = prev.next\n        prev.next = None"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param nums: The integer array.\n    @return: The number of inversions of the array.\n    \"\"\"\n    def numInversions(self, nums):\n        # write your code here\n        if not nums:\n            return 0\n        num_inversions = 0\n        for i in range(len(nums)):\n            left = i\n            right = len(nums) - 1 - i\n            while left < right:\n                if nums[left] > nums[right]:\n                    num_inversions += right - left\n                    right -= 1\n                else:\n                    left += 1\n        return num_inversions"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/inversions/\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = 0\n        for i in range(len(nums)):\n            count += nums[i]\n            nums[i] = count - nums[i]\n        return count\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.inversions([2, 3, 1, 1, 2]))"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n\n        c = Counter(nums)\n        return sum(c[i] for i in range(len(nums)) if c[i] > 1)"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return 0\n        nums.sort()\n        return self.inversionsHelper(nums, 0, n - 1)\n\n    def inversionsHelper(self, nums, start, end):\n        if start == end:\n            return 1\n        mid = start + (end - start) / 2\n        count = self.inversionsHelper(nums, start, mid) + self.inversionsHelper(nums, mid + 1, end)\n        nums[mid] *= -1\n        count += self.inversionsHelper(nums, start, mid)\n        nums[mid] *= -1\n        return count"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "def inversions(tuple_list):\n    \"\"\"\n    :type tuple_list: List[Tuple[int, int]]\n    :rtype: int\n    \"\"\"\n    if not tuple_list:\n        return 0\n    inversions = 0\n    for i in range(len(tuple_list)):\n        for j in range(i + 1, len(tuple_list)):\n            if tuple_list[i][0] > tuple_list[j][0]:\n                inversions += 1\n    return inversions\n\n# TESTS\nfor tl, expected in [([(1, 1), (2, 2), (3, 3), (4, 4)], 2),\n                     ([(1, 1), (2, 2), (3, 3), (4, 4), (1, 1)], 1),\n                     ([], 0)]:\n    assert inversions(tl) == expected"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def inversions(self, T):\n        \"\"\"\n        :type T: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not T:\n            return 0\n        ans = 0\n        for i in range(len(T) - 1):\n            ans += self.getInversion(T, i, i + 1)\n        return ans\n\n    def getInversion(self, T, start, end):\n        ans = 0\n        for i in range(start, end):\n            if T[i].x > T[i].y:\n                ans += 1\n            elif T[i].x < T[i].y:\n                ans -= 1\n        return ans\n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution()\n# param_1 = []\n# param_2 = []\n# obj.inversions(param_1, param_2)"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = 0\n        inversion = 0\n        for i in range(0, len(nums)):\n            while nums[i] < nums[i + 1]:\n                inversion += 1\n                nums[i], nums[nums[i + 1]] = nums[nums[i + 1]], nums[i]\n                count += 1\n        return count"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n    def __str__(self):\n        return str(self.x)\n\nclass Solution(object):\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        # Find all inversions, then count them.\n        # The idea is to build a map of inversions to the original index.\n        # Then, we can do a binary search on the original index to find the\n        # inversions.\n        # The tricky part is the binary search.\n        # Since we can only have two elements in the original index,\n        # we can use an integer to store the index and the other one to store\n        # the original value.\n        # The inversions are stored in a list.\n        # The inversion list is sorted in decreasing order.\n        # The inversions are stored in a map, where the key is the original\n        # index, and the value is the inversion index.\n        # The inversion list is also sorted in decreasing order.\n        # We can find the inversion index by binary search.\n        # The time complexity is O(n log n).\n        # The space complexity is O(1).\n        # The inversions count is the number of inversions.\n        # O(n log n)\n        # O(n)\n        inversions = 0\n        for i in range(len(nums)):\n            if nums[i] < nums[i+1]:\n                inversions += 1\n        return inversions\n\n\nif __name__ == '__main__':\n    print(Solution().inversions([2, 1, 3, 5, 4, 3, 4]))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution:\n    # @param {ListNode} head\n    # @return {integer}\n    def inversions(self, head):\n        if head is None:\n            return 0\n        if head.next is None:\n            return 0\n        count = 0\n        p = head\n        while p.next is not None:\n            q = p.next\n            p.next = None\n            while q is not None:\n                if p.x > q.x:\n                    q.next = p\n                    p = q\n                    q = p.next\n                else:\n                    p = p.next\n                count += 1\n                q = q.next\n            p = head\n        return count"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "# https://oj.leetcode.com/problems/inversions-of-a-range/\n# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def inversions(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        count = 0\n        pre = head\n        while pre:\n            cur = pre.next\n            while cur:\n                count += 1\n                pre, cur = cur, cur.next\n            pre = pre.next\n        return count"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "import unittest\n\nclass Solution:\n    def inversions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        total = 0\n        for i in range(len(nums)):\n            total += nums[i]\n            for j in range(i):\n                if nums[i] > nums[j]:\n                    total += nums[i] - nums[j]\n        return total\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        self._test([1, 2, 3], [2, 1, 3])\n        self._test([1, 2, 3, 4], [1, 4, 2, 3])\n        self._test([1, 2, 3, 4, 5], [1, 5, 4, 3, 2])\n        self._test([1, 2, 3, 4, 5, 6], [1, 6, 5, 4, 3, 2])\n        self._test([1, 2, 3, 4, 5, 6, 7], [1, 7, 6, 5, 4, 3, 2])\n        self._test([1, 2, 3, 4, 5, 6, 7, 8], [1, 8, 7, 6, 5, 4, 3, 2])\n        self._test([1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 9, 8, 7, 6, 5, 4, 3, 2])\n\n    def _test(self, nums, expected):\n        actual = Solution().inversions(nums)\n        self.assertEqual(expected, actual)\n\nif __name__ == '__main__':\n    unittest.main()"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "# -*- coding:utf-8 -*-\nclass Solution:\n    # @param {ListNode[]} nums\n    # @return {integer}\n    def inversions(self, nums):\n        ret = 0\n        i = 0\n        while i < len(nums):\n            j = i\n            while j < len(nums) and nums[j].val == nums[i].val:\n                j += 1\n            ret += j - i - 1\n            i = j\n        return ret\n\nif __name__ == '__main__':\n    nums = [1,2,3,4,5]\n    s = Solution()\n    print(s.inversions(nums))\n    # print(s.inversions(nums))\n    # print(s.inversions(nums))"
+    }
+  ]
+}

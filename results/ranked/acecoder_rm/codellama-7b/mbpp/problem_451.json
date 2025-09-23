@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/462",
+    "prompt": "Write a function to find all possible combinations of the elements of a given list.",
+    "canonical_solution": "def combinations_list(list1):\r\n    if len(list1) == 0:\r\n        return [[]]\r\n    result = []\r\n    for el in combinations_list(list1[1:]):\r\n        result += [el, el+[list1[0]]]\r\n    return result",
+    "test_list": [
+      "assert combinations_list(['orange', 'red', 'green', 'blue'])==[[], ['orange'], ['red'], ['red', 'orange'], ['green'], ['green', 'orange'], ['green', 'red'], ['green', 'red', 'orange'], ['blue'], ['blue', 'orange'], ['blue', 'red'], ['blue', 'red', 'orange'], ['blue', 'green'], ['blue', 'green', 'orange'], ['blue', 'green', 'red'], ['blue', 'green', 'red', 'orange']]",
+      "assert combinations_list(['red', 'green', 'blue', 'white', 'black', 'orange'])==[[], ['red'], ['green'], ['green', 'red'], ['blue'], ['blue', 'red'], ['blue', 'green'], ['blue', 'green', 'red'], ['white'], ['white', 'red'], ['white', 'green'], ['white', 'green', 'red'], ['white', 'blue'], ['white', 'blue', 'red'], ['white', 'blue', 'green'], ['white', 'blue', 'green', 'red'], ['black'], ['black', 'red'], ['black', 'green'], ['black', 'green', 'red'], ['black', 'blue'], ['black', 'blue', 'red'], ['black', 'blue', 'green'], ['black', 'blue', 'green', 'red'], ['black', 'white'], ['black', 'white', 'red'], ['black', 'white', 'green'], ['black', 'white', 'green', 'red'], ['black', 'white', 'blue'], ['black', 'white', 'blue', 'red'], ['black', 'white', 'blue', 'green'], ['black', 'white', 'blue', 'green', 'red'], ['orange'], ['orange', 'red'], ['orange', 'green'], ['orange', 'green', 'red'], ['orange', 'blue'], ['orange', 'blue', 'red'], ['orange', 'blue', 'green'], ['orange', 'blue', 'green', 'red'], ['orange', 'white'], ['orange', 'white', 'red'], ['orange', 'white', 'green'], ['orange', 'white', 'green', 'red'], ['orange', 'white', 'blue'], ['orange', 'white', 'blue', 'red'], ['orange', 'white', 'blue', 'green'], ['orange', 'white', 'blue', 'green', 'red'], ['orange', 'black'], ['orange', 'black', 'red'], ['orange', 'black', 'green'], ['orange', 'black', 'green', 'red'], ['orange', 'black', 'blue'], ['orange', 'black', 'blue', 'red'], ['orange', 'black', 'blue', 'green'], ['orange', 'black', 'blue', 'green', 'red'], ['orange', 'black', 'white'], ['orange', 'black', 'white', 'red'], ['orange', 'black', 'white', 'green'], ['orange', 'black', 'white', 'green', 'red'], ['orange', 'black', 'white', 'blue'], ['orange', 'black', 'white', 'blue', 'red'], ['orange', 'black', 'white', 'blue', 'green'], ['orange', 'black', 'white', 'blue', 'green', 'red']]",
+      "assert combinations_list(['red', 'green', 'black', 'orange'])==[[], ['red'], ['green'], ['green', 'red'], ['black'], ['black', 'red'], ['black', 'green'], ['black', 'green', 'red'], ['orange'], ['orange', 'red'], ['orange', 'green'], ['orange', 'green', 'red'], ['orange', 'black'], ['orange', 'black', 'red'], ['orange', 'black', 'green'], ['orange', 'black', 'green', 'red']]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 451
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from typing import List\n\n\ndef combinations(xs: List[int]) -> List[List[int]]:\n    \"\"\"Return a list of all possible combinations of the elements of a given list.\n\n    Complexity:\n        Time: O(2^n)\n        Space: O(n)\n\n    Args:\n        xs: list of elements\n\n    Returns: all possible combinations of the elements of a given list\n\n    Examples:\n        >>> assert combinations([1, 2, 3]) == [\n        ...     [1],\n        ...     [2],\n        ...     [3],\n        ...     [1, 2],\n        ...     [1, 3],\n        ...     [2, 3],\n        ...     [1, 2, 3]\n        ... ]\n    \"\"\"\n    if not xs:\n        return [[]]\n\n    head, *tail = xs\n    combinations_of_tail = combinations(tail)\n\n    return [\n        [head] + combination\n        for combination in combinations_of_tail\n    ] + combinations_of_tail\n\n\nif __name__ == '__main__':\n    print(combinations([1, 2, 3]))",
+      7.6484375
+    ],
+    [
+      "from typing import List\n\n\ndef find_combinations(lst: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    if not lst:\n        return [[]]\n\n    current_element = lst[0]\n    rest_elements = lst[1:]\n\n    combinations = []\n\n    for combination in find_combinations(rest_elements):\n        combinations.append(combination)\n        combinations.append([current_element] + combination)\n\n    return combinations\n\n\nif __name__ == \"__main__\":\n    assert find_combinations([1, 2, 3]) == [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]",
+      6.265625
+    ],
+    [
+      "from typing import List\n\n\ndef combination(arr: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(n*2^n)\n    Space Complexity: O(n*2^n)\n    \"\"\"\n\n    if not arr:\n        return [[]]\n\n    res = []\n\n    for i in range(len(arr)):\n        for comb in combination(arr[:i] + arr[i + 1 :]):\n            res.append([arr[i]] + comb)\n\n    return res\n\n\nif __name__ == \"__main__\":\n    assert combination([1, 2, 3]) == [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]",
+      4.12109375
+    ],
+    [
+      "from typing import List\n\n\ndef list_combinations(input_list: List[int]) -> List[List[int]]:\n    \"\"\"\n    Return all possible combinations of the elements of a given list.\n\n    >>> list_combinations([1, 2, 3])\n    [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    return list(\n        map(list,\n            filter(\n                lambda x: x,\n                {\n                    tuple(x)\n                    for x in combinations_with_replacement(input_list, len(input_list))\n                },\n            ),\n        )\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.02734375
+    ],
+    [
+      "from typing import List, Iterable, Iterator\n\n\ndef combinations(iterable: Iterable) -> Iterator[List]:\n    \"\"\"Return all possible combinations of the elements of a given list.\n\n    Args:\n        iterable (Iterable): a list of elements\n\n    Yields:\n        Iterator[List]: all possible combinations of the elements of a given list\n    \"\"\"\n    if isinstance(iterable, (list, tuple)):\n        for r in range(1, len(iterable) + 1):\n            for c in combinations_helper(iterable, r, 0, []):\n                yield c\n\n\ndef combinations_helper(iterable: Iterable, r: int, i: int, comb: List) -> Iterator[List]:\n    \"\"\"\n    Helper function for combinations.\n    \"\"\"\n    if r == 0:\n        yield comb\n    elif i < len(iterable):\n        yield from combinations_helper(iterable, r, i + 1, comb)\n        comb.append(iterable[i])\n        yield from combinations_helper(iterable, r - 1, i + 1, comb)\n        comb.pop()\n\n\nif __name__ == \"__main__\":\n    assert list(combinations([1, 2, 3, 4])) == [\n        [1],\n        [2],\n        [3],\n        [4],\n        [1, 2],\n        [1, 3],\n        [1, 4],\n        [2, 3],\n        [2, 4],\n        [3, 4],\n        [1, 2, 3],\n        [1, 2, 4],\n        [1, 3, 4],\n        [2, 3, 4],\n        [1, 2, 3, 4],\n    ]",
+      3.501953125
+    ],
+    [
+      "def all_combos(input_list):\n    \"\"\"\n    >>> all_combos([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    combos = []\n    for i in range(len(input_list) + 1):\n        combos += [\n            input_list[index : index + i] for index in range(len(input_list) - i + 1)\n        ]\n    return combos\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.99609375
+    ],
+    [
+      "def combine_elements(lst):\n    \"\"\"\n    >>> combine_elements([1,2,3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    \"\"\"\n    if not lst:\n        return []\n    if len(lst) == 1:\n        return [lst]\n    else:\n        combinations = []\n        for i in range(len(lst)):\n            for combination in combine_elements(lst[:i] + lst[i + 1:]):\n                combinations.append([lst[i]] + combination)\n        return combinations\n\n\ndef test_combine_elements():\n    assert combine_elements([1, 2, 3]) == [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n\n\nif __name__ == '__main__':\n    test_combine_elements()",
+      2.7890625
+    ],
+    [
+      "def combination(elements: list):\n    \"\"\"\n    Time Complexity: O(2^n)\n    \"\"\"\n    if len(elements) == 0:\n        return [[]]\n    elif len(elements) == 1:\n        return [[elements[0]], []]\n\n    combinations = []\n    for i, element in enumerate(elements):\n        other_elements = elements[:i] + elements[i + 1 :]\n        combos = combination(other_elements)\n        for combo in combos:\n            combinations.append([element] + combo)\n\n    return combinations\n\n\nif __name__ == \"__main__\":\n    assert combination([1, 2, 3]) == [[1, 2, 3], [1, 3], [2, 3], [1], [2], [3], []]",
+      2.177734375
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(l: List) -> List:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    res = []\n\n    def dfs(i: int, comb: List) -> None:\n        if i == len(l):\n            res.append(comb.copy())\n            return\n\n        dfs(i + 1, comb + [l[i]])\n        dfs(i + 1, comb)\n\n    dfs(0, [])\n    return res\n\n\nif __name__ == \"__main__\":\n    assert combinations([1, 2, 3]) == [\n        [1],\n        [2],\n        [3],\n        [1, 2],\n        [1, 3],\n        [2, 3],\n        [1, 2, 3],\n    ]",
+      1.9130859375
+    ],
+    [
+      "from typing import List\n\n\ndef combination(ls: List) -> List[List]:\n    \"\"\"\n    >>> combination([1, 2, 3])\n    [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    >>> combination([1, 2, 3, 4])\n    [[], [1], [2], [3], [4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4], [1, 2, 3, 4]]\n    \"\"\"\n    result = []\n\n    def helper(ls, index, curr):\n        if not ls:\n            result.append(curr[:])\n            return\n\n        for i in range(index, len(ls)):\n            curr.append(ls[i])\n            helper(ls[i + 1 :], i + 1, curr)\n            curr.pop()\n\n    helper(ls, 0, [])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.7685546875
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(arr: List[int]) -> List[List[int]]:\n    result = []\n    path = []\n\n    def backtrack(index):\n        if index == len(arr):\n            result.append(path.copy())\n            return\n        path.append(arr[index])\n        backtrack(index + 1)\n        path.pop()\n        backtrack(index + 1)\n\n    backtrack(0)\n    return result\n\n\nif __name__ == \"__main__\":\n    assert combinations([1, 2, 3]) == [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+      1.5625
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(array: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(array) == 1:\n        return [[array[0]]]\n\n    result: List[List[int]] = []\n\n    for i in range(len(array)):\n        for combination in combinations(array[:i] + array[i + 1 :]):\n            result.append([array[i]] + combination)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert combinations([1, 2, 3]) == [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+      1.5029296875
+    ],
+    [
+      "from typing import List\n\n\ndef find_combinations(l: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not l:\n        return [[]]\n\n    combinations: List[List[int]] = []\n\n    for i in range(len(l)):\n        comb = find_combinations(l[i + 1 :])\n        for c in comb:\n            combinations.append([l[i]] + c)\n\n    return combinations\n\n\nif __name__ == \"__main__\":\n    assert find_combinations([1, 2, 3]) == [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]",
+      1.43359375
+    ],
+    [
+      "from typing import List\n\n\ndef permutations(elements: List[int]) -> List[List[int]]:\n    \"\"\"\n    Let's say we have a list of elements [1, 2, 3].\n    For every element in the list, we can either choose it or not.\n    We can choose the first element, and then choose the second element, and then the third element.\n    Or, we can choose the first element, and then the third element, and then the second element.\n    Or, we can choose the second element, and then the first element, and then the third element.\n    And so on.\n    This is called the power set of a set.\n    \"\"\"\n    if not elements:\n        return []\n\n    if len(elements) == 1:\n        return [elements]\n\n    first_element = elements[0]\n    rest_elements = elements[1:]\n    sub_permutations = permutations(rest_elements)\n\n    permutations_with_first = [[first_element] + permutation for permutation in sub_permutations]\n    permutations_without_first = [permutation for permutation in sub_permutations]\n\n    return permutations_with_first + permutations_without_first\n\n\nif __name__ == \"__main__\":\n    assert permutations([]) == []\n    assert permutations([1]) == [[1]]\n    assert permutations([1, 2]) == [[1, 2], [2, 1]]\n    assert permutations([1, 2, 3]) == [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]",
+      1.3017578125
+    ],
+    [
+      "from itertools import chain, combinations\n\n\ndef combine(l):\n    return chain(*map(lambda x: combinations(l, x), range(1, len(l) + 1)))\n\n\nprint list(combine([1, 2, 3]))",
+      1.1357421875
+    ],
+    [
+      "from typing import List\n\n\ndef get_combinations(arr: List[int]) -> List[List[int]]:\n    \"\"\"\n    O(2^n) time complexity.\n    O(n) space complexity.\n    \"\"\"\n    if not arr:\n        return []\n\n    combinations = []\n\n    def _get_combinations(idx, combination):\n        if idx >= len(arr):\n            combinations.append(combination)\n        else:\n            _get_combinations(idx + 1, combination + [arr[idx]])\n            _get_combinations(idx + 1, combination)\n\n    _get_combinations(0, [])\n    return combinations\n\n\nif __name__ == \"__main__\":\n    assert get_combinations([1, 2, 3]) == [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]",
+      1.064453125
+    ],
+    [
+      "def find_combinations(input_list):\n    # base case\n    if len(input_list) == 0:\n        return [[]]\n    # recursive case\n    else:\n        # get the first element\n        element = input_list[0]\n        # get all combinations without the first element\n        combinations_without_element = find_combinations(input_list[1:])\n        # add the first element to all combinations without the first element\n        combinations_with_element = [\n            [element] + combination for combination in combinations_without_element\n        ]\n        return combinations_with_element + combinations_without_element\n\n\ndef main():\n\n    print(\"Combinations without first element:\")\n    print(find_combinations([1, 2, 3]))\n\n    print(\"Combinations with first element:\")\n    print(find_combinations([1, 2, 3, 4]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.8330078125
+    ],
+    [
+      "def combinations(l):\n    if len(l) == 1:\n        return [l]\n    elif len(l) == 2:\n        return [l, [l[1], l[0]]]\n    else:\n        return l + [l[:i] + [l[i], l[i - 1]] + l[i + 1:] for i in range(1, len(l) - 1)]\n\n\nif __name__ == '__main__':\n    print combinations([1,2,3])",
+      0.80712890625
+    ],
+    [
+      "from itertools import combinations\n\n\ndef find_combinations(input_list):\n    return list(combinations(input_list, len(input_list)))\n\n\ndef test_find_combinations():\n    assert find_combinations([1, 2, 3]) == [\n        (1,),\n        (2,),\n        (3,),\n        (1, 2),\n        (1, 3),\n        (2, 3),\n        (1, 2, 3),\n    ]\n\n    assert find_combinations([\"A\", \"B\", \"C\"]) == [\n        (\"A\",),\n        (\"B\",),\n        (\"C\",),\n        (\"A\", \"B\"),\n        (\"A\", \"C\"),\n        (\"B\", \"C\"),\n        (\"A\", \"B\", \"C\"),\n    ]",
+      0.29638671875
+    ],
+    [
+      "def all_combos(l):\n    if l == []:\n        return [[]]\n    combos = []\n    for i in range(len(l)):\n        combos += [\n            combo + [l[i]] for combo in all_combos(l[:i] + l[i + 1 :])\n        ]\n    return combos\n\n\nprint(all_combos([1, 2, 3]))",
+      0.241943359375
+    ],
+    [
+      "def combination(arr):\n    result = []\n    combination_helper(arr, [], result)\n    return result\n\n\ndef combination_helper(arr, current, result):\n    if not arr:\n        result.append(current)\n        return\n\n    for i in range(len(arr)):\n        combination_helper(arr[i + 1:], current + [arr[i]], result)\n\n\nassert combination([1, 2, 3]) == [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]",
+      0.190185546875
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combinations_finder(data):\n    return [list(combination) for combination in combinations(data, len(data))]\n\n\ndef main():\n    print(\"There are {} combinations of the elements of the list.\".format(combinations_finder([1, 2, 3])))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.130126953125
+    ],
+    [
+      "def combination(list):\n    \"\"\"\n    This solution is based on the logic of the permutation function.\n    \"\"\"\n    if len(list) == 0:\n        return []\n    if len(list) == 1:\n        return [list]\n    if len(list) == 2:\n        return [[list[0], list[1]], [list[1], list[0]]]\n    if len(list) > 2:\n        result = []\n        for i in range(len(list)):\n            for j in combination(list[:i] + list[i + 1:]):\n                result.append([list[i]] + j)\n        return result\n\n\nif __name__ == \"__main__\":\n    print(combination([1, 2, 3, 4]))",
+      0.0875244140625
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(array: List[int]) -> List[List[int]]:\n    \"\"\"Returns all possible combinations of a list of elements.\n\n    Args:\n        array (List[int]): list of elements\n\n    Returns:\n        List[List[int]]: list of combinations\n\n    Examples:\n        >>> combinations([1, 2, 3])\n        [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n        >>> combinations([1, 2])\n        [[1], [2], [1, 2]]\n        >>> combinations([1])\n        [[1]]\n        >>> combinations([])\n        []\n    \"\"\"\n    if not array:\n        return []\n\n    def _combinations(array: List[int], combinations: List[List[int]]) -> None:\n        if not array:\n            combinations.append([])\n            return\n\n        for i in range(len(array)):\n            current = array[i]\n            without_current = array[:i] + array[i + 1 :]\n\n            for comb in _combinations(without_current, []):\n                combinations.append([current, *comb])\n\n        return combinations\n\n    return _combinations(array, [])\n\n\nif __name__ == \"__main__\":\n    print(combinations([1, 2, 3]))\n    print(combinations([1, 2]))\n    print(combinations([1]))\n    print(combinations([]))",
+      0.07623291015625
+    ],
+    [
+      "def combination(l):\n    if len(l) == 0:\n        return [[]]\n    else:\n        sub = combination(l[1:])\n        return sub + [[l[0]] + x for x in sub]\n\n\nprint(combination([1, 2, 3]))",
+      0.03228759765625
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combinations_of_list(list_of_elements):\n    all_combinations = []\n    for i in range(1, len(list_of_elements)+1):\n        all_combinations += list(combinations(list_of_elements, i))\n    return all_combinations\n\n\nif __name__ == \"__main__\":\n    print(combinations_of_list([1, 2, 3]))",
+      0.020294189453125
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(elements: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(2^n)\n    \"\"\"\n    if not elements:\n        return []\n\n    return _combinations(elements, 0, [])\n\n\ndef _combinations(elements: List[int], index: int, combination: List[int]) -> List[List[int]]:\n    if index == len(elements):\n        return [combination]\n\n    combs = []\n\n    for i in range(index, len(elements)):\n        combs.extend(\n            _combinations(elements, i + 1, combination + [elements[i]])\n        )\n\n    return combs\n\n\nif __name__ == \"__main__\":\n    assert combinations([1, 2, 3]) == [\n        [1],\n        [2],\n        [3],\n        [1, 2],\n        [1, 3],\n        [2, 3],\n        [1, 2, 3],\n    ]",
+      -0.069580078125
+    ],
+    [
+      "from typing import List\n\n\ndef all_combinations(array: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not array:\n        return []\n\n    if len(array) == 1:\n        return [[array[0]]]\n\n    combinations = []\n\n    for i in range(len(array)):\n        element = array[i]\n        rest = array[:i] + array[i + 1 :]\n        for combination in all_combinations(rest):\n            combinations.append(combination + [element])\n\n    return combinations\n\n\nif __name__ == \"__main__\":\n    assert all_combinations([1, 2, 3]) == [\n        [1],\n        [2],\n        [3],\n        [1, 2],\n        [1, 3],\n        [2, 3],\n        [1, 2, 3],\n    ]",
+      -0.255126953125
+    ],
+    [
+      "def combine(arr):\n    if not arr:\n        return []\n    if len(arr) == 1:\n        return [[arr[0]]]\n\n    res = []\n    for i in range(len(arr)):\n        for comb in combine(arr[:i] + arr[i + 1:]):\n            res.append([arr[i]] + comb)\n    return res\n\n\nprint(combine([1, 2, 3]))",
+      -0.261474609375
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(arr: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    result = []\n\n    def _combinations(idx: int, path: List[int]):\n        if idx == len(arr):\n            result.append(path[:])\n        else:\n            _combinations(idx + 1, path)\n            path.append(arr[idx])\n            _combinations(idx + 1, path)\n            path.pop()\n\n    _combinations(0, [])\n    return result\n\n\nif __name__ == \"__main__\":\n    assert combinations([1, 2, 3]) == [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]",
+      -0.262939453125
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combine(lst):\n    result = []\n    for i in range(1, len(lst)+1):\n        result.extend(combinations(lst, i))\n    return result\n\n\nif __name__ == '__main__':\n    assert combine([1, 2, 3]) == [(1,), (2,), (3,), (1, 2), (1, 3), (2, 3), (1, 2, 3)]",
+      -0.280517578125
+    ],
+    [
+      "def combinations(lst):\n    \"\"\"\n    >>> combinations([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    result = []\n    for i in range(len(lst) + 1):\n        result.extend([lst[i:j] for j in range(i + 1, len(lst) + 1)])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.312744140625
+    ],
+    [
+      "def get_combinations(given_list):\n    \"\"\"\n    Find all possible combinations of the elements of a given list.\n    :param given_list: list of elements.\n    :return: list of combinations.\n    \"\"\"\n    if not given_list:\n        return []\n    if len(given_list) == 1:\n        return [given_list]\n    if len(given_list) == 2:\n        return [[given_list[0], given_list[1]], [given_list[1], given_list[0]]]\n    return (\n        [\n            [given_list[0], *combination]\n            for combination in get_combinations(given_list[1:])\n        ]\n        + [\n            [given_list[1], *combination]\n            for combination in get_combinations(given_list[2:])\n        ]\n        + [\n            [given_list[0], given_list[1], *combination]\n            for combination in get_combinations(given_list[2:])\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(get_combinations([1, 2, 3]))",
+      -0.317138671875
+    ],
+    [
+      "def find_combinations(lst):\n    \"\"\"\n    Find all possible combinations of the elements of a given list.\n    :param lst: list of elements\n    :type lst: list\n    :return: list of combinations\n    :rtype: list\n    \"\"\"\n    if len(lst) == 0:\n        return []\n    if len(lst) == 1:\n        return [lst]\n    if len(lst) == 2:\n        return [[], [lst[0]], [lst[1]], lst]\n\n    result = []\n    for i in range(len(lst)):\n        without_i = find_combinations(lst[:i] + lst[i + 1:])\n        for combination in without_i:\n            result.append([lst[i]] + combination)\n    return result\n\n\ndef main():\n\n    print(find_combinations([1, 2, 3]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.477783203125
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(given_list: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    result = []\n\n    def _combinations(given_list: List[int], temp: List[int]):\n        if not given_list:\n            result.append(temp)\n        else:\n            _combinations(given_list[1:], temp + [given_list[0]])\n            _combinations(given_list[1:], temp)\n\n    _combinations(given_list, [])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(combinations([1, 2, 3]))\n    print(combinations([1, 2, 3, 4]))",
+      -0.5146484375
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(elements: List[int]) -> List[List[int]]:\n    \"\"\"Find all possible combinations of the elements of a given list.\n\n    Args:\n        elements (List[int]): the list of elements.\n\n    Returns:\n        List[List[int]]: all possible combinations.\n    \"\"\"\n\n    def _combinations(elements: List[int], index: int, curr: List[int]) -> None:\n        if index == len(elements):\n            combinations_list.append(curr[:])\n        else:\n            curr.append(elements[index])\n            _combinations(elements, index + 1, curr)\n            curr.pop()\n            _combinations(elements, index + 1, curr)\n\n    combinations_list = []\n    _combinations(elements, 0, [])\n    return combinations_list\n\n\nif __name__ == \"__main__\":\n    assert combinations([1, 2, 3]) == [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+      -0.85595703125
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combinations_of_list(lst):\n    return list(combinations(lst, len(lst)))\n\n\nif __name__ == \"__main__\":\n    print(combinations_of_list([1, 2, 3]))",
+      -0.85693359375
+    ],
+    [
+      "def combination(l):\n    if len(l) == 0:\n        return []\n\n    if len(l) == 1:\n        return [[], l]\n\n    comb = []\n    for i in range(len(l)):\n        comb.append([l[i]])\n\n    for i in range(len(l)):\n        for j in combination(l[:i] + l[i + 1:]):\n            comb.append([l[i]] + j)\n    return comb\n\n\nif __name__ == \"__main__\":\n    print(combination([1, 2, 3, 4]))",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combinations_of_list(lst):\n    return list(combinations(lst, len(lst)))\n\n\ndef main():\n    print(combinations_of_list([1, 2, 3]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef all_combinations(l):\n    return [list(combination) for i in range(1, len(l) + 1) for combination in combinations(l, i)]\n\n\nprint(all_combinations([1, 2, 3, 4, 5]))",
+      -0.85693359375
+    ],
+    [
+      "def combinations(input_list):\n    \"\"\"\n    >>> combinations([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    return _combinations_helper(input_list, 0, [])\n\n\ndef _combinations_helper(input_list, index, combination):\n    if index >= len(input_list):\n        return [combination]\n\n    elements_without_current = _combinations_helper(input_list, index + 1, combination)\n    elements_with_current = []\n    for element in elements_without_current:\n        elements_with_current.append(element + [input_list[index]])\n\n    return elements_without_current + elements_with_current\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def combinations(lst):\n    if not lst:\n        return [[]]\n    else:\n        return [[lst[0]] + combination for combination in combinations(lst[1:])] + combinations(lst[1:])\n\n\nif __name__ == '__main__':\n    print(combinations([1, 2, 3]))",
+      -0.85693359375
+    ],
+    [
+      "def combine_lists(lst):\n    \"\"\"\n    >>> combine_lists([1, 2, 3])\n    [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if len(lst) == 0:\n        return [[]]\n    else:\n        return combine_lists(lst[1:]) + [[lst[0]] + x for x in combine_lists(lst[1:])]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List\n\n\ndef combinations_of_list(data: List[int]) -> List[List[int]]:\n    \"\"\"Find all possible combinations of the elements of a given list.\n\n    Args:\n        data (List[int]): a list of integers\n\n    Returns:\n        List[List[int]]: a list of lists of integers\n    \"\"\"\n    return [list(i) for i in combinations(data, len(data))]\n\n\nif __name__ == \"__main__\":\n    print(combinations_of_list([1, 2, 3, 4, 5]))",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combination(items):\n    for i in range(1, len(items)+1):\n        for comb in combinations(items, i):\n            yield comb\n\n\nif __name__ == \"__main__\":\n    print([i for i in combination([1, 2, 3, 4])])",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef all_combinations(my_list):\n    result = []\n    for i in range(1, len(my_list) + 1):\n        result.extend(list(combinations(my_list, i)))\n    return result\n\n\nprint(all_combinations([1, 2, 3, 4, 5]))",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef all_comb(my_list):\n    return [comb for i in range(len(my_list)+1) for comb in combinations(my_list, i)]\n\n\nif __name__ == '__main__':\n    print(all_comb([1, 2, 3]))",
+      -0.85791015625
+    ],
+    [
+      "from itertools import combinations\n\n\ndef find_combinations(l):\n    for i in range(1, len(l) + 1):\n        for combination in combinations(l, i):\n            yield combination\n\n\nif __name__ == \"__main__\":\n    print(list(find_combinations([1, 2, 3])))",
+      -0.85791015625
+    ],
+    [
+      "def combination(arr):\n    def helper(i, path):\n        if i == len(arr):\n            if path not in result:\n                result.append(path)\n            return\n\n        helper(i + 1, path + [arr[i]])\n        helper(i + 1, path)\n\n    result = []\n    helper(0, [])\n    return result\n\n\nprint(combination([1, 2, 3]))",
+      -0.85791015625
+    ],
+    [
+      "from itertools import combinations\n\n\ndef get_combinations(input_list):\n    return list(combinations(input_list, len(input_list)))\n\n\ndef main():\n    print(\"Here are all the combinations of a list:\")\n    print(get_combinations([1, 2, 3]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(ls: List) -> List:\n    if len(ls) == 0:\n        return []\n\n    if len(ls) == 1:\n        return [ls]\n\n    result = []\n\n    for i in range(len(ls)):\n        result.append(ls[i])\n\n        result.extend(combinations(ls[:i] + ls[i + 1 :]))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(combinations([1, 2, 3]))",
+      -0.8583984375
+    ],
+    [
+      "def combine(l):\n    \"\"\"\n    :param l: list\n    :return: all possible combinations\n    \"\"\"\n    if len(l) <= 1:\n        return [l]\n    else:\n        combs = []\n        for i in range(len(l)):\n            combs += [c + [l[i]] for c in combine(l[:i] + l[i + 1:])]\n        return combs\n\n\ndef test_combine():\n    assert combine([1, 2, 3]) == [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+      -0.8583984375
+    ],
+    [
+      "def find_all_combinations(lst):\n    \"\"\"\n    >>> find_all_combinations([1, 2, 3])\n    [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    return find_all_combinations_helper(lst, [])\n\n\ndef find_all_combinations_helper(lst, combination):\n    if not lst:\n        return [combination]\n    else:\n        result = []\n        for i in range(len(lst)):\n            result.extend(find_all_combinations_helper(lst[i + 1:], combination + [lst[i]]))\n        return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef all_combinations(input_list):\n    return list(combinations(input_list, len(input_list)))\n\n\ndef test_all_combinations():\n    \"\"\"Test for all_combinations function.\"\"\"\n    from random import sample\n    input_list = sample(range(10), 5)\n    assert len(all_combinations(input_list)) == 2**len(input_list)",
+      -0.85888671875
+    ],
+    [
+      "def combine(arr):\n    \"\"\"\n    :param: arr - list of integers\n    return: list of all possible combinations of the elements of the array\n    do not use built in functions of list \n    \"\"\"\n    if len(arr) == 1:\n        return [arr]\n    combos = []\n    for i in range(len(arr)):\n        if i == 0:\n            combos.append([arr[i]])\n        combos.append(combos[-1] + [arr[i]])\n    return combos\n\n# Test cases\nprint(combine([1, 2, 3]))\nprint(combine([1, 2]))\nprint(combine([1]))\nprint(combine([]))",
+      -0.85888671875
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combos(a):\n    return list(combinations(a, len(a)))\n\n\nif __name__ == \"__main__\":\n    print(combos([1, 2, 3, 4]))",
+      -0.85888671875
+    ],
+    [
+      "def combination(lst):\n    if len(lst) == 1:\n        return [[lst[0]]]\n\n    lst_res = []\n    for i in range(len(lst)):\n        for j in range(i+1, len(lst)):\n            lst_res.append([lst[i], lst[j]])\n\n    return lst_res\n\n\ndef combination_2(lst):\n    if len(lst) == 1:\n        return [[lst[0]]]\n\n    lst_res = []\n    for i in range(len(lst)):\n        for j in range(i+1, len(lst)):\n            lst_res.append([lst[i], lst[j]])\n\n    return lst_res\n\n\nif __name__ == '__main__':\n    print(combination([1, 2, 3]))\n    print(combination_2([1, 2, 3]))",
+      -0.85888671875
+    ],
+    [
+      "def find_combinations(arr: list) -> list:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    result = []\n\n    def _find_combinations(arr: list, index: int, combination: list):\n        if index == len(arr):\n            result.append(combination)\n        else:\n            _find_combinations(arr, index + 1, combination + [arr[index]])\n            _find_combinations(arr, index + 1, combination)\n\n    _find_combinations(arr, 0, [])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert find_combinations([1, 2, 3]) == [\n        [1],\n        [2],\n        [3],\n        [1, 2],\n        [1, 3],\n        [2, 3],\n        [1, 2, 3],\n    ]",
+      -0.85888671875
+    ],
+    [
+      "from itertools import combinations\n\n\ndef all_comb(l):\n    return list(combinations(l, len(l)))\n\n\ndef test_all_comb():\n    assert all_comb([1, 2, 3]) == [\n        (1,),\n        (2,),\n        (3,),\n        (1, 2),\n        (1, 3),\n        (2, 3),\n        (1, 2, 3),\n    ]",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(arr: List[int]) -> List[List[int]]:\n    \"\"\"Returns all combinations of a list.\n\n    Args:\n        arr (List[int]): list to find combinations of\n\n    Returns:\n        List[List[int]]: list of combinations\n    \"\"\"\n\n    def _combinations(arr: List[int], comb: List[int], combs: List[List[int]]):\n        if not arr:\n            combs.append(comb)\n        else:\n            for i in range(len(arr)):\n                _combinations(arr[:i] + arr[i + 1 :], comb + [arr[i]], combs)\n\n    combs = []\n    _combinations(arr, [], combs)\n    return combs\n\n\nif __name__ == \"__main__\":\n    print(combinations([1, 2, 3, 4]))\n    print(combinations([1, 2, 3]))\n    print(combinations([1, 2]))\n    print(combinations([1]))\n    print(combinations([]))",
+      -0.99072265625
+    ],
+    [
+      "from itertools import chain, combinations\n\n\ndef powerset(iterable):\n    \"\"\"\n    Given a list, return a list of all possible combinations of the elements of the list.\n    \"\"\"\n    s = list(iterable)\n    return list(chain.from_iterable(combinations(s, r) for r in range(len(s) + 1)))\n\n\nif __name__ == \"__main__\":\n    print(powerset([1, 2, 3]))",
+      -1.091796875
+    ],
+    [
+      "def combinations(lst):\n    \"\"\"\n    >>> combinations([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    result = []\n    for i in range(len(lst) + 1):\n        result += list(combinations_helper(lst, i))\n    return result\n\n\ndef combinations_helper(lst, num):\n    if num == 0:\n        yield []\n    else:\n        for i in range(len(lst) - num + 1):\n            for cc in combinations_helper(lst[i + 1 :], num - 1):\n                yield [lst[i]] + cc\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.12109375
+    ],
+    [
+      "from typing import List\n\n\ndef all_combinations(lst: List) -> List[List]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not lst:\n        return [[]]\n\n    combination = []\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst) + 1):\n            combination.append(lst[i:j])\n\n    return combination\n\n\nif __name__ == \"__main__\":\n    assert all_combinations([1, 2, 3]) == [[1], [2], [3], [1, 2], [2, 3], [1, 2, 3]]",
+      -1.123046875
+    ],
+    [
+      "from itertools import combinations\n\n\ndef get_combinations(input_list):\n    result = []\n    for i in range(1, len(input_list) + 1):\n        result.extend(list(combinations(input_list, i)))\n    return result\n\n\ndef main():\n    print(get_combinations([1, 2, 3]))\n\n\nif __name__ == '__main__':\n    main()",
+      -1.171875
+    ],
+    [
+      "from typing import List\n\n\ndef combine(nums: List[int]) -> List[List[int]]:\n    \"\"\"\n    >>> combine([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    result = []\n\n    def helper(nums, index, curr):\n        if index == len(nums):\n            result.append(curr.copy())\n            return\n\n        helper(nums, index + 1, curr + [nums[index]])\n        helper(nums, index + 1, curr)\n\n    helper(nums, 0, [])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.431640625
+    ],
+    [
+      "from typing import List\n\n\ndef combinations(array: List[int]) -> List[List[int]]:\n    \"\"\"Returns all possible combinations of elements of a given list.\n\n    Args:\n        array (List[int]): input list\n\n    Examples:\n        >>> combinations([1, 2, 3])\n        [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n        >>> combinations([])\n        []\n    \"\"\"\n    if not array:\n        return []\n\n    result = []\n\n    def _combinations(array, i, combination, result):\n        if i == len(array):\n            result.append(combination)\n            return\n\n        _combinations(array, i + 1, combination + [array[i]], result)\n        _combinations(array, i + 1, combination, result)\n\n    _combinations(array, 0, [], result)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(combinations([1, 2, 3]))\n    print(combinations([]))",
+      -1.7841796875
+    ],
+    [
+      "def all_combinations(l):\n    \"\"\"\n    >>> all_combinations([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    result = []\n    if not l:\n        return result\n\n    def _combinations(l, path=None):\n        if path is None:\n            path = []\n        if not l:\n            result.append(path)\n        else:\n            for i, x in enumerate(l):\n                _combinations(l[:i] + l[i + 1 :], path + [x])\n\n    _combinations(l)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.8125
+    ],
+    [
+      "def combos(xs):\n    if xs == []:\n        return [[]]\n    else:\n        return combos_helper(xs, [xs[0]])\n\n\ndef combos_helper(xs, combo):\n    if xs == []:\n        return [combo]\n    else:\n        return combos_helper(xs[1:], combo) + combos_helper(xs[1:], combo + [xs[0]])\n\n\n# Tests\nassert combos([]) == [[]]\nassert combos([1]) == [[], [1]]\nassert combos([1, 2]) == [[], [1], [2], [1, 2]]\nassert combos([1, 2, 3]) == [\n    [],\n    [1],\n    [2],\n    [3],\n    [1, 2],\n    [1, 3],\n    [2, 3],\n    [1, 2, 3],\n]",
+      -1.9716796875
+    ],
+    [
+      "from typing import List, Iterator\n\n\ndef combination_iter(input_list: List[int]) -> Iterator[List[int]]:\n    \"\"\"Generate all possible combinations of the elements of a given list.\n\n    Args:\n        input_list (List[int]): Input list.\n\n    Yields:\n        Iterator[List[int]]: An iterator of all possible combinations.\n    \"\"\"\n    if not input_list:\n        return\n\n    for i in range(len(input_list)):\n        yield [input_list[i]]\n\n        for combination in combination_iter(input_list[:i] + input_list[i + 1 :]):\n            yield [input_list[i]] + combination\n\n\nif __name__ == \"__main__\":\n    print(list(combination_iter([1, 2, 3, 4])))",
+      -1.9833984375
+    ],
+    [
+      "def get_combinations(arr):\n    result = []\n    get_combinations_helper(arr, [], result)\n    return result\n\n\ndef get_combinations_helper(arr, current, result):\n    if not arr and current not in result:\n        result.append(current)\n        return\n\n    for i in range(len(arr)):\n        get_combinations_helper(arr[:i] + arr[i + 1:], current + [arr[i]], result)\n\n\nprint(get_combinations([1, 2, 3]))",
+      -2.00390625
+    ],
+    [
+      "from typing import List, Iterable, Callable\n\n\ndef get_combinations(elements: List[int]) -> Iterable[List[int]]:\n    \"\"\"Returns all combinations of elements of a given list.\n\n    Args:\n        elements (List[int]): list of elements to get combinations from\n\n    Returns:\n        Iterable[List[int]]: all combinations of elements of a given list\n    \"\"\"\n    if len(elements) == 0:\n        return [[]]\n\n    def _helper(combinations: List[List[int]], elements: List[int]):\n        if len(elements) == 0:\n            return\n\n        for i in range(len(elements)):\n            new_combinations = [\n                *combinations,\n                [elements[i]]\n            ]\n            yield from _helper(new_combinations, elements[:i] + elements[i + 1:])\n\n    return _helper([], elements)\n\n\nif __name__ == \"__main__\":\n    print(list(get_combinations([1, 2, 3])))\n    print(list(get_combinations([1, 2])))\n    print(list(get_combinations([1])))\n    print(list(get_combinations([])))",
+      -2.158203125
+    ],
+    [
+      "def combinations(input_list):\n    \"\"\"\n    >>> combinations([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    \"\"\"\n\n    return combinations_helper([], input_list, 0)\n\n\ndef combinations_helper(output, input_list, index):\n    if index >= len(input_list):\n        return [output]\n\n    result = []\n\n    for i in range(index, len(input_list)):\n        output.append(input_list[i])\n        result += combinations_helper(output, input_list, i + 1)\n        output.pop()\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.208984375
+    ],
+    [
+      "def combinations(input_list):\n    \"\"\"\n    :param input_list: list of elements\n    :return: list of all combinations of the elements\n    >>> combinations([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    >>> combinations([1, 2])\n    [[1], [2], [1, 2]]\n    >>> combinations([1])\n    [[1]]\n    \"\"\"\n    # base case\n    if len(input_list) == 1:\n        return [input_list]\n\n    # recursion\n    result = []\n    for index in range(len(input_list)):\n        for combination in combinations(input_list[:index] + input_list[index + 1 :]):\n            result.append([input_list[index]] + combination)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.306640625
+    ],
+    [
+      "def combi(a):\n    \"\"\"\n    >>> combi([1,2,3])\n    [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if not a:\n        return [[]]\n    else:\n        res = []\n        for i in range(len(a)):\n            for comb in combi(a[:i] + a[i + 1 :]):\n                res.append([a[i]] + comb)\n        return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.31640625
+    ],
+    [
+      "def combos(items):\n    if len(items) == 1:\n        return [items]\n    elif len(items) == 0:\n        return [[]]\n    else:\n        first = items[0]\n        rest = items[1:]\n        combos_rest = combos(rest)\n        result = []\n        for combo in combos_rest:\n            result.append([first] + combo)\n            result.append(combo)\n        return result\n\n\nprint(combos([1, 2, 3]))\nprint(combos([]))\nprint(combos([1]))\nprint(combos([1, 2]))",
+      -2.34375
+    ],
+    [
+      "def combinations(list_):\n    \"\"\"\n    >>> combinations([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if len(list_) == 1:\n        return [list_]\n    else:\n        return [\n            [list_[0]] + combination for combination in combinations(list_[1:])\n        ] + combinations(list_[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.365234375
+    ],
+    [
+      "def list_combinations(input_list):\n    \"\"\"\n    >>> list_combinations([1, 2, 3])\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    \"\"\"\n\n    result = [input_list]\n    for i in range(len(input_list)):\n        result += [\n            result_list[:i] + [input_list[i]] + result_list[i:]\n            for result_list in result\n        ]\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.6328125
+    ],
+    [
+      "from typing import List\n\n\ndef combine(nums: List[int]) -> List[List[int]]:\n    \"\"\"\n    Backtracking\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def backtrack(start: int, tmp: List[int], comb: List[List[int]]):\n        if start == len(nums):\n            comb.append(tmp)\n        else:\n            for i in range(start, len(nums)):\n                tmp.append(nums[i])\n                backtrack(i + 1, tmp, comb)\n                tmp.pop()\n\n    comb = []\n    backtrack(0, [], comb)\n    return comb\n\n\nif __name__ == \"__main__\":\n    assert combine([1, 2, 3]) == [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]",
+      -2.666015625
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combos(input_list):\n    return [list(combo) for combo in combinations(input_list, len(input_list))]\n\n\ndef test_combos():\n    assert combos([1, 2, 3]) == [\n        [1],\n        [2],\n        [3],\n        [1, 2],\n        [1, 3],\n        [2, 3],\n        [1, 2, 3],\n    ]",
+      -2.67578125
+    ],
+    [
+      "from typing import List\n\n\ndef combination(input_list: List[int]) -> List[List[int]]:\n    \"\"\"\n    :param input_list: List of integers\n    :return: All possible combinations of the elements of a given list\n    >>> combination([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    >>> combination([1, 2, 3, 4])\n    [[1], [2], [3], [4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4], [1, 2, 3, 4]]\n    >>> combination([1, 2, 3, 4, 5])\n    [[1], [2], [3], [4], [5], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4], [3, 5], [4, 5], [1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]\n    \"\"\"\n\n    def helper(input_list, current_list, all_lists):\n        if not input_list:\n            all_",
+      -2.998046875
+    ],
+    [
+      "from typing import List\n\n\ndef get_combinations(arr: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(n * 2^n)\n    Space Complexity: O(2^n)\n    \"\"\"\n\n    if not arr:\n        return []\n\n    def helper(curr_list: List[int], curr_index: int) -> None:\n        if curr_index == len(arr):\n            combinations.append(curr_list[:])\n            return\n\n        curr_list.append(arr[curr_index])\n        helper(curr_list, curr_index + 1)\n        curr_list.pop()\n        helper(curr_list, curr_index + 1)\n\n    combinations: List[List[int]] = []\n    helper([], 0)\n    return combinations\n\n\nif __name__ == \"__main__\":\n    assert get_combinations([1, 2, 3]) == [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+      -3.0703125
+    ],
+    [
+      "def find_all_combos(list_of_items):\n    \"\"\"\n    Takes a list of items and returns a list of lists that\n    contain all possible combinations of those items.\n\n    >>> find_all_combos([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    # Create an empty list to hold all the combinations\n    combos = []\n    # Iterate over the length of the list\n    for i in range(len(list_of_items) + 1):\n        # Take the combinations of the current index with the rest of the list\n        combinations = find_combinations(list_of_items, i)\n        # Add those combinations to the list of combinations\n        combos.extend(combinations)\n    # Return the list of combinations\n    return combos\n\n\ndef find_combinations(items, n):\n    \"\"\"\n    Takes a list of items and the length of the combinations and\n    returns a list of lists that contain all possible combinations of\n    those items of that length.\n\n    >>> find_combinations([1, 2, 3], 2)\n    [[1, 2], [1, 3], [2, 3]]\n    \"\"\"\n    # If the length is one, return a list containing only that item\n    if n == 1:\n        return [[item] for item in items]\n    # If the length is greater than the number of items, return an empty list\n    if n > len(items):\n        return []\n    # Otherwise, find the combinations for the first item\n    first_item = items[0]\n    rest_of_items = items[1:]\n    # And find the combinations of the rest of the items\n    combinations = find_combinations(rest_of_items, n - 1)\n    # Then add this item to each of those combinations\n    first_combinations = [[first_item] + combination for combination in combinations]\n    # And return the result\n    return first_combinations\n\n\nif __name__ == \"__main__\":",
+      -3.076171875
+    ],
+    [
+      "def combination(lst):\n    \"\"\"\n    >>> combination([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if not lst:\n        return []\n\n    if len(lst) == 1:\n        return [lst]\n\n    combinations = []\n    for i in range(len(lst)):\n        comb = combination(lst[:i] + lst[i + 1 :])\n        combinations += [comb + [lst[i]] for comb in comb]\n\n    return combinations\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.078125
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combine(elements):\n    \"\"\"\n    >>> combine([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n\n    >>> combine([1, 2, 3, 4])\n    [[1], [2], [3], [4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4], [1, 2, 3, 4]]\n\n    >>> combine([1, 2, 3, 4, 5])\n    [[1], [2], [3], [4], [5], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4], [3, 5], [4, 5], [1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]\n    \"\"\"\n    return [list(x) for x in combinations(elements, len(elements))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.263671875
+    ],
+    [
+      "from itertools import combinations\n\n\ndef combos(lst):\n    return [list(i) for i in combinations(lst, len(lst))]\n\n\ndef combos_rec(lst):\n    if len(lst) == 1:\n        return [lst]\n\n    combos = []\n    for i in range(len(lst)):\n        for combo in combos_rec(lst[:i] + lst[i+1:]):\n            combos.append([lst[i]] + combo)\n\n    return combos\n\n\ndef main():\n    print(combos([1, 2, 3]))\n    print(combos_rec([1, 2, 3]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.369140625
+    ],
+    [
+      "from typing import List, Iterator\n\n\ndef list_combinations(lst: List) -> Iterator[List]:\n    \"\"\"Return all combinations of elements in a given list.\n\n    Args:\n        lst: given list\n\n    Examples:\n        >>> list(list_combinations([1, 2, 3]))\n        [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]\n        >>> list(list_combinations([1, 2, 3, 4]))\n        [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3], [4], [1, 4], [2, 4], [1, 2, 4], [3, 4], [1, 3, 4], [2, 3, 4], [1, 2, 3, 4]]\n    \"\"\"\n    def _list_combinations(lst: List, combination: List) -> Iterator[List]:\n        if lst:\n            for index, element in enumerate(lst):\n                yield from _list_combinations(lst[index + 1 :], combination + [element])\n        else:\n            yield combination\n\n    return _list_combinations(lst, [])\n\n\nif __name__ == \"__main__\":\n    print(list(list_combinations([1, 2, 3])))",
+      -3.501953125
+    ],
+    [
+      "from typing import List\n\n\ndef combine(arr: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def _combine(arr: List[int], index: int, curr: List[int]) -> None:\n        if index >= len(arr):\n            return\n\n        for i in range(index, len(arr)):\n            curr.append(arr[i])\n            _combine(arr, i + 1, curr)\n            curr.pop()\n\n    result = []\n    _combine(arr, 0, [])\n    return result\n\n\nif __name__ == \"__main__\":\n    assert combine([1, 2, 3]) == [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+      -3.626953125
+    ],
+    [
+      "from typing import List\n\n\ndef get_all_combinations(elements: List[int]) -> List[List[int]]:\n    \"\"\"Get all combinations of elements of a given list.\n\n    Args:\n        elements (List[int]): given list.\n\n    Returns:\n        List[List[int]]: all combinations of elements.\n    \"\"\"\n\n    def _get_all_combinations(\n        elements: List[int], combination: List[int], index: int\n    ) -> List[List[int]]:\n        \"\"\"Helper function to get all combinations of elements of a given list.\n\n        Args:\n            elements (List[int]): given list.\n            combination (List[int]): combination.\n            index (int): index.\n\n        Returns:\n            List[List[int]]: all combinations of elements.\n        \"\"\"\n        if index == len(elements):\n            return [combination]\n\n        combinations = []\n        for i in range(index, len(elements)):\n            combinations.extend(\n                _get_all_combinations(elements, combination + [elements[i]], i + 1)\n            )\n        return combinations\n\n    return _get_all_combinations(elements, [], 0)\n\n\nif __name__ == \"__main__\":\n    assert get_all_combinations([1, 2, 3]) == [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]",
+      -3.736328125
+    ],
+    [
+      "from typing import List, Iterable\n\n\ndef combine_iterative(items: List[int]) -> List[List[int]]:\n    \"\"\"Returns all possible combinations of the elements of a given list.\n\n    Args:\n        items: a list of integers\n\n    Examples:\n        >>> combine_iterative([1, 2, 3])\n        [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]\n        >>> combine_iterative([1, 2, 3, 4])\n        [[], [1], [2], [3], [4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4], [1, 2, 3, 4]]\n    \"\"\"\n    if not items:\n        return []\n\n    def _combine(items, idx, comb):\n        if idx == len(items):\n            return comb\n\n        comb_without_items = _combine(items, idx + 1, comb)\n        comb_with_items = _combine(\n            items,\n            idx + 1,\n            comb + [items[idx]],\n        )\n        return comb_without_items + comb_with_items\n\n    return _combine(items, 0, [])\n\n\ndef combine_recursive(items: List[int]) -> List[List[int]]:\n    \"\"\"Returns all possible combinations of the elements of a given list.\n\n    Args:\n        items: a list of integers\n\n    Examples:\n        >>> combine_recursive([1, 2, 3])\n        [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]\n        >>> combine_recursive([1, 2, 3, 4])\n        [[], [1], [2], [",
+      -4.4140625
+    ],
+    [
+      "from typing import List\n\n\ndef comb_gen(input_list: List[int], output_list: List[int], index: int) -> None:\n    if index >= len(input_list):\n        return\n\n    output_list.append(input_list[index])\n    comb_gen(input_list, output_list, index + 1)\n    output_list.pop()\n\n    comb_gen(input_list, output_list, index + 1)\n\n\ndef comb(input_list: List[int]) -> List[List[int]]:\n    output_list: List[List[int]] = []\n    comb_gen(input_list, output_list, 0)\n\n    return output_list\n\n\nif __name__ == \"__main__\":\n    assert comb([1, 2, 3]) == [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]",
+      -4.640625
+    ],
+    [
+      "def combine(input_list):\n    \"\"\"\n    :param input_list: list\n    :return: list\n    \"\"\"\n    if not input_list:\n        return []\n\n    result = []\n    for i in range(len(input_list)):\n        result.append([input_list[i]])\n\n    for i in range(1, len(input_list)):\n        for j in range(i + 1, len(input_list) + 1):\n            for k in range(i, j):\n                result.append(result[i - 1] + [input_list[k]])\n\n    return result\n\n\ndef test_combine():\n    assert combine([]) == []\n    assert combine([1]) == [[1]]\n    assert combine([1, 2]) == [[1, 2], [2], [1]]\n    assert combine([1, 2, 3]) == [[1, 2, 3], [1, 3], [2], [1]]\n    assert combine([1, 2, 3, 4]) == [[1, 2, 3, 4], [1, 2, 4], [1, 3], [2], [1]]",
+      -4.9609375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef comb_gen(lst):\n    for i in range(1, len(lst) + 1):\n        for comb in combinations(lst, i):\n            yield comb\n\n\ndef comb_gen2(lst):\n    for i in range(len(lst)):\n        yield from comb_gen(lst[i:])\n\n\ndef comb_gen3(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen4(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen5(lst):\n    for i in range(len(lst)):\n        yield from comb_gen2(lst[i:])\n\n\ndef comb_gen6(lst):\n    for i in range(len(lst)):\n        yield from comb_gen2(lst[i:])\n\n\ndef comb_gen7(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen2(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen8(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen2(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen9(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen2(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen10(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen2(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen11(lst):\n    for i in range(len(lst)):\n        for comb in comb_gen2(lst[i:]):\n            yield [lst[i]] + list(comb)\n\n\ndef comb_gen",
+      -5.74609375
+    ],
+    [
+      "from typing import List\n\n\ndef combine_elements(input_list: List[int]) -> List[List[int]]:\n    \"\"\"Returns all possible combinations of the elements of a given list.\n\n    Args:\n        input_list (List[int]): list of numbers\n\n    Examples:\n        >>> combine_elements([1, 2, 3])\n        [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    \"\"\"\n    output_list = []\n\n    def _combine_elements(input_list, output_list, current_list):\n        if not input_list:\n            output_list.append(current_list)\n        else:\n            _combine_elements(\n                input_list[1:], output_list, current_list + [input_list[0]]\n            )\n            _combine_elements(\n                input_list[1:], output_list, current_list\n            )\n\n    _combine_elements(input_list, output_list, [])\n    return output_list\n\n\ndef combine_elements_recursion(input_list: List[int]) -> List[List[int]]:\n    \"\"\"Returns all possible combinations of the elements of a given list.\n\n    Args:\n        input_list (List[int]): list of numbers\n\n    Examples:\n        >>> combine_elements_recursion([1, 2, 3])\n        [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    \"\"\"\n\n    def _combine_elements_recursion(input_list, current_list, output_list):\n        if not input_list:\n            output_list.append(current_list)\n        else:\n            _combine_elements_recursion(\n                input_list[1:], current_list + [input_list[",
+      -5.796875
+    ],
+    [
+      "def combination_sum(a, k):\n    \"\"\"\n    :param a: given list\n    :param k: given number\n    :return: list of possible combinations\n    \"\"\"\n    return _combination_sum(a, k, 0, [])\n\n\ndef _combination_sum(a, k, i, comb):\n    if k == 0:\n        return [comb]\n\n    if i == len(a) or k < 0:\n        return []\n\n    return (\n        _combination_sum(a, k - a[i], i + 1, comb + [a[i]])\n        + _combination_sum(a, k, i + 1, comb)\n    )\n\n\nprint(combination_sum([1, 2, 3, 4, 5], 3))\nprint(combination_sum([1, 2, 3, 4, 5], 10))\nprint(combination_sum([1, 2, 3], 10))",
+      -6.07421875
+    ],
+    [
+      "def combination(arr):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n)\n    \"\"\"\n    return _combination(arr, 0, len(arr))\n\n\ndef _combination(arr, index, length):\n    if length == 0:\n        return [[]]\n    if index == length:\n        return [[]]\n\n    output = []\n    for i in range(index, length):\n        for combination in _combination(arr, index + 1, length):\n            combination.append(arr[i])\n            output.append(combination)\n    return output\n\n\ndef combination_v2(arr):\n    \"\"\"\n    Time Complexity: O(n!)\n    Space Complexity: O(n)\n    \"\"\"\n    return _combination_v2(arr, 0, len(arr), [])\n\n\ndef _combination_v2(arr, index, length, combination):\n    if length == 0:\n        return [combination]\n    if index == length:\n        return [combination]\n\n    output = []\n    for i in range(index, length):\n        combination.append(arr[i])\n        for combination in _combination_v2(arr, index + 1, length, combination):\n            output.append(combination)\n        combination.pop()\n    return output\n\n\ndef combination_v3(arr):\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    return _combination_v3(arr, 0, len(arr), [])\n\n\ndef _combination_v3(arr, index, length, combination):\n    if index == length:\n        return [combination]\n\n    output = []\n    for i in range(index, length):\n        combination.append(arr[i])\n        for combination in _combination_v3(arr, index + 1, length, combination):\n            output.append(combination)\n        combination.pop()\n    return output\n\n\ndef combination_v4(arr):",
+      -7.11328125
+    ],
+    [
+      "from typing import List\n\n\ndef combination_sum(nums: List[int], target: int) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not nums:\n        return []\n\n    def dfs(nums, target, path, res):\n        if target == 0:\n            res.append(path)\n            return\n\n        if target < 0:\n            return\n\n        for i, num in enumerate(nums):\n            dfs(nums[i:], target - num, path + [num], res)\n\n    res = []\n    dfs(nums, target, [], res)\n    return res\n\n\nif __name__ == \"__main__\":\n    assert combination_sum([1, 2, 3, 5], 8) == [\n        [1, 1, 6],\n        [1, 2, 5],\n        [1, 3, 4],\n        [2, 3, 3],\n        [1, 1, 1, 6],\n        [1, 2, 2, 3],\n        [1, 1, 2, 2],\n        [1, 3, 2],\n        [2, 2, 2],\n    ]",
+      -7.73828125
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(2^n).\n# Space complexity: O(n).\ndef combinations(list_: List[int]) -> List[List[int]]:\n    result = []\n\n    def helper(i: int, tmp: List[int]):\n        if i == len(list_):\n            result.append(tmp[:])\n        else:\n            helper(i + 1, tmp)\n            tmp.append(list_[i])\n            helper(i + 1, tmp)\n            tmp.pop()\n\n    helper(0, [])\n    return result\n\n\n# Time complexity: O(2^n).\n# Space complexity: O(n).\ndef combinations_2(list_: List[int]) -> List[List[int]]:\n    result = []\n    stack = [[i] for i in list_]\n\n    while stack:\n        tmp = stack.pop()\n        result.append(tmp[:])\n        for i in range(len(tmp) - 1, -1, -1):\n            stack.append(tmp[:i] + tmp[i + 1:])\n\n    return result\n\n\n# Time complexity: O(2^n).\n# Space complexity: O(n).\ndef combinations_3(list_: List[int]) -> List[List[int]]:\n    result = []\n\n    def helper(i: int, tmp: List[int]):\n        if i == len(list_):\n            result.append(tmp[:])\n        else:\n            helper(i + 1, tmp)\n            for j in range(i, len(list_)):\n                tmp.append(list_[j])\n                helper(i + 1, tmp)\n                tmp.pop()\n\n    helper(0, [])\n    return result\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef combinations_4(list_: List[int]) -> List[List[int]]:\n    result = []\n\n    def helper(i: int, tmp: List[int]):\n        if i == len(list_):\n            result.append(tmp[:])\n        else:",
+      -7.91796875
+    ],
+    [
+      "def combination(arr):\n    \"\"\"\n    >>> combination([1,2,3])\n    [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if len(arr) == 1:\n        return [[], [arr[0]]]\n\n    all_combination = []\n    for i in range(len(arr)):\n        for j in range(len(arr)):\n            if i != j:\n                comb = arr[i] + arr[j]\n                if comb not in all_combination:\n                    all_combination.append(comb)\n\n    return all_combination\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.98046875
+    ],
+    [
+      "def find_combinations(input_list):\n    \"\"\"\n    >>> find_combinations([1,2,3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    >>> find_combinations([1,2,3,4])\n    [[1], [2], [3], [4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4], [1, 2, 3, 4]]\n    >>> find_combinations([1,2,3,4,5])\n    [[1], [2], [3], [4], [5], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4], [3, 5], [4, 5], [1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [1, 2, 3, 4, 5]]\n    \"\"\"\n    combinations = []\n    for i in range(len(input_list)):\n        combination = []\n        combination.append(input_list[i])\n        combinations.append(combination)\n        for j in range(i + 1, len(input_list)):",
+      -8.1328125
+    ],
+    [
+      "def all_combinations(elements):\n    \"\"\"\n    >>> all_combinations([1, 2, 3])\n    [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    combinations = []\n    for i in range(len(elements) + 1):\n        combinations.extend(combinations_at_index(elements, i))\n    return combinations\n\n\ndef combinations_at_index(elements, index):\n    \"\"\"\n    >>> combinations_at_index([1, 2, 3], 0)\n    [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n    \"\"\"\n    if index == 0:\n        return [[], *elements]\n    if index == 1:\n        return [elements]\n\n    combinations = []\n    for i in range(index):\n        for comb in combinations_at_index(elements, index - i - 1):\n            combinations.append([elements[i]] + comb)\n    return combinations\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -8.7421875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

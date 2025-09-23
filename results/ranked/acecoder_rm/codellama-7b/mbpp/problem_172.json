@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/183",
+    "prompt": "Write a function to count all the distinct pairs having a difference of k in any array.",
+    "canonical_solution": "def count_pairs(arr, n, k):\r\n  count=0;\r\n  for i in range(0,n):\r\n    for j in range(i+1, n):\r\n      if arr[i] - arr[j] == k or arr[j] - arr[i] == k:\r\n        count += 1\r\n  return count",
+    "test_list": [
+      "assert count_pairs([1, 5, 3, 4, 2], 5, 3) == 2",
+      "assert count_pairs([8, 12, 16, 4, 0, 20], 6, 4) == 5",
+      "assert count_pairs([2, 4, 1, 3, 4], 5, 2) == 3"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 172
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two numbers\n    return number of pairs with difference k\n    \"\"\"\n    # if arr is None or len(arr) == 0:\n    #     return 0\n\n    # freq = defaultdict(int)\n    # count = 0\n\n    # for num in arr:\n    #     freq[num] += 1\n\n    # for num in arr:\n    #     diff = k - num\n\n    #     if diff in freq and freq[diff] > 0:\n    #         count += 1\n    #         freq[diff] -= 1\n\n    # return count\n    count = 0\n    freq = defaultdict(int)\n\n    for num in arr:\n        diff = k - num\n\n        if diff in freq:\n            count += freq[diff]\n\n        freq[num] += 1\n\n    return count\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 2, 3, 4, 5], 1) == 4\n    assert count_pairs([1, 3, 5, 7, 9], 1) == 0\n    assert count_pairs([1, 3, 5, 7, 9], 3) == 2\n    assert count_pairs([1, 1, 1, 1, 1], 0) == 10\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 4\n    assert count_pairs([1, 2, 5, 2, 3], 2) == 2\n    assert count_pairs([1, 2, 5, 2, 3], 1) == 3\n    assert count_pairs([1, 2, 5, 2, 3], 4) == 0\n\n\nif __name__ == \"__main__\":\n    test_count_pairs()",
+      6.91796875
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = 0\n    lookup = {}\n    for num in arr:\n        if num - k in lookup:\n            count += lookup[num - k]\n        if num + k in lookup:\n            count += lookup[num + k]\n        lookup[num] = lookup.get(num, 0) + 1\n    return count\n\nprint(count_pairs([1,2,3,4,5,6,7], 3)) # 2\nprint(count_pairs([1,3,5,7], 1)) # 2\nprint(count_pairs([1,3,5,7], 3)) # 1\nprint(count_pairs([1,1,1,1], 2)) # 6",
+      6.546875
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = 0\n    lookup = defaultdict(int)\n\n    for num in arr:\n        if num - k in lookup:\n            count += lookup[num - k]\n\n        if num + k in lookup:\n            count += lookup[num + k]\n\n        lookup[num] += 1\n\n    return count\n\n\ndef count_pairs_efficient(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = 0\n    lookup = defaultdict(int)\n\n    for num in arr:\n        if num in lookup:\n            count += lookup[num]\n\n        lookup[num + k] += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 5, 7, 8, 10]\n    assert count_pairs(arr, 2) == 2\n    assert count_pairs_efficient(arr, 2) == 2\n\n    arr = [1, 1, 1, 1]\n    assert count_pairs(arr, 0) == 6\n    assert count_pairs_efficient(arr, 0) == 6\n\n    arr = [1, 1, 2, 2, 2, 3, 3]\n    assert count_pairs(arr, 1) == 12\n    assert count_pairs_efficient(arr, 1) == 12\n\n    arr = [1, 1, 1, 2, 2, 2, 3, 3, 3]\n    assert count_pairs(arr, 0) == 27\n    assert count_pairs_efficient(arr, 0) == 27",
+      5.6796875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not arr or len(arr) < 2:\n        return 0\n\n    counter = Counter()\n    count = 0\n\n    for num in arr:\n        if num in counter:\n            count += counter[num]\n        counter[num + k] += 1\n        counter[num] += 1\n\n    return count\n\n\ndef test(input_data, k, expected_answer):\n    answer = count_pairs(input_data, k)\n\n    if answer != expected_answer:\n        raise Exception(\n            f\"Wrong answer {answer}. Expected answer was {expected_answer}.\"\n        )\n\n\nif __name__ == \"__main__\":\n    test([1, 2, 3, 4, 5], 1, 4)\n    test([1, 3, 5, 7], 1, 0)\n    test([1, 3, 5, 7], 3, 3)\n    test([1, 1, 1, 1], 0, 6)\n    print(\"All tests passed!\")",
+      4.6015625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    num_pairs = 0\n    count = {}\n\n    for num in arr:\n        count[num] = count.get(num, 0) + 1\n\n    for num in arr:\n        if num - k in count:\n            num_pairs += count[num - k]\n\n        if num + k in count:\n            num_pairs += count[num + k]\n\n    return num_pairs\n\n\ndef test_count_pairs():\n    \"\"\"\n    >>> test_count_pairs()\n    \"\"\"\n    assert count_pairs([1, 5, 7, 1], 2) == 6\n\n\nif __name__ == '__main__':\n    test_count_pairs()",
+      3.208984375
+    ],
+    [
+      "from collections import Counter\nfrom typing import List\n\n\ndef count_pairs_having_k_diff(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = Counter(arr)\n    result = 0\n\n    for num in count:\n        if num + k in count:\n            result += count[num + k]\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert count_pairs_having_k_diff([1, 2, 4, 3, 1, 3, 5, 5, 2], 2) == 8\n    assert count_pairs_having_k_diff([1, 2, 4, 3, 1, 3, 5, 5, 2], 1) == 16\n    assert count_pairs_having_k_diff([1, 2, 4, 3, 1, 3, 5, 5, 2], 3) == 12\n    assert count_pairs_having_k_diff([1, 2, 4, 3, 1, 3, 5, 5, 2], 5) == 0\n    assert count_pairs_having_k_diff([1, 2, 4, 3, 1, 3, 5, 5, 2], 0) == 20\n    assert count_pairs_having_k_diff([1, 2, 4, 3, 1, 3, 5, 5, 2], -2) == 0",
+      2.884765625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between the two elements in the array\n    return the count of the number of distinct pairs having difference k\n    \"\"\"\n    # Write your code here\n    if k < 0:\n        return 0\n\n    count = 0\n    seen = set()\n\n    for num in arr:\n        if num + k in seen:\n            count += 1\n        seen.add(num)\n\n    return count\n\n\ndef test_count_pairs():\n    result = count_pairs([1, 1, 2, 2, 2, 4], 1)\n    assert result == 3\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], 2)\n    assert result == 5\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], 3)\n    assert result == 1\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], 4)\n    assert result == 0\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], 5)\n    assert result == 0\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], 6)\n    assert result == 0\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], 0)\n    assert result == 10\n\n    result = count_pairs([1, 1, 2, 2, 2, 4], -1)\n    assert result == 0\n\n\nif __name__ == \"__main__\":\n    test_count_pairs()",
+      2.537109375
+    ],
+    [
+      "from collections import Counter\n\ndef count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    c = Counter(arr)\n    count = 0\n    for num in c:\n        if num - k in c:\n            count += 1\n        if num + k in c:\n            count += 1\n    return count\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 2, 3, 4, 5, 6], 2))\n    print(count_pairs([1, 2, 3, 4, 5, 6], 3))\n    print(count_pairs([1, 2, 3, 4, 5, 6], 1))\n    print(count_pairs([1, 2, 3, 4, 5, 6], 4))\n    print(count_pairs([1, 2, 3, 4, 5, 6], 5))\n    print(count_pairs([1, 2, 3, 4, 5, 6], 0))\n    print(count_pairs([1, 2, 3, 4, 5, 6], 7))",
+      2.52734375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    result = 0\n    freq = defaultdict(int)\n\n    for num in arr:\n        if num in freq:\n            result += freq[num]\n        freq[num + k] += 1\n    return result\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 5, 3, 4, 2], 2))\n    print(count_pairs([1, 5, 3, 4, 2], 1))\n    print(count_pairs([1, 5, 3, 4, 2], 3))",
+      2.0390625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    O(n)\n    \"\"\"\n    count = 0\n    seen = set()\n\n    for i in range(len(arr)):\n        if arr[i] - k in seen:\n            count += 1\n        seen.add(arr[i])\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\narr = [1, 3, 5, 7, 9, 11]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 3, 5, 7, 9, 11]\nk = 5\nsolution = 2\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      1.9296875
+    ],
+    [
+      "from collections import defaultdict\nfrom typing import List\n\n\ndef count_pairs(arr: List[int], k: int) -> int:\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    count = 0\n    cache = defaultdict(int)\n\n    for el in arr:\n        if el - k in cache:\n            count += cache[el - k]\n        cache[el] += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_pairs([1, 5, 7, 1], 1) == 6\n    assert count_pairs([1, 5, 7, 1, 3, 3, 7], 1) == 12\n    assert count_pairs([1, 1, 1, 1, 1], 1) == 20",
+      1.4013671875
+    ],
+    [
+      "class Solution:\n    def countPairs(self, arr, k):\n        # Fill this in.\n        count = 0\n        for i in range(len(arr)):\n            for j in range(i+1, len(arr)):\n                if (abs(arr[i] - arr[j]) == k):\n                    count += 1\n        return count\n\n\nif __name__ == \"__main__\":\n    arr = [1, 5, 3, 3, 4, 3, 2]\n    k = 2\n    print(Solution().countPairs(arr, k))\n    # 3\n\n    arr = [1, 1, 1, 1]\n    k = 0\n    print(Solution().countPairs(arr, k))\n    # 6\n\n    arr = [1, 3, 5, 7, 9]\n    k = 2\n    print(Solution().countPairs(arr, k))\n    # 0",
+      1.142578125
+    ],
+    [
+      "from typing import List\n\n\ndef count_pairs(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    arr_set = set(arr)\n    count = 0\n\n    for i in arr_set:\n        if i + k in arr_set:\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_pairs([1, 3, 5, 7], 1) == 6\n    assert count_pairs([1, 3, 5, 7], 3) == 4",
+      1.064453125
+    ],
+    [
+      "def distinct_pairs(arr, k):\n    arr.sort()\n    i = 0\n    j = len(arr) - 1\n    count = 0\n    while i < j:\n        if arr[j] - arr[i] == k:\n            count += 1\n            i += 1\n        elif arr[j] - arr[i] < k:\n            i += 1\n        else:\n            j -= 1\n    return count\n\n\nprint(distinct_pairs([1, 3, 4, 5, 6], 2))\nprint(distinct_pairs([1, 2, 5, 10, 11], 9))",
+      1.0361328125
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two numbers\n    return - count of pairs\n    \"\"\"\n    count = 0\n    count_map = defaultdict(int)\n\n    for num in arr:\n        count_map[num] += 1\n\n    for num in arr:\n        if num - k in count_map:\n            count += 1\n        if num + k in count_map:\n            count += 1\n\n    return count\n\n\ndef main():\n\n    arr = [1, 3, 2, 2, 5, 2, 7]\n    k = 2\n    print(\"Total pairs with difference of \" + str(k) + \" in array \" + str(arr) +\n          \" are \" + str(count_pairs(arr, k)))\n\n    arr = [1, 3, 2, 2, 5, 2, 7]\n    k = 1\n    print(\"Total pairs with difference of \" + str(k) + \" in array \" + str(arr) +\n          \" are \" + str(count_pairs(arr, k)))\n\n\nmain()",
+      0.94873046875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    # O(n)\n    if not arr or k <= 0:\n        return 0\n    # O(n)\n    count = Counter(arr)\n    # O(n)\n    total_pairs = 0\n    for num in count:\n        if k - num in count:\n            total_pairs += count[k - num]\n    return total_pairs\n\n\ndef main():\n    arr = [1, 5, 7, 1, 2, 5, 4]\n    k = 2\n    print(count_pairs(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      0.61669921875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    count = 0\n    count_map = Counter(arr)\n    for x in arr:\n        if x + k in count_map:\n            count += 1\n    return count\n\n\nif __name__ == '__main__':\n    print(count_pairs([1, 2, 3, 4, 5, 6, 7], 2))",
+      0.55517578125
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param arr: list of integers\n    :param k: integer\n    :return: number of pairs\n    \"\"\"\n    return count_pairs_in_range(arr, k, k)\n\n\ndef count_pairs_in_range(arr, lower_bound, upper_bound):\n    \"\"\"\n    :param arr: list of integers\n    :param lower_bound: integer\n    :param upper_bound: integer\n    :return: number of pairs\n    \"\"\"\n    if lower_bound < 0 or upper_bound < 0:\n        return 0\n\n    count = 0\n    set_arr = set(arr)\n    for x in set_arr:\n        if x - lower_bound in set_arr:\n            count += 1\n        if x + upper_bound in set_arr:\n            count += 1\n\n    return count // 2\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 3, 5, 7, 9], 4) == 2\n\n\ndef test_count_pairs_in_range():\n    assert count_pairs_in_range([1, 3, 5, 7, 9], 4, 4) == 4",
+      0.50830078125
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param arr: list of integers\n    :param k: difference between two numbers\n    :return: count of pairs\n    \"\"\"\n    # if k == 0:\n    #     return len(arr) * (len(arr) - 1) / 2\n    #\n    # if k < 0:\n    #     return count_pairs(arr, -k)\n\n    count = 0\n    arr.sort()\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[j] - arr[i] == k:\n                count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 2, 3, 4, 5], 2))",
+      0.3359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(array, k):\n    \"\"\"\n    :param array: list\n    :param k: int\n    :return: int\n    \"\"\"\n    counter = Counter(array)\n    result = 0\n\n    for num in counter:\n        if num + k in counter:\n            result += 1\n\n    return result\n\n\nif __name__ == '__main__':\n    print(count_pairs([1, 2, 3, 4, 5], 2))\n    print(count_pairs([1, 2, 3, 4, 5], 2))\n    print(count_pairs([1, 2, 3, 4, 5], 2))",
+      0.146240234375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    count = Counter()\n    for i in arr:\n        count[i] += 1\n\n    result = 0\n    for i in count:\n        if k + i in count:\n            result += count[i] * count[k + i]\n        elif -k + i in count:\n            result += count[i] * count[-k + i]\n    return result\n\n\nprint(count_pairs([1, 5, 7, 1], 2))\nprint(count_pairs([1, 3, 1, 1], 2))\nprint(count_pairs([1, 3, 1, 1], 1))",
+      -0.146484375
+    ],
+    [
+      "def count_pairs(arr, k):\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    arr = [1, 5, 7, 1]\n    k = 2\n    print(count_pairs(arr, k))",
+      -0.1466064453125
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param arr: list of integers\n    :param k: integer\n    :return: integer\n    \"\"\"\n\n    if len(arr) < 2:\n        return 0\n\n    count = 0\n    arr.sort()\n    for i in range(len(arr)-1):\n        for j in range(i+1, len(arr)):\n            if arr[j]-arr[i] == k:\n                count += 1\n\n    return count\n\n\ndef count_pairs_hash(arr, k):\n    \"\"\"\n    :param arr: list of integers\n    :param k: integer\n    :return: integer\n    \"\"\"\n    if len(arr) < 2:\n        return 0\n\n    count = 0\n    arr.sort()\n    hash_table = {}\n\n    for i in range(len(arr)):\n        hash_table[arr[i]] = i\n\n    for i in range(len(arr)):\n        complement = arr[i] + k\n        if complement in hash_table and hash_table[complement] != i:\n            count += 1\n\n    return count\n\n\nprint(count_pairs([1, 3, 5, 7, 9], 4))\nprint(count_pairs([1, 3, 5, 7, 9], 6))\nprint(count_pairs([1, 3, 5, 7, 9], 7))\nprint(count_pairs([1, 3, 5, 7, 9], 8))\nprint(count_pairs([1, 3, 5, 7, 9], 9))\nprint(count_pairs([1, 3, 5, 7, 9], 10))\n\nprint(count_pairs_hash([1, 3, 5, 7, 9], 4))\nprint(count_pairs_hash([1, 3, 5, 7, 9], 6))\nprint(count_pairs_hash([1, 3, 5, 7, 9], 7",
+      -0.2197265625
+    ],
+    [
+      "def count_pairs(arr, k):\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n    return count\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 5, 7, 1], 2) == 3\n    assert count_pairs([1, 5, 5, 7, 7], 2) == 3\n    assert count_pairs([1, 1, 1, 1], 2) == 0\n    assert count_pairs([1, 1, 1, 1], 0) == 6\n    assert count_pairs([1, 1, 1, 1], -1) == 0\n\n\nif __name__ == '__main__':\n    test_count_pairs()",
+      -0.2276611328125
+    ],
+    [
+      "def count_pairs(arr, k):\n    seen = {}\n    count = 0\n\n    for num in arr:\n        if num in seen:\n            count += seen[num]\n        seen[num] = seen.get(num, 0) + 1\n\n    return count\n\n\nprint(count_pairs([1, 1, 2, 2, 2, 3, 4, 5, 6], 1))",
+      -0.25927734375
+    ],
+    [
+      "def count_pairs(array, k):\n    if len(array) < 2:\n        return 0\n    array.sort()\n    count = 0\n    for i in range(len(array)):\n        low = i + 1\n        high = len(array) - 1\n        while low < high:\n            if array[i] - array[low] == k:\n                count += 1\n                low += 1\n            elif array[i] - array[low] < k:\n                low += 1\n            else:\n                high -= 1\n    return count\n\ndef test_cases():\n    assert count_pairs([1, 2, 2, 3, 4], 1) == 4\n    assert count_pairs([1, 2, 2, 3, 4], 3) == 2\n    assert count_pairs([1, 2, 2, 3, 4], 5) == 0\n\ntest_cases()",
+      -0.78076171875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    counter = Counter()\n    result = 0\n\n    for i in arr:\n        result += counter[i - k]\n        counter[i] += 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 5, 7, 9]\n    k = 3\n    print(count_pairs(arr, k))",
+      -0.85595703125
+    ],
+    [
+      "def count_pairs(array, k):\n    # Write your code here.\n    count = 0\n    for i in range(len(array)):\n        for j in range(i+1, len(array)):\n            if abs(array[i] - array[j]) == k:\n                count += 1\n    return count",
+      -0.85693359375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs_difference(arr, k):\n    result = 0\n    seen = defaultdict(int)\n    for i in arr:\n        if i - k in seen:\n            result += seen[i - k]\n        seen[i] += 1\n    return result\n\n\nprint(count_pairs_difference([1, 2, 3, 4, 5, 6, 7], 2))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef distinct_pairs(arr, k):\n    c = Counter(arr)\n    res = 0\n    for i in c:\n        if i+k in c:\n            res += c[i]*c[i+k]\n        if i-k in c:\n            res += c[i]*c[i-k]\n    return res\n\n\nif __name__ == \"__main__\":\n    print(distinct_pairs([1, 2, 3, 4, 3, 2, 1], 2))\n    print(distinct_pairs([1, 2, 3, 4, 3, 2, 1], 0))",
+      -0.85693359375
+    ],
+    [
+      "def count_pairs(arr, k):\n    count = 0\n    s = set()\n\n    for i in range(len(arr)):\n        if arr[i] - k in s:\n            count += 1\n\n        s.add(arr[i])\n\n    return count\n\n\ndef test_count_pairs():\n    arr = [1, 5, 3, 4, 2]\n    k = 2\n    assert count_pairs(arr, k) == 3\n\n    arr = [1, 5, 3, 4, 2]\n    k = 3\n    assert count_pairs(arr, k) == 2",
+      -0.85693359375
+    ],
+    [
+      "def count_pairs(arr, k):\n  # Fill this in.\n  \narr = [1, 5, 7, 1, 2, 5, 3, 4, 2]\nk = 2\nprint count_pairs(arr, k)\n\n# 4",
+      -0.85693359375
+    ],
+    [
+      "def count_pairs(arr, k):\n    arr_dict = {}\n    for i in range(len(arr)):\n        arr_dict[arr[i]] = i\n\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] + k in arr_dict:\n            count += 1\n        if arr[i] - k in arr_dict and arr_dict[arr[i]] < arr_dict[arr[i]-k]:\n            count += 1\n    return count\n\n\nprint(count_pairs([1, 1, 1, 1, 2, 3, 4, 7, 10], 3))",
+      -0.85693359375
+    ],
+    [
+      "def count_pairs(arr, k):\n    counter = 0\n\n    for i in range(len(arr) - 1):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                counter += 1\n\n    return counter\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3) == 45",
+      -0.85693359375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef distinct_pairs(arr, k):\n    \"\"\"\n    O(n)\n    \"\"\"\n    d = defaultdict(int)\n    for el in arr:\n        d[el] += 1\n    ans = 0\n    for el in d:\n        if el + k in d:\n            ans += d[el] * d[el + k]\n        if el - k in d:\n            ans += d[el] * d[el - k]\n    return ans\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7]\n    k = 2\n    print(distinct_pairs(arr, k))",
+      -0.85693359375
+    ],
+    [
+      "def pair_counter(arr, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    result = 0\n    hashmap = {}\n    for num in arr:\n        if num in hashmap:\n            result += hashmap[num]\n        hashmap[num] = hashmap.get(num, 0) + 1\n\n    for num in arr:\n        result -= hashmap.get(num - k, 0)\n        result -= hashmap.get(num + k, 0)\n    return result\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 2, 2, 6, 3]\n    k = 2\n    print(pair_counter(arr, k))",
+      -0.85693359375
+    ],
+    [
+      "def count_pairs(arr, k):\n    arr.sort()\n    count = 0\n    for i in range(len(arr)):\n        j = i + 1\n        while j < len(arr):\n            if arr[j] - arr[i] == k:\n                count += 1\n                j += 1\n            elif arr[j] - arr[i] > k:\n                break\n            else:\n                j += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    arr = [2, 10, 5, 12, 8, 15]\n    k = 3\n    print(count_pairs(arr, k))",
+      -0.85693359375
+    ],
+    [
+      "def count_pairs(arr, k):\n    if not arr:\n        return 0\n\n    pairs = set()\n    for num in arr:\n        if num in pairs:\n            pairs.remove(num)\n        else:\n            pairs.add(num)\n\n    return len(pairs)\n\n\nprint(count_pairs([1, 2, 3, 4, 5], 3))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(array, k):\n    count = 0\n    seen = Counter()\n\n    for num in array:\n        if num - k in seen:\n            count += seen[num - k]\n        if num + k in seen:\n            count += seen[num + k]\n        seen[num] += 1\n\n    return count\n\n\nprint(count_pairs([1, 4, 8, 1, 6], 2))",
+      -0.85791015625
+    ],
+    [
+      "def count_pairs(arr, k):\n    # Write your code here.\n    count = 0\n    seen = set()\n    for i in arr:\n        if i + k in seen:\n            count += 1\n        seen.add(i)\n    return count",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(array, k):\n    count = 0\n    count_dict = Counter(array)\n\n    for i in array:\n        if i + k in count_dict:\n            count += 1\n    return count\n\n\ndef main():\n    print(count_pairs([1, 2, 4, 7, 9, 8], 2))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    c = Counter(arr)\n    count = 0\n\n    for i in range(len(arr)):\n        if arr[i] + k in c:\n            count += 1\n\n    return count\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 2\n    print(count_pairs(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    ctr = Counter()\n    for num in arr:\n        ctr[num] += 1\n    count = 0\n    for num in arr:\n        count += ctr[num] - (1 if num + k in ctr else 0)\n    return count\n\n\ndef main():\n    arr = [1, 5, 7, 1, 2, 5, 3]\n    k = 2\n    print(count_pairs(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    c = Counter(arr)\n    count = 0\n\n    for i in range(len(arr)):\n        count += c[arr[i] + k]\n        count -= 1 if arr[i] - k in c else 0\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 3, 2, 2, 1, 1, 2, 3], 1))",
+      -0.8583984375
+    ],
+    [
+      "def pair_count(arr, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    count = 0\n    set_arr = set(arr)\n    for i in set_arr:\n        if i+k in set_arr:\n            count += 1\n    return count\n\n\ndef pair_count_efficient(arr, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    count = 0\n    set_arr = set(arr)\n    for i in set_arr:\n        if i-k in set_arr:\n            count += 1\n    return count",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_k_difference(array, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    counter = Counter()\n    for i in range(len(array)):\n        counter[array[i]] += 1\n    count = 0\n    for i in range(len(array)):\n        count += counter[array[i] - k]\n        count += counter[array[i] + k]\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_k_difference([3, 1, 4, 1, 5], 2))",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef pair_count(arr, k):\n    c = Counter()\n    for i in arr:\n        c[i] += 1\n\n    count = 0\n    for i in c:\n        if c[i] > 1:\n            count += c[i] * (c[i] - 1) / 2\n        if k > 0:\n            count += c[i] * c[i + k]\n        if k < 0:\n            count += c[i] * c[i + k]\n    return count\n\n\nif __name__ == \"__main__\":\n    print(pair_count([1, 5, 3, 4, 2], 2))",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    c = Counter(arr)\n    return sum([v for v in c.values() if v > 1]) * (sum(c.values()) - c[k])\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5]\n    k = 2\n    print(count_pairs(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\nfrom typing import List\n\n\ndef count_pairs(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    counter = Counter(arr)\n    count = 0\n\n    for i in range(len(arr)):\n        if arr[i] + k in counter:\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_pairs([1, 5, 3, 4, 2], 2) == 3\n    assert count_pairs([1, 5, 3, 4, 2, 3], 2) == 4",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_k_differences(arr, k):\n    count = Counter()\n    for num in arr:\n        count[num] += 1\n\n    result = 0\n    for num, count_num in count.items():\n        result += count_num * (count[num + k] - count[num + k + 1])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 5, 7, 9]\n    k = 2\n    assert count_k_differences(arr, k) == 2\n\n    arr = [1, 3, 5, 7, 9]\n    k = 3\n    assert count_k_differences(arr, k) == 1",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    freq = Counter(arr)\n    result = 0\n\n    for i in range(len(arr)):\n        if arr[i] + k in freq:\n            result += freq[arr[i] + k]\n        if arr[i] - k in freq:\n            result += freq[arr[i] - k]\n\n    return result\n\n\nprint(count_pairs([1, 3, 5, 7, 10], 2))",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs_difference(arr, k):\n    counter = Counter()\n    for num in arr:\n        counter[num] += 1\n    total_pairs = 0\n    for num in counter:\n        total_pairs += counter[num] * (counter[num] - 1) / 2\n        if k == 0:\n            if counter[num] > 1:\n                total_pairs += counter[num] * (counter[num] - 1) / 2\n        else:\n            if k - num in counter:\n                total_pairs += counter[k - num] * counter[num]\n    return int(total_pairs)\n\n\ndef main():\n    arr = [1, 5, 7, 1, 2, 3, 4, 2, 1]\n    k = 2\n    print(count_pairs_difference(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def countPairs(arr, k):\n    # Fill this in.\n    return 0\n\nprint(countPairs([1, 1, 2, 2, 3, 4, 7, 8, 8], 2))\n# 2\n\nprint(countPairs([1, 1, 2, 2, 3, 4, 7, 8, 8], 3))\n# 1",
+      -0.85888671875
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    count = 0\n    d = defaultdict(int)\n    for i in range(len(arr)):\n        if arr[i] + k in d:\n            count += d[arr[i] + k]\n        if arr[i] - k in d:\n            count += d[arr[i] - k]\n        d[arr[i]] += 1\n    return count\n\n\ndef main():\n    arr = [1, 4, 5, 6, 7, 8]\n    k = 2\n    print(count_pairs(arr, k))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    c = Counter()\n    count = 0\n    for i in arr:\n        if i + k in c:\n            count += c[i + k]\n        if i - k in c:\n            count += c[i - k]\n        c[i] += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    arr = [1, 5, 7, 1, 2, 5, 3, 4, 2, 1, 7, 8]\n    k = 2\n    assert count_pairs(arr, k) == 11",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_distinct_pairs(arr, k):\n    cnt = Counter(arr)\n    res = 0\n    for i in cnt:\n        res += cnt[i] * (cnt[i] - 1) / 2\n\n    return res\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5]\n    k = 2\n    print(count_distinct_pairs(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def count_pairs(arr, k):\n    count = 0\n    d = {}\n    for i in arr:\n        if i-k in d:\n            count += d[i-k]\n        if i+k in d:\n            d[i+k] += 1\n        else:\n            d[i+k] = 1\n    return count\n\n\nprint(count_pairs([1, 3, 5, 7, 9, 11], 2))",
+      -0.86083984375
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    d = dict()\n\n    for i in range(len(arr)):\n        d[arr[i]] = i\n\n    count = 0\n\n    for i in range(len(arr)):\n        if (arr[i] + k) in d:\n            count += 1\n        if (arr[i] - k) in d:\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 3, 4, 5, 2], 3))",
+      -0.9521484375
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0:\n        return 0\n\n    count = 0\n    pairs = set()\n    for num in arr:\n        if num + k in pairs:\n            count += 1\n        if num - k in pairs:\n            count += 1\n        pairs.add(num)\n    return count\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 1, 2, 3, 4], 1) == 3\n    assert count_pairs([1, 3, 5, 7, 9], 1) == 4\n    assert count_pairs([1, 3, 5, 7, 9], 3) == 2\n    assert count_pairs([1, 3, 5, 7, 9], 10) == 0\n\n\nif __name__ == \"__main__\":\n    test_count_pairs()",
+      -0.9951171875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_distinct_pairs(arr, k):\n    c = Counter()\n    for x in arr:\n        c[x] += 1\n    ans = 0\n    for x in arr:\n        if x - k in c:\n            ans += c[x] * (c[x] - 1) // 2\n        if x + k in c:\n            ans += c[x] * c[x + k]\n    return ans\n\n\nassert count_distinct_pairs([1, 2, 5, 3, 4], 2) == 5\nassert count_distinct_pairs([1, 2, 5, 3, 4], 3) == 2\nassert count_distinct_pairs([1, 2, 5, 3, 4], 1) == 4\nassert count_distinct_pairs([1, 2, 5, 3, 4], 4) == 1",
+      -1.1162109375
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two numbers\n    :return: count - number of pairs\n    \"\"\"\n    # Write your code here\n    count = 0\n    if len(arr) < 2:\n        return count\n    if k < 0:\n        return count\n    arr.sort()\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 2, 3, 4, 5]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -1.1572265625
+    ],
+    [
+      "from typing import List\n\n\ndef count_pairs(nums: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    nums_map = {}\n    count = 0\n\n    for num in nums:\n        if num - k in nums_map:\n            count += 1\n        if num + k in nums_map:\n            count += 1\n        nums_map[num] = True\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 5, 3, 4, 2], 2))",
+      -1.158203125
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0:\n        k = abs(k)\n    count = defaultdict(int)\n    for num in arr:\n        count[num] += 1\n    res = 0\n    for num in arr:\n        if num + k in count:\n            res += count[num + k]\n        if num - k in count:\n            res += count[num - k]\n        if num + k == num - k:\n            res -= 1\n    return res\n\n\nassert count_pairs([1, 3, 5], 2) == 1\nassert count_pairs([1, 3, 5, 7], 2) == 2\nassert count_pairs([1, 3, 5, 7], 5) == 0\nassert count_pairs([1, 3, 5, 7, 7], 5) == 1",
+      -1.2744140625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two elements in the array\n    TODO: complete this function and return the number of pairs\n    \"\"\"\n    # Your code here\n    pairs = 0\n    arr.sort()\n\n    for i in range(len(arr) - 1):\n        j = i + 1\n\n        while j < len(arr):\n            if arr[i] - arr[j] == k:\n                pairs += 1\n                j += 1\n            elif arr[i] - arr[j] < k:\n                j += 1\n            else:\n                break\n\n    return pairs\n\nprint(count_pairs([1, 3, 5, 7, 9], 4))\nprint(count_pairs([1, 5, 3, 4, 2, 6, 8, 9, 7], 2))\nprint(count_pairs([1, 3, 5, 7, 9], 5))",
+      -1.3896484375
+    ],
+    [
+      "def count_pairs(arr, k):\n    count = 0\n    for i in range(0, len(arr)):\n        for j in range(i + 1, len(arr)):\n            if abs(arr[i] - arr[j]) == k:\n                count += 1\n    return count\n\n\ndef main():\n    arr = [1, 3, 5, 7, 9]\n    k = 2\n    print(count_pairs(arr, k))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.431640625
+    ],
+    [
+      "def count_pairs(arr, k):\n    if len(arr) < 2:\n        return 0\n\n    hash_map = {}\n    count = 0\n\n    for i in range(len(arr)):\n        hash_map[arr[i]] = i\n\n    for i in range(len(arr)):\n        if arr[i] + k in hash_map and hash_map[arr[i]] != hash_map[arr[i] + k]:\n            count += 1\n\n        if arr[i] - k in hash_map and hash_map[arr[i]] != hash_map[arr[i] - k]:\n            count += 1\n\n    return count\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 2, 3, 4, 5], 1) == 4\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 2\n    assert count_pairs([1, 2, 3, 4, 5], 3) == 1\n    assert count_pairs([1, 2, 3, 4, 5], 4) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 5) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 6) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 7) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 8) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 9) == 0\n\n\nif __name__ == '__main__':\n    test_count_pairs()",
+      -1.4765625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs_with_diff_k(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference k\n    return - count of all distinct pairs\n    \"\"\"\n    counter = Counter(arr)\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] + k in counter:\n            count += 1\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs_with_diff_k(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 2, 3, 4, 5]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 1, 1, 1, 1]\nk = 0\nsolution = 10\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 2, 3, 4, 5, 6]\nk = 2\nsolution = 12\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 3, 5, 7, 9]\nk = 1\nsolution = 20\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -1.4912109375
+    ],
+    [
+      "def count_pairs(arr, k):\n    if not arr:\n        return 0\n\n    counts = {}\n    count = 0\n\n    for num in arr:\n        diff = num - k\n        if diff in counts:\n            count += counts[diff]\n        if num in counts:\n            counts[num] += 1\n        else:\n            counts[num] = 1\n    return count\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 2, 3, 4, 5], 1) == 4\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 2\n    assert count_pairs([1, 2, 3, 4, 5], 3) == 1\n    assert count_pairs([1, 2, 3, 4, 5], 4) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 5) == 0",
+      -1.4951171875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two numbers\n    return number of pairs\n    \"\"\"\n    result = 0\n    pairs = Counter()\n    for num in arr:\n        result += pairs[num - k]\n        pairs[num] += 1\n    return result\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 5, 3, 3, 4, 3, 2]\nk = 2\nsolution = 5\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -1.5009765625
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_distinct_pairs(array, k):\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    pairs = defaultdict(int)\n\n    for num in array:\n        pairs[num] += 1\n\n    count = 0\n\n    for num in pairs:\n        count += pairs[num] * (pairs[num] - 1) // 2\n\n    for i in range(len(array) - 1):\n        for j in range(i + 1, len(array)):\n            if abs(array[i] - array[j]) == k:\n                count += 1\n\n    return count\n\n\ndef main():\n    print(count_distinct_pairs([1, 5, 7, 1], 2))\n    print(count_distinct_pairs([1, 5, 5, 5], 2))\n    print(count_distinct_pairs([1, 5, 5, 5, 5], 2))\n\n\nif __name__ == '__main__':\n    main()",
+      -1.505859375
+    ],
+    [
+      "from typing import List\n\n\ndef count_pairs(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[j] - arr[i] == k:\n                count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_pairs([1, 1, 2, 2, 3, 4], 1) == 3\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 0\n    assert count_pairs([1, 1, 2, 2, 3, 3], 2) == 4\n    assert count_pairs([1, 1, 2, 2, 3, 3], 0) == 6\n    assert count_pairs([1, 2, 3, 4, 5, 6], 2) == 3\n    assert count_pairs([1, 2, 3, 4, 5, 6], 1) == 10",
+      -1.5595703125
+    ],
+    [
+      "def count_pairs(array, k):\n    count = 0\n    for i in range(len(array)):\n        for j in range(i+1, len(array)):\n            if array[j] - array[i] == k:\n                count += 1\n    return count\n\n\nprint(count_pairs([1, 3, 5, 7, 9], 3))\nprint(count_pairs([1, 3, 5, 7, 9], 0))\nprint(count_pairs([1, 3, 5, 7, 9], 1))\nprint(count_pairs([1, 3, 5, 7, 9], 2))",
+      -1.6962890625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    count = Counter()\n    for i in arr:\n        count[i] += 1\n\n    pairs = 0\n    for i in arr:\n        if i+k in count:\n            pairs += count[i+k]\n        if i-k in count:\n            pairs += count[i-k]\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    assert count_pairs([1, 4, 5, 1, 3, 4, 2, 2], 2) == 2",
+      -1.8505859375
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = 0\n    hash_map = {}\n\n    for num in arr:\n        if num in hash_map:\n            count += hash_map[num]\n        hash_map[num] = hash_map.get(num, 0) + 1\n\n    return count\n\n\ndef count_pairs_v2(arr, k):\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(n)\n    \"\"\"\n    count = 0\n    arr.sort()\n\n    for i in range(len(arr)):\n        left, right = 0, i-1\n        while left < right:\n            if arr[right] - arr[left] == k:\n                count += 1\n                right -= 1\n                left += 1\n            elif arr[right] - arr[left] < k:\n                right -= 1\n            else:\n                left += 1\n    return count\n\n\ndef main():\n    arr = [1, 3, 5, 7, 8, 10]\n    k = 2\n    print(count_pairs(arr, k))\n    print(count_pairs_v2(arr, k))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.8857421875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two elements\n    TODO: complete this method and return the number of pairs\n    \"\"\"\n    # arr_sorted = sorted(arr)\n    # count = 0\n    # for i in range(len(arr_sorted)):\n    #     for j in range(i+1, len(arr_sorted)):\n    #         if arr_sorted[j] - arr_sorted[i] == k:\n    #             count += 1\n    # return count\n    counter = Counter(arr)\n    count = 0\n    for i in arr:\n        if i + k in counter:\n            count += 1\n        if i - k in counter:\n            count += 1\n    return count\n\n\ndef test_function(test_case):\n    output = count_pairs(test_case[0], test_case[1])\n    print(output)\n    if output == test_case[2]:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\n# test case 1\narr = [1, 5, 3, 3, 4, 3, 2]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\n# test case 2\narr = [1, 5, 3, 3, 4, 3, 2]\nk = 0\nsolution = 16\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\n# test case 3\narr = [1, 5, 3, 3, 4, 3, 2]\nk = 1\nsolution = 16\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\n# test case 4\narr = [1, 5, 3, 3, 4, 3, 2]\nk = 3\nsolution = 0\ntest_case = [arr, k, solution]",
+      -2.07421875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    Count all the distinct pairs having a difference of k in any array\n\n    Args:\n       arr(array): Input Array\n       k(int): Difference\n    Return:\n       int: Count of all pairs\n    \"\"\"\n    counter = Counter(arr)\n    count = 0\n    for i in counter:\n        count += counter[i] * (counter[i] - 1) // 2\n        if i + k in counter:\n            count -= counter[i] * counter[i + k]\n        if i - k in counter:\n            count += counter[i] * counter[i - k]\n    return count\n\n\ndef main():\n    print(\"Total count of pairs with difference of 2: \" +\n          str(count_pairs([1, 3, 5, 7, 9], 2)))\n    print(\"Total count of pairs with difference of 5: \" +\n          str(count_pairs([1, 5, 3, 3, 3, 7], 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -2.08203125
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs_difference(arr, k):\n    c = Counter(arr)\n    result = 0\n    for i in range(len(arr)):\n        result += c[arr[i]-k] + c[arr[i]+k]\n\n    return result\n\n\ndef main():\n    arr = [1, 1, 2, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9, 10]\n    k = 2\n    print(count_pairs_difference(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -2.08203125
+    ],
+    [
+      "def pair_count(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two elements\n    return count of pairs with difference k\n    \"\"\"\n    if not arr or len(arr) < 2:\n        return 0\n\n    arr.sort()\n    count = 0\n    i, j = 0, 1\n\n    while j < len(arr):\n        if arr[j] - arr[i] == k:\n            count += 1\n            j += 1\n        elif arr[j] - arr[i] > k:\n            i += 1\n            j = i + 1\n        else:\n            j += 1\n\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = pair_count(arr, k)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 3, 5, 7, 9, 11]\nk = 2\nsolution = 4\n\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -2.154296875
+    ],
+    [
+      "def count_pairs_with_diff_k(arr, k):\n    \"\"\"\n    :param arr: list of integers\n    :param k: integer\n    :return: int\n    \"\"\"\n    if len(arr) < 2:\n        return 0\n\n    # Create an empty hashmap\n    hashmap = dict()\n\n    # Store count of all elements in hashmap\n    for num in arr:\n        hashmap[num] = hashmap.get(num, 0) + 1\n\n    # Initialize result\n    result = 0\n\n    # Traverse through the array\n    for num in arr:\n\n        # Calculate difference between current number and k\n        diff = num - k\n\n        # If difference is 0, then we have found one pair\n        if diff in hashmap and diff != num:\n            result += hashmap[diff]\n\n        # If difference is not 0 and not equal to current number, then we have found another pair\n        if diff + k in hashmap and diff + k != num:\n            result += hashmap[diff + k]\n\n    return result\n\n\ndef main():\n    arr = [1, 5, 3, 3, 2, 4, 2, 1]\n    k = 2\n\n    print(count_pairs_with_diff_k(arr, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -2.185546875
+    ],
+    [
+      "def pair_counter(array, k):\n    \"\"\"\n    :param array: list of integers\n    :param k: integer\n    :return: count of pairs\n    \"\"\"\n    count = 0\n    array.sort()\n    for i in range(0, len(array)):\n        j = i + 1\n        while j < len(array):\n            if array[j] - array[i] == k:\n                count += 1\n                j += 1\n            elif array[j] - array[i] > k:\n                break\n            else:\n                j += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    test1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    test2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    test3 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,",
+      -2.201171875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_k_difference(arr, k):\n    count = Counter()\n    for num in arr:\n        count[num] += 1\n    count = count.items()\n    result = 0\n    for i in range(len(count) - 1):\n        for j in range(i + 1, len(count)):\n            if abs(count[i][0] - count[j][0]) == k:\n                result += count[i][1] * count[j][1]\n    return result\n\n\nif __name__ == \"__main__\":\n    assert count_k_difference([1, 2, 4, 3, 3], 2) == 2\n    assert count_k_difference([1, 2, 4, 3, 3], 3) == 1\n    assert count_k_difference([1, 2, 4, 3, 3], 0) == 5",
+      -2.6328125
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between the pairs\n    return number of pairs with difference k\n    \"\"\"\n    # Write your code here\n    if k < 0:\n        return 0\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n    return count\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs(arr, k)\n    \n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\narr = [1, 7, 10, 4, 5, 9]\nk = 3\nsolution = 3\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 7, 1, 1]\nk = 1\nsolution = 6\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -2.646484375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(arr, k):\n    count = Counter()\n    for i in arr:\n        count[i] += 1\n    result = 0\n    for i in arr:\n        result += count[i + k]\n        result -= 1 if i - k in count else 0\n    return result\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 2, 3, 4, 5], 1))\n    print(count_pairs([1, 2, 3, 4, 5], 2))",
+      -2.974609375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_pairs(array, k):\n    # Using Counter to count the frequency of all numbers\n    counter = Counter(array)\n\n    # Using a dictionary to keep track of numbers that are already counted\n    counted = {}\n\n    # Initialize the result\n    result = 0\n\n    # Loop over all numbers\n    for number in array:\n        # If the difference of the current number and k is in counted, then we have found a pair\n        if number + k in counted:\n            result += counted[number + k]\n        # If the difference of the current number and k is in counter, then we have found a pair\n        if number - k in counter:\n            result += counter[number - k]\n        # Update counted\n        counted[number] = counted.get(number, 0) + 1\n\n    return result\n\n\nassert count_pairs([1, 2, 3, 4, 5], 2) == 4\nassert count_pairs([1, 2, 3, 4, 5], 2) == 4\nassert count_pairs([1, 2, 3, 4, 5], 3) == 2",
+      -3.150390625
+    ],
+    [
+      "def count_pairs_diff(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between the pairs\n    :return: count of the number of pairs\n    \"\"\"\n    # Write your code here\n    if not arr or len(arr) < 2:\n        return 0\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs_diff(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 7, 10, 4, 9]\nk = 3\nsolution = 2\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 7, 1]\nk = 1\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -3.251953125
+    ],
+    [
+      "def count_distinct_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    # Hashing is used for counting\n    hash_map = {}\n    count = 0\n\n    for i in range(len(arr)):\n        # Check if current element is present in hash map.\n        if arr[i] in hash_map:\n            # If present, then it is a pair\n            # and the number of pairs will be\n            # (number of times previous value\n            # appeared) * (number of times current value appeared)\n            count += hash_map[arr[i]]\n        # If current element is not present in hash map,\n        # then add it to hash map\n        # and set the value to 1\n        else:\n            hash_map[arr[i]] = 1\n\n    return count\n\n\ndef main():\n\n    arr = [1, 1, 2, 3, 5, 6, 8, 9, 10]\n    k = 2\n\n    print(count_distinct_pairs(arr, k))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.330078125
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Count the number of distinct pairs in an array whose difference is k.\n\n    :param: arr; array\n    :param: k; difference between pairs\n    :return: count of distinct pairs\n    \"\"\"\n    # O(n)\n    count = 0\n    # O(n)\n    for i in range(len(arr)):\n        # O(n)\n        for j in range(len(arr)):\n            # O(1)\n            if arr[i] - arr[j] == k:\n                count += 1\n    return count\n\n\n# O(n log n)\ndef count_pairs_optimized(arr, k):\n    \"\"\"\n    Count the number of distinct pairs in an array whose difference is k.\n\n    :param: arr; array\n    :param: k; difference between pairs\n    :return: count of distinct pairs\n    \"\"\"\n    arr.sort()\n    count = 0\n    for i in range(len(arr)):\n        j = i + 1\n        while j < len(arr):\n            if arr[i] - arr[j] == k:\n                count += 1\n            j += 1\n    return count\n\n\n# O(n^2)\ndef count_pairs_naive(arr, k):\n    \"\"\"\n    Count the number of distinct pairs in an array whose difference is k.\n\n    :param: arr; array\n    :param: k; difference between pairs\n    :return: count of distinct pairs\n    \"\"\"\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n    return count\n\n\nprint(count_pairs([1, 3, 5, 7, 8, 10], 3))\nprint(count_pairs_optimized([1, 3, 5, 7, 8, 10], 3))\nprint(count_pairs_naive([1, 3, 5, 7, 8, 10],",
+      -3.3671875
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0:\n        return count_pairs(arr, -k)\n\n    count = 0\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n\n    return count\n\n\ndef test_count_pairs():\n    \"\"\"Test for count_pairs function.\"\"\"\n    assert count_pairs([1, 2, 3, 4, 5], 1) == 10\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 4\n    assert count_pairs([1, 2, 3, 4, 5], 3) == 1\n    assert count_pairs([1, 2, 3, 4, 5], 4) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 5) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 6) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 7) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 8) == 0\n\n\nif __name__ == \"__main__\":\n    test_count_pairs()",
+      -3.37109375
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = 0\n    d = {}\n\n    for i in arr:\n        if i - k in d:\n            count += d[i - k]\n        if i + k in d:\n            d[i + k] += 1\n        else:\n            d[i + k] = 1\n    return count\n\n\ndef test(input_data, k, expected_answer):\n    answer = count_pairs(input_data, k)\n\n    if answer != expected_answer:\n        raise Exception(\n            f\"Wrong answer {answer}. Expected answer was {expected_answer}.\"\n        )\n\n\nif __name__ == \"__main__\":\n    test([1, 1, 1, 1, 2, 3, 4, 7, 10, 12, 15, 20], 1, 2)\n    test([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 1, 1)\n    test([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 2, 3)\n    test([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 3, 4)\n    test([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 4, 5)\n    test([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 5, 6)\n    test([1, 2, 3, 4, 5, 6, 7, 8",
+      -3.396484375
+    ],
+    [
+      "def distinct_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two numbers\n    return - count of pairs with difference k\n    \"\"\"\n    result = 0\n    arr.sort()\n    i = 0\n    j = len(arr) - 1\n\n    while i < j:\n        if arr[i] + arr[j] > k:\n            j -= 1\n        elif arr[i] + arr[j] < k:\n            i += 1\n        else:\n            result += 1\n            i += 1\n            j -= 1\n\n    return result\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = distinct_pairs(arr, k)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 3, 2, 2, 4]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 3, 3, 3, 3, 7]\nk = 1\nsolution = 2\ntest_case = [arr, k, solution]\ntest_function(test_case)",
+      -3.513671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef pair_count(arr, k):\n    count = Counter()\n    for i in arr:\n        count[i] += 1\n    res = 0\n    for i in count:\n        res += count[i]*(count[i+k]-count[i+k-2])\n        if i-k in count:\n            res -= count[i-k]*(count[i]-1)\n    return res\n\n\nif __name__ == \"__main__\":\n    print(pair_count([1, 2, 3, 4, 5], 2))",
+      -3.64453125
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two elements in pair\n    :return: count - number of pairs\n    \"\"\"\n    if k < 0:\n        return 0\n\n    count = 0\n\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n\n    return count\n\n\ndef count_pairs_eff(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two elements in pair\n    :return: count - number of pairs\n    \"\"\"\n    if k < 0:\n        return 0\n\n    count = 0\n    counter = defaultdict(int)\n\n    for i in range(len(arr)):\n        counter[arr[i]] += 1\n\n    for i in range(len(arr)):\n        if counter[arr[i]] > 1:\n            count += (counter[arr[i]] - 1)\n\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs_eff(arr, k)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 3, 2, 2, 5]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 3, 3, 3]\nk = 0\nsolution = 3\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 3, 3, 3]\nk = 1\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_",
+      -3.65625
+    ],
+    [
+      "from collections import Counter\nfrom typing import List\n\n\ndef count_distinct_pairs(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = Counter()\n\n    for num in arr:\n        count[num] += 1\n\n    total = 0\n\n    for num in arr:\n        if num - k in count:\n            total += count[num - k]\n\n    return total * 2\n\n\nif __name__ == \"__main__\":\n    assert count_distinct_pairs([1, 2, 3, 4, 5], 1) == 4\n    assert count_distinct_pairs([1, 1, 1, 1, 1], 0) == 10\n    assert count_distinct_pairs([1, 1, 1, 1, 1], 1) == 20\n    assert count_distinct_pairs([1, 1, 1, 1, 1], 2) == 10\n    assert count_distinct_pairs([1, 2, 3, 4, 5, 6], 1) == 12\n    assert count_distinct_pairs([1, 2, 3, 4, 5, 6], 2) == 12\n    assert count_distinct_pairs([1, 2, 3, 4, 5, 6], 3) == 6\n    assert count_distinct_pairs([1, 2, 3, 4, 5, 6], 4) == 4\n    assert count_distinct_pairs([1, 2, 3, 4, 5, 6], 5) == 2\n    assert count_distinct_pairs([1, 2, 3, 4, 5, 6], 6) == 1",
+      -3.71875
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0:\n        raise ValueError(\"k must be greater than or equal to 0\")\n\n    seen = {}\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] - arr[j] == k:\n                count += 1\n            elif arr[i] - arr[j] in seen:\n                count += seen[arr[i] - arr[j]]\n\n        if arr[i] + k in seen:\n            seen[arr[i] + k] += 1\n        else:\n            seen[arr[i] + k] = 1\n\n    return count\n\ndef count_pairs_hash(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0:\n        raise ValueError(\"k must be greater than or equal to 0\")\n\n    seen = {}\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] + k in seen:\n            count += seen[arr[i] + k]\n        if arr[i] - k in seen:\n            count += seen[arr[i] - k]\n\n        if arr[i] + k in seen:\n            seen[arr[i] + k] += 1\n        else:\n            seen[arr[i] + k] = 1\n        if arr[i] - k in seen:\n            seen[arr[i] - k] += 1\n        else:\n            seen[arr[i] - k] = 1\n\n    return count\n\ndef count_pairs_hash_2(arr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0:\n        raise ValueError(\"k must be greater than or equal to 0\")\n\n    seen = {}\n    count",
+      -3.890625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between the pair\n    :return: int - number of pairs with difference k\n    \"\"\"\n    # Write your code here\n    return len(arr) * (len(arr) - 1) // 2 - count_pairs_helper(arr, k)\n\n\ndef count_pairs_helper(arr, k):\n    seen = set()\n    count = 0\n    for i in arr:\n        target = i + k\n        if target in seen:\n            count += 1\n        seen.add(i)\n    return count\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 3, 4, 2], 3) == 2\n    assert count_pairs([1, 3, 4, 2], 5) == 0\n    assert count_pairs([1, 3, 4, 2], -1) == 4\n    assert count_pairs([1, 1, 1, 1], 0) == 6\n    assert count_pairs([1, 1, 2], 0) == 2\n    assert count_pairs([1, 2, 3], 1) == 2\n    assert count_pairs([1, 2, 3], 2) == 1\n    assert count_pairs([1, 2, 3], 3) == 0\n    assert count_pairs([1, 2, 3], 4) == 0\n    assert count_pairs([1, 2, 3, 4, 5], 0) == 4\n    assert count_pairs([1, 2, 3, 4, 5], 1) == 6\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 4\n    assert count_pairs([1, 2, 3, 4, 5], 3) == 2\n    assert count_pairs([1, 2, 3, 4, 5],",
+      -4.31640625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between the pair\n    :return: count - number of pairs\n    \"\"\"\n    from collections import Counter\n    cnt = Counter(arr)\n    count = 0\n    for num in cnt:\n        count += cnt[num+k]\n        count -= cnt[num]\n    return count\n\ndef test_count_pairs():\n    assert count_pairs([1, 2, 3, 4, 5], 2) == 1\n    assert count_pairs([1, 1, 1, 1, 1], 2) == 2\n    assert count_pairs([1, 2, 3, 4, 5, 6], 2) == 3\n    assert count_pairs([1, 2, 3, 4, 5, 6], 3) == 4\n    assert count_pairs([1, 2, 3, 4, 5, 6], 4) == 5\n    assert count_pairs([1, 2, 3, 4, 5, 6], 5) == 6\n    assert count_pairs([1, 2, 3, 4, 5, 6], 6) == 7\n    assert count_pairs([1, 2, 3, 4, 5, 6], 7) == 8\n    assert count_pairs([1, 2, 3, 4, 5, 6], 8) == 9\n    assert count_pairs([1, 2, 3, 4, 5, 6], 9) == 10\n    assert count_pairs([1, 2, 3, 4, 5, 6], 10) == 11\n\nif __name__ == \"__main__\":\n    test_count_pairs()",
+      -5.1015625
+    ],
+    [
+      "def count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between the elements of a pair\n    return the count of all pairs with difference k\n    \"\"\"\n    # arr.sort()\n    # count = 0\n    # i, j = 0, 1\n    # while i < len(arr) and j < len(arr):\n    #     if arr[j] - arr[i] == k:\n    #         count += 1\n    #         i += 1\n    #         j += 1\n    #     elif arr[j] - arr[i] < k:\n    #         j += 1\n    #     else:\n    #         i += 1\n    # return count\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[j] - arr[i] == k:\n                count += 1\n    return count\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = count_pairs(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 3, 2, 2, 4]\nk = 2\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 3, 3, 3, 3, 1]\nk = 0\nsolution = 1\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 3, 3, 3, 3, 1]\nk = 1\nsolution = 4\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 5, 3, 3, 3, 3, 1]\nk = 2",
+      -5.10546875
+    ],
+    [
+      "from collections import Counter\n\n\ndef pair_count_difference(arr, k):\n    count_dict = Counter()\n    for num in arr:\n        count_dict[num] += 1\n    pairs = 0\n    for num in arr:\n        pairs += count_dict[num] - 1\n        if num + k in count_dict:\n            pairs += 1\n        if num - k in count_dict:\n            pairs += 1\n    return pairs\n\n\nprint(pair_count_difference([1, 3, 4, 3], 3))\nprint(pair_count_difference([1, 2, 3, 4, 5], 0))",
+      -5.74609375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef count_pairs(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - difference between two numbers\n    :return: count of pairs with difference k\n    \"\"\"\n    result = 0\n    diff = defaultdict(int)\n    for num in arr:\n        diff[num] += 1\n    for num in diff:\n        result += diff[num] - 1\n    return result\n\n\ndef test_count_pairs():\n    assert count_pairs([1, 5, 3, 3, 3, 2, 4, 2, 1], 2) == 3\n    assert count_pairs([1, 5, 3, 3, 3, 2, 4, 2, 1], 3) == 4\n    assert count_pairs([1, 5, 3, 3, 3, 2, 4, 2, 1], 1) == 5\n    assert count_pairs([1, 5, 3, 3, 3, 2, 4, 2, 1], 4) == 5\n    assert count_pairs([1, 5, 3, 3, 3, 2, 4, 2, 1], 0) == 10\n    assert count_pairs([1, 5, 3, 3, 3, 2, 4, 2, 1], -1) == 12\n\n\nif __name__ == \"__main__\":\n    test_count_pairs()",
+      -6.90625
+    ],
+    [
+      "from collections import Counter\n\n\ndef pair_sum(arr, k):\n    count = Counter()\n    for num in arr:\n        count[num] += 1\n\n    pairs = 0\n    for num in arr:\n        pairs += count[num]\n        if num + k in count:\n            pairs -= 1\n\n    return pairs\n\n\ndef test(input_data, expected_answer):\n    answer = pair_sum(input_data[0], input_data[1])\n\n    if answer != expected_answer:\n        raise Exception(\n            f\"Wrong answer {answer}. Expected answer was {expected_answer}.\"\n        )\n\n\nif __name__ == \"__main__\":\n    test([[1, 2, 3, 4, 5], 1], 4)\n    test([[1, 2, 3, 4, 5], 2], 10)\n    test([[1, 1, 2, 2, 3, 3, 4, 4, 5, 5], 1], 12)\n    test([[1, 1, 2, 2, 3, 3, 4, 4, 5, 5], 2], 25)\n    print(\"All tests passed!\")",
+      -8.75
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

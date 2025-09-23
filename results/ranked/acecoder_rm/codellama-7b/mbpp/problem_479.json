@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/490",
+    "prompt": "Write a function to extract all the pairs which are symmetric in the given tuple list.",
+    "canonical_solution": "def extract_symmetric(test_list):\r\n  temp = set(test_list) & {(b, a) for a, b in test_list}\r\n  res = {(a, b) for a, b in temp if a < b}\r\n  return (res) ",
+    "test_list": [
+      "assert extract_symmetric([(6, 7), (2, 3), (7, 6), (9, 8), (10, 2), (8, 9)] ) == {(8, 9), (6, 7)}",
+      "assert extract_symmetric([(7, 8), (3, 4), (8, 7), (10, 9), (11, 3), (9, 10)] ) == {(9, 10), (7, 8)}",
+      "assert extract_symmetric([(8, 9), (4, 5), (9, 8), (11, 10), (12, 4), (10, 11)] ) == {(8, 9), (10, 11)}"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 479
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def symmetric_pairs(lst):\n    result = []\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            if lst[i] == lst[j][::-1]:\n                result.append((lst[i], lst[j]))\n    return result\n\n\ndef test_symmetric_pairs():\n    assert symmetric_pairs([]) == []\n    assert symmetric_pairs([\"abc\", \"cba\"]) == [(\"abc\", \"cba\")]\n    assert symmetric_pairs([\"abc\", \"bca\"]) == []\n    assert symmetric_pairs([\"aaa\", \"bbb\", \"aaa\"]) == [(\"aaa\", \"aaa\")]\n    assert symmetric_pairs([\"abc\", \"cba\", \"bca\"]) == [(\"abc\", \"cba\")]\n    assert symmetric_pairs([\"abc\", \"bca\", \"cba\"]) == [(\"abc\", \"cba\")]\n    assert symmetric_pairs([\"abc\", \"cba\", \"bca\", \"cba\"]) == [(\"abc\", \"cba\"), (\"bca\", \"cba\")]",
+      4.76171875
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(tup_list: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Return all symmetric pairs in a list of tuples.\n\n    >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 1), (4, 5), (5, 6), (6, 4)])\n    [(1, 2), (3, 1)]\n\n    >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 1), (4, 5), (5, 6), (6, 7)])\n    []\n\n    >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 1), (4, 5), (5, 6), (6, 4)])\n    [(1, 2), (3, 1)]\n\n    >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 4), (4, 1), (5, 6), (6, 7)])\n    [(1, 2), (2, 3), (3, 4), (4, 1)]\n\n    >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 4), (4, 1), (5, 6), (6, 7)])\n    [(1, 2), (2, 3), (3, 4), (4, 1)]\n    \"\"\"\n    return [\n        pair for pair in tup_list if (pair[1], pair[0]) in tup_list\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.208984375
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(tuples: List[Tuple[int, int]]) -> List[Tuple[int, int]]:\n    \"\"\"Returns all the symmetric pairs from the given tuples.\n\n    Args:\n        tuples (List[Tuple[int, int]]): list of tuples\n\n    Returns:\n        List[Tuple[int, int]]: list of symmetric pairs\n    \"\"\"\n    symmetric_pairs = []\n\n    for index, tuple_ in enumerate(tuples):\n        for tuple_2 in tuples[index + 1:]:\n            if tuple_[0] == tuple_2[1] and tuple_[1] == tuple_2[0]:\n                symmetric_pairs.append(tuple_)\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (2, 3), (3, 2), (1, 3), (3, 1)]))",
+      1.4560546875
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(tuples: List[Tuple]) -> List[Tuple]:\n    \"\"\"Find symmetric pairs in a list of tuples.\n\n    Args:\n        tuples (List[Tuple]): list of tuples\n\n    Returns:\n        List[Tuple]: list of symmetric pairs\n    \"\"\"\n    result = []\n\n    for t in tuples:\n        if t in tuples[tuples.index(t):]:\n            result.append(t)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2), (2, 1), (3, 3)]) == [(1, 2), (2, 1)]",
+      1.4404296875
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (5, 5)])\n    [(1, 2), (2, 1), (5, 5)]\n    >>> symmetric_pairs([(1, 2, 3), (2, 1, 3), (3, 2, 1), (3, 1, 2), (1, 3, 2)])\n    [(1, 2, 3), (2, 1, 3), (3, 2, 1), (1, 3, 2)]\n    \"\"\"\n    return [pair for pair in tuples if pair[::-1] in tuples]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.4306640625
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Given a list of tuples, extract all symmetric pairs.\n    >>> symmetric_pairs([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (10, 11)])\n    [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]\n    \"\"\"\n    result = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i][0] == tuples[j][1] and tuples[i][1] == tuples[j][0]:\n                result.append(tuples[i])\n                result.append(tuples[j])\n\n    return list(set(result))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.3583984375
+    ],
+    [
+      "from typing import List\n\n\n# This problem can be solved using a single pass through the list.\n# The time complexity of this solution is O(n^2).\n# Space complexity is O(n).\ndef symmetric_pairs(tuples: List[tuple]) -> list:\n\n    result = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i][0] == tuples[j][1] and tuples[i][1] == tuples[j][0]:\n                result.append(tuples[i])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (4, 3), (5, 6)]))",
+      1.2939453125
+    ],
+    [
+      "from itertools import combinations\n\ndef get_symmetric_pairs(input_list):\n    \"\"\"\n    :param input_list: list of tuples\n    :return: list of symmetric pairs\n    \"\"\"\n    pairs = []\n    for pair in combinations(input_list, 2):\n        if pair[0][::-1] == pair[1]:\n            pairs.append(pair)\n    return pairs\n\nif __name__ == \"__main__\":\n    input_list = [(1, 2), (2, 3), (4, 5), (5, 6)]\n    print(get_symmetric_pairs(input_list))",
+      1.03125
+    ],
+    [
+      "def extract_pairs(tuple_list):\n    result = []\n    for i in range(len(tuple_list)):\n        for j in range(i + 1, len(tuple_list)):\n            if tuple_list[i] == tuple_list[j][::-1]:\n                result.append((tuple_list[i], tuple_list[j]))\n    return result\n\n\nif __name__ == '__main__':\n    print(extract_pairs([(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]))",
+      0.98046875
+    ],
+    [
+      "def symmetric_pairs(lst):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)])\n    [(1, 2), (2, 1)]\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 6), (6, 5)])\n    [(1, 2), (2, 1), (5, 6), (6, 5)]\n    >>> symmetric_pairs([(1, 2), (3, 4), (5, 6), (6, 5)])\n    []\n    \"\"\"\n    pairs = []\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            if lst[i][0] == lst[j][1] and lst[i][1] == lst[j][0]:\n                pairs.append(lst[i])\n                pairs.append(lst[j])\n    return pairs\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.8720703125
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (2, 3)])\n    [(1, 2), (2, 1), (2, 3)]\n    \"\"\"\n    return [(a, b) for (a, b) in tuples if (b, a) in tuples]\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.41650390625
+    ],
+    [
+      "def find_symmetric(tuples: list) -> list:\n    \"\"\"\n    >>> find_symmetric([(1, 2), (2, 1), (3, 4)])\n    [(1, 2), (2, 1)]\n    >>> find_symmetric([(1, 2), (2, 1), (3, 4), (4, 3), (5, 6)])\n    [(1, 2), (2, 1), (4, 3)]\n    >>> find_symmetric([(1, 2), (2, 1), (1, 2), (2, 1)])\n    [(1, 2), (2, 1)]\n    >>> find_symmetric([(1, 2), (2, 1), (2, 1)])\n    [(2, 1)]\n    >>> find_symmetric([(1, 2), (2, 1), (3, 4), (4, 3), (3, 4), (4, 3)])\n    [(1, 2), (2, 1), (3, 4), (4, 3)]\n    \"\"\"\n    tuples.sort()\n    return [tuple(sorted(item)) for i, item in enumerate(tuples) if item in tuples[i + 1:]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.36376953125
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n    \"\"\"\n    return sorted(\n        [tuple(sorted(pair)) for pair in tuples if tuple(reversed(pair)) in tuples],\n        key=lambda x: x[0] * x[1],\n    )\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (3, 4), (2, 1), (4, 3)]))\n    print(extract_symmetric_pairs([(1, 2), (1, 3), (2, 1)]))",
+      0.129150390625
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n*n)\n# Space complexity: O(1)\ndef symmetric_pairs(nums: List[int]) -> List[List[int]]:\n    result = []\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                result.append([nums[i], nums[j]])\n\n    return result\n\n\n# Time complexity: O(n*n)\n# Space complexity: O(1)\ndef symmetric_pairs_optimized(nums: List[int]) -> List[List[int]]:\n    result = []\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                result.append([nums[i], nums[j]])\n\n    return result\n\n\n# Time complexity: O(n*n)\n# Space complexity: O(n)\ndef symmetric_pairs_optimized_2(nums: List[int]) -> List[List[int]]:\n    result = []\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                result.append([nums[i], nums[j]])\n\n    return result",
+      -0.0023441314697265625
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef extract_symmetric_pairs(data: List[Tuple[int, int]]) -> List[Tuple[int, int]]:\n    \"\"\"Return symmetric pairs from given tuple list.\n\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    result: List[Tuple[int, int]] = []\n\n    for pair in data:\n        if pair in result:\n            continue\n        if pair[::-1] in data:\n            result.append(pair)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (2, 1), (3, 3), (2, 2)]))",
+      -0.0090484619140625
+    ],
+    [
+      "def symmetric_pairs(lst):\n    symmetric = []\n    for i in range(len(lst)):\n        for j in range(i+1, len(lst)):\n            if lst[i] == lst[j]:\n                symmetric.append((lst[i], lst[j]))\n\n    return symmetric",
+      -0.0374755859375
+    ],
+    [
+      "def find_symmetric_pairs(tuples):\n    \"\"\"\n    >>> find_symmetric_pairs([(1, 2), (2, 1), (5, 4), (4, 5), (1, 3), (3, 1)])\n    [(1, 2), (2, 1), (4, 5), (5, 4)]\n    \"\"\"\n    symmetric_tuples = []\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i] == (tuples[j][1], tuples[j][0]):\n                symmetric_tuples.append(tuples[i])\n                symmetric_tuples.append(tuples[j])\n    return symmetric_tuples\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.059356689453125
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List\n\n\ndef symmetric_pairs(lst: List[tuple]) -> List[tuple]:\n    \"\"\"Returns a list of symmetric pairs from a list of tuples.\n\n    Args:\n        lst (List[tuple]): List of tuples to find symmetric pairs in.\n\n    Examples:\n        >>> assert symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4)]) == [(1, 2), (2, 1), (4, 4)]\n    \"\"\"\n    return [pair for pair in combinations(lst, 2) if pair[0] == pair[1][::-1]]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4)]))",
+      -0.201904296875
+    ],
+    [
+      "from typing import List\n\n\n# O(n^2)\ndef symmetric_pairs(tuple_list: List[tuple]) -> List[tuple]:\n    symmetric_pairs_list = []\n\n    for pair in tuple_list:\n        for pair_comp in tuple_list:\n            if pair[0] == pair_comp[1] and pair[1] == pair_comp[0]:\n                symmetric_pairs_list.append(pair)\n\n    return symmetric_pairs_list\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4)]) == [(1, 2), (2, 1)]\n    assert symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4), (2, 2)]) == [(1, 2), (2, 1), (2, 2)]",
+      -0.2020263671875
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (1, 2), (2, 3), (4, 5), (5, 4)])\n    [(1, 2), (2, 1), (3, 4), (4, 3)]\n    \"\"\"\n    result = []\n    for i, t in enumerate(tuples):\n        for j in range(i + 1, len(tuples)):\n            if t == tuples[j][::-1]:\n                result.append(t)\n                result.append(tuples[j])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.299560546875
+    ],
+    [
+      "def symmetric_pairs(tuple_list):\n    symmetric_pairs = []\n\n    for i in range(len(tuple_list)):\n        for j in range(i + 1, len(tuple_list)):\n            if tuple_list[i] == tuple_list[j][::-1]:\n                symmetric_pairs.append((tuple_list[i], tuple_list[j]))\n\n    return symmetric_pairs\n\n\ndef test_symmetric_pairs():\n    \"\"\"Test for symmetric_pairs function.\"\"\"\n    assert symmetric_pairs([(1, 2), (2, 3), (4, 4), (5, 6), (6, 5)]) == [\n        (1, 2),\n        (4, 4),\n    ]\n    assert symmetric_pairs([(1, 2), (2, 3), (4, 4), (5, 6), (6, 7)]) == []\n    assert symmetric_pairs([(1, 2), (2, 1), (4, 4), (5, 6), (6, 5)]) == [\n        (1, 2),\n        (4, 4),\n    ]\n    assert symmetric_pairs([(1, 2), (2, 1), (4, 4), (5, 6), (6, 7)]) == []\n\n\nif __name__ == \"__main__\":\n    test_symmetric_pairs()",
+      -0.3056640625
+    ],
+    [
+      "def extract_pairs(t):\n    result = []\n    for i in range(len(t)):\n        for j in range(i+1, len(t)):\n            if t[i] == t[j]:\n                result.append((t[i], t[j]))\n    return result\n\n\nif __name__ == \"__main__\":\n    print(extract_pairs([1, 2, 3, 4, 5, 4, 3, 2, 1]))",
+      -0.324951171875
+    ],
+    [
+      "def find_symmetric(tuples):\n    symmetric_tuples = []\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            if tuples[i] == tuples[j][::-1]:\n                symmetric_tuples.append(tuples[i])\n    return symmetric_tuples\n\n\ndef main():\n    tuples = [(1, 2), (2, 1), (3, 4), (4, 3), (3, 3), (5, 6), (6, 5)]\n    print(\"Original list:\")\n    print(tuples)\n    print(\"\\nSymmetric pairs in the list:\")\n    print(find_symmetric(tuples))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.34912109375
+    ],
+    [
+      "from collections import Counter\n\n\ndef symmetric_pairs(nums):\n    count = Counter(nums)\n    result = []\n\n    for num in nums:\n        if num in count and num != count[num]:\n            result.append((num, count[num]))\n\n    return result\n\n\nprint(symmetric_pairs([1, 1, 2, 2, 3, 4, 5, 4, 3, 2, 1, 1]))",
+      -0.61767578125
+    ],
+    [
+      "def extract_symmetric_pairs(tuple_list):\n    result = []\n    for i in range(len(tuple_list)):\n        for j in range(i + 1, len(tuple_list)):\n            if tuple_list[i] == tuple_list[j][::-1]:\n                result.append(tuple_list[i] + tuple_list[j])\n    return result\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (1, 3), (4, 5), (6, 4)]))",
+      -0.72216796875
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n    symmetric_pairs = []\n\n    for i, tuple_1 in enumerate(tuples):\n        for tuple_2 in tuples[i + 1 :]:\n            if tuple_1[0] == tuple_2[1] and tuple_1[1] == tuple_2[0]:\n                symmetric_pairs.append((tuple_1, tuple_2))\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (3, 4), (5, 6)]))\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))",
+      -0.771484375
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"Get symmetric pairs from list of tuples.\n\n    Args:\n        tuples (List[tuple]): list of tuples to get symmetric pairs\n\n    Examples:\n        >>> assert symmetric_pairs([(1, 2), (2, 1), (3, 4)]) == [(1, 2), (2, 1)]\n        >>> assert symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]) == [(1, 2), (2, 1), (3, 4), (4, 3)]\n        >>> assert symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1)]) == [(1, 2), (2, 1)]\n    \"\"\"\n    return [pair for pair in combinations(tuples, 2) if sorted(pair[0]) == sorted(pair[1])]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4)]))",
+      -0.8056640625
+    ],
+    [
+      "def is_symmetric(a, b):\n    return a == b or a == b[::-1]\n\n\ndef get_symmetric_pairs(data):\n    result = set()\n    for i in range(len(data)):\n        for j in range(i + 1, len(data)):\n            if is_symmetric(data[i], data[j]):\n                result.add((data[i], data[j]))\n    return result\n\n\ndef test_get_symmetric_pairs():\n    assert get_symmetric_pairs([1, 2, 3, 4]) == {(1, 2), (2, 1), (3, 4), (4, 3)}",
+      -0.85595703125
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(nums: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    pairs: List[List[int]] = []\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                pairs.append([nums[i], nums[j]])\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([1, 2, 2, 1]) == [[1, 1], [2, 2]]",
+      -0.85693359375
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    symmetric_pairs = []\n    for t in tuples:\n        for t2 in tuples:\n            if t == t2:\n                continue\n            if t[::-1] == t2:\n                symmetric_pairs.append(t)\n    return symmetric_pairs\n\n\nprint(symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4)]))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef find_pairs(arr: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> find_pairs([(1, 2), (2, 3), (4, 5), (1, 2), (1, 4)])\n    [(1, 2), (1, 4)]\n    \"\"\"\n    return [pair for pair in arr if pair[0] == pair[1] and pair in arr]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from itertools import permutations\n\n\n# This is the function from the question.\ndef extract_symmetric_pairs(tuples):\n    return [pair for pair in permutations(tuples, 2) if pair[0][::-1] == pair[1]]\n\n\n# Driver code.\nprint(extract_symmetric_pairs([(1, 2), (3, 4), (5, 6)]))",
+      -0.85791015625
+    ],
+    [
+      "def symmetric(lst):\n    \"\"\"\n    Returns the symmetric pairs from the given list of tuples.\n    \"\"\"\n    result = []\n    for i in lst:\n        for j in lst:\n            if i == j:\n                break\n            if i[0] == j[-1] and i[-1] == j[0]:\n                result.append(i + j)\n    return result",
+      -0.85791015625
+    ],
+    [
+      "def get_symmetric_pairs(lst):\n    return [(i, j) for i in lst for j in lst if i == j]\n\n\ndef main():\n    print(get_symmetric_pairs([1, 2, 3, 4, 5]))\n    print(get_symmetric_pairs([\"a\", \"b\", \"c\"]))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(1)\n    \"\"\"\n\n    pairs: List[tuple] = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i] == tuples[j][::-1]:\n                pairs.append(tuples[i])\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (1, 3), (2, 3), (3, 4), (2, 4)]))",
+      -0.85791015625
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    result = []\n    for t1 in tuples:\n        for t2 in tuples:\n            if t1 == t2:\n                continue\n            if t1[::-1] == t2:\n                result.append((t1, t2))\n    return result\n\n\nprint(symmetric_pairs([(1, 2), (3, 4), (3, 2)]))",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(nums: List[int]) -> List[List[int]]:\n    \"\"\"\n    First sort the list in ascending order,\n    then compare the element from the end with the other elements.\n    \"\"\"\n    nums.sort()\n    pairs = []\n\n    for i in range(len(nums) - 1):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                pairs.append([nums[i], nums[j]])\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([1, 2, 2, 3, 4, 4, 3]))",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef find_symmetric_pairs(tuple_list: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n    symmetric_pairs = []\n\n    for index, tuple_ in enumerate(tuple_list):\n        for index2, tuple_2 in enumerate(tuple_list):\n            if index == index2:\n                continue\n            if tuple_ == tuple_2:\n                symmetric_pairs.append(tuple_)\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    assert find_symmetric_pairs([(1, 2), (3, 4), (1, 2), (5, 6)]) == [(1, 2)]",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pair(arr: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n    symmetric = []\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j][::-1]:\n                symmetric.append((arr[i], arr[j]))\n\n    return symmetric\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pair([(1, 2), (2, 1), (3, 4), (4, 3)]) == [(1, 2), (2, 1)]",
+      -0.85791015625
+    ],
+    [
+      "def get_symmetric_pairs(tup_list):\n    \"\"\"\n    >>> get_symmetric_pairs([(1, 2), (3, 4), (5, 6), (6, 7)])\n    [(1, 2), (6, 7)]\n    \"\"\"\n    symmetric_pairs = []\n\n    for idx in range(len(tup_list)):\n        for idx_2 in range(idx + 1, len(tup_list)):\n            if tup_list[idx] == tup_list[idx_2][::-1]:\n                symmetric_pairs.append(tup_list[idx])\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(arr: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(1)\n    \"\"\"\n    return [pair for pair in arr if pair[0] == pair[1]]\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2), (3, 4), (1, 4), (3, 2), (5, 6), (6, 5)]) == [\n        (1, 4),\n        (3, 2),\n    ]",
+      -0.8583984375
+    ],
+    [
+      "def is_symmetric(t1, t2):\n    return t1 == t2[::-1]\n\n\ndef symmetric_pairs(tuples):\n    return [(t1, t2) for t1 in tuples for t2 in tuples if is_symmetric(t1, t2)]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))",
+      -0.8583984375
+    ],
+    [
+      "def symmetric_pairs(lst):\n    lst.sort()\n    result = []\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            if lst[i] == lst[j]:\n                result.append((lst[i], lst[j]))\n    return result\n\n\nif __name__ == '__main__':\n    print(symmetric_pairs([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))",
+      -0.85888671875
+    ],
+    [
+      "def symmetric_pairs(t):\n    \"\"\"\n    >>> symmetric_pairs((1, 2, 3))\n    []\n    >>> symmetric_pairs((1, 2, 2))\n    [(2, 2)]\n    >>> symmetric_pairs((1, 2, 3, 3, 2))\n    [(2, 2), (3, 3)]\n    \"\"\"\n    res = []\n\n    for i in range(len(t)):\n        for j in range(i + 1, len(t)):\n            if t[i] == t[j]:\n                res.append((t[i], t[j]))\n\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from itertools import combinations\n\n\ndef symmetric_pairs(tuples):\n    \"\"\"Return symmetric pairs of a list of tuples.\"\"\"\n    pairs = []\n    for i in range(len(tuples)):\n        pairs += [(i, j) for j in range(i + 1, len(tuples))\n                  if tuples[i] == tuples[j]]\n\n    return pairs\n\n\ndef test_symmetric_pairs():\n    \"\"\"Test for symmetric_pairs.\"\"\"\n    assert symmetric_pairs([(1, 2), (3, 4), (5, 6), (6, 5), (7, 8), (1, 2)]) == [(0, 3), (3, 0)]\n\n\nif __name__ == \"__main__\":\n    test_symmetric_pairs()",
+      -0.85888671875
+    ],
+    [
+      "def extract_pairs(tuple_list):\n    new_list = []\n    for i in range(0, len(tuple_list)):\n        for j in range(i, len(tuple_list)):\n            if tuple_list[i] == tuple_list[j] and i != j:\n                new_list.append(tuple_list[i])\n    return new_list\n\nprint(extract_pairs([(1,2), (2,1), (1,3), (3,1), (4,5)]))",
+      -0.85888671875
+    ],
+    [
+      "def symmetric_pairs(tuple_list):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (4, 4), (4, 4)])\n    [(1, 2), (2, 1), (4, 4)]\n    \"\"\"\n    return [pair for pair in tuple_list if pair[::-1] in tuple_list]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "def symmetric_pairs(tuple_list):\n    return [(a, b) for a, b in zip(tuple_list, tuple_list[::-1]) if a == b]\n\n\ndef test_symmetric_pairs():\n    assert symmetric_pairs([1, 2, 3, 4]) == [(1, 4), (2, 3)]\n    assert symmetric_pairs([1, 2, 3, 3, 2, 1]) == [(1, 1), (2, 2), (3, 3)]",
+      -0.86083984375
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (3, 4), (5, 6), (1, 2)])\n    [(1, 2), (3, 4)]\n    \"\"\"\n    if not tuples:\n        return tuples\n\n    tuples_set = set(tuples)\n\n    return [\n        pair\n        for pair in tuples\n        if tuple(reversed(pair)) in tuples_set\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.92138671875
+    ],
+    [
+      "def get_symmetric_pairs(tuples):\n    symmetric_pairs = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i] == tuples[j][::-1]:\n                symmetric_pairs.append(tuples[i])\n\n    return symmetric_pairs\n\n\nprint(get_symmetric_pairs([(1, 2), (4, 5), (2, 1), (5, 4)]))",
+      -0.97021484375
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(pairs: List[tuple]) -> list:\n    \"\"\"\n    >>> extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)])\n    [(1, 2), (3, 4)]\n    >>> extract_symmetric_pairs([(1, 2), (1, 2), (3, 4), (4, 3)])\n    [(1, 2), (3, 4)]\n    >>> extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (1, 3)])\n    [(1, 2), (1, 3), (3, 4)]\n    \"\"\"\n    result = []\n\n    for i in range(len(pairs)):\n        for j in range(i + 1, len(pairs)):\n            if (pairs[i][0] == pairs[j][1] and pairs[i][1] == pairs[j][0]):\n                result.append(pairs[i])\n                result.append(pairs[j])\n\n    return list(set(result))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.3466796875
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    symmetric = []\n    for i in range(0, len(tuples)):\n        for j in range(i+1, len(tuples)):\n            if tuples[i] == tuples[j][::-1]:\n                symmetric.append(tuples[i])\n    return symmetric\n\n\ntuples = [(1, 2), (2, 3), (1, 3), (1, 1), (2, 2)]\nprint(symmetric_pairs(tuples))",
+      -1.380859375
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(pairs: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    n = number of pairs\n    \"\"\"\n\n    output = []\n\n    for pair in pairs:\n        if pair[::-1] in pairs:\n            output.append(pair)\n\n    return output\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (5, 6), (6, 5)]))",
+      -1.40625
+    ],
+    [
+      "def symmetric_pairs(tup):\n    \"\"\"\n    >>> symmetric_pairs((1, 2, 3, 4))\n    [(1, 2), (2, 1), (3, 4), (4, 3)]\n    >>> symmetric_pairs(())\n    []\n    \"\"\"\n    symmetric = []\n    for i in range(len(tup)):\n        for j in range(i + 1, len(tup)):\n            if tup[i] == tup[j]:\n                symmetric.append((tup[i], tup[j]))\n\n    return symmetric\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.4658203125
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    result = []\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            if (tuples[i][0] == tuples[j][1] and tuples[i][1] == tuples[j][0]):\n                result.append((tuples[i], tuples[j]))\n    return result\n\n\ndef test_symmetric_pairs():\n    \"\"\"\n    >>> test_symmetric_pairs()\n    \"\"\"\n    assert symmetric_pairs([(1, 2), (3, 4), (5, 6), (6, 5), (7, 8)]) == [(\n        (1, 2), (2, 1)), ((3, 4), (4, 3)), ((5, 6), (6, 5))]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.546875
+    ],
+    [
+      "from typing import List\n\n\ndef extract_pairs(tuples: List[tuple]) -> List[tuple]:\n    result: List[tuple] = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i] == tuples[j][::-1]:\n                result.append((tuples[i], tuples[j]))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert extract_pairs([(1, 2), (3, 4), (5, 6), (7, 8)]) == [\n        ((1, 2), (2, 1)),\n        ((3, 4), (4, 3)),\n        ((5, 6), (6, 5)),\n        ((7, 8), (8, 7)),\n    ]",
+      -1.58203125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(tuple_list: List[Tuple[int]]) -> List[Tuple[int]]:\n    \"\"\"Extract all the symmetric pairs from the given tuple list.\n\n    Time Complexity: O(n*n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    return [(i, j) for i in tuple_list for j in tuple_list if i[::-1] == j]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4), (5, 6)]))",
+      -1.611328125
+    ],
+    [
+      "from typing import List\n\n\ndef get_symmetric_pairs(lst: List[tuple]) -> List[tuple]:\n    \"\"\"Return symmetric pairs in a list of tuples.\"\"\"\n    return [\n        tuple(sorted(pair))\n        for pair in lst\n        if tuple(reversed(pair)) in lst\n    ]\n\n\nif __name__ == \"__main__\":\n    assert get_symmetric_pairs([(1, 2), (3, 2), (1, 4), (3, 4)]) == [\n        (1, 2),\n        (3, 2),\n    ]\n    assert get_symmetric_pairs([(1, 2), (3, 2), (1, 4), (4, 3)]) == []\n    assert get_symmetric_pairs([(1, 2), (2, 3), (3, 4), (1, 2)]) == [\n        (1, 2),\n        (2, 3),\n        (3, 4),\n    ]",
+      -1.646484375
+    ],
+    [
+      "def extract_pairs(tuples):\n    \"\"\"\n    >>> extract_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6)])\n    [(1, 2), (2, 1), (3, 4), (4, 3), (5, 5)]\n    >>> extract_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6), (1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6)])\n    [(1, 2), (2, 1), (3, 4), (4, 3), (5, 5)]\n    >>> extract_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6), (1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6), (2, 3), (3, 2), (4, 5), (5, 4)])\n    [(1, 2), (2, 1), (3, 4), (4, 3), (5, 5)]\n    >>> extract_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6), (1, 2), (2, 1), (3, 4), (4, 3), (5, 5), (6, 6), (2, 3), (3, 2), (4, 5), (5, 4), (2, 3), (3, 2), (4, 5), (5, 4)])\n    [(1, 2), (2, 1), (3, 4), (4, 3), (5, 5)]\n    >>> extract_pairs([(1",
+      -1.654296875
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(tuple_list: List[Tuple]) -> List[Tuple]:\n    \"\"\"Returns all the symmetric pairs in the given tuple list.\n\n    Args:\n        tuple_list (List[Tuple]): The list of tuples to find the symmetric pairs.\n\n    Examples:\n        >>> assert symmetric_pairs([(1, 2), (3, 4), (5, 6)]) == [(1, 2), (3, 4)]\n    \"\"\"\n    return [pair for pair in tuple_list if pair[::-1] in tuple_list]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (3, 4), (5, 6), (2, 1)]))",
+      -1.693359375
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n^2)\n# Space Complexity: O(n)\ndef extract_symmetric_pairs(tuple_list: List[tuple]) -> List[tuple]:\n    symmetric_pairs = []\n    for pair in tuple_list:\n        for pair_to_compare in tuple_list:\n            if pair[0] == pair_to_compare[1] and pair[1] == pair_to_compare[0]:\n                symmetric_pairs.append(pair)\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))",
+      -1.712890625
+    ],
+    [
+      "from typing import List\n\n\ndef extract_pairs(data: List[tuple]) -> List[tuple]:\n    \"\"\"Extracts symmetric pairs from list of tuples.\n\n    Args:\n        data (List[tuple]): list of tuples\n\n    Returns:\n        List[tuple]: list of symmetric pairs\n    \"\"\"\n    pairs = []\n\n    for i in range(len(data)):\n        for j in range(i + 1, len(data)):\n            if data[i] == data[j][::-1]:\n                pairs.append((data[i], data[j]))\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    print(extract_pairs([(1, 2), (2, 1), (3, 1)]))",
+      -1.90625
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(input_list: List[tuple]) -> List[tuple]:\n    \"\"\"Extract symmetric pairs from a list of tuples.\n\n    Args:\n        input_list (List[tuple]): List of tuples to extract symmetric pairs from.\n\n    Returns:\n        List[tuple]: List of symmetric pairs.\n    \"\"\"\n    symmetric_pairs = []\n\n    for i in range(len(input_list)):\n        for j in range(i + 1, len(input_list)):\n            if input_list[i] == input_list[j][::-1]:\n                symmetric_pairs.append(input_list[i])\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (3, 4), (2, 1), (4, 3)]))\n    print(extract_symmetric_pairs([(1, 2), (3, 4), (4, 3)]))",
+      -1.9794921875
+    ],
+    [
+      "from itertools import combinations\n\ndef symmetric_pairs(tuples):\n  result = []\n  for i in range(1, len(tuples)):\n    for pair in combinations(tuples, i):\n      if pair[0][::-1] in pair:\n        result.append(pair)\n  return result\n\n\nprint(symmetric_pairs([(1, 2), (2, 1), (5, 6), (6, 5), (1, 1), (2, 2)]))\nprint(symmetric_pairs([(1, 2), (1, 3), (3, 1)]))\nprint(symmetric_pairs([(1, 2), (2, 1), (5, 6), (6, 5), (1, 1), (2, 2), (2, 3)]))",
+      -2.095703125
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List, Tuple\n\n\ndef extract_symmetric_pairs(arr: List[Tuple]) -> List[Tuple]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    \"\"\"\n    return [pair for pair in combinations(arr, 2) if pair[0] == pair[1][::-1]]\n\n\nif __name__ == \"__main__\":\n    assert extract_symmetric_pairs([(1, 2), (4, 5), (1, 2), (4, 5)]) == [(1, 2), (4, 5)]",
+      -2.166015625
+    ],
+    [
+      "def extract_symmetric_pairs(tuples):\n    symmetric_pairs = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if tuples[i] == tuples[j][::-1]:\n                symmetric_pairs.append(tuples[i])\n                break\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))",
+      -2.251953125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(data: List[Tuple[int]]) -> List[Tuple[int]]:\n    \"\"\"Extracts all symmetric pairs from the given list of tuples.\n\n    Args:\n        data (List[Tuple[int]]): input list of tuples\n\n    Returns:\n        List[Tuple[int]]: list of symmetric tuples\n    \"\"\"\n    return [pair for pair in data if pair[0] == pair[1]]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 3), (4, 4)]))",
+      -2.392578125
+    ],
+    [
+      "def extract_symmetric_pairs(input_list):\n    return [(i, j) for i in input_list for j in input_list if i == j and i != j]\n\n\nprint(extract_symmetric_pairs([1, 2, 3, 4, 5, 6]))\nprint(extract_symmetric_pairs([1, 2, 3, 4, 5]))\nprint(extract_symmetric_pairs([1, 2, 3, 4]))\nprint(extract_symmetric_pairs([1, 2, 3]))\nprint(extract_symmetric_pairs([1, 2]))\nprint(extract_symmetric_pairs([1]))\nprint(extract_symmetric_pairs([]))",
+      -2.67578125
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(tuples: List[tuple]) -> list:\n    \"\"\"Extract symmetric pairs from list of tuples.\n\n    Args:\n        tuples (List[tuple]): List of tuples\n\n    Returns:\n        list: list of symmetric pairs\n    \"\"\"\n    symmetric_pairs = []\n    for pair in tuples:\n        if pair[::-1] in tuples:\n            symmetric_pairs.append(pair)\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (3, 4), (5, 6), (7, 8), (1, 2)]))",
+      -2.734375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef symmetric_pairs(tuples):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)])\n    [(1, 2), (2, 1), (3, 4), (4, 3)]\n    >>> symmetric_pairs([(1, 2), (2, 3), (3, 4), (4, 5)])\n    [(2, 3)]\n    >>> symmetric_pairs([(1, 2), (2, 3), (3, 2), (4, 5)])\n    [(2, 3), (3, 2)]\n    \"\"\"\n    symmetric_pairs = []\n    for t in tuples:\n        for u in tuples:\n            if t[0] == u[1] and t[1] == u[0] and t != u:\n                symmetric_pairs.append(t)\n                symmetric_pairs.append(u)\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.84375
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(arr: List) -> List:\n    result = []\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j] and i < j:\n                result.append((arr[i], arr[j]))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([1, 2, 2, 1, 3, 4, 4, 3, 5, 5, 5, 5, 5]))",
+      -2.90234375
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> symmetric_pairs([(1, 2, 3), (4, 5, 6), (7, 8, 9)])\n    [(1, 2, 3), (4, 5, 6)]\n\n    >>> symmetric_pairs([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)])\n    [(1, 2, 3), (4, 5, 6)]\n\n    >>> symmetric_pairs([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12), (13, 14, 15)])\n    [(1, 2, 3), (4, 5, 6)]\n\n    >>> symmetric_pairs([(1, 2, 3), (4, 5, 6)])\n    [(1, 2, 3), (4, 5, 6)]\n\n    >>> symmetric_pairs([(1, 2), (4, 5), (7, 8), (10, 11)])\n    []\n\n    >>> symmetric_pairs([(1, 2), (4, 5), (7, 8), (10, 11), (13, 14)])\n    []\n    \"\"\"\n    result = []\n\n    for i, t1 in enumerate(tuples):\n        for j, t2 in enumerate(tuples[i + 1 :]):\n            if t1 == t2[::-1]:\n                result.append(t1)\n                result.append(t2)\n\n    return list(set(result))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.025390625
+    ],
+    [
+      "def symmetric_pairs(tuples):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (3, 4), (2, 1), (4, 3)])\n    [(1, 2), (3, 4)]\n    >>> symmetric_pairs([(1, 2), (2, 3), (1, 2), (2, 3)])\n    [(1, 2), (2, 3)]\n    >>> symmetric_pairs([(1, 2), (2, 3), (1, 2), (2, 3), (2, 1), (1, 2)])\n    [(1, 2), (2, 3), (2, 1)]\n    >>> symmetric_pairs([(1, 2), (2, 3), (1, 2), (2, 3), (2, 1), (1, 2), (1, 2), (2, 1)])\n    [(1, 2), (2, 3), (2, 1)]\n    \"\"\"\n    pairs = []\n    for tup1 in tuples:\n        for tup2 in tuples:\n            if tup1[::-1] == tup2:\n                pairs.append(tup1)\n    return pairs\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.0390625
+    ],
+    [
+      "def find_symmetric_pairs(tuple_list):\n    \"\"\"\n    Find symmetric pairs in a list of tuples.\n    \"\"\"\n    symmetric_pairs = []\n    for tup in tuple_list:\n        if tup in tuple_list and tuple_list.index(tup) != tuple_list.index(tup[::-1]):\n            symmetric_pairs.append(tup)\n    return symmetric_pairs\n\n\nif __name__ == '__main__':\n    print(find_symmetric_pairs([(1, 2, 3), (1, 4), (2, 1), (3, 4), (4, 3)]))\n    print(find_symmetric_pairs([(1, 2), (3, 4), (5, 6)]))\n    print(find_symmetric_pairs([(1, 2, 3), (4, 5, 6), (7, 8, 9)]))",
+      -3.0625
+    ],
+    [
+      "def symmetric_pairs(lst):\n    pairs = []\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            if lst[i] == lst[j]:\n                pairs.append((lst[i], lst[j]))\n    return pairs\n\n\ndef test_symmetric_pairs():\n    assert symmetric_pairs([1, 2, 3, 4, 5]) == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]\n    assert symmetric_pairs([1, 2, 3, 4, 5, 6]) == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]\n    assert symmetric_pairs([1, 2, 3, 4, 5, 6, 7]) == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)]\n    assert symmetric_pairs([1, 2, 3, 4, 5, 6, 7, 8]) == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8)]\n    assert symmetric_pairs([1, 2, 3, 4, 5, 6, 7, 8, 9]) == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9)]\n    assert symmetric_pairs([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6,",
+      -3.083984375
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List\n\n\ndef symmetric_pairs(lst: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    return [(a, b) for a, b in combinations(lst, 2) if a == b[::-1]]\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (1, 3), (2, 3)]))",
+      -3.130859375
+    ],
+    [
+      "def get_symmetric_pairs(tuples):\n    \"\"\"Get symmetric pairs.\"\"\"\n    symmetric_pairs = []\n    for t1 in tuples:\n        for t2 in tuples:\n            if t1 == t2:\n                continue\n            if t1[0] == t2[-1] and t1[-1] == t2[0]:\n                symmetric_pairs.append((t1, t2))\n    return symmetric_pairs\n\n\ndef test_get_symmetric_pairs():\n    \"\"\"Test get symmetric pairs.\"\"\"\n    assert get_symmetric_pairs([(1, 2), (3, 4)]) == []\n    assert get_symmetric_pairs([(1, 2), (2, 1)]) == [(1, 2)]\n    assert get_symmetric_pairs([(1, 2), (2, 1), (3, 4)]) == [(1, 2)]\n    assert get_symmetric_pairs([(1, 2), (2, 1), (1, 2)]) == [(1, 2), (1, 2)]\n    assert get_symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1)]) == [(1, 2), (1, 2), (2, 1), (2, 1)]\n    assert get_symmetric_pairs([(1, 2), (2, 1), (1, 2), (1, 2)]) == [(1, 2), (1, 2), (1, 2)]",
+      -3.234375
+    ],
+    [
+      "def extract_pairs(data):\n    \"\"\"\n    Return a list of tuples containing all symmetric pairs of data.\n\n    >>> extract_pairs([1,2,3,4,5,6])\n    [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]\n    \"\"\"\n    return [(x, x) for x in data]\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -3.31640625
+    ],
+    [
+      "def find_symmetric_pairs(tuple_list):\n    symmetric_pairs = []\n\n    for i in range(len(tuple_list)):\n        for j in range(i+1, len(tuple_list)):\n            if tuple_list[i] == tuple_list[j][::-1]:\n                symmetric_pairs.append(tuple_list[i])\n\n    return symmetric_pairs\n\nprint(find_symmetric_pairs([(1, 2), (2, 1), (3, 3), (2, 2), (1, 3)]))\nprint(find_symmetric_pairs([(1, 2), (2, 1), (3, 3), (2, 2)]))\nprint(find_symmetric_pairs([(1, 2), (2, 1), (3, 3)]))",
+      -3.4140625
+    ],
+    [
+      "def symmetric_pairs(arr):\n    # Create a new empty list to store the results.\n    new_list = []\n\n    # Iterate over the list.\n    for i in range(len(arr)):\n        # Iterate over the rest of the list.\n        for j in range(i + 1, len(arr)):\n            # Check if the two values are equal and add them to the new list.\n            if arr[i] == arr[j]:\n                new_list.append((arr[i], arr[j]))\n\n    # Return the new list.\n    return new_list\n\n\nprint(symmetric_pairs([1, 2, 3, 4, 5, 5, 4, 3, 2, 1]))",
+      -3.5390625
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*n)\n    Space Complexity: O(1)\n    \"\"\"\n    result = []\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            if (tuples[i][0], tuples[i][1]) == (tuples[j][1], tuples[j][0]):\n                result.append((tuples[i], tuples[j]))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (5, 1), (2, 1), (3, 2), (2, 3)]))",
+      -3.650390625
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(data: List[Tuple]) -> List[Tuple]:\n    \"\"\"\n    O(n^2)\n    \"\"\"\n    result = []\n    for i in range(len(data)):\n        for j in range(len(data)):\n            if i == j:\n                continue\n            if (data[i][0], data[j][1]) in data and (data[j][0], data[i][1]) in data:\n                result.append((data[i][0], data[j][1]))\n    return result\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2), (2, 3), (3, 4), (1, 2), (4, 3), (3, 4)]) == [(1, 2), (3, 4)]",
+      -3.654296875
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(arr: List[tuple]) -> List[tuple]:\n    \"\"\"Extract symmetric pairs from the given array of tuples.\n\n    Args:\n        arr (List[tuple]): Array of tuples.\n\n    Returns:\n        List[tuple]: Array of symmetric pairs.\n\n    Examples:\n        >>> extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 6)])\n        [(1, 2), (2, 1), (3, 4), (4, 3)]\n        >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 4), (4, 5)])\n        []\n    \"\"\"\n    return [\n        (a, b)\n        for a, b in arr\n        if any(\n            (\n                a == b,\n                arr.count((a, b)) == 2,\n                arr.count((b, a)) == 2,\n            )\n        )\n    ]\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3), (5, 6)]))\n    print(extract_symmetric_pairs([(1, 2), (2, 3), (3, 4), (4, 5)]))",
+      -3.923828125
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(nums: List[int]) -> List[List[int]]:\n    symmetric_pairs_ = []\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                symmetric_pairs_.append([nums[i], nums[j]])\n\n    return symmetric_pairs_\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([1, 2, 2, 1]))\n    print(symmetric_pairs([1, 2, 2, 1, 1, 2]))\n    print(symmetric_pairs([]))",
+      -4.00390625
+    ],
+    [
+      "def symmetric_pairs(arr):\n    symmetric_pairs = []\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j]:\n                symmetric_pairs.append((arr[i], arr[j]))\n    return symmetric_pairs\n\n\ndef main():\n    print(symmetric_pairs([1, 2, 3, 4, 5]))\n    print(symmetric_pairs([1, 2, 4, 5]))\n    print(symmetric_pairs([1, 2, 3, 3, 4, 5]))\n\n\nif __name__ == '__main__':\n    main()",
+      -4.07421875
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuples: List[tuple]) -> List[tuple]:\n    result = []\n\n    for t1 in tuples:\n        for t2 in tuples:\n            if t1 == t2:\n                continue\n\n            if t1[0] == t2[1] and t1[1] == t2[0]:\n                result.append((t1, t2))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))",
+      -4.21484375
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(arr: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(1)\n    \"\"\"\n    pairs = []\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j][::-1]:\n                pairs.append((arr[i], arr[j]))\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2), (3, 2), (1, 2), (3, 4), (3, 4), (5, 6), (5, 6)]) == [\n        ((1, 2), (2, 1)),\n        ((3, 2), (2, 3)),\n        ((3, 4), (4, 3)),\n        ((5, 6), (6, 5)),\n    ]",
+      -4.41796875
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(t: List[Tuple[int, int]]) -> List[Tuple[int, int]]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(1)\n    \"\"\"\n    res = []\n\n    for i in range(len(t)):\n        for j in range(i + 1, len(t)):\n            if t[i] == t[j][::-1]:\n                res.append(t[i])\n\n    return res\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]) == [(1, 2), (3, 4)]",
+      -4.45703125
+    ],
+    [
+      "from itertools import combinations\n\n\ndef symmetric_pairs(a):\n    symmetric_pairs = []\n    for i in range(len(a)):\n        for j in range(i + 1, len(a)):\n            if a[i] == a[j]:\n                symmetric_pairs.append((a[i], a[j]))\n    return symmetric_pairs\n\n\ndef symmetric_pairs_2(a):\n    symmetric_pairs = []\n    for pair in combinations(a, 2):\n        if pair[0] == pair[1]:\n            symmetric_pairs.append(pair)\n    return symmetric_pairs\n\n\ndef symmetric_pairs_3(a):\n    symmetric_pairs = []\n    for i in range(len(a)):\n        for j in range(i + 1, len(a)):\n            if a[i] == a[j]:\n                symmetric_pairs.append(a[i])\n    return symmetric_pairs\n\n\nprint(symmetric_pairs([1, 2, 3, 4, 5, 2, 1]))\nprint(symmetric_pairs_2([1, 2, 3, 4, 5, 2, 1]))\nprint(symmetric_pairs_3([1, 2, 3, 4, 5, 2, 1]))",
+      -4.5703125
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(tuples: List[tuple]) -> tuple:\n    \"\"\"Extracts symmetric pairs from the list of tuples.\n\n    Args:\n        tuples (List[tuple]): a list of tuples.\n\n    Returns:\n        tuple: a tuple of tuples.\n\n    Examples:\n        >>> extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)])\n        ((1, 2), (2, 1))\n        >>> extract_symmetric_pairs([(1, 2), (2, 3), (3, 1), (4, 5)])\n        ((1, 2), (2, 1))\n    \"\"\"\n    symmetric_pairs = []\n\n    for i, tuple_1 in enumerate(tuples):\n        for j, tuple_2 in enumerate(tuples):\n            if i == j:\n                continue\n            if tuple_1[::-1] == tuple_2:\n                symmetric_pairs.append(tuple_1)\n                symmetric_pairs.append(tuple_2)\n\n    return tuple(set(symmetric_pairs))\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (4, 3)]))\n    print(extract_symmetric_pairs([(1, 2), (2, 3), (3, 1), (4, 5)]))",
+      -4.59765625
+    ],
+    [
+      "from typing import List\n\n\ndef is_symmetric(nums: List[int]) -> bool:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] != nums[j]:\n                return False\n    return True\n\n\ndef get_symmetric_pairs(nums: List[int]) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(1)\n    \"\"\"\n\n    pairs: List[List[int]] = []\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] == nums[j]:\n                pairs.append([nums[i], nums[j]])\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    assert is_symmetric([1, 2, 3, 4, 5, 4, 3, 2, 1]) == True\n    assert is_symmetric([1, 2, 3, 4, 5, 6, 3, 2, 1]) == False\n\n    assert get_symmetric_pairs([1, 2, 3, 4, 5, 4, 3, 2, 1]) == [[4, 4], [3, 3], [2, 2], [1, 1]]\n    assert get_symmetric_pairs([1, 2, 3, 4, 5, 6, 3, 2, 1]) == [[3, 3], [2, 2], [1, 1]]",
+      -5.3359375
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef symmetric_pairs(tup_list: List[Tuple[int]]) -> List[Tuple[int]]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n    if not tup_list:\n        return []\n\n    result: List[Tuple[int]] = []\n\n    for i in range(len(tup_list)):\n        for j in range(i + 1, len(tup_list)):\n            if tup_list[i] == tup_list[j][::-1]:\n                result.append(tup_list[i])\n                break\n\n    return result\n\n\nif __name__ == \"__main__\":\n    tup_list = [(1, 2), (3, 4), (3, 4), (5, 6), (7, 7)]\n    print(symmetric_pairs(tup_list))",
+      -6.35546875
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef extract_symmetric_pairs(tuples: List[Tuple[int]]) -> List[Tuple[int]]:\n    \"\"\"Return symmetric pairs in list of tuples.\n\n    Args:\n        tuples (List[Tuple[int]]): list of tuples\n\n    Returns:\n        List[Tuple[int]]: list of symmetric pairs\n    \"\"\"\n    result: List[Tuple[int]] = []\n\n    for t in tuples:\n        if t in tuples and t[::-1] not in result:\n            result.append(t)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(extract_symmetric_pairs([(1, 2), (2, 1), (3, 4), (1, 3)]))",
+      -6.8515625
+    ],
+    [
+      "from typing import List\n\n\ndef extract_pairs(tuple_list: List[tuple]) -> List[tuple]:\n    \"\"\"Returns a list of symmetric pairs from a list of tuples.\n\n    Args:\n        tuple_list (List[tuple]): list of tuples to check for symmetric pairs\n\n    Returns:\n        List[tuple]: list of symmetric pairs\n    \"\"\"\n    symmetric_pairs = []\n    for tuple_1 in tuple_list:\n        for tuple_2 in tuple_list:\n            if tuple_1 == tuple_2 or tuple_1[::-1] == tuple_2:\n                symmetric_pairs.append(tuple_1)\n                break\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    print(extract_pairs([(1, 2), (1, 1), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]))",
+      -6.984375
+    ],
+    [
+      "from typing import List\n\n\ndef extract_pairs(arr: List[tuple]) -> list:\n    \"\"\"Extract symmetric pairs from list of tuples.\n\n    Args:\n        arr (List[tuple]): list of tuples\n\n    Returns:\n        list: list of symmetric tuples\n    \"\"\"\n    return [i for i in arr for j in arr if len(i) == len(j) and set(i) == set(j)]\n\n\nif __name__ == \"__main__\":\n    arr = [(1, 2), (1, 3), (2, 3), (1, 2), (2, 1), (1, 3), (3, 1)]\n    print(extract_pairs(arr))",
+      -7.0
+    ],
+    [
+      "from typing import List\n\n\ndef extract_symmetric_pairs(numbers: List[int]) -> List[List[int]]:\n    \"\"\"Return symmetric pairs in the given tuple list.\n\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def is_symmetric(a: int, b: int) -> bool:\n        return a + b == 2 * b\n\n    if not numbers:\n        return []\n\n    symmetric_pairs = []\n\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if is_symmetric(numbers[i], numbers[j]):\n                symmetric_pairs.append([numbers[i], numbers[j]])\n\n    return symmetric_pairs\n\n\nif __name__ == \"__main__\":\n    assert extract_symmetric_pairs([1, 2, 3, 4, 5]) == [[1, 2], [2, 4], [3, 3]]\n    assert extract_symmetric_pairs([1, 2, 3, 4, 5, 6]) == [[1, 2], [2, 4], [3, 3], [5, 5]]",
+      -7.55859375
+    ],
+    [
+      "from typing import List\n\n\ndef find_symmetric_pairs(array: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Return a list of symmetric pairs.\n    >>> find_symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1)])\n    [(1, 2), (2, 1)]\n    >>> find_symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1), (3, 4), (4, 3)])\n    [(1, 2), (2, 1), (3, 4), (4, 3)]\n    >>> find_symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1), (1, 2)])\n    [(1, 2), (2, 1), (1, 2)]\n    >>> find_symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1), (1, 2), (2, 1)])\n    [(1, 2), (2, 1), (1, 2), (2, 1)]\n    >>> find_symmetric_pairs([(1, 2), (2, 1), (1, 2), (2, 1), (3, 4), (4, 3), (1, 2)])\n    [(1, 2), (2, 1), (3, 4), (4, 3), (1, 2)]\n    \"\"\"\n    result = []\n\n    for index_1, value_1 in enumerate(array):\n        for index_2, value_2 in enumerate(array):\n            if index_1 == index_2:\n                continue\n            if value_1[::-1] == value_2:\n                result.append(value_1)\n                result.append(value_2)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    from doctest import testmod\n\n    testmod()",
+      -7.92578125
+    ],
+    [
+      "def symmetric_pairs(input_list):\n    \"\"\"\n    >>> symmetric_pairs([(1, 2), (3, 4), (2, 3), (4, 5)])\n    [(1, 2), (3, 4)]\n    >>> symmetric_pairs([(1, 2), (2, 3), (3, 4)])\n    [(1, 2), (2, 3), (3, 4)]\n    >>> symmetric_pairs([(1, 2), (3, 4), (5, 6)])\n    []\n    \"\"\"\n    # return [i for i, j in input_list if i == j and i in (j, i) for i, j in input_list]\n    result = []\n    for i, j in input_list:\n        if i == j and i in (j, i):\n            result.append((i, j))\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -10.046875
+    ],
+    [
+      "from typing import List\n\n\ndef symmetric_pairs(tuple_list: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n    \"\"\"\n\n    def check(tup1: tuple, tup2: tuple) -> bool:\n        return tup1[0] == tup2[1] and tup1[1] == tup2[0]\n\n    def flatten(tup: tuple) -> tuple:\n        return (tup[0], tup[1]) + tup[2:]\n\n    def flatten_list(tup_list: List[tuple]) -> List[tuple]:\n        return [flatten(tup) for tup in tup_list]\n\n    def merge_pairs(tup_list: List[tuple]) -> tuple:\n        return tuple(set(flatten_list(tup_list)))\n\n    def find_symmetric(tup_list: List[tuple]) -> List[tuple]:\n        for i in range(len(tup_list)):\n            for j in range(i + 1, len(tup_list)):\n                if check(tup_list[i], tup_list[j]):\n                    return [tup_list[i], tup_list[j]]\n\n    def check_pairs(tup_list: List[tuple]) -> bool:\n        return len(find_symmetric(tup_list)) > 0\n\n    def merge_pairs_list(tup_list: List[tuple]) -> List[tuple]:\n        return [merge_pairs(tup_list)]\n\n    def find_symmetric_pairs(tup_list: List[tuple]) -> List[tuple]:\n        return find_symmetric(tup_list) if check_pairs(tup_list) else []\n\n    return find_symmetric_pairs(tuple_list)\n\n\nif __name__ == \"__main__\":\n    assert symmetric_pairs([(1, 2, 3), (4, 5, 6)]) == []\n    assert symmetric_pairs",
+      -10.4453125
+    ],
+    [
+      "def get_symmetric_pairs(lst):\n    \"\"\"\n    :param lst: list of tuples\n    :return: list of tuples\n    \"\"\"\n    lst.sort()\n    symmetric_pairs = []\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            if lst[i][0] == lst[j][1] and lst[i][1] == lst[j][0]:\n                symmetric_pairs.append(lst[i] + lst[j])\n    return symmetric_pairs\n\n\ndef test_function(test_case):\n    output = get_symmetric_pairs(test_case[0])\n    print(output)\n    if output == test_case[1]:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function([[(1, 2), (4, 7), (8, 9), (9, 10)]])\ntest_function([[(1, 2), (2, 3), (3, 4), (5, 6)]])\ntest_function([[(1, 2), (2, 3), (3, 4), (5, 2)]])\ntest_function([[(1, 2), (2, 3), (3, 4), (1, 2), (2, 3), (3, 4)]])\ntest_function([[(1, 2), (2, 3), (3, 4), (5, 6), (7, 8)]])\ntest_function([[(1, 2), (2, 3), (3, 4), (5, 6), (7, 8), (9, 10)]])\ntest_function([[(1, 2), (2, 3), (3, 4), (5, 6), (7, 8), (9, 10), (1, 2), (2, 3), (3, 4)]])\ntest_function([[]])",
+      -11.796875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

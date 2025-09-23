@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/144",
+    "prompt": "\ndef simplify(x, n):\n    \"\"\"Your task is to implement a function that will simplify the expression\n    x * n. The function returns True if x * n evaluates to a whole number and False\n    otherwise. Both x and n, are string representation of a fraction, and have the following format,\n    <numerator>/<denominator> where both numerator and denominator are positive whole numbers.\n\n    You can assume that x, and n are valid fractions, and do not have zero as denominator.\n\n    simplify(\"1/5\", \"5/1\") = True\n    simplify(\"1/6\", \"2/1\") = False\n    simplify(\"7/10\", \"10/2\") = False\n    \"\"\"\n",
+    "canonical_solution": "    a, b = x.split(\"/\")\n    c, d = n.split(\"/\")\n    numerator = int(a) * int(c)\n    denom = int(b) * int(d)\n    if (numerator/denom == int(numerator/denom)):\n        return True\n    return False\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate(\"1/5\", \"5/1\") == True, 'test1'\n    assert candidate(\"1/6\", \"2/1\") == False, 'test2'\n    assert candidate(\"5/1\", \"3/1\") == True, 'test3'\n    assert candidate(\"7/10\", \"10/2\") == False, 'test4'\n    assert candidate(\"2/10\", \"50/10\") == True, 'test5'\n    assert candidate(\"7/2\", \"4/2\") == True, 'test6'\n    assert candidate(\"11/6\", \"6/1\") == True, 'test7'\n    assert candidate(\"2/3\", \"5/2\") == False, 'test8'\n    assert candidate(\"5/2\", \"3/5\") == False, 'test9'\n    assert candidate(\"2/4\", \"8/4\") == True, 'test10'\n\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate(\"2/4\", \"4/2\") == True, 'test11'\n    assert candidate(\"1/5\", \"5/1\") == True, 'test12'\n    assert candidate(\"1/5\", \"1/5\") == False, 'test13'\n\n",
+    "entry_point": "simplify",
+    "docstring": "",
+    "problem_id": 144
+  },
+  "model_name": "codegen-2b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "if n.isdigit():\n        if int(n) == n:\n            return True\n        else:\n            return False\n    if not n.isdigit():\n        return False\n    if n == \"0\":\n        return False\n    if n.find(\"/\")!= -1:\n        return False\n    if n.find(\"-\")!= -1:\n        return False\n    if n.find(\"*\")!= -1:\n        return False\n    if n.find(\"*\")!= -1:\n        return False\n    if n.find(\"-\")!= -1:\n        return False\n    if n.find(\"/\")!= -1:\n        return False\n    if n.find(\"*\")!= -1:\n        return False\n    if n.find(\"/\")!= -1:\n        return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True, \"Fractions with denominator are not supported\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"Fractions with denominator not supported\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"Fractions with denominator not supported\"",
+      3.9296875
+    ],
+    [
+      "return x in {'1/5', '5/1', '2/1'} and n in {'1/5', '5/1', '2/1'}\n\n# Your function here\ndef simplify(x, n):\n    return x in {'1/5', '5/1', '2/1'} and n in {'1/5', '5/1', '2/1'}\n\ndef main():\n    print(simplify(\"1/5\", \"5/1\"))\n    print(simplify(\"1/6\", \"2/1\"))\n    print(simplify(\"7/10\", \"10/2\"))\n\n\nif __name__ == '__main__':\n    main()",
+      0.2275390625
+    ],
+    [
+      "if n == '0':\n        return False\n    if x == '0':\n        return False\n    if x == '1' and n == '1':\n        return True\n    if n == '1':\n        return True\n    if n == '0':\n        return False\n    if x[0] == '-':\n        x = '-' + x[1:]\n    if n[0] == '-':\n        n = '-' + n[1:]\n    if x[0] == '1' and n[0] == '1':\n        return True\n    if x[0] == '1' and n[0] == '0':\n        return False\n    if x[0] == '0' and n[0] == '1':\n        return False\n    if x[0] == '0' and n[0] == '0':\n        return False\n    return False\n\nprint(simplify(\"1/5\", \"5/1\"))\nprint(simplify(\"1/6\", \"2/1\"))\nprint(simplify(\"7/10\", \"10/2\"))",
+      0.146484375
+    ],
+    [
+      "if n.is_integer():\n        if x.is_integer():\n            return False\n        if x.is_integer() and int(x) == x:\n            return True\n    else:\n        return False\n\n    if n.is_integer() and x.is_integer():\n        return int(x) == x\n    if n.is_integer() and not x.is_integer():\n        if x.is_integer():\n            return False\n        return simplify(x, n)\n    if n.is_integer() and x.is_integer():\n        return simplify(x, n)\n\n    return simplify(x, n)",
+      -0.85693359375
+    ],
+    [
+      "x = int(x)\n    n = int(n)\n    if x == 0 or n == 0:\n        return False\n    return x/n == int(x/n)\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/3\", \"3/1\") == True\n    assert simplify(\"1/4\", \"4/1\") == False\n    assert simplify(\"1/9\", \"9/1\") == False",
+      -0.85693359375
+    ],
+    [
+      "return x % n == 0\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") is True\n    assert simplify(\"1/6\", \"2/1\") is False\n    assert simplify(\"7/10\", \"10/2\") is False",
+      -0.85693359375
+    ],
+    [
+      "numerator, denominator = [int(d) for d in x.split('/')]\n    if not denominator:\n        return False\n    if not numerator:\n        return False\n    if numerator == denominator:\n        return True\n    return False",
+      -0.85693359375
+    ],
+    [
+      "try:\n        numerator = int(x.split(\"/\")[0])\n        denominator = int(x.split(\"/\")[1])\n        print(numerator, denominator)\n        print(numerator / denominator)\n        print(numerator / denominator)\n        print(numerator / denominator)\n        if (numerator / denominator) == 1:\n            return True\n        else:\n            return False\n    except:\n        return False\n\nprint(simplify(\"1/5\", \"5/1\"))\nprint(simplify(\"1/6\", \"2/1\"))\nprint(simplify(\"7/10\", \"10/2\"))",
+      -0.85693359375
+    ],
+    [
+      "# base case\n    if x == \"\" or n == \"\":\n        return False\n    # if denominator is zero, return false\n    if x.count(\"/\") == 0:\n        return False\n    # if numerator is a whole number, return true\n    if x.count(\"/\") == 1:\n        return True\n    # if denominator is a whole number, return false\n    if n.count(\"/\") == 1:\n        return False\n    # if denominator is not a whole number, multiply both numerator and denominator and see if result is a whole number\n    return simplify(x + \"/\" + n, n) or simplify(x + \"/\" + n, n)\n\nif __name__ == '__main__':\n    input_ = input()\n    result = simplify(input_, input())\n    if result == True:\n        print(\"True\")\n    else:\n        print(\"False\")",
+      -0.85693359375
+    ],
+    [
+      "if x == \"0\":\n        return False\n\n    if x[-1]!= \"/\" or n[-1]!= \"/\":\n        return False\n\n    numerator, denominator = x.split(\"/\")\n    numerator = int(numerator)\n    denominator = int(denominator)\n\n    if denominator == 1:\n        return True\n\n    if numerator == 0:\n        return False\n\n    if numerator == denominator:\n        return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert simplify(\"1/5\", \"5/1\") == True, \"1/5\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"1/6\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"7/10\"",
+      -0.85693359375
+    ],
+    [
+      "if n == \"0\":\n        return False\n    if x == \"0\":\n        return False\n    return int(x) * int(n) == x * int(n)\n\nif __name__ == \"__main__\":\n    print(simplify(\"1/3\", \"2/1\"))",
+      -0.85693359375
+    ],
+    [
+      "# Check if x and n are valid fractions\n    if x.count('/')!= 1 or n.count('/')!= 1:\n        return False\n\n    # Get the numerator and denominator\n    numerator, denominator = x.split('/')\n    denominator = int(denominator)\n    numerator = int(numerator)\n\n    # Check if denominator is integer\n    if denominator!= 1:\n        return False\n\n    # Check if numerator is integer\n    if numerator == 0:\n        return True\n\n    # Calculate the result\n    result = float(numerator) / float(denominator)\n\n    # Check if the result is an integer\n    if result == int(result):\n        return True\n    else:\n        return False",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    try:\n        x_n = x * n\n        return (x_n == int(x_n))\n    except ValueError:\n        return False",
+      -0.857421875
+    ],
+    [
+      "return (x == '1' or x == '0') and n == '1'",
+      -0.857421875
+    ],
+    [
+      "if n == \"0\":\n        return False\n    elif int(x) % int(n) == 0:\n        return True\n    else:\n        return False",
+      -0.85791015625
+    ],
+    [
+      "return False\n\n\nif __name__ == \"__main__\":\n    print(simplify(\"7/10\", \"10/2\"))",
+      -0.85791015625
+    ],
+    [
+      "x, n = float(x), float(n)\n    if n == 0:\n        return False\n    if n == 1:\n        return True\n    return x * n == int(x * n)\n\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85791015625
+    ],
+    [
+      "# TODO: Implement a function that will simplify the expression x * n\n    return False",
+      -0.85791015625
+    ],
+    [
+      "#print(x, n)\n    if x.count('/')!= 1:\n        return False\n    numerator, denominator = x.split('/')\n    if not is_int(numerator) or not is_int(denominator):\n        return False\n    if int(numerator) == 0 or int(denominator) == 0:\n        return False\n    if int(numerator) == int(denominator):\n        return True\n    return False\n\n\nif __name__ == '__main__':\n    import sys\n    if (len(sys.argv) == 2):\n        x = sys.argv[1]\n        n = sys.argv[2]\n        print(simplify(x, n))\n    else:\n        print(\"Please enter a fraction!\")",
+      -0.85791015625
+    ],
+    [
+      "return x[-1] == '0' and x[:-1] == n[:-1]\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True, \"Expected 1/5 == True\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"Expected 1/6 == False\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"Expected 7/10 == False\"\n    assert simplify(\"7/10\", \"5/1\") == False, \"Expected 7/10 == False\"\n    assert simplify(\"7/10\", \"7/10\") == True, \"Expected 7/10 == True\"",
+      -0.85791015625
+    ],
+    [
+      "return True if x == str(int(x)/int(n)) and x!= str(int(x)/int(n)) else False\n\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85791015625
+    ],
+    [
+      "# Your code here\n    return (x % n == 0)\n\n\ndef main():\n    # Read input\n    numerator = int(input())\n    denominator = int(input())\n    # Create a list of the fractions\n    fractions = [f for f in range(1, denominator + 1)]\n    # Create a list of the simplified fractions\n    simplified_fractions = [simplify(f, numerator) for f in fractions]\n    # Create a list of the simplified fractions\n    final_fractions = [f for f in fractions if simplify(f, numerator)]\n    # Return the list of simplified fractions\n    print(final_fractions)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "return x == \"0\" or (float(x) % 1 == 0 and float(n) % 1 == 0)\n\n\ndef test_simplify():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n\nif __name__ == \"__main__\":\n    test_simplify()",
+      -0.85791015625
+    ],
+    [
+      "numerator = int(x[:-1])\n    denominator = int(n[:-1])\n    if denominator == 1:\n        return True\n    else:\n        return numerator / denominator == 1\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True, \"Fraction 1/5 is a whole number\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"Fraction 1/6 is not a whole number\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"Fraction 7/10 is not a whole number\"",
+      -0.85791015625
+    ],
+    [
+      "return x % n == 0\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True, \"Sample 1\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"Sample 2\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"Sample 3\"",
+      -0.85791015625
+    ],
+    [
+      "if n == '0':\n        return False\n    if x == '0':\n        return False\n    x = int(x)\n    n = int(n)\n    if x % n == 0 and x/n >= 1:\n        return True\n    else:\n        return False",
+      -0.85791015625
+    ],
+    [
+      "return False\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85791015625
+    ],
+    [
+      "numerator, denominator = n.split('/')\n    if numerator == \"0\" or denominator == \"0\":\n        return False\n    return int(numerator) * int(denominator) == int(n)",
+      -0.85791015625
+    ],
+    [
+      "if n == 0:\n        return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85791015625
+    ],
+    [
+      "if x.endswith('/1'):\n        return False\n    if x.endswith('/2'):\n        return False\n    if x.endswith('/3'):\n        return False\n    if x.endswith('/4'):\n        return False\n    if x.endswith('/5'):\n        return True\n    if x.endswith('/6'):\n        return False\n    if x.endswith('/7'):\n        return False\n    if x.endswith('/8'):\n        return False\n    if x.endswith('/9'):\n        return False\n    if x.endswith('/10'):\n        return True\n    return False\n\nprint(simplify(\"1/5\", \"5/1\"))\nprint(simplify(\"1/6\", \"2/1\"))\nprint(simplify(\"7/10\", \"10/2\"))",
+      -0.85791015625
+    ],
+    [
+      "if x == \"0\" or n == \"0\":\n        return False\n\n    if x == n:\n        return True\n\n    if x[0] == \"-\" or n[0] == \"-\" or x[0] == n[0]:\n        return False\n\n    if int(x[1:]) == int(n[1:]):\n        return True\n\n    if int(x[1:]) < int(n[1:]):\n        return False\n\n    if int(x[1:]) > int(n[1:]):\n        return False\n\n    if x[1:] == n[1:]:\n        return True\n\n    return False",
+      -0.85791015625
+    ],
+    [
+      "return x == str(int(x)/int(n))",
+      -0.85791015625
+    ],
+    [
+      "def is_positive_number(x):\n        return x > 0 and x < 1\n    return is_positive_number(float(x)) and is_positive_number(float(n))\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85791015625
+    ],
+    [
+      "if int(x) == x and int(n) == n:\n        return True\n    if int(x) == x:\n        return False\n    if int(n) == n:\n        return False\n    if int(n) == 1:\n        return False\n    if int(x) == 1:\n        return False\n    if int(n) == 0:\n        return False\n    if int(x) == int(n):\n        return True\n    if x.count(\"/\") == 1:\n        x_num, x_den = x.split(\"/\")\n        n_num, n_den = n.split(\"/\")\n        if int(x_num) == int(x_den) and int(n_num) == int(n_den):\n            return True\n        else:\n            return False\n    else:\n        return False\n\nif __name__ == \"__main__\":\n    import sys\n    if (len(sys.argv) < 2):\n        print(\"Please enter a string\")\n        exit()\n    x = sys.argv[1]\n    n = sys.argv[2]\n    if simplify(x, n) == True:\n        print(\"True\")\n    else:\n        print(\"False\")",
+      -0.8583984375
+    ],
+    [
+      "return True if x.replace('/', '').isdigit() else False\n\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") is True\n    assert simplify(\"1/6\", \"2/1\") is False\n    assert simplify(\"7/10\", \"10/2\") is False",
+      -0.8583984375
+    ],
+    [
+      "if n.isdigit() and int(n) == int(n) and int(n) % 1 == 0:\n        return True\n    if n.isdigit() and int(n) == int(n):\n        return True\n    return False\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.8583984375
+    ],
+    [
+      "num, den = x.split(\"/\")\n    num = int(num)\n    den = int(den)\n\n    if num % den == 0:\n        return True\n    else:\n        return False\n\nif __name__ == \"__main__\":\n    print(simplify(\"1/5\", \"5/1\"))\n    print(simplify(\"1/6\", \"2/1\"))\n    print(simplify(\"7/10\", \"10/2\"))",
+      -0.85888671875
+    ],
+    [
+      "if x == \"\" or n == \"\":\n        return False\n    if int(n) == 0:\n        return False\n    if int(n) == 1:\n        return True\n    if int(n) == int(x):\n        return True\n    x = int(x)\n    n = int(n)\n    if x == n:\n        return True\n    if n < x:\n        x, n = n, x\n    if x < n:\n        return False\n    x = x * n\n    if x.is_integer():\n        return True\n    return False",
+      -0.85888671875
+    ],
+    [
+      "return x.split('/')[0] == '1' and x.split('/')[1] == '1'\n\n\nif __name__ == '__main__':\n    print(simplify(\"1/5\", \"5/1\"))\n    print(simplify(\"1/6\", \"2/1\"))\n    print(simplify(\"7/10\", \"10/2\"))",
+      -0.85888671875
+    ],
+    [
+      "if x == \"0\" or n == \"0\":\n        return False\n    if x == \"1\" or n == \"1\":\n        return True\n    if x == \"0\" or n == \"0\":\n        return False\n    if x == \"0\" or n == \"0\":\n        return False\n    if x == \"0\" or n == \"0\":\n        return False\n    return False\n\ndef test():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n\nif __name__ == \"__main__\":\n    test()",
+      -0.85888671875
+    ],
+    [
+      "return \"\".join(str(i) for i in x.split(\"/\")) in [\"1\", \"2\", \"3\", \"5\", \"6\", \"7\", \"10\"]\n\n\ndef test_simplify():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n\n\ndef test_valid_input():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85888671875
+    ],
+    [
+      "return int(x) % int(n) == 0",
+      -0.85888671875
+    ],
+    [
+      "return False",
+      -0.85888671875
+    ],
+    [
+      "if x == '0' or n == '0':\n        return False\n\n    numerator, denominator = x.split('/')\n    numerator = int(numerator)\n    denominator = int(denominator)\n    if numerator == 0 or denominator == 0:\n        return False\n\n    if numerator % denominator == 0:\n        return True\n    else:\n        return False\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert simplify(\"1/5\", \"5/1\") == True, \"1/5\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"1/6\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"7/10\"",
+      -0.85888671875
+    ],
+    [
+      "return False if n == \"0\" else x == \"0\" and True if n == \"1\" else False\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85888671875
+    ],
+    [
+      "return str(x) == str(n) and str(x)!= \"0\"\n\n\ndef test_simplify():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85888671875
+    ],
+    [
+      "return x == str(int(x)) and n == str(int(n))\n\nif __name__ == \"__main__\":\n    f = open(\"input.txt\", \"r\")\n    n = f.readline().strip()\n    n = str(int(n))\n    x = f.readline().strip()\n    x = str(int(x))\n    f.close()\n\n    if simplify(x, n) is True:\n        print \"Yes\"\n    else:\n        print \"No\"",
+      -0.85888671875
+    ],
+    [
+      "if n == 0:\n        return False\n    if not x or not n:\n        return False\n    if not x.endswith(\"/\") and not n.endswith(\"/\"):\n        return False\n    if not x.startswith(\"/\") and not n.startswith(\"/\"):\n        return False\n    if x.endswith(\"/\") and not n.endswith(\"/\"):\n        return False\n    if x.startswith(\"/\") and not n.startswith(\"/\"):\n        return False\n    if int(x) % int(n)!= 0:\n        return False\n    return True\n\nif __name__ == '__main__':\n    f = open(\"/Users/yangyijie/Desktop/1.txt\", \"r\")\n    g = open(\"/Users/yangyijie/Desktop/2.txt\", \"r\")\n    a = f.readline()\n    b = g.readline()\n    while a and b:\n        a = a.strip()\n        b = b.strip()\n        if a and b:\n            if simplify(a, b):\n                print a, b\n            else:\n                print \"Impossible\"\n            a = f.readline()\n            b = g.readline()",
+      -0.85888671875
+    ],
+    [
+      "# TODO: Implement the function\n    return\n\n\ndef test_simplify():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n\n\ndef main():\n    test_simplify()\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "return True if x.count('/') == 1 else False\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "# return True if x * n is a whole number\n    if str(int(x * n)) == str(n):\n        return True\n    else:\n        return False\n\n\ndef main():\n    \"\"\"\n    Please complete the function \"simplify\" to implement the function that takes an expression\n    and returns the equivalent expression with all fractions simplified.\n    \"\"\"\n    return simplify(\"1/5\", \"5/1\")\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "return False",
+      -0.85888671875
+    ],
+    [
+      "if x == \"0\" and n == \"0\":\n        return False\n    elif x == \"0\":\n        return True\n    elif n == \"0\":\n        return False\n    elif x == \"0\" or n == \"0\":\n        return False\n    else:\n        # x and n are valid fractions\n        if int(x) == int(n):\n            return True\n        else:\n            return False",
+      -0.85888671875
+    ],
+    [
+      "return False",
+      -0.85888671875
+    ],
+    [
+      "return x % n == 0",
+      -0.85888671875
+    ],
+    [
+      "if x == 0 or n == 0:\n        return False\n\n    x_numerator = int(x.split('/')[0])\n    x_denominator = int(x.split('/')[1])\n\n    numerator = int(n.split('/')[0])\n    denominator = int(n.split('/')[1])\n\n    if numerator == 0 or denominator == 0:\n        return False\n\n    return (x_numerator * numerator) / (x_denominator * denominator) == 1\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -0.85888671875
+    ],
+    [
+      "return bool(int(x)/int(n))\n\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") is True\n    assert simplify(\"1/6\", \"2/1\") is False\n    assert simplify(\"7/10\", \"10/2\") is False",
+      -0.86083984375
+    ],
+    [
+      "return not (x % n == 0 and int(x / n) == x / n)\n\n\ndef main():\n    \"\"\"\n    Write a program that reads two integers from the console, n and k. The function should return\n    True if the product of n and k is a valid fraction.\n    \"\"\"\n\n    n = input()\n    k = input()\n\n    print(simplify(n, k))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.86083984375
+    ],
+    [
+      "if int(x) == x:\n        return True\n    else:\n        return False\n\nif __name__ == '__main__':\n    try:\n        x = input()\n        n = input()\n        print(simplify(x, n))\n    except Exception as e:\n        print(\"Exception: %s\" % e)",
+      -0.86083984375
+    ],
+    [
+      "x, n = float(x), float(n)\n    if x == 0:\n        return False\n    if n == 0:\n        return False\n    return x % n == 0\n\nif __name__ == '__main__':\n    assert simplify(1/5, \"5/1\") == True\n    assert simplify(1/6, \"2/1\") == False\n    assert simplify(7/10, \"10/2\") == False",
+      -0.86083984375
+    ],
+    [
+      "if x.count(\"/\")!= 1:\n        return False\n    x = x.split(\"/\")\n    numerator = int(x[0])\n    denominator = int(x[1])\n    if numerator == 0 or denominator == 0:\n        return False\n    if numerator % denominator!= 0:\n        return False\n    if (numerator / denominator) == 1:\n        return True\n    return False\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -1.509765625
+    ],
+    [
+      "return x.split(\"/\")[0] == x.split(\"/\")[1]\n\n\ndef main():\n    tests = [\n        (\"1/5\", \"5/1\"),\n        (\"7/10\", \"10/2\"),\n        (\"1/6\", \"2/1\")\n    ]\n    for t in tests:\n        res = simplify(t[0], t[1])\n        if res!= t[0]:\n            print(\"Failed test:\", t)\n        else:\n            print(\"Passed test:\", t)\n\nif __name__ == '__main__':\n    main()",
+      -1.5419921875
+    ],
+    [
+      "return x.endswith(\"/1\") or x.endswith(\"/2\") or x.endswith(\"/3\") or x.endswith(\"/4\") or x.endswith(\"/5\") or x.endswith(\"/6\") or x.endswith(\"/7\") or x.endswith(\"/8\") or x.endswith(\"/9\") or x.endswith(\"/10\") or x.endswith(\"/11\") or x.endswith(\"/12\") or x.endswith(\"/13\") or x.endswith(\"/14\") or x.endswith(\"/15\") or x.endswith(\"/16\") or x.endswith(\"/17\") or x.endswith(\"/18\") or x.endswith(\"/19\") or x.endswith(\"/20\") or x.endswith(\"/21\") or x.endswith(\"/22\") or x.endswith(\"/23\") or x.endswith(\"/24\") or x.endswith(\"/25\") or x.endswith(\"/26\") or x.endswith(\"/27\") or x.endswith(\"/28\") or x.endswith(\"/29\") or x.endswith(\"/30\") or x.endswith(\"/31\") or x.endswith(\"/32\") or x.endswith(\"/33\") or x.endswith(\"/34\") or x.endswith(\"/35\") or x.endswith(\"/36\") or x.endswith(\"/37\") or x.endswith(\"/38\") or x.endswith(\"/39\") or x.endswith(\"/40\") or x.endswith(\"/41\") or x.endswith(\"/42\") or x.endswith(\"/43\") or x.endswith(\"/44\") or x.endswith(\"/45\") or x.endswith(\"/46\") or x.endswith(\"/47\") or x.endswith(\"/48\") or x.endswith(\"/49\") or x.endswith(\"/50\") or x.endswith(\"/51\") or",
+      -1.80078125
+    ],
+    [
+      "if x == \"0\" or n == \"0\":\n        return False\n    if x == \"1\" or n == \"1\":\n        return True\n\n    if x.isdigit() and n.isdigit():\n        if int(x) % int(n) == 0:\n            return True\n        else:\n            return False\n\n    if x.endswith(\"/\") and n.endswith(\"/\"):\n        x_numerator, x_denominator = x.split(\"/\")\n        numerator, denominator = n.split(\"/\")\n        return simplify(x_numerator, numerator) and simplify(x_denominator, denominator)\n\n    if x.endswith(\"/\") or n.endswith(\"/\"):\n        return False\n\n    if x.endswith(\"*\") and n.endswith(\"*\"):\n        x_numerator, x_denominator = x.split(\"*\")\n        numerator, denominator = n.split(\"*\")\n        return simplify(x_numerator, numerator) and simplify(x_denominator, denominator)\n\n    if x.endswith(\"*\") or n.endswith(\"*\"):\n        return False\n\n    return simplify(x + \"/\" + n, \"1\") or simplify(x + \"*\" + n, \"1\") or simplify(x + \"/\" + n + \"*\", \"1\") or simplify(x + \"*\" + n + \"*\", \"1\")\n\n\ndef main():\n    num_cases = int(input())\n    for i in range(num_cases):\n        x, n = input().split(\" \")\n        print(simplify(x, n))\n\nif __name__ == '__main__':\n    main()",
+      -1.9375
+    ],
+    [
+      "if n == 0:\n        return False\n    elif n == 1:\n        return True\n    else:\n        return simplify(x, n - 1) and simplify(x, n)\n\n# Your task is to implement a function that will calculate the greatest common divisor of two numbers.\n# The function returns the greatest common divisor of the two numbers.\ndef gcd(x, y):\n    \"\"\" Your function should return the greatest common divisor of two numbers.\n    The input to the function is two numbers, x and y.\n    Input is valid.\n    \"\"\"\n    if x < y:\n        return gcd(y, x)\n    elif x == y:\n        return x\n    else:\n        return gcd(y, x % y)\n\ndef gcd_naive(x, y):\n    \"\"\" Your function should return the greatest common divisor of two numbers.\n    The input to the function is two numbers, x and y.\n    Input is valid.\n    \"\"\"\n    while y!= 0:\n        x, y = y, x % y\n    return x\n\ndef gcd_recursive(x, y):\n    \"\"\" Your function should return the greatest common divisor of two numbers.\n    The input to the function is two numbers, x and y.\n    Input is valid.\n    \"\"\"\n    if x == 0 or y == 0:\n        return 0\n    else:\n        return gcd_recursive(y, x % y)\n\ndef gcd_iterative(x, y):\n    \"\"\" Your function should return the greatest common divisor of two numbers.\n    The input to the function is two numbers, x and y.\n    Input is valid.\n    \"\"\"\n    while y!= 0:\n        x, y = y, x % y\n    return x\n\nif __name__ == \"__main__\":\n    assert gcd(5, 3) == 1\n    assert gcd(5, 6) == 1\n    assert gcd(0, 3) == 0\n    assert gcd(0, 0) == 0\n    assert gcd(1, 0) == 1\n    assert gcd(10, 2) == 1\n    assert gcd(10, 5)",
+      -2.083984375
+    ],
+    [
+      "return int(x.replace(\"/\", \"\")) == int(n.replace(\"/\", \"\"))\n\nif __name__ == \"__main__\":\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"7/10\", \"5/1\") == False\n    assert simplify(\"7/10\", \"2/1\") == False\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/5\", \"4/1\") == True\n    assert simplify(\"1/5\", \"1/5\") == True\n    assert simplify(\"1/5\", \"1/4\") == False\n    assert simplify(\"1/5\", \"1/3\") == False\n    assert simplify(\"1/5\", \"2/1\") == False\n    assert simplify(\"1/5\", \"3/2\") == False\n    assert simplify(\"1/5\", \"4/2\") == False\n    assert simplify(\"1/5\", \"5/2\") == False\n    assert simplify(\"1/5\", \"6/2\") == False\n    assert simplify(\"1/5\", \"7/2\") == False\n    assert simplify(\"1/5\", \"8/2\") == False\n    assert simplify(\"1/5\", \"9/2\") == False\n    assert simplify(\"1/5\", \"10/2\") == False\n    assert simplify(\"1/5\", \"11/2\") == False\n    assert simplify(\"1/5\", \"12/2\") == False\n    assert simplify(\"1/5\", \"13/2\") == False\n    assert simplify(\"1/5\", \"14/2\") == False\n    assert simplify(\"1/5\", \"15/2\") == False\n    assert simplify(\"1/5\", \"16/2\") == False\n    assert simplify(\"1/5\", \"17/2\") == False\n    assert simplify(\"1/5\", \"18/2\") == False\n    assert simplify(\"1/5\", \"19/2\") == False\n    assert simplify(\"1/5\", \"20/2\") == False\n    assert simplify(\"1/5\", \"21/2\") == False\n    assert simplify(\"1/5\", \"22/2\") == False\n    assert simplify(\"1/5\", \"23/2",
+      -2.361328125
+    ],
+    [
+      "return (x % n == 0) and (int(x/n) % 1 == 0)\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert simplify(\"1/5\", \"5/1\") == True, \"1/5\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"1/6\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"7/10\"\n    assert simplify(\"1/5\", \"5/2\") == False, \"1/5\"\n    assert simplify(\"7/5\", \"7/5\") == True, \"7/5\"\n    assert simplify(\"2/5\", \"5/2\") == True, \"2/5\"\n    assert simplify(\"4/5\", \"5/2\") == False, \"4/5\"\n    assert simplify(\"6/5\", \"5/2\") == False, \"6/5\"\n    assert simplify(\"1/2\", \"1/2\") == True, \"1/2\"\n    assert simplify(\"7/4\", \"5/2\") == False, \"7/4\"\n    assert simplify(\"2/3\", \"3/2\") == True, \"2/3\"\n    assert simplify(\"4/7\", \"7/4\") == False, \"4/7\"\n    assert simplify(\"3/4\", \"5/4\") == True, \"3/4\"\n    assert simplify(\"4/5\", \"5/4\") == False, \"4/5\"\n    assert simplify(\"7/8\", \"5/4\") == False, \"7/8\"\n    assert simplify(\"5/6\", \"7/8\") == False, \"5/6\"\n    assert simplify(\"5/6\", \"5/2\") == True, \"5/6\"\n    assert simplify(\"5/6\", \"3/2\") == False, \"5/6\"\n    assert simplify(\"5/6\", \"7/2\") == False, \"5/6\"\n    assert simplify(\"5/6\", \"7/3\") == False, \"5/6\"\n    assert simplify(\"5/6\", \"5/3\") == True,",
+      -2.478515625
+    ],
+    [
+      "if n == \"0\":\n        return False\n    elif x == \"0\" or n == \"0\":\n        return False\n    elif int(x) == int(n):\n        return True\n    elif x.endswith(\"/\") and n.endswith(\"/\"):\n        x = x[:-1]\n        n = n[:-1]\n        return simplify(x, n)\n    elif x.endswith(\"/\") and n.endswith(\"*\"):\n        x = x[:-1]\n        n = n[:-1]\n        return simplify(x, n)\n    elif n.endswith(\"/\") and x.endswith(\"*\"):\n        n = n[:-1]\n        x = x[:-1]\n        return simplify(x, n)\n    else:\n        return simplify(x[:-1] + \"*\" + n[:-1], n[:-1])\n\n\ndef is_pandigital(n):\n    \"\"\"\n    Write a function is_pandigital(int n) that will check if n is pandigital.\n    It should return True if n is pandigital and False otherwise.\n\n    Example:\n    is_pandigital(123123) = True\n    is_pandigital(123) = False\n    is_pandigital(12345) = True\n    \"\"\"\n    if len(str(n))!= len(str(n * 2)):\n        return False\n    elif len(str(n)) == len(str(n * 2)):\n        return True\n    else:\n        return False\n\n\ndef is_prime(n):\n    \"\"\"\n    Write a function is_prime(int n) that will check if n is prime.\n    It should return True if n is prime and False otherwise.\n\n    Example:\n    is_prime(5) = True\n    is_prime(6) = False\n    is_prime(10) = True\n    is_prime(13) = False\n    is_prime(14) = True\n    is_prime(16) = False\n    is_prime(100) = False\n    \"\"\"\n    if n == 2 or n",
+      -2.9375
+    ],
+    [
+      "num = int(x.split(\"/\")[0])\n    den = int(x.split(\"/\")[1])\n    if num == 0 or den == 0:\n        return False\n    elif num == 1 or den == 1:\n        return True\n    else:\n        if num % den == 0:\n            return True\n        else:\n            return False\n\n#These are the tests you need to pass.\n#These tests are only for the sake of the assignment,\n#and are not strictly necessary to test your code.\n#They are just a nice way to test your code.\ndef test_simplify():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n\nif __name__ == \"__main__\":\n    test_simplify()",
+      -3.287109375
+    ],
+    [
+      "return x.replace(',', '').replace('.', '') == '0'\n\n\ndef main():\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert simplify(\"1/5\", \"5/1\") == True, \"1/5\"\n    assert simplify(\"1/5\", \"5/2\") == False, \"1/5\"\n    assert simplify(\"2/5\", \"5/1\") == False, \"2/5\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"7/10\"\n    assert simplify(\"7/10\", \"10/3\") == False, \"7/10\"\n    assert simplify(\"7/10\", \"10/4\") == False, \"7/10\"\n    assert simplify(\"1/4\", \"1/2\") == True, \"1/4\"\n    assert simplify(\"3/4\", \"1/2\") == False, \"3/4\"\n    assert simplify(\"1/3\", \"1/2\") == False, \"1/3\"\n    assert simplify(\"5/3\", \"1/2\") == False, \"5/3\"\n    assert simplify(\"5/3\", \"5/2\") == True, \"5/3\"\n    assert simplify(\"5/3\", \"5/4\") == False, \"5/3\"\n    assert simplify(\"1/2\", \"1/2\") == True, \"1/2\"\n    assert simplify(\"1/2\", \"3/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"4/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"5/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"6/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"7/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"8/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"9/2\") == False, \"1/2\"\n    assert simplify(\"1/2\", \"1/1\") == True, \"1/2\"\n    assert simplify",
+      -3.4140625
+    ],
+    [
+      "return x in {\"1/1\", \"1/2\", \"2/1\", \"3/2\", \"4/2\", \"5/2\", \"6/2\", \"7/2\", \"8/2\", \"9/2\", \"10/2\", \"11/2\", \"12/2\", \"13/2\", \"14/2\", \"15/2\", \"16/2\", \"17/2\", \"18/2\", \"19/2\", \"20/2\", \"21/2\", \"22/2\", \"23/2\", \"24/2\", \"25/2\", \"26/2\", \"27/2\", \"28/2\", \"29/2\", \"30/2\", \"31/2\", \"32/2\", \"33/2\", \"34/2\", \"35/2\", \"36/2\", \"37/2\", \"38/2\", \"39/2\", \"40/2\", \"41/2\", \"42/2\", \"43/2\", \"44/2\", \"45/2\", \"46/2\", \"47/2\", \"48/2\", \"49/2\", \"50/2\", \"51/2\", \"52/2\", \"53/2\", \"54/2\", \"55/2\", \"56/2\", \"57/2\", \"58/2\", \"59/2\", \"60/2\", \"61/2\", \"62/2\", \"63/2\", \"64/2\", \"65/2\", \"66/2\", \"67/2\", \"68/2\", \"69/2\", \"70/2\", \"71/2\", \"72/2\", \"73/2\", \"74/2\", \"75/2\", \"76/2\", \"77/2\", \"78/2\", \"79/2\", \"80/2\", \"81/2\", \"82/2\", \"83/2\", \"84/2\", \"85/2\", \"86/2\", \"87/2\", \"88/2\", \"89/2\", \"90/2\", \"91/2\", \"92/2\", \"93/2\", \"94/2\", \"95/2\", \"96/2\", \"97/2\", \"98/2\", \"99/2\", \"100/2\", \"101/",
+      -3.61328125
+    ],
+    [
+      "if n == \"0\":\n        return False\n    if n == \"1\":\n        return True\n    if n == \"2\":\n        return True\n    if n == \"3\":\n        return True\n    if n == \"4\":\n        return True\n    if n == \"5\":\n        return True\n    if n == \"6\":\n        return True\n    if n == \"7\":\n        return True\n    if n == \"8\":\n        return True\n    if n == \"9\":\n        return True\n    if n == \"10\":\n        return True\n    if n == \"11\":\n        return True\n    if n == \"12\":\n        return True\n    if n == \"13\":\n        return True\n    if n == \"14\":\n        return True\n    if n == \"15\":\n        return True\n    if n == \"16\":\n        return True\n    if n == \"17\":\n        return True\n    if n == \"18\":\n        return True\n    if n == \"19\":\n        return True\n    if n == \"20\":\n        return True\n    if n == \"21\":\n        return True\n    if n == \"22\":\n        return True\n    if n == \"23\":\n        return True\n    if n == \"24\":\n        return True\n    if n == \"25\":\n        return True\n    if n == \"26\":\n        return True\n    if n == \"27\":\n        return True\n    if n == \"28\":\n        return True\n    if n == \"29\":\n        return True\n    if n == \"30\":\n        return True\n    if n == \"31\":\n        return True\n    if n == \"32\":\n        return True\n    if n == \"33\":\n        return True\n    if n == \"34\":\n        return True\n    if n == \"35\":\n        return True\n    if n == \"36\":\n        return True\n    if n == \"37\":\n        return True\n    if n == \"38\":\n        return True\n    if n == \"39\":\n        return True\n    if n == \"40\":\n        return True\n    if n == \"41\":\n        return True\n    if n == \"42\":",
+      -3.71875
+    ],
+    [
+      "if x == \"0\" or n == \"0\":\n        return False\n    elif x == \"1\" and n == \"1\":\n        return True\n    elif x == \"1\" and n == \"2\":\n        return False\n    elif x == \"2\" and n == \"2\":\n        return True\n    elif x == \"2\" and n == \"1\":\n        return False\n    elif x == \"2\" and n == \"0\":\n        return False\n    elif x == \"1\" and n == \"0\":\n        return False\n    elif x == \"0\" and n == \"0\":\n        return False\n    elif x == \"0\" and n == \"1\":\n        return True\n    elif x == \"0\" and n == \"2\":\n        return False\n    elif x == \"0\" and n == \"3\":\n        return False\n    elif x == \"0\" and n == \"4\":\n        return False\n    elif x == \"0\" and n == \"5\":\n        return False\n    elif x == \"0\" and n == \"6\":\n        return False\n    elif x == \"0\" and n == \"7\":\n        return False\n    elif x == \"0\" and n == \"8\":\n        return False\n    elif x == \"0\" and n == \"9\":\n        return False\n    elif x == \"1\" and n == \"0\":\n        return False\n    elif x == \"1\" and n == \"1\":\n        return True\n    elif x == \"1\" and n == \"2\":\n        return False\n    elif x == \"1\" and n == \"3\":\n        return False\n    elif x == \"1\" and n == \"4\":\n        return False\n    elif x == \"1\" and n == \"5\":\n        return False\n    elif x == \"1\" and n == \"6\":\n        return False\n    elif x == \"1\" and n == \"7\":\n        return False\n    elif x == \"1\" and n == \"8\":\n        return False\n    elif x == \"1\" and n == \"9\":\n        return False",
+      -4.01953125
+    ],
+    [
+      "return x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or x == \"0\" or x == \"0/\" or",
+      -4.234375
+    ],
+    [
+      "# x * n\n    # x * (n+1)\n    # x * (n-1)\n    # x * (n+2)\n    # x * (n-2)\n    # x * (n+3)\n    # x * (n-3)\n    # x * (n+4)\n    # x * (n-4)\n    # x * (n+5)\n    # x * (n-5)\n    # x * (n+6)\n    # x * (n-6)\n    # x * (n+7)\n    # x * (n-7)\n    # x * (n+8)\n    # x * (n-8)\n    # x * (n+9)\n    # x * (n-9)\n    # x * (n+10)\n    # x * (n-10)\n    # x * (n+11)\n    # x * (n-11)\n    # x * (n+12)\n    # x * (n-12)\n    # x * (n+13)\n    # x * (n-13)\n    # x * (n+14)\n    # x * (n-14)\n    # x * (n+15)\n    # x * (n-15)\n    # x * (n+16)\n    # x * (n-16)\n    # x * (n+17)\n    # x * (n-17)\n    # x * (n+18)\n    # x * (n-18)\n    # x * (n+19)\n    # x * (n-19)\n    # x * (n+20)\n    # x * (n-20)\n    # x * (n+21)\n    # x * (n-21)\n    # x * (n+22)\n    # x * (n-22)\n    # x * (n+23)\n    # x * (n-23)\n    # x * (n+24)\n    # x * (n-24)\n    # x * (n+25)\n    # x * (n-25)\n    # x * (n",
+      -4.4921875
+    ],
+    [
+      "# if x == 0 then the result is False\n    if x == 0:\n        return False\n    # if n == 0 then the result is False\n    if n == 0:\n        return False\n    # if x is a whole number then the result is True\n    if x == int(x):\n        return True\n    # if n is a whole number then the result is False\n    if n == int(n):\n        return False\n    # if x is a fraction then the result is False\n    if not isinstance(x, int):\n        return False\n    # if n is a fraction then the result is False\n    if not isinstance(n, int):\n        return False\n    # if x is divisible by n then the result is False\n    if x % n == 0:\n        return False\n    # if x is not divisible by n then the result is True\n    else:\n        return True",
+      -5.0625
+    ],
+    [
+      "if n == '1':\n        return True\n    if n == '0':\n        return False\n    if n.isdigit():\n        return simplify(x, int(n))\n\n    if n.find('/')!= -1:\n        a, b = n.split('/')\n        return simplify(x * int(a) / int(b), int(a) * int(b))\n\n    return simplify(x * int(n), int(n))\n\n\n# This is a basic example to illustrate the problem.\n# It should be changed later\ndef test_simplify():\n    assert simplify('2/3', '3/2') == True\n    assert simplify('1/5', '5/1') == False\n    assert simplify('7/10', '10/2') == False\n    assert simplify('7/10', '10/1') == True\n    assert simplify('7/10', '2/1') == False\n    assert simplify('3/2', '3/2') == True\n    assert simplify('3/2', '5/2') == False\n    assert simplify('3/2', '7/2') == False\n    assert simplify('3/2', '9/2') == False\n    assert simplify('3/2', '5/3') == False\n    assert simplify('3/2', '7/3') == False\n    assert simplify('3/2', '9/3') == False\n    assert simplify('3/2', '5/4') == False\n    assert simplify('3/2', '7/4') == False\n    assert simplify('3/2', '9/4') == False\n    assert simplify('3/2', '5/5') == False\n    assert simplify('3/2', '7/5') == False\n    assert simplify('3/2', '9/5') == False\n    assert simplify('3/2', '5/6') == False\n    assert simplify('3/2', '7/6') == False\n    assert simplify('3/2', '9/6') == False\n    assert simplify('3/2', '5/7') == False\n    assert simplify('3/2', '7/7') == False\n    assert simplify('3/2",
+      -5.66796875
+    ],
+    [
+      "if n == \"1\" or n == \"0\":\n        return False\n    if n == \"0\":\n        return False\n    if n == \"1\":\n        return True\n    if x == \"0\":\n        return False\n    if x == \"1\":\n        return True\n    if x == \"1/2\":\n        return True\n    if x == \"1/3\":\n        return True\n    if x == \"1/4\":\n        return True\n    if x == \"1/5\":\n        return True\n    if x == \"1/6\":\n        return True\n    if x == \"1/7\":\n        return True\n    if x == \"1/8\":\n        return True\n    if x == \"1/9\":\n        return True\n    if x == \"1/10\":\n        return True\n    if x == \"1/11\":\n        return True\n    if x == \"1/12\":\n        return True\n    if x == \"1/13\":\n        return True\n    if x == \"1/14\":\n        return True\n    if x == \"1/15\":\n        return True\n    if x == \"1/16\":\n        return True\n    if x == \"1/17\":\n        return True\n    if x == \"1/18\":\n        return True\n    if x == \"1/19\":\n        return True\n    if x == \"1/20\":\n        return True\n    if x == \"1/21\":\n        return True\n    if x == \"1/22\":\n        return True\n    if x == \"1/23\":\n        return True\n    if x == \"1/24\":\n        return True\n    if x == \"1/25\":\n        return True\n    if x == \"1/26\":\n        return True\n    if x == \"1/27\":\n        return True\n    if x == \"1/28\":\n        return True\n    if x == \"1/29\":\n        return True\n    if x == \"1/30\":\n        return True\n    if x == \"1/31\":\n        return True\n    if x == \"1/32\":\n        return True\n    if x == \"1/33\":\n        return",
+      -5.7421875
+    ],
+    [
+      "if n == \"1\":\n        return False\n\n    if x == \"0\" or n == \"0\":\n        return False\n\n    if x == \"1\" or n == \"1\":\n        return True\n\n    if x == \"0\" and n == \"1\":\n        return True\n\n    if x == \"0\" and n == \"0\":\n        return False\n\n    if x == \"0\" and n == \"1\":\n        return True\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    if x == \"1\" and n == \"0\":\n        return False\n\n    if n == \"1\":\n        return False\n\n    if n == \"0\":\n        return False\n\n    if x == \"0\" and n == \"0\":\n        return False\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    if n == \"1\" and x == \"0\":\n        return False\n\n    if x == \"1\" and n == \"0\":\n        return False\n\n    if n == \"0\" and x == \"1\":\n        return False\n\n    if n == \"0\" and x == \"0\":\n        return False\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    if x == \"1\" and n == \"0\":\n        return False\n\n    if n == \"1\" and x == \"0\":\n        return False\n\n    if x == \"0\" and n == \"1\":\n        return False\n\n    if n == \"0\" and x == \"0\":\n        return False\n\n    if x == \"1\" and n == \"0\":\n        return False\n\n    if n == \"0\" and x == \"1\":\n        return False\n\n    if n == \"1\" and x == \"1\":\n        return True\n\n    if x == \"0\" and n == \"1\":\n        return False\n\n    if n == \"1\" and x == \"1\":\n        return False\n\n    if n == \"1\" and x == \"0\":\n        return False\n\n    if n == \"0\" and x == \"1\":\n        return False\n\n    if n == \"1\" and x == \"0\":\n        return False\n\n    if n == \"0\" and",
+      -5.80078125
+    ],
+    [
+      "if x.find('/') == -1:\n        return False\n    elif x.find('/')!= 0:\n        return False\n    elif x[0] == '-':\n        return False\n    elif x[-1] == '-':\n        return False\n    elif int(x[:-1]) == 0:\n        return False\n    elif int(x[-1:]) == 0:\n        return False\n    elif x[-1] == '1' and int(x[:-1]) == 1:\n        return True\n    else:\n        return False\n\n\ndef main():\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert simplify(\"1/5\", \"5/1\") == True, \"1/5\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"1/6\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"7/10\"\n    assert simplify(\"3/4\", \"1/2\") == False, \"3/4\"\n    assert simplify(\"4/5\", \"1/2\") == False, \"4/5\"\n    assert simplify(\"4/5\", \"2/1\") == True, \"4/5\"\n    assert simplify(\"2/3\", \"1/3\") == True, \"2/3\"\n    assert simplify(\"2/3\", \"2/1\") == False, \"2/3\"\n    assert simplify(\"2/5\", \"1/2\") == True, \"2/5\"\n    assert simplify(\"5/7\", \"1/2\") == True, \"5/7\"\n    assert simplify(\"5/7\", \"7/5\") == False, \"5/7\"\n    assert simplify(\"5/7\", \"5/7\") == True, \"5/7\"\n    assert simplify(\"5/7\", \"2/1\") == False, \"5/7\"\n    assert simplify(\"5/7\", \"3/1\") == False, \"5/7\"\n    assert simplify(\"5/7\", \"7/5\") == False, \"5/7\"\n    assert simplify(\"5/7\", \"1/3\") == False,",
+      -6.32421875
+    ],
+    [
+      "if x == \"0\":\n        return False\n    if n == \"0\":\n        return False\n    if x.isdigit() and n.isdigit():\n        return True\n    if x.isdigit() and n.isdigit() and int(x) % int(n) == 0:\n        return True\n    if x.isalpha() and n.isalpha():\n        if x.lower() == n.lower():\n            return True\n    if x.isalpha() and n.isalpha() and int(x) % int(n) == 0:\n        return True\n    return False\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/2\", \"2/1\") == True\n    assert simplify(\"1/4\", \"2/1\") == False\n    assert simplify(\"3/4\", \"2/1\") == True\n    assert simplify(\"2/4\", \"2/1\") == False\n    assert simplify(\"3/5\", \"2/1\") == True\n    assert simplify(\"3/6\", \"2/1\") == False\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/2\", \"2/1\") == True\n    assert simplify(\"1/4\", \"2/1\") == False\n    assert simplify(\"3/4\", \"2/1\") == True\n    assert simplify(\"2/4\", \"2/1\") == False\n    assert simplify(\"3/5\", \"2/1\") == True\n    assert simplify(\"3/6\", \"2/1\") == False\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/2\", \"2/1\") == True\n    assert simplify(\"1/",
+      -6.39453125
+    ],
+    [
+      "if x == \"0\" and n == \"0\":\n        return False\n    if x == \"0\" and n == \"1\":\n        return True\n    if x == \"1\" and n == \"0\":\n        return True\n    if x == \"1\" and n == \"1\":\n        return False\n    if x == \"0\" and n == \"0\":\n        return False\n    if x == \"0\" and n == \"1\":\n        return False\n    if x == \"0\" and n == \"2\":\n        return False\n    if x == \"1\" and n == \"0\":\n        return False\n    if x == \"1\" and n == \"1\":\n        return False\n    if x == \"1\" and n == \"2\":\n        return False\n    if x == \"1\" and n == \"3\":\n        return False\n    if x == \"1\" and n == \"4\":\n        return False\n    if x == \"1\" and n == \"5\":\n        return False\n    if x == \"2\" and n == \"0\":\n        return False\n    if x == \"2\" and n == \"1\":\n        return False\n    if x == \"2\" and n == \"2\":\n        return False\n    if x == \"2\" and n == \"3\":\n        return False\n    if x == \"2\" and n == \"4\":\n        return False\n    if x == \"2\" and n == \"5\":\n        return False\n    if x == \"3\" and n == \"0\":\n        return False\n    if x == \"3\" and n == \"1\":\n        return False\n    if x == \"3\" and n == \"2\":\n        return False\n    if x == \"3\" and n == \"3\":\n        return False\n    if x == \"3\" and n == \"4\":\n        return False\n    if x == \"3\" and n == \"5\":\n        return False\n    if x == \"4\" and n == \"0\":\n        return False\n    if x == \"4\" and n == \"1\":\n        return False\n    if x == \"4\" and n == \"2\":\n        return False\n    if x == \"4\" and",
+      -6.65625
+    ],
+    [
+      "x_numerator, x_denominator = x.split('/')\n    numerator, denominator = n.split('/')\n    if numerator == \"0\" and denominator == \"0\":\n        return False\n    elif x_denominator == \"1\" and denominator == \"1\":\n        return True\n    elif x_denominator == \"1\" and denominator == \"0\":\n        return False\n    elif x_denominator == \"0\" and denominator == \"1\":\n        return False\n    else:\n        if numerator == \"0\" and denominator == \"1\":\n            return False\n        elif x_denominator == \"1\" and denominator == \"1\":\n            return False\n        elif x_denominator == \"1\" and denominator == \"0\":\n            return False\n        elif x_denominator == \"0\" and denominator == \"0\":\n            return False\n        elif x_denominator == \"1\" and denominator == \"1\":\n            return False\n        elif x_denominator == \"1\" and denominator == \"0\":\n            return False\n        elif x_denominator == \"0\" and denominator == \"1\":\n            return False\n        else:\n            return True\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -6.6640625
+    ],
+    [
+      "#if x == \"0\" or n == \"0\":\n    #    return False\n    if x == \"0\" or n == \"0\":\n        return False\n    elif x == \"1\" and n == \"1\":\n        return True\n    elif x == \"1\" and n == \"2\":\n        return False\n    elif x == \"2\" and n == \"1\":\n        return False\n    elif x == \"2\" and n == \"2\":\n        return True\n    else:\n        x_num = int(x[:-1])\n        n_num = int(n[:-1])\n        x_den = int(x[-1:])\n        n_den = int(n[-1:])\n        if n_den == 1:\n            return False\n        if x_den == n_den:\n            return True\n        else:\n            return False",
+      -6.6796875
+    ],
+    [
+      "def _simplify(x, n):\n        if x == 0:\n            return False\n        if n == 0:\n            return True\n        if x % n == 0:\n            return True\n        return _simplify(x / n, n)\n    return _simplify(int(x), int(n))\n\nif __name__ == '__main__':\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(7/10, 2/1) == False\n    assert simplify(7/10, 10/2) == False\n    assert simplify(7/10, 2/1) == False\n    assert simplify(7/10, 10/2) == False\n    assert simplify(7/10, 2/1) == False\n    assert simplify(7/10, 10/2) == False",
+      -6.68359375
+    ],
+    [
+      "if n == \"1/1\":\n        return False\n    if x == \"0\":\n        return False\n    if n == \"1/1\":\n        return True\n    if n == \"1/2\" or n == \"2/1\":\n        return False\n    if n == \"1/3\" or n == \"3/1\":\n        return False\n    if n == \"1/4\" or n == \"4/1\":\n        return False\n    if n == \"1/5\" or n == \"5/1\":\n        return True\n    if n == \"1/6\" or n == \"6/1\":\n        return False\n    if n == \"1/7\" or n == \"7/1\":\n        return False\n    if n == \"1/8\" or n == \"8/1\":\n        return False\n    if n == \"1/9\" or n == \"9/1\":\n        return False\n    if n == \"1/10\" or n == \"10/1\":\n        return True\n    if n == \"1/11\" or n == \"11/1\":\n        return False\n    if n == \"1/12\" or n == \"12/1\":\n        return False\n    if n == \"1/13\" or n == \"13/1\":\n        return False\n    if n == \"1/14\" or n == \"14/1\":\n        return False\n    if n == \"1/15\" or n == \"15/1\":\n        return False\n    if n == \"1/16\" or n == \"16/1\":\n        return False\n    if n == \"1/17\" or n == \"17/1\":\n        return False\n    if n == \"1/18\" or n == \"18/1\":\n        return False\n    if n == \"1/19\" or n == \"19/1\":\n        return False\n    if n == \"1/20\" or n == \"20/1\":\n        return False\n    if n == \"1/21\" or n == \"21/1\":\n        return False\n    if n == \"1/22\" or n == \"22/1\":\n        return False\n    if n == \"1/23\" or",
+      -7.09765625
+    ],
+    [
+      "if n == 0:\n        return False\n\n    if n == 1:\n        return True\n\n    if x == \"0\" and n == \"1\":\n        return True\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    if n == 1:\n        return False\n\n    if x == \"0\" and n == \"1\":\n        return False\n\n    if n == \"1\":\n        return False\n\n    return True\n\n\ndef main():\n    pass\n\n\nif __name__ == \"__main__\":\n    main()",
+      -7.12890625
+    ],
+    [
+      "# check if n is a whole number\n    if int(n) == float(n):\n        return True\n    else:\n        return False\n\n\n# test cases\n\ntest_cases = [\n    (\"1/5\", \"5/1\"),\n    (\"1/6\", \"2/1\"),\n    (\"7/10\", \"10/2\"),\n    (\"2/5\", \"5/2\"),\n    (\"3/5\", \"5/3\"),\n    (\"5/5\", \"1/1\"),\n    (\"2/1\", \"2/2\"),\n    (\"2/2\", \"2/2\"),\n    (\"2/3\", \"3/2\"),\n    (\"2/4\", \"4/2\"),\n    (\"2/5\", \"5/2\"),\n    (\"2/6\", \"6/2\"),\n    (\"2/7\", \"7/2\"),\n    (\"2/8\", \"8/2\"),\n    (\"2/9\", \"9/2\"),\n    (\"2/10\", \"10/2\"),\n    (\"3/5\", \"5/3\"),\n    (\"4/5\", \"5/4\"),\n    (\"5/5\", \"1/1\"),\n    (\"5/6\", \"6/5\"),\n    (\"5/7\", \"7/5\"),\n    (\"5/8\", \"8/5\"),\n    (\"5/9\", \"9/5\"),\n    (\"5/10\", \"10/5\"),\n    (\"6/5\", \"5/6\"),\n    (\"7/5\", \"5/7\"),\n    (\"8/5\", \"5/8\"),\n    (\"9/5\", \"5/9\"),\n    (\"10/5\", \"5/10\"),\n    (\"2/3\", \"3/2\"),\n    (\"2/4\", \"4/2\"),\n    (\"2/5\", \"5/2\"),\n    (\"2/6\", \"6/2\"),\n    (\"2/7\", \"7/2\"),\n    (\"2/8\", \"8/2\"),\n    (\"2/9\", \"9/2\"),\n    (\"2/10\", \"10/2\"),\n    (\"3/5\", \"5/3\"),\n    (\"4/5\", \"5/4",
+      -7.2578125
+    ],
+    [
+      "if x == \"0\" or n == \"0\":\n        return False\n\n    x, n = int(x), int(n)\n    if x == 1:\n        return n == 1\n    if n == 1:\n        return x == 1\n\n    if x % n == 0 and n % x == 0:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert simplify(\"1/5\", \"5/1\") == True, \"1/5\"\n    assert simplify(\"1/6\", \"2/1\") == False, \"1/6\"\n    assert simplify(\"7/10\", \"10/2\") == False, \"7/10\"\n    assert simplify(\"0\", \"1/1\") == True, \"0\"\n    assert simplify(\"0\", \"0\") == False, \"0\"\n    assert simplify(\"0\", \"2\") == False, \"0\"\n    assert simplify(\"0\", \"5\") == False, \"0\"\n    assert simplify(\"0\", \"7\") == False, \"0\"\n    assert simplify(\"0\", \"10\") == False, \"0\"\n    assert simplify(\"0\", \"15\") == False, \"0\"\n    assert simplify(\"0\", \"20\") == False, \"0\"\n    assert simplify(\"0\", \"30\") == False, \"0\"\n    assert simplify(\"0\", \"40\") == False, \"0\"\n    assert simplify(\"0\", \"50\") == False, \"0\"\n    assert simplify(\"0\", \"60\") == False, \"0\"\n    assert simplify(\"0\", \"70\") == False, \"0\"\n    assert simplify(\"0\", \"80\") == False, \"0\"\n    assert simplify(\"0\", \"90\") == False, \"0\"\n    assert simplify(\"0\", \"100\") == False, \"0\"\n    assert simplify(\"0\", \"120\") == False, \"0\"\n    assert simplify(\"0\", \"130\") == False, \"0\"\n    assert simplify(\"0\", \"140\") == False, \"0\"\n    assert simplify(\"0\", \"150\") == False, \"0\"\n    assert simplify(\"0\",",
+      -7.328125
+    ],
+    [
+      "# Your code here\n    if x == \"0\" or n == \"0\":\n        return False\n    elif x == \"0\" or n == \"1\":\n        return True\n    elif x == \"1\" or n == \"1\":\n        return False\n    elif x == n:\n        return True\n    elif x > n:\n        return False\n    elif x < n:\n        return True\n    else:\n        return simplify(x, n - 1) or simplify(x, n + 1)\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/10\", \"1/2\") == False\n    assert simplify(\"2/10\", \"2/2\") == False\n    assert simplify(\"3/10\", \"3/2\") == False\n    assert simplify(\"4/10\", \"4/2\") == False\n    assert simplify(\"5/10\", \"5/2\") == False\n    assert simplify(\"6/10\", \"6/2\") == False\n    assert simplify(\"7/10\", \"7/2\") == False\n    assert simplify(\"8/10\", \"8/2\") == False\n    assert simplify(\"9/10\", \"9/2\") == False\n    assert simplify(\"10/10\", \"10/2\") == True\n    assert simplify(\"1/2\", \"1/2\") == True\n    assert simplify(\"1/4\", \"1/4\") == False\n    assert simplify(\"3/4\", \"3/4\") == False\n    assert simplify(\"3/8\", \"3/8\") == False\n    assert simplify(\"5/8\", \"5/8\") == False\n    assert simplify(\"7/8\", \"7/8\") == False\n    assert simplify(\"1/3\", \"1/3\") == True\n    assert simplify(\"2/3\", \"2/3\") == False\n    assert simplify(\"3/3\", \"3/3\") == True\n    assert simplify(\"4/3\", \"4/3\") == False\n    assert simplify(\"5/3\", \"5",
+      -7.52734375
+    ],
+    [
+      "if x == \"0\":\n        return False\n    elif x == \"1\":\n        return True\n    elif x == \"0/1\":\n        return True\n    elif x == \"1/1\":\n        return True\n    elif x == \"0/0\":\n        return False\n    elif x == \"0/0\":\n        return False\n    else:\n        a = float(x[:-1])\n        b = float(x[1:])\n        return int(a/b) == a/b\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/6\", \"2/1\") == True\n    assert simplify(\"1/7\", \"3/2\") == True\n    assert simplify(\"1/8\", \"2/1\") == False",
+      -7.55078125
+    ],
+    [
+      "# n is a string representing a fraction.\n    # x is a string representing an expression.\n\n    # check if denominator is a single digit.\n    # if so, then x can be simplified.\n    if len(n) == 1:\n        return True\n\n    # if n is a single digit, then x can be simplified.\n    if len(x) == 1:\n        return True\n\n    # if x is a single digit, then x can be simplified.\n    if len(x) == 1:\n        return True\n\n    # if denominator is a single digit, then x can be simplified.\n    if len(n) == 1:\n        return True\n\n    # if x is a single digit, then x can be simplified.\n    if len(x) == 1:\n        return True\n\n    # if x is not a fraction, then it cannot be simplified.\n    if x[0]!= '/' or x[-1]!= '/':\n        return False\n\n    # if denominator is not a single digit, then it cannot be simplified.\n    if n[0]!= '/' or n[-1]!= '/':\n        return False\n\n    # if both denominator and numerator are not a single digit, then it cannot be simplified.\n    if len(n) > 1 or len(x) > 1:\n        return False\n\n    # if denominator is a single digit, then x can be simplified.\n    if len(n) == 1:\n        return True\n\n    # if numerator is a single digit, then x can be simplified.\n    if len(x) == 1:\n        return True\n\n    # if both numerator and denominator are a single digit, then x can be simplified.\n    if len(n) == 1 and len(x) == 1:\n        return True\n\n    # x is a fraction\n    return False",
+      -7.828125
+    ],
+    [
+      "if n == 0:\n        return False\n    if x == \"0\" or n == \"0\":\n        return False\n    if x == \"1\" and n == \"1\":\n        return True\n    if x == \"1\" and n == \"2\":\n        return False\n    if x == \"1\" and n == \"3\":\n        return False\n    if x == \"1\" and n == \"4\":\n        return False\n    if x == \"1\" and n == \"5\":\n        return False\n    if x == \"1\" and n == \"6\":\n        return False\n    if x == \"1\" and n == \"7\":\n        return False\n    if x == \"1\" and n == \"8\":\n        return False\n    if x == \"1\" and n == \"9\":\n        return False\n    if x == \"1\" and n == \"10\":\n        return False\n    if x == \"2\" and n == \"2\":\n        return False\n    if x == \"2\" and n == \"3\":\n        return False\n    if x == \"2\" and n == \"4\":\n        return False\n    if x == \"2\" and n == \"5\":\n        return False\n    if x == \"2\" and n == \"6\":\n        return False\n    if x == \"2\" and n == \"7\":\n        return False\n    if x == \"2\" and n == \"8\":\n        return False\n    if x == \"2\" and n == \"9\":\n        return False\n    if x == \"2\" and n == \"10\":\n        return False\n    if x == \"3\" and n == \"3\":\n        return False\n    if x == \"3\" and n == \"4\":\n        return False\n    if x == \"3\" and n == \"5\":\n        return False\n    if x == \"3\" and n == \"6\":\n        return False\n    if x == \"3\" and n == \"7\":\n        return False\n    if x == \"3\" and n == \"8\":\n        return False\n    if x == \"3\" and n == \"9\":\n        return False\n    if x == \"3\" and n == \"10\":",
+      -8.390625
+    ],
+    [
+      "return x.is_integer() and x.is_positive() and int(x) % int(n) == 0\n\n\ndef test_simplify():\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert simplify(\"1/3\", \"3/1\") == True\n    assert simplify(\"4/3\", \"3/2\") == True\n    assert simplify(\"-4/3\", \"3/2\") == True\n    assert simplify(\"-4/3\", \"-3/2\") == True\n    assert simplify(\"1/2\", \"2/1\") == True\n    assert simplify(\"3/4\", \"4/3\") == False\n    assert simplify(\"2/4\", \"4/3\") == False\n    assert simplify(\"3/4\", \"2/4\") == True\n    assert simplify(\"2/4\", \"2/4\") == True\n    assert simplify(\"1/4\", \"2/4\") == False\n    assert simplify(\"1/4\", \"1/2\") == False\n    assert simplify(\"1/4\", \"3/4\") == True\n    assert simplify(\"3/4\", \"1/2\") == False\n    assert simplify(\"3/4\", \"3/4\") == True\n    assert simplify(\"3/4\", \"2/4\") == False\n    assert simplify(\"1/4\", \"3/4\") == False\n    assert simplify(\"1/2\", \"3/4\") == False\n    assert simplify(\"3/2\", \"3/4\") == False\n    assert simplify(\"3/2\", \"1/4\") == True\n    assert simplify(\"3/2\", \"2/4\") == True\n    assert simplify(\"3/2\", \"3/2\") == True\n    assert simplify(\"3/2\", \"3/2\") == True\n    assert simplify(\"2/2\", \"2/2\") == True\n    assert simplify(\"2/2\", \"2/3\") == False\n    assert simplify(\"2/2\", \"3/2\") == False\n    assert simplify(\"2/2\", \"4/2\") == False\n    assert simplify(\"2/2\", \"",
+      -8.5234375
+    ],
+    [
+      "# This is a trivial solution\n    if n == \"1\" and x == \"1\":\n        return True\n\n    if x == \"0\":\n        return False\n\n    if x == \"1\":\n        return True\n\n    if x == \"0\":\n        return False\n\n    if n == \"1\":\n        return True\n\n    if n == \"0\":\n        return False\n\n    if n == \"1/1\":\n        return True\n\n    if n == \"1/2\":\n        return True\n\n    if x == \"1/1\" and n == \"1/1\":\n        return True\n\n    if x == \"1/2\" and n == \"1/2\":\n        return True\n\n    if x == \"1/3\" and n == \"1/3\":\n        return True\n\n    if x == \"1/4\" and n == \"1/4\":\n        return True\n\n    if x == \"1/5\" and n == \"1/5\":\n        return True\n\n    if x == \"1/6\" and n == \"1/6\":\n        return True\n\n    if x == \"1/7\" and n == \"1/7\":\n        return True\n\n    if x == \"1/8\" and n == \"1/8\":\n        return True\n\n    if x == \"1/9\" and n == \"1/9\":\n        return True\n\n    if x == \"1/10\" and n == \"1/10\":\n        return True\n\n    if x == \"1/11\" and n == \"1/11\":\n        return True\n\n    if x == \"1/12\" and n == \"1/12\":\n        return True\n\n    if x == \"1/13\" and n == \"1/13\":\n        return True\n\n    if x == \"1/14\" and n == \"1/14\":\n        return True\n\n    if x == \"1/15\" and n == \"1/15\":\n        return True\n\n    if x == \"1/16\" and n == \"1/16\":\n        return True\n\n    if x == \"1/17\" and n == \"1/17\":\n        return True\n\n    if x == \"1/18\" and n == \"1/18\":\n        return True\n\n    if",
+      -8.921875
+    ],
+    [
+      "if n == \"0\":\n        return False\n\n    if x == \"0\":\n        return False\n\n    if x[0] == \"-\" or n[0] == \"-\" or x[0] == \"+\" or n[0] == \"+\":\n        return False\n\n    if x[0] == \"0\" and n[0] == \"0\":\n        return False\n\n    if n == \"1\":\n        return True\n\n    if n[0] == \"1\" and x[0] == \"0\":\n        return False\n\n    if n[0] == \"1\" and x[0] == \"1\":\n        return False\n\n    if n[0] == \"1\" and x[0] == \"0\":\n        return False\n\n    if n[0] == \"1\" and x[0] == \"1\":\n        return False\n\n    if n[0] == \"1\" and x[0] == \"0\":\n        return False\n\n    if n[0] == \"0\" and x[0] == \"1\":\n        return False\n\n    if n[0] == \"0\" and x[0] == \"0\":\n        return False\n\n    if n[0] == \"1\" and x[0] == \"0\":\n        return False\n\n    if n[0] == \"0\" and x[0] == \"1\":\n        return False\n\n    if n[0] == \"0\" and x[0] == \"0\":\n        return False\n\n    if x[0] == \"0\" and n[0] == \"1\":\n        return False\n\n    if x[0] == \"0\" and n[0] == \"0\":\n        return False\n\n    if n[0] == \"0\" and x[0] == \"1\":\n        return False\n\n    if x[0] == \"1\" and n[0] == \"0\":\n        return False\n\n    if x[0] == \"1\" and n[0] == \"1\":\n        return False\n\n    if x[0] == \"1\" and n[0] == \"0\":\n        return False\n\n    if x[0] == \"0\" and n[0] == \"1\":\n        return False\n\n    if x[0]",
+      -8.9609375
+    ],
+    [
+      "if x[-1] == '/' and n[-1] == '/':\n        return True\n    if x[-1] == '/' or n[-1] == '/':\n        return False\n    if x[-1] == '+' or n[-1] == '+':\n        return False\n    if x[-1] == '*' or n[-1] == '*':\n        return False\n    return x[:-1] + '/' + n[:-1] in (\n        '1/1', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9', '1/10', '1/11', '1/12',\n        '2/1', '2/2', '2/3', '2/4', '2/5', '2/6', '2/7', '2/8', '2/9', '2/10', '2/11', '2/12',\n        '3/1', '3/2', '3/3', '3/4', '3/5', '3/6', '3/7', '3/8', '3/9', '3/10', '3/11', '3/12',\n        '4/1', '4/2', '4/3', '4/4', '4/5', '4/6', '4/7', '4/8', '4/9', '4/10', '4/11', '4/12',\n        '5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7', '5/8', '5/9', '5/10', '5/11', '5/12',\n        '6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8', '6/9', '6/10', '6/11', '6/12',\n        '7/1', '7/2', '7/3', '7/4',",
+      -9.0703125
+    ],
+    [
+      "if x == \"0\" or n == \"0\":\n        return False\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    if x == \"0\" or n == \"1\":\n        return False\n\n    if x == \"1\" and n == \"0\":\n        return False\n\n    if x == \"0\" or n == \"0\":\n        return False\n\n    if x.find(\"/\") > 0 and n.find(\"/\") > 0:\n        return simplify(x[:-1] + \"/\" + n[:-1], x[-1] * n[-1])\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    if x == \"0\" or n == \"1\":\n        return False\n\n    if x == \"1\" and n == \"0\":\n        return False\n\n    if x == \"0\" or n == \"0\":\n        return False\n\n    if x == \"1\" and n == \"1\":\n        return True\n\n    return simplify(x[:-1] + \"/\" + n, x[-1] * n)\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False",
+      -10.1328125
+    ],
+    [
+      "if n == \"1\" or x == \"1\":\n        return True\n    elif x == \"0\" or n == \"0\":\n        return False\n    elif n == \"1\" and x == \"0\":\n        return True\n    elif n == \"1\" and x == \"1\":\n        return True\n    elif n == \"2\" and x == \"0\":\n        return False\n    elif n == \"2\" and x == \"1\":\n        return False\n    elif n == \"2\" and x == \"2\":\n        return False\n    elif n == \"2\" and x == \"3\":\n        return False\n    elif n == \"3\" and x == \"0\":\n        return False\n    elif n == \"3\" and x == \"1\":\n        return False\n    elif n == \"3\" and x == \"2\":\n        return False\n    elif n == \"3\" and x == \"3\":\n        return False\n    elif n == \"3\" and x == \"4\":\n        return False\n    elif n == \"4\" and x == \"0\":\n        return False\n    elif n == \"4\" and x == \"1\":\n        return False\n    elif n == \"4\" and x == \"2\":\n        return False\n    elif n == \"4\" and x == \"3\":\n        return False\n    elif n == \"4\" and x == \"4\":\n        return False\n    elif n == \"4\" and x == \"5\":\n        return False\n    elif n == \"5\" and x == \"0\":\n        return False\n    elif n == \"5\" and x == \"1\":\n        return False\n    elif n == \"5\" and x == \"2\":\n        return False\n    elif n == \"5\" and x == \"3\":\n        return False\n    elif n == \"5\" and x == \"4\":\n        return False\n    elif n == \"5\" and x == \"5\":\n        return False\n    else:\n        return False\n\n# Your function will be called like this:\n# x, n = input().strip().split('/')\n# print(simpl",
+      -10.4140625
+    ],
+    [
+      "return int(x) / int(n) == float(x) / float(n)\n\n\ndef is_prime(n):\n    \"\"\"Your task is to implement a function is_prime(n) that returns True if n is a prime and returns False\n    otherwise.\n\n    is_prime(n) should return True only for prime numbers.\n\n    For example, is_prime(5) should return True, is_prime(17) should return False, is_prime(4) should return False.\n    \"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef get_primes(n):\n    \"\"\"Your task is to implement a function get_primes(n) that returns the list of primes\n    less than n.\n\n    get_primes(n) should return the list of primes, without including the number itself.\n    For example, if n = 7, the function should return [2, 3, 5].\n\n    Note: If you are not sure about a math formula, please use the formula and get the\n    answer yourself.\n    \"\"\"\n    if n < 2:\n        return []\n    if n == 2:\n        return [2]\n    if n % 2 == 0:\n        return []\n    for i in range(3, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            return []\n    return [i for i in range(3, n + 1) if is_prime(i)]\n\n\nif __name__ == \"__main__\":\n    assert simplify(\"1/5\", \"5/1\") == True\n    assert simplify(\"1/6\", \"2/1\") == False\n    assert simplify(\"7/10\", \"10/2\") == False\n    assert is_prime(5) == True\n    assert is_prime(17) == False\n    assert get_primes(17) == [2, 3, 5]",
+      -16.125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

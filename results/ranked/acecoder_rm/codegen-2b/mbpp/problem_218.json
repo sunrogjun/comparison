@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/229",
+    "prompt": "Write a function to re-arrange the elements of the given array so that all negative elements appear before positive ones.",
+    "canonical_solution": "def re_arrange_array(arr, n):\r\n  j=0\r\n  for i in range(0, n):\r\n    if (arr[i] < 0):\r\n      temp = arr[i]\r\n      arr[i] = arr[j]\r\n      arr[j] = temp\r\n      j = j + 1\r\n  return arr",
+    "test_list": [
+      "assert re_arrange_array([-1, 2, -3, 4, 5, 6, -7, 8, 9], 9) == [-1, -3, -7, 4, 5, 6, 2, 8, 9]",
+      "assert re_arrange_array([12, -14, -26, 13, 15], 5) == [-14, -26, 12, 13, 15]",
+      "assert re_arrange_array([10, 24, 36, -42, -39, -78, 85], 7) == [-42, -39, -78, 10, 24, 36, 85]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 218
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def sort_negative_positive(nums):\n    return sorted(nums, key=lambda x: x * -1)\n\ndef main():\n    nums = [1, 2, -3, 4, -5, 6, -7, 8, 9]\n    print sort_negative_positive(nums)\n\nif __name__ == '__main__':\n    main()",
+      3.58203125
+    ],
+    [
+      "# https://leetcode.com/problems/rearrange-the-list/discuss/226483/Python-Solution-with-O(n)-Time-and-Space\n# https://leetcode.com/problems/rearrange-the-list/discuss/226483/Python-Solution-with-O(n)-Time-and-Space\n# https://leetcode.com/problems/rearrange-the-list/discuss/226483/Python-Solution-with-O(n)-Time-and-Space\n\nclass Solution(object):\n    def reorderList(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # O(n^2) time, O(n) space\n        nums.sort()\n        for i in range(len(nums) - 1):\n            if nums[i] > 0 and nums[i+1] < 0:\n                nums[i+1], nums[i] = nums[i], nums[i+1]",
+      3.189453125
+    ],
+    [
+      "def rearrange(a):\n    sorted_list = []\n    for i in range(len(a)):\n        if a[i] < 0:\n            sorted_list.insert(0, a[i])\n        else:\n            sorted_list.append(a[i])\n    return sorted_list\n\narr = [1,2,3,4,5,6,7,8,9]\n\nprint(rearrange(arr))",
+      2.263671875
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # TODO: Sort the array\n        nums.sort()\n\n        i = 0\n        for i in range(0, len(nums)):\n            if nums[i] < 0:\n                nums.insert(i, -nums[i])\n                nums.pop(i)\n\n        return",
+      1.4892578125
+    ],
+    [
+      "# Your Solution\nclass Solution:\n    def sortNegativesFirst(self, nums):\n        nums = sorted(nums)\n        return [n for n in nums if n >= 0] + [n for n in nums if n < 0]",
+      1.4892578125
+    ],
+    [
+      "class Solution(object):\n    def sortArrayNegativeToPositive(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        i, j = 0, len(nums) - 1\n        while i < j:\n            while i < j and nums[i] >= 0:\n                i += 1\n            while i < j and nums[j] < 0:\n                j -= 1\n            nums[i], nums[j] = nums[j], nums[i]\n            i, j = i + 1, j - 1",
+      1.48828125
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {void} Do not return anything, modify nums in-place instead.\n    def sortNegativeFirst(self, nums):\n        n = len(nums)\n        if n == 0:\n            return\n\n        left = 0\n        right = n - 1\n\n        while left < right:\n            if nums[left] >= 0 and nums[right] < 0:\n                nums[left], nums[right] = nums[right], nums[left]\n                left += 1\n                right -= 1\n            elif nums[left] < 0 and nums[right] >= 0:\n                nums[left], nums[right] = nums[right], nums[left]\n                left += 1\n                right -= 1\n            else:\n                left += 1\n                right -= 1\n\n\nif __name__ == '__main__':\n    s = Solution()\n    nums = [1, -2, -3, 4]\n    s.sortNegativeFirst(nums)\n    print nums",
+      0.92138671875
+    ],
+    [
+      "import sys\n\n\ndef main():\n    n = int(sys.stdin.readline())\n    arr = list(map(int, sys.stdin.readline().strip().split()))\n    arr.sort()\n    arr.reverse()\n    print(arr)\n\n\nif __name__ == '__main__':\n    main()",
+      0.90576171875
+    ],
+    [
+      "class Solution(object):\n    def sortNegativeFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[n-1] = nums[n-1], nums[i]\n                n -= 1",
+      0.79541015625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # sort negatives first, then positive ones\n        # for negative, put negative before positive\n        # for positive, put positive before negative\n        # for both, put negative first\n        nums.sort(reverse=True)\n        nums.sort(reverse=True)",
+      0.5693359375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        return sorted(nums, key=lambda x: x*-1)\n\ns = Solution()\nnums = [1,2,3,4,-1,-2,-3,-4]\nprint(s.sortNegativesFirst(nums))",
+      0.449462890625
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n-1):\n            if nums[i] >= 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n        return\n\n\nif __name__ == \"__main__\":\n    print Solution().reorderArray([-1, 2, 4, 1, 3])",
+      0.35400390625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # Sort negative first\n        nums.sort()\n        # Swap negative and positive\n        for i in xrange(len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]",
+      0.129150390625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(0, n):\n            if nums[i] < 0:\n                nums[i], nums[n-1-i] = nums[n-1-i], nums[i]\n        return",
+      0.04681396484375
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n        return",
+      -0.265625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        nums.reverse()\n        nums.sort()\n        nums.reverse()",
+      -0.27099609375
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integer\n    # @return nothing\n    def move(self, num):\n        if len(num) == 0:\n            return\n        \n        m = len(num)\n        for i in range(m):\n            if num[i] < 0:\n                num[i], num[m-i-1] = num[m-i-1], num[i]\n        \n        return\n\nif __name__ == '__main__':\n    s = Solution()\n    nums = [0, -3, -5, -6, -8, -11, -13]\n    s.move(nums)\n    print(nums)",
+      -0.323974609375
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def arrange_negative_first(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        if not nums:\n            return\n        n = len(nums)\n        for i in range(0, n):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n        return\n\n\nif __name__ == \"__main__\":\n    print(Solution().arrange_negative_first([-3, 2, -1, 4, 1, -2]))",
+      -0.7470703125
+    ],
+    [
+      "import re\n\narr = [1, -2, 3, -4, -5, 6, -7, 8, -9]\nprint(arr)\n\ndef negative_first(arr):\n\treturn [x for x in arr if x < 0]\n\ndef positive_first(arr):\n\treturn [x for x in arr if x >= 0]\n\nnegative_first_output = negative_first(arr)\npositive_first_output = positive_first(arr)\n\nprint(negative_first_output)\nprint(positive_first_output)\n\nprint(\"Negative First: \" + str(negative_first_output))\nprint(\"Positive First: \" + str(positive_first_output))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr)))\n\nprint(\"Negative First: \" + str(negative_first(arr)))\nprint(\"Positive First: \" + str(positive_first(arr",
+      -0.7529296875
+    ],
+    [
+      "# https://leetcode.com/problems/reorder-array/\n# https://leetcode.com/problems/reorder-array-ii/\n# https://leetcode.com/problems/reorder-array-iii/\n# https://leetcode.com/problems/reorder-array-iv/\n# https://leetcode.com/problems/reorder-array-v/\n# https://leetcode.com/problems/reorder-array-vi/\n# https://leetcode.com/problems/reorder-array-vii/\n# https://leetcode.com/problems/reorder-array-viii/\n# https://leetcode.com/problems/reorder-array-ix/\n# https://leetcode.com/problems/reorder-array-x/\n# https://leetcode.com/problems/reorder-array-ii/\n# https://leetcode.com/problems/reorder-array-iii/\n# https://leetcode.com/problems/reorder-array-iv/\n# https://leetcode.com/problems/reorder-array-v/\n# https://leetcode.com/problems/reorder-array-vi/\n# https://leetcode.com/problems/reorder-array-vii/\n# https://leetcode.com/problems/reorder-array-viii/\n# https://leetcode.com/problems/reorder-array-ix/\n# https://leetcode.com/problems/reorder-array-x/\n# https://leetcode.com/problems/reorder-array-ii/\n# https://leetcode.com/problems/reorder-array-iii/\n# https://leetcode.com/problems/reorder-array-iv/\n# https://leetcode.com/problems/reorder-array-v/\n# https://leetcode.com/problems/reorder-array-vi/\n# https://leetcode.com/problems/reorder-array-vii/\n# https://leetcode.com",
+      -0.787109375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        i = 0\n        while i < n:\n            if nums[i] >= 0:\n                i += 1\n            else:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n                i += 1",
+      -0.85595703125
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesBeforePositives(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: List[int]\n        \"\"\"\n        if not A:\n            return A\n        \n        # 1. sort negative first\n        # 2. sort positive first\n        \n        # if negative first\n        # if positive first\n        # if negative first\n        # if positive first\n        \n        pass",
+      -0.85693359375
+    ],
+    [
+      "import sys\n\narr = [1, 2, 3, 4, -1, -2, -3, -4]\n\ndef rearrange(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    # TODO: Implement this function\n    pass\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, -1, -2, -3, -4]\n    print arr\n    rearrange(arr)\n    print arr",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        nums.reverse()\n        nums.sort()",
+      -0.85693359375
+    ],
+    [
+      "import sys\nsys.setrecursionlimit(100000)\n\ndef reorder_negative(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    if len(arr) == 0:\n        return []\n    if arr[0] > 0:\n        return [arr[0]] + reorder_negative(arr[1:])\n    else:\n        return reorder_negative(arr[1:]) + [arr[0]]\n\n\nif __name__ == '__main__':\n    arr = [1, -2, 3, -4, 5, -6]\n    print(reorder_negative(arr))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: void Do not return anything, modify A in-place instead.\n        \"\"\"\n        for i in range(len(A)):\n            if A[i] < 0:\n                A[i], A[i+1] = A[i+1], A[i]",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] >= 0:\n                nums[i] = -nums[i]\n        return\n\n\nif __name__ == \"__main__\":\n    print(Solution().sortArray([2, 3, 4, -1, -3, -5, -6]))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(reverse=True)\n        nums.sort(key=lambda x: -x)",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: void Do not return anything, modify arr in-place instead.\n        \"\"\"\n        def helper(arr, i, j):\n            while i < j:\n                if arr[i] >= 0 and arr[j] < 0:\n                    arr[i], arr[j] = arr[j], arr[i]\n                    helper(arr, i, j - 1)\n                elif arr[i] < 0 and arr[j] >= 0:\n                    arr[i], arr[j] = arr[j], arr[i]\n                    helper(arr, i + 1, j - 1)\n                else:\n                    i += 1\n                    j -= 1\n\n        helper(arr, 0, len(arr) - 1)",
+      -0.85693359375
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                j = i\n                while j > 0 and nums[j - 1] < 0:\n                    nums[j], nums[j - 1] = nums[j - 1], nums[j]\n                    j -= 1\n                if j == 0:\n                    nums[0], nums[i] = nums[i], nums[0]\n        return\n\n\nif __name__ == \"__main__\":\n    print Solution().reorderArray([-2, 1, -3, 4, -1, 2, 1])",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def move(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: void Do not return anything, modify arr in-place instead.\n        \"\"\"\n        for i in range(len(arr)):\n            if arr[i] < 0:\n                j = i\n                while j < len(arr) - 1 and arr[j + 1] >= 0:\n                    arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                    j += 1\n                arr[j + 1] = arr[j]\n\n\nif __name__ == '__main__':\n    arr = [-2, 3, -1, 4, 1, -3]\n    print(arr)\n    Solution().move(arr)\n    print(arr)",
+      -0.85693359375
+    ],
+    [
+      "# https://leetcode.com/problems/reorder-array/\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        \n        n = len(nums)\n        if n < 2:\n            return\n        \n        first_negative_index = 0\n        for i in range(1, n):\n            if nums[i] < 0:\n                first_negative_index = i\n                break\n        \n        first_positive_index = n - 1\n        for i in reversed(range(n)):\n            if nums[i] > 0:\n                first_positive_index = i\n                break\n        \n        if first_negative_index < first_positive_index:\n            # swap\n            nums[first_negative_index], nums[first_positive_index] = nums[first_positive_index], nums[first_negative_index]\n            \n        for i in range(first_negative_index+1, first_positive_index):\n            nums[i], nums[i-1] = nums[i-1], nums[i]",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativeLast(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        if not nums:\n            return\n\n        nums.sort()\n        for i in range(1, len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[i-1] = nums[i-1], nums[i]\n        return",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        i = 0\n        for j in range(len(nums)):\n            if nums[j] > 0:\n                nums[i], nums[j] = nums[j], nums[i]\n                i += 1",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[-1] = nums[-1], nums[i]\n            else:\n                nums[i], nums[-1] = nums[-1], nums[i]\n        return",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer[]}\n    def sortNegativesFirst(self, nums):\n        res = []\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                res.append(nums[i])\n            else:\n                res.append(-nums[i])\n        return res",
+      -0.8583984375
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        if not nums:\n            return\n\n        nums.sort()\n        for i in range(len(nums) - 1):\n            if nums[i] >= 0:\n                nums[i] += nums[i + 1]\n                nums[i + 1] = -nums[i + 1]\n        return\n\n\nif __name__ == \"__main__\":\n    print Solution().reorderArray([1, 2, 3])\n    print Solution().reorderArray([-3, 2, 1])",
+      -0.8583984375
+    ],
+    [
+      "def negative_positive_array(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: List[int]\n    \"\"\"\n    return sorted(array, reverse=True)",
+      -0.8583984375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def sortNegativesBeforePositives(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: List[Interval]\n        \"\"\"\n        for i in xrange(len(intervals)):\n            if intervals[i].start < 0:\n                intervals[i].start, intervals[i].end = intervals[i].end, intervals[i].start\n        return intervals",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {void} Do not return anything, modify nums in-place instead.\n    def sortNegativeFirst(self, nums):\n        for i in range(1, len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[i - 1] = nums[i - 1], nums[i]",
+      -0.8583984375
+    ],
+    [
+      "def reorder(arr):\n    res = []\n    for i in range(len(arr)):\n        if arr[i] < 0:\n            res.append(arr[i])\n            for j in range(i, 0, -1):\n                if arr[j] < 0:\n                    arr[j] = arr[j+1]\n                    arr[j+1] = arr[i]\n                    arr[i] = arr[j]\n                    arr[j] = arr[i]\n                    arr[i] = arr[j]\n                    break\n        else:\n            res.append(arr[i])\n    return res\n\nif __name__ == '__main__':\n    print reorder([1, -2, 3, -4, -5, 6, -7, 8])",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        def helper(nums, i):\n            if i >= len(nums):\n                return\n            if nums[i] < 0:\n                nums[i] = -nums[i]\n                helper(nums, i + 1)\n                nums[i] = -nums[i]\n            else:\n                helper(nums, i + 1)\n        helper(nums, 0)",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        i = 0\n        while i < n:\n            if nums[i] < 0:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n                i += 1\n            else:\n                i += 1",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in xrange(n):\n            if nums[i] < 0:\n                nums[i], nums[n-1-i] = nums[n-1-i], nums[i]\n        return",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativeFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in xrange(n-1, -1, -1):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n        return\n\nif __name__ == '__main__':\n    print Solution().sortNegativeFirst([-3, 2, 1, -5])",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(reverse=True)\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.sortNegativesFirst([-2, -5, 0, 3, 5, 6, -1]))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {void} Do not return anything, modify nums in-place instead.\n    def sortNegativesBeforePositives(self, nums):\n        n = len(nums)\n        for i in range(0, n):\n            if nums[i] < 0:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        return",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(reverse=True)\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i] = -nums[i]\n                nums[i+1:] = nums[i+1:] + [-nums[i]]",
+      -0.85888671875
+    ],
+    [
+      "# https://oj.leetcode.com/problems/reorder-list/\n# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def reorderList(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if not head or not head.next:\n            return head\n        dummy = ListNode(0)\n        dummy.next = head\n        pre = dummy\n        cur = dummy\n        while cur.next:\n            cur = cur.next\n            if cur.val >= 0:\n                pre = pre.next\n                cur.next = pre.next\n                pre.next = cur\n            else:\n                cur.next = pre.next\n                pre.next = cur\n        return dummy.next",
+      -0.9970703125
+    ],
+    [
+      "# @include\ndef sort_negatives_before_positives(a):\n    # Iterate through the elements of a, and move negative elements to the\n    # beginning.\n    for i in range(0, len(a)):\n        if a[i] < 0:\n            a[i] = -a[i]\n            a[:i] = a[:i] + [-a[i]] + a[i+1:]\n            a[:i] = a[:i] + [-a[i]] + a[i+1:]\n    return a\n# @exclude\n\n\ndef main():\n    a = [-1, 2, -3, 4, -5, 6]\n    b = sort_negatives_before_positives(a)\n    print(a)\n    print(b)\n    assert b == [-1, -5, -3, -2, 4, 6]\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.158203125
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integer\n    # @return nothing\n    def sortNegativesFirst(self, num):\n        # write your code here\n        n = len(num)\n        if n == 0:\n            return\n        l = 0\n        r = n - 1\n        while l < r:\n            if num[l] >= 0:\n                l += 1\n            else:\n                num[l], num[r] = num[r], num[l]\n                r -= 1\n\nif __name__ == '__main__':\n    assert Solution().sortNegativesFirst([-1, 0, -3, -2, 1, 2, 3]) == [1, -3, -2, -1, 0, 2, 3]\n    assert Solution().sortNegativesFirst([-1, 0, -3, -2, 1, 2, 3, 4]) == [1, -3, -2, -1, 0, 2, 3, 4]",
+      -1.2099609375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(reverse=True)\n        nums.reverse()",
+      -1.3291015625
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {void} Do not return anything, modify nums in-place instead.\n    def sortNegativesFirst(self, nums):\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[-1] = nums[-1], nums[i]\n        return",
+      -1.521484375
+    ],
+    [
+      "class Solution(object):\n    def reverse(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: List[int]\n        \"\"\"\n        length = len(A)\n        if length <= 1:\n            return A\n        \n        end = length - 1\n        start = 0\n        \n        while start < end:\n            if A[start] >= 0:\n                start += 1\n            else:\n                end -= 1\n                A[start], A[end] = A[end], A[start]\n        \n        return A\n\nif __name__ == \"__main__\":\n    A = [-2, 1, -3, 4, -1, 2, 1]\n    print Solution().reverse(A)",
+      -1.6337890625
+    ],
+    [
+      "def sort_negative_first(arr):\n    return sorted(arr, key=lambda x: x[0], reverse=True)\n\ndef sort_positive_first(arr):\n    return sorted(arr, key=lambda x: x[0], reverse=False)\n\nif __name__ == '__main__':\n    arr = [(-3, -4), (-2, 1), (-1, -2), (1, 3), (2, 2), (3, 1)]\n    print sort_negative_first(arr)\n    print sort_positive_first(arr)",
+      -1.9677734375
+    ],
+    [
+      "import unittest\n\n# https://leetcode.com/problems/reorder-array-to-make-minimum/discuss/94761/Python-C-Code-Solution-using-stack-and-min-heap-min-heap\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        stack = []\n        min_heap = []\n        for i in range(n):\n            if nums[i] < 0:\n                stack.append(i)\n            else:\n                min_heap.append(i)\n        while stack:\n            j = stack.pop()\n            nums[min_heap[0]] = nums[j]\n            min_heap[0] = j\n            if j < n - 1:\n                min_heap[1] = min(min_heap[1], j + 1)\n            else:\n                min_heap.pop()\n            while stack and nums[min_heap[0]] < 0:\n                j = stack.pop()\n                nums[min_heap[0]] = nums[j]\n                min_heap[0] = j\n                if j < n - 1:\n                    min_heap[1] = min(min_heap[1], j + 1)\n                else:\n                    min_heap.pop()\n            stack.append(min_heap[0])\n            min_heap.pop()\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i] = -nums[i]\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/reorder-array-to-make-minimum/solution/",
+      -2.50390625
+    ],
+    [
+      "# A simple solution\ndef reorder(arr):\n    return [arr[i] for i in sorted(range(len(arr)), key=lambda x: x * -1)]\n\n# An alternate solution\ndef reorder2(arr):\n    return [arr[i] for i in sorted(range(len(arr)), key=lambda x: -x)]\n\n# My solution\ndef reorder3(arr):\n    return [arr[i] for i in sorted(range(len(arr)), key=lambda x: -x)]",
+      -2.767578125
+    ],
+    [
+      "def move_negative_to_end(arr):\n    # write your code here\n    length = len(arr)\n    for i in range(0, length):\n        if arr[i] < 0:\n            arr[i], arr[length - 1 - i] = arr[length - 1 - i], arr[i]\n    return arr\n\nif __name__ == \"__main__\":\n    arr = [1, 2, -3, 4, -5, 6]\n    print(move_negative_to_end(arr))",
+      -2.86328125
+    ],
+    [
+      "class Solution:\n    # @param nums, a list of integer\n    # @return a list of integer\n    def sortNegativesFirst(self, nums):\n        n = len(nums)\n        for i in xrange(n):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n                i = i+1\n        return nums",
+      -2.90234375
+    ],
+    [
+      "import unittest\nfrom copy import copy\n\nclass Solution(object):\n    def sortArray(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: void Do not return anything, modify A in-place instead.\n        \"\"\"\n        if len(A) == 0:\n            return\n        if len(A) == 1:\n            return\n        n = len(A)\n        for i in range(n):\n            if A[i] < 0:\n                A[i], A[i+1] = A[i+1], A[i]\n                for j in range(i+1, n):\n                    if A[j] < 0:\n                        A[j], A[j+1] = A[j+1], A[j]\n        return\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought:\n\n# 7ms 100%\nclass Solution {\n    public void sortArray(int[] A) {\n        if (A == null || A.length == 0) return;\n        int n = A.length;\n        for (int i = n - 1; i >= 0; i--) {\n            if (A[i] < 0) {\n                int t = A[i];\n                A[i] = A[0];\n                A[0] = t;\n                for (int j = 1; j < i; j++) {\n                    if (A[j] < 0) {\n                        t = A[j];\n                        A[j] = A[j + 1];\n                        A[j + 1] = t;\n                    }\n                }\n            }\n        }\n    }\n}\n'''",
+      -2.94140625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # sort the negative first, and then positive\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums.insert(i, -nums[i])\n                break\n            else:\n                nums.insert(i, nums[i])\n                break\n\n\nif __name__ == '__main__':\n    print Solution().sortNegativesFirst([-5, -3, -1, 2, 5])",
+      -3.0546875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {void} Do not return anything, modify nums in-place instead.\n    def sortArray(self, nums):\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[nums[i] < 0] = nums[nums[i] < 0], nums[i]\n        return",
+      -3.134765625
+    ],
+    [
+      "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a ListNode\n    # @return a ListNode\n    def sortList(self, head):\n        dummy = ListNode(0)\n        dummy.next = head\n        while dummy.next:\n            p = dummy\n            while p.next and p.next.val >= 0:\n                p = p.next\n            q = p.next\n            p.next = None\n            while q:\n                if q.val < 0:\n                    q.next = p.next\n                    p.next = q\n                    p = q\n                q = q.next\n            dummy.next = p.next\n        return dummy.next\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    head = ListNode(3)\n    head.next = ListNode(-2)\n    head.next.next = ListNode(1)\n    head.next.next.next = ListNode(0)\n    head.next.next.next.next = ListNode(2)\n    print solution.sortList(head).val\n    print solution.sortList(head).next.val",
+      -3.1875
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i] *= -1\n                nums[i+1:].append(nums[i])\n                nums[i] = 0\n        return\n\n# Test\nif __name__ == \"__main__\":\n    nums = [1, -2, 0, 3]\n    s = Solution()\n    s.sortNegativesFirst(nums)\n    print(nums)",
+      -3.318359375
+    ],
+    [
+      "# https://oj.leetcode.com/problems/reorder-list/\n# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def reorderList(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        if not head or not head.next:\n            return head\n        slow = head\n        fast = head.next\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        fast = head\n        while fast and fast.next:\n            fast.next = fast.next.next\n            fast = fast.next\n        slow.next = None\n        return head",
+      -3.69140625
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: void Do not return anything, modify arr in-place instead.\n        \"\"\"\n        self.reverse(arr)\n        self.insert(arr)\n        self.reverse(arr)\n        return\n\n    def insert(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: void Do not return anything, modify arr in-place instead.\n        \"\"\"\n        i = 0\n        while i < len(arr):\n            if arr[i] < 0:\n                j = i\n                while j < len(arr) and arr[j] < 0:\n                    arr[j + 1] = arr[j]\n                    j += 1\n                arr[i] = -arr[i]\n            i += 1\n        return\n\n    def reverse(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: void Do not return anything, modify arr in-place instead.\n        \"\"\"\n        i = 0\n        while i < len(arr):\n            j = len(arr) - 1\n            while j > i:\n                arr[i], arr[j] = arr[j], arr[i]\n                i += 1\n                j -= 1\n        return",
+      -4.11328125
+    ],
+    [
+      "import unittest\n\n__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in xrange(0, n):\n            if nums[i] < 0:\n                for j in xrange(i, n):\n                    if nums[j] > 0:\n                        nums[j], nums[i] = nums[i], nums[j]\n                        break\n                else:\n                    break\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/reorder-array/solution/\n\n# 1ms 100%\nclass Solution {\n    public void reorderArray(int[] nums) {\n        int n = nums.length;\n        for (int i = 0; i < n; i++) {\n            int j = i;\n            while (j < n && nums[j] >= 0) {\n                int t = nums[j];\n                nums[j] = nums[i];\n                nums[i] = t;\n                j++;\n            }\n        }\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public void reorderArray(int[] nums) {\n        int n = nums.length;\n        for (int i = 0; i < n; i++) {\n            for (int j = i + 1; j < n; j++) {\n                if (nums[i] > 0 && nums[j] < 0) {\n                    int t = nums[i];\n                    nums[i] = nums[j];\n                    nums[j] = t;\n                }\n            }\n        }\n    }\n}\n'''",
+      -4.3125
+    ],
+    [
+      "class Solution(object):\n    def moveZeroes(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return\n        \n        i = 0\n        while i < n:\n            if nums[i] > 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n                i += 2\n            else:\n                i += 1\n        \n        while i < n:\n            if nums[i] == 0:\n                nums[i] = nums[i-1]\n                i -= 1\n            else:\n                break\n        \n        return\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print solution.moveZeroes([1, 0, -1, 0, -2, 3, -5])\n    print solution.moveZeroes([0, 1, 0, 3, 1, 5, 9])\n    print solution.moveZeroes([])\n    print solution.moveZeroes([-9])",
+      -4.546875
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(1, len(nums)):\n            if nums[i] < 0:\n                nums[i] = nums[i] + nums[i-1]\n                nums[i-1] = 0",
+      -4.9765625
+    ],
+    [
+      "import re\n\ndef reorder_array(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    arr_str = str(arr)\n    arr_str = re.sub('[^0-9]', '', arr_str)\n    arr_str = re.sub('^0', '', arr_str)\n    arr_str = re.sub('$', '', arr_str)\n    arr_str = re.sub('[^0-9]', '', arr_str)\n    arr_str = re.sub('^0', '', arr_str)\n    arr_str = re.sub('$', '', arr_str)\n\n    arr_str = list(map(int, arr_str))\n    arr_str.sort()\n    arr_str = [str(e) for e in arr_str]\n    return arr_str\n\n\nif __name__ == '__main__':\n    arr = [1, -2, -3, -4, -5, 6, -7, -8, -9, -10, -11, -12, -13]\n    print reorder_array(arr)\n\n    arr = [1, 2, 3, 4, 5]\n    print reorder_array(arr)",
+      -5.5078125
+    ],
+    [
+      "def rearrange(a):\n    l = len(a)\n    for i in range(0, l):\n        if a[i] < 0:\n            a[i] = -a[i]\n            j = i - 1\n            while j >= 0 and a[j] < 0:\n                a[j] = -a[j]\n                j -= 1\n            a[i] = -a[i]\n        elif a[i] > 0:\n            j = i + 1\n            while j < l and a[j] > 0:\n                a[j] = -a[j]\n                j += 1\n            a[i] = -a[i]\n    return a",
+      -6.34765625
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def swap(self, x, y):\n        \"\"\"\n        :param x: an integer\n        :param y: an integer\n        :return: void\n        \"\"\"\n        if x > y:\n            x, y = y, x\n\n        # x is negative, y is positive\n        if x < 0:\n            x, y = y, x\n            # swap\n            return self.swap(y, x)\n\n        # x is positive, y is negative\n        if x > 0:\n            return x, y\n\n        # x is 0, y is 0\n        return x, y\n\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in xrange(n):\n            x, y = nums[i], nums[i]\n            nums[i], nums[y] = self.swap(x, y)\n\n\nif __name__ == \"__main__\":\n    print Solution().reorderArray([-1, -2, -3, -4, 1, 2, 3, 4, 5])",
+      -6.37109375
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        for i in xrange(len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[-1] = nums[-1], nums[i]\n        for i in xrange(len(nums)):\n            if nums[i] >= 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]",
+      -6.48046875
+    ],
+    [
+      "def sort_negative_first(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] < 0:\n\t\t\tnew_arr[i] = -arr[i]\n\treturn new_arr\n\ndef sort_positive_first(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] > 0:\n\t\t\tnew_arr[i] = arr[i]\n\treturn new_arr\n\ndef sort_negative_first_2(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] < 0:\n\t\t\tnew_arr[i] = -arr[i]\n\treturn new_arr\n\ndef sort_positive_first_2(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] > 0:\n\t\t\tnew_arr[i] = arr[i]\n\treturn new_arr\n\ndef sort_negative_first_3(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] < 0:\n\t\t\tnew_arr[i] = -arr[i]\n\treturn new_arr\n\ndef sort_positive_first_3(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] > 0:\n\t\t\tnew_arr[i] = arr[i]\n\treturn new_arr\n\ndef sort_negative_first_4(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr)):\n\t\tif arr[i] < 0:\n\t\t\tnew_arr[i] = -arr[i]\n\treturn new_arr\n\ndef sort_positive_first_4(arr):\n\tnew_arr = [0]*len(arr)\n\tfor i in range(len(arr",
+      -6.7265625
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n\n        for i in range(n/2):\n            nums[i], nums[n-i-1] = nums[n-i-1], nums[i]\n\n    def reorderArray_2(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n        return\n\n    def reorderArray_3(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n//2):\n            nums[i], nums[n-i-1] = nums[n-i-1], nums[i]\n        return\n\n    def reorderArray_4(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n//2):\n            nums[i], nums[n-i-1] = nums[n-i-1], nums[i]\n        return\n\n    def reorderArray_5(self, nums):\n        \"\"\"\n        :type nums: List[int]",
+      -7.4609375
+    ],
+    [
+      "# Approach 1: Sort the array\ndef sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void Do not return anything, modify arr in-place instead.\n    \"\"\"\n    # Sort the array\n    arr.sort()\n\n    # Reverse the array\n    arr.reverse()\n\n    # Re-arrange the array\n    arr.reverse()\n\n# Approach 2: Sort the array\ndef sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void Do not return anything, modify arr in-place instead.\n    \"\"\"\n    # Sort the array\n    arr.sort()\n\n    # Re-arrange the array\n    arr.reverse()\n\n# Approach 3: Sort the array\ndef sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void Do not return anything, modify arr in-place instead.\n    \"\"\"\n    # Sort the array\n    arr.sort()\n\n    # Re-arrange the array\n    arr.reverse()\n\n    # Re-arrange the array\n    arr.reverse()\n\n# Approach 4: Sort the array\ndef sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void Do not return anything, modify arr in-place instead.\n    \"\"\"\n    # Sort the array\n    arr.sort()\n\n    # Re-arrange the array\n    arr.reverse()\n\n    # Re-arrange the array\n    arr.reverse()\n\n# Approach 5: Sort the array\ndef sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void Do not return anything, modify arr in-place instead.\n    \"\"\"\n    # Sort the array\n    arr.sort()\n\n    # Re-arrange the array\n    arr.reverse()\n\n    # Re-arrange the array\n    arr.reverse()\n\n# Approach 6: Sort the array\ndef sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void",
+      -7.65234375
+    ],
+    [
+      "import collections\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # if no negative, return\n        if not nums:\n            return\n        # sort negative first, then positive\n        nums.sort(reverse=True)\n        nums.sort(reverse=False)\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1, 2, -3, 4, -5, 6, 7]\n    print(sol.reorderArray(nums))",
+      -7.703125
+    ],
+    [
+      "# https://leetcode.com/problems/reorder-array-to-make-it-balanced/description/\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        def get_max_val(nums):\n            max_val = -1\n            for i in xrange(len(nums)):\n                if nums[i] > max_val:\n                    max_val = nums[i]\n            return max_val\n        max_val = get_max_val(nums)\n        for i in xrange(len(nums)):\n            if nums[i] < 0:\n                nums[i] = -nums[i]\n            elif nums[i] > max_val:\n                nums[i] = max_val\n                max_val = -1\n        return nums\n\n\nif __name__ == \"__main__\":\n    nums = [-1, 2, -3]\n    sol = Solution()\n    sol.reorderArray(nums)\n    print nums\n    assert nums == [-1, 2, -3]",
+      -8.296875
+    ],
+    [
+      "# Approach 1: Sort\n# O(n^2) time, O(n) space\ndef sort_negative_first(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void\n    \"\"\"\n    arr.sort()\n    i = 0\n    while i < len(arr):\n        if arr[i] < 0:\n            j = i\n            while j < len(arr) and arr[j] >= 0:\n                arr[j] = -arr[j]\n                j += 1\n        i += 1\n\n# Approach 2: Sort and Reverse\n# O(n^2) time, O(n) space\ndef sort_negative_first_reverse(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void\n    \"\"\"\n    arr.sort()\n    i = 0\n    while i < len(arr):\n        if arr[i] < 0:\n            j = i\n            while j < len(arr) and arr[j] >= 0:\n                arr[j] = -arr[j]\n                j += 1\n            arr[i] = -arr[i]\n        i += 1\n\n# Approach 3: Binary Search\n# O(n) time, O(n) space\ndef sort_negative_first_binary_search(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void\n    \"\"\"\n    i = 0\n    while i < len(arr):\n        if arr[i] < 0:\n            j = i\n            while j < len(arr) and arr[j] >= 0:\n                arr[j] = -arr[j]\n                j += 1\n        i += 1\n\n# Approach 4: Binary Search\n# O(n) time, O(n) space\ndef sort_negative_first_binary_search_reverse(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: void\n    \"\"\"\n    i = 0\n    while i < len(arr):\n        if arr[i] < 0:\n            j = i\n            while j < len(arr) and arr[j] >= 0:\n                arr[j] =",
+      -8.3046875
+    ],
+    [
+      "class Solution:\n    def sortNegativeFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        return\n\n    # @param nums, a list of integer\n    # @return nothing\n    def sortPositiveFirst(self, nums):\n        n = len(nums)\n        for i in range(n):\n            if nums[i] > 0:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        return\n\n\nif __name__ == '__main__':\n    s = Solution()\n    nums = [0, -3, -1, 4, 2, -5]\n    s.sortNegativeFirst(nums)\n    print(nums)\n    s.sortPositiveFirst(nums)\n    print(nums)",
+      -8.5859375
+    ],
+    [
+      "# Definition for an interval.\nclass Interval:\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution:\n    # @param intervals, a list of Interval\n    # @return a list of Interval\n    def insert(self, intervals, newInterval):\n        # write your code here\n        if not intervals:\n            return [newInterval]\n        if not newInterval:\n            return intervals\n        if newInterval.start < intervals[0].start:\n            return [newInterval] + intervals\n        if newInterval.start > intervals[-1].end:\n            return intervals + [newInterval]\n        i = 0\n        while i < len(intervals) and newInterval.start <= intervals[i].end:\n            if newInterval.end > intervals[i].end:\n                newInterval.end = intervals[i].end\n            intervals[i] = Interval(newInterval.start, newInterval.end)\n            i += 1\n        intervals.insert(i, newInterval)\n        return intervals\n\n    def insert2(self, intervals, newInterval):\n        # write your code here\n        if not intervals:\n            return [newInterval]\n        if not newInterval:\n            return intervals\n        if newInterval.start < intervals[0].start:\n            return [newInterval] + intervals\n        if newInterval.start > intervals[-1].end:\n            return intervals + [newInterval]\n        i = 0\n        while i < len(intervals) and newInterval.start <= intervals[i].end:\n            if newInterval.end > intervals[i].end:\n                newInterval.end = intervals[i].end\n            intervals[i] = Interval(newInterval.start, newInterval.end)\n            i += 1\n        intervals.insert(i, newInterval)\n        return intervals\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.insert([Interval(0, 2), Interval(3, 5)], Interval(1,",
+      -8.703125
+    ],
+    [
+      "# Your code here.\n\ndef reorder(nums):\n    arr = sorted(nums)\n    if arr[0] < 0:\n        arr.insert(0, arr.pop(0))\n    if arr[-1] > 0:\n        arr.insert(len(arr), arr.pop(len(arr) - 1))\n    return arr\n\nnums = [1, 2, -3, 4, -5, 6, -7]\n\nprint reorder(nums)",
+      -9.5625
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: void Do not return anything, modify A in-place instead.\n        \"\"\"\n        if len(A) <= 1:\n            return\n        p = 0\n        for i in range(len(A)):\n            if A[i] >= 0:\n                A[p], A[i] = A[i], A[p]\n                p += 1\n        for i in range(p, len(A)):\n            A[i - 1], A[i] = A[i], A[i - 1]",
+      -9.6796875
+    ],
+    [
+      "import unittest\n\n\n# Your Codec class should be named Solution.\nclass Solution(object):\n    def sortColors(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(1, len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[i-1] = nums[i-1], nums[i]\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/sort-colors/solution/\n\n# 1ms 100%\nclass Solution {\n    public void sortColors(int[] nums) {\n        int len = nums.length;\n        for (int i = 0; i < len; i++) {\n            if (nums[i] < 0) {\n                nums[i] = nums[i + 1];\n                nums[i + 1] = nums[i];\n            }\n        }\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public void sortColors(int[] nums) {\n        int len = nums.length;\n        for (int i = 0; i < len; i++) {\n            if (nums[i] < 0) {\n                nums[i] = nums[i + 1];\n                nums[i + 1] = nums[i];\n            }\n        }\n    }\n}\n'''",
+      -9.8359375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/arrange-negative-numbers-before-positive-ones\n# https://www.hackerrank.com/challenges/arrange-negative-numbers-before-positive-ones/problem\n\ndef arrange_negative_numbers_before_positive_ones(a):\n    arr = sorted(a)\n    for i in range(0, len(arr)):\n        if arr[i] < 0:\n            arr[i] = -arr[i]\n            arr[i + 1:] = arr[i + 1:] + arr[i:i + 1]\n    return arr\n\narr = [-1, 3, -2, 2, 1]\nprint(arr)\nprint(arr)\nprint(arr)\nprint(arr)\nprint(arr)\nprint(arr)\narr = [-1, -2, -3]\nprint(arr)\narr = [-1, -2, -3, -4]\nprint(arr)\narr = [-1, -2, -3, -4, -5]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6, -7]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6, -7, -8]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6, -7, -8, -9]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11]\nprint(arr)\narr = [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12]\nprint(arr)\narr = [-1, -2, -3, -",
+      -9.984375
+    ],
+    [
+      "class Solution(object):\n    def sortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[i-1] = nums[i-1], nums[i]\n        return\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    s.sortArray([-1,2,-3,1,0,5,6,7])\n    print s.sortArray([-1,2,-3,1,0,5,6,7])",
+      -10.6875
+    ],
+    [
+      "def sort_array(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    # Write your code here\n    arr = sorted(arr)\n    for i in range(1, len(arr)):\n        if arr[i] < 0:\n            arr.insert(i, -arr[i])\n            arr.insert(i, -arr[i])\n    return arr\n\nif __name__ == '__main__':\n    print(sort_array([-3, -1, 1, 5, -2]))",
+      -10.734375
+    ],
+    [
+      "def sort_negative_before_positive(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    # write your code here\n    # sort the array\n    sorted_arr = sorted(arr)\n    # create a list of negative numbers\n    negative_numbers = []\n    # create a list of positive numbers\n    positive_numbers = []\n    # create a list of numbers that are in both lists\n    both_numbers = []\n    # for each number in the sorted_arr\n    for i in sorted_arr:\n        # if the number is negative\n        if i < 0:\n            # add it to the list of negative numbers\n            negative_numbers.append(i)\n        # if the number is positive\n        else:\n            # add it to the list of positive numbers\n            positive_numbers.append(i)\n    # for each number in both_numbers\n    for j in both_numbers:\n        # if the number is negative\n        if j < 0:\n            # add it to the list of negative numbers\n            negative_numbers.append(j)\n        # if the number is positive\n        else:\n            # add it to the list of positive numbers\n            positive_numbers.append(j)\n    # if there are any negative numbers\n    if len(negative_numbers) > 0:\n        # add the negative numbers to the list of positive numbers\n        positive_numbers.extend(negative_numbers)\n    # if there are any positive numbers\n    if len(positive_numbers) > 0:\n        # add the positive numbers to the list of negative numbers\n        negative_numbers.extend(positive_numbers)\n    # if there are no positive or negative numbers\n    if len(negative_numbers) == 0 and len(positive_numbers) == 0:\n        # return the sorted_arr\n        return sorted_arr\n    else:\n        # if there are negative numbers\n        if len(negative_numbers) > 0:\n            # create a new list that will contain the negative numbers\n            new_negative_numbers = []\n            # create a new list that will contain the positive numbers\n            new",
+      -10.9921875
+    ],
+    [
+      "import unittest\n\n\nclass Solution(object):\n    def rotate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return\n\n        i = 0\n        while i < n - 1:\n            if nums[i] < 0:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n                i += 1\n            i += 1\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/rotate-array/solution/\n\n# 1ms 99.73%\nclass Solution {\n    public void rotate(int[] nums) {\n        int n = nums.length;\n        for (int i = 0; i < n; i++) {\n            if (nums[i] < 0) {\n                nums[i] = -nums[i];\n                nums[n - 1] = -nums[n - 1];\n            }\n            for (int j = i + 1; j < n; j++) {\n                nums[j] = nums[j] * -1;\n            }\n        }\n    }\n}\n\n# 2ms 100%\nclass Solution {\n    public void rotate(int[] nums) {\n        int n = nums.length;\n        for (int i = 0; i < n; i++) {\n            if (nums[i] < 0) {\n                nums[i] = -nums[i];\n                nums[n - 1] = -nums[n - 1];\n            }\n            for (int j = i + 1; j < n; j++) {\n                nums[j] = nums[j] * -1;\n            }\n        }\n    }\n}",
+      -11.3671875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def sortNegativesFirst(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: void Do not return anything, modify intervals in-place instead.\n        \"\"\"\n        n = len(intervals)\n        for i in range(n):\n            if intervals[i].start < 0:\n                intervals[i].start, intervals[i].end = -intervals[i].end, -intervals[i].start\n            elif intervals[i].start > 0 and intervals[i].end > 0:\n                intervals[i].start, intervals[i].end = -intervals[i].start, -intervals[i].end\n\n        for i in range(n):\n            if intervals[i].start > 0:\n                intervals[i].start, intervals[i].end = -intervals[i].end, -intervals[i].start",
+      -11.3828125
+    ],
+    [
+      "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(1, len(nums)):\n            if nums[i] < 0:\n                nums[i] += nums[i-1]\n                nums[i-1] = 0 - nums[i-1]\n\n\nif __name__ == \"__main__\":\n    Solution().reorderArray([-3, -2, -1, 0, 1, 2, 3])\n    print Solution().reorderArray([-3, -2, -1, 0, 1, 2, 3])",
+      -11.4609375
+    ],
+    [
+      "from collections import Counter\n\n\nclass Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(reverse=True)\n        for i in range(len(nums) - 1):\n            if nums[i] < 0:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        return\n\n\nif __name__ == \"__main__\":\n    nums = [-1, 2, -3, -4]\n    print(Solution().sortNegativesFirst(nums))",
+      -11.6171875
+    ],
+    [
+      "# https://leetcode.com/problems/reorder-array-to-make-it-balanced/discuss/104840/Python-solution-using-binary-search-algorithm\n\nclass Solution(object):\n    def reorderArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # binary search\n        n = len(nums)\n        if n < 2:\n            return\n\n        left = 0\n        right = n - 1\n        while left < right:\n            mid = left + (right - left) // 2\n            if nums[mid] < 0:\n                right = mid\n            elif nums[mid] > 0:\n                left = mid + 1\n            else:\n                break\n\n        if left == right:\n            return\n\n        nums[left:right + 1] = nums[left:right + 1] + nums[left:right + 1]\n        nums[left] = -nums[left]\n        return\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.reorderArray([2, 4, 1, 3]))\n    print(sol.reorderArray([-2, -4, -1, -3]))\n    print(sol.reorderArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(sol.reorderArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\n    print(sol.reorderArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))\n    print(sol.reorderArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n    print(sol.reorderArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]))\n    print(sol.reorderArray([0, 1, 2, 3, 4",
+      -12.2734375
+    ],
+    [
+      "# https://leetcode.com/problems/reorder-the-array/description/\n\n# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    # @param intervals, a list of Interval\n    # @return a list of integers\n    def reorderList(self, intervals):\n        if not intervals:\n            return []\n        \n        if len(intervals) == 1:\n            return [intervals[0].start]\n        \n        res = []\n        \n        def _reorder(intervals, start, end):\n            if start == end:\n                return\n            \n            mid = (start + end) / 2\n            \n            if intervals[mid].start > intervals[end].start:\n                _reorder(intervals, start, mid)\n                _reorder(intervals, mid+1, end)\n            else:\n                _reorder(intervals, start, mid)\n                _reorder(intervals, mid+1, end)\n            \n            res.append(intervals[mid].start)\n        \n        _reorder(intervals, 0, len(intervals)-1)\n        return res",
+      -12.2890625
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        for i in range(n):\n            if nums[i] < 0:\n                nums[i], nums[-1] = nums[-1], nums[i]\n                nums[i-1], nums[-1] = nums[-1], nums[i-1]\n                nums[i-2], nums[-1] = nums[-1], nums[i-2]\n                nums[i-3], nums[-1] = nums[-1], nums[i-3]\n                nums[i-4], nums[-1] = nums[-1], nums[i-4]\n                nums[i-5], nums[-1] = nums[-1], nums[i-5]\n                nums[i-6], nums[-1] = nums[-1], nums[i-6]\n                nums[i-7], nums[-1] = nums[-1], nums[i-7]\n                nums[i-8], nums[-1] = nums[-1], nums[i-8]\n                nums[i-9], nums[-1] = nums[-1], nums[i-9]\n                nums[i-10], nums[-1] = nums[-1], nums[i-10]\n                nums[i-11], nums[-1] = nums[-1], nums[i-11]\n                nums[i-12], nums[-1] = nums[-1], nums[i-12]\n                nums[i-13], nums[-1] = nums[-1], nums[i-13]\n                nums[i-14], nums[-1] = nums[-1], nums[",
+      -12.609375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # Note: nums[i] < 0 for all i < nums.length\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [-1, -2, 3, -4]\n    sol.sortNegativesFirst(nums)\n    print(nums)",
+      -13.171875
+    ],
+    [
+      "def negative_positive_arrangement(nums):\n    return sorted(nums, reverse=True)\n\ndef negative_positive_arrangement_1(nums):\n    return sorted(nums, reverse=True)\n\n#print negative_positive_arrangement([-1, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14])\n#print negative_positive_arrangement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])\n#print negative_positive_arrangement([-1, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14])\n#print negative_positive_arrangement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])",
+      -13.5625
+    ],
+    [
+      "class Solution(object):\n    def reverse(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i] = -nums[i]\n        return\n\n    def reverse(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i] = -nums[i]\n        return\n\nif __name__ == \"__main__\":\n    print Solution().reverse([-3, 2, 1])",
+      -14.0078125
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def sortNegativesFirst(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: None Do not return anything, modify intervals in-place instead.\n        \"\"\"\n        for i in xrange(len(intervals)):\n            if intervals[i].start < 0:\n                j = i\n                while j > 0 and intervals[j].start < 0:\n                    intervals[j] = intervals[j - 1]\n                    j -= 1\n                intervals[j] = Interval(intervals[j].start, -intervals[j].end)\n        return",
+      -15.0859375
+    ],
+    [
+      "class Solution(object):\n    def sortNegativesFirst(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] < 0:\n                nums[i] = nums[i]*-1\n                nums[i+1:] = nums[i+1:] + [-num for num in nums[i+1:]]\n        return\n\n\nif __name__ == \"__main__\":\n    print Solution().sortNegativesFirst([-2,1,0])",
+      -16.015625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

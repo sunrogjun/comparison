@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/121",
+    "prompt": "Write a function to find the triplet with sum of the given array",
+    "canonical_solution": "def check_triplet(A, n, sum, count):\r\n    if count == 3 and sum == 0:\r\n        return True\r\n    if count == 3 or n == 0 or sum < 0:\r\n        return False\r\n    return check_triplet(A, n - 1, sum - A[n - 1], count + 1) or\\\r\n           check_triplet(A, n - 1, sum, count)",
+    "test_list": [
+      "assert check_triplet([2, 7, 4, 0, 9, 5, 1, 3], 8, 6, 0) == True",
+      "assert check_triplet([1, 4, 5, 6, 7, 8, 5, 9], 8, 6, 0) == False",
+      "assert check_triplet([10, 4, 2, 3, 5], 5, 15, 0) == True"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 110
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# Definition for a triplet\nclass Triplet:\n    def __init__(self, x, y, z):\n        self.x = x\n        self.y = y\n        self.z = z\n\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[Triplet]\n        \"\"\"\n        nums = sorted(nums)\n        ret = []\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                left = i + 1\n                right = len(nums) - 1\n                while left < right:\n                    sum = nums[i] + nums[left] + nums[right]\n                    if sum < 0:\n                        left += 1\n                    elif sum > 0:\n                        right -= 1\n                    else:\n                        ret.append(Triplet(nums[i], nums[left], nums[right]))\n                        left += 1\n                        right -= 1\n        return ret",
+      2.0390625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triplet-sum/problem\n\ndef find_triplet(arr):\n    # Complete this function\n    sum_total = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            for k in range(j + 1, len(arr)):\n                sum_total += arr[i] + arr[j] + arr[k]\n                if sum_total == arr[i] + arr[j] + arr[k]:\n                    return sum_total\n    return -1",
+      0.79541015625
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param nums: a list of integer\n    @return: a list of integer\n    \"\"\"\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        res = []\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i-1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                sum = nums[i] + nums[j] + nums[k]\n                if sum < 0:\n                    j += 1\n                elif sum > 0:\n                    k -= 1\n                else:\n                    res.append([nums[i], nums[j], nums[k]])\n                    while j < k and nums[j] == nums[j+1]:\n                        j += 1\n                    while j < k and nums[k] == nums[k-1]:\n                        k -= 1\n                    j += 1\n                    k -= 1\n        return res\n\n\nif __name__ == '__main__':\n    print Solution().threeSum([-1, 0, 1, 2, -1, -4])",
+      0.6962890625
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        if len(nums) < 3:\n            return []\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                for j in range(i + 1, len(nums) - 1):\n                    if j == i + 1 or nums[j]!= nums[j - 1]:\n                        for k in range(j + 1, len(nums)):\n                            if nums[j] + nums[k] + nums[i] < 0:\n                                break\n                            elif nums[j] + nums[k] + nums[i] == 0:\n                                result.append([nums[j], nums[k], nums[i]])\n                        break\n        return result\n\n\nif __name__ == \"__main__\":\n    print Solution().threeSum([-1, 0, 1, 2, -1, -4])\n    print Solution().threeSum([-1, 0, 1, 2, -1, -4])\n    print Solution().threeSum([-1, 0, 1, 2, -1, -4])",
+      0.30078125
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 3:\n        return 0\n    for i in range(len(arr) - 2):\n        for j in range(i + 1, len(arr) - 1):\n            for k in range(j + 1, len(arr)):\n                if arr[i] + arr[j] + arr[k] == 0:\n                    return arr[i] + arr[j] + arr[k]\n    return 0\n\nif __name__ == \"__main__\":\n    assert sum_triplet([0, 0, 0]) == 0\n    assert sum_triplet([1, 0, 0]) == 1\n    assert sum_triplet([1, 1, 1]) == 3\n    assert sum_triplet([1, 0, 1]) == 2\n    assert sum_triplet([1, 1, 1]) == 3",
+      0.28662109375
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return sum(arr)\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3]\n    print sum_triplet(arr)\n    arr = [4, 5, 6]\n    print sum_triplet(arr)\n    arr = [7, 8, 9]\n    print sum_triplet(arr)\n    arr = [1, 2, 3, 4, 5, 6, 7]\n    print sum_triplet(arr)\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print sum_triplet(arr)",
+      0.1468505859375
+    ],
+    [
+      "def sum_triplets(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # Write your code here\n    n = len(arr)\n    if n < 3:\n        return 0\n    if n == 3:\n        return arr[0] + arr[1] + arr[2]\n    # if n == 4:\n    #     return arr[0] + arr[1] + arr[2] + arr[3]\n\n    dp = [0] * n\n    for i in range(n):\n        for j in range(i + 1, n):\n            for k in range(j + 1, n):\n                dp[i] = max(dp[i], arr[i] + arr[j] + arr[k])\n    return dp[0]\n\nif __name__ == '__main__':\n    print(sum_triplets([1, 2, 3, 4, 5]))",
+      -0.258544921875
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        ans = []\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if i == j:\n                    continue\n                k = j + 1\n                while k < len(nums):\n                    if nums[i] + nums[j] + nums[k] < 0:\n                        k += 1\n                        continue\n                    if nums[i] + nums[j] + nums[k] == 0:\n                        ans.append([nums[i], nums[j], nums[k]])\n                        break\n                    if nums[i] + nums[j] + nums[k] > 0:\n                        k += 1\n                    else:\n                        break\n        return ans\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        solution = Solution()\n        self.assertEqual(solution.threeSum([-1, 0, 1, 2, -1, -4]), [[-1, 0, 1], [-1, -1, 2]])\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.53515625
+    ],
+    [
+      "def sumTriplet(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    if len(a) == 3:\n        return a[0] + a[1] + a[2]\n    elif len(a) == 2:\n        return a[0] + a[1]\n    elif len(a) == 1:\n        return a[0]\n    else:\n        return 0\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def threeSum(self, nums):\n        # write your code here\n        if len(nums) < 3:\n            return 0\n        nums.sort()\n        result = 0\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            if i + 2 > len(nums) - 1:\n                break\n            left, right = i + 1, len(nums) - 1\n            while left < right:\n                sum = nums[i] + nums[left] + nums[right]\n                if sum > 0:\n                    left += 1\n                elif sum < 0:\n                    right -= 1\n                else:\n                    result += 1\n                    while left < right and nums[left] == nums[left + 1]:\n                        left += 1\n                    while left < right and nums[right] == nums[right - 1]:\n                        right -= 1\n                    left += 1\n                    right -= 1\n        return result\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.threeSum([-1, 0, 1, 2, -1, -4]))",
+      -0.5400390625
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    n = len(arr)\n    sum = arr[0]\n    for i in range(1, n):\n        sum += arr[i]\n        if sum >= arr[i+1]:\n            return sum\n    return sum\n\n# Your NumTriplet solution here.",
+      -0.6572265625
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer[]}\n    def threeSum(self, nums):\n        n = len(nums)\n        if n < 3:\n            return []\n        ret = []\n        for i in range(n):\n            for j in range(i+1, n):\n                k = j + 1\n                while k < n:\n                    sum = nums[i] + nums[j] + nums[k]\n                    if sum > 0:\n                        k += 1\n                    else:\n                        ret.append([nums[i], nums[j], nums[k]])\n                        while k < n and nums[k] == sum:\n                            k += 1\n                        if k == n:\n                            break\n        return ret\n\n\nif __name__ == \"__main__\":\n    assert Solution().threeSum([-1, 0, 1, 2, -1, -4]) == [[-1, 0, 1], [-1, -1, 2], [-1, -4, -1]]",
+      -0.68505859375
+    ],
+    [
+      "def sum_triplet(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    triplet = 0\n    for i in range(len(array)):\n        for j in range(i+1, len(array)):\n            for k in range(j+1, len(array)):\n                triplet += array[i] + array[j] + array[k]\n    return triplet\n\nif __name__ == \"__main__\":\n    array = [1, 2, 3, 4]\n    print(sum_triplet(array))",
+      -0.85595703125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triplet-sum-2/problem\n# python 3.5\n# time: O(n^2)\n# space: O(1)\n\ndef tripletSum(arr):\n    n = len(arr)\n    tripletSum = 0\n    for i in range(n):\n        for j in range(i, n):\n            for k in range(j+1, n):\n                tripletSum += arr[i] + arr[j] + arr[k]\n    return tripletSum",
+      -0.85595703125
+    ],
+    [
+      "def find_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    elif len(arr) == 2:\n        return arr[0] + arr[1]\n    elif len(arr) == 3:\n        return arr[0] + arr[1] + arr[2]\n    elif len(arr) == 4:\n        return arr[0] + arr[1] + arr[2] + arr[3]\n    else:\n        return -1",
+      -0.85595703125
+    ],
+    [
+      "def findTriplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 3:\n        return 0\n\n    sum = 0\n    for i in range(len(arr)):\n        sum += arr[i]\n\n    for i in range(len(arr)):\n        if i == 0:\n            continue\n        if i == len(arr)-1:\n            continue\n        if sum - arr[i-1] - arr[i+1] < 0:\n            return sum\n        if sum - arr[i-1] - arr[i+1] > 0:\n            return sum\n\n    return 0",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def sumTriplet(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 3:\n            return 0\n        dp = [[0] * n for _ in range(n)]\n        for i in range(1, n):\n            dp[i][i] = nums[i]\n            for j in range(i + 1, n):\n                dp[i][j] = dp[i - 1][j] + nums[j]\n                if i + j < n:\n                    dp[i][j] = min(dp[i][j], dp[i][j - 1] + nums[j])\n        return dp[n - 1][n - 1]\n\n\nif __name__ == \"__main__\":\n    nums = [3, 2, 1]\n    Solution().sumTriplet(nums)",
+      -0.85693359375
+    ],
+    [
+      "def sumTriplet(nums):\n    sum = 0\n    for i in range(len(nums)):\n        for j in range(i+1, len(nums)):\n            for k in range(j+1, len(nums)):\n                if (nums[i] + nums[j] + nums[k]) == 0:\n                    sum += nums[i] + nums[j] + nums[k]\n    return sum\n\ndef main():\n    nums = [1, 1, 2]\n    print(sumTriplet(nums))\n    nums = [1, 1, 1, 1]\n    print(sumTriplet(nums))\n    nums = [1, 2, 3]\n    print(sumTriplet(nums))\n    nums = [1, 1, 1, 1, 1]\n    print(sumTriplet(nums))\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def sum_triplet(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    if len(array) < 3:\n        return 0\n    n = len(array)\n    sum = 0\n    for i in range(n):\n        for j in range(i, n):\n            for k in range(j, n):\n                sum += array[i] + array[j] + array[k]\n    return sum\n\n# Your NumSumTriplet solution here.",
+      -0.85693359375
+    ],
+    [
+      "def find_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    # Your Solution here.\n    if len(arr) < 3:\n        return []\n    res = []\n    sum = 0\n    for i in range(len(arr)):\n        sum += arr[i]\n        if sum < arr[i] + arr[i + 1]:\n            res.append(arr[i])\n        elif sum > arr[i] + arr[i + 1]:\n            res.append(arr[i + 1])\n        else:\n            res.append(arr[i])\n            res.append(arr[i + 1])\n    return res",
+      -0.85693359375
+    ],
+    [
+      "import math\nimport sys\n\ndef find_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(arr)\n    for i in range(n):\n        for j in range(i+1, n):\n            for k in range(j+1, n):\n                if arr[i] + arr[j] + arr[k] == arr[n-1]:\n                    return arr[i] + arr[j] + arr[k]\n    return -1\n\nif __name__ == '__main__':\n    arr = [3, 2, 4, -1, -2, -3]\n    print(find_triplet(arr))",
+      -0.85693359375
+    ],
+    [
+      "def sumTriplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(nums)\n    if n < 3:\n        return 0\n\n    # write your code here\n    sum = 0\n    for i in range(n - 2):\n        sum += nums[i]\n        for j in range(i + 1, n - 1):\n            sum += nums[j]\n            if sum < 0:\n                break\n            else:\n                sum -= nums[j + 1]\n    return sum\n\nif __name__ == '__main__':\n    nums = [1, 2, 3, 1, 2, 3]\n    print(sumTriplet(nums))",
+      -0.85693359375
+    ],
+    [
+      "def find_sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return 0",
+      -0.85791015625
+    ],
+    [
+      "def sumTriplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) <= 3:\n        return 0\n    \n    nums.sort()\n    \n    max_sum = nums[0] + nums[1] + nums[2]\n    for i in range(3, len(nums)):\n        if nums[i] > max_sum:\n            return i\n    return 0",
+      -0.85791015625
+    ],
+    [
+      "def find_triplet(arr):\n    n = len(arr)\n    sum_arr = [0] * n\n    for i in range(n):\n        sum_arr[i] = arr[i]\n    for i in range(n):\n        for j in range(i + 1, n):\n            for k in range(j + 1, n):\n                if sum_arr[i] + sum_arr[j] + sum_arr[k] == arr[n - 1]:\n                    return i, j, k\n\nif __name__ == '__main__':\n    arr = [1,2,3]\n    print find_triplet(arr)\n    arr = [1,2,3,1]\n    print find_triplet(arr)\n    arr = [1,2,3,1,2]\n    print find_triplet(arr)\n    arr = [1,2,3,1,2,3]\n    print find_triplet(arr)",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums)):\n            if i > 0:\n                j = i - 1\n                while j > 0:\n                    if nums[i] + nums[j] + nums[j-1] == 0:\n                        result.append([nums[i], nums[j], nums[j-1]])\n                    j -= 1\n            else:\n                continue\n        return result",
+      -0.85791015625
+    ],
+    [
+      "def sum_of_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    triplet = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            for k in range(j+1, len(arr)):\n                triplet += arr[i] + arr[j] + arr[k]\n    return triplet\n\n# Your TripletSum object will be instantiated and called as such:\n# obj = TripletSum(arr)\n# param_1 = obj.sum_of_triplet(arr)",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    # @param nums, a list of integer\n    # @return a triplet of integer\n    def threeSum(self, nums):\n        nums.sort()\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                l = i + 1\n                r = len(nums) - 1\n                while l < r:\n                    if nums[i] + nums[l] + nums[r] == 0:\n                        return [nums[i], nums[l], nums[r]]\n                    elif nums[i] + nums[l] + nums[r] > 0:\n                        r -= 1\n                    else:\n                        l += 1\n        return None\n\nif __name__ == '__main__':\n    nums = [0, 0, 1]\n    print Solution().threeSum(nums)\n    nums = [0, 0, 0]\n    print Solution().threeSum(nums)\n    nums = [1, 1, 1]\n    print Solution().threeSum(nums)",
+      -0.85791015625
+    ],
+    [
+      "def find_sum_triplet(arr):\n    if len(arr) < 3:\n        return None\n\n    n = len(arr)\n    sum_triplet = arr[0] + arr[1] + arr[2]\n    for i in range(3, n):\n        sum_triplet = max(sum_triplet, arr[i] + arr[0] + arr[1] + arr[2] - arr[i])\n        if sum_triplet == arr[i]:\n            return i\n    return None\n\nif __name__ == '__main__':\n    arr = [1, 2, 3]\n    print(find_sum_triplet(arr))",
+      -0.8583984375
+    ],
+    [
+      "def sumTriplet(a):\n    \"\"\"\n    :type a: List[int]\n    :rtype: int\n    \"\"\"\n    s = 0\n    for i in range(len(a)-2):\n        s += a[i] + a[i+1] + a[i+2]\n    return s\n\n\nif __name__ == \"__main__\":\n    a = [2, 3, 1, 2, 2, 3]\n    print(sumTriplet(a))\n    a = [1, 2, 3, 4, 5, 6]\n    print(sumTriplet(a))",
+      -0.8583984375
+    ],
+    [
+      "import unittest\n\n\ndef sum_triplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    sums = [0] * (nums[0] + 1)\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            sums[nums[i] + nums[j]] += nums[i] + nums[j]\n    return sums[0]\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        self.assertEqual(sum_triplet([0, 1, 2, 3, 4, 5, 6]), 3)\n        self.assertEqual(sum_triplet([0, 0, 0, 0, 0, 0, 0]), 0)\n        self.assertEqual(sum_triplet([-1, -2, -3, -4, -5, -6, -7]), -8)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.8583984375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def findSum(self, A):\n        \"\"\"\n        :type A: List[int]\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        l = A[0]\n        r = A[0]\n        for i in xrange(1, len(A)):\n            l += A[i]\n            r += A[i]\n            if l > r:\n                l = A[i]\n            elif l < r:\n                r = A[i]\n        return l + r",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums)-2):\n            if i > 0 and nums[i] == nums[i-1]:\n                continue\n            j = i+1\n            k = len(nums)-1\n            while j < k:\n                if j+1 < k and nums[j] == nums[j+1]:\n                    j += 1\n                    continue\n                if nums[i] + nums[j] + nums[k] < 0:\n                    k -= 1\n                elif nums[i] + nums[j] + nums[k] > 0:\n                    j += 1\n                else:\n                    result.append([nums[i], nums[j], nums[k]])\n                    j += 1\n                    k -= 1\n        return result\n\nif __name__ == '__main__':\n    s = Solution()\n    nums = [-1,0,1,2,-1,-4]\n    print s.threeSum(nums)",
+      -0.8583984375
+    ],
+    [
+      "def sumTriplet(nums):\n    triplet_sum = 0\n    for i in range(len(nums) - 2):\n        for j in range(i + 1, len(nums) - 1):\n            for k in range(j + 1, len(nums)):\n                if nums[i] + nums[j] + nums[k] == sumTriplet:\n                    triplet_sum += nums[i] + nums[j] + nums[k]\n    return triplet_sum\n\ndef main():\n    nums = [1, 2, 3, 4, 5]\n    print sumTriplet(nums)\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "def sumTriplet(arr):\n  n = len(arr)\n  if n < 3: return 0\n  if n == 3: return arr[0] + arr[1] + arr[2]\n  if arr[0] + arr[1] + arr[2] > 0:\n    return arr[0] + arr[1] + arr[2]\n  return sumTriplet(arr[0:2]) + sumTriplet(arr[2:])\n\n# test cases\narr = [1, 2, 3, 4]\nprint \"sum of triplets is \", sumTriplet(arr)\narr = [5, 6, 7, 8]\nprint \"sum of triplets is \", sumTriplet(arr)\narr = [1, 1, 1, 1]\nprint \"sum of triplets is \", sumTriplet(arr)",
+      -0.85888671875
+    ],
+    [
+      "def sum_triplet(array):\n    # write your code here\n    return 0\n\n\nif __name__ == \"__main__\":\n    array = [1, 2, 3, 4, 5, 6]\n    print(sum_triplet(array))",
+      -0.85888671875
+    ],
+    [
+      "def sumTriplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    sums = [0] * (nums[0] + 1)\n    for i in range(1, len(nums)):\n        for j in range(i):\n            sums[nums[i] + j] += nums[j]\n    for j in range(1, len(nums)):\n        sums[nums[j]] += nums[j]\n    return max(sums)\n\nif __name__ == '__main__':\n    print(sumTriplet([2, 3, 1, 1, 5, 9, 0, 0, 8, 7]))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer[]}\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        res = []\n        for i in range(len(nums)):\n            for j in range(len(nums) - i - 1):\n                if j > i + 1:\n                    break\n                if nums[j] + nums[j + 1] + nums[j + 2] == 0:\n                    res.append([nums[j], nums[j + 1], nums[j + 2]])\n                    break\n        return res",
+      -0.85888671875
+    ],
+    [
+      "def sum_triplet(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    def dp(left, right):\n        if left == 0 or right == 0:\n            return 0\n        if left < right:\n            return dp(left+1, right)\n        return dp(left, right-1) + array[left]\n\n    return dp(0, len(array)-1)",
+      -0.85888671875
+    ],
+    [
+      "def find_sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr or len(arr) < 3:\n        return 0\n    n = len(arr)\n    sum_set = set()\n    sum_set.add(arr[0])\n    for i in range(1, n):\n        sum_set.add(arr[i])\n        if arr[i] + arr[i - 1] in sum_set:\n            return i\n        else:\n            sum_set.discard(arr[i])\n    return 0\n\n# Your Code Goes Here",
+      -0.85888671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triangle-sum/problem\n\ndef sum_of_triplet(arr):\n    # Complete this function\n    if arr == None:\n        return None\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr\n    sum_of_arr = 0\n    for i in range(len(arr)):\n        for j in range(len(arr) - i):\n            sum_of_arr += arr[i] + arr[j] + arr[j+1]\n    return sum_of_arr\n\nif __name__ == \"__main__\":\n    n = int(input())\n    arr = [int(arr_temp) for arr_temp in input().split(' ')]\n    print(sum_of_triplet(arr))",
+      -0.85888671875
+    ],
+    [
+      "def sum_triplet(arr):\n    sum = 0\n    for i in range(0, len(arr) - 2):\n        sum = sum + arr[i] + arr[i + 1] + arr[i + 2]\n        if sum == 0:\n            return arr[i:i + 3]\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print sum_triplet(arr)",
+      -0.85888671875
+    ],
+    [
+      "def find_triplet(arr):\n    # write your code here\n    if not arr:\n        return\n    arr.sort()\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i-1]:\n            continue\n        j = i+1\n        while j < len(arr):\n            if arr[i] + arr[j] == arr[i-1] + arr[j-1]:\n                print arr[i-1], arr[j-1], arr[i], arr[j]\n                return\n            j += 1\n    print \"No triplet\"\n\nif __name__ == '__main__':\n    arr = [1, 1, 1, 1, 1, 1, 1, 1]\n    find_triplet(arr)",
+      -0.884765625
+    ],
+    [
+      "def findTriplet(arr):\n    if len(arr) < 3:\n        return\n\n    for i in range(0, len(arr)-2):\n        for j in range(i+1, len(arr)-1):\n            if arr[i] + arr[j] + arr[i+1] == arr[j+1]:\n                print arr[i], arr[j], arr[i+1]\n                return\n\nif __name__ == '__main__':\n    arr = [1, 2, 3]\n    findTriplet(arr)",
+      -0.91064453125
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        n = len(nums)\n        res = []\n        for i in range(n-2):\n            if i == n-3:\n                break\n            j = i+1\n            k = n-1\n            while j < k:\n                if nums[i]+nums[j]+nums[k] == 0:\n                    res.append([nums[i], nums[j], nums[k]])\n                    while j < k and nums[j] == nums[j+1]:\n                        j += 1\n                    while j < k and nums[k] == nums[k-1]:\n                        k -= 1\n                    j += 1\n                    k -= 1\n                elif nums[i]+nums[j]+nums[k] > 0:\n                    j += 1\n                else:\n                    k -= 1\n        return res",
+      -1.001953125
+    ],
+    [
+      "def find_triplet(arr):\n    # write your code here\n    if len(arr) < 3:\n        return None\n    \n    left = 0\n    right = len(arr) - 1\n    \n    while left < right:\n        sum = arr[left] + arr[right]\n        if sum == 0:\n            return arr[left] + arr[right]\n        elif sum > 0:\n            left += 1\n        elif sum < 0:\n            right -= 1\n    \n    return None",
+      -1.083984375
+    ],
+    [
+      "from collections import Counter\n\ndef find_triplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) < 3:\n        return -1\n    nums.sort()\n    sum_num = 0\n    sum_count = 0\n    for i in range(len(nums) - 2):\n        if nums[i] + nums[i+1] + nums[i+2] > sum_num:\n            sum_num = nums[i] + nums[i+1] + nums[i+2]\n            sum_count = 1\n        elif nums[i] + nums[i+1] + nums[i+2] == sum_num:\n            sum_count += 1\n    return sum_count\n\nif __name__ == '__main__':\n    print find_triplet([1, 2, 3, 4])\n    print find_triplet([1, 2, 3, 4, 5])\n    print find_triplet([1, 2, 3, 4, 5, 6])\n    print find_triplet([1, 2, 3, 4, 5, 6, 7])",
+      -1.09375
+    ],
+    [
+      "def sum_of_triplets(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 3:\n        return 0\n    sum_of_triplets = 0\n    for i in range(len(arr) - 2):\n        sum_of_triplets += arr[i] + arr[i + 1] + arr[i + 2]\n    return sum_of_triplets\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(sum_of_triplets(arr))",
+      -1.1064453125
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        ans = []\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                for k in range(j + 1, len(nums)):\n                    if nums[i] + nums[j] + nums[k] < 0:\n                        break\n                    if nums[i] + nums[j] + nums[k] > 0:\n                        break\n                    if i == j == k:\n                        ans.append([nums[i], nums[j], nums[k]])\n        return ans\n\n\nif __name__ == \"__main__\":\n    print Solution().threeSum([-1, 0, 1, 2, -1, -4])",
+      -1.1376953125
+    ],
+    [
+      "# Definition for a triplet\nclass Triplet:\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[Triplet]\n        \"\"\"\n        if len(nums) < 3:\n            return []\n        res = []\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                for k in range(j + 1, len(nums)):\n                    if nums[i] + nums[j] + nums[k] < 0:\n                        break\n                    else:\n                        res.append(Triplet(nums[i], nums[j], nums[k]))\n        return res\n\n\nif __name__ == \"__main__\":\n    nums = [2, 2, -2, -2, -2, -2]\n    s = Solution()\n    print(s.threeSum(nums))",
+      -1.17578125
+    ],
+    [
+      "# http://www.geeksforgeeks.org/triplet-sum-array-1/\n# http://www.geeksforgeeks.org/triplet-sum-array-2/\n# http://www.geeksforgeeks.org/triplet-sum-array-3/\n# http://www.geeksforgeeks.org/triplet-sum-array-4/\n# http://www.geeksforgeeks.org/triplet-sum-array-5/\n# http://www.geeksforgeeks.org/triplet-sum-array-6/\n# http://www.geeksforgeeks.org/triplet-sum-array-7/\n# http://www.geeksforgeeks.org/triplet-sum-array-8/\n# http://www.geeksforgeeks.org/triplet-sum-array-9/\n# http://www.geeksforgeeks.org/triplet-sum-array-10/\n# http://www.geeksforgeeks.org/triplet-sum-array-11/\n# http://www.geeksforgeeks.org/triplet-sum-array-12/\n# http://www.geeksforgeeks.org/triplet-sum-array-13/\n# http://www.geeksforgeeks.org/triplet-sum-array-14/\n# http://www.geeksforgeeks.org/triplet-sum-array-15/\n# http://www.geeksforgeeks.org/triplet-sum-array-16/\n# http://www.geeksforgeeks.org/triplet-sum-array-17/\n# http://www.geeksforgeeks.org/triplet-sum-array-18/\n# http://www.geeksforgeeks.org/triplet-sum-array-19/\n# http://www.geeksforgeeks.org/triplet-sum-array-20/\n# http://www.geeksforgeeks.org/triplet-sum-array-21/\n# http://www.geeksforgeeks.org/triplet-sum-array-22/\n# http://www.geeksforgeeks.org/triplet-sum-array-23/\n# http://www.",
+      -1.3046875
+    ],
+    [
+      "def sum_of_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    if len(arr) < 3:\n        return []\n\n    ans = []\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            for k in range(j + 1, len(arr)):\n                if arr[i] + arr[j] + arr[k] == 0:\n                    ans.append([i, j, k])\n    return ans\n\nif __name__ == '__main__':\n    arr = [1, 2, 3]\n    print(sum_of_triplet(arr))",
+      -1.7529296875
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        # sort the list\n        nums.sort()\n\n        # find the triplet\n        for i in xrange(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                j = i + 1\n                k = len(nums) - 1\n                while j < k:\n                    # find the three\n                    if nums[i] + nums[j] + nums[k] > 0:\n                        # add the triplet\n                        yield [nums[i], nums[j], nums[k]]\n                        # go to the next one\n                        j += 1\n                        k -= 1\n                    # go to next one\n                    else:\n                        k -= 1",
+      -1.8466796875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triangle-sum/problem\n\ndef triangleSum(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n\n    # base case\n    if len(arr) < 3:\n        return 0\n\n    # base case\n    # for i in range(len(arr)):\n    #     for j in range(i + 1, len(arr)):\n    #         for k in range(j + 1, len(arr)):\n    #             if arr[i] + arr[j] + arr[k] == sum:\n    #                 return sum\n    # return 0\n\n    # recursive case\n    return triangleSum(arr[:-1]) + triangleSum(arr[1:])\n\n\nif __name__ == '__main__':\n    n = int(input())\n    arr = [int(x) for x in input().split()]\n    print(triangleSum(arr))",
+      -1.890625
+    ],
+    [
+      "import collections\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def threeSum(self, nums):\n        if len(nums) < 3:\n            return -1\n        nums.sort()\n        res = collections.defaultdict(int)\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    j += 1\n                    continue\n                if k < 0 or nums[k] == nums[k + 1]:\n                    k -= 1\n                    continue\n                sum = nums[i] + nums[j] + nums[k]\n                if sum in res:\n                    return sum\n                res[sum] += 1\n                j += 1\n                k -= 1\n        return -1\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.threeSum([1,2,3,4,5,6])",
+      -1.9326171875
+    ],
+    [
+      "def sum_triplet(arr):\n    sum_of_triplet = 0\n    # for the first element\n    sum_of_triplet += arr[0]\n    # for the second element\n    sum_of_triplet += arr[1]\n    # for the third element\n    sum_of_triplet += arr[2]\n\n    # print sum_of_triplet\n    return sum_of_triplet\n\n# arr = [2, 3, 5, 7, 11]\n# print sum_triplet(arr)\n\n# arr = [1, 2, 3, 4, 5, 6]\n# print sum_triplet(arr)\n\n# arr = [1, 2, 3, 4, 5]\n# print sum_triplet(arr)\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nprint sum_triplet(arr)",
+      -2.099609375
+    ],
+    [
+      "def sum_of_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(arr)\n    if n < 3:\n        return 0\n    \n    sum_of_triplet_sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            for k in range(j+1, n):\n                if arr[i]+arr[j]+arr[k] == 0:\n                    sum_of_triplet_sum += arr[i]+arr[j]+arr[k]\n    return sum_of_triplet_sum\n\nif __name__ == '__main__':\n    assert sum_of_triplet([-1,1,2,-3]) == 1\n    assert sum_of_triplet([1,2,3,4,5,6]) == 6\n    assert sum_of_triplet([1,2,3,4,5,6,7]) == 0\n    assert sum_of_triplet([-1,1,2,3,4,5,6]) == 6\n    assert sum_of_triplet([-1,1,2,3,4,5,6,7]) == 0\n    assert sum_of_triplet([-1,-1,1,2,3,4,5,6]) == 6\n    assert sum_of_triplet([-1,-1,1,2,3,4,5,6,7]) == 0\n    assert sum_of_triplet([1,-1,2,3,4,5,6,7]) == 6\n    assert sum_of_triplet([1,-1,2,3,4,5,6,7,8]) == 0\n    assert sum_of_triplet([-1,-1,-1,1,2,3,4,5,6]) == 6\n    assert sum_of_triplet([-1,-1,-1,1,2,3,4,5,6,7]) == 0",
+      -2.71484375
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                j = i + 1\n                k = len(nums) - 1\n                while j < k:\n                    if j == i + 1 or nums[j]!= nums[j-1]:\n                        while j < k and nums[j] == nums[j+1]:\n                            j += 1\n                        if j == k:\n                            result.append([nums[i], nums[j], nums[k]])\n                            break\n                    elif nums[j] == nums[k]:\n                        break\n                    else:\n                        j += 1\n                        k -= 1\n        return result\n\n\nif __name__ == \"__main__\":\n    nums = [0,1,1,1,1,1]\n    print Solution().threeSum(nums)\n    nums = [0,0,0,0,0,0]\n    print Solution().threeSum(nums)",
+      -2.74609375
+    ],
+    [
+      "# Definition for a triplet\nclass Triplet(object):\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n    def __repr__(self):\n        return str(self.a) + ',' + str(self.b) + ',' + str(self.c)\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[Triplet]\n        \"\"\"\n        # use set to avoid duplicate\n        s = set()\n        for i in range(len(nums) - 2):\n            for j in range(i + 1, len(nums) - 1):\n                k = j + 1\n                while k < len(nums):\n                    if nums[i] + nums[j] + nums[k] in s:\n                        break\n                    if nums[i] + nums[j] + nums[k] == 0:\n                        s.add(nums[i] + nums[j] + nums[k])\n                    else:\n                        break\n                    k += 1\n        return [x for x in s]\n\nif __name__ == '__main__':\n    s = Solution()\n    nums = [0, 1, 1, 1, -1]\n    print s.threeSum(nums)",
+      -2.90234375
+    ],
+    [
+      "def sum_triplet(arr):\n    return sum(arr)\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5]\n    print sum_triplet(arr)\n    arr = [1, 2, 3, 4]\n    print sum_triplet(arr)\n    arr = [1, 2, 3]\n    print sum_triplet(arr)\n    arr = [1, 2]\n    print sum_triplet(arr)\n    arr = [1]\n    print sum_triplet(arr)",
+      -2.9375
+    ],
+    [
+      "# Definition for a triplet\nclass Triplet:\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n    def __repr__(self):\n        return '<Triplet %d, %d, %d>' % (self.a, self.b, self.c)\n\nclass Solution:\n    def findSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return nums[0]\n        if n == 2:\n            return nums[0] + nums[1]\n        if n == 3:\n            return nums[0] + nums[1] + nums[2]\n        sum_left = 0\n        sum_right = 0\n        for i in range(n):\n            sum_left += nums[i]\n            sum_right += nums[n-i-1]\n        return sum_left + sum_right\n\n# Note:\n# sum_left = sum_right = 0\n# sum_left is the sum of all elements in the left half of nums\n# sum_right is the sum of all elements in the right half of nums",
+      -2.970703125
+    ],
+    [
+      "class Solution:\n    # @param nums, a list of integer\n    # @return a tuple, (sum, index1, index2)\n    def threeSum(self, nums):\n        nums.sort()\n        nums.reverse()\n        for i in xrange(len(nums)-2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                for j in xrange(i+1, len(nums)-1):\n                    if j == len(nums)-1 or nums[j]!= nums[j+1]:\n                        sum = nums[i] + nums[j] + nums[len(nums)-1]\n                        if sum == 0:\n                            return (sum, i, j)\n                        elif sum < 0:\n                            break\n        return None\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.threeSum([-1, 0, 1, 2, -1, -4])",
+      -3.12109375
+    ],
+    [
+      "def sumTriplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    \n    if len(arr) < 3:\n        return []\n    \n    ret = []\n    \n    for i in range(0, len(arr)-2):\n        for j in range(i+1, len(arr)-1):\n            if arr[i] + arr[j] + arr[j+1] == arr[i+1]:\n                ret.append(arr[i+1])\n    \n    return ret",
+      -3.587890625
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef sum_triplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    result = 0\n    for i in range(len(nums)):\n        for j in range(i+1, len(nums)):\n            for k in range(j+1, len(nums)):\n                result += nums[i] + nums[j] + nums[k]\n    return result\n\n# Test Cases\nnums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint sum_triplet(nums)\nnums = [1, 2, 3, 4, 5]\nprint sum_triplet(nums)",
+      -3.6171875
+    ],
+    [
+      "def find_triplet(arr):\n    \"\"\"\n    :param arr: An integer array\n    :return: A tuple of three integers\n    \"\"\"\n    if len(arr) < 3:\n        return None\n    left = 0\n    right = len(arr) - 1\n    sum = 0\n    while left < right:\n        sum += arr[left] + arr[right]\n        if sum == arr[0] + arr[1] + arr[2]:\n            return (arr[0], arr[1], arr[2])\n        elif sum > arr[0] + arr[1] + arr[2]:\n            right -= 1\n        else:\n            left += 1\n    return None\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6]\n    print(find_triplet(arr))",
+      -3.853515625
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    \n    # for each element\n    for i in range(len(arr)):\n        # for each element to the right\n        for j in range(i + 1, len(arr)):\n            # for each element to the left\n            for k in range(j - 1, i, -1):\n                # sum of three elements\n                s = arr[i] + arr[j] + arr[k]\n                # if sum is the same as the triplet\n                if s == arr[i] + arr[j] + arr[k]:\n                    return [i, j, k]\n    \n    return []\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6]\n    print(sum_triplet(arr))\n    arr = [1, 2, 3, 4, 5, 6, 7]\n    print(sum_triplet(arr))\n    arr = [1, 2, 3, 4, 5, 6, 7, 8]\n    print(sum_triplet(arr))\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(sum_triplet(arr))\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(sum_triplet(arr))",
+      -4.3203125
+    ],
+    [
+      "def sumTriplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: List[int]\n    \"\"\"\n    if len(arr) < 3:\n        return None\n    \n    sum = 0\n    for i in range(0, len(arr)):\n        sum += arr[i]\n    \n    for i in range(1, len(arr)):\n        sum -= arr[i]\n        if sum == 0:\n            return arr[0:i]\n    \n    return None\n\n\narr = [1, 2, 3, 4, 5]\nprint(sumTriplet(arr))\n\narr = [3, 4, 5, 6, 7]\nprint(sumTriplet(arr))\n\narr = [1, 2, 3, 4, 5, 6, 7, 8]\nprint(sumTriplet(arr))\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nprint(sumTriplet(arr))\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(sumTriplet(arr))",
+      -4.40234375
+    ],
+    [
+      "def sumTriplet(nums):\n  \"\"\"\n  :type nums: List[int]\n  :rtype: int\n  \"\"\"\n  \n  # if the sum of the numbers is greater than the target sum, return -1\n  for i in range(0, len(nums)):\n    for j in range(i+1, len(nums)):\n      for k in range(j+1, len(nums)):\n        if nums[i] + nums[j] + nums[k] == nums[0]:\n          return nums[0]\n  return -1\n\n# Test Cases\nnums = [1, 2, 3, 4]\nprint(sumTriplet(nums))\nnums = [1, 3, 6, 7, 8]\nprint(sumTriplet(nums))\nnums = [1, 1, 2, 2, 2, 2]\nprint(sumTriplet(nums))\nnums = [1, 1, 1, 1, 1, 1]\nprint(sumTriplet(nums))",
+      -4.4453125
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j < k - 1 and nums[j] == nums[j + 1]:\n                    j += 1\n                    continue\n                if nums[i] + nums[j] + nums[k] < 0:\n                    k -= 1\n                    continue\n                if nums[i] + nums[j] + nums[k] > 0:\n                    j += 1\n                    continue\n                result.append([nums[i], nums[j], nums[k]])\n                j += 1\n                k -= 1\n        return result\n\n\nif __name__ == \"__main__\":\n    nums = [0, 0, 1, 1, 1, 1, 1, 1]\n    nums = [0, 0, 0, 1, 1, 1, 1, 1]\n    nums = [0, 0, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1, 1, 1, 1, 1, 1, 1]\n    nums = [1, 1",
+      -4.51171875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triplet-sum\n# https://www.hackerrank.com/challenges/triplet-sum/problem\n# https://www.hackerrank.com/challenges/triplet-sum/examples\n\ndef triplet_sum(arr):\n    # Your code here\n    n = len(arr)\n    if n < 3:\n        return 0\n    min_sum = arr[0] + arr[1] + arr[2]\n    for i in range(3, n):\n        min_sum = min(min_sum, arr[i] + arr[i - 1] + arr[i - 2])\n    return min_sum",
+      -4.6328125
+    ],
+    [
+      "# https://leetcode.com/problems/triplet-sum/\n\n# DP\nclass Solution:\n    def tripletSum(self, nums: List[int]) -> List[List[int]]:\n        nums.sort()\n        ans = []\n        for i in range(len(nums) - 3):\n            if i == 0 or nums[i]!= nums[i-1]:\n                if nums[i] + nums[i+1] + nums[i+2] == 0:\n                    ans.append([nums[i], nums[i+1], nums[i+2]])\n            if i == len(nums) - 2 or nums[i]!= nums[i+1]:\n                if nums[i] + nums[i+1] + nums[i+2] == 0:\n                    ans.append([nums[i], nums[i+1], nums[i+2]])\n        return ans\n\n# DP\nclass Solution:\n    def tripletSum(self, nums: List[int]) -> List[List[int]]:\n        nums.sort()\n        ans = []\n        for i in range(len(nums) - 3):\n            if i == 0 or nums[i]!= nums[i-1]:\n                if nums[i] + nums[i+1] + nums[i+2] == 0:\n                    ans.append([nums[i], nums[i+1], nums[i+2]])\n            if i == len(nums) - 2 or nums[i]!= nums[i+1]:\n                if nums[i] + nums[i+1] + nums[i+2] == 0:\n                    ans.append([nums[i], nums[i+1], nums[i+2]])\n        return ans",
+      -4.74609375
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    j += 1\n                    continue\n                if k < 0 or nums[k] == nums[k + 1]:\n                    k -= 1\n                    continue\n                sum = nums[i] + nums[j] + nums[k]\n                if sum < 0:\n                    j += 1\n                elif sum > 0:\n                    k -= 1\n                else:\n                    result.append([nums[i], nums[j], nums[k]])\n                    while j < k and nums[j] == nums[j + 1]:\n                        j += 1\n                    while j < k and nums[k] == nums[k - 1]:\n                        k -= 1\n                    j += 1\n                    while j < k and nums[j] == nums[j - 1]:\n                        j += 1\n                    k -= 1\n        return result\n\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    j += 1\n                    continue\n                if k < 0 or nums[k] == nums[k + 1]:\n                    k -= 1",
+      -4.84375
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def threeSum(self, nums):\n        nums.sort()\n        nums = [nums[i]:nums[i+1] for i in range(len(nums)-2)]\n        nums.sort()\n        for i in range(len(nums)):\n            for j in range(len(nums)-1):\n                if i==j or j==len(nums)-1:\n                    continue\n                k = j+1\n                while k<len(nums):\n                    if nums[i]+nums[j]+nums[k] == 0:\n                        return i,j,k\n                    if nums[i]+nums[j]+nums[k] > 0:\n                        k+=1\n                    else:\n                        break\n        return -1\n\nif __name__ == '__main__':\n    nums = [1,2,1,1,1,2,1,1]\n    s = Solution()\n    print s.threeSum(nums)",
+      -5.0
+    ],
+    [
+      "import sys\nsys.setrecursionlimit(100000)\n\n\ndef find_sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    if len(arr) == 1:\n        return arr[0]\n    sum_of_arr = 0\n    for i in range(len(arr)):\n        sum_of_arr += arr[i]\n    if sum_of_arr == 0:\n        return 0\n    for j in range(len(arr)):\n        if j!= 0 and j!= len(arr) - 1:\n            if arr[j] + arr[j - 1] + arr[j + 1] == sum_of_arr:\n                return sum_of_arr\n        if j!= 0:\n            if arr[j] + arr[j - 1] == sum_of_arr:\n                return sum_of_arr\n        if j!= len(arr) - 1:\n            if arr[j] + arr[j + 1] == sum_of_arr:\n                return sum_of_arr\n    return sum_of_arr\n\n\nif __name__ == '__main__':\n    arr = [3, 2, 1]\n    print(find_sum_triplet(arr))",
+      -5.3359375
+    ],
+    [
+      "def sumTriplet(nums):\n  triplets = []\n  for i in range(len(nums) - 2):\n    for j in range(i + 1, len(nums) - 1):\n      for k in range(j + 1, len(nums)):\n        if (nums[i] + nums[j] + nums[k] == nums[i + 1] + nums[j + 1] + nums[k + 1]):\n          triplets.append([nums[i], nums[j], nums[k]])\n  return sum(triplets)\n\n\"\"\"\nInput:\nnums = [1, 2, 3]\n\nOutput:\n1\n2\n3\n\"\"\"\n\n# Solution 1:\n# Using O(n^3) space, check if the triplet is already in the list\n# then, if not, append it to the list\n# else, just return the sum of the triplet\ndef sumTriplet(nums):\n  triplets = []\n  for i in range(len(nums) - 2):\n    for j in range(i + 1, len(nums) - 1):\n      for k in range(j + 1, len(nums)):\n        if (nums[i] + nums[j] + nums[k] == nums[i + 1] + nums[j + 1] + nums[k + 1]):\n          triplets.append([nums[i], nums[j], nums[k]])\n          break\n  return sum(triplets)\n\n\"\"\"\nInput:\nnums = [1, 2, 3]\n\nOutput:\n1\n2\n3\n\"\"\"\n\n# Solution 2:\n# Using O(n^2) space, check if the triplet is already in the list\n# then, if not, append it to the list\n# else, just return the sum of the triplet\ndef sumTriplet(nums):\n  triplets = []\n  for i in range(len(nums) - 2):\n    for j in range(i + 1, len(nums) - 1):\n      for k in range(j + 1, len(n",
+      -5.4921875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triplet-sum\n#\n# Problem\n#\n# A triplet is a set of three numbers, a, b, and c, such that a + b + c = target.\n#\n# Given a sorted array with unique integers, find the sum of the triplets with sum of the elements\n# greater than or equal to target.\n#\n# Sample Input\n#\n# The first line of input gives the number of test cases.\n#\n# The second line of input gives the number of elements in the array.\n#\n# The third line of input gives the values of the array.\n#\n# The fourth line of input gives the target value.\n#\n# Sample Output\n#\n# For each test case, print the sum of the triplets with sum of elements greater than or equal to target.\n#\n# Hint\n#\n# Use the algorithm to solve the problem of sum of triplets with sum of elements greater than or equal to target.\n#\n#\n#\n#\n# Note\n#\n# The solution is guaranteed to be unique.\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#",
+      -5.5625
+    ],
+    [
+      "def sum_triplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: List[int]\n    \"\"\"\n    if len(nums) == 0:\n        return []\n    if len(nums) == 1:\n        return [0, 0, nums[0]]\n    max_sum = nums[0]\n    for num in nums:\n        if max_sum < num:\n            max_sum = num\n        if max_sum < num + nums[1]:\n            max_sum = num + nums[1]\n    if max_sum == nums[0] + nums[1]:\n        return [0, 0, nums[0]]\n    elif max_sum == nums[0] + nums[1] + nums[2]:\n        return [0, 0, nums[0]]\n    elif max_sum == nums[0] + nums[1] + nums[2] + nums[3]:\n        return [0, 0, nums[0]]\n    elif max_sum == nums[0] + nums[1] + nums[2] + nums[3] + nums[4]:\n        return [0, 0, nums[0]]\n    elif max_sum == nums[0] + nums[1] + nums[2] + nums[3] + nums[4] + nums[5]:\n        return [0, 0, nums[0]]\n    elif max_sum == nums[0] + nums[1] + nums[2] + nums[3] + nums[4] + nums[5] + nums[6]:\n        return [0, 0, nums[0]]\n    elif max_sum == nums[0] + nums[1] + nums[2] + nums[3] + nums[4] + nums[5] + nums[6] + nums[7]:\n        return [0, 0, nums[0]]\n    else:\n        return []",
+      -5.81640625
+    ],
+    [
+      "# Definition for a triplet.\n# class Triplet:\n#     def __init__(self, a=0, b=0, c=0):\n#         self.a = a\n#         self.b = b\n#         self.c = c\nclass Solution(object):\n    def tripletSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ans = 0\n        n = len(nums)\n        for i in range(n):\n            for j in range(i+1, n):\n                for k in range(j+1, n):\n                    ans = max(ans, nums[i] + nums[j] + nums[k])\n        return ans\n\n# Note:\n# The first and second sum of the triplet is the sum of the first and\n# second elements of the array.\n# The third sum of the triplet is the sum of the last two elements of the\n# array.",
+      -6.01953125
+    ],
+    [
+      "# https://leetcode.com/problems/triplet-sum/description/\n\nclass Solution(object):\n    def findTriplet(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return 0\n\n        # the sum of the first n-1 elements should be odd\n        if (nums[0] + nums[1] + nums[2]) % 2 == 0:\n            return 0\n\n        # if sum of the first n-2 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-2]) % 2!= 0:\n            return 0\n\n        # if sum of the first n-3 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-3]) % 2!= 0:\n            return 0\n\n        # if sum of the first n-4 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-4]) % 2!= 0:\n            return 0\n\n        # if sum of the first n-5 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-5]) % 2!= 0:\n            return 0\n\n        # if sum of the first n-6 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-6]) % 2!= 0:\n            return 0\n\n        # if sum of the first n-7 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-7]) % 2!= 0:\n            return 0\n\n        # if sum of the first n-8 elements is odd, it is not a triplet\n        if (nums[0] + nums[1] + nums[n-8]) % 2!= 0:\n            return 0",
+      -6.5078125
+    ],
+    [
+      "# https://leetcode.com/problems/triplet-sum/discuss/452501/Python-DP-Solution\n# https://leetcode.com/problems/triplet-sum/discuss/452501/Python-DP-Solution\n\n# T:O(N^3), S:O(N^2), 1 ms\n# T:O(N^2), S:O(N^2), 4 ms\n# T:O(N^2), S:O(N^2), 2 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S:O(N^2), 3 ms\n# T:O(N^2), S",
+      -6.75390625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triplet-sum-ii\n# https://www.hackerrank.com/challenges/triplet-sum-ii\n# https://www.hackerrank.com/challenges/triplet-sum-ii-dp\n\n\n# Definition for a triplet\n# class Triplet:\n#     def __init__(self, x: int, y: int, z: int):\n#         self.x = x\n#         self.y = y\n#         self.z = z\n\nclass Solution(object):\n    def findTriplet(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: Triplet\n        \"\"\"\n        n = len(arr)\n        if n < 3:\n            return None\n        if n == 3:\n            return Triplet(arr[0], arr[1], arr[2])\n        maxsum = max(arr)\n        max_index = 0\n        for i in range(n):\n            if arr[i] > maxsum:\n                max_index = i\n                maxsum = arr[i]\n        # If the max sum is not equal to the sum of the rest, we cannot find triplet\n        if maxsum!= arr[max_index] + arr[max_index + 1] + arr[max_index + 2]:\n            return None\n        # Otherwise, we can find triplet\n        # Find the triplets with sum of the rest\n        triplets = [Triplet(arr[0], arr[1], arr[2]), Triplet(arr[1], arr[2], arr[0])]\n        for i in range(3, n):\n            triplets.append(Triplet(arr[i - 1], arr[i], arr[i - 2]))\n            triplets.append(Triplet(arr[i - 1], arr[i - 2], arr[i]))\n        # Find the triplet with the minimum sum\n        for t in triplets:\n            if t.x == t.y == t.z:\n                return t\n        return None\n\ns = Solution()\narr = [2, 1, 3, 1, 4]\nprint(s.findTri",
+      -7.48046875
+    ],
+    [
+      "import math\n\ndef find_triplet_sum(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # Find the sum of all the elements in the array\n    total = sum(arr)\n\n    # Find the sum of all the elements in the array except the first and last element\n    left_sum = total - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the last element\n    right_sum = total - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    middle_sum = total - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first and last element\n    left_right_sum = total - arr[0] - arr[-1] - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    right_left_sum = total - arr[0] - arr[-1] - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    middle_left_right_sum = total - arr[0] - arr[-1] - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    middle_right_left_sum = total - arr[0] - arr[-1] - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    middle_left_middle_right_sum = total - arr[0] - arr[-1] - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    middle_right_middle_left_sum = total - arr[0] - arr[-1] - arr[0] - arr[-1]\n\n    # Find the sum of all the elements in the array except the first element\n    left_middle_right_middle_sum = total - arr[0] - arr[-1] - arr[",
+      -8.5078125
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        nums.reverse()\n        res = []\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                if i == len(nums) - 1:\n                    return res\n                j = i + 1\n                while j < len(nums) - 1:\n                    if nums[i] + nums[j] + nums[len(nums) - 1] == 0:\n                        res.append([nums[i], nums[j], nums[len(nums) - 1]])\n                        i = j + 1\n                        while i < len(nums) - 1 and nums[i] == nums[i - 1]:\n                            i += 1\n                        while j < len(nums) - 1 and nums[j] == nums[j + 1]:\n                            j += 1\n                    else:\n                        break\n        return res\n\n\nif __name__ == \"__main__\":\n    nums = [0, 1, 0, -1, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, -1]\n    nums = [0, 1, 0, -1, 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0]\n    nums = [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2]\n    nums = [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,",
+      -8.6875
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        n = len(nums)\n        ans = 0\n        for i in range(n-2):\n            if i > 0 and nums[i-1] == nums[i]:\n                continue\n            if i < n-3 and nums[i+2] == nums[i+1]:\n                continue\n            if i+1 < n-2 and nums[i+2] == nums[i+1]:\n                continue\n            if nums[i] > nums[i+1] and nums[i] > nums[i+2]:\n                if nums[i] + nums[i+1] + nums[i+2] == 0:\n                    ans += i + 1\n        return ans\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/three-sum/solution/\n\n# 10:54 - 10:57\n# 10:54 - 10:57\n\n# 1ms 100%\nclass Solution {\n    public int threeSum(int[] nums) {\n        int n = nums.length;\n        if (n < 3) return 0;\n        Arrays.sort(nums);\n        int ans = 0;\n        for (int i = 0; i < n - 2; i++) {\n            if (i > 0 && nums[i-1] == nums[i]) continue;\n            if (i < n - 3 && nums[i+2] == nums[i+1]) continue;\n            if (i+1 < n - 2 && nums[i+2] == nums[i+1]) continue;\n            int lo = i + 1, hi = n - 1;\n            while (lo < hi) {",
+      -8.6953125
+    ],
+    [
+      "from collections import Counter\nimport math\n\n\ndef sum_triplet(arr):\n    sum_triplet_counter = Counter()\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            for k in range(j+1, len(arr)):\n                sum_triplet_counter.update({arr[i]+arr[j]+arr[k]:1})\n    return sum_triplet_counter\n\n\n# time:O(n^3)\n# space:O(n^2)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:0(0)\n# time:O(n^2)\n# space:O(n)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:0(0)\n# time:O(n^2)\n# space:O(n)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:0(0)\n# time:O(n^2)\n# space:O(n)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:0(0)\n# time:O(n^2)\n# space:O(n)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:0(0)\n# time:O(n^2)\n# space:O(n)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:0(0)\n# time:O(n^2)\n# space:O(n)\n# score:100(100)\n# score:50(50)\n# score:26(26)\n# score:10(10)\n# score:",
+      -8.7109375
+    ],
+    [
+      "def sum_triplet(nums):\n    sum = 0\n    for i in range(0, len(nums) - 2):\n        sum += nums[i] + nums[i + 1] + nums[i + 2]\n    return sum\n\nif __name__ == '__main__':\n    nums = [1, 2, 3, 4, 5]\n    assert sum_triplet(nums) == 15\n    nums = [1, 2, 3, 4, 5, 6]\n    assert sum_triplet(nums) == 42\n    nums = [1, 2, 3, 4, 5, 6, 7]\n    assert sum_triplet(nums) == 63\n    nums = [1, 2, 3, 4, 5, 6, 7, 8]\n    assert sum_triplet(nums) == 90\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    assert sum_triplet(nums) == 135\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    assert sum_triplet(nums) == 210\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    assert sum_triplet(nums) == 363\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    assert sum_triplet(nums) == 630\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]\n    assert sum_triplet(nums) == 1070\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]\n    assert sum_triplet(nums) == 1825\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]\n    assert sum_triplet(nums) == 3135\n    nums = [1",
+      -9.3046875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if not num:\n            return 0\n        num.sort()\n        result = num[0] + num[1] + num[2]\n        min_diff = abs(result - target)\n        for i in range(len(num) - 2):\n            if i == 0 or i == len(num) - 3:\n                continue\n            j = i + 1\n            k = len(num) - 1\n            while j < k:\n                if num[i] + num[j] + num[k] == target:\n                    return target\n                if num[i] + num[j] + num[k] < min_diff:\n                    min_diff = num[i] + num[j] + num[k]\n                    result = num[i] + num[j] + num[k]\n                if num[i] + num[j] + num[k] > target + min_diff:\n                    min_diff = num[i] + num[j] + num[k]\n                    result = num[i] + num[j] + num[k]\n                if num[i] + num[j] + num[k] > target + min_diff:\n                    min_diff = num[i] + num[j] + num[k]\n                    result = num[i] + num[j] + num[k]\n                if num[i] + num[j] + num[k] < target + min_diff:\n                    min_diff = num[i] + num[j] + num[k]\n                    result = num[i] + num[j] + num[k]\n                if num[i] + num[j] + num[k] == target:\n                    return target\n                if num[i] + num[j] + num[k",
+      -9.5078125
+    ],
+    [
+      "def sumTriplets(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    if len(arr) == 2:\n        return arr[0] + arr[1]\n    for i in range(3, len(arr) + 1):\n        if arr[0] + arr[i - 1] == arr[i] and arr[i] + arr[i - 2] == arr[i - 1]:\n            return arr[i - 1]\n    return -1\n\nif __name__ == '__main__':\n    print(sumTriplets([1, 2, 3, 4]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))\n    print(sumTriplets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]))\n    print(sum",
+      -9.7265625
+    ],
+    [
+      "def find_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 3:\n        return -1\n    for i in range(len(arr) - 2):\n        for j in range(i + 1, len(arr) - 1):\n            if arr[i] + arr[j] + arr[j + 1] == arr[i + 1]:\n                return arr[i] + arr[j] + arr[j + 1]\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_triplet([1, 2, 3]) == -1\n    assert find_triplet([3, 2, 1]) == 3\n    assert find_triplet([1, 2, 3, 4]) == 5\n    assert find_triplet([5, 4, 3, 2, 1]) == 6",
+      -9.9453125
+    ],
+    [
+      "# Definition for a triplet\nclass Triplet(object):\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n\nclass Solution(object):\n    def sumTriplets(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def dfs(nums, ans, start, end):\n            if end - start < 3:\n                return\n            if end - start == 3:\n                ans.append(Triplet(nums[start], nums[end-1], nums[end]))\n                return\n            for i in range(start, end):\n                dfs(nums, ans, start, i)\n                dfs(nums, ans, i+1, end)\n        ans = []\n        dfs(nums, ans, 0, len(nums)-1)\n        return len(ans)\n\nif __name__ == \"__main__\":\n    assert Solution().sumTriplets([3, 2, 1]) == 3\n    assert Solution().sumTriplets([2, 1]) == 2\n    assert Solution().sumTriplets([1]) == 1\n    assert Solution().sumTriplets([1, 2, 3]) == 3",
+      -9.9921875
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 3:\n        return 0\n    n = len(arr)\n    s = sum(arr)\n    for i in range(0, n):\n        if s == arr[i]:\n            return i\n        elif s - arr[i] == arr[i]:\n            return i\n        elif s - arr[i] < arr[i]:\n            return arr[i]\n    return 0\n\nif __name__ == '__main__':\n    assert sum_triplet([0, 0, 1]) == 2\n    assert sum_triplet([0, 0, 1, 2]) == 3\n    assert sum_triplet([3, 2, 1]) == 3\n    assert sum_triplet([3, 1, 1]) == 1\n    assert sum_triplet([-1, -1, -1]) == 0\n    assert sum_triplet([-1, -1, -1, -1]) == 0\n    assert sum_triplet([-1, -1, -1, -1, -1]) == 0",
+      -10.15625
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n        nums.sort()\n        res = 0\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            if i + 2 > len(nums) - 1:\n                continue\n            if nums[i] + nums[i + 1] + nums[i + 2] > 0:\n                res += 1\n        return res\n\nnums = [1, 0, -1, 0, -2, 2]\nnums = [-2, -1, -3, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2, 3]\nnums = [-3, -2, -1, 0, 1, 2,",
+      -10.3125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/triplet-sum\n\n# import math\n# import itertools\n\n\ndef find_triplet(arr):\n    \"\"\"\n    Find the triplet with sum of the given array\n    :param arr: The given array\n    :return: The triplet with sum of the given array\n    \"\"\"\n    # Create a list of tuples.\n    # The first element of each tuple is the sum of the elements in the tuple.\n    # The second element is the index of the element in the original array that is in the tuple.\n    # The third element is the index of the element in the original array that is not in the tuple.\n    tup_list = [(sum(arr[i:i+3]), i, i+2) for i in range(len(arr) - 3) if i < len(arr) - 4]\n\n    # Sort the list of tuples.\n    # The sort function sorts the elements in the list by the first element of the tuple.\n    # The sort function sorts the elements in the list by the second element of the tuple.\n    # The sort function sorts the elements in the list by the third element of the tuple.\n    tup_list = sorted(tup_list, key=lambda tup: tup[0])\n\n    # Return the first element of the list that has sum 0.\n    return tup_list[0][1]\n\nif __name__ == '__main__':\n    n = int(input())\n    arr = [int(i) for i in input().split()]\n    print(find_triplet(arr))",
+      -11.484375
+    ],
+    [
+      "# https://leetcode.com/problems/triplet-sum/\n\nclass Solution(object):\n    def tripletSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return 0\n\n        sums = [0] * (n + 1)\n        sums[0] = 0\n        sums[1] = nums[0]\n        for i in xrange(2, n + 1):\n            sums[i] = sums[i - 1] + nums[i - 1]\n        for i in xrange(2, n + 1):\n            for j in xrange(i - 1, 0, -1):\n                sums[j] = min(sums[j], sums[j - i])\n        return sums[-1]",
+      -11.578125
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        result = self.threeSumClosestSlow(nums, target)\n        if result == -1:\n            result = self.threeSumClosestFast(nums, target)\n        return result\n\n    def threeSumClosestSlow(self, nums, target):\n        n = len(nums)\n        if n < 3:\n            return -1\n        result = nums[0] + nums[1] + nums[2]\n        for i in xrange(n - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = n - 1\n            while j < k:\n                sum = nums[i] + nums[j] + nums[k]\n                if sum == target:\n                    return target\n                elif sum < target:\n                    j += 1\n                elif sum > target:\n                    k -= 1\n                else:\n                    j += 1\n                    k -= 1\n            result = nums[i] + nums[j] + nums[k]\n        return result\n\n    def threeSumClosestFast(self, nums, target):\n        n = len(nums)\n        if n < 3:\n            return -1\n        result = nums[0] + nums[1] + nums[2]\n        for i in xrange(n - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = n - 1\n            while j < k:\n                sum = nums[i] + nums[j] + nums[k]\n                if sum == target:\n                    return target\n                elif sum < target:\n                    j += 1\n                elif sum > target:\n                    k -= 1\n                else:\n                    j += 1\n                    k -= 1\n            result = num",
+      -12.3359375
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # sort the list\n    arr.sort()\n    # get the number of elements in the list\n    length = len(arr)\n    # get the last index\n    last = length - 1\n    # get the number of elements in the array\n    size = arr[0]\n    # get the index of the last element\n    index = last - 1\n    # get the sum of the current index\n    sum = arr[index]\n    # get the sum of the current index and the next element\n    sum = sum + arr[index + 1]\n    # get the sum of the current index and the next element and the next element and the next element\n    sum = sum + arr[index + 2] + arr[index + 2] + arr[index + 2]\n    # get the sum of the current index and the next element and the next element and the next element and the next element and the next element\n    sum = sum + arr[index + 3] + arr[index + 3] + arr[index + 3] + arr[index + 3] + arr[index + 3]\n    # get the sum of the current index and the next element and the next element and the next element and the next element and the next element and the next element and the next element\n    sum = sum + arr[index + 4] + arr[index + 4] + arr[index + 4] + arr[index + 4] + arr[index + 4] + arr[index + 4] + arr[index + 4] + arr[index + 4]\n    # get the sum of the current index and the next element and the next element and the next element and the next element and the next element and the next element and the next element and the next element and the next element\n    sum = sum + arr[index + 5] + arr[index + 5] + arr[index + 5] + arr[index + 5] + arr[index + 5] + arr[index + 5] + arr[index + 5] + arr[index + 5] + arr[index + 5]\n    # get the sum of the current index and the next element and the next element and the next element and the",
+      -12.484375
+    ],
+    [
+      "def sumTriplet(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    # dp[i][j][k] means the sum of the three numbers that sum to i + j + k\n    # dp[i][j][k] = dp[i][j][k - 1] + dp[i][k][k - 1] + dp[i][j - 1][k - 1]\n    dp = [[[0]*(nums[k] + 1) for k in range(nums[0])] for j in range(nums[1])]\n\n    for i in range(nums[0]):\n        for j in range(nums[1]):\n            for k in range(nums[2]):\n                if i + j + k == 0:\n                    dp[i][j][k] = 0\n                elif i + j + k == 1:\n                    dp[i][j][k] = dp[i][j][k - 1] + dp[i][k][k - 1] + dp[i][j - 1][k - 1]\n                else:\n                    dp[i][j][k] = max(dp[i][j][k - 1], dp[i][k][k - 1]) + max(dp[i][j - 1][k - 1], dp[i - 1][k - 1][k - 1])\n\n    return dp[0][0][nums[2] - 1]\n\n\n# Your NumTriplet solution\nclass Solution:\n    def sumTriplet(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return sumTriplet(nums)",
+      -12.71875
+    ],
+    [
+      "def sum_triplet(arr):\n    \"\"\"\n    sum_triplet(arr) -> tuple\n\n    Returns a tuple containing the sum of the triplet with the given\n    array.\n\n    Input: arr is an integer array.\n    Output: a tuple.\n    \"\"\"\n    if len(arr) == 0:\n        return (0, 0, 0)\n    if len(arr) == 1:\n        return (arr[0], 0, 0)\n    if len(arr) == 2:\n        return (arr[0] + arr[1], arr[0], arr[1])\n\n    s, l, r = sum_triplet(arr[:2])\n    s += arr[0]\n    l += arr[0]\n    r += arr[0]\n    s += arr[1]\n    l += arr[1]\n    r += arr[1]\n\n    return (s, l, r)\n\ndef test_sum_triplet():\n    assert sum_triplet([1, 2, 3, 4, 5, 6]) == (12, 2, 4)\n    assert sum_triplet([1, 2, 3, 4, 5, 6, 7, 8]) == (36, 3, 6)\n\nif __name__ == '__main__':\n    test_sum_triplet()",
+      -13.2578125
+    ],
+    [
+      "class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        nums = sorted(nums)\n        ans = []\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            # i is the starting index\n            # j is the current index\n            # k is the next index\n            # if the number at i + 1 is the same as nums[j]\n            # and the number at j - 1 is the same as nums[k]\n            # then the sum of the three numbers will be the same\n            # as the number at i\n            # thus the three numbers can be merged into one\n            for j in range(i + 1, len(nums) - 1):\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    continue\n                # j is the current index\n                # k is the next index\n                # if the number at j + 1 is the same as nums[i]\n                # and the number at i - 1 is the same as nums[k]\n                # then the sum of the three numbers will be the same\n                # as the number at j\n                # thus the three numbers can be merged into one\n                if nums[i] + nums[j] + nums[j + 1] == nums[j - 1]:\n                    ans.append([nums[i], nums[j], nums[j + 1]])\n        return ans\n\n\nif __name__ == \"__main__\":\n    nums = [2, 1, 1, 2]\n    Solution().threeSum(nums)\n    print(nums)",
+      -13.28125
+    ],
+    [
+      "# Definition for an interval.\nclass Interval:\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution:\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[Interval]\n        \"\"\"\n        nums.sort()\n        ans = []\n        for i in range(len(nums)):\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j < k - 1 and nums[j] + nums[j + 1] > nums[k]:\n                    j += 1\n                    continue\n                while j < k and nums[j] + nums[k] > nums[i]:\n                    k -= 1\n                if j < k:\n                    ans.append(Interval(nums[i], nums[j] + nums[k]))\n                j += 1\n        return ans\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [0,1,2,3,4,5]\n    print(sol.threeSum(nums))\n    nums = [1,2,3,4,5]\n    print(sol.threeSum(nums))\n    nums = [1,2,2,2,2,2]\n    print(sol.threeSum(nums))\n    nums = [1,2,2,2,2,2,2]\n    print(sol.threeSum(nums))\n    nums = [1,2,2,2,2,2,3]\n    print(sol.threeSum(nums))",
+      -13.546875
+    ],
+    [
+      "# Definition for a triplet\nclass Triplet:\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n    def __repr__(self):\n        return \"Triplet({},{},{})\".format(self.a, self.b, self.c)\n\nclass Solution(object):\n    def threeSum(self, num):\n        \"\"\"\n        :type num: List[int]\n        :rtype: List[Triplet]\n        \"\"\"\n        res = []\n        n = len(num)\n        if n < 3:\n            return res\n        # sort num\n        num.sort()\n        # store sum of each number\n        for i in range(n):\n            s = 0\n            for j in range(i+1, n):\n                s += num[j]\n            res.append(Triplet(num[i], num[j-1], s))\n        # remove duplicate\n        res = sorted(res, key=lambda x: (x.a, x.b))\n        return res\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    nums = [1, 0, -1, 0, -2, 2]\n    res = s.threeSum(nums)\n    for r in res:\n        print r",
+      -14.34375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

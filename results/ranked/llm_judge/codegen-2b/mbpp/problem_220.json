@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T18:59:46.354119",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "mbpp",
+  "problem_number": 220,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n <= 1:\n        return 0\n    return max(max_sum_right_triangle(n-1), max_sum_right_triangle(n-2)+n)\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxSum(self, triangle):\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][-1]\n        \n        max_sum = triangle[0][-1]\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][-1] + max_sum_right_triangle(len(triangle)-i-1))\n        return max_sum"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "import sys\nsys.path.append('..')\n\nfrom util import *\n\nclass Solution:\n    \"\"\"\n    @param triangle: An array of lists of integers\n    @return: The maximum sum\n    \"\"\"\n    def maxSum(self, triangle):\n        if not triangle:\n            return 0\n\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][-1] + triangle[i-1][-1])\n        return m"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "# Definition for a triplet\n# class Triplet(object):\n#     def __init__(self, a, b, c):\n#         self.a = a\n#         self.b = b\n#         self.c = c\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[Triplet]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        if not triangle[0]:\n            return triangle[1].c\n        if not triangle[-1]:\n            return triangle[-2].c\n        m = triangle[0].a + triangle[-1].b\n        for i in range(1, len(triangle) - 1):\n            m = max(m, triangle[i].a + triangle[i + 1].b)\n        return m"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from collections import defaultdict\n\ndef max_sum_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    max_sum = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            max_sum = max(max_sum, i + j)\n    return max_sum\n\nif __name__ == '__main__':\n    print(max_sum_triangle(3))\n    print(max_sum_triangle(4))\n    print(max_sum_triangle(5))\n    print(max_sum_triangle(6))\n    print(max_sum_triangle(7))\n    print(max_sum_triangle(8))\n    print(max_sum_triangle(9))\n    print(max_sum_triangle(10))\n    print(max_sum_triangle(11))\n    print(max_sum_triangle(12))\n    print(max_sum_triangle(13))\n    print(max_sum_triangle(14))\n    print(max_sum_triangle(15))"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n < 2:\n            return 0\n        \n        dp = [0] * n\n        dp[0] = triangle[0][0]\n        for i in range(1, n):\n            dp[i] = max(dp[i-1] + triangle[i][i], triangle[i-1][i])\n            \n        return max(dp[n-1], triangle[n-1][n-1])"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/maximum-sum-of-two-arrays/\n\nclass Solution:\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n\n        m, n = len(triangle), len(triangle[0])\n        dp = [[0] * n for _ in range(m)]\n        for i in range(m):\n            for j in range(n):\n                if i == 0 or j == 0:\n                    dp[i][j] = triangle[i][j]\n                else:\n                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + triangle[i][j]\n        return max(dp[m-1][n-1], triangle[m-1][n-1])"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def max_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    max_sum = 0\n    for i in range(len(triangle)):\n        for j in range(i):\n            max_sum = max(max_sum, triangle[i][j] + triangle[j][i])\n    return max_sum\n\nclass Solution:\n    # @param triangle, a list of List of integers\n    # @return an integer\n    def maxSum(self, triangle):\n        if triangle is None or len(triangle) < 1:\n            return 0\n        if triangle[0][0] == triangle[0][1] and triangle[0][0] == triangle[0][2]:\n            return triangle[0][0]\n        else:\n            return self.max_sum(triangle)"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][1])\n        \n        mid = len(triangle) / 2\n        max_sum = triangle[0][0]\n        for i in range(1, mid):\n            max_sum = max(max_sum, triangle[0][i] + triangle[i][i + 1])\n        for i in range(mid, len(triangle) - 1):\n            max_sum = max(max_sum, triangle[i][mid] + triangle[i + 1][mid + 1])\n        return max(max_sum, triangle[-1][-1])"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "# Definition for a point.\nclass Point(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return \"Point(%d, %d)\" % (self.x, self.y)\n\nclass Solution(object):\n    def maxPoints(self, triangle):\n        \"\"\"\n        :type triangle: List[Point]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n\n        max = triangle[0].x + triangle[0].y\n        for i in xrange(1, len(triangle)):\n            max = max if triangle[i].y > triangle[i-1].y else triangle[i-1].y + triangle[i].x\n            max = max if triangle[i].x > triangle[i-1].x else triangle[i-1].x + triangle[i].y\n        return max\n\nif __name__ == \"__main__\":\n    triangle = [Point(1,2), Point(3,5), Point(6,4)]\n    print Solution().maxPoints(triangle)\n    triangle = [Point(1,2), Point(2,1), Point(3,4)]\n    print Solution().maxPoints(triangle)\n    triangle = [Point(1,2), Point(2,3), Point(3,1)]\n    print Solution().maxPoints(triangle)\n    triangle = [Point(1,2), Point(2,3), Point(3,1), Point(4,2)]\n    print Solution().maxPoints(triangle)\n    triangle = [Point(1,2), Point(2,3), Point(3,1), Point(4,2), Point(5,6)]\n    print Solution().maxPoints(triangle)\n    triangle = [Point(1,2), Point(2,3), Point(3,1), Point(4,2), Point(5,6), Point(7,8)]\n    print Solution().maxPoints(triangle)"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def max_sum_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n <= 1:\n        return 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            if i == j:\n                continue\n            sum = i + j\n            if sum < n:\n                sum += max_sum_triangle(n - sum)\n            else:\n                sum += max_sum_triangle(n - sum)\n    return sum\n\nprint(max_sum_triangle(3))"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "from collections import deque\n\nclass Solution:\n    \"\"\"\n    @param triangle: An array of lists of integers\n    @return: An integer\n    \"\"\"\n    def maxSum(self, triangle):\n        if not triangle:\n            return 0\n        \n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][i])\n            for j in range(i):\n                m = max(m, triangle[i][j])\n        return m\n\nif __name__ == '__main__':\n    triangle = [[1,3,5], [1,2,4], [3,4,5]]\n    print triangle\n    print Solution().maxSum(triangle)"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    nums = [0] * (n + 1)\n    for i in range(1, n + 1):\n        for j in range(0, i):\n            nums[i] += nums[j] + nums[i - j - 1]\n    return nums[n]\n\n# Your code should pass these tests:\n#\n#   solution = max_sum_right_triangle(3)\n#   solution = max_sum_right_triangle(4)\n#   solution = max_sum_right_triangle(5)\n#   solution = max_sum_right_triangle(6)\n#   solution = max_sum_right_triangle(7)\n#   solution = max_sum_right_triangle(8)"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, v1, v2, v3):\n#         \"\"\"\n#         :type v1: int\n#         :type v2: int\n#         :type v3: int\n#         \"\"\"\n#         self.v1 = v1\n#         self.v2 = v2\n#         self.v3 = v3\n#\n#     def get_sums(self):\n#         return self.v1 + self.v2 + self.v3\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: Triangle\n        :rtype: int\n        \"\"\"\n        return max(max(self.max_sum(triangle.v1), self.max_sum(triangle.v2)), self.max_sum(triangle.v3))\n\n    def max_sum(self, v):\n        \"\"\"\n        :type v: int\n        :rtype: int\n        \"\"\"\n        return max(v, 0) + max(v-1, 0) + max(v-2, 0)"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle:\n#     def __init__(self, v):\n#         self.v = v\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximumSum(self, triangle):\n        if triangle is None or len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        for i in range(len(triangle) - 2):\n            if triangle[i][0] + triangle[i + 1][0] > triangle[i][1] + triangle[i + 2][1]:\n                return triangle[i][0] + triangle[i + 1][0]\n        return triangle[len(triangle) - 1][0] + triangle[len(triangle) - 2][0]"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "from math import sqrt\n\ndef find_max_sum(n):\n    \"\"\"\n    n: the number of rows\n    return: the maximum sum\n    \"\"\"\n    a, b = 0, 0\n    for i in range(n):\n        a += b\n        b = a + i\n    return a + b\n\ndef find_max_sum_recursive(n):\n    \"\"\"\n    n: the number of rows\n    return: the maximum sum\n    \"\"\"\n    if n == 1:\n        return n * (n + 1) / 2\n    else:\n        return find_max_sum_recursive(n - 1) + find_max_sum_recursive(n - 2)\n\n\nif __name__ == '__main__':\n    assert find_max_sum(3) == 15\n    assert find_max_sum(4) == 49\n    assert find_max_sum(5) == 274\n    assert find_max_sum(6) == 833\n    assert find_max_sum(7) == 1365\n    assert find_max_sum(8) == 2208\n    assert find_max_sum(9) == 3524\n    assert find_max_sum(10) == 5524\n    assert find_max_sum_recursive(3) == 15\n    assert find_max_sum_recursive(4) == 49\n    assert find_max_sum_recursive(5) == 274\n    assert find_max_sum_recursive(6) == 833\n    assert find_max_sum_recursive(7) == 1365\n    assert find_max_sum_recursive(8) == 2208\n    assert find_max_sum_recursive(9) == 3524\n    assert find_max_sum_recursive(10) == 5524\n\n    assert find_max_sum(10) == find_max_sum_recursive(10)"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][1])\n        # for i in range(3, len(triangle)):\n        #     max_sum = max(max_sum, triangle[i][0] + triangle[i - 1][1] + triangle[i - 2][2])\n        max_sum = triangle[0][0] + triangle[1][1] + triangle[2][2]\n        for i in range(3, len(triangle)):\n            max_sum = max(max_sum, triangle[i][0] + triangle[i - 1][1] + triangle[i - 2][2])\n        return max_sum\n\n\nif __name__ == '__main__':\n    triangle = [[1, 2, 3], [3, 4, 5], [6, 7, 8]]\n    print(Solution().maxSum(triangle))"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, v1, v2, v3):\n#         self.v1 = v1\n#         self.v2 = v2\n#         self.v3 = v3\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        l = len(triangle)\n        if l == 1:\n            return triangle[0][0]\n        if l == 2:\n            return triangle[0][0] + triangle[1][1]\n        m = triangle[0][0]\n        for i in range(1, l):\n            m = max(m, triangle[i][0] + triangle[i-1][1] + triangle[i-1][2])\n        return m"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "def triangle_max_sum(n):\n    \"\"\"\n    Given a triangle of numbers, find the maximum sum.\n    \"\"\"\n    return max(triangle_max_sum_helper(n))\n\ndef triangle_max_sum_helper(n):\n    \"\"\"\n    Given a triangle of numbers, find the maximum sum.\n    \"\"\"\n    if n == 0:\n        return 0\n\n    left = triangle_max_sum_helper(n-1)\n    right = triangle_max_sum_helper(n-2)\n\n    return max(left, right) + n"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        if n == 1:\n            return triangle[0][0]\n        for i in range(n):\n            for j in range(i + 1, n):\n                triangle[i][j] += max(triangle[i][j - 1], triangle[i + 1][j])\n        return triangle[n - 1][n - 1]"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, v1, v2, v3):\n#         \"\"\"\n#         v1, v2, v3 -> the three vertices of the triangle\n#         \"\"\"\n#         self.v1 = v1\n#         self.v2 = v2\n#         self.v3 = v3\n\nclass Solution(object):\n    def maxTriangle(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # sort triangle\n        triangle.sort(key=lambda x: x[2])\n        # find the maximum sum\n        max_sum = triangle[0][2]\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][2])\n            for j in range(1, i+1):\n                max_sum = max(max_sum, triangle[i][j] + triangle[i][j-1])\n        return max_sum\n\n\nif __name__ == '__main__':\n    triangle = [\n        [3, 0, 0],\n        [1, 4, 0],\n        [3, 1, 1]\n    ]\n    print(Solution().maxTriangle(triangle))\n    triangle = [\n        [1, 1],\n        [2, 2],\n        [1, 1]\n    ]\n    print(Solution().maxTriangle(triangle))\n    triangle = [\n        [1, 2],\n        [2, 3],\n        [1, 2]\n    ]\n    print(Solution().maxTriangle(triangle))"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "def maxSum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 1:\n        return 0\n\n    m = maxSum(n - 1)\n    return max(m, maxSum(n - 2) + n * (n + 1) / 2)\n\nif __name__ == '__main__':\n    print maxSum(5)\n    print maxSum(6)\n    print maxSum(7)\n    print maxSum(8)\n    print maxSum(9)\n    print maxSum(10)\n    print maxSum(11)\n    print maxSum(12)\n    print maxSum(13)\n    print maxSum(14)"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "# Definition for a right triangle\nclass Triangle(object):\n    def __init__(self, numbers):\n        \"\"\"\n        :type numbers: List[int]\n        \"\"\"\n        self.numbers = numbers\n        self.sums = [0] * (len(self.numbers) - 1)\n        for i in range(len(self.numbers) - 1):\n            self.sums[i] = self.numbers[i] + self.numbers[i + 1]\n        self.sums[-1] = self.numbers[-1] + self.numbers[0]\n\n    def sum_up(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        return self.sums[0]\n\n\nclass Solution(object):\n    def maximumSumOfTriangle(self, triangle):\n        \"\"\"\n        :type triangle: Triangle\n        :rtype: int\n        \"\"\"\n        if triangle.numbers == []:\n            return triangle.sums[0]\n\n        left, mid, right = triangle.numbers[0], triangle.numbers[1], triangle.numbers[-1]\n        left_sum = triangle.sums[0]\n        right_sum = triangle.sums[-1]\n\n        for i in range(2, len(triangle.numbers)):\n            mid_sum = triangle.sums[i - 1] + triangle.sums[i]\n            left_sum = max(left_sum, mid_sum)\n            right_sum = max(right_sum, mid_sum)\n\n        return max(left_sum, right_sum)\n\n\nif __name__ == '__main__':\n    triangle = Triangle([3, 4, 5, 6])\n    print(Solution().maximumSumOfTriangle(triangle))"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/triangle/problem\n\ndef maxSum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    m = max(triangle)\n    sum = 0\n    for i in range(len(triangle)):\n        for j in range(len(triangle[i])):\n            sum += triangle[i][j]\n            if sum > m:\n                m = sum\n    return m\n\n# Test Cases\n\ntriangle = [[3, 0, 0], [4, 0, 0], [5, 0, 0]]\nprint(maxSum(triangle))\n\ntriangle = [[0, 0, 0], [1, 0, 0], [2, 0, 0]]\nprint(maxSum(triangle))\n\ntriangle = [[0, 0, 0], [0, 1, 0], [0, 0, 1]]\nprint(maxSum(triangle))\n\ntriangle = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nprint(maxSum(triangle))"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "import math\n\ndef max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    \n    # a_i = a[i] + a[i+1]\n    # b_i = b[i] + b[i+1]\n    # c_i = c[i] + c[i+1]\n    \n    # sum = a_i + b_i + c_i\n    # sum = sum + (a_i + b_i + c_i)\n    \n    # return max(sum, a_i + b_i + c_i)\n    \n    # O(n^2) time\n    # O(n) space\n    a, b, c = [0] * n, [0] * n, [0] * n\n    for i in range(n):\n        a[i], b[i], c[i] = sum(a[:i+1], b[:i+1], c[:i+1])\n    return max(a[n-1] + b[n-1] + c[n-1], max(a[n-2] + b[n-2] + c[n-2], *c[n-3:]))"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "def max_sum_right_triangle(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    if len(arr) == 1:\n        return arr[0]\n    m = arr[0]\n    for i in range(1, len(arr)):\n        m = max(m, arr[i] + arr[i - 1])\n    return m"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def maxSum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    max_sum = 0\n    for i in range(1, n + 1):\n        for j in range(i, n + 1):\n            max_sum = max(max_sum, i * j)\n    return max_sum"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "def max_sum_triangle(n):\n    if n < 3:\n        return 0\n    \n    # get max sum of left triangle\n    max_sum_left = max_sum_triangle(n-1)\n    # get max sum of right triangle\n    max_sum_right = max_sum_triangle(n-2)\n    # get max sum of this triangle\n    max_sum = max(max_sum_left, max_sum_right)\n    return max_sum\n\nif __name__ == '__main__':\n    print max_sum_triangle(4)\n    print max_sum_triangle(9)\n    print max_sum_triangle(10)"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def find_max_sum(arr):\n    \"\"\"\n    Input: An array of integers arr.\n    Output: The maximum sum of the right triangle.\n    \"\"\"\n    max_sum = arr[0]\n    for i in range(1, len(arr)):\n        max_sum = max(max_sum + arr[i], arr[i])\n    return max_sum\n\nif __name__ == '__main__':\n    arr = [4,3,6,7,5,2,8,4,3,7,2,9,4,5,3,7]\n    print(find_max_sum(arr))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def maxSum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    return max(sum(i[0] for i in triangle), sum(i[1] for i in triangle))\n\nif __name__ == \"__main__\":\n    print(maxSum(3))\n    print(maxSum(4))\n    print(maxSum(5))\n    print(maxSum(6))\n    print(maxSum(7))"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "import math\n\n\ndef max_sum_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    m = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            m = max(m, math.sqrt(i * j) + i + j)\n    return m\n\n\nif __name__ == '__main__':\n    print(max_sum_triangle(3))"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def maximum_sum(arr):\n    if len(arr) == 1:\n        return arr[0]\n    return max(arr[0], maximum_sum(arr[1:])) + arr[0]\n\n\n\nprint(maximum_sum([3, 4, 5, 6]))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "# https://leetcode.com/problems/maximum-sum-of-two-arrays/description/\n\nclass Solution:\n    # @param {integer[]} triangle\n    # @return {integer}\n    def maximumSum(self, triangle):\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0]\n        if len(triangle) == 2:\n            return max(triangle[0], triangle[1])\n        \n        # max(max(a,b),c)\n        max_sum = triangle[0]\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i])\n            \n        for i in range(1, len(triangle) - 1):\n            max_sum = max(max_sum, triangle[i] + triangle[i+1])\n        \n        return max_sum"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def maximum_sum(triangle):\n    n = len(triangle)\n    if n < 1:\n        return 0\n    if n < 2:\n        return triangle[0]\n    if triangle[0] < triangle[1]:\n        return triangle[0]\n    for i in range(1, n):\n        if triangle[i] < triangle[i - 1]:\n            return triangle[i]\n        if triangle[i] > triangle[i - 1]:\n            return triangle[i] + maximum_sum(triangle[:i] + triangle[i + 1:])\n    return triangle[-1]\n\nprint(maximum_sum([[1, 2, 3], [2, 3, 4], [3, 4, 5]]))"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n <= 0:\n        return 0\n    left_sum = 0\n    right_sum = 0\n    for i in range(0, n):\n        left_sum += i\n        right_sum += i + i\n    return max(left_sum, right_sum)\n\n\nif __name__ == \"__main__\":\n    print(max_sum_right_triangle(3))\n    print(max_sum_right_triangle(4))\n    print(max_sum_right_triangle(5))"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def max_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    return max_sum_helper(triangle, triangle[0])\n\ndef max_sum_helper(triangle, target):\n    if len(triangle) == 0:\n        return 0\n    if len(triangle) == 1:\n        return triangle[0][0] + triangle[0][1] + triangle[0][2]\n\n    # print(triangle)\n    max_sum = triangle[0][0] + triangle[0][1] + triangle[0][2]\n    for i in range(1, len(triangle)):\n        max_sum = max(max_sum, triangle[i][0] + triangle[i][1] + triangle[i][2])\n\n    return max_sum\n\nif __name__ == '__main__':\n    print(max_sum([[1,2,3], [4,5,6], [7,8,9]]))\n    print(max_sum([[1,2,3], [4,5,6], [7,8,9], [1,2,3]]))\n    print(max_sum([[1,2], [4,5], [7,8], [1,2]]))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\ndef max_sum_triangle(triangle):\n    \"\"\"\n    :type triangle: List[int]\n    :rtype: int\n    \"\"\"\n    d = defaultdict(int)\n    for i in range(len(triangle)):\n        for j in range(len(triangle) - i):\n            d[triangle[j]] += triangle[i]\n    return max(d.values())"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def max_sum_triangle(n):\n    \"\"\"\n    n is the size of triangle\n    \"\"\"\n    if n == 1:\n        return n\n    elif n == 2:\n        return max(1, n*(n+1)//2)\n    else:\n        return max(max_sum_triangle(n-1)+max_sum_triangle(n-2), max_sum_triangle(n-1))\n\nprint(max_sum_triangle(3))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == []:\n            return 0\n\n        if triangle[0][0]!= 0:\n            return triangle[0][0]\n\n        max_sum = triangle[0][0]\n\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum + triangle[i][i], triangle[i][0])\n            max_sum = max(max_sum, triangle[0][i])\n\n        return max_sum\n\n\nif __name__ == '__main__':\n    triangle = [\n        [5, 1, 9, 11],\n        [3, 4, 6, 5],\n        [2, 1, 6, 5]\n    ]\n\n    print(Solution().maxSum(triangle))"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "# https://www.hackerrank.com/challenges/triangle-maximum-sum\n\ndef max_sum(a, b, c):\n    return max(a, b, c)\n\nif __name__ == '__main__':\n    n = int(input())\n    a = [int(i) for i in input().split(' ')]\n    b = [int(i) for i in input().split(' ')]\n    c = [int(i) for i in input().split(' ')]\n    print(max_sum(a, b, c))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "import sys\nimport math\n\ndef maxSum(n):\n    if n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    elif n == 3:\n        return 2\n    else:\n        return maxSum(n - 1) + maxSum(n - 2)\n\nif __name__ == '__main__':\n    n = int(sys.stdin.readline())\n    print(maxSum(n))"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "# https://leetcode.com/problems/maximum-sum-of-triangle/discuss/261620/C%2B%2B-Python-Solution\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][0])\n        \n        max_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][0])\n            max_sum = max(max_sum, triangle[i-1][i-1] + triangle[i][i])\n        \n        return max_sum"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n# https://www.youtube.com/watch?v=o7kS3f-ywEQ\n\ndef maximum_sum_in_triangle(triangle):\n    \"\"\"\n    :param triangle: list of list of integers\n    :return: the maximum sum in the given triangle\n    \"\"\"\n    # https://www.youtube.com/watch?v=x2b3L0u1Q0A\n    # https://www.youtube.com/watch?v=qd3G2iR6X4A\n    # https://www.youtube.com/watch?v=sF8w9S_7cB0\n    # https://www.youtube.com/watch?v=6MwMv3-HsEg\n    # https://www.youtube.com/watch?v=JH_4fX-F7J0\n    # https://www.youtube.com/watch?v=WgDgY-k8kYg\n    # https://www.youtube.com/watch?v=QjW4EuT7i9Y\n    # https://www.youtube.com/watch?v=sjBt6yR9Ls\n    # https://www.youtube.com/watch?v=7c7Q7eM1Vw8\n    # https://www.youtube.com/watch?v=mq8V4o5gLg\n    # https://www.youtube.com/watch?v=7Dg1XwJ3iLk\n    # https://www.youtube.com/watch?v=hXrR5-hJtQw\n    # https://www.youtube.com/watch?v=i-jQmG9vnK4\n    # https://www.youtube.com/watch?v=lQfv3JZ1-nA\n    # https://www.youtube.com/watch?v=jw5dCwZD_DU\n    # https://www.youtube.com/watch?v=3dZQ9-oR9c\n    # https://www.youtube.com/watch?v=qg4w3u0J"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "def maxSum(n):\n    return max(n[0][i] + n[i][i] + n[i][i+1], n[i][i])\n\n\nif __name__ == \"__main__\":\n    n = [[1,2,3],[4,5,6],[7,8,9]]\n    print maxSum(n)"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    Input: n is the number of rows in the triangle.\n    Output: The maximum sum in the triangle.\n    \"\"\"\n    # base case\n    if n < 3:\n        return 0\n\n    # left triangle\n    max_sum_left_triangle = max_sum_right_triangle(n-1)\n\n    # right triangle\n    for i in range(n-2, -1, -1):\n        max_sum_right_triangle = max(max_sum_right_triangle, max_sum_left_triangle + i)\n        max_sum_left_triangle = max(max_sum_left_triangle, max_sum_right_triangle + i)\n\n    return max_sum_right_triangle\n\n\nif __name__ == '__main__':\n    assert(max_sum_right_triangle(3) == 10)\n    assert(max_sum_right_triangle(4) == 15)\n    assert(max_sum_right_triangle(5) == 21)\n    assert(max_sum_right_triangle(6) == 30)\n    assert(max_sum_right_triangle(7) == 42)"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    m, l, r = 0, 0, 0\n    for i in range(n):\n        m = max(m, i + i + l)\n        l = max(l, i + r)\n        r = max(r, i + m)\n    return m + l + r\n\nif __name__ == '__main__':\n    print(max_sum_right_triangle(3))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    # A simple solution\n    # n = n*(n+1)/2\n    # We can also use the formula:\n    # n = n*(n+1)/2 - (n-1)*(n-2)/2\n    # which is the same but easier to understand.\n    #\n    # The function below is the one I used to get the result.\n    # It is more complicated and does not work as I expected.\n    #\n    # n = n*(n+1)/2\n    # for i in range(1,n):\n    #     for j in range(i+1,n):\n    #         n -= 1\n    #         # n = n*(n+1)/2 - (n-1)*(n-2)/2\n    #         n += 1\n    #         # n = n*(n+1)/2 - (n-1)*(n-2)/2\n    #         n += 1\n    # return n\n    \n    # We can use the formula to get the answer.\n    return n*(n+1)/2 - (n-1)*(n-2)/2\n\ndef max_sum_iter(n):\n    # This is the same as the above function but we use the iterator\n    # instead of a for loop.\n    #\n    # We can use the formula to get the answer.\n    # return n*(n+1)/2 - (n-1)*(n-2)/2\n    #\n    # n = n*(n+1)/2\n    # for i in range(1,n):\n    #     for j in range(i+1,n):\n    #         n -= 1\n    #         # n = n*(n+1)/2 - (n-1)*(n-2)/2\n    #         n += 1\n    # return n\n    \n    # We can use the formula to get the answer.\n    return n*(n+1)/2 - (n-1)*(n-2)/2\n\ndef max_sum_nested(n):\n    # This is the same as the above function but we use a nested for loop.\n    #\n    # We can use"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    \"\"\"\n    For example, given n = 3, return 6 since you should maximize the sum of\n    [1, 2, 3].\n\n    Hint:\n    Think of a way to optimize it. Could you think of a way to optimize it\n    with a binary search?\n    \"\"\"\n    return max(sum(row) for row in [[i, i+j] for j in range(n) for i in range(j+1, n+1)])\n\nif __name__ == \"__main__\":\n    print max_sum(3)\n    print max_sum(5)\n    print max_sum(7)\n    print max_sum(9)\n    print max_sum(11)"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "# Definition for a triangle\n# class Triangle:\n#     def __init__(self, a, b, c):\n#         self.a = a\n#         self.b = b\n#         self.c = c\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximumSum(self, triangle):\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        for i in range(len(triangle) - 1):\n            for j in range(len(triangle[0])):\n                if triangle[i][j] + triangle[i + 1][j] > triangle[i][j + 1]:\n                    triangle[i][j] = triangle[i + 1][j]\n        return triangle[0][0]"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def max_sum_of_right_triangle(n):\n    if n < 2:\n        return 0\n    return max(max_sum_of_right_triangle(n-1), max_sum_of_right_triangle(n-2) + n)\n\nprint(max_sum_of_right_triangle(4))"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "# https://www.hackerrank.com/challenges/triangle/problem\n\n# triangle(3,1,3,4,6) = 4\n# triangle(5,2,3,4,5) = 12\n# triangle(3,1,4,5,4) = 12\n# triangle(5,2,3,6,6) = 16\n# triangle(2,2,2,2,2) = 4\n\ndef triangle(n, a, b, c):\n    sum = a + b + c\n    if n == 1:\n        return sum\n    else:\n        if n == 2:\n            return max(triangle(1, a, b, c), triangle(1, a, c, b))\n        else:\n            return max(triangle(n - 1, a, b, c), triangle(n - 1, a, c, b), triangle(n - 1, a, b, c))\n\ntriangle(5, 3, 4, 5)"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n < 2:\n        return 0\n    m = 0\n    for i in range(1, n + 1):\n        for j in range(i, n + 1):\n            m = max(m, i * j)\n    return m\n\nif __name__ == '__main__':\n    assert(max_sum(3) == 6)\n    assert(max_sum(4) == 15)\n    assert(max_sum(5) == 25)\n    assert(max_sum(6) == 49)\n    assert(max_sum(7) == 99)"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def maximum_sum_in_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    # Base cases\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    elif n == 2:\n        return 2\n\n    # Recursive cases\n    return max(maximum_sum_in_triangle(n - 1) + maximum_sum_in_triangle(n - 2),\n               maximum_sum_in_triangle(n - 3) + maximum_sum_in_triangle(n - 4))\n\nprint(maximum_sum_in_triangle(3))"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    return max([sum(row) for row in triangle[:n]])\n\ntriangle = [\n    [2, 3, 4],\n    [3, 5, 4],\n    [2, 4, 5],\n    [1, 2, 3],\n    [1, 3, 4],\n    [1, 4, 5],\n    [1, 2, 5],\n    [1, 3, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1, 2, 3, 4, 5],\n    [1,"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "# https://www.hackerrank.com/challenges/triangle/problem\n\n# Time:  O(n)\n# Space: O(n)\n\ndef maximum_sum_triangle(n):\n    if n <= 1:\n        return 0\n    return max(sum(triangle(n, i, j)) for i in range(n) for j in range(i + 1, n))\n\ndef triangle(n, i, j):\n    return [i + j + triangle(n, i + 1, j + 1)]\n\nif __name__ == '__main__':\n    n = int(input())\n    print(maximum_sum_triangle(n))"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "from collections import Counter\nfrom math import sqrt\n\ndef max_sum_of_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    for i in range(n):\n        for j in range(i+1, n):\n            if i == j:\n                continue\n            else:\n                if i + j > n:\n                    continue\n                else:\n                    m = max(\n                        (i + j) * (i + j - 1) / 2,\n                        (i + j - 1) * (i + j) / 2,\n                        (i + j - 1) * (i + j - 2) / 2\n                    )\n                    if m > i + j + j:\n                        return i + j + j\n                    else:\n                        continue\n    return i + j\n\nif __name__ == '__main__':\n    print(max_sum_of_right_triangle(3))\n    print(max_sum_of_right_triangle(4))\n    print(max_sum_of_right_triangle(5))\n    print(max_sum_of_right_triangle(6))"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "def max_sum_triangle(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    n1 = n - 1\n    n2 = n - 2\n    n3 = n - 3\n    return max(n1 * n2, n1 * n3, n2 * n3)\n\ndef max_sum_triangle2(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    n1 = n - 1\n    n2 = n - 2\n    n3 = n - 3\n    return max(n1 * n2 + n3, n1 * n2 + n3, n1 * n3 + n2)\n\ndef max_sum_triangle3(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    n1 = n - 1\n    n2 = n - 2\n    n3 = n - 3\n    return max(n1 * n2 + n3, n2 * n3 + n1, n3 * n1 + n2)\n\ndef max_sum_triangle4(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    n1 = n - 1\n    n2 = n - 2\n    n3 = n - 3\n    return max(n1 * n2 + n3, n1 * n3 + n2, n2 * n3 + n1)\n\nif __name__ == \"__main__\":\n    print max_sum_triangle(3)\n    print max_sum_triangle2(3)\n    print max_sum_triangle3(3)\n    print max_sum_triangle4(3)"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    return max([sum(row) for row in zip(*[iter(xrange(n))] * 3)])\n\nif __name__ == '__main__':\n    print max_sum(3)"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    return max(\n        [\n            sum(row)\n            for row in zip(\n                [1, n, n*n],\n                [\n                    2, 3, 4,\n                    5, 6, 7,\n                    8, 9, 10,\n                    11, 12, 13\n                ]\n            )\n        ]\n    )\n\nif __name__ == '__main__':\n    n = 0\n    print(max_sum(n))"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "import math\n\ndef find_max_sum_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    max_sum = 0\n    for i in range(1, n):\n        for j in range(i):\n            max_sum += math.sqrt(i*j)\n    return max_sum\n\n\nif __name__ == '__main__':\n    print(find_max_sum_triangle(2))\n    print(find_max_sum_triangle(3))\n    print(find_max_sum_triangle(4))"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    return max(n[i][j] + n[j][i] for i in range(n) for j in range(i + 1))\n\nprint(max_sum([[1, 2, 3], [2, 5, 6], [3, 6, 7]]))\nprint(max_sum([[1, 2], [2, 3], [3, 4]]))"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "def find_max(arr):\n    max_sum = arr[0]\n    for i in range(1, len(arr)):\n        max_sum = max(arr[i], max_sum + arr[i])\n    return max_sum\n\nif __name__ == '__main__':\n    print(find_max([4, 3, 2, 1]))\n    print(find_max([1, 2, 3]))\n    print(find_max([1, 2, 3, 4]))"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "import math\n\ndef max_sum(n):\n    if n < 1:\n        return 0\n\n    a = [0] * (n+1)\n    b = [0] * (n+1)\n    c = [0] * (n+1)\n\n    for i in range(1, n+1):\n        a[i] = a[i-1] + b[i-1]\n        c[i] = c[i-1] + a[i-1] + b[i-1]\n\n    return max(a[n], c[n])\n\nprint max_sum(5)\nprint max_sum(6)"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    \"\"\"\n    Given a triangle of numbers, return the maximum sum of the triangle.\n    \"\"\"\n    # Base case\n    if n == 0:\n        return 0\n    # Recursive case\n    return max(max_sum(x) + max_sum(y) for x in range(1, n) for y in range(x, n))\n\nif __name__ == \"__main__\":\n    print(max_sum(3))\n    print(max_sum(4))\n    print(max_sum(5))\n    print(max_sum(6))\n    print(max_sum(7))\n    print(max_sum(8))\n    print(max_sum(9))\n    print(max_sum(10))\n    print(max_sum(11))\n    print(max_sum(12))"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\nimport sys\n\ndef max_sum_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    return max(max_sum_triangle(n - 1),\n               max_sum_triangle(n - 2),\n               max_sum_triangle(n - 3))\n\ndef main():\n    n = int(sys.stdin.readline())\n    print max_sum_triangle(n)\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "def max_sum(triangle):\n    \"\"\"\n    :type triangle: List[int]\n    :rtype: int\n    \"\"\"\n    if triangle[0] == triangle[1] == triangle[2]:\n        return triangle[0]\n    if triangle[0] > triangle[1]:\n        if triangle[0] > triangle[2]:\n            return triangle[0]\n        else:\n            return triangle[2]\n    elif triangle[1] > triangle[2]:\n        return triangle[1]\n    else:\n        return triangle[2]\n\nprint(max_sum([1, 2, 3]))\nprint(max_sum([1, 2, 3, 4]))\nprint(max_sum([4, 5, 6, 7]))\nprint(max_sum([4, 5, 6, 7, 8]))"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximumSum(self, triangle):\n        if not triangle:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        \n        # if len(triangle) > 2:\n        #     return self.maximumSum(triangle[1:])\n        \n        max_sum = triangle[0][0]\n        \n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i-1][0] + triangle[i][0])\n        return max_sum\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.maximumSum([[1, 2, 3], [2, 4, 6], [3, 6, 9]]))\n    print(sol.maximumSum([[1, 2, 3], [3, 6, 9], [2, 4, 6]]))"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "def maximumSum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 1:\n        return 0\n    else:\n        return n * (n + 1) / 2\n\nif __name__ == \"__main__\":\n    n = int(input())\n    print(maximumSum(n))"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "import numpy as np\n\ndef maxSum(arr):\n    if len(arr) < 2:\n        return arr[0]\n    mid = len(arr)//2\n    left, right = arr[:mid], arr[mid:]\n    return max(maxSum(left), maxSum(right)) + arr[mid]\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    print(maxSum(arr))"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "import sys\n\nif __name__ == '__main__':\n    fptr = open(sys.argv[1], 'r')\n    triangle = [int(line) for line in fptr]\n    fptr.close()\n\n    max_sum = max_sum_in_triangle(triangle)\n    print 'Maximum sum in the triangle is:'+ str(max_sum)"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "import math\n\ndef max_sum(triangle):\n    max_sum = triangle[0]\n    for i in range(1, len(triangle)):\n        max_sum = max(max_sum + triangle[i], triangle[i])\n    return max_sum\n\n\nif __name__ == '__main__':\n    triangle = [1, 2, 3, 4, 5, 6, 7]\n    print(max_sum(triangle))"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "def maximum_sum(triangle):\n    \"\"\"\n    triangle = [1, 3, 2, 6, 4]\n    >>> maximum_sum(triangle)\n    6\n    \"\"\"\n    # base case\n    if len(triangle) == 0:\n        return 0\n\n    # recursion case\n    return max(maximum_sum(triangle[:i]) + triangle[i] for i in range(1, len(triangle)))\n\n\nif __name__ == \"__main__\":\n    assert maximum_sum([1, 3, 2, 6, 4]) == 6, \"Test 1\"\n    assert maximum_sum([2, 4, 3, 5, 6]) == 10, \"Test 2\"\n    assert maximum_sum([6, 6, 6, 6, 6]) == 24, \"Test 3\""
+    },
+    {
+      "rank": 72,
+      "score": 8.0,
+      "candidate": "def findMaxSum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    return max(max(a, b) for a, b in zip(findMaxSum(n - 1), findMaxSum(n - 2), range(1, n + 1)))\n\nif __name__ == '__main__':\n    print(findMaxSum(3))"
+    },
+    {
+      "rank": 73,
+      "score": 8.0,
+      "candidate": "import sys\n\nif sys.version_info[0] == 2:\n    def read_numbers(n):\n        return [int(i) for i in raw_input().split()]\nelse:\n    def read_numbers(n):\n        return [int(i) for i in input().split()]\n\ndef find_max_sum(numbers):\n    return max(sum(numbers[:i] + numbers[i + 1:]) for i in range(n - 1))\n\ndef main():\n    n = int(sys.argv[1]) if len(sys.argv) == 2 else input()\n    numbers = read_numbers(n)\n    print(find_max_sum(numbers))\n\nif __name__ == '__main__':\n    sys.exit(main())"
+    },
+    {
+      "rank": 74,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0 or len(triangle) == 1:\n            return triangle[0][0]\n        for i in range(1, len(triangle)):\n            for j in range(i):\n                triangle[i][j] += max(triangle[i-1][j], triangle[i-1][j+1])\n        return triangle[-1][-1]"
+    },
+    {
+      "rank": 75,
+      "score": 8.0,
+      "candidate": "import math\n\n\ndef max_sum_of_right_triangle(n):\n    sum_left = 0\n    sum_right = 0\n    for i in range(n):\n        sum_left += i\n    for i in range(n):\n        sum_right += i * (i + 1)\n\n    return max(sum_left, sum_right)\n\n\nif __name__ == '__main__':\n    assert max_sum_of_right_triangle(3) == 7\n    assert max_sum_of_right_triangle(4) == 12\n    assert max_sum_of_right_triangle(5) == 15\n    assert max_sum_of_right_triangle(6) == 18"
+    },
+    {
+      "rank": 76,
+      "score": 8.0,
+      "candidate": "def max_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    return max(max_sum(n-1), n*(n+1)//2)\n\nprint(max_sum(6))"
+    },
+    {
+      "rank": 77,
+      "score": 8.0,
+      "candidate": "def max_sum(nums):\n    if len(nums) == 0:\n        return 0\n    if len(nums) == 1:\n        return nums[0]\n    max_sum = nums[0]\n    for i in range(1, len(nums)):\n        max_sum = max(max_sum, nums[i] + nums[i-1])\n    return max_sum\n\n\n# Test Cases\n\nprint(max_sum([1, 2, 3, 4, 5]))\nprint(max_sum([1, 2, 3, 4, 5, 6]))\nprint(max_sum([1, 1, 2, 2, 3, 3, 4, 4]))\nprint(max_sum([-1, -2, -3, -4, -5, -6]))\nprint(max_sum([-1, -2, -3, -4, -5, -6, -7]))"
+    },
+    {
+      "rank": 78,
+      "score": 8.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    return max([sum(triangle[i:j]) for i in range(n) for triangle in triangle_generator(n)])\n\n\ndef triangle_generator(n):\n    \"\"\"\n    :type n: int\n    :rtype: list[list[int]]\n    \"\"\"\n    triangle = [[0] * (n + 1)]\n    for i in range(n):\n        triangle.append([0] * (n - i) + [triangle[i][-1] + triangle[i + 1][-1]])\n    return triangle\n\n\nif __name__ == \"__main__\":\n    print(max_sum_right_triangle(5))"
+    },
+    {
+      "rank": 79,
+      "score": 8.0,
+      "candidate": "def max_sum_right_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n < 2:\n        return 0\n    m = max_sum_right_triangle(n-1)\n    return max(m, max_sum_right_triangle(n-2) + n*(n+1)/2)"
+    },
+    {
+      "rank": 80,
+      "score": 8.0,
+      "candidate": "def max_sum_triangle(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 0:\n        return 0\n\n    max_sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            max_sum = max(max_sum, i+j+j)\n    return max_sum\n\n# TESTS\nfor n in range(1, 5):\n    print(f\"{max_sum_triangle(n):04d}\")"
+    },
+    {
+      "rank": 81,
+      "score": 8.0,
+      "candidate": "def max_sum(triangle):\n    if len(triangle) == 0:\n        return 0\n    if len(triangle) == 1:\n        return triangle[0]\n\n    max_sum = triangle[0]\n    for i in range(1, len(triangle)):\n        max_sum = max(triangle[i], max_sum + triangle[i])\n    return max_sum\n\n\nprint(max_sum([1, 2, 3, 4]))\nprint(max_sum([4, 1, 2, 3]))\nprint(max_sum([2, 2, 4, 2]))\nprint(max_sum([4, 1, 4, 5]))\nprint(max_sum([3, 3, 5, 6]))"
+    },
+    {
+      "rank": 82,
+      "score": 8.0,
+      "candidate": "from math import sqrt\n\ndef max_sum_triangle(n):\n    \"\"\"\n    n is the size of triangle.\n    returns the maximum sum in the triangle.\n    \"\"\"\n    a, b, c = 0, 0, 0\n    for i in range(n):\n        a += i\n        b += i + 1\n        c += i + 2\n        s = max(a, b, c)\n    return s\n\nif __name__ == '__main__':\n    n = 3\n    print max_sum_triangle(n)"
+    },
+    {
+      "rank": 83,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        m, n = triangle[0][0], triangle[0][1]\n        for i in range(1, len(triangle)):\n            m, n = max(m + triangle[i][0], n + triangle[i][1]), max(m, n + triangle[i][1])\n        return m + n\n\n\nif __name__ == '__main__':\n    triangle = [\n        [2, 3, 4],\n        [3, 4, 5],\n        [4, 5, 6],\n        [5, 6, 7]\n    ]\n    print Solution().maxSum(triangle)"
+    },
+    {
+      "rank": 84,
+      "score": 8.0,
+      "candidate": "def max_sum_of_right_triangle(n):\n    \"\"\"\n    Input:\n        n (int)\n        \n    Output:\n        The maximum sum in the given right triangle.\n    \"\"\"\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    \n    return max(max_sum_of_right_triangle(n-2), max_sum_of_right_triangle(n-1) + n)\n\n\ndef main():\n    n = int(input(\"Enter the number of rows: \"))\n    for i in range(n):\n        print(max_sum_of_right_triangle(i+1))\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 85,
+      "score": 2.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, numbers):\n#         \"\"\"\n#         :type numbers: List[int]\n#         \"\"\"\n#         self.numbers = numbers\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        if n == 1:\n            return triangle[0][0]\n        if n == 2:\n            return max(triangle[0][0], triangle[1][1])\n        # n > 2\n        # Find the maximum sum of the first row.\n        max_row_sum = triangle[0][0]\n        for i in xrange(1, n):\n            max_row_sum = max(max_row_sum, triangle[0][i])\n        # Find the maximum sum of the second row.\n        max_row_sum = max(triangle[1][1], max_row_sum)\n        for i in xrange(2, n):\n            max_row_sum = max(max_row_sum, triangle[i][1])\n            max_row_sum = max(max_row_sum, triangle[i][0])\n        return max_row_sum"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from __future__ import annotations\n\nimport collections\n\n\nclass Solution:\n    def maximumSum(self, triangle: list[list[int]]) -> int:\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        triangle = collections.deque(triangle)\n        res = triangle[0][0]\n        while triangle:\n            t = triangle.popleft()\n            for i in range(1, len(t)):\n                res = max(res, t[i] + triangle[i - 1][i])\n            triangle.extend(t)\n        return res\n\n\nif __name__ == \"__main__\":\n    assert Solution().maximumSum([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == 27\n\n    assert Solution().maximumSum([[1, 1, 1], [1, 1, 1], [1, 1, 1]]) == 6"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def maxSum(self, triangle: 'TreeNode') -> int:\n        \"\"\"\n        Brute-force\n        \"\"\"\n        if not triangle:\n            return 0\n        elif not triangle.left:\n            return triangle.val\n        elif not triangle.right:\n            return triangle.val\n        else:\n            return triangle.val + max(self.maxSum(triangle.left), self.maxSum(triangle.right))\n\n    def maxSum(self, triangle: 'TreeNode') -> int:\n        \"\"\"\n        Recursion\n        \"\"\"\n        if not triangle:\n            return 0\n        elif triangle.right and triangle.left:\n            return triangle.val + max(self.maxSum(triangle.right), self.maxSum(triangle.left))\n        elif triangle.right:\n            return triangle.val + max(self.maxSum(triangle.right))\n        elif triangle.left:\n            return triangle.val + max(self.maxSum(triangle.left))\n        else:\n            return triangle.val"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "def max_sum_triangle(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if len(triangle) == 0:\n        return 0\n    if len(triangle) == 1:\n        return triangle[0][0]\n    if len(triangle) == 2:\n        return triangle[0][0] + triangle[1][1]\n    max_sum = triangle[0][0]\n    for i in range(1, len(triangle)):\n        max_sum = max(max_sum, triangle[i][0] + triangle[i-1][1] + triangle[i-1][i])\n    return max_sum\n\n\nif __name__ == '__main__':\n    assert max_sum_triangle([[1, 2], [3, 4], [5, 6]]) == 10\n    assert max_sum_triangle([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == 30\n    assert max_sum_triangle([[1], [2], [3]]) == 3"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\nfrom functools import reduce\n\ndef max_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    def helper(n, i, j):\n        if i == j:\n            return n\n        return max(helper(n, i+1, j), helper(n, i, j-1))\n\n    return helper(n, 0, n)\n\nif __name__ == '__main__':\n    assert max_sum(3) == 6\n    assert max_sum(4) == 12\n    assert max_sum(5) == 15\n    assert max_sum(6) == 21\n    assert max_sum(7) == 28\n    assert max_sum(8) == 36\n    assert max_sum(9) == 45"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        \n        m, n = len(triangle), len(triangle[0])\n        \n        # left triangle\n        max_sum = triangle[m-1][n-1]\n        for i in range(m-2, -1, -1):\n            for j in range(n-2, -1, -1):\n                max_sum = max(max_sum, triangle[i][j] + triangle[i+1][j] + triangle[i][j+1])\n        \n        # right triangle\n        for i in range(m-2, -1, -1):\n            for j in range(n-2, -1, -1):\n                max_sum = max(max_sum, triangle[i][j] + triangle[i+1][j] + triangle[i+1][j+1])\n        \n        return max_sum"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n < 2:\n            return 0\n        \n        # maxSum = max(max(triangle[0][0], triangle[0][1]) + triangle[1][0], triangle[1][1])\n        maxSum = triangle[0][0]\n        for i in range(1, n):\n            maxSum = max(maxSum, triangle[i][0] + triangle[i][1])\n        return maxSum\n\n\nif __name__ == \"__main__\":\n    triangle = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n    print(Solution().maxSum(triangle))"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param triangle: a list of lists of integers\n    @return: an integer\n    \"\"\"\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        \n        n = len(triangle)\n        m = len(triangle[0])\n        \n        for i in range(m):\n            for j in range(i, m):\n                triangle[i][j] += max(triangle[i][j - 1], triangle[i + 1][j])\n        \n        return triangle[0][0]"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "# https://www.hackerrank.com/challenges/triangle/problem\n\nimport math\n\n\ndef max_sum(triangle):\n    sum_left = triangle[0]\n    sum_right = triangle[1]\n    sum_left = sum_left + triangle[2]\n    sum_right = sum_right + triangle[2]\n    for i in range(3, len(triangle)):\n        sum_left = max(sum_left, triangle[i - 1])\n        sum_right = max(sum_right, triangle[i])\n    return max(sum_left, sum_right)\n\n\ndef main():\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert(max_sum([1, 2, 3]) == 6), \"Self-checking failed\"\n    assert(max_sum([2, 1, 2]) == 3), \"Self-checking failed\"\n    assert(max_sum([3, 3, 3]) == 6), \"Self-checking failed\"\n    assert(max_sum([3, 2, 1]) == 6), \"Self-checking failed\"\n    assert(max_sum([1, 4, 9, 12]) == 24), \"Self-checking failed\"\n    assert(max_sum([9, 12, 4, 1]) == 24), \"Self-checking failed\"\n    assert(max_sum([1, 4, 9, 12, 8]) == 24), \"Self-checking failed\"\n    assert(max_sum([1, 1, 1, 1]) == 1), \"Self-checking failed\"\n    assert(max_sum([1, 2, 3]) == 6), \"Self-checking failed\"\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "# @include\ndef maximum_sum_in_triangle(n: int) -> int:\n    return max(triangle_sum(n))\n\n\ndef triangle_sum(n: int) -> int:\n    \"\"\"\n    n is the size of the triangle.\n    Returns the sum of all the numbers in the triangle.\n    \"\"\"\n    if n < 1:\n        return 0\n    if n == 1:\n        return 1\n    return triangle_sum(n - 1) + triangle_sum(n - 2)\n\n\n# @exclude\n\nif __name__ == \"__main__\":\n    print(maximum_sum_in_triangle(1))\n    print(maximum_sum_in_triangle(2))\n    print(maximum_sum_in_triangle(3))\n    print(maximum_sum_in_triangle(4))\n    print(maximum_sum_in_triangle(5))\n    print(maximum_sum_in_triangle(6))\n    print(maximum_sum_in_triangle(7))\n    print(maximum_sum_in_triangle(8))\n    print(maximum_sum_in_triangle(9))\n    print(maximum_sum_in_triangle(10))"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "#\n# Example 1:\n#\n# Input:\n# triangle = [\n#     [2],\n#     [3,4],\n#     [6,5,7],\n#     [4,1,8,3]\n# ]\n# Output: 16\n# Explanation:\n# The maximum sum is 16.\n# The triangle is: [2], [3,4], [6,5,7], [4,1,8,3]\n#\n# Example 2:\n#\n# Input:\n# triangle = [\n#     [1],\n#     [3,2],\n#     [4,5],\n#     [6,7],\n#     [9,8]\n# ]\n# Output: 26\n#\n# Example 3:\n#\n# Input:\n# triangle = [\n#     [1],\n#     [2],\n#     [3]\n# ]\n# Output: 4\n#\n# Note:\n# The length of triangle will be in range [1, 50].\n# Each element of the given triangle is a non-negative integer and the sum of elements in each row will be a non-negative integer.\n#\n\nclass Solution(object):\n    def maxSumSubmatrix(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m, n = len(triangle), len(triangle[0])\n        max_sum = triangle[0][0]\n        for i in range(1, m):\n            for j in range(n - i):\n                sum_i = triangle[i][j]\n                sum_j = triangle[i][j + 1]\n                max_sum = max(max_sum, sum_i + sum_j + triangle[i-1][j])\n        return max_sum\n\nclass Solution2(object):\n    def maxSumSubmatrix(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m, n = len(triangle), len(triangle[0])\n        max_sum"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "# http://stackoverflow.com/questions/19296935/python-find-maximum-sum-of-triangle-with-given-row-and-column\n\ndef max_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    max_sum = triangle[0][0]\n    for i in range(1, len(triangle)):\n        for j in range(len(triangle[i])):\n            if triangle[i][j] > max_sum:\n                max_sum = triangle[i][j]\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(max_sum([[1, 2, 3], [1, 3, 5], [3, 2, 1]]))\n    print(max_sum([[1, 3], [1, 2], [2, 1]]))\n    print(max_sum([[1, 2], [2, 1], [3, 1]]))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/maximum-sum-of-triangle/\n# Given the triangle, find the maximum sum of the three other numbers in the triangle.\n#\n# For example, given the triangle\n#\n# [\n#   [2],\n#   [3,4],\n#   [6,5,7],\n#   [4,1,8,3]\n# ]\n#\n# The maximum sum is 8 + 7 + 4 = 17.\n#\n# Note:\n# The length of given triangle is at least 3.\n# The given triangle is always in a sorted state.\n#\n# Follow up:\n# Could you do it using only O(n) extra space?\n#\n# Related problem:\n# Maximum Subarray\n#\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        return max(self.maxSum(triangle[:i] + triangle[i+1:]) for i in range(len(triangle) - 1)) + triangle[-1][0]\n\n\ns = Solution()\nprint s.maxSum([[1,2], [1,3,4], [1,2,3,4]])"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/maximum-sum-of-two-dimensions/description/\n# Given the following triangle\n# [\n#     [2],\n#     [3,4],\n#     [6,5,7],\n#     [4,1,8,3]\n# ]\n# the function should return 11.\n\n# Note:\n# The triangle is stored in a list of lists,\n# where the inner list is the row and the outer list is the column.\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximumSum(self, triangle):\n        # write your code here\n        n = len(triangle)\n        if n == 0:\n            return 0\n\n        # check if the triangle is square\n        if n == 1:\n            return triangle[0][0]\n\n        # find the maximum sum in the sub-triangle\n        max_sum = self.maximumSum(triangle[:n/2])\n\n        # find the maximum sum in the right sub-triangle\n        right_max_sum = self.maximumSum(triangle[n/2:])\n\n        # the sum of the sub-triangle is the sum of the two maximums\n        return max(max_sum, right_max_sum)\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print(solution.maximumSum([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))\n    print(solution.maximumSum([[2], [3, 4], [6, 5, 7], [4, 1, 8]]))"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        def dfs(triangle, cur):\n            if cur is None:\n                return 0\n            if triangle[cur][cur] < 0:\n                return 0\n            return max(triangle[cur][cur] + dfs(triangle, cur+1),\n                       dfs(triangle, cur+1) + triangle[cur][cur+1])\n        return dfs(triangle, 0)"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "# @include\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in _get_row_sum(n))\n\n\ndef _get_row_sum(n):\n    # Returns a list of the sum of the given row.\n    return [sum(row) for row in [[i] * n for i in range(n)]]\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):\n    # Find the max sum for the given triangle.\n    return max(sum(row) for row in [[i] * n for i in range(n)])\n\n\n# @exclude\ndef max_sum_right_triangle(n):"
+    }
+  ]
+}

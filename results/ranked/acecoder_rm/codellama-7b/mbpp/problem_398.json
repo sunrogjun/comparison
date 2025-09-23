@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/409",
+    "prompt": "Write a function to find the minimum product from the pairs of tuples within a given list.",
+    "canonical_solution": "def min_product_tuple(list1):\r\n    result_min = min([abs(x * y) for x, y in list1] )\r\n    return result_min",
+    "test_list": [
+      "assert min_product_tuple([(2, 7), (2, 6), (1, 8), (4, 9)] )==8",
+      "assert min_product_tuple([(10,20), (15,2), (5,10)] )==30",
+      "assert min_product_tuple([(11,44), (10,15), (20,5), (12, 9)] )==100"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 398
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from typing import List\n\n\ndef find_min_product(tuples: List[tuple]) -> int:\n    \"\"\"Find minimum product from tuples.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)]) == 12\n        >>> assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]) == 60\n        >>> assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]) == 120\n        >>> assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14)]) == 240\n    \"\"\"\n    return min([\n        a * b\n        for a, b in [\n            (a, b)\n            for a, b in tuples\n        ]\n    ])\n\n\nif __name__ == '__main__':\n    print(find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)]))\n    print(find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]))\n    print(find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]))\n    print(find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14)]))",
+      7.27734375
+    ],
+    [
+      "def min_product(array):\n    \"\"\"\n    >>> min_product([(1, 2), (3, 4), (5, 6)])\n    4\n    \"\"\"\n    if len(array) <= 1:\n        return None\n    return min([array[i][0] * array[i + 1][1] for i in range(len(array) - 1)])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.453125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_tuples(data: List[tuple]) -> int:\n    \"\"\"Returns the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        data (List[tuple]): the list of tuples.\n\n    Examples:\n        >>> min_product_tuples([(1, 2), (2, 3), (3, 4)])\n        6\n        >>> min_product_tuples([(1, 2), (2, 4), (3, 6)])\n        12\n        >>> min_product_tuples([(1, 2), (2, 4), (3, 7)])\n        6\n    \"\"\"\n    min_product = data[0][0] * data[0][1]\n\n    for i in range(len(data)):\n        for j in range(i + 1, len(data)):\n            product = data[i][0] * data[j][1]\n\n            if product < min_product:\n                min_product = product\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product_tuples([(1, 2), (2, 3), (3, 4)]))\n    print(min_product_tuples([(1, 2), (2, 4), (3, 6)]))\n    print(min_product_tuples([(1, 2), (2, 4), (3, 7)]))",
+      1.3818359375
+    ],
+    [
+      "def min_product(list_tuples):\n    \"\"\"\n    >>> min_product([(1, 2), (5, 6), (7, 8)])\n    12\n\n    >>> min_product([(1, 2), (5, 6), (7, 8), (3, 4)])\n    8\n\n    >>> min_product([(1, 2), (5, 6), (7, 8), (3, 4), (-1, 5)])\n    -60\n    \"\"\"\n    min_product = None\n    for tup1 in list_tuples:\n        for tup2 in list_tuples:\n            if tup1 == tup2:\n                continue\n            product = tup1[0] * tup2[1]\n            if min_product is None or product < min_product:\n                min_product = product\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.1357421875
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_tuples(lst: List[tuple]) -> int:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    lst = sorted(lst, key=lambda x: x[0])\n\n    min_value = lst[0][0] * lst[0][1]\n\n    for i in range(1, len(lst)):\n        min_value = min(lst[i][0] * lst[i - 1][1], min_value)\n        min_value = min(lst[i - 1][0] * lst[i][1], min_value)\n\n    return min_value\n\n\nif __name__ == \"__main__\":\n    assert min_product_tuples([(2, 5), (8, 10), (1, 3)]) == 10\n    assert min_product_tuples([(2, 5), (8, 10), (1, 3), (6, 4)]) == 10",
+      1.134765625
+    ],
+    [
+      "def min_product(lst):\n    min_product = lst[0][0] * lst[0][1]\n    for i in range(len(lst)):\n        for j in range(len(lst)):\n            if i != j:\n                temp = lst[i][0] * lst[j][1]\n                if temp < min_product:\n                    min_product = temp\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (3, 4), (5, 6)]))",
+      0.98388671875
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_of_tuples(tuples: List[tuple]) -> int:\n    \"\"\"Finds the minimum product of tuples from a list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Returns:\n        int: minimum product\n    \"\"\"\n    tuples.sort()\n    return tuples[0][0] * tuples[1][1]\n\n\nif __name__ == \"__main__\":\n    assert min_product_of_tuples([(5, -2), (-3, 4)]) == -24\n    assert min_product_of_tuples([(2, 3), (-1, 4)]) == 12\n    assert min_product_of_tuples([(1, 2), (-1, 3)]) == 2",
+      0.85302734375
+    ],
+    [
+      "from typing import List\n\n\ndef find_minimum_product(input_list: List[tuple]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    input_list.sort(key=lambda x: x[0])\n\n    min_product = input_list[0][0] * input_list[0][1]\n\n    for i in range(1, len(input_list)):\n        min_product = min(min_product, input_list[i][0] * input_list[i - 1][1])\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    assert find_minimum_product([(1, 2), (3, 4), (2, 2)]) == 6\n    assert find_minimum_product([(2, 4), (1, 2), (3, 5), (2, 2)]) == 6\n    assert find_minimum_product([(5, 2), (3, 6), (2, 7), (1, 1)]) == 2",
+      0.81591796875
+    ],
+    [
+      "def find_min_product(tuples):\n    \"\"\"\n    >>> find_min_product([(1, 2), (5, 6), (7, 8)])\n    12\n    >>> find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n    12\n    \"\"\"\n    tuples.sort(key=lambda tup: tup[0])\n    return min(tuples[i][0] * tuples[i + 1][1] for i in range(len(tuples) - 1))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.314208984375
+    ],
+    [
+      "from typing import List\n\n\ndef get_minimum_product(tuples: List[tuple]) -> int:\n    \"\"\"\n    Return the minimum product from the pairs of tuples within a given list.\n    >>> get_minimum_product([(1, 2), (0, 3), (2, 1)])\n    0\n    \"\"\"\n    tuples.sort()\n    return tuples[0][0] * tuples[-1][1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.31396484375
+    ],
+    [
+      "def min_product(lst):\n    \"\"\"\n    >>> min_product([(1,2),(3,4)])\n    12\n    >>> min_product([(1,2),(3,4),(5,6)])\n    30\n    \"\"\"\n    if len(lst) == 2:\n        return lst[0][0] * lst[1][1]\n\n    minimum = min(lst[0][0] * lst[1][1], min_product(lst[1:]))\n    return minimum\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.27587890625
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"\n    >>> min_product([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)])\n    12\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n    min_product = tuples[0][0] * tuples[1][1]\n    for i in range(len(tuples) - 1):\n        min_product = min(min_product, tuples[i][0] * tuples[i + 1][1])\n        min_product = min(min_product, tuples[i][1] * tuples[i + 1][0])\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.156494140625
+    ],
+    [
+      "def min_product(tuples):\n    if not tuples:\n        return None\n\n    min_product = tuples[0][0] * tuples[0][1]\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            min_product = min(min_product, tuples[i][0] * tuples[j][1], tuples[i][1] * tuples[j][0])\n\n    return min_product\n\n\nprint(min_product([(1, 2), (3, 4), (5, 6), (7, 8)]))\nprint(min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]))\nprint(min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]))",
+      0.146484375
+    ],
+    [
+      "from typing import List\n\n\n# O(n) time | O(n) space\ndef min_product_of_tuples(list_of_tuples: List[tuple]) -> int:\n    list_of_tuples.sort()\n    return min(list_of_tuples[0][0] * list_of_tuples[-1][1], list_of_tuples[-1][0] * list_of_tuples[0][1])\n\n\nprint(min_product_of_tuples([(2, 4), (5, 3), (1, 6)]))",
+      0.13720703125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(tuples: List[tuple]) -> int:\n    \"\"\"Return the minimum product from the pairs of tuples within a given list.\n\n    >>> min_product([(2, 4), (5, 10), (10, 3), (2, 3), (1, 2)])\n    60\n    \"\"\"\n    return min(\n        [a * b for a, b in tuples]\n        + [a * b for a, b in tuples[::-1]]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.0963134765625
+    ],
+    [
+      "def find_min(arr):\n    arr = sorted(arr, key=lambda x: x[0])\n    min_product = arr[0][0]*arr[0][1]\n    for i in range(len(arr)-1):\n        min_product = min(min_product, arr[i][0]*arr[i+1][1])\n        min_product = min(min_product, arr[i][1]*arr[i+1][0])\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(find_min([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]))\n    print(find_min([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (5, 7), (5, 8), (5, 9)]))",
+      0.09600830078125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef min_product(tuples: List[Tuple[int, int]]) -> int:\n    \"\"\"Return the minimum product of tuples from a given list.\n\n    Args:\n        tuples (List[Tuple[int, int]]): the list of tuples to find minimum product from\n\n    Returns:\n        int: the minimum product of tuples\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n\n    return min(\n        x[0] * x[1]\n        for x in zip(tuples, tuples[1:] + [tuples[0]])\n    )\n\n\nif __name__ == '__main__':\n    print(min_product([(2, 5), (6, 8), (1, 3)]))",
+      -0.17529296875
+    ],
+    [
+      "def min_product_pairs(tuples):\n    \"\"\"\n    >>> min_product_pairs([(1, 3), (2, 4), (5, 6)])\n    6\n    >>> min_product_pairs([(1, 3), (2, 4), (5, 6), (7, 8)])\n    48\n    \"\"\"\n    min_product = float(\"inf\")\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            min_product = min(min_product, tuples[i][0] * tuples[j][0], tuples[i][1] * tuples[j][1])\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.32080078125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef minimum_product(tuples: List[Tuple[int, int]]) -> int:\n    \"\"\"Returns the minimum product of pairs from a list of tuples.\n\n    Args:\n        tuples (List[Tuple[int, int]]): a list of tuples.\n\n    Examples:\n        >>> assert minimum_product([(1, 2), (3, 4), (5, 6), (7, 8)]) == 24\n    \"\"\"\n    # NOTE: this is the most naive solution\n    return min(\n        a * b\n        for (a, b) in (\n            (tuples[i][0] * tuples[i + 1][0], tuples[i][1] * tuples[i + 1][1])\n            for i in range(len(tuples) - 1)\n        )\n    )\n\n\nif __name__ == \"__main__\":\n    print(minimum_product([(1, 2), (3, 4), (5, 6), (7, 8)]))",
+      -0.324951171875
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"Find the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples: list of tuples\n\n    Returns:\n        int: minimum product\n\n    Raises:\n        TypeError: if tuples is not a list\n\n    \"\"\"\n    if not isinstance(tuples, list):\n        raise TypeError(\"tuples must be a list\")\n\n    if len(tuples) < 2:\n        return 0\n\n    min_product = float(\"inf\")\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            product = tuples[i][0] * tuples[j][0]\n            if product < min_product:\n                min_product = product\n\n    return min_product",
+      -0.64697265625
+    ],
+    [
+      "def minProduct(array):\n    # Write your code here.\n    if len(array) == 0:\n        return 0\n    if len(array) == 1:\n        return array[0]\n    array = sorted(array)\n    minProduct = array[0] * array[1]\n    for i in range(1, len(array) - 1):\n        product = array[i] * array[i + 1]\n        if product < minProduct:\n            minProduct = product\n    return minProduct\n\n# test case\nprint(minProduct([2, 4, 5, 6, 7]))  # output 40\nprint(minProduct([10, 5, 2, 25, 20]))  # output 50\nprint(minProduct([2, 4, 5, 6, 7, 100]))  # output 50",
+      -0.66162109375
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)\ndef min_product(arr: List[int]) -> int:\n    arr.sort()\n\n    return arr[0] * arr[-1]\n\n\nif __name__ == \"__main__\":\n    print(min_product([1, 2, 3, 4, 5, 6]))\n    print(min_product([-1, 2, 3, 4, 5, 6]))",
+      -0.85595703125
+    ],
+    [
+      "from functools import reduce\n\n\ndef min_product(lst):\n    return reduce(lambda x, y: x if x < y else y, [a * b for a, b in lst])\n\n\nif __name__ == \"__main__\":\n    assert min_product([(1, 2), (2, 3), (2, 4), (3, 4), (3, 5), (4, 5)]) == 12",
+      -0.85595703125
+    ],
+    [
+      "def min_product(list_of_tuples):\n    \"\"\"\n    >>> min_product([(1, 2), (3, 4), (5, 6)])\n    12\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n    16\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)])\n    24\n    \"\"\"\n    return min(\n        [\n            a * b\n            for (a, b) in zip(\n                list_of_tuples, list_of_tuples[1:] + [list_of_tuples[0]]\n            )\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_of_tuples(tuples: List[List[int]]) -> int:\n    \"\"\"Finds the minimum product of tuples.\n\n    Args:\n        tuples (List[List[int]]): list of tuples\n\n    Returns:\n        int: minimum product\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n    min_product = tuples[0][0] * tuples[0][1]\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            min_product = min(min_product, tuples[i][0] * tuples[j][1])\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product_of_tuples([(2, 5), (8, 10), (12, 30)]))",
+      -0.85693359375
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"\n    >>> min_product([(3, 2), (3, 2), (1, 1), (2, 2), (2, 2), (1, 1)])\n    2\n    >>> min_product([(1, 1), (2, 2), (1, 1), (2, 2), (1, 1), (2, 2)])\n    4\n    \"\"\"\n    tuples.sort()\n    min_product = float(\"inf\")\n    for i in range(len(tuples) - 1):\n        for j in range(i + 1, len(tuples)):\n            min_product = min(min_product, tuples[i][0] * tuples[j][1])\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def min_product(data: list) -> int:\n    \"\"\"Returns minimum product of tuples in a list.\n\n    Args:\n        data (list): list of tuples\n\n    Examples:\n        >>> assert min_product([(0, 0), (0, 0), (1, 1), (1, 1)]) == 0\n    \"\"\"\n    return min(\n        [\n            a * b\n            for a in data\n            for b in data\n            if a != b\n            and a[0] < b[0]\n            and a[1] < b[1]\n            and a[1] != b[0]\n            and a[0] != b[1]\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(0, 0), (0, 0), (1, 1), (1, 1)]))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef min_product(tuples: List[tuple]) -> int:\n    if not tuples:\n        return 0\n\n    # sort the tuples in descending order\n    tuples.sort(key=lambda x: x[0] * x[1], reverse=True)\n\n    # get the product of the first and last tuples\n    first_product = tuples[0][0] * tuples[0][1]\n    last_product = tuples[-1][0] * tuples[-1][1]\n\n    # return the smaller one\n    return min(first_product, last_product)\n\n\nif __name__ == \"__main__\":\n    print(min_product([(2, 5), (8, 10), (12, 15)]))",
+      -0.85693359375
+    ],
+    [
+      "def min_product(tuples):\n    return min(a*b for a,b in tuples)\n\nprint(min_product([(1,2), (2,3), (3,4), (4,5)]))",
+      -0.85693359375
+    ],
+    [
+      "def min_product(tup):\n    \"\"\"\n    >>> min_product([(1, 2), (3, 4), (5, 6)])\n    12\n    >>> min_product([(1, 2), (-3, 4), (5, 6)])\n    24\n    \"\"\"\n    min_prod = tup[0][0] * tup[0][1]\n    for i in range(len(tup) - 1):\n        for j in range(i + 1, len(tup)):\n            if tup[i][0] * tup[j][1] < tup[i][1] * tup[j][0]:\n                min_prod = tup[i][0] * tup[j][1]\n            else:\n                min_prod = tup[i][1] * tup[j][0]\n    return min_prod\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef min_product(array):\n    \"\"\"Finds the minimum product of pairs of tuples within a given list.\n\n    Args:\n        array (list): list of tuples\n\n    Returns:\n        int: minimum product\n    \"\"\"\n    return min(\n        [\n            abs(a[0] * a[1])\n            for a in combinations(array, 2)\n        ]\n    )",
+      -0.85693359375
+    ],
+    [
+      "def min_product(lst):\n    sorted_lst = sorted(lst)\n    return min([sorted_lst[i] * sorted_lst[i + 1] for i in range(len(lst) - 1)])",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(lst: List[List[int]]) -> int:\n    \"\"\"\n    >>> min_product([[1, 2], [3, 4], [5, 6]])\n    9\n    >>> min_product([[1, 2], [2, 4], [6, 8]])\n    12\n    \"\"\"\n    return min(\n        (\n            lst[i][0] * lst[j][1],\n            lst[i][1] * lst[j][0],\n        )\n        for i in range(len(lst))\n        for j in range(i + 1, len(lst))\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(lst: List[List[int]]) -> int:\n    \"\"\"Return minimum product of tuples in list.\n\n    :param lst: list of tuples\n    :return: minimum product of tuples in list\n    \"\"\"\n    if len(lst) == 2:\n        return min(lst[0][0] * lst[1][0], lst[0][1] * lst[1][1])\n    return min(lst[0][0] * lst[1][1], lst[0][1] * lst[1][0]) + min_product(lst[1:])\n\n\nif __name__ == \"__main__\":\n    print(min_product([(4, 5, 3), (2, 1, 6)]))",
+      -0.85693359375
+    ],
+    [
+      "def min_prod_tuples(lst):\n    \"\"\"\n    >>> min_prod_tuples([(1,2), (3,4), (5,6), (7,8)])\n    384\n    \"\"\"\n    return min(\n        a * b for i, a in enumerate(lst) for j, b in enumerate(lst) if i < j\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"\n    Time complexity: O(n)\n    Space complexity: O(1)\n    \"\"\"\n    tuples.sort()\n    return tuples[0][0] * tuples[-1][1]",
+      -0.85791015625
+    ],
+    [
+      "from functools import reduce\nfrom itertools import combinations\n\n\ndef min_product(tuples):\n    \"\"\"Return minimum product of tuples in list.\n\n    :param tuples: list of tuples\n    :type tuples: list\n    :return: minimum product\n    :rtype: int\n    \"\"\"\n    return min(reduce(lambda x, y: x * y, pair) for pair in combinations(tuples, 2))",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(numbers: List[int]) -> int:\n    \"\"\"\n    >>> min_product([1, 2, 3, 4, 5, 6])\n    12\n    \"\"\"\n    numbers.sort()\n\n    return numbers[0] * numbers[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n log n)\n# Space Complexity: O(n)\ndef min_product(tuples: List[tuple]) -> int:\n    return min(\n        [\n            a * b\n            for a, b in zip(\n                sorted(tuples, key=lambda x: x[0])[::2],\n                sorted(tuples, key=lambda x: x[1])[::-2],\n            )\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (2, 3), (3, 4)]))\n    print(min_product([(1, 2), (2, 3), (3, 4), (4, 1)]))",
+      -0.85791015625
+    ],
+    [
+      "def min_product(lst):\n    return min(lst) * max(lst)\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (3, 4), (5, 6)]))",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(array: List[List[int]]) -> int:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n    \"\"\"\n    array.sort()\n\n    left = 0\n    right = len(array) - 1\n\n    while left < right:\n        left_prod = array[left][0] * array[left][1]\n        right_prod = array[right][0] * array[right][1]\n\n        if left_prod < right_prod:\n            left += 1\n        elif left_prod > right_prod:\n            right -= 1\n        else:\n            return left_prod\n\n    return array[left][0] * array[right][1]\n\n\nif __name__ == \"__main__\":\n    assert min_product([(2, 5), (7, 8), (1, 3)]) == 3",
+      -0.8583984375
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"\n    :param tuples: list[tuple] -- a list of tuples\n    :return: int -- the minimum product\n\n    This function should return the minimum product from the pairs of tuples within a given list.\n\n    >>> min_product([(1, 2), (0, 3), (2, 1)])\n    -6\n    >>> min_product([(2, 3), (0, 3), (2, 1)])\n    6\n    \"\"\"\n    # your code here\n    return min(a*b for a, b in tuples)\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def min_product(arr):\n    if len(arr) < 2:\n        raise ValueError(\"The list must contain at least 2 elements.\")\n\n    arr.sort()\n    return min(arr[0] * arr[-1], arr[1] * arr[-2])\n\n\nprint(min_product([1, 2, 3, 4]))\nprint(min_product([1, 2, 3, 4, 5]))\nprint(min_product([2, 4, 6, 8, 3]))\nprint(min_product([-10, 1, 3, 4, 5]))",
+      -0.8583984375
+    ],
+    [
+      "def min_product(lst):\n    # sort the list in descending order\n    lst.sort(reverse=True)\n\n    # return the minimum product of the two first elements\n    return lst[0] * lst[1]",
+      -0.8583984375
+    ],
+    [
+      "from itertools import permutations\n\n\ndef find_min_product(tuples):\n    \"\"\"Find the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples (list): list of tuples.\n\n    Returns:\n        int: minimum product.\n    \"\"\"\n    return min([x * y for x, y in permutations(tuples, 2)])",
+      -0.8583984375
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List\n\n\n# Time complexity: O(n!)\ndef min_product(list_of_tuples: List[List[int]]) -> int:\n    \"\"\"Return the minimum product of any two tuples in a list of tuples.\"\"\"\n    min_product = float(\"inf\")\n\n    for first, second in combinations(list_of_tuples, 2):\n        min_product = min(min_product, first[0] * second[0], first[1] * second[1])\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    assert min_product([(3, 2), (2, 6), (1, 8), (4, 3)]) == 36",
+      -0.8583984375
+    ],
+    [
+      "def min_product(lst):\n    lst.sort()\n    return min(lst[0] * lst[-1], lst[1] * lst[-2])",
+      -0.86083984375
+    ],
+    [
+      "from itertools import combinations\n\n\ndef min_product(tuples):\n    \"\"\"\n    >>> min_product([(1, 2), (4, 10), (5, 12), (8, 15)])\n    100\n    \"\"\"\n    return min(\n        [\n            min([a * b for a, b in combinations(tuple_pair, 2)])\n            for tuple_pair in tuples\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "def min_product(tup):\n    return min(a*b for a, b in tup)\n\n\ndef test_min_product():\n    \"\"\"\n    >>> test_min_product()\n    \"\"\"\n    assert min_product([(2, 4), (1, 3), (5, 7), (8, 1)]) == 3\n    assert min_product([(2, 3), (5, 7), (1, 1), (1, 5)]) == 1\n    assert min_product([(5, 5), (2, 2), (2, 3), (2, 4), (3, 3)]) == 6\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.9833984375
+    ],
+    [
+      "def find_min_product(lst):\n    lst.sort()\n    return min(lst[i] * lst[-i-1] for i in range(len(lst) // 2))\n\n\ndef test_find_min_product():\n    \"\"\"Test for find_min_product function.\"\"\"\n    assert find_min_product([4, 3, 9, 6]) == 18\n    assert find_min_product([2, 7, 4, 9, 1]) == 12\n    assert find_min_product([2, 7, 4, 9, 1, 8]) == 12\n    assert find_min_product([9, 7, 4, 9, 1, 8]) == 432\n    assert find_min_product([2, 7, 4, 9, 1, 8, 10]) == 432\n\n\nif __name__ == \"__main__\":\n    test_find_min_product()",
+      -1.009765625
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    arr.sort()\n\n    # maximum value possible\n    max_value = arr[-1] * arr[-2]\n\n    # minimum value possible\n    min_value = arr[0] * arr[1]\n\n    # check for minimum value in all possible combinations\n    for i in range(len(arr) - 1):\n        for j in range(i + 1, len(arr)):\n            min_value = min(min_value, arr[i] * arr[j])\n\n    return min(max_value, min_value)\n\n\nif __name__ == \"__main__\":\n    assert min_product([5, 0, 3, 4]) == 0\n    assert min_product([0, 4, 3, 2]) == 0\n    assert min_product([2, 2, 4, 0]) == 0\n    assert min_product([-1, 0, 2, 3]) == -6",
+      -1.083984375
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef min_product(tuples: List[Tuple[int, int]]) -> int:\n    \"\"\"Finds the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples (List[Tuple[int, int]]): list of tuples\n\n    Examples:\n        >>> assert min_product([(1, 2), (3, 4)]) == 12\n    \"\"\"\n    return min(\n        [a * b for a, b in tuples for tupl in tuples if a in tupl or b in tupl]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (3, 4)]))",
+      -1.111328125
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_product(tuples: List[tuple]) -> int:\n    \"\"\"Returns the minimum product of pairs of tuples in the given list.\n\n    Args:\n        tuples (List[tuple]): a list of tuples\n\n    Examples:\n        >>> assert find_min_product([(1, 2), (-3, 4), (0, -5)]) == -12\n    \"\"\"\n    return min(\n        (a * b for a, b in tuples),\n        default=0,\n    )\n\n\nif __name__ == \"__main__\":\n    print(find_min_product([(1, 2), (-3, 4), (0, -5)]))",
+      -1.3310546875
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_of_tuples(tuples: List[List[int]]) -> int:\n    \"\"\"Finds the minimum product of tuples within a given list.\n\n    Args:\n        tuples (List[List[int]]): list of tuples\n\n    Examples:\n        >>> assert min_product_of_tuples([[1, 2], [3, 4], [5, 6], [7, 8]]) == 12\n    \"\"\"\n    return min(\n        [\n            x * y\n            for i, x in enumerate(tuples)\n            for j, y in enumerate(tuples)\n            if i < j\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product_of_tuples([[1, 2], [3, 4], [5, 6], [7, 8]]))",
+      -1.3916015625
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"Returns the minimum product of tuples in the list.\n\n    Args:\n        tuples: list of tuples\n\n    Raises:\n        TypeError: if tuples is not a list\n\n    Examples:\n        >>> assert min_product([(1, 2), (4, 5), (6, 7)]) == 40\n        >>> assert min_product([(2, 2), (1, 3), (5, 5)]) == 6\n    \"\"\"\n    if not isinstance(tuples, list):\n        raise TypeError(\"tuples must be a list\")\n\n    return min(\n        a * b for a, b in (tuples if len(tuples) > 1 else tuples * 2)\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (4, 5), (6, 7)]))\n    print(min_product([(2, 2), (1, 3), (5, 5)]))",
+      -1.404296875
+    ],
+    [
+      "from typing import List\n\n\n# O(n) time | O(1) space\ndef minProduct(tupleList: List[tuple]) -> int:\n    # the idea is to sort the list first by the second element of each tuple,\n    # then by the first element\n    # then we will iterate through the list and check if the first element of\n    # the current tuple is greater than the first element of the previous tuple\n    # if so, we will check the product of the second elements of the current tuple\n    # and the second element of the previous tuple\n    # this is because we will take the minimum of both products to find the minimum\n    # product\n    sortedList = sorted(tupleList, key=lambda x: (x[1], x[0]))\n    minProduct = float(\"inf\")\n    firstElement = sortedList[0][0]\n    secondElement = sortedList[0][1]\n    for i in range(len(sortedList)):\n        if sortedList[i][0] > firstElement:\n            minProduct = min(minProduct, secondElement * sortedList[i][1])\n        else:\n            minProduct = min(minProduct, sortedList[i][0] * secondElement)\n        firstElement = sortedList[i][0]\n        secondElement = sortedList[i][1]\n    return minProduct\n\n\nprint(minProduct([(4, 5), (2, 1), (8, 8), (1, 7), (3, 7)]))",
+      -2.013671875
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(array: List[List[int]]) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(1)\n    \"\"\"\n    array.sort()\n\n    return array[0][0] * array[-1][-1]\n\n\nif __name__ == \"__main__\":\n    assert min_product([[1, 2], [2, 3], [3, 4], [2, 2], [3, 3], [4, 4]]) == 12",
+      -2.03125
+    ],
+    [
+      "def min_product(tuples: list[tuple[int, int]]) -> int:\n    \"\"\"Finds the minimum product of tuples within a given list.\n\n    Args:\n        tuples (list[tuple[int, int]]): list of tuples\n\n    Examples:\n        >>> min_product([(1, 2), (2, 1), (1, 3), (2, 3), (3, 4)])\n        6\n        >>> min_product([(2, 3), (3, 4), (5, 6), (7, 8), (9, 10)])\n        12\n    \"\"\"\n    if not tuples:\n        return 0\n    min_product = float(\"inf\")\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            min_product = min(\n                min_product,\n                min(tuples[i]) * min(tuples[j]),\n                max(tuples[i]) * max(tuples[j]),\n            )\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (2, 1), (1, 3), (2, 3), (3, 4)]))\n    print(min_product([(2, 3), (3, 4), (5, 6), (7, 8), (9, 10)]))",
+      -2.341796875
+    ],
+    [
+      "def min_product(tuples):\n    \"\"\"Returns the minimum product of tuples in list.\"\"\"\n    if not tuples:\n        return None\n\n    min_product = tuples[0][0] * tuples[0][1]\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            product = tuples[i][0] * tuples[j][1]\n            min_product = min(min_product, product)\n    return min_product\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = min_product(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([(1, 2), (2, 3), (3, 4), (5, 6)], 12))\ntest_function(([(1, 2), (2, 3), (3, 4), (5, 6), (1, 6)], 12))\ntest_function(([(1, 2), (2, 3), (3, 4), (5, 6), (1, 6), (1, 5), (2, 6)], 12))\ntest_function(([], None))\ntest_function(([(1, 2)], None))",
+      -2.400390625
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)\ndef min_product(lst: List) -> int:\n    min_product = lst[0][0] * lst[0][1]\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            product = lst[i][0] * lst[j][0]\n            if product < min_product:\n                min_product = product\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product([(4, 10), (6, 8), (2, 3), (7, 8), (3, 10), (10, 1), (1, 5)]))",
+      -2.61328125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_from_pairs(tuples: List[tuple]) -> int:\n    \"\"\"Return the minimum product from the pairs of tuples within a given list.\n\n    >>> min_product_from_pairs([(1, 2), (2, 3), (3, 4), (4, 5)])\n    12\n    >>> min_product_from_pairs([(1, 2), (1, 3), (2, 3), (2, 4), (3, 4), (3, 5)])\n    12\n    >>> min_product_from_pairs([(1, 2), (1, 3), (1, 4), (1, 5)])\n    6\n    \"\"\"\n    return min(\n        [\n            min(pair) * max(pair)\n            for i in range(len(tuples))\n            for pair in [tuples[i], tuples[i + 1]]\n            if i + 1 < len(tuples)\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.666015625
+    ],
+    [
+      "def min_product_pairs(lst):\n    \"\"\"\n    >>> min_product_pairs([(1, 2), (3, 4), (5, 6), (7, 8)])\n    316\n    \"\"\"\n    min_product = lst[0][0] * lst[0][1]\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            curr_product = lst[i][0] * lst[j][1]\n            min_product = min(min_product, curr_product)\n\n    return min_product\n\n\ndef min_product_pairs_2(lst):\n    \"\"\"\n    >>> min_product_pairs_2([(1, 2), (3, 4), (5, 6), (7, 8)])\n    316\n    \"\"\"\n    min_product = lst[0][0] * lst[0][1]\n    for i in range(len(lst)):\n        for j in range(len(lst)):\n            curr_product = lst[i][0] * lst[j][1]\n            min_product = min(min_product, curr_product)\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.666015625
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef find_min_product(arr: List[int]) -> int:\n    # Sort the list in ascending order\n    arr.sort()\n\n    # We want to find the minimum product of the last two elements\n    # or the minimum product of the first two elements\n    # Whichever is the smallest\n    return min(\n        arr[-1] * arr[-2],\n        arr[0] * arr[1],\n    )\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef find_min_product2(arr: List[int]) -> int:\n    # Get the minimum and maximum elements\n    min_el = min(arr)\n    max_el = max(arr)\n\n    # Create two lists, one with the min elements and one with the max elements\n    min_list = [x for x in arr if x == min_el]\n    max_list = [x for x in arr if x == max_el]\n\n    # Get the minimum product of the lists\n    return min(\n        min_el * max_el,\n        min_list[0] * min_list[1],\n        max_list[0] * max_list[1],\n    )",
+      -2.673828125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_pairs(lst: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def merge_sort(lst: List[int]):\n        if len(lst) < 2:\n            return lst\n\n        mid = len(lst) // 2\n        left = merge_sort(lst[:mid])\n        right = merge_sort(lst[mid:])\n\n        return merge(left, right)\n\n    def merge(left: List[int], right: List[int]) -> List[int]:\n        result = []\n        while left and right:\n            if left[-1] <= right[-1]:\n                result.append(left.pop())\n            else:\n                result.append(right.pop())\n\n        if left:\n            result.extend(left)\n        if right:\n            result.extend(right)\n\n        return result\n\n    def find_min(lst: List[int]) -> int:\n        min_val = float(\"inf\")\n        for i in range(len(lst) - 1):\n            for j in range(i + 1, len(lst)):\n                min_val = min(min_val, lst[i] * lst[j])\n\n        return min_val\n\n    return find_min(merge_sort(lst))\n\n\nif __name__ == \"__main__\":\n    print(min_product_pairs([1, 4, 3, 2]))\n    print(min_product_pairs([1, 4, 3, 2, 5]))\n    print(min_product_pairs([1, 4, 3, 2, 5, 6]))\n    print(min_product_pairs([1, 4, 3, 2, 5, 6, 7]))",
+      -2.9296875
+    ],
+    [
+      "from functools import reduce\nfrom itertools import combinations\n\n\ndef min_product(lst):\n    \"\"\"Returns the minimum product of the pairs of tuples within a given list.\n\n    Args:\n        lst: list of tuples\n\n    Returns:\n        int: minimum product\n\n    Raises:\n        TypeError: if lst is not a list\n\n    >>> min_product([(1, 2), (2, 3), (3, 4)])\n    6\n    >>> min_product([(1, 2, 3), (2, 3, 4), (3, 4, 5)])\n    6\n    \"\"\"\n    if not isinstance(lst, list):\n        raise TypeError(\"argument lst must be a list\")\n\n    return min(\n        reduce(lambda x, y: x * y, t)\n        for t in combinations(\n            [x for t in lst for x in t], 2\n        )\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()\n\n    # lst = [(1, 2), (2, 3), (3, 4)]\n    # print(min_product(lst))",
+      -2.99609375
+    ],
+    [
+      "def min_product(lst):\n    \"\"\"\n    >>> min_product([(1, 2), (3, 4), (5, 6)])\n    12\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n    48\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8), (1, 1)])\n    4\n    \"\"\"\n    min_value = None\n    for item in lst:\n        if min_value is None or item[0] * item[1] < min_value:\n            min_value = item[0] * item[1]\n    return min_value\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.017578125
+    ],
+    [
+      "from typing import List\n\n\n# O(n) time | O(1) space\ndef minimumProduct(tuples: List[List[int]]) -> int:\n    # first sort the tuples by their first element\n    tuples.sort(key=lambda x: x[0])\n\n    # if the first tuple has a negative number, then the minimum product is the\n    # negative of the product of the last two tuples\n    if tuples[0][0] < 0:\n        return -1 * tuples[-1][0] * tuples[-2][0]\n\n    # if the last two tuples have negative numbers, then the minimum product is\n    # the product of the two positive numbers in the list\n    if tuples[-1][0] < 0 and tuples[-2][0] < 0:\n        return tuples[-1][0] * tuples[-2][0]\n\n    # if the last two tuples have positive numbers, then the minimum product is\n    # the product of the two smallest positive numbers in the list\n    return min(tuples[-1][0] * tuples[-2][0], tuples[0][0] * tuples[1][0])\n\n\nprint(minimumProduct([[1, 4], [2, 3]]))\nprint(minimumProduct([[-1, 4], [-2, 3], [2, 3]]))\nprint(minimumProduct([[-1, 1], [-2, -3], [2, 3]]))",
+      -3.0625
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(list_tuples: List[tuple]) -> int:\n    \"\"\"Finds the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        list_tuples (List[tuple]): the list of tuples to find the minimum product from\n\n    Returns:\n        int: the minimum product\n    \"\"\"\n    # sort the list of tuples by the second element in the tuple\n    list_tuples.sort(key=lambda tup: tup[1])\n\n    # find the minimum product\n    product = list_tuples[0][0] * list_tuples[0][1]\n    for i in range(1, len(list_tuples)):\n        product = min(product, list_tuples[i][0] * list_tuples[i - 1][1])\n\n    return product\n\n\nif __name__ == \"__main__\":\n    list_tuples = [(1, 2), (2, 1), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9)]\n    print(min_product(list_tuples))",
+      -3.13671875
+    ],
+    [
+      "def min_product(tuples: list) -> int:\n    \"\"\"Returns the minimum product of the tuples within a list.\n\n    Args:\n        tuples (list): list of tuples\n\n    Examples:\n        >>> assert min_product([(1, 2), (3, 4), (5, 6)]) == 12\n        >>> assert min_product([(5, 6), (3, 4), (1, 2)]) == 12\n        >>> assert min_product([(1, 2), (3, 4), (5, 6), (7, 8)]) == 12\n        >>> assert min_product([(5, 6), (3, 4), (1, 2), (7, 8)]) == 12\n        >>> assert min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]) == 12\n        >>> assert min_product([(5, 6), (3, 4), (1, 2), (7, 8), (9, 10)]) == 12\n    \"\"\"\n    return min(\n        [\n            a * b\n            for i in range(len(tuples))\n            for j in range(i + 1, len(tuples))\n            for a, b in [tuples[i], tuples[j]]\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (3, 4), (5, 6)]))\n    print(min_product([(5, 6), (3, 4), (1, 2)]))\n    print(min_product([(1, 2), (3, 4), (5, 6), (7, 8)]))\n    print(min_product([(5, 6), (3, 4), (1, 2), (7, 8)]))\n    print(min_product([(1, 2), (3, 4), (5, 6), (7, 8),",
+      -3.2421875
+    ],
+    [
+      "from itertools import combinations\nfrom functools import reduce\n\n\ndef find_minimum_product(tuples):\n    \"\"\"Find minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples (list): list of tuples\n\n    Returns:\n        int: minimum product\n    \"\"\"\n    if not tuples:\n        return None\n\n    min_product = None\n    for tup1, tup2 in combinations(tuples, 2):\n        product = reduce(lambda x, y: x * y, tup1) * reduce(lambda x, y: x * y, tup2)\n        if min_product is None or product < min_product:\n            min_product = product\n    return min_product\n\n\ndef main():\n    tuples = [\n        (1, 2, 3),\n        (2, 3, 4),\n        (1, 2, 3, 4),\n        (1, 2, 3, 4, 5),\n        (1, 2, 3, 4, 5, 6),\n        (1, 2, 3, 4, 5, 6, 7),\n    ]\n    result = find_minimum_product(tuples)\n    print(result)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.6328125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n    \"\"\"\n    arr.sort()\n\n    return min(arr[i] * arr[-1] for i in range(len(arr) - 1))\n\n\nif __name__ == \"__main__\":\n    assert min_product([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 48",
+      -3.9140625
+    ],
+    [
+      "# O(nlogn)\ndef min_product(tuples):\n    sorted_tuples = sorted(tuples, key=lambda t: t[0])\n    max_min_product = sorted_tuples[0][0] * sorted_tuples[0][1]\n    min_max_product = sorted_tuples[-1][0] * sorted_tuples[-1][1]\n\n    for i in range(len(sorted_tuples) - 1):\n        max_min_product = max(\n            max_min_product,\n            sorted_tuples[i][0] * sorted_tuples[i + 1][0],\n            sorted_tuples[i][1] * sorted_tuples[i + 1][1]\n        )\n\n    for i in range(len(sorted_tuples) - 1, 0, -1):\n        min_max_product = min(\n            min_max_product,\n            sorted_tuples[i][0] * sorted_tuples[i - 1][0],\n            sorted_tuples[i][1] * sorted_tuples[i - 1][1]\n        )\n\n    return min(max_min_product, min_max_product)\n\n\nprint(min_product([(2, 5), (8, 10), (1, 4), (7, 3)]))\nprint(min_product([(1, 4), (8, 10), (2, 5), (7, 3)]))\nprint(min_product([(1, 4), (8, 10), (2, 5), (7, 3)]))\nprint(min_product([(1, 4), (8, 10), (2, 5), (7, 3)]))\nprint(min_product([(1, 4), (8, 10), (2, 5), (7, 3)]))\nprint(min_product([(1, 4), (8, 10), (2, 5), (7, 3)]))\nprint(min_product([(1, 4), (8, 10",
+      -3.951171875
+    ],
+    [
+      "from functools import reduce\n\n\ndef find_min_product(arr):\n    if not arr:\n        return\n\n    return reduce(lambda x, y: min(x, y), [x * y for x in arr for y in arr if x != y])\n\n\ndef test_find_min_product():\n    \"\"\"Test for find_min_product function.\"\"\"\n    assert find_min_product([]) is None\n    assert find_min_product([(1, 2), (3, 4), (5, 6)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]) == 12\n\n\nif __name__ == \"__main__\":\n    test_find_min_product()",
+      -3.96875
+    ],
+    [
+      "def min_product(arr):\n    arr.sort()\n    min_product = arr[-1][0] * arr[-1][1]\n\n    for i in range(len(arr) - 2, -1, -1):\n        min_product = min(min_product, arr[i][0] * arr[-1][1])\n        min_product = min(min_product, arr[-1][0] * arr[i][1])\n\n    return min_product\n\n\nprint(min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]))",
+      -4.125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef min_product(tuples: List[Tuple[int, int]]) -> int:\n    \"\"\"Return the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples (List[Tuple[int, int]]): list of tuples\n\n    Examples:\n        >>> assert min_product([(1, 2), (3, 4), (5, 6)]) == 12\n        >>> assert min_product([(1, 3), (2, 4), (5, 6)]) == 6\n        >>> assert min_product([(1, 3), (2, 4), (5, 6), (7, 8)]) == 24\n    \"\"\"\n    tuples = sorted(tuples, key=lambda x: x[0] * x[1])\n\n    min_product = tuples[0][0] * tuples[0][1]\n\n    for i in range(len(tuples) - 1):\n        product = tuples[i][0] * tuples[i + 1][1]\n        if product < min_product:\n            min_product = product\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (3, 4), (5, 6)]))\n    print(min_product([(1, 3), (2, 4), (5, 6)]))\n    print(min_product([(1, 3), (2, 4), (5, 6), (7, 8)]))",
+      -4.22265625
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(array: List[tuple]) -> int:\n    \"\"\"\n    Time Complexity: O(nlog(n))\n    Space Complexity: O(n)\n    \"\"\"\n    if not array:\n        return None\n\n    array.sort(key=lambda x: x[0])\n\n    return min(\n        array[i][0] * array[i + 1][1] for i in range(len(array) - 1)\n    )\n\n\nif __name__ == \"__main__\":\n    arr_1 = [(1, 2), (3, 4), (5, 6)]\n    arr_2 = [(1, 2), (3, 4), (5, 6), (7, 8)]\n    arr_3 = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]\n    arr_4 = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]\n\n    print(min_product(arr_1))\n    print(min_product(arr_2))\n    print(min_product(arr_3))\n    print(min_product(arr_4))",
+      -4.31640625
+    ],
+    [
+      "def min_product(lst):\n    # sort the list\n    lst.sort()\n\n    # calculate the minimum product\n    min_product = lst[0][0] * lst[0][1]\n    for i in range(1, len(lst) - 1):\n        min_product = min(min_product, lst[i][0] * lst[i + 1][1])\n    return min_product\n\n\ndef test(input_data, expected_answer):\n    answer = min_product(input_data)\n\n    if answer != expected_answer:\n        raise Exception(\n            f\"Answer {answer} is wrong. Expected answer is {expected_answer}\"\n        )\n\n\nif __name__ == \"__main__\":\n    test([(1, 2), (3, 4), (5, 6), (7, 8)], 12)\n    test([(5, 3), (1, 2), (7, 8), (10, 4)], 12)\n    test([(1, 10), (1, 2), (1, 3), (1, 4), (1, 5)], 1)\n    test([(1, 10), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9)], 1)\n    print(\"All tests passed!\")",
+      -4.54296875
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef min_product(tuples: List[Tuple[int, int]]) -> int:\n    \"\"\"\n    >>> min_product([(1, 2), (3, 4), (5, 6)])\n    6\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n    12\n    \"\"\"\n    tuples = sorted(tuples, key=lambda x: x[0])\n    min_product = float(\"inf\")\n\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            min_product = min(min_product, min(tuples[i]) * min(tuples[j]))\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.73828125
+    ],
+    [
+      "from typing import List\n\n\ndef get_min_product(arr: List[tuple]) -> int:\n    \"\"\"\n    O(n*log(n))\n    \"\"\"\n    arr = sorted(arr, key=lambda x: x[0])\n\n    min_product = float(\"inf\")\n    for i in range(len(arr) - 1):\n        if arr[i][1] <= arr[i + 1][0]:\n            continue\n        min_product = min(min_product, arr[i][1] * arr[i + 1][0])\n\n    return min_product if min_product != float(\"inf\") else -1\n\n\nif __name__ == \"__main__\":\n    assert get_min_product([(1, 2), (2, 3)]) == 6\n    assert get_min_product([(1, 2), (2, 3), (5, 6)]) == 12\n    assert get_min_product([(1, 2), (2, 3), (5, 6), (7, 8)]) == 12\n    assert get_min_product([(1, 2), (2, 3), (5, 6), (7, 8), (1, 5)]) == 15",
+      -4.921875
+    ],
+    [
+      "from typing import List\n\n\ndef get_min_product(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    \"\"\"\n    arr.sort()\n\n    if len(arr) == 2:\n        return arr[0] * arr[-1]\n\n    max_left = arr[0] * arr[1]\n    min_right = arr[-2] * arr[-1]\n    max_right = 0\n    min_left = 0\n\n    for i in range(1, len(arr) - 1):\n        max_right = max(max_right, arr[-i - 1] * arr[-i])\n        min_left = min(min_left, arr[i] * arr[i + 1])\n\n    return min(max_left, max_right, min_left, min_right)\n\n\nif __name__ == \"__main__\":\n    assert get_min_product([1, 2, 3, 4]) == 6\n    assert get_min_product([5, 2, 3, 4]) == 10\n    assert get_min_product([5, 2, 3, 4, 1]) == 5\n    assert get_min_product([5, 2, 3, 4, 1, 1, 1]) == 3",
+      -5.0078125
+    ],
+    [
+      "def minimum_product(tuples):\n    \"\"\"Find the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples (list): a list of tuples\n\n    Returns:\n        int: the minimum product\n\n    Raises:\n        TypeError: if tuples is not a list\n\n    >>> minimum_product([(1, 2), (3, 4)])\n    -12\n    >>> minimum_product([(1, 2), (3, 4), (5, 6)])\n    -60\n    >>> minimum_product([(1, 2, 3)])\n    Traceback (most recent call last):\n        ...\n    TypeError: tuples must be a list of tuples\n    \"\"\"\n    if not isinstance(tuples, list):\n        raise TypeError(\"tuples must be a list of tuples\")\n\n    tuples = [tuple(sorted(t)) for t in tuples]\n    tuples.sort(key=lambda x: x[0])\n    tuples.sort(key=lambda x: x[1])\n\n    minimum = float(\"inf\")\n\n    for i in range(len(tuples) - 1):\n        minimum = min(minimum, tuples[i][1] * tuples[i + 1][0])\n\n    return minimum",
+      -5.0234375
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(tuples: List[tuple]) -> int:\n    \"\"\"\n    >>> min_product([(1,2), (3,4), (5,6), (7,8)])\n    12\n    >>> min_product([(1,2), (2,3), (3,4), (4,5), (5,6), (6,7), (7,8)])\n    36\n    >>> min_product([(1,2), (2,3), (3,4), (4,5), (5,6), (6,7), (7,8), (8,9)])\n    36\n    >>> min_product([(1,2), (2,3), (3,4), (4,5), (5,6), (6,7), (7,8), (8,9), (9,10)])\n    36\n    >>> min_product([(1,2), (2,3), (3,4), (4,5), (5,6), (6,7), (7,8), (8,9), (9,10), (10,11)])\n    36\n    >>> min_product([(1,2), (2,3), (3,4), (4,5), (5,6), (6,7), (7,8), (8,9), (9,10), (10,11), (11,12)])\n    36\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n    min_product = float(\"inf\")\n    for i in range(len(tuples) - 1):\n        min_product = min(min_product, tuples[i][0] * tuples[i + 1][1])\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.0625
+    ],
+    [
+      "def min_product(tuples: list) -> int:\n    \"\"\"Returns the minimum product of tuples in a list of tuples.\n\n    Args:\n        tuples (list): list of tuples\n\n    Examples:\n        >>> min_product([(1, 2), (2, 3), (3, 4), (1, 5)])\n        6\n        >>> min_product([(1, 2), (2, 3), (3, 4), (1, 5), (5, 6)])\n        12\n    \"\"\"\n    # Base case\n    if len(tuples) == 1:\n        return tuples[0][0] * tuples[0][1]\n\n    # Recursive case\n    min_product_1 = min_product(tuples[1:])\n    min_product_2 = tuples[0][0] * tuples[0][1]\n    min_product_3 = tuples[0][0] * tuples[1][1]\n    min_product_4 = tuples[1][0] * tuples[0][1]\n    return min(min_product_1, min_product_2, min_product_3, min_product_4)\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (2, 3), (3, 4), (1, 5)]))\n    print(min_product([(1, 2), (2, 3), (3, 4), (1, 5), (5, 6)]))",
+      -5.2890625
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_product(tuples: List[tuple]) -> int:\n    \"\"\"\n    >>> minimum_product([(2, 3), (3, 4), (1, 3), (2, 2)])\n    6\n    >>> minimum_product([(1, 3), (2, 3), (3, 4), (1, 2)])\n    6\n    >>> minimum_product([(2, 3), (2, 2), (3, 4), (1, 2)])\n    4\n    >>> minimum_product([(2, 3), (3, 4), (1, 3), (2, 2), (1, 2)])\n    6\n    >>> minimum_product([(2, 3), (2, 2), (3, 4), (1, 2), (1, 2)])\n    4\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n    return min(\n        a * b for a, b in zip(tuples, tuples[1:] + [tuples[0]]) if a <= b\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.37109375
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(lst: List[tuple]) -> int:\n    \"\"\"Returns the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        lst (List[tuple]): a list of tuples\n\n    Examples:\n        >>> assert min_product([(1, 2), (3, 4), (2, 3)]) == 12\n        >>> assert min_product([(1, 2), (2, 3), (3, 4)]) == 6\n    \"\"\"\n    return min(\n        [\n            a * b\n            for a, b in [\n                (x, y)\n                for i, x in enumerate(lst)\n                for j, y in enumerate(lst)\n                if i < j\n            ]\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (3, 4), (2, 3)]))",
+      -5.4921875
+    ],
+    [
+      "def find_min_product(lst):\n    # sort the list\n    lst.sort()\n\n    # if length of the list is 2\n    if len(lst) == 2:\n        return lst[0] * lst[1]\n\n    # create an empty list\n    lst_prod = []\n\n    # iterate through the list\n    for i in range(len(lst) - 1):\n        # append the product of the tuples to the list\n        lst_prod.append(lst[i] * lst[i + 1])\n\n    # return the minimum value from the list\n    return min(lst_prod)\n\n\ndef test_find_min_product():\n    \"\"\"Test for find_min_product function.\"\"\"\n    assert find_min_product([(1, 2), (5, 6), (7, 8)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16)]) == 12\n    assert find_min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10),",
+      -5.53515625
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_product(tuple_list: List[tuple]) -> int:\n    \"\"\"Returns minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuple_list (List[tuple]): list of tuples.\n\n    Examples:\n        >>> assert minimum_product([(2, 3), (0, 2), (5, 0), (2, 0), (0, 0)]) == 0\n        >>> assert minimum_product([(1, 2), (2, 3), (0, 2), (5, 0), (2, 0), (0, 0)]) == 1\n        >>> assert minimum_product([(1, 1), (2, 3), (0, 2), (5, 0), (2, 0), (0, 0)]) == 1\n    \"\"\"\n    return min(\n        min(first_tuple * second_tuple for second_tuple in tuple_list)\n        for first_tuple in tuple_list\n    )\n\n\nif __name__ == \"__main__\":\n    print(minimum_product([(2, 3), (0, 2), (5, 0), (2, 0), (0, 0)]))",
+      -5.609375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_product(lst: List[tuple]) -> int:\n    \"\"\"Returns the minimum product from the tuples of a given list.\n\n    Args:\n        lst (List[tuple]): The list to get the minimum product from.\n\n    Examples:\n        >>> find_min_product([(1, 2), (3, 4)])\n        12\n        >>> find_min_product([(1, 2), (3, 4), (5, 6)])\n        12\n        >>> find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n        24\n    \"\"\"\n    min_product = lst[0][0] * lst[0][1]\n\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            min_product = min(min_product, lst[i][0] * lst[j][1])\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(find_min_product([(1, 2), (3, 4)]))\n    print(find_min_product([(1, 2), (3, 4), (5, 6)]))\n    print(find_min_product([(1, 2), (3, 4), (5, 6), (7, 8)]))",
+      -5.90625
+    ],
+    [
+      "def min_product(lst):\n    \"\"\"\n    >>> min_product([(1, 2, 3), (2, 3, 4), (1, 2, 4), (1, 2, 5), (2, 3, 5)])\n    6\n    \"\"\"\n    lst = sorted(lst, key=lambda x: x[0] + x[1])\n    return min(\n        lst[i][0] * lst[i + 1][1]\n        for i in range(len(lst) - 1)\n        if lst[i][0] + lst[i + 1][1] == lst[i][0] + lst[i][1]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.078125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(array: List[int]) -> int:\n    \"\"\"Returns minimum product from the pairs of tuples within a given list.\n\n    Args:\n        array (List[int]): list of integers\n\n    Examples:\n        >>> assert min_product([1,2,3,4,5]) == 6\n        >>> assert min_product([-1,2,-3,4,5]) == 6\n        >>> assert min_product([1,-2,3,-4,5]) == 6\n        >>> assert min_product([-1,-2,-3,-4,-5]) == 6\n    \"\"\"\n    array = sorted(array)\n    return array[-1] * array[-2]\n\n\nif __name__ == \"__main__\":\n    print(min_product([1, 2, 3, 4, 5]))\n    print(min_product([-1, 2, -3, 4, 5]))\n    print(min_product([1, -2, 3, -4, 5]))\n    print(min_product([-1, -2, -3, -4, -5]))",
+      -6.328125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef min_product(tuples: List[Tuple[int]]) -> int:\n    \"\"\"Return the minimum product from the pairs of tuples within a given list.\n\n    Args:\n        tuples (List[Tuple[int]]): list of tuples\n\n    Examples:\n        >>> min_product([(5, 8), (1, 2), (1, 5), (3, 10)])\n        20\n        >>> min_product([(2, 3), (4, 5), (1, 1)])\n        6\n        >>> min_product([(2, 3), (4, 5), (1, 2), (1, 1), (1, 1)])\n        6\n        >>> min_product([(2, 3), (4, 5), (1, 2), (1, 1), (1, 1), (1, 1)])\n        6\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n    return min(\n        [\n            a[0] * a[1]\n            for i in range(len(tuples) - 1)\n            for a in zip(tuples[i], tuples[i + 1])\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product([(5, 8), (1, 2), (1, 5), (3, 10)]))\n    print(min_product([(2, 3), (4, 5), (1, 1)]))\n    print(min_product([(2, 3), (4, 5), (1, 2), (1, 1), (1, 1)]))\n    print(min_product([(2, 3), (4, 5), (1, 2), (1, 1), (1, 1), (1, 1)]))",
+      -7.17578125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_of_tuples(tuples: List[List[int]]) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(1)\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n\n    min_product = float(\"inf\")\n    for i in range(len(tuples) - 1):\n        min_product = min(min_product, tuples[i][0] * tuples[i + 1][1])\n\n    return min_product\n\n\nif __name__ == \"__main__\":\n    print(min_product_of_tuples([(1, 5), (-2, 4), (3, -1), (-5, 3), (1, 4)]))",
+      -8.109375
+    ],
+    [
+      "def min_product(tuples):\n    if len(tuples) < 2:\n        return\n\n    tuples.sort(key=lambda x: x[0])\n\n    min_product = tuples[0][0] * tuples[0][1]\n    for i in range(1, len(tuples)):\n        product = tuples[i][0] * tuples[i - 1][1]\n        if product < min_product:\n            min_product = product\n\n    return min_product\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = min_product(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\ntest_function(([(1, 2), (3, 4), (5, 6), (7, 8)], 12))\ntest_function(([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)], 20))\ntest_function(([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)], 24))\ntest_function(([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14)], 28))\ntest_function(([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16)], 36))\n\ntest_function(([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16), (17, 18)], 48))",
+      -8.125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(tuples: List[tuple]) -> int:\n    \"\"\"Returns the minimum product of tuples from a list of tuples.\n\n    Args:\n        tuples (List[tuple]): list of tuples to be processed.\n\n    Examples:\n        >>> min_product([(1, 2), (0, 3), (0, 3)])\n        0\n        >>> min_product([(1, 2), (3, 4), (0, 5)])\n        4\n        >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n        12\n        >>> min_product([(1, 2), (1, 2), (1, 2)])\n        2\n        >>> min_product([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7)])\n        0\n    \"\"\"\n    tuples.sort()\n    min_prod = float(\"inf\")\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            min_prod = min(min_prod, (tuples[i][1] * tuples[j][1]))\n    return min_prod\n\n\nif __name__ == \"__main__\":\n    print(min_product([(1, 2), (0, 3), (0, 3)]))\n    print(min_product([(1, 2), (3, 4), (0, 5)]))\n    print(min_product([(1, 2), (3, 4), (5, 6), (7, 8)]))\n    print(min_product([(1, 2), (1, 2), (1, 2)]))\n    print(min_product([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7)]))",
+      -8.3125
+    ],
+    [
+      "from typing import List\n\n\ndef min_product_of_tuples(data: List[tuple]) -> int:\n    \"\"\"Find the minimum product of tuples in a list.\n\n    Args:\n        data (List[tuple]): a list of tuples\n\n    Examples:\n        >>> min_product_of_tuples([(2, 4), (4, 5), (6, 1), (3, 2), (5, 4)])\n        10\n        >>> min_product_of_tuples([(2, 4), (4, 5), (6, 1), (3, 2), (5, 4), (8, 1)])\n        10\n        >>> min_product_of_tuples([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7)])\n        12\n        >>> min_product_of_tuples([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (1, 8)])\n        12\n        >>> min_product_of_tuples([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (1, 8), (8, 9)])\n        12\n    \"\"\"\n    return min(\n        [\n            x * y\n            for i, x in enumerate(data)\n            for j, y in enumerate(data)\n            if i < j\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    print(min_product_of_tuples([(2, 4), (4, 5), (6, 1), (3, 2), (5, 4)]))\n    print(min_product_of_tuples([(2, 4), (4, 5), (6, 1), (3, 2), (5, 4), (8, 1)]))\n    print(min_product_of_tuples",
+      -8.421875
+    ],
+    [
+      "from typing import List\n\n\ndef min_product(input_list: List[int]) -> int:\n    \"\"\"\n    This function will find the minimum product from the pairs of tuples within a given list.\n    The time complexity of the function is O(n).\n    >>> min_product([(1, 2), (3, 4), (5, 6)])\n    30\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8)])\n    56\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)])\n    45\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)])\n    102\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14)])\n    120\n    >>> min_product([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16)])\n    168\n    \"\"\"\n    input_list.sort()\n    return min(\n        [\n            (input_list[i][0] * input_list[i + 1][0])\n            for i in range(len(input_list) - 1)\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -9.453125
+    ],
+    [
+      "def find_min_product(tuples):\n    \"\"\"\n    Return the minimum product from the pairs of tuples within a given list.\n\n    >>> find_min_product([(1, 2), (3, 4)])\n    12\n    >>> find_min_product([(1, 2), (2, 3), (1, 3)])\n    6\n    >>> find_min_product([(1, 2), (2, 3), (3, 4), (1, 3)])\n    6\n    >>> find_min_product([(1, 2), (2, 3), (3, 4), (1, 3), (1, 2)])\n    6\n    >>> find_min_product([(1, 2), (2, 3), (3, 4), (1, 3), (1, 2), (2, 3)])\n    12\n    >>> find_min_product([(1, 2), (2, 3), (3, 4), (1, 3), (1, 2), (2, 3), (1, 2)])\n    12\n    >>> find_min_product([(1, 2), (2, 3), (3, 4), (1, 3), (1, 2), (2, 3), (1, 2), (3, 4)])\n    12\n    >>> find_min_product([(1, 2), (2, 3), (3, 4), (1, 3), (1, 2), (2, 3), (1, 2), (3, 4), (1, 2)])\n    12\n    \"\"\"\n    tuples.sort(key=lambda x: x[0])\n    min_product = tuples[0][0] * tuples[0][1]\n    for i in range(len(tuples)):\n        for j in range(i + 1, len(tuples)):\n            product = tuples[i][0] * tuples[j][1]\n            min_product = min(min_product, product)\n    return min",
+      -9.6796875
+    ],
+    [
+      "def find_min_product(tuples):\n    tuples.sort(key=lambda x: x[0])\n    min_product = tuples[0][0] * tuples[0][1]\n    for i in range(len(tuples) - 1):\n        if tuples[i][0] <= tuples[i + 1][0] and tuples[i][1] >= tuples[i + 1][1]:\n            min_product = min(min_product, tuples[i][0] * tuples[i + 1][1])\n        elif tuples[i][0] >= tuples[i + 1][0] and tuples[i][1] <= tuples[i + 1][1]:\n            min_product = min(min_product, tuples[i][1] * tuples[i + 1][0])\n    return min_product\n\n\nif __name__ == '__main__':\n    test_cases = [\n        ([[2, 7], [8, 1], [3, 4], [1, 5]], 7),\n        ([[2, 4], [8, 1], [3, 4], [1, 5]], 16),\n        ([[2, 7], [8, 1], [3, 4], [1, 5], [9, 9]], 7),\n        ([[2, 7], [8, 1], [3, 4], [1, 5], [9, 1]], 1),\n        ([[2, 7], [8, 1], [3, 4], [1, 5], [9, 1], [3, 9]], 1),\n        ([[2, 7], [8, 1], [3, 4], [1, 5], [9, 1], [3, 9], [4, 9]], 1),\n        ([[2, 7], [8, 1], [3, 4], [1, 5], [9, 1], [3, 9], [4, 9], [3, 1]], 1),\n        ([[",
+      -10.15625
+    ],
+    [
+      "def min_product(lst):\n    \"\"\"Returns minimum product from the pairs of tuples within a given list.\"\"\"\n    # Check to see if the list is empty.\n    if len(lst) == 0:\n        return None\n\n    # Sort the list.\n    lst.sort()\n\n    # Initialize the minimum product.\n    min_prod = float(\"inf\")\n\n    # Iterate over the list.\n    for i in range(len(lst) - 1):\n        # Check to see if the difference between the current element and the next element is 1.\n        if lst[i][0] + 1 == lst[i + 1][0]:\n            # Check to see if the product of the current element and the next element is less than the minimum product.\n            if lst[i][1] * lst[i + 1][1] < min_prod:\n                # If it is, set the minimum product to the product of the current element and the next element.\n                min_prod = lst[i][1] * lst[i + 1][1]\n\n    return min_prod\n\n\n# Test cases.\nprint(min_product([(2, 5), (3, 4), (5, 6), (7, 8)]))\nprint(min_product([(2, 5), (3, 4), (5, 6)]))\nprint(min_product([(2, 5)]))\nprint(min_product([]))",
+      -11.046875
+    ],
+    [
+      "def minimum_product(tuples):\n    \"\"\"\n    >>> minimum_product([(1,2),(3,4),(5,6),(7,8)])\n    352\n    >>> minimum_product([(1,10),(1,11),(10,11)])\n    110\n    >>> minimum_product([(1,2),(2,3),(3,4),(4,5),(5,6)])\n    120\n    >>> minimum_product([(1,2),(2,3),(3,4),(4,5),(5,6),(6,7),(7,8)])\n    42\n    >>> minimum_product([(1,2),(3,4),(5,6)])\n    6\n    \"\"\"\n    tuples.sort(key=lambda tup: tup[0])\n    return min(\n        [\n            tuples[i][0] * tuples[i + 1][1]\n            for i in range(len(tuples) - 1)\n            if tuples[i][1] <= tuples[i + 1][0]\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.6796875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

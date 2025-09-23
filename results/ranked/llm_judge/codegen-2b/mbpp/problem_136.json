@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T18:22:22.221861",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "mbpp",
+  "problem_number": 136,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        # write your code here\n        m = len(triangle)\n        if m < 2:\n            return 0\n        max_sum = triangle[0][0]\n        for i in range(1, m):\n            for j in range(1, i+1):\n                max_sum = max(max_sum, triangle[i][j]+triangle[i-1][j-1])\n        return max_sum\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    triangle = [[2, 1], [3, 2], [1, 3]]\n    print s.maxPathSum(triangle)\n    triangle = [[1, 3, 4], [2, 1, 5], [3, 6, 2], [1, 2, 1]]\n    print s.maxPathSum(triangle)"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle:\n            return 0\n        if not triangle[0]:\n            return triangle[1][0]\n        max_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][0])\n            max_sum = max(max_sum, triangle[i][-1])\n            max_sum = max(max_sum, triangle[i][0])\n        return max_sum"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "import math\nimport time\n\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        triangle = sorted(triangle, key=lambda x: x[0])\n        m = triangle[-1][0]\n        for i in xrange(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1])\n        return m\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.maxPathSum([[1, 2, 3], [2, 3, 4], [3, 4, 5]])\n    print s.maxPathSum([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6]])"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == []:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        \n        max_path_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            max_path_sum = max(max_path_sum, triangle[i-1][0] + triangle[i][0] + triangle[i][1])\n        return max_path_sum"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        \n        for i in range(len(triangle)):\n            for j in range(i, len(triangle)):\n                if i == j:\n                    continue\n                triangle[i][j] += max(triangle[i][j], triangle[i][j - 1])\n                triangle[j][i] += max(triangle[i][j], triangle[i][j - 1])\n        return triangle[-1][-1]"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i-1][0] + triangle[i][0])\n        return m"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m, n = len(triangle), len(triangle[0])\n        \n        dp = [[0] * n for _ in range(m)]\n        for i in range(1, m):\n            for j in range(i, m):\n                if i == j:\n                    dp[i][j] = triangle[i][j]\n                else:\n                    dp[i][j] = max(dp[i-1][j] + triangle[i][j], dp[i][j-1] + triangle[i][j])\n        return dp[m-1][m-1]"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or len(triangle) == 0:\n            return 0\n        m, n = len(triangle), len(triangle[0])\n        dp = [[0] * (n + 1) for _ in xrange(m + 1)]\n        for i in xrange(m):\n            for j in xrange(n):\n                if i == 0:\n                    dp[i][j] = triangle[i][j]\n                elif i == m:\n                    dp[i][j] = triangle[i - 1][j]\n                else:\n                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j + 1]) + triangle[i][j]\n        return dp[m - 1][n - 1]"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    def maxTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == None or len(triangle) == 0:\n            return 0\n\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1])\n            m = max(m, triangle[i][1] + triangle[i-1][0])\n        return m"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "import sys\n\ndef triangle(n):\n    \"\"\"\n    n: the number of rows\n    return: the sum of the elements in each row\n    \"\"\"\n    return [n * [0] for i in range(n)]\n\ndef triangle_path(n):\n    \"\"\"\n    n: the number of rows\n    return: the sum of the elements in each row\n    \"\"\"\n    return [0] * (n + 1)\n\ndef path(i, j):\n    \"\"\"\n    i: the first row\n    j: the second row\n    return: the sum of elements in the path\n    \"\"\"\n    return triangle_path(i)[j] + triangle_path(i + 1)[j]\n\ndef max_path_sum(n, m):\n    \"\"\"\n    n: the number of rows\n    m: the number of columns\n    return: the maximum sum of paths\n    \"\"\"\n    return max(path(i, j) for i in range(n) for j in range(m))\n\ndef main():\n    n = int(sys.stdin.readline())\n    m = int(sys.stdin.readline())\n    triangle = triangle(n)\n    for i in range(m):\n        triangle[int(sys.stdin.readline())][int(sys.stdin.readline())] = int(sys.stdin.readline())\n    print max_path_sum(n, m)\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/maximum-path-sum/\n# https://leetcode.com/problems/maximum-path-sum-ii/\n# https://leetcode.com/problems/maximum-path-sum-iii/\n# https://leetcode.com/problems/maximum-path-sum-iv/\n\nfrom collections import defaultdict\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == []:\n            return 0\n        \n        # Build a dict for each row of the triangle\n        row = defaultdict(int)\n        for i in xrange(len(triangle)):\n            row[i] = triangle[i][0]\n        \n        # Build a dict for each column of the triangle\n        col = defaultdict(int)\n        for i in xrange(len(triangle)):\n            col[i] = triangle[i][-1]\n        \n        # Build a dict for each diagonal of the triangle\n        diag = defaultdict(int)\n        for i in xrange(len(triangle)):\n            diag[i] = triangle[i][i]\n        \n        # Build a dict for each sub-triangle\n        sub = defaultdict(int)\n        for i in xrange(len(triangle)):\n            for j in xrange(len(triangle)):\n                if j < i:\n                    sub[(i,j)] = triangle[i][j]\n        \n        # Build a dict for each sub-triangle\n        sub2 = defaultdict(int)\n        for i in xrange(len(triangle)):\n            for j in xrange(len(triangle)):\n                if i < j:\n                    sub2[(i,j)] = triangle[i][j]\n        \n        # Build a dict for each sub-triangle\n        sub3 = defaultdict(int)\n        for i in xrange(len(triangle)):\n            for j in xrange(len(triangle)):\n                if i > j:\n                    sub3[(i"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "# Definition for a triangle\nclass Point(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return \"Point(%r, %r)\" % (self.x, self.y)\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[Point]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        m = triangle[0]\n        for p in triangle[1:]:\n            m.x = max(m.x, p.x)\n            m.y = max(m.y, p.y)\n        return max(sum(triangle), m.x + m.y)"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "import sys\nimport math\n\ndef max_sum(triangle):\n    \"\"\"\n    Find the maximum total path sum in the given triangle.\n\n    triangle: a list of lists representing the triangle\n    returns: an integer representing the maximum total path sum in the triangle\n    \"\"\"\n    if not triangle:\n        return 0\n    if len(triangle) == 1:\n        return triangle[0][0]\n    left, right = triangle[0][0], triangle[-1][-1]\n    sum = triangle[0][0] + max_sum(triangle[1:-1])\n    for i in range(1, len(triangle)):\n        left, right = max(left, right), triangle[i][-1]\n        sum += triangle[i][0]\n    return max(sum, left + right)\n\ndef main():\n    \"\"\"\n    Main function that runs the tests and prints the output.\n    \"\"\"\n    print(max_sum([[1, 2, 3], [2, 3, 4], [3, 4, 5]]))\n    print(max_sum([[1, 2, 3], [2, 3, 4], [3, 5, 6]]))\n    print(max_sum([[1, 2, 3], [2, 3, 4], [3, 5, 6], [4, 6, 7]]))\n    print(max_sum([[1, 2, 3], [2, 3, 4], [3, 5, 6], [4, 6, 7], [5, 7, 8]]))\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, v0, v1, v2):\n#         \"\"\"\n#         v0, v1, v2: the vertices of a triangle.\n#         \"\"\"\n#         self.v0 = v0\n#         self.v1 = v1\n#         self.v2 = v2\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == None or len(triangle) == 0:\n            return 0\n        max_sum = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i-1][0] + triangle[i-1][1] + triangle[i][0])\n        return max_sum"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle: return 0\n        m = len(triangle)\n        n = len(triangle[0])\n        \n        # dp[i][j] means the max path sum from i to j\n        dp = [[0]*(n+1) for _ in xrange(m+1)]\n        \n        # dp[i][j] = max(dp[i-1][j], dp[i-1][j-1])\n        for i in xrange(1, m+1):\n            for j in xrange(1, n+1):\n                dp[i][j] = max(dp[i-1][j], dp[i-1][j-1])\n        \n        # dp[i][j] = max(dp[i][j], triangle[i-1][j]) + dp[i-1][j-1]\n        for i in xrange(2, m+1):\n            for j in xrange(2, n+1):\n                dp[i][j] = max(dp[i][j], triangle[i-1][j]) + dp[i-1][j-1]\n        \n        # dp[i][j] = max(dp[i][j], triangle[i-1][j-1])\n        for i in xrange(2, m+1):\n            for j in xrange(1, n+1):\n                dp[i][j] = max(dp[i][j], triangle[i-1][j-1])\n        \n        return dp[m][n]"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        m = triangle[0]\n        for i in range(1, len(triangle)):\n            m[0] = max(m[0], triangle[i][0])\n            m[1] = max(m[1], triangle[i][1])\n            m[2] = max(m[2], triangle[i][2])\n            m[0] = max(m[0], m[1])\n            m[0] = max(m[0], m[2])\n        return max(m[0], m[1]) + m[2]\n\nif __name__ == \"__main__\":\n    triangle = [[1,2,3],[4,5,6],[7,8,9]]\n    Solution().maxPathSum(triangle)"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1])\n        for i in xrange(len(triangle) - 2, -1, -1):\n            m = max(m, triangle[i][0] + triangle[i+1][1])\n        return m\n\n\ndef main():\n    triangle = [[1, 2], [3, 4], [1, 2]]\n    print triangle\n    print Solution().maxTotal(triangle)\n    triangle = [[0, 3, 5], [6, 2, 6], [5, 1, 1]]\n    print triangle\n    print Solution().maxTotal(triangle)\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "import sys\n\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        elif n == 1:\n            return triangle[0][0]\n        elif n == 2:\n            return max(triangle[0][0], triangle[1][1])\n        else:\n            left = triangle[0][0]\n            right = triangle[0][1]\n            for i in xrange(1, n):\n                left = max(left, triangle[i][0])\n                right = max(right, triangle[i][1])\n            return max(left, right)\n\n\ndef main():\n    triangle = [[0, 1, 3], [1, 5, 2], [4, 0, 6]]\n    print Solution().maxPathSum(triangle)\n    print triangle\n    print Solution().maxPathSum([[1, 2], [1, 3], [4, 5]])\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        def dfs(node, sum, path):\n            if not node:\n                return sum\n            if not path:\n                path.append(node.val)\n            sum += node.val\n            if node.left:\n                sum, dfs(node.left, sum, path)\n            if node.right:\n                sum, dfs(node.right, sum, path)\n            path.pop()\n            return sum\n\n        if not triangle or not triangle[0]:\n            return 0\n        max_sum = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][0] + max(triangle[i][1], triangle[i][2]))\n        return max_sum\n\n\nif __name__ == '__main__':\n    triangle = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]\n    print max(triangle)\n    print max(triangle, key=lambda x: x[0])\n    s = Solution()\n    print s.maxPathSum(triangle)"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n\n        # bottom-up\n        return max(self.maxPathSum(triangle[:i]) + triangle[i][0] + triangle[i][1] + triangle[i+1][0] + triangle[i+1][1] for i in range(len(triangle) - 1))"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "# triangle\n\n# Triangle\n# http://www.geeksforgeeks.org/triangle-matrix-with-sum-equal-to-given-value/\n\ndef triangle(n):\n    \"\"\"\n    triangle(n) -> returns the maximum total sum of any path in the triangle\n    n is the size of the triangle.\n    \"\"\"\n    if n < 1:\n        return 0\n    else:\n        return max(triangle(n-1), triangle(n-2) + triangle(n-3))\n\n# print triangle(3)\n# print triangle(4)\n# print triangle(5)\n# print triangle(6)\n# print triangle(7)\n# print triangle(8)\n# print triangle(9)\n# print triangle(10)\n# print triangle(11)\n# print triangle(12)\n# print triangle(13)\n# print triangle(14)\n# print triangle(15)\n# print triangle(16)\n# print triangle(17)\n# print triangle(18)\n# print triangle(19)\n# print triangle(20)\n# print triangle(21)\n# print triangle(22)\n# print triangle(23)\n# print triangle(24)\n# print triangle(25)\n# print triangle(26)\n# print triangle(27)\n# print triangle(28)\n# print triangle(29)\n# print triangle(30)\n# print triangle(31)\n# print triangle(32)\n# print triangle(33)\n# print triangle(34)\n# print triangle(35)\n# print triangle(36)\n# print triangle(37)\n# print triangle(38)\n# print triangle(39)\n# print triangle(40)\n# print triangle(41)\n# print triangle(42)\n# print triangle(43)\n# print triangle(44)\n# print triangle(45)\n# print triangle(46)\n# print triangle(47)\n# print triangle(48)\n# print triangle(49)\n# print triangle(50)\n# print triangle(51)\n# print triangle(52)\n# print triangle(53)\n# print triangle(54)\n# print triangle(55)\n# print triangle(56)\n# print triangle(57)\n# print triangle(58"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or triangle == []:\n            return 0\n\n        m, n = len(triangle), len(triangle[0])\n        dp = [[0 for _ in range(n+1)] for _ in range(m+1)]\n\n        for i in range(m):\n            for j in range(n):\n                dp[i][j] = triangle[i][j]\n\n        for i in range(m):\n            for j in range(1, n+1):\n                dp[i][j] = max(dp[i][j], dp[i][j-1]) + triangle[i][j-1]\n\n        return dp[0][n-1]\n\n\nif __name__ == \"__main__\":\n    triangle = [\n        [5,   0,  -2],\n        [4,   3,  -1],\n        [7,   6,  2]\n    ]\n    print Solution().maxPathSum(triangle)\n    print triangle\n\n    triangle = [\n        [1,  0,  0],\n        [2, -1,  1],\n        [3,  1,  2],\n        [4,  0,  3],\n        [5,  0,  0]\n    ]\n    print Solution().maxPathSum(triangle)"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param triangle: A list of lists of integers\n    @return: A list of integers\n    \"\"\"\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        n = len(triangle)\n        # max_sum = triangle[0][0]\n        max_sum = triangle[0][0]\n        for i in range(1, n):\n            max_sum = max(max_sum, triangle[i][0] + triangle[i][1] + triangle[i][2])\n        for i in range(1, n):\n            max_sum = max(max_sum, triangle[0][0] + triangle[i][1] + triangle[i][2])\n        for i in range(1, n):\n            for j in range(i+1, n):\n                max_sum = max(max_sum, triangle[i][0] + triangle[j][1] + triangle[j][2])\n        return max_sum"
+    },
+    {
+      "rank": 24,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if triangle == []:\n            return 0\n        \n        l, r = len(triangle) - 1, len(triangle[0]) - 1\n        max_sum = triangle[0][0]\n        for i in range(l):\n            for j in range(r):\n                max_sum = max(max_sum, triangle[i+1][j+1] + max(triangle[i+1][j], triangle[i+1][j+1]))\n        return max_sum"
+    },
+    {
+      "rank": 25,
+      "score": 10.0,
+      "candidate": "import math\n\n\ndef max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    n = len(triangle)\n    res = triangle[0][0]\n    for i in range(1, n):\n        for j in range(1, i):\n            res = max(res, triangle[i][j] + triangle[i - 1][j])\n    return res\n\n\nif __name__ == '__main__':\n    triangle = [[4, 2, 3], [1, 3, 5], [2, 6, 4]]\n    print(max_path_sum(triangle))\n    triangle = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]\n    print(max_path_sum(triangle))"
+    },
+    {
+      "rank": 26,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle: return 0\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            for j in range(len(triangle[i])):\n                m = max(m, triangle[i][j])\n        return m"
+    },
+    {
+      "rank": 27,
+      "score": 10.0,
+      "candidate": "import numpy as np\n\n\ndef max_path_sum(triangle):\n    \"\"\"\n    :param triangle: A list of lists representing the triangle.\n    :return: The maximum total sum of the triangle path.\n    \"\"\"\n    # The triangle is represented as a list of lists.\n    # The first element of the list is the first row.\n    # The second element of the list is the second row.\n    # The third element of the list is the third row.\n    # The fourth element of the list is the total sum of the triangle path.\n    #\n    # Note: The length of the first element of the list is the length of the second element of the list,\n    # and so on.\n    #\n    # Example:\n    #\n    # triangle = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]\n    #\n    # Return: 10\n    #\n    # Explanation:\n    #\n    # The maximum total sum of the triangle path is:\n    #\n    # sum(triangle[0]) + sum(triangle[1]) + sum(triangle[2])\n    # = 10 + 6 + 7 = 17\n    #\n    # Note:\n    #\n    # The length of the triangle is at least 3.\n    # The sum of the elements in each row is at least 2.\n    #\n    # Follow up:\n    #\n    # Can you solve it without using extra space?\n    #\n    # Hint:\n    #\n    # If the length of the triangle is even, then the maximum sum of the triangle path is the sum of the two\n    # sides of the triangle.\n    #\n    # If the length of the triangle is odd, then the maximum sum of the triangle path is the sum of the two\n    # sides of the triangle plus the maximum of the two diagonals.\n    #\n    # If the triangle is a square, then the maximum sum of the triangle path is the sum of the side of the\n    # triangle plus the maximum of the two diagonals.\n    #\n    # If the triangle is a rectangle, then the maximum sum of the triangle path is the sum of the two\n    # diagonals plus the maximum of the two sides of the"
+    },
+    {
+      "rank": 28,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.left = None\n\t\tself.right = None\n\nclass Solution:\n\t# @param triangle, a list of lists of integers\n\t# @return an integer\n\tdef maxPathSum(self, triangle):\n\t\tif not triangle:\n\t\t\treturn 0\n\t\t\n\t\tm = triangle[0][0]\n\t\tn = triangle[0][1]\n\t\t\n\t\tfor i in range(1, len(triangle)):\n\t\t\tm = max(m, triangle[i][0])\n\t\t\tn = max(n, triangle[i][1])\n\t\t\t\n\t\treturn max(m, n)"
+    },
+    {
+      "rank": 29,
+      "score": 10.0,
+      "candidate": "import collections\n\n\ndef max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if not triangle:\n        return 0\n\n    # find the max path sum from the first row\n    max_path_sum_from_first_row = max_path_sum(triangle[1:])\n    # find the max path sum from the second row\n    max_path_sum_from_second_row = max_path_sum(triangle[2:])\n    # find the max path sum from the third row\n    max_path_sum_from_third_row = max_path_sum(triangle[3:])\n\n    # max_path_sum_from_first_row + max_path_sum_from_second_row + max_path_sum_from_third_row\n    return max(max_path_sum_from_first_row, max_path_sum_from_second_row,\n               max_path_sum_from_third_row)\n\n\ndef max_path_sum_2(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if not triangle:\n        return 0\n\n    # find the max path sum from the first row\n    max_path_sum_from_first_row = max_path_sum_2(triangle[1:])\n    # find the max path sum from the second row\n    max_path_sum_from_second_row = max_path_sum_2(triangle[2:])\n    # find the max path sum from the third row\n    max_path_sum_from_third_row = max_path_sum_2(triangle[3:])\n\n    # max_path_sum_from_first_row + max_path_sum_from_second_row + max_path_sum_from_third_row\n    return max(max_path_sum_from_first_row, max_path_sum_from_second_row,\n               max_path_sum_from_third_row)\n\n\ndef max_path_sum_3(triangle):\n    \"\"\""
+    },
+    {
+      "rank": 30,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or triangle == []:\n            return 0\n\n        max_path = 0\n        for i in range(len(triangle)):\n            for j in range(i+1, len(triangle)):\n                max_path = max(max_path, triangle[i][j] + self.maxTotal(triangle[:i] + triangle[j+1:]))\n        return max_path"
+    },
+    {
+      "rank": 31,
+      "score": 10.0,
+      "candidate": "import collections\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        # Write your code here\n        if triangle is None or len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        n = len(triangle)\n        # dp[i][j] means the max sum of triangle[i][0..j]\n        dp = [[0] * (j+1) for j in xrange(n)]\n        max_path_sum = triangle[0][0]\n        for i in xrange(1, n):\n            max_path_sum = max(max_path_sum, triangle[i][0])\n            for j in xrange(1, n):\n                max_path_sum = max(max_path_sum, triangle[i][j])\n                dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + triangle[i][j]\n        return max_path_sum\n\ntriangle = [[10, 20, 30], [50, 40, 30], [20, 30, 40]]\nprint Solution().maxPathSum(triangle)"
+    },
+    {
+      "rank": 32,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/maximum-path-sum/discuss/79098/Python-with-explanation-of-DP-solution\n\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        elif n == 1:\n            return triangle[0][0]\n        elif n == 2:\n            return max(triangle[0][0], triangle[1][1])\n        else:\n            dp = [[0] * (n + 1) for _ in range(n + 1)]\n            dp[0][0] = triangle[0][0]\n            dp[1][0] = triangle[0][1] + triangle[1][0]\n            for i in range(1, n):\n                dp[i][0] = triangle[i][0]\n                dp[i][i] = triangle[i][i]\n                for j in range(1, i):\n                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j] + triangle[i][j])\n            return dp[-1][-1]"
+    },
+    {
+      "rank": 33,
+      "score": 10.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        elif n == 1:\n            return triangle[0][0]\n        elif n == 2:\n            return max(triangle[0][0], triangle[1][1])\n        else:\n            # max(max(max(left, right), up), down)\n            # max(max(max(left, right), down), up)\n            # max(max(max(left, right), up), max(left, right))\n            # max(max(max(left, right), up), max(down, up))\n            # max(max(max(left, right), up), max(down, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(down, up))\n            # max(max(max(left, right), up), max(down, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(down, up))\n            # max(max(max(left, right), up), max(down, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(down, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right), up), max(down, down))\n            # max(max(max(left, right), up), max(up, down))\n            # max(max(max(left, right"
+    },
+    {
+      "rank": 34,
+      "score": 9.993251387631034,
+      "candidate": "# Definition for a  binary tree node\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n\n        m, n = len(triangle), len(triangle[0])\n        result = 0\n        for i in range(m):\n            for j in range(n):\n                if i == 0:\n                    result = max(triangle[i][j], result)\n                elif j == 0:\n                    result = max(triangle[i][j], result)\n                else:\n                    result = max(triangle[i][j], triangle[i-1][j] + triangle[i][j])\n        return result"
+    },
+    {
+      "rank": 35,
+      "score": 9.982086980445024,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][1])\n        max_path_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            max_path_sum = max(max_path_sum, triangle[i-1][0]) + triangle[i][0]\n            max_path_sum = max(max_path_sum, triangle[i-1][1]) + triangle[i][1]\n        return max_path_sum\n\n\nif __name__ == \"__main__\":\n    print(Solution().maxPathSum([[3],[2],[1,4]]))"
+    },
+    {
+      "rank": 36,
+      "score": 9.963994939209833,
+      "candidate": "# https://leetcode.com/problems/max-path-sum/discuss/2401/C%2B%2B-Python-solution\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            for j in range(0, i):\n                m = max(m, triangle[i][j] + max(triangle[i - 1][j], triangle[i - 1][j + 1]))\n        return m"
+    },
+    {
+      "rank": 37,
+      "score": 9.94217585880588,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, v):\n#         \"\"\"\n#         v[0] is the row, v[1] is the column, and v[2] is the value.\n#         \"\"\"\n#         self.v = v\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == None or triangle.__len__() == 0:\n            return 0\n        # n is the number of rows, m is the number of columns, and s is the size of triangle\n        n, m, s = triangle.__len__(), triangle.__len__(), len(triangle[0])\n        # the first row is the base case\n        # the first column is the base case\n        # the rest of the row and column is the max sum of the row and column\n        max_sum = 0\n        # the base case\n        for i in range(1, n):\n            max_sum += triangle[i][0]\n            for j in range(1, m):\n                max_sum = max(max_sum, triangle[i][j] + triangle[i-1][j])\n        # the base case\n        for j in range(1, m):\n            max_sum += triangle[0][j]\n            for i in range(1, n):\n                max_sum = max(max_sum, triangle[i][j] + triangle[i][j-1])\n        return max_sum"
+    },
+    {
+      "rank": 38,
+      "score": 9.930867849414408,
+      "candidate": "import sys\n\nclass Solution:\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        m, n = len(triangle), len(triangle[0])\n        if m == 0 or n == 0:\n            return 0\n        if m == 1 or n == 1:\n            return triangle[0][0]\n        dp = [[0] * (n + 1) for _ in range(m)]\n        for i in range(m):\n            dp[i][0] = triangle[i][0]\n        for j in range(1, n):\n            dp[0][j] = triangle[0][j]\n            for i in range(1, m):\n                dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + triangle[i][j]\n        return dp[-1][-1]\n\nif __name__ == \"__main__\":\n    triangle = [[1, 3, 4], [3, 5, 2], [1, 2, 6]]\n    solution = Solution()\n    print solution.maxPathSum(triangle)\n    # print solution.maxPathSum([[1, 1], [1, 1]])"
+    },
+    {
+      "rank": 39,
+      "score": 9.907170511668092,
+      "candidate": "import os\n\ndef find_max_sum(triangle):\n    \"\"\"\n    Given a triangle, find the maximum total sum of the path.\n\n    The triangle is represented by a list of integers, where each integer represents the length of a side of the triangle.\n\n    :type triangle: List[int]\n    :rtype: int\n    \"\"\"\n    # Write your code here\n    if triangle == []:\n        return 0\n    else:\n        return max(find_max_sum(triangle[:i] + triangle[i+1:]), triangle[i] + find_max_sum(triangle[:i] + triangle[i+1:]))\n\n\nif __name__ == '__main__':\n    triangle = [1, 1, 4]\n    triangle += [1, 2, 3]\n    triangle += [1, 3, 4]\n    triangle += [1, 4, 5]\n    triangle += [2, 3, 6]\n    triangle += [2, 6, 5]\n    triangle += [3, 6, 4]\n    triangle += [3, 4, 7]\n    triangle += [4, 5, 8]\n    triangle += [4, 8, 7]\n    triangle += [5, 6, 9]\n    triangle += [5, 7, 9]\n    triangle += [6, 7, 10]\n    triangle += [6, 8, 10]\n    triangle += [7, 8, 11]\n    triangle += [7, 9, 11]\n    triangle += [8, 9, 12]\n    triangle += [8, 10, 12]\n    triangle += [9, 10, 13]\n    triangle += [9, 11, 13]\n    triangle += [10, 11, 14]\n    triangle += [10, 12, 14]\n    triangle += [11, 12, 15]\n    triangle += [11, 13, 15]\n    triangle += [12, 13, 16]\n    triangle += [12, 14, 16]\n    triangle += [13, 14, 17]\n    triangle += [13, 15, 17]\n    triangle += [14, 15, 18]\n    tri"
+    },
+    {
+      "rank": 40,
+      "score": 9.887111849756732,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle:\n            return 0\n        m, n = len(triangle), len(triangle[0])\n        if m < 2 or n < 2:\n            return triangle[0][0]\n        \n        # max path sum is the maximum of the two max paths\n        # which are the max of the two max paths of the two subtriangles\n        # and the max of the two max paths of the two subtriangles' neighbors\n        max_path_sum = triangle[0][0]\n        for i in range(1, m):\n            max_path_sum = max(max_path_sum, triangle[i][0])\n            for j in range(1, n):\n                max_path_sum = max(max_path_sum, triangle[i][j])\n                max_path_sum = max(max_path_sum, triangle[i-1][j])\n                max_path_sum = max(max_path_sum, triangle[i-1][j-1])\n        \n        return max_path_sum"
+    },
+    {
+      "rank": 41,
+      "score": 9.88293152152541,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, a, b, c):\n#         \"\"\"\n#         Triangle(a, b, c) -> Triangle\n#         Initialize a triangle instance with a, b and c.\n#         \"\"\"\n#         self.a = a\n#         self.b = b\n#         self.c = c\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i][1] + triangle[i][2])\n        return m"
+    },
+    {
+      "rank": 42,
+      "score": 9.882923312638333,
+      "candidate": "def maximum_triangle(triangle):\n    \"\"\"\n    triangle is a list of lists\n    \"\"\"\n    # check if triangle is empty\n    if not triangle:\n        return 0\n    # check if triangle has only one row\n    if len(triangle) == 1:\n        return triangle[0][0]\n    # check if triangle is not a triangle\n    if len(triangle) == 2:\n        return triangle[0][0] + triangle[1][1]\n    # check if triangle is a triangle\n    if len(triangle) == 3:\n        return triangle[0][0] + triangle[1][1] + triangle[2][2]\n    # check if triangle is a triangle\n    for i in range(len(triangle) - 1):\n        for j in range(i + 1, len(triangle)):\n            if triangle[i][j] > triangle[i + 1][j]:\n                return triangle[i][j]\n            elif triangle[i][j] < triangle[i + 1][j]:\n                return triangle[i + 1][j]\n            else:\n                return triangle[i][j] + maximum_triangle(triangle[:i + 1] + triangle[i + 1:])\n\ndef main():\n    triangle = [[1,2,3], [4,5,6], [7,8,9]]\n    print(maximum_triangle(triangle))\n    triangle = [[1,2,3,4], [5,6,7,8], [9,10,11,12]]\n    print(maximum_triangle(triangle))\n    triangle = [[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]\n    print(maximum_triangle(triangle))\n    triangle = [[1,2,3,4,5,6], [7,8,9,10,11,12], [13,14,15,16,17,18]]\n    print(maximum_triangle(triangle))\n\nmain()"
+    },
+    {
+      "rank": 43,
+      "score": 9.854153125103362,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def maxPathSum(self, root: TreeNode) -> int:\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        max_val = self.max_path_sum(root)\n        return max(max_val, self.max_path_sum(root.left)) + max(max_val, self.max_path_sum(root.right))\n\nif __name__ == '__main__':\n    sol = Solution()\n    root = TreeNode(5)\n    root.left = TreeNode(4)\n    root.right = TreeNode(8)\n    root.left.left = TreeNode(11)\n    root.left.right = TreeNode(13)\n    root.right.left = TreeNode(7)\n    root.right.right = TreeNode(2)\n    print(sol.maxPathSum(root))"
+    },
+    {
+      "rank": 44,
+      "score": 9.849448152205355,
+      "candidate": "# https://oj.leetcode.com/problems/maximum-path-sum/\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximumTotal(self, triangle):\n        # write your code here\n        if triangle is None or len(triangle) == 0:\n            return 0\n\n        max_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            for j in range(len(triangle[i])):\n                if j > 0:\n                    max_sum = max(max_sum, triangle[i-1][j-1] + triangle[i][j]);\n        return max_sum"
+    },
+    {
+      "rank": 45,
+      "score": 9.845393812074393,
+      "candidate": "def max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    # write your code here\n    if triangle == None:\n        return 0\n    max_sum = triangle[0][0]\n    for i in range(1, len(triangle)):\n        max_sum = max(max_sum, triangle[i][0] + max_path_sum(triangle[i-1]))\n    return max_sum\n\nif __name__ == '__main__':\n    triangle = [[1, 2, 3], [3, 4, 5], [6, 7, 8, 9]]\n    print max_path_sum(triangle)"
+    },
+    {
+      "rank": 46,
+      "score": 9.807458859791842,
+      "candidate": "from __future__ import annotations\n\nclass Solution:\n    def maxPathSum(self, triangle: List[List[int]]) -> int:\n        if not triangle:\n            return 0\n        m = triangle[0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i][1] + triangle[i][2])\n        return m"
+    },
+    {
+      "rank": 47,
+      "score": 9.769680614520107,
+      "candidate": "# Definition for a point.\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        n = len(triangle)\n        if n == 0:\n            return 0\n        if n == 1:\n            return triangle[0][0]\n        if n == 2:\n            return max(triangle[0][0], triangle[1][1])\n\n        m = triangle[0][0]\n        for i in range(1, n):\n            m = max(m, triangle[i][0])\n            m = max(m, triangle[i][i])\n            m = max(m, triangle[i-1][i-1])\n\n        return m\n\nif __name__ == \"__main__\":\n    triangle = [[1,2,3], [4,5,6], [4,3,2]]\n    print(Solution().maxPathSum(triangle))\n    triangle = [[7,2,5,3], [4,6,1,8], [4,0,3,5]]\n    print(Solution().maxPathSum(triangle))"
+    },
+    {
+      "rank": 48,
+      "score": 9.768291153593768,
+      "candidate": "# Definition for a triangle.\n# class Point(object):\n#     def __init__(self, a=0, b=0, c=0):\n#         self.a = a\n#         self.b = b\n#         self.c = c\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1] + triangle[i-1][2])\n        return m\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.maxPathSum([[1,2],[2,3],[3,4]]))\n    print(sol.maxPathSum([[1,2],[1,3],[1,4]]))"
+    },
+    {
+      "rank": 49,
+      "score": 9.76713512321487,
+      "candidate": "import os\nimport sys\nimport math\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or triangle == []:\n            return 0\n        n = len(triangle)\n        m = len(triangle[0])\n        dp = [[0 for i in range(m+1)] for j in range(n+1)]\n        for i in range(1, n+1):\n            dp[i][0] = triangle[i-1][0] + dp[i-1][0]\n        for j in range(1, m+1):\n            dp[0][j] = triangle[0][j-1] + dp[0][j-1]\n        for i in range(1, n+1):\n            for j in range(1, m+1):\n                dp[i][j] = max(triangle[i-1][j], triangle[i-1][j-1]) + dp[i-1][j-1]\n        return dp[n-1][m]\n\nif __name__ == \"__main__\":\n    triangle = [[1,2,3], [4,5,6], [7,8,0]]\n    Solution().maxPathSum(triangle)"
+    },
+    {
+      "rank": 50,
+      "score": 9.765262807032524,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        m = len(triangle[0])\n\n        dp = [[0] * m for i in range(n)]\n        dp[0][0] = triangle[0][0]\n        for i in range(1, n):\n            for j in range(1, m):\n                dp[i][j] = max(dp[i-1][j], dp[i-1][j-1]) + triangle[i][j]\n        return dp[-1][-1]\n\na = Solution()\n\nprint a.maxPathSum([[1, 2], [3, 4], [1, 4]])"
+    },
+    {
+      "rank": 51,
+      "score": 9.760412881077356,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        m, n = len(triangle), len(triangle[0])\n        dp = [[0] * n for _ in range(m)]\n        for i in range(m):\n            for j in range(n):\n                if i == 0:\n                    dp[i][j] = triangle[i][j]\n                elif j == 0:\n                    dp[i][j] = triangle[i][j]\n                else:\n                    dp[i][j] = max(dp[i-1][j] + triangle[i][j], dp[i][j-1] + triangle[i][j])\n        return dp[m-1][n-1]\n\ns = Solution()\ntriangle = [[1,2,3],[4,5,6],[7,8,10]]\nprint(s.maxPathSum(triangle))"
+    },
+    {
+      "rank": 52,
+      "score": 9.72780863773741,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == None or triangle == []:\n            return 0\n        m = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1] + triangle[i-1][0])\n        return m"
+    },
+    {
+      "rank": 53,
+      "score": 9.718856235379514,
+      "candidate": "import sys\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or len(triangle) == 0:\n            return 0\n\n        m = triangle[0]\n        n = len(triangle)\n        for i in range(1, n):\n            m[i] = max(m[i - 1] + triangle[i][i], m[i])\n        for i in range(1, n):\n            for j in range(i + 1, n):\n                m[j] = max(m[j], m[i] + triangle[i][j])\n        return max(m[n - 1], triangle[0][0])\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.maxPathSum([[1, 2, 3], [4, 5, 6]]))\n    print(s.maxPathSum([[1, 0], [3, 4], [1, 2]]))\n    print(s.maxPathSum([[-1, -2, -3], [1, 0], [-1, -2, -3]]))\n    print(s.maxPathSum([[1, 1], [1, 1], [1, 1]]))\n    print(s.maxPathSum([[1, 1], [1, 1], [1, 2]]))\n    print(s.maxPathSum([[1, 1], [1, 1], [1, 2], [1, 2]]))"
+    },
+    {
+      "rank": 54,
+      "score": 9.699680655040597,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # https://leetcode.com/problems/maximum-sum-of-paths/discuss/73984/C%2B%2B-Java-Solution-using-DFS-and-BFS\n        # A DFS-based solution is to start from the bottom of the triangle,\n        # find the maximum path sum from top to bottom, then go to the left\n        # and right of each cell and add the maximum of the three path sums.\n        # This solution is O(n^2) but there are at most 2^n = 16^n different\n        # paths from each corner.\n        #\n        # The BFS solution is a bit more complicated, but can be done\n        # in O(n^2) time.\n        #\n        # I decided to use the DFS approach because it is a little easier to\n        # understand and maintain, and it can be easily done in O(n^2) time\n        # as well.\n        #\n        # The idea is to build a hash table of the maximum path sum at each\n        # cell. Then, we can traverse the triangle from left to right and\n        # find the maximum path sum at each cell.\n        #\n        # Then, we can go up and down and add the maximum of the two\n        # adjacent cells.\n        #\n        # Finally, we can go right and left and add the maximum of the three\n        # adjacent cells.\n        #\n        # We can also go up and down and add the maximum of the two\n        # adjacent cells.\n        #\n        # This solution is O(n^2) time.\n        #\n        # The idea is to build a hash table of the maximum path sum at each\n        # cell. Then, we can traverse the triangle from left to right and\n        # find the maximum path sum at each cell.\n        #\n        # Then, we can go up and down and add the maximum of the two\n        # adjacent cells.\n        #\n        # Finally, we can go right and left and add the maximum of the three\n        # adjacent cells."
+    },
+    {
+      "rank": 55,
+      "score": 9.699146693885302,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][0])\n        \n        max_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i-1][0] + triangle[i][0])\n        return max_sum"
+    },
+    {
+      "rank": 56,
+      "score": 9.677440122697439,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.left = None\n\t\tself.right = None\n\nclass Solution:\n\t# @param triangle, a list of lists of integers\n\t# @return an integer\n\tdef maxPathSum(self, triangle):\n\t\tif triangle == None:\n\t\t\treturn 0\n\t\tn = len(triangle)\n\t\tif n == 0:\n\t\t\treturn 0\n\t\tif n == 1:\n\t\t\treturn triangle[0][0]\n\t\tif n == 2:\n\t\t\treturn triangle[0][0] + triangle[1][1]\n\t\t# get the max of the two left nodes\n\t\tmax1 = triangle[0][0] + triangle[1][0]\n\t\tmax2 = triangle[0][1] + triangle[1][1]\n\t\tif max1 > max2:\n\t\t\tmax2 = max1\n\t\t# get the max of the two right nodes\n\t\tmax1 = triangle[0][0] + triangle[0][1]\n\t\tmax2 = triangle[1][1] + triangle[1][2]\n\t\tif max1 > max2:\n\t\t\tmax2 = max1\n\t\tmax1 = triangle[0][0] + triangle[0][2]\n\t\tmax2 = triangle[1][0] + triangle[1][1]\n\t\tif max1 > max2:\n\t\t\tmax2 = max1\n\t\tmax1 = triangle[0][0] + triangle[0][2]\n\t\tmax2 = triangle[0][1] + triangle[1][2]\n\t\tif max1 > max2:\n\t\t\tmax2 = max1\n\t\tmax1 = triangle[0][0] + triangle[1][0]\n\t\tmax2 = triangle[0][1] + triangle[1][1]\n\t\tif max1 > max2:\n\t\t\tmax2 = max1\n\t\tmax1 = triangle[0][0] + triangle[1][0]\n\t\tmax2 = triangle[1][0] + triangle[1][1]\n\t\tif max1 > max2:\n\t\t\tmax2 = max1\n\t\tmax1 = triangle[0][0] + triangle[1][1]\n\t\tmax2 = triangle[0"
+    },
+    {
+      "rank": 57,
+      "score": 9.661538999847021,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][0])\n        mid = len(triangle) / 2\n        left = self.maxPathSum(triangle[:mid])\n        right = self.maxPathSum(triangle[mid:])\n        return max(left, right) + max(triangle[mid][0], triangle[mid][1], triangle[mid][2])\n\ns = Solution()\nprint s.maxPathSum([[1, 3, 4], [2, 3, 5], [4, 5, 6]])"
+    },
+    {
+      "rank": 58,
+      "score": 9.640077895802646,
+      "candidate": "# Definition for a triangle\nclass Triangle(object):\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n    def __str__(self):\n        return str(self.a) + \" \" + str(self.b) + \" \" + str(self.c)\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: Triangle\n        :rtype: int\n        \"\"\"\n        # write your code here\n        if triangle == None:\n            return 0\n        m = triangle\n        ans = 0\n        for i in range(3):\n            for j in range(i+1,3):\n                ans = max(ans, self.max(m.a + m.b, m.b + m.c, m.c + m.a))\n        return ans\n\n    def max(self, a, b, c):\n        if a > b and a > c:\n            return a\n        elif b > c:\n            return b\n        else:\n            return c"
+    },
+    {
+      "rank": 59,
+      "score": 9.58039123838868,
+      "candidate": "import math\n\n\"\"\"\nWe'll start with the triangle below.\n\"\"\"\ntriangle = [[0, 1], [1, 0], [1, 1]]\n\n\"\"\"\nThe sum of the path is:\nsum(triangle[i][j] * triangle[i+1][j]) + sum(triangle[i][j] * triangle[i][j+1]) + sum(triangle[i][j] * triangle[i+1][j+1])\n\"\"\"\ndef maximum_triangle_sum(triangle):\n    m = 0\n    for i in range(len(triangle)):\n        for j in range(len(triangle[i])):\n            m = max(m, triangle[i][j] * triangle[i+1][j] + triangle[i][j] * triangle[i][j+1] + triangle[i+1][j+1])\n    return m\n\n\"\"\"\nThe sum of the path is:\nsum(triangle[i][j] * triangle[i+1][j]) + sum(triangle[i][j] * triangle[i][j+1]) + sum(triangle[i][j] * triangle[i+1][j+1])\n\"\"\"\ndef maximum_triangle_sum_2(triangle):\n    m = 0\n    for i in range(len(triangle)):\n        for j in range(len(triangle[i])):\n            m = max(m, triangle[i][j] * triangle[i+1][j] + triangle[i][j] * triangle[i][j+1] + triangle[i+1][j+1])\n    return m\n\n\"\"\"\nThe sum of the path is:\nsum(triangle[i][j] * triangle[i+1][j]) + sum(triangle[i][j] * triangle[i][j+1]) + sum(triangle[i+1][j+1])\n\"\"\"\ndef maximum_triangle_sum_3(triangle):\n    m = 0\n    for i in range(len(triangle)):\n        for j in range(len(triangle[i])):\n            m = max(m, triangle[i][j] * triangle[i+1"
+    },
+    {
+      "rank": 60,
+      "score": 9.545987962239394,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or len(triangle) == 0:\n            return 0\n        max_sum = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][0] + triangle[i-1][1] + triangle[i-1][2])\n            max_sum = max(max_sum, triangle[i-1][1] + triangle[i][0] + triangle[i][2])\n            max_sum = max(max_sum, triangle[i-1][2] + triangle[i][1] + triangle[i][0])\n        return max_sum"
+    },
+    {
+      "rank": 61,
+      "score": 9.493584439832787,
+      "candidate": "\"\"\"\nFor each row of the triangle, there are 3 possible ways to sum up the\ntriangle.\n\"\"\"\n\nclass Solution:\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        def max(a, b):\n            return a if a > b else b\n\n        def dfs(row, triangle, max_sum, cur_sum):\n            if len(row) == 0:\n                return max_sum\n            for i in range(0, len(row)):\n                cur_sum[i] = max(cur_sum[i], triangle[row[i]] + dfs(row[:i] + row[i + 1:], triangle, max_sum, cur_sum))\n                cur_sum[i] = max(cur_sum[i], triangle[row[:i] + row[i + 1:]] + dfs(row[i + 1:], triangle, max_sum, cur_sum))\n            return cur_sum\n\n        max_sum = [0] * len(triangle)\n        return dfs(range(len(triangle)), triangle, max_sum, max_sum)\n\n\nif __name__ == \"__main__\":\n    triangle = [\n        [2,3,6],\n        [4,2,5],\n        [3,2,1]\n    ]\n    triangle = [\n        [2,3,4,5,1],\n        [3,1,2,5,3,4,5,1]\n    ]\n    s = Solution()\n    print(s.maxPathSum(triangle))"
+    },
+    {
+      "rank": 62,
+      "score": 9.47114453552205,
+      "candidate": "# https://www.youtube.com/watch?v=JK0MzmE8pMg\n\ndef max_triangle_sum(triangle):\n    # Initialize\n    m = triangle[0][0]\n    for i in range(1, len(triangle)):\n        m = max(m, triangle[i][0] + triangle[i][1] + triangle[i][2])\n    return m\n\nif __name__ == \"__main__\":\n    triangle = [[1, 2, 3], [1, 3, 4], [2, 3, 5]]\n    print(max_triangle_sum(triangle))"
+    },
+    {
+      "rank": 63,
+      "score": 9.446832512996986,
+      "candidate": "class Solution(object):\n    def maxTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        if n == 1:\n            return triangle[0][0]\n        dp = [0] * (n + 1)\n        dp[0] = triangle[0][0]\n        for i in range(1, n + 1):\n            dp[i] = triangle[i - 1][i] + max(dp[i - 1], dp[i - 2])\n        return dp[-1]\n\nif __name__ == \"__main__\":\n    triangle = [[1, 2], [3, 4], [5, 6]]\n    print(Solution().maxTotal(triangle))"
+    },
+    {
+      "rank": 64,
+      "score": 9.42450321128885,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle:\n            return 0\n\n        m = len(triangle)\n        n = len(triangle[0])\n        # print(triangle)\n        # print(m)\n        # print(n)\n        # print(triangle)\n\n        dp = [[0] * n for i in range(m)]\n\n        for i in range(m):\n            for j in range(n):\n                if i == 0:\n                    dp[i][j] = triangle[i][j]\n                elif j == 0:\n                    dp[i][j] = triangle[i][j]\n                else:\n                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + triangle[i][j]\n\n        return max(dp[-1][-1])\n\n\nif __name__ == '__main__':\n    triangle = [[1,2,3],[2,4,5],[3,6,4]]\n    s = Solution()\n    print(s.maxPathSum(triangle))\n\n    triangle = [[1,2,3],[2,4,5],[3,6,4,7]]\n    s = Solution()\n    print(s.maxPathSum(triangle))"
+    },
+    {
+      "rank": 65,
+      "score": 9.401896687959665,
+      "candidate": "class Solution(object):\n    def maxTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        if len(triangle) == 2:\n            return max(triangle[0][0], triangle[1][1])\n        \n        # calculate sum of all triangle\n        sum = 0\n        for i in range(len(triangle)):\n            for j in range(len(triangle[i])):\n                if j == 0:\n                    sum += triangle[i][j]\n                elif j == len(triangle[i]) - 1:\n                    sum += triangle[i][j]\n                else:\n                    sum += triangle[i][j] + triangle[i][j-1]\n        return max(sum, triangle[0][0] + triangle[1][1] + triangle[2][2])"
+    },
+    {
+      "rank": 66,
+      "score": 9.389578175014488,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        n = len(triangle)\n        if n == 0:\n            return 0\n        if n == 1:\n            return triangle[0][0]\n        if n == 2:\n            return max(triangle[0][0] + triangle[1][1], triangle[1][0] + triangle[0][1])\n        m = n * (n - 1) // 2\n        max_sum = triangle[0][0]\n        for i in range(1, m):\n            max_sum = max(max_sum, triangle[0][0] + triangle[i][i])\n        for i in range(m, n):\n            max_sum = max(max_sum, triangle[i - m][i])\n        for i in range(m, n - 1):\n            for j in range(m, i):\n                max_sum = max(max_sum, triangle[i][j] + triangle[j][i])\n        return max_sum\n\ndef test():\n    triangle = [\n        [3, 4, 7],\n        [2, 1, 8],\n        [4, 1, 9]\n    ]\n    print(Solution().maxPathSum(triangle))\n\nif __name__ == '__main__':\n    test()"
+    },
+    {
+      "rank": 67,
+      "score": 9.335906975550785,
+      "candidate": "# Time:  O(n^3)\n# Space: O(1)\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle:\n            return 0\n        \n        max_sum = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            max_sum = max(max_sum, triangle[i][0] + triangle[i-1][-1])\n            for j in xrange(1, len(triangle[i])):\n                max_sum = max(max_sum, triangle[i][j] + max(triangle[i-1][j-1], triangle[i-1][j]))\n        return max_sum"
+    },
+    {
+      "rank": 68,
+      "score": 9.293848149332355,
+      "candidate": "# O(n^2) Time, O(n^2) Space\ndef maxPathSum(triangle):\n    if triangle is None or len(triangle) == 0:\n        return 0\n    m, n = len(triangle), len(triangle[0])\n    # O(n^2) Space\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    # O(n^2) Space\n    dp[0][0] = triangle[0][0]\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            dp[i][j] = triangle[i - 1][j - 1] + max(dp[i - 1][j], dp[i][j - 1])\n    return max(dp[-1])\n\nif __name__ == \"__main__\":\n    triangle = [[5, 4, 7], [4, 1, 5], [1, 2, 4]]\n    print(maxPathSum(triangle))"
+    },
+    {
+      "rank": 69,
+      "score": 9.287625906893272,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if not triangle:\n            return 0\n\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            for j in range(len(triangle[i])):\n                m = max(m, triangle[i][j] + max(triangle[i-1][j], triangle[i-1][j-1]))\n        return m\n\n\nif __name__ == \"__main__\":\n    triangle = [[7, 4, 1], [1, 9, 5], [4, 3, 6]]\n    sol = Solution()\n    print(sol.maxPathSum(triangle))\n\n    triangle = [[1, 2], [3], [4, 5, 6]]\n    sol = Solution()\n    print(sol.maxPathSum(triangle))"
+    },
+    {
+      "rank": 70,
+      "score": 9.260739004816287,
+      "candidate": "import collections\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        # write your code here\n        if triangle == []:\n            return 0\n        elif triangle[0] == []:\n            return triangle[0][0]\n        \n        m = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][0] + triangle[i-1][1])\n        return m"
+    },
+    {
+      "rank": 71,
+      "score": 9.137541083743484,
+      "candidate": "from collections import defaultdict\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        m = defaultdict(int)\n        for i in range(len(triangle)):\n            for j in range(i+1, len(triangle)):\n                m[triangle[i][j]] = triangle[i][j] + max(m[triangle[i-1][j]], m[triangle[i][j-1]])\n        return max(m[triangle[0][0]])"
+    },
+    {
+      "rank": 72,
+      "score": 9.118479922318633,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if len(triangle) == 0:\n            return 0\n        if len(triangle) == 1:\n            return triangle[0][0]\n        \n        # find the maximum sum of the sub trianges\n        max_sum = triangle[0][0]\n        for i in xrange(1, len(triangle)):\n            max_sum = max(triangle[i][0], max_sum)\n            for j in xrange(1, i+1):\n                max_sum = max(triangle[i][j], max_sum)\n        \n        return max_sum"
+    },
+    {
+      "rank": 73,
+      "score": 9.0433598776711,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # https://leetcode.com/problems/maximum-sum-of-sub-matrix-paths/discuss/171618/Python-solution-with-explanation\n        # http://www.cnblogs.com/grandyang/p/4048785.html\n        # http://www.cnblogs.com/grandyang/p/4048785.html\n        # http://www.cnblogs.com/grandyang/p/4048785.html\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # http://www.cnblogs.com/grandyang/p/4048785.html\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # http://www.cnblogs.com/grandyang/p/4048785.html\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_pA\n        # https://www.youtube.com/watch?v=2ZpPbTlx_"
+    },
+    {
+      "rank": 74,
+      "score": 9.020164938060113,
+      "candidate": "# Definition for a triangle.\nclass Triangle(object):\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n\n    def __repr__(self):\n        return str(self.a) +'' + str(self.b) +'' + str(self.c)\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: Triangle\n        :rtype: int\n        \"\"\"\n        ans = 0\n        curr = triangle\n        while curr:\n            ans = max(ans, curr.a+curr.b+curr.c)\n            curr = curr.next\n        return ans"
+    },
+    {
+      "rank": 75,
+      "score": 8.444444444444445,
+      "candidate": "def max_triangle(triangle):\n    if triangle[0][0]!= 0:\n        return triangle[0][0]\n    for i in range(1, len(triangle)):\n        left_triangle = triangle[:i]\n        right_triangle = triangle[i:]\n        triangle[i][0] = max(max_triangle(left_triangle), max_triangle(right_triangle))\n        triangle[i][0] += triangle[i-1][0]\n    return triangle[-1][0]\n\nif __name__ == '__main__':\n    triangle = [[0, 1, 2], [1, 3, 4], [2, 4, 5]]\n    print(max_triangle(triangle))"
+    },
+    {
+      "rank": 76,
+      "score": 8.444444444444445,
+      "candidate": "import sys\n\ndef max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    n = len(triangle)\n    if n == 0:\n        return 0\n    elif n == 1:\n        return triangle[0][0]\n    elif n == 2:\n        return triangle[0][0] + triangle[1][1]\n    else:\n        return max(max_path_sum(triangle[:n/2]), max_path_sum(triangle[:n/2] + triangle[n/2:]) + triangle[n/2][n-1])\n\nif __name__ == \"__main__\":\n    triangle = [[1, 3, 4], [2, 4, 5], [3, 5, 6]]\n    print(max_path_sum(triangle))"
+    },
+    {
+      "rank": 77,
+      "score": 8.444444444444445,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == []:\n            return 0\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1])\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i][0] + triangle[i-1][1] + triangle[i][-1])\n        return m\n\nif __name__ == \"__main__\":\n    triangle = [[3, 1, 1], [4, 2, 2], [1, 1, 3], [1, 2, 2]]\n    sol = Solution()\n    print(sol.maxPathSum(triangle))"
+    },
+    {
+      "rank": 78,
+      "score": 8.444444444444445,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        n = len(triangle)\n        if n == 0:\n            return 0\n        m = triangle[0]\n        for i in range(1, n):\n            m = max(m, triangle[i][0])\n            m = max(m, triangle[i][i])\n            m = max(m, triangle[i][i+1])\n        return m"
+    },
+    {
+      "rank": 79,
+      "score": 8.444444444444445,
+      "candidate": "def max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if not triangle:\n        return 0\n\n    row_sum = triangle[0][0]\n    for i in range(1, len(triangle)):\n        row_sum = max(row_sum + triangle[i][i], triangle[i][0])\n\n    col_sum = triangle[0][0]\n    for i in range(1, len(triangle)):\n        col_sum = max(col_sum + triangle[0][i], triangle[i][0])\n\n    return max(row_sum, col_sum)"
+    },
+    {
+      "rank": 80,
+      "score": 8.444444444444445,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.left = None\n\t\tself.right = None\n\nclass Solution:\n\t# @param triangle, a list of lists of integers\n\t# @return an integer\n\tdef maxPathSum(self, triangle):\n\t\tif not triangle:\n\t\t\treturn 0\n\n\t\tm, n = len(triangle), len(triangle[0])\n\t\tdp = [[0] * n for i in range(m)]\n\n\t\tfor i in range(m):\n\t\t\tfor j in range(n):\n\t\t\t\tif i == 0:\n\t\t\t\t\tdp[i][j] = triangle[i][j]\n\t\t\t\telif j == 0:\n\t\t\t\t\tdp[i][j] = triangle[i][j]\n\t\t\t\telse:\n\t\t\t\t\tdp[i][j] = max(triangle[i][j], dp[i - 1][j - 1] + triangle[i][j])\n\n\t\treturn max(dp[-1])"
+    },
+    {
+      "rank": 81,
+      "score": 8.444444444444445,
+      "candidate": "import sys\nfrom collections import deque\n\ndef max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if len(triangle) == 0:\n        return 0\n\n    max_sum = triangle[0][0]\n    max_sum = max(max_sum, triangle[0][1])\n    max_sum = max(max_sum, triangle[0][2])\n\n    for i in range(1, len(triangle)):\n        max_sum = max(max_sum, triangle[i][0] + triangle[i-1][1] + triangle[i-1][2])\n        max_sum = max(max_sum, triangle[i][1] + triangle[i-1][0] + triangle[i-1][2])\n        max_sum = max(max_sum, triangle[i][2] + triangle[i-1][0] + triangle[i-1][1])\n\n    return max_sum\n\nif __name__ == \"__main__\":\n    triangle = [\n        [3, 0, 4],\n        [0, 5, 1],\n        [1, 2, 8]\n    ]\n\n    print(max_path_sum(triangle))"
+    },
+    {
+      "rank": 82,
+      "score": 8.444444444444445,
+      "candidate": "def max_path_sum_triangle(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if not triangle:\n        return 0\n    path_sum = triangle[0][0]\n    for row in triangle[1:]:\n        for i in range(len(row)):\n            path_sum = max(path_sum, row[i] + max_path_sum_triangle(triangle[:i] + triangle[i + 1:]))\n    return path_sum\n\nif __name__ == \"__main__\":\n    triangle = [[3, 1, 4], [2, 2, 5], [3, 3, 1]]\n    print(max_path_sum_triangle(triangle))\n    triangle = [[0,0,0],[0,0,0],[0,0,0]]\n    print(max_path_sum_triangle(triangle))"
+    },
+    {
+      "rank": 83,
+      "score": 8.444444444444445,
+      "candidate": "import collections\n\n\ndef max_path_sum(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    # dp[i][j] means the maximum sum from 0 to i, inclusive, to j, exclusive\n    dp = [[0] * (j + 1) for j in range(len(triangle) + 1)]\n    for i in range(len(triangle)):\n        for j in range(i + 1):\n            for k in range(j + 1):\n                dp[i][j] = max(dp[i][j], dp[i][k] + dp[k][j])\n    return dp[0][-1]\n\n\nif __name__ == '__main__':\n    triangle = [[1, 2, 3], [4, 0, 5], [1, 4, 9], [1, 1, 1]]\n    print(max_path_sum(triangle))"
+    },
+    {
+      "rank": 84,
+      "score": 3.0,
+      "candidate": "import collections\nimport sys\n\n\ndef max_sum_path(triangle):\n    \"\"\"\n    :type triangle: List[List[int]]\n    :rtype: int\n    \"\"\"\n    if triangle is None or len(triangle) == 0:\n        return 0\n\n    triangle = [[0] * len(triangle[0]) for _ in range(len(triangle))]\n\n    for i in range(len(triangle)):\n        for j in range(len(triangle[0])):\n            triangle[i][j] = triangle[i][j] + triangle[i][j + 1] + triangle[i][j + 2]\n\n    max_sum = triangle[0][0]\n    for i in range(1, len(triangle)):\n        for j in range(1, len(triangle[0])):\n            max_sum = max(max_sum, triangle[i][j])\n\n    return max_sum\n\n\nclass Solution:\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle is None or len(triangle) == 0:\n            return 0\n\n        triangle = [[0] * len(triangle[0]) for _ in range(len(triangle))]\n\n        for i in range(len(triangle)):\n            for j in range(len(triangle[0])):\n                triangle[i][j] = triangle[i][j] + triangle[i][j + 1] + triangle[i][j + 2]\n\n        max_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            for j in range(1, len(triangle[0])):\n                max_sum = max(max_sum, triangle[i][j])\n\n        return max_sum\n\n\nif __name__ == '__main__':\n    print(Solution().maxPathSum([[1, 2, 3], [2, 3, 4], [3, 4, 5]]))\n    print(Solution().maxPathSum([[1, 2, 3], [2, 3, 4], [3, 4, 5], ["
+    },
+    {
+      "rank": 85,
+      "score": 3.0,
+      "candidate": "\"\"\"\nApproach #1: Recursion\n\"\"\"\n\ndef max_path_sum_triangle(triangle):\n    max_sum = triangle[0]\n    for row in triangle:\n        for col in range(len(row)):\n            max_sum = max(max_sum, triangle[row][col] + max_path_sum_triangle(triangle[:row][col:col+1]))\n    return max_sum\n\n\"\"\"\nApproach #2: Iterative\n\"\"\"\n\ndef max_path_sum_triangle_iter(triangle):\n    max_sum = triangle[0]\n    for row in range(len(triangle)):\n        for col in range(len(triangle[row])):\n            max_sum = max(max_sum, triangle[row][col] + max_path_sum_triangle_iter(triangle[:row][col:col+1]))\n    return max_sum\n\n\"\"\"\nApproach #3: DFS\n\"\"\"\n\ndef max_path_sum_triangle_dfs(triangle):\n    max_sum = triangle[0]\n    for row in range(len(triangle)):\n        for col in range(len(triangle[row])):\n            max_sum = max(max_sum, triangle[row][col] + max_path_sum_triangle_dfs(triangle[:row][col:col+1]))\n    return max_sum\n\n\"\"\"\nApproach #4: Recursion\n\"\"\"\n\ndef max_path_sum_triangle_recursion(triangle):\n    max_sum = triangle[0]\n    for row in range(len(triangle)):\n        for col in range(len(triangle[row])):\n            max_sum = max(max_sum, triangle[row][col] + max_path_sum_triangle_recursion(triangle[:row][col:col+1]))\n    return max_sum\n\n\"\"\"\nApproach #5: Backtracking\n\"\"\"\n\ndef max_path_sum_triangle_backtracking(triangle):\n    max_sum = triangle[0]\n    for row in range(len(triangle)):"
+    },
+    {
+      "rank": 86,
+      "score": 3.0,
+      "candidate": "\"\"\"\nExample:\n\nInput:\n[[7,4,3],\n [2,6,4],\n [3,1,5]]\n\nOutput:\n12\n\nExplanation:\nThe maximum total path sum is 7 + 4 + 3 = 12.\n\nNote:\n\nThe length of given triangle is at most 100.\nEach element of the triangle is an integer in the range [0, 100].\n\"\"\"\n\nclass Solution:\n    def maxPathSum(self, triangle: List[List[int]]) -> int:\n        # dp[i][j] stores the max sum from i to j\n        dp = [[0] * (j+1) for j in range(len(triangle)+1)]\n        for i in range(1, len(triangle)):\n            for j in range(len(triangle[i])):\n                dp[i][j] = max(dp[i-1][j] + triangle[i][j],\n                               dp[i-1][j-triangle[i][j]] + triangle[i][j])\n        return dp[-1][-1]\n\ns = Solution()\n\ntriangle = [[7,4,3],\n            [2,6,4],\n            [3,1,5]]\n\nprint(s.maxPathSum(triangle))"
+    },
+    {
+      "rank": 87,
+      "score": 3.0,
+      "candidate": "import unittest\n\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if not triangle:\n            return 0\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, triangle[i-1][0] + triangle[i][0])\n            for j in range(1, i):\n                m = max(m, triangle[i-1][j] + triangle[i-1][j-1])\n        return m\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/maximum-path-sum-ii/solution/\n# Time: O(n^2)\n# Space: O(n)\n#\n\n# https://leetcode.com/problems/maximum-path-sum/discuss/83815/Java-O(n2)-Solutions\n#\n# Given an m x n 2d grid of positive integers,\n# find the maximum sum of a rectangle in it.\n#\n# Example:\n#\n# Input:\n# [[1,2,3],\n#  [4,5,6],\n#  [7,8,9]]\n# Output: 28\n#\n# Explanation:\n# The maximum sum of a rectangle in the grid is 4 + 9 + 2 + 6 = 28.\n#\n# Note:\n# - The width and height of the rectangle won't exceed 20.\n# - The width and height of the grid won't exceed 50.\n# - The input grid won't be empty.\n# - The input grid won't have more than four rectangles.\n#\n# Challenge:\n# O(n^2) time complexity, O(1) space complexity\n\n# 2020.03.22\n# 1. \u91cd\u6e2c\u4e00\u4e0b\n# 2. \u53ef\u4ee5\u7528\u4efb\ufffd"
+    },
+    {
+      "rank": 88,
+      "score": 3.0,
+      "candidate": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def maxPathSum(self, root):\n        if root is None:\n            return 0\n        left = self.maxPathSum(root.left)\n        right = self.maxPathSum(root.right)\n        return max(left, right) + root.val\n\n\nif __name__ == '__main__':\n    root = TreeNode(1, TreeNode(2, TreeNode(3), TreeNode(4)), TreeNode(5))\n    print Solution().maxPathSum(root)"
+    },
+    {
+      "rank": 89,
+      "score": 3.0,
+      "candidate": "import os\nimport sys\n\n__author__ = 'Daniel'\n\n\nclass Triangle(object):\n    def __init__(self, rows=0, cols=0):\n        \"\"\"\n        Initialize your data structure here.\n        :type rows: int\n        :type cols: int\n        \"\"\"\n        self.rows = rows\n        self.cols = cols\n        self.matrix = [[0] * self.cols for _ in range(self.rows)]\n\n    def add_matrix(self, matrix):\n        \"\"\"\n        Add the element in the given triangle.\n        :type matrix: List[List[int]]\n        \"\"\"\n        for i in range(len(matrix)):\n            for j in range(len(matrix[i])):\n                self.matrix[i][j] = max(self.matrix[i][j], matrix[i][j])\n        return self\n\n    def sum_path(self, row, col):\n        \"\"\"\n        Returns the sum of all the paths.\n        :type row: int\n        :type col: int\n        :rtype: int\n        \"\"\"\n        if row < 0 or col < 0:\n            return 0\n        if row == 0 or col == 0:\n            return self.matrix[row][col]\n        if row == self.rows - 1 or col == self.cols - 1:\n            return self.matrix[row][col]\n        return max(self.matrix[row][col],\n                   self.matrix[row + 1][col] + self.matrix[row][col])\n\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: Triangle\n        :rtype: int\n        \"\"\"\n        return self.max_sum_path_helper(triangle, triangle.rows - 1, triangle.cols - 1)\n\n    def max_sum_path_helper(self, triangle, row, col):\n        if triangle.rows == 0:\n            return triangle.matrix[row][col]\n\n        if triangle.matrix[row][col] > triangle.matrix[row + 1][col]:\n            return triangle.matrix[row][col"
+    },
+    {
+      "rank": 90,
+      "score": 3.0,
+      "candidate": "import collections\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maxPathSum(self, triangle):\n        if triangle is None or triangle == []:\n            return 0\n\n        m, n = len(triangle), len(triangle[0])\n        dp = [[0] * n for i in range(m)]\n\n        # dp[0][0] = triangle[0][0]\n        # for i in range(1, m):\n        #     dp[i][0] = triangle[i][0] + dp[i-1][0]\n        # for j in range(1, n):\n        #     dp[0][j] = triangle[0][j] + dp[0][j-1]\n        # for i in range(1, m):\n        #     for j in range(1, n):\n        #         dp[i][j] = max(triangle[i][j], dp[i-1][j], dp[i][j-1]) + triangle[i][j]\n\n        for i in range(1, m):\n            for j in range(1, n):\n                dp[i][j] = max(triangle[i][j], dp[i-1][j], dp[i][j-1]) + triangle[i][j]\n\n        return dp[m-1][n-1]\n\n\nif __name__ == '__main__':\n    triangle = [[3, 4, 7], [2, 1, 5], [8, 9, 11]]\n    s = Solution()\n    print s.maxPathSum(triangle)"
+    },
+    {
+      "rank": 91,
+      "score": 3.0,
+      "candidate": "from collections import defaultdict\nfrom typing import List\n\nclass Solution:\n    def maxPathSum(self, triangle: List[List[int]]) -> int:\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # DP\n        # dp[i][j] is the max sum of the triangle starting from the bottom left\n        # cell and ending at cell i\n        # dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + triangle[i][j]\n        # dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + triangle[i][j]\n        # dp[i][j] = max(dp[i - 1][j], triangle[i][j])\n        # dp[i][j] = max(dp[i - 1][j], triangle[i][j])\n        # dp[i][j] = max(dp[i - 1][j], triangle[i][j]) + triangle[i][j]\n        dp = [[0] * (len(triangle) + 1) for _ in range(len(triangle) + 1)]\n        for i in range(1, len(triangle) + 1):\n            for j in range(1, i + 1):\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + triangle[i][j]\n        return dp[-1][-1]"
+    },
+    {
+      "rank": 92,
+      "score": 3.0,
+      "candidate": "class Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == None or triangle.__len__() == 0:\n            return 0\n        if triangle[0][0] == triangle[0][1] and triangle[0][1] == triangle[0][2]:\n            return triangle[0][0]\n        if triangle[1][0] == triangle[1][1] and triangle[1][1] == triangle[1][2]:\n            return triangle[1][0]\n        if triangle[2][0] == triangle[2][1] and triangle[2][1] == triangle[2][2]:\n            return triangle[2][0]\n        max_sum = triangle[0][0]\n        for i in range(0, len(triangle) - 2, 2):\n            max_sum = max(max_sum + triangle[i+1][0] + triangle[i+2][0],\n                          max_sum + triangle[i+1][1] + triangle[i+2][1],\n                          max_sum + triangle[i+1][2] + triangle[i+2][2])\n        return max_sum\n\n\ndef main():\n    triangle = [\n        [9,3,6],\n        [5,7,8],\n        [4,2,1]\n    ]\n    solution = Solution()\n    print solution.maxPathSum(triangle)\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 93,
+      "score": 3.0,
+      "candidate": "import unittest\n\nclass Triangle(object):\n    def __init__(self, row, col):\n        self.row = row\n        self.col = col\n        self.matrix = []\n        for i in range(row):\n            self.matrix.append( [0] * col )\n\n    def add(self, i, j, val):\n        self.matrix[i][j] = val\n\n    def get_max_sum(self):\n        return max( [ sum(row) for row in self.matrix] )\n\n\nclass Solution(object):\n    def maxSum(self, triangle):\n        \"\"\"\n        :type triangle: Triangle\n        :rtype: int\n        \"\"\"\n        row, col = triangle.row, triangle.col\n        for i in range(row):\n            for j in range(col):\n                triangle.add(i, j, triangle.get_max_sum() - triangle.get_max_sum(triangle.matrix[i]))\n        return triangle.get_max_sum()\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/maximum-sum-of-paths-in-a-triangle/solution/\n\n# 5ms\nclass Solution {\n    public int maxSum(Triangle triangle) {\n        int[] row = triangle.row;\n        int[] col = triangle.col;\n        int[][] matrix = triangle.matrix;\n        int n = triangle.row;\n        int m = triangle.col;\n        int maxSum = 0;\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < m; j++) {\n                maxSum = Math.max(maxSum, row[i] + col[j] + matrix[i][j]);\n            }\n        }\n        return maxSum;\n    }\n}\n\n# https://discuss.leetcode.com/topic/934"
+    },
+    {
+      "rank": 94,
+      "score": 3.0,
+      "candidate": "import collections\nclass Solution:\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        res = collections.deque()\n        for row in triangle:\n            for i, v in enumerate(row):\n                if i == 0 or i == len(row) - 1:\n                    res.append(v)\n                else:\n                    res.append(max(row[i - 1], row[i + 1]))\n        return max(res)"
+    },
+    {
+      "rank": 95,
+      "score": 3.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param triangle: a list of lists of integers\n    @return: an integer\n    \"\"\"\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # DFS\n        def dfs(n, m):\n            if n == 0:\n                return 0\n            if m == 0:\n                return triangle[n][0]\n            if triangle[n][m - 1] < triangle[n - 1][m]:\n                return triangle[n][m] + triangle[n - 1][m - 1]\n            else:\n                return triangle[n][m] + dfs(n - 1, m - 1)\n\n        return dfs(len(triangle) - 1, len(triangle[0]) - 1)"
+    },
+    {
+      "rank": 96,
+      "score": 3.0,
+      "candidate": "def max_sum(triangle):\n    \"\"\"\n    Given a triangle, find the maximum sum path.\n\n    Input:\n        triangle = [[1,3,1], [2,5,3], [4,1,5]]\n\n    Output:\n        The maximum sum path is 3 + 5 + 1 = 9.\n    \"\"\"\n    return sum(triangle)"
+    },
+    {
+      "rank": 97,
+      "score": 3.0,
+      "candidate": "import collections\n\n\"\"\"\nThe triangle is represented as a list of lists.\n\nExample:\n    [ [2], [3, 4], [6, 5, 7] ]\n\nThe above triangle is represented by the list [2, 3, 4, 6, 5, 7].\n\nWe are given that the triangle is always valid.\n\nExample 2:\n    [ [1, 3], [2, 2], [5, 6], [4, 1] ]\n\nThe triangle is represented by the list [1, 3, 2, 2, 5, 6, 4, 1].\n\nNote:\n    The length of the given triangle will be in the range [1, 100].\n    The given triangle will always be a triangle.\n\"\"\"\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        result = 0\n        visit = collections.defaultdict(list)\n        for i, row in enumerate(triangle):\n            for j, element in enumerate(row):\n                visit[i+1, j].append(element)\n        for i, row in enumerate(triangle):\n            for j, element in enumerate(row):\n                if element > 0:\n                    visit[i+1, j].append(visit[i+1, j][-1])\n                    result = max(result, self.maxPathSum(visit[i+1, j]))\n        return result\n\nif __name__ == '__main__':\n    assert Solution().maxPathSum([[2], [3, 4], [6, 5, 7]]) == 7\n    assert Solution().maxPathSum([[1, 3], [2, 2], [5, 6], [4, 1]]) == 9"
+    },
+    {
+      "rank": 98,
+      "score": 3.0,
+      "candidate": "class Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximalSquare(self, triangle):\n        if triangle is None or len(triangle) == 0:\n            return 0\n        m = triangle[0][0]\n        for i in range(1, len(triangle)):\n            m = max(m, self.maximalSquare(triangle[:i]))\n            for j in range(i):\n                m = max(m, self.maximalSquare(triangle[:i] + triangle[j+1:]))\n        return m * m\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.maximalSquare([[1,2],[2,3],[3,2]]))"
+    },
+    {
+      "rank": 99,
+      "score": 3.0,
+      "candidate": "# Definition for a triangle\nclass Point:\n    def __init__(self, x=0, y=0):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return \"Point(%d, %d)\" % (self.x, self.y)\n\n\nclass Triangle:\n    def __init__(self, p1, p2, p3):\n        self.p1 = p1\n        self.p2 = p2\n        self.p3 = p3\n\n    def __repr__(self):\n        return \"Triangle(Point(%d, %d), Point(%d, %d), Point(%d, %d))\" % (\n            self.p1.x, self.p1.y, self.p2.x, self.p2.y, self.p3.x, self.p3.y)\n\n\nclass Solution:\n    # @param triangle, a list of lists of integers\n    # @return an integer\n    def maximumTotal(self, triangle):\n        if triangle == None or len(triangle) == 0:\n            return 0\n\n        # Get the max path sum\n        max_path_sum = triangle[0][0]\n        for i in range(1, len(triangle)):\n            max_path_sum = max(max_path_sum, triangle[i][0] + triangle[i - 1][1])\n            max_path_sum = max(max_path_sum, triangle[i][1] + triangle[i - 1][0])\n\n        return max_path_sum\n\n\nif __name__ == \"__main__\":\n    triangle = [[1, 2, 3], [2, 3, 4], [3, 4, 5]]\n    print Solution().maximumTotal(triangle)"
+    },
+    {
+      "rank": 100,
+      "score": 3.0,
+      "candidate": "# Definition for a triangle.\n# class Triangle(object):\n#     def __init__(self, v):\n#         \"\"\"\n#         v[0] is the row number of the triangle.\n#         v[1] is the column number of the triangle.\n#         v[2] is the sum of the elements in the triangle.\n#         \"\"\"\n#         self.v = v\n\nclass Solution(object):\n    def maxPathSum(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        if triangle == []:\n            return 0\n        # TODO: 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n        # n = triangle[0].length\n        # m = triangle[1].length\n        # s = triangle[1][0]\n        # for i in range(1, n):\n        #     for j in range(1, m):\n        #         s += triangle[i][j]\n        #         if s > triangle[0][i]:\n        #             return s\n        # return triangle[0][0]\n        # TODO: use a list instead of a stack\n        # TODO: use a priority queue instead of a stack\n        # TODO: use a set instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a deque instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use a map instead of a list\n        # TODO: use"
+    }
+  ]
+}

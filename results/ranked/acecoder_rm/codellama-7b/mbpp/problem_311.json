@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/322",
+    "prompt": "Write a function to find all index positions of the minimum values in a given list.",
+    "canonical_solution": "def position_min(list1):\r\n    min_val = min(list1)\r\n    min_result = [i for i, j in enumerate(list1) if j == min_val]\r\n    return min_result",
+    "test_list": [
+      "assert position_min([12,33,23,10,67,89,45,667,23,12,11,10,54])==[3,11]",
+      "assert position_min([1,2,2,2,4,4,4,5,5,5,5])==[0]",
+      "assert position_min([2,1,5,6,8,3,4,9,10,11,8,12])==[1]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 311
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from typing import List\n\n\ndef find_min_index(lst: List[int]) -> List[int]:\n    \"\"\"Find all the index positions of the minimum values in a list.\n\n    Args:\n        lst (List[int]): list to find the minimum values\n\n    Returns:\n        List[int]: index positions of the minimum values\n\n    Examples:\n        >>> find_min_index([4, 5, 1, 2, 3])\n        [2, 4]\n\n        >>> find_min_index([1, 2, 3, 4, 5])\n        [0]\n\n        >>> find_min_index([5, 4, 3, 2, 1])\n        [0, 1, 2, 3, 4]\n\n        >>> find_min_index([1, 1, 1, 1, 1])\n        [0, 1, 2, 3, 4]\n    \"\"\"\n    if not lst:\n        return []\n\n    min_value = lst[0]\n    index_list = [0]\n\n    for index, value in enumerate(lst):\n        if value < min_value:\n            min_value = value\n            index_list = [index]\n        elif value == min_value:\n            index_list.append(index)\n\n    return index_list\n\n\nif __name__ == \"__main__\":\n    print(find_min_index([4, 5, 1, 2, 3]))\n    print(find_min_index([1, 2, 3, 4, 5]))\n    print(find_min_index([5, 4, 3, 2, 1]))\n    print(find_min_index([1, 1, 1, 1, 1]))",
+      17.984375
+    ],
+    [
+      "def find_min(numbers):\n    \"\"\"\n    Find all index positions of the minimum values in a given list.\n\n    >>> find_min([0, 1, 2, 3, 4, 5])\n    [0]\n    >>> find_min([7, 1, 3, 2, 9, 5])\n    [1, 3]\n    >>> find_min([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\n    [0]\n    >>> find_min([-1, -2, -3, -4, -5, -6, -7, -8, -9, -10])\n    [0]\n    >>> find_min([])\n    []\n    \"\"\"\n    min_index = []\n    if len(numbers) == 0:\n        return min_index\n\n    min_number = numbers[0]\n    for index, number in enumerate(numbers):\n        if number < min_number:\n            min_number = number\n            min_index = [index]\n        elif number == min_number:\n            min_index.append(index)\n    return min_index\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      17.5
+    ],
+    [
+      "from typing import List\n\n\ndef index_min(nums: List[int]) -> List[int]:\n    \"\"\"Return index of min value(s).\n\n    Args:\n        nums (List[int]): input list\n\n    Examples:\n        >>> index_min([0, 1, 0, 3, 2, 3])\n        [0, 3]\n        >>> index_min([0, 1, 0, 0, 2, 3])\n        [0, 3]\n        >>> index_min([0, 1, 0, 0, 0, 3])\n        [0, 3]\n        >>> index_min([0, 1, 0, 0, 0, 0])\n        [0]\n    \"\"\"\n    min_index = []\n    min_num = min(nums)\n\n    for i, num in enumerate(nums):\n        if num == min_num:\n            min_index.append(i)\n\n    return min_index\n\n\nif __name__ == \"__main__\":\n    print(index_min([0, 1, 0, 3, 2, 3]))\n    print(index_min([0, 1, 0, 0, 2, 3]))\n    print(index_min([0, 1, 0, 0, 0, 3]))\n    print(index_min([0, 1, 0, 0, 0, 0]))",
+      16.484375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(nums: List[int]) -> List[int]:\n    \"\"\"\n    >>> find_min_index([4, 4, 4, 3, 2, 1])\n    [5, 3, 0]\n    >>> find_min_index([4, 4, 4, 3, 2, 1, 1])\n    [5, 3, 0]\n    \"\"\"\n    minimum = float(\"inf\")\n    index_positions: List[int] = []\n\n    for index, value in enumerate(nums):\n        if value < minimum:\n            minimum = value\n            index_positions.clear()\n\n        if value == minimum:\n            index_positions.append(index)\n\n    return index_positions\n\n\ndef find_min_index_pythonic(nums: List[int]) -> List[int]:\n    \"\"\"\n    >>> find_min_index_pythonic([4, 4, 4, 3, 2, 1])\n    [5, 3, 0]\n    >>> find_min_index_pythonic([4, 4, 4, 3, 2, 1, 1])\n    [5, 3, 0]\n    \"\"\"\n    minimum = min(nums)\n    return [index for index, value in enumerate(nums) if value == minimum]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      16.375
+    ],
+    [
+      "def min_index(arr):\n    min_indexes = []\n    min_value = min(arr)\n    for i in range(len(arr)):\n        if arr[i] == min_value:\n            min_indexes.append(i)\n    return min_indexes\n\n# Alternative solutions\ndef min_index_alt(arr):\n    min_indexes = []\n    min_value = min(arr)\n    for i, v in enumerate(arr):\n        if v == min_value:\n            min_indexes.append(i)\n    return min_indexes\n\ndef min_index_alt_2(arr):\n    min_indexes = []\n    min_value = min(arr)\n    min_index = arr.index(min_value)\n    while min_index != -1:\n        min_indexes.append(min_index)\n        arr[min_index] = float('inf')\n        min_index = arr.index(min_value)\n    return min_indexes\n\n\n\nprint(min_index([1, 3, 4, 2, 1]))\nprint(min_index_alt([1, 3, 4, 2, 1]))\nprint(min_index_alt_2([1, 3, 4, 2, 1]))",
+      14.3046875
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(arr: List[int]) -> List[int]:\n    \"\"\"Finds all index positions of the minimum values in a given list.\n\n    Args:\n        arr (List[int]): list of integers\n\n    Returns:\n        List[int]: index positions of the minimum values in a given list\n\n    Examples:\n        >>> find_min_index([0, 1, 0, 3, 2, 3])\n        [0, 3]\n        >>> find_min_index([0, 2, 1, 0, 1, 0])\n        [0, 1, 3]\n    \"\"\"\n    return [i for i, _ in enumerate(arr) if _ == min(arr)]\n\n\ndef find_min_index_optimized(arr: List[int]) -> List[int]:\n    \"\"\"Finds all index positions of the minimum values in a given list.\n\n    Args:\n        arr (List[int]): list of integers\n\n    Returns:\n        List[int]: index positions of the minimum values in a given list\n\n    Examples:\n        >>> find_min_index_optimized([0, 1, 0, 3, 2, 3])\n        [0, 3]\n        >>> find_min_index_optimized([0, 2, 1, 0, 1, 0])\n        [0, 1, 3]\n    \"\"\"\n    min_val = min(arr)\n    return [i for i, a in enumerate(arr) if a == min_val]\n\n\nif __name__ == \"__main__\":\n    print(find_min_index([0, 1, 0, 3, 2, 3]))\n    print(find_min_index_optimized([0, 1, 0, 3, 2, 3]))",
+      13.9140625
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(lst: List[int]) -> List[int]:\n    \"\"\"Find index of minimum value in list.\n\n    Args:\n        lst (List[int]): list of integers.\n\n    Returns:\n        List[int]: list of index of minimum values.\n    \"\"\"\n    if not lst:\n        return []\n\n    min_index = []\n\n    for index, value in enumerate(lst):\n        if value == min(lst):\n            min_index.append(index)\n\n    return min_index\n\n\nif __name__ == \"__main__\":\n    assert find_min_index([]) == []\n    assert find_min_index([1]) == [0]\n    assert find_min_index([1, 1]) == [0, 1]\n    assert find_min_index([1, 1, 1]) == [0, 1, 2]\n    assert find_min_index([1, 2, 3, 4, 5]) == [0]\n    assert find_min_index([3, 1, 2, 4, 5]) == [1]\n    assert find_min_index([3, 1, 1, 4, 5]) == [1, 2]\n    assert find_min_index([3, 1, 1, 1, 5]) == [1, 2, 3]\n    assert find_min_index([3, 1, 1, 1, 1]) == [1, 2, 3, 4]",
+      12.84375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(arr: List[int]) -> List[int]:\n    \"\"\"\n    Return all the indices of the minimum values.\n    \"\"\"\n\n    min_value = min(arr)\n    return [index for index, value in enumerate(arr) if value == min_value]\n\n\nif __name__ == \"__main__\":\n    assert find_min_index([0, 2, 1, 3, 4, 5, 1, 2, 4, 5, 1, 2, 0, 1, 3, 4, 5]) == [0, 5, 11, 18]",
+      12.3359375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(arr: List[int]) -> List[int]:\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    if not arr:\n        return []\n\n    minimum = arr[0]\n    min_indexes = [0]\n\n    for i in range(1, len(arr)):\n        if arr[i] < minimum:\n            minimum = arr[i]\n            min_indexes = [i]\n        elif arr[i] == minimum:\n            min_indexes.append(i)\n\n    return min_indexes\n\n\nif __name__ == \"__main__\":\n    assert find_min([]) == []\n    assert find_min([1]) == [0]\n    assert find_min([1, 1, 1]) == [0, 1, 2]\n    assert find_min([2, 1, 3, 4, 1, 1]) == [1, 3, 4]",
+      10.2890625
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(nums: List[int]) -> List[int]:\n    \"\"\"Find minimum value in a list and return its positions.\n\n    Args:\n        nums (List[int]): input list\n\n    Returns:\n        List[int]: positions of min values\n    \"\"\"\n    # initialize min value and positions\n    min_val = nums[0]\n    min_pos = [0]\n\n    # find minimum value\n    for i in range(1, len(nums)):\n        if nums[i] < min_val:\n            min_val = nums[i]\n            min_pos = [i]\n        elif nums[i] == min_val:\n            min_pos.append(i)\n\n    return min_pos\n\n\nif __name__ == \"__main__\":\n    print(find_min([4, 5, 2, 25, 16, 29, 14]))",
+      9.3671875
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(array: List[int]) -> List[int]:\n    \"\"\"Find all index positions of the minimum values in a given list.\n\n    Args:\n        array (List[int]): given list of integers\n\n    Returns:\n        List[int]: index positions of the minimum values in a given list\n    \"\"\"\n    # The idea is to find the minimum value in the list.\n    # Then, we iterate through the list and find all the indexes\n    # where the minimum value is present.\n\n    min_value = min(array)\n\n    return [index for index, value in enumerate(array) if value == min_value]\n\n\nif __name__ == \"__main__\":\n    print(minimum_index([0, 1, 0, 1, 1]))\n    print(minimum_index([0, 1, 2, 1, 2]))\n    print(minimum_index([0, 2, 1, 2, 1]))\n    print(minimum_index([0, 1, 2, 3, 4]))\n    print(minimum_index([0, 1, 2, 1, 2]))\n    print(minimum_index([0, 1, 2, 3, 4]))\n    print(minimum_index([0, 1, 2, 3, 4]))\n    print(minimum_index([0, 1, 2, 3, 4]))",
+      9.1875
+    ],
+    [
+      "def minimum_index(list_of_ints):\n    \"\"\"\n    Finds the index of the minimum value in a given list.\n\n    Args:\n       list_of_ints: An integer list\n    Returns:\n       A list of integers representing the index positions of the minimum value\n    \"\"\"\n    if list_of_ints is None or len(list_of_ints) == 0:\n        return None\n\n    min_value = list_of_ints[0]\n    min_value_indexes = [0]\n    for index, value in enumerate(list_of_ints):\n        if value < min_value:\n            min_value_indexes = [index]\n            min_value = value\n        elif value == min_value:\n            min_value_indexes.append(index)\n    return min_value_indexes\n\n\ndef test_function(test_case):\n    output = minimum_index(test_case[0])\n    if sorted(output) == sorted(test_case[1]):\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_case_1 = [[0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 9, 9], [0, 5, 10]]\ntest_function(test_case_1)\n\ntest_case_2 = [[5, 4, 3, 2, 1], [0]]\ntest_function(test_case_2)\n\ntest_case_3 = [[], None]\ntest_function(test_case_3)\n\ntest_case_4 = [[5], [0]]\ntest_function(test_case_4)",
+      8.4140625
+    ],
+    [
+      "def find_min_index(list):\n    min = list[0]\n    min_index = [0]\n    for i in range(1, len(list)):\n        if list[i] < min:\n            min = list[i]\n            min_index = [i]\n        elif list[i] == min:\n            min_index.append(i)\n    return min_index\n\nprint(find_min_index([1, 2, 3, 4, 5]))\nprint(find_min_index([5, 4, 3, 2, 1]))\nprint(find_min_index([1, 1, 1, 1, 1]))\nprint(find_min_index([1, 2, 3, 4, 1]))\nprint(find_min_index([4, 3, 2, 1, 5]))\nprint(find_min_index([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))",
+      7.90625
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(list_of_ints: List[int]) -> List[int]:\n    \"\"\"Returns the index of all the minimum elements in a list.\n\n    Args:\n        list_of_ints: list of ints\n\n    Returns:\n        list of ints containing the indices of all the minimum elements\n\n    >>> minimum_index([0, 1, 2, 3, 4, 0])\n    [0, 5]\n\n    \"\"\"\n    if len(list_of_ints) == 0:\n        return []\n\n    min_value = min(list_of_ints)\n    return [index for index, element in enumerate(list_of_ints) if element == min_value]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      7.73046875
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(arr: List[int]) -> List[int]:\n    \"\"\"Returns index positions of the minimum value in a list.\n\n    Args:\n        arr (List[int]): list to find min values.\n\n    Returns:\n        List[int]: list of indexes of min values.\n    \"\"\"\n    min_value = arr[0]\n    min_indexes = [0]\n\n    for i in range(1, len(arr)):\n        if arr[i] < min_value:\n            min_value = arr[i]\n            min_indexes = [i]\n        elif arr[i] == min_value:\n            min_indexes.append(i)\n\n    return min_indexes\n\n\nif __name__ == \"__main__\":\n    assert find_min_index([0, 1, 0, 1, 1, 0]) == [0, 3, 4]",
+      7.38671875
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n) where n is the length of the input list\n# Space complexity: O(1)\ndef find_min_index(input_list: List[int]) -> List[int]:\n    min_value = float('inf')\n    min_index = []\n    for i in range(len(input_list)):\n        if input_list[i] < min_value:\n            min_value = input_list[i]\n            min_index = [i]\n        elif input_list[i] == min_value:\n            min_index.append(i)\n    return min_index\n\n\n# Time complexity: O(n) where n is the length of the input list\n# Space complexity: O(1)\ndef find_min_index_2(input_list: List[int]) -> List[int]:\n    min_index = []\n    for i in range(len(input_list)):\n        if i == 0:\n            min_value = input_list[i]\n            min_index.append(i)\n        elif input_list[i] < min_value:\n            min_value = input_list[i]\n            min_index = [i]\n        elif input_list[i] == min_value:\n            min_index.append(i)\n    return min_index\n\n\n# Time complexity: O(n) where n is the length of the input list\n# Space complexity: O(1)\ndef find_min_index_3(input_list: List[int]) -> List[int]:\n    min_index = []\n    for i in range(len(input_list)):\n        if i == 0:\n            min_value = input_list[i]\n            min_index.append(i)\n        elif min_value > input_list[i]:\n            min_value = input_list[i]\n            min_index = [i]\n        elif min_value == input_list[i]:\n            min_index.append(i)\n    return min_index\n\n\n# Time complexity: O(n) where n is the length of the input list\n# Space complexity: O(1)",
+      7.33984375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(lst: List) -> List:\n    \"\"\"Find index positions of the minimum values in a given list.\n\n    Args:\n        lst (List): given list\n\n    Examples:\n        >>> assert find_min_index([1, 2, 1, 3, 4, 5, 1, 6, 7, 8, 9, 1, 1]) == [0, 3, 5, 10, 11]\n    \"\"\"\n    min_value = min(lst)\n\n    return [\n        index\n        for index, value in enumerate(lst)\n        if value == min_value\n    ]\n\n\nif __name__ == '__main__':\n    print(find_min_index([1, 2, 1, 3, 4, 5, 1, 6, 7, 8, 9, 1, 1]))",
+      5.53515625
+    ],
+    [
+      "def index_min_positions(lst):\n    if len(lst) == 0:\n        return []\n\n    min_val = lst[0]\n    min_pos = 0\n    result = []\n    for i in range(1, len(lst)):\n        if lst[i] < min_val:\n            min_val = lst[i]\n            min_pos = i\n\n    result.append(min_pos)\n    for i in range(0, len(lst)):\n        if lst[i] == min_val:\n            result.append(i)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(index_min_positions([0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 4]))\n    print(index_min_positions([0, 1, 2, 3, 4]))\n    print(index_min_positions([0, 1, 2, 3, 4, 4]))\n    print(index_min_positions([1, 2, 3, 4, 5, 6]))",
+      5.1640625
+    ],
+    [
+      "def find_min_index(arr):\n    \"\"\"\n    O(n) & O(1)\n    \"\"\"\n    min_index = []\n    min_value = arr[0]\n\n    for i in range(len(arr)):\n        if arr[i] < min_value:\n            min_value = arr[i]\n            min_index = [i]\n        elif arr[i] == min_value:\n            min_index.append(i)\n\n    return min_index\n\n\nif __name__ == \"__main__\":\n    arr = [4, 5, 1, 3, 6, 2, 7, 10, 8, 9, 15]\n    print(f\"{arr} -> {find_min_index(arr)}\")",
+      4.859375
+    ],
+    [
+      "def find_min(arr):\n    min_val = arr[0]\n    min_index = [0]\n    for i in range(1, len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n            min_index = [i]\n        elif arr[i] == min_val:\n            min_index.append(i)\n    return min_index\n\n\ndef test_find_min():\n    assert find_min([0, 1, 2, 3, 4, 5]) == [0]\n    assert find_min([4, 0, 1, 2, 3, 4, 5]) == [1]\n    assert find_min([5, 4, 0, 1, 2, 3, 4]) == [2]\n    assert find_min([4, 5, 0, 1, 2, 3, 4]) == [2]\n    assert find_min([3, 4, 5, 0, 1, 2, 3]) == [3]\n    assert find_min([4, 4, 4, 4, 0, 1, 2]) == [4]\n    assert find_min([1, 1, 1, 1, 1, 1, 1]) == [6]\n    assert find_min([1, 1, 1, 1, 1, 1, 1, 1]) == [6]\n\n\nif __name__ == '__main__':\n    test_find_min()",
+      4.5859375
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(list_of_numbers: List[int]) -> List[int]:\n    \"\"\"Return index of minimum value in a given list.\n\n    Args:\n        list_of_numbers (List[int]): list of numbers\n\n    Examples:\n        >>> assert minimum_index([0, 1, 2, 0]) == [0, 3]\n    \"\"\"\n    return [\n        index for index, _ in enumerate(list_of_numbers)\n        if index == min(enumerate(list_of_numbers), key=lambda x: x[1])[0]\n    ]\n\n\nif __name__ == '__main__':\n    print(minimum_index([0, 1, 2, 0]))",
+      4.015625
+    ],
+    [
+      "def find_min(lst):\n    min_value = lst[0]\n    min_index = 0\n    for i in range(len(lst)):\n        if lst[i] < min_value:\n            min_value = lst[i]\n            min_index = i\n    return min_index\n\n\ndef find_min_index(lst):\n    min_index_lst = []\n    min_value = lst[0]\n    min_index = 0\n    for i in range(len(lst)):\n        if lst[i] < min_value:\n            min_value = lst[i]\n            min_index = i\n    min_index_lst.append(min_index)\n    return min_index_lst\n\n\nprint(find_min_index([2, 3, 4, 5, 1]))",
+      3.931640625
+    ],
+    [
+      "from typing import List\n\n\n# O(n)\ndef find_min_index(lst: List[int]) -> List[int]:\n    \"\"\"Returns the index of all min values in a list.\n\n    Args:\n        lst: list of integers\n\n    Returns:\n        list of integers\n\n    Examples:\n        >>> assert find_min_index([1, 4, 4, 4, 3, 1, 3]) == [0, 5, 6]\n    \"\"\"\n    return [i for i, _ in enumerate(lst) if lst[i] == min(lst)]\n\n\n# O(n)\ndef find_min_index_best(lst: List[int]) -> List[int]:\n    \"\"\"Returns the index of all min values in a list.\n\n    Args:\n        lst: list of integers\n\n    Returns:\n        list of integers\n\n    Examples:\n        >>> assert find_min_index_best([1, 4, 4, 4, 3, 1, 3]) == [0, 5, 6]\n    \"\"\"\n    return [i for i, val in enumerate(lst) if lst[i] == min(lst[i:])]\n\n\nif __name__ == \"__main__\":\n    print(find_min_index([1, 4, 4, 4, 3, 1, 3]))\n    print(find_min_index_best([1, 4, 4, 4, 3, 1, 3]))",
+      3.814453125
+    ],
+    [
+      "def minimum_index(seq):\n    \"\"\"Return all indexes of minimum elements in a sequence.\"\"\"\n    if len(seq) == 0:\n        return []\n\n    min_value = min(seq)\n    return [i for i, x in enumerate(seq) if x == min_value]\n\n\nif __name__ == \"__main__\":\n    print(minimum_index([0, 1, 2, 3, 4, 0, 1, 2, 3, 4]))\n    print(minimum_index([]))\n    print(minimum_index([0]))\n    print(minimum_index([4, 4, 0, 0, 4, 4, 4]))",
+      3.787109375
+    ],
+    [
+      "def min_index(arr):\n    \"\"\"\n    >>> min_index([0, 1, 2, 3, 4, 5])\n    [0]\n    >>> min_index([1, 2, 3, 4, 5, 6, 0])\n    [6]\n    >>> min_index([2, 1, 3, 4, 5, 6, 0])\n    [1]\n    >>> min_index([3, 2, 1, 4, 5, 6, 0])\n    [2]\n    \"\"\"\n    min_value = min(arr)\n    return [index for index, value in enumerate(arr) if value == min_value]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.640625
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(arr: List[int]) -> List[int]:\n    \"\"\"Find all index positions of the minimum values in a given list.\n\n    Args:\n        arr (List[int]): list of integers\n\n    Examples:\n        >>> find_min_index([0, 1, 2, 0, 1, 2])\n        [0, 3]\n        >>> find_min_index([0, 1, 2, 3, 4, 5])\n        [0]\n        >>> find_min_index([1, 1, 1, 1, 1, 1])\n        [0]\n    \"\"\"\n    min_value = min(arr)\n\n    return [index for index, value in enumerate(arr) if value == min_value]\n\n\nif __name__ == \"__main__\":\n    print(find_min_index([0, 1, 2, 0, 1, 2]))\n    print(find_min_index([0, 1, 2, 3, 4, 5]))\n    print(find_min_index([1, 1, 1, 1, 1, 1]))",
+      3.56640625
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_positions(nums: List[int]) -> List[int]:\n    \"\"\"\n    :param nums: list of numbers\n    :return: list of index positions of the min values\n    >>> find_min_positions([0, 1, 2, 0, 1, 2])\n    [0, 3, 5]\n    >>> find_min_positions([0, 1, 2, 3, 4, 5])\n    [0]\n    >>> find_min_positions([-1, -2, -3, -4, -5])\n    [0, 1, 2, 3, 4]\n    \"\"\"\n    if not nums:\n        return []\n    min_positions = []\n    min_val = nums[0]\n\n    for index, value in enumerate(nums):\n        if value < min_val:\n            min_val = value\n            min_positions.clear()\n        if value == min_val:\n            min_positions.append(index)\n\n    return min_positions\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.7109375
+    ],
+    [
+      "# O(n) time | O(n) space\ndef find_minimum_index(arr):\n    if len(arr) < 2:\n        return [0]\n\n    min_value = min(arr)\n    return [i for i, value in enumerate(arr) if value == min_value]\n\n\nprint(find_minimum_index([5, 4, 3, 2, 1]))",
+      2.453125
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(input_list: List[int]) -> List[int]:\n    \"\"\"Returns the index positions of the minimum values in the input list.\n\n    Args:\n        input_list (List[int]): list of integers\n\n    Examples:\n        >>> find_min([0, 1, 2, 3, 4, 5])\n        [0]\n\n        >>> find_min([0, 1, 2, 3, 4, 0])\n        [0, 5]\n\n        >>> find_min([1, 1, 1, 1])\n        [0, 1, 2, 3]\n\n        >>> find_min([])\n        []\n    \"\"\"\n    if not input_list:\n        return []\n\n    minimum = input_list[0]\n    min_indexes = [0]\n\n    for index, item in enumerate(input_list):\n        if item < minimum:\n            min_indexes = [index]\n            minimum = item\n        elif item == minimum:\n            min_indexes.append(index)\n\n    return min_indexes\n\n\nif __name__ == \"__main__\":\n    print(find_min([0, 1, 2, 3, 4, 5]))\n    print(find_min([0, 1, 2, 3, 4, 0]))\n    print(find_min([1, 1, 1, 1]))\n    print(find_min([]))",
+      2.263671875
+    ],
+    [
+      "def find_all_min_index(arr):\n    if len(arr) == 0:\n        return []\n    min_val = arr[0]\n    min_indices = [0]\n    for i, val in enumerate(arr):\n        if val < min_val:\n            min_val = val\n            min_indices = [i]\n        elif val == min_val:\n            min_indices.append(i)\n    return min_indices\n\n\nif __name__ == '__main__':\n    test_cases = [\n        ([2, 2, 2, 2, 2], [0, 1, 2, 3, 4]),\n        ([2, 3, 2, 3, 2], [0, 2, 3, 4]),\n        ([3, 2, 3, 2, 3], [0]),\n        ([3, 2, 1, 3, 2], [0, 3]),\n        ([1, 2, 3, 4, 5], [0]),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [0]),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1], [0, 10]),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1], [0, 10, 11]),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1], [0, 10, 11, 12]),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1], [0, 10, 11, 12, 13]),\n    ]\n    for",
+      2.19921875
+    ],
+    [
+      "def find_min_index(arr):\n    \"\"\"\n    >>> find_min_index([1, 2, 3, 4, 5, 1, 2, 3, 4, 5])\n    [0, 5]\n    >>> find_min_index([5, 4, 3, 2, 1])\n    [0]\n    >>> find_min_index([1, 1, 1, 1, 1])\n    [0, 1, 2, 3, 4]\n    >>> find_min_index([])\n    []\n    \"\"\"\n    if len(arr) == 0:\n        return []\n    min_val = arr[0]\n    min_index = [0]\n    for i in range(1, len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n            min_index = [i]\n        elif arr[i] == min_val:\n            min_index.append(i)\n    return min_index\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.7958984375
+    ],
+    [
+      "def find_min(list):\n    min = list[0]\n    min_positions = [0]\n    for i in range(1, len(list)):\n        if list[i] < min:\n            min = list[i]\n            min_positions = [i]\n        elif list[i] == min:\n            min_positions.append(i)\n    return min_positions\n\n\nprint(find_min([4, 5, 2, 1, 3]))\nprint(find_min([5, 2, 2, 2, 2, 2, 2, 1]))\nprint(find_min([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1]))\nprint(find_min([1, 2, 3, 4, 5]))\nprint(find_min([5, 4, 3, 2, 1]))\nprint(find_min([1, 1, 1, 1, 1]))\nprint(find_min([]))\nprint(find_min([1]))",
+      1.7216796875
+    ],
+    [
+      "def min_positions(input_list):\n    \"\"\"\n    >>> min_positions([0,1,2,3,4,5,4,3,2,1,0])\n    [0, 8]\n    \"\"\"\n    min_value = min(input_list)\n    return [\n        index for index, value in enumerate(input_list) if value == min_value\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.5693359375
+    ],
+    [
+      "def min_positions(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: List[int]\n    \"\"\"\n    if len(nums) <= 1:\n        return [0]\n\n    min_index = 0\n    for i in range(1, len(nums)):\n        if nums[i] < nums[min_index]:\n            min_index = i\n    return [min_index, ]\n\n\nif __name__ == '__main__':\n    print(min_positions([4, 5, 1, 2, 3]))",
+      1.296875
+    ],
+    [
+      "def find_index(arr):\n    min_value = min(arr)\n    return [i for i, e in enumerate(arr) if e == min_value]\n\n\n# test\ntest = [4, 5, 4, 6, 1, 2, 3]\nprint(find_index(test))  # [0, 3]\n\ntest = [4, 4, 4, 6, 1, 2, 3]\nprint(find_index(test))  # [0, 1, 2]\n\ntest = [4, 5, 6, 1, 2, 3]\nprint(find_index(test))  # [3]\n\ntest = [4, 5, 6, 7, 1, 2, 3]\nprint(find_index(test))  # [4]",
+      1.2138671875
+    ],
+    [
+      "def minimum_index(seq):\n    if len(seq) == 0:\n        return None\n    min_val = seq[0]\n    min_idx = [0]\n    for i in range(1, len(seq)):\n        if seq[i] < min_val:\n            min_val = seq[i]\n            min_idx = [i]\n        elif seq[i] == min_val:\n            min_idx.append(i)\n    return min_idx\n\n\nif __name__ == '__main__':\n    import sys\n\n    for line in sys.stdin:\n        seq = list(map(int, line.split()))\n        print(minimum_index(seq))",
+      1.2099609375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(lst: List[int]) -> List[int]:\n    \"\"\"\n    find_min finds all index positions of the minimum values in a given list.\n    >>> find_min([1, 2, 3, 4, 5])\n    [0]\n    >>> find_min([1, 2, 1, 1, 1])\n    [0, 2, 3, 4]\n    >>> find_min([5, 4, 3, 2, 1])\n    [0, 1, 2, 3, 4]\n    >>> find_min([4, 3, 2, 1, 5])\n    [0, 1, 2, 3, 4]\n    >>> find_min([5, 1, 2, 3, 4])\n    [0]\n    \"\"\"\n    minimum = float(\"inf\")\n    index = -1\n    indexes = []\n\n    for i, v in enumerate(lst):\n        if v < minimum:\n            minimum = v\n            index = i\n\n        if v == minimum:\n            indexes.append(i)\n\n    if index != -1:\n        indexes.append(index)\n\n    return indexes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.177734375
+    ],
+    [
+      "from typing import List\n\n\ndef get_min_indexes(numbers: List[int]) -> List[int]:\n    \"\"\"Get all indexes of min values in given list.\n\n    Args:\n        numbers (List[int]): list of integers\n\n    Examples:\n        >>> assert get_min_indexes([3, 4, 2, 1]) == [3]\n        >>> assert get_min_indexes([3, 4, 4, 1]) == [3, 0]\n    \"\"\"\n    return [\n        index\n        for index, number in enumerate(numbers)\n        if number == min(numbers)\n    ]\n\n\nif __name__ == \"__main__\":\n    print(get_min_indexes([3, 4, 2, 1]))",
+      1.1650390625
+    ],
+    [
+      "def find_min(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    min_pos = []\n    if len(arr) == 1:\n        return min_pos\n    min_val = arr[0]\n    for i, num in enumerate(arr):\n        if num < min_val:\n            min_val = num\n            min_pos = [i]\n        elif num == min_val:\n            min_pos.append(i)\n    return min_pos\n\n\nif __name__ == \"__main__\":\n    arr = [5, 3, 1, 4, 2]\n    print(find_min(arr))",
+      1.16015625
+    ],
+    [
+      "from typing import List\n\n\ndef min_index(arr: List[int]) -> List[int]:\n    \"\"\"Find all index positions of the minimum values in a given list.\n\n    Args:\n        arr (List[int]): given list\n\n    Examples:\n        >>> min_index([0, 1, 2, 0, 1, 2])\n        [0, 3, 4]\n        >>> min_index([0, 1, 2, 1, 2])\n        [0, 3]\n        >>> min_index([0, 1, 2, 1, 1])\n        [0]\n    \"\"\"\n    if not arr:\n        return []\n\n    minimum = min(arr)\n    return [index for index, value in enumerate(arr) if value == minimum]\n\n\nif __name__ == \"__main__\":\n    print(min_index([0, 1, 2, 0, 1, 2]))\n    print(min_index([0, 1, 2, 1, 2]))\n    print(min_index([0, 1, 2, 1, 1]))",
+      1.130859375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(input_list: List[int]) -> List[int]:\n    \"\"\"Finds all index positions of the minimum values in a given list.\n\n    Args:\n        input_list (List[int]): input list\n\n    Returns:\n        List[int]: list of indexes of minimum values\n\n    Examples:\n        >>> find_min([0, 1, 0, 3, 2])\n        [0, 3]\n        >>> find_min([1, 2, 3])\n        [0]\n    \"\"\"\n    return [index for index, _ in enumerate(input_list) if input_list.index(min(input_list)) == index]\n\n\nif __name__ == \"__main__\":\n    print(find_min([0, 1, 0, 3, 2]))\n    print(find_min([1, 2, 3]))",
+      1.091796875
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(list_of_numbers: List[int]) -> List[int]:\n    \"\"\"Find all index positions of the minimum value in a given list.\n\n    Args:\n        list_of_numbers (List[int]): given list of numbers\n\n    Returns:\n        List[int]: index positions of the minimum value in a given list\n\n    Examples:\n        >>> minimum_index([0, 1, 0, 3, 2])\n        [0, 3]\n        >>> minimum_index([0])\n        [0]\n        >>> minimum_index([])\n        []\n    \"\"\"\n    if not list_of_numbers:\n        return []\n\n    min_value = min(list_of_numbers)\n    return [\n        index\n        for index, value in enumerate(list_of_numbers)\n        if value == min_value\n    ]\n\n\nif __name__ == \"__main__\":\n    print(minimum_index([0, 1, 0, 3, 2]))\n    print(minimum_index([0]))\n    print(minimum_index([]))",
+      0.9765625
+    ],
+    [
+      "class Solution(object):\n    def minimumIndex(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[int]\n        \"\"\"\n        if not arr:\n            return []\n        return [i for i, val in enumerate(arr) if val == min(arr)]\n\n\nclass Solution2(object):\n    def minimumIndex(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[int]\n        \"\"\"\n        if not arr:\n            return []\n        min_val = min(arr)\n        return [i for i, val in enumerate(arr) if val == min_val]\n\n\nif __name__ == \"__main__\":\n    # arr = [4, 5, 1, 2, 3]\n    arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    # arr = [0, 1, 2, 0, 1, 2]\n    obj = Solution2()\n    result = obj.minimumIndex(arr)\n    print(result)",
+      0.951171875
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(arr: List[int]) -> List[int]:\n    \"\"\"Find the positions of the min values in a list.\n\n    Args:\n        arr (List[int]): list of integers\n\n    Returns:\n        List[int]: list of min positions\n    \"\"\"\n    if len(arr) == 1:\n        return [0]\n\n    min_val = arr[0]\n    min_positions = [0]\n    for i in range(1, len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n            min_positions = [i]\n        elif arr[i] == min_val:\n            min_positions.append(i)\n\n    return min_positions\n\n\nif __name__ == \"__main__\":\n    assert find_min([3, 2, 1]) == [0]\n    assert find_min([3, 2, 1, 1]) == [0]\n    assert find_min([3, 2, 1, 1, 2]) == [0, 3]\n    assert find_min([3, 2, 3, 1, 2]) == [2]\n    assert find_min([6, 5, 4, 3, 2, 1]) == [5]\n    assert find_min([6, 5, 4, 3, 2, 1, 2]) == [5, 6]\n    assert find_min([1, 1, 1, 2, 2, 3]) == [0, 1, 2]\n    assert find_min([3, 2, 1, 2, 1, 2]) == [0, 3]\n    assert find_min([3, 2, 1, 1, 2, 2]) == [0, 3]\n    assert find_min([3, 2, 1, 1, 1, 2]) == [0, 1, 2, 3]\n    assert find_min([3, 2, 2, 1, 1, 2",
+      0.8369140625
+    ],
+    [
+      "def min_positions(lst):\n    if len(lst) == 0:\n        return []\n    min_value = lst[0]\n    min_pos = [0]\n    for i, num in enumerate(lst):\n        if num < min_value:\n            min_value = num\n            min_pos = [i]\n        elif num == min_value:\n            min_pos.append(i)\n    return min_pos\n\nprint(min_positions([2,3,4,5,1,2,3]))\nprint(min_positions([5,4,3,2,1]))\nprint(min_positions([2,2,2,2,2]))\nprint(min_positions([]))",
+      0.80810546875
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(list_of_numbers: List[int]) -> List[int]:\n    \"\"\"Find the index of the minimum number.\n\n    Args:\n        list_of_numbers (List[int]): list of numbers\n\n    Returns:\n        List[int]: index of the minimum number\n    \"\"\"\n    return [i for i, num in enumerate(list_of_numbers) if num == min(list_of_numbers)]\n\n\nif __name__ == \"__main__\":\n    assert minimum_index([4, 5, 1, 2, 3]) == [3, 4]",
+      0.389892578125
+    ],
+    [
+      "def find_min_index(arr):\n    \"\"\"\n    >>> find_min_index([1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1])\n    [0, 10]\n    \"\"\"\n    if len(arr) == 1:\n        return [0]\n\n    min_idx = 0\n    for i in range(1, len(arr)):\n        if arr[i] < arr[min_idx]:\n            min_idx = i\n\n    result = []\n    for i in range(len(arr)):\n        if arr[i] == arr[min_idx]:\n            result.append(i)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.311767578125
+    ],
+    [
+      "def find_min_pos(lst):\n    \"\"\"\n    >>> find_min_pos([1, 2, 3, 4, 5])\n    [0]\n    >>> find_min_pos([5, 4, 3, 2, 1])\n    [0, 1, 2, 3, 4]\n    >>> find_min_pos([1, 1, 1, 1, 1])\n    [0, 1, 2, 3, 4]\n    \"\"\"\n    min_val = lst[0]\n    min_pos = [0]\n    for i in range(1, len(lst)):\n        if lst[i] < min_val:\n            min_pos = [i]\n            min_val = lst[i]\n        elif lst[i] == min_val:\n            min_pos.append(i)\n    return min_pos\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      0.275634765625
+    ],
+    [
+      "from typing import List\n\n\ndef min_positions(arr: List[int]) -> List[int]:\n    \"\"\"\n    Return a list of indices of the minimum values in a given list.\n    \"\"\"\n\n    min_positions = []\n\n    min_value = float(\"inf\")\n    min_index = -1\n\n    for index, value in enumerate(arr):\n        if value < min_value:\n            min_value = value\n            min_index = index\n\n    min_positions.append(min_index)\n\n    for index, value in enumerate(arr):\n        if value == min_value and index != min_index:\n            min_positions.append(index)\n\n    return min_positions\n\n\nif __name__ == \"__main__\":\n    assert min_positions([0, 1, 2, 0, 1, 2]) == [0, 3, 4]\n    assert min_positions([0, 2, 1, 0, 1, 2]) == [0, 2, 4]\n    assert min_positions([0, 1, 2, 0, 1, 2]) == [0, 3, 4]\n    assert min_positions([0, 1, 2, 0, 1, 2]) == [0, 3, 4]",
+      0.257080078125
+    ],
+    [
+      "def find_min_indexes(l: list):\n    indexes = []\n    min_index = 0\n    min_value = l[0]\n    for index, value in enumerate(l):\n        if value < min_value:\n            min_value = value\n            min_index = index\n\n    indexes.append(min_index)\n\n    for index, value in enumerate(l):\n        if value == min_value:\n            indexes.append(index)\n\n    return indexes\n\n\nif __name__ == \"__main__\":\n    print(find_min_indexes([5, 1, 2, 3, 4, 1, 2, 3]))\n    print(find_min_indexes([1, 2, 3, 4, 1, 2, 3]))\n    print(find_min_indexes([3, 3, 3, 3, 3, 3, 3, 3]))\n    print(find_min_indexes([3, 3, 3, 3, 3, 3, 3, 3]))",
+      0.188720703125
+    ],
+    [
+      "def find_min(input_list):\n    \"\"\"\n    Find the index of the min value in a list.\n\n    Args:\n       input_list(list): List of integers to find the min value\n    Returns:\n       list: List of integers containing the index positions of the min value\n    \"\"\"\n    if len(input_list) == 0:\n        return []\n\n    min_value = input_list[0]\n    min_index = []\n\n    for index, value in enumerate(input_list):\n        if value < min_value:\n            min_value = value\n            min_index = [index]\n        elif value == min_value:\n            min_index.append(index)\n\n    return min_index\n\n# Test Cases\n\n# Test Case 1\n\ndef test_function(test_case):\n    output = find_min(test_case)\n    if len(output) == 0:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\ntest_function([0, 1, 2, 3, 4])\ntest_function([0, 2, 1, 3, 4])\ntest_function([0, 2, 2, 3, 4])\ntest_function([0, 2, 2, 2, 4])\ntest_function([0, 2, 2, 2, 0])\ntest_function([0, 1, 2, 3, 4, 1])\ntest_function([0, 1, 2, 3, 4, 1, 2])\ntest_function([0, 1, 2, 3, 4, 1, 2, 3])\ntest_function([0, 1, 2, 3, 4, 1, 2, 3, 4])\ntest_function([0, 1, 2, 3, 4, 1, 2, 3, 4, 0])\ntest_function([0, 1, 2, 3, 4, 1, 2, 3, 4, 0, 1])\ntest_function",
+      0.1748046875
+    ],
+    [
+      "def min_index(arr):\n    \"\"\"\n    Finds the indexes of the min values in a given list.\n\n    >>> min_index([1, 2, 3, 4, 5])\n    [0]\n    >>> min_index([3, 2, 3, 4, 5])\n    [0, 3]\n    >>> min_index([6, 5, 4, 3, 2, 1])\n    [0, 1, 2, 3, 4]\n    \"\"\"\n    min_indexes = []\n    min_val = arr[0]\n\n    for index, val in enumerate(arr):\n        if val < min_val:\n            min_val = val\n            min_indexes = [index]\n        elif val == min_val:\n            min_indexes.append(index)\n\n    return min_indexes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.09832763671875
+    ],
+    [
+      "def find_min_index(lst):\n    min_num = lst[0]\n    min_index = 0\n    min_list = []\n\n    for i in range(len(lst)):\n        if lst[i] < min_num:\n            min_num = lst[i]\n            min_index = i\n\n    for i in range(len(lst)):\n        if lst[i] == min_num:\n            min_list.append(i)\n\n    return min_list\n\nif __name__ == '__main__':\n    print(find_min_index([4, 4, 2, 3, 6, 2, 3, 1, 2, 3]))",
+      0.09039306640625
+    ],
+    [
+      "def find_min(arr):\n    min_val = arr[0]\n    min_indexes = []\n    for i in range(len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n    for i in range(len(arr)):\n        if arr[i] == min_val:\n            min_indexes.append(i)\n    return min_indexes\n\nif __name__ == '__main__':\n    print(find_min([4, 5, 1, 2, 3]))\n    print(find_min([10, 20, 30, 40, 50]))\n    print(find_min([1, 2, 3, 4, 5]))",
+      0.0169830322265625
+    ],
+    [
+      "def min_index(input_list):\n    min_index_list = []\n    min_value = float('inf')\n    for i in range(len(input_list)):\n        if input_list[i] < min_value:\n            min_value = input_list[i]\n            min_index_list.clear()\n            min_index_list.append(i)\n        elif input_list[i] == min_value:\n            min_index_list.append(i)\n    return min_index_list\n\n\nprint(min_index([0, 1, 0, 3, 2]))\nprint(min_index([-3, -5, -4, -2]))\nprint(min_index([-2, -5, -4, -2]))",
+      -0.08404541015625
+    ],
+    [
+      "# O(n)\ndef find_min_index(nums):\n    min_index = [0]\n    min_val = nums[0]\n\n    for i in range(1, len(nums)):\n        if nums[i] < min_val:\n            min_val = nums[i]\n            min_index = [i]\n        elif nums[i] == min_val:\n            min_index.append(i)\n    return min_index\n\n\n# O(n)\ndef find_min_index_2(nums):\n    min_index = [0]\n    min_val = nums[0]\n\n    for i in range(1, len(nums)):\n        if nums[i] < min_val:\n            min_val = nums[i]\n            min_index = [i]\n        elif nums[i] == min_val:\n            min_index.append(i)\n    return min_index\n\n\nprint(find_min_index_2([3, 2, 2, 3]))\nprint(find_min_index_2([3, 2, 2, 3, 4, 5, 1]))",
+      -0.374755859375
+    ],
+    [
+      "def find_min(arr):\n    arr_len = len(arr)\n    if arr_len == 0:\n        return []\n    elif arr_len == 1:\n        return [0]\n\n    min_value = arr[0]\n    min_index = 0\n    result = []\n\n    for i in range(arr_len):\n        if arr[i] < min_value:\n            min_value = arr[i]\n            min_index = i\n\n    for i in range(arr_len):\n        if arr[i] == min_value:\n            result.append(i)\n\n    return result\n\n\nprint(find_min([4, 5, 1, 2, 3]))\nprint(find_min([1]))\nprint(find_min([]))\nprint(find_min([-2, -1, -3, -4, -5]))",
+      -0.456298828125
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(arr: List[int]) -> List[int]:\n    \"\"\"Find the index of the minimum value in a list.\n\n    Args:\n        arr (List[int]): list of integers\n\n    Returns:\n        List[int]: list of index positions of the minimum value\n    \"\"\"\n    min_positions = []\n\n    if len(arr) == 0:\n        return min_positions\n\n    min_value = arr[0]\n    min_index = 0\n\n    for index, value in enumerate(arr):\n        if value < min_value:\n            min_value = value\n            min_index = index\n\n    min_positions.append(min_index)\n\n    for index, value in enumerate(arr):\n        if value == min_value and index != min_index:\n            min_positions.append(index)\n\n    return min_positions\n\n\nif __name__ == \"__main__\":\n    assert find_min_index([]) == []\n    assert find_min_index([1]) == [0]\n    assert find_min_index([1, 1]) == [0, 1]\n    assert find_min_index([1, 2]) == [0]\n    assert find_min_index([2, 1]) == [1]\n    assert find_min_index([3, 2, 1]) == [2]\n    assert find_min_index([2, 3, 1]) == [2]\n    assert find_min_index([1, 2, 3]) == [0]\n    assert find_min_index([1, 2, 1]) == [0, 2]\n    assert find_min_index([2, 1, 2]) == [1]\n    assert find_min_index([1, 1, 2]) == [0, 1]\n    assert find_min_index([1, 2, 2]) == [0]\n    assert find_min_index([2, 2, 1]) == [2]",
+      -0.55615234375
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(numbers: List[int]) -> List[int]:\n    \"\"\"Returns all index positions of the minimum values in a given list.\n\n    Args:\n        numbers (List[int]): list of integers\n\n    Examples:\n        >>> assert find_min_index([0, 1, 0, 3, 2, 3]) == [0, 3]\n    \"\"\"\n    return [i for i, _ in enumerate(numbers) if _ == min(numbers)]\n\n\nif __name__ == \"__main__\":\n    print(find_min_index([0, 1, 0, 3, 2, 3]))",
+      -0.65673828125
+    ],
+    [
+      "# O(N) time | O(N) space - where N is the length of the input list\ndef findMinIndexes(array):\n    min_value = array[0]\n    min_indexes = [0]\n\n    for i in range(1, len(array)):\n        if array[i] < min_value:\n            min_value = array[i]\n            min_indexes = [i]\n        elif array[i] == min_value:\n            min_indexes.append(i)\n\n    return min_indexes",
+      -0.8134765625
+    ],
+    [
+      "def find_min_indexes(arr):\n    min_value = min(arr)\n    return [i for i, x in enumerate(arr) if x == min_value]\n\n# test\narr = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10]\nassert find_min_indexes(arr) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]",
+      -0.81591796875
+    ],
+    [
+      "def find_min_index(l):\n    \"\"\"\n    :param l: list - list of integers\n    :return: list - list of integers\n    \"\"\"\n    # Your code here\n    min_value = min(l)\n    return [index for index, value in enumerate(l) if value == min_value]\n\n\nprint(find_min_index([4, 4, 2, 3, 1]))",
+      -0.85595703125
+    ],
+    [
+      "def min_index(lst):\n    return [i for i, x in enumerate(lst) if x == min(lst)]\n\n\nprint(min_index([3, 4, 2, 1, 3]))",
+      -0.85693359375
+    ],
+    [
+      "def min_index(array):\n    if len(array) == 0:\n        return []\n    min_value = array[0]\n    min_indexes = [0]\n    for i in range(1, len(array)):\n        if array[i] == min_value:\n            min_indexes.append(i)\n        elif array[i] < min_value:\n            min_value = array[i]\n            min_indexes = [i]\n    return min_indexes\n\n\nif __name__ == \"__main__\":\n    print(min_index([0, 1, 0, 1, 1]))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef min_index(arr: List[int]) -> List[int]:\n    \"\"\"Returns all indexes of minimum values in a list.\"\"\"\n    return [index for index, item in enumerate(arr) if item == min(arr)]\n\n\nif __name__ == \"__main__\":\n    assert min_index([1, 2, 3, 1, 2, 3]) == [0, 3, 4]",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef get_min_index(nums: List[int]) -> List[int]:\n    result = []\n    min_value = nums[0]\n    for i in range(len(nums)):\n        if nums[i] < min_value:\n            min_value = nums[i]\n            result = [i]\n        elif nums[i] == min_value:\n            result.append(i)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(get_min_index([1, 2, 3, 1, 1, 2, 2, 2]))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef min_indexes(lst: List[int]) -> List[int]:\n    \"\"\"Returns all the index positions of the minimum values in a given list.\n\n    Args:\n        lst (List[int]): list of integers.\n\n    Examples:\n        >>> assert min_indexes([0, 1, 0, 3, 2, 3]) == [0, 3]\n    \"\"\"\n    return [index for index, value in enumerate(lst) if value == min(lst)]\n\n\nif __name__ == \"__main__\":\n    print(min_indexes([0, 1, 0, 3, 2, 3]))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n).\n# Space complexity: O(1).\nclass Solution:\n    def find_min_index(self, nums: List[int]) -> List[int]:\n        if len(nums) == 0:\n            return []\n\n        min_index = 0\n        for i in range(1, len(nums)):\n            if nums[i] < nums[min_index]:\n                min_index = i\n\n        result = []\n        for i in range(len(nums)):\n            if nums[i] == nums[min_index]:\n                result.append(i)\n\n        return result",
+      -0.85693359375
+    ],
+    [
+      "def find_min_indexes(arr):\n    min_val = arr[0]\n    min_indexes = [0]\n\n    for i in range(1, len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n            min_indexes = [i]\n        elif arr[i] == min_val:\n            min_indexes.append(i)\n\n    return min_indexes\n\n\nif __name__ == '__main__':\n    print(find_min_indexes([0, 1, 0, 1, 1, 0]))",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        \"\"\"\n        Method 1:\n        Your runtime beats 78.48 % of python3 submissions\n        \"\"\"\n        return [i for i, x in enumerate(nums) if x == min(nums)]",
+      -0.85791015625
+    ],
+    [
+      "def index(arr):\n    \"\"\"\n    >>> index([0, 1, 0, 3, 2, 3])\n    [0, 3]\n    \"\"\"\n    return [\n        i\n        for i, x in enumerate(arr)\n        if x == min(arr)\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def min_index(a):\n    return [i for i, num in enumerate(a) if num == min(a)]\n\n\ndef test_min_index():\n    assert min_index([0, 1, 0, 3, 2, 3]) == [0, 3]\n\n\nif __name__ == \"__main__\":\n    test_min_index()",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(list_: List[int]) -> List[int]:\n    \"\"\"Returns a list with the index positions of the minimum value.\n\n    Args:\n        list_: a list of integers.\n\n    Examples:\n        >>> assert minimum_index([4, 5, 1, 2, 3]) == [2, 3]\n    \"\"\"\n    return [i for i, j in enumerate(list_) if j == min(list_)]\n\n\nif __name__ == \"__main__\":\n    print(minimum_index([4, 5, 1, 2, 3]))",
+      -0.8583984375
+    ],
+    [
+      "def find_min_index(arr):\n    # find minimum element\n    min_element = min(arr)\n\n    # find index positions of minimum element\n    min_indexes = [i for i, x in enumerate(arr) if x == min_element]\n\n    return min_indexes\n\n\nassert find_min_index([0, 4, 4, 5, 2, 3, 0]) == [0, 2, 6]\nassert find_min_index([3, 1, 2, 10, 4, 2, 3, 1, 2, 3, 4, 2, 3, 4, 2, 3, 4]) == [1, 2, 4, 10]",
+      -0.8583984375
+    ],
+    [
+      "def indexOfMin(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: List[int]\n    \"\"\"\n    res = []\n    min_num = nums[0]\n    for i in range(len(nums)):\n        if nums[i] < min_num:\n            min_num = nums[i]\n            res = [i]\n        elif nums[i] == min_num:\n            res.append(i)\n    return res\n\n\ndef test_indexOfMin():\n    assert indexOfMin([4, 5, 1, 2, 3]) == [3, 4]\n\nif __name__ == '__main__':\n    test_indexOfMin()",
+      -0.8583984375
+    ],
+    [
+      "def min_index(input_list):\n    \"\"\"\n    Return the indices of the minimum values in a given list.\n    :param input_list: list\n    :return: list\n    \"\"\"\n    if not isinstance(input_list, list):\n        raise TypeError(\"Please provide a list argument.\")\n\n    return [i for i, j in enumerate(input_list) if j == min(input_list)]\n\n\ndef main():\n    print(min_index([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def find_min_index(l):\n    \"\"\"\n    >>> find_min_index([3, 2, 2, 5, 2, 1, 0, 2, 1, 1, 1, 3])\n    [0, 4, 5, 6]\n    \"\"\"\n    if len(l) == 0:\n        return []\n\n    min_idx = [0]\n    for i in range(1, len(l)):\n        if l[i] < l[min_idx[0]]:\n            min_idx = [i]\n        elif l[i] == l[min_idx[0]]:\n            min_idx.append(i)\n\n    return min_idx\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def find_min(arr):\n    \"\"\"\n    Time complexity: O(n)\n    Space complexity: O(1)\n    \"\"\"\n    min_value = arr[0]\n    min_index = []\n\n    for i in range(1, len(arr)):\n        if arr[i] < min_value:\n            min_value = arr[i]\n            min_index = [i]\n        elif arr[i] == min_value:\n            min_index.append(i)\n\n    return min_index\n\ndef main():\n    arr = [2, 3, 5, 4, 1, 7, 0, 10, 2]\n    print(find_min(arr))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "# O(n) time | O(1) space\ndef indexOfMinElement(array):\n    if len(array) == 0:\n        return None\n\n    min_val = array[0]\n    min_val_indexes = [0]\n\n    for i in range(1, len(array)):\n        if array[i] < min_val:\n            min_val_indexes.clear()\n            min_val_indexes.append(i)\n            min_val = array[i]\n        elif array[i] == min_val:\n            min_val_indexes.append(i)\n\n    return min_val_indexes",
+      -0.85888671875
+    ],
+    [
+      "def minimum_index(seq):\n    \"\"\"\n    >>> minimum_index([0, 1, 2, 3, 4, 5])\n    [0]\n    >>> minimum_index([9, 8, 7, 1, 2, 3])\n    [3]\n    >>> minimum_index([1, 2, 3, 4, 5])\n    [0, 1, 2, 3, 4]\n    \"\"\"\n    return [\n        i\n        for i, _ in enumerate(seq)\n        if i == 0 or seq[i] < min(seq[:i])\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(arr: List[int]) -> List[int]:\n    \"\"\"\n    Idea is to use the fact that if we use the `min()` function, we will get the first\n    occurrence of the minimum element.\n    \"\"\"\n    if not arr:\n        return []\n\n    min_value = arr[0]\n    min_pos = 0\n    min_index = [min_pos]\n\n    for i, val in enumerate(arr):\n        if val < min_value:\n            min_value = val\n            min_pos = i\n            min_index = [min_pos]\n        elif val == min_value:\n            min_index.append(i)\n\n    return min_index\n\n\nif __name__ == \"__main__\":\n    assert find_min_index([]) == []\n    assert find_min_index([0]) == [0]\n    assert find_min_index([1, 0, 1, 0, 1]) == [1, 3]",
+      -0.85888671875
+    ],
+    [
+      "def min_positions(arr):\n    # Find the minimum value in the list\n    min_val = min(arr)\n    # Create an array to store the index positions of the minimum values in the list\n    min_positions = []\n    for i in range(len(arr)):\n        if arr[i] == min_val:\n            min_positions.append(i)\n    return min_positions\n\nprint(min_positions([0, 1, 2, 0]))",
+      -0.86083984375
+    ],
+    [
+      "def find_min_index(arr):\n    min_val = arr[0]\n    min_index = 0\n    for i, val in enumerate(arr):\n        if val < min_val:\n            min_val = val\n            min_index = i\n    return min_index\n\n\nif __name__ == '__main__':\n    print(find_min_index([2, 2, 2, 2, 2, 2, 2, 2, 2, 2]))",
+      -0.86083984375
+    ],
+    [
+      "def find_min(arr):\n    \"\"\"\n    Finds the minimum value in a list.\n\n    Args:\n     arr: list of values\n\n    Returns:\n     list of indices of the minimum value\n    \"\"\"\n    if not arr:\n        return None\n\n    # Find the minimum value\n    min_val = min(arr)\n\n    # Find all indices of the minimum value\n    min_indices = [i for i, val in enumerate(arr) if val == min_val]\n\n    return min_indices",
+      -0.86083984375
+    ],
+    [
+      "from typing import List\n\n\ndef min_indexes(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time complexity: O(n).\n    Space complexity: O(1).\n    \"\"\"\n    if not arr:\n        return []\n\n    min_value = arr[0]\n    min_pos = 0\n    min_indexes = []\n\n    for i in range(1, len(arr)):\n        if arr[i] < min_value:\n            min_value = arr[i]\n            min_pos = i\n\n        if arr[i] == min_value:\n            min_indexes.append(min_pos)\n            min_indexes.append(i)\n\n    return min_indexes\n\n\ndef main():\n\n    print('Min indexes:')\n    print(min_indexes([0, 1, 1, 2, 2, 3]))\n    print(min_indexes([3, 4, 4, 5, 5, 5, 6]))\n    print(min_indexes([6, 5, 5, 5, 5, 6]))\n    print(min_indexes([5, 4, 4, 5, 5, 5, 6]))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.92529296875
+    ],
+    [
+      "def find_min_index(list):\n    # return [i for i, x in enumerate(list) if x == min(list)]\n    return [i for i, x in enumerate(list) if x == min(list)]\n\nprint(find_min_index([3, 2, 1]))\nprint(find_min_index([3, 2, 1, 3, 2]))\nprint(find_min_index([3, 2, 1, 3, 2, 1, 3]))\nprint(find_min_index([3, 2, 1, 3, 2, 1, 3, 2]))\nprint(find_min_index([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))",
+      -0.998046875
+    ],
+    [
+      "from typing import List\n\n\ndef find_min_index(array: List[int]) -> List[int]:\n    \"\"\"Find minimum indices in a given list.\n\n    Args:\n        array (List[int]): given list\n\n    Examples:\n        >>> assert find_min_index([1, 2, 1, 3, 2, 0, 1]) == [2, 5]\n    \"\"\"\n    return [\n        index\n        for index, (min_value, _) in enumerate(\n            zip(array, array[1:]), start=1\n        )\n        if min_value > array[index - 1]\n    ]\n\n\nif __name__ == \"__main__\":\n    print(find_min_index([1, 2, 1, 3, 2, 0, 1]))",
+      -1.05078125
+    ],
+    [
+      "def find_index(arr):\n    min_index = 0\n    min_val = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n            min_index = i\n    return min_index\n\nprint(find_index([0, 1, 2, 3, 4, 5]))\nprint(find_index([1, 2, 3, 4, 5, 6]))\nprint(find_index([6, 5, 4, 3, 2, 1]))\n\n\"\"\"\nWrite a function that takes a list of numbers and returns the largest product of three numbers in the list.\n\"\"\"\n\ndef largest_product(arr):\n    largest_product = float(\"-inf\")\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            for k in range(j + 1, len(arr)):\n                product = arr[i] * arr[j] * arr[k]\n                if product > largest_product:\n                    largest_product = product\n    return largest_product\n\nprint(largest_product([-10, -10, 5, 2]))\nprint(largest_product([1, 2, 3, 4]))\nprint(largest_product([-10, -1, 1, 2, 3, 4]))\n\n\"\"\"\nWrite a function that takes in a list of numbers and returns the sum of all the numbers in the list.\n\"\"\"\n\ndef sum(arr):\n    sum = 0\n    for i in range(len(arr)):\n        sum += arr[i]\n    return sum\n\nprint(sum([1, 2, 3, 4]))\nprint(sum([-1, 1, 2, 3, 4]))\nprint(sum([-1, -2, -3, -4]))\n\n\"\"\"\nWrite a function that takes in a string and returns a list of the individual words in the string.\n\"\"\"\n\ndef split_string(s):\n    return s.split",
+      -1.0751953125
+    ],
+    [
+      "from typing import List\n\n\ndef min_index(numbers: List[int]) -> List[int]:\n    \"\"\"Returns list of positions of the minimum elements in a list.\n\n    Args:\n        numbers: list of numbers\n\n    Examples:\n        >>> assert min_index([4, 5, 2, 1, 3]) == [3, 4]\n        >>> assert min_index([3, 4, 5, 1, 2]) == [0, 1]\n        >>> assert min_index([1, 2, 3, 4, 5]) == [0]\n        >>> assert min_index([5, 4, 3, 2, 1]) == [0]\n    \"\"\"\n    return [\n        index\n        for index, _ in enumerate(numbers)\n        if _ == min(numbers)\n    ]\n\n\nif __name__ == \"__main__\":\n    print(min_index([4, 5, 2, 1, 3]))",
+      -1.169921875
+    ],
+    [
+      "def index_positions_of_min(list_of_numbers):\n    \"\"\"\n    >>> index_positions_of_min([0, 1, 2, 0, 1, 0])\n    [[0], [3], [4]]\n\n    >>> index_positions_of_min([1, 2, 3, 4, 5])\n    []\n\n    >>> index_positions_of_min([1, 2, 2, 2, 3])\n    [[0], [2], [3], [4]]\n    \"\"\"\n    min_value = min(list_of_numbers)\n    return [\n        [i for i, x in enumerate(list_of_numbers) if x == min_value]\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.2490234375
+    ],
+    [
+      "def index_of_min(lst):\n    \"\"\"\n    >>> index_of_min([0, 1, 2, 3, 4, 5])\n    [0]\n    >>> index_of_min([0, 1, 2, 3, 4, 0])\n    [0, 5]\n    >>> index_of_min([0, 0, 2, 3, 4, 0])\n    [0, 1, 5]\n    \"\"\"\n    minimum = lst[0]\n    result = [0]\n    for i in range(1, len(lst)):\n        if lst[i] < minimum:\n            minimum = lst[i]\n            result = [i]\n        elif lst[i] == minimum:\n            result.append(i)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.3544921875
+    ],
+    [
+      "from typing import List\n\n\ndef minimum_index(numbers: List[int]) -> List[int]:\n    \"\"\"Returns a list of indices of the minimum elements in a list.\n\n    Args:\n        numbers (List[int]): list of integers\n\n    Examples:\n        >>> assert minimum_index([4, 5, 2, 25, 16, 29, 5]) == [1, 3]\n    \"\"\"\n    if not numbers:\n        return []\n\n    min_index = 0\n    min_value = numbers[0]\n\n    for index, number in enumerate(numbers):\n        if number < min_value:\n            min_value = number\n            min_index = index\n\n    result = [min_index]\n\n    for index, number in enumerate(numbers):\n        if number == min_value and index != min_index:\n            result.append(index)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(minimum_index([4, 5, 2, 25, 16, 29, 5]))",
+      -1.6650390625
+    ],
+    [
+      "def index_of_min(arr):\n    \"\"\"\n    Return a list of the indices of the min values in the list.\n    \"\"\"\n    min_val = min(arr)\n    return [i for i, el in enumerate(arr) if el == min_val]\n\ndef test_cases():\n    \"\"\"\n    >>> index_of_min([4, 5, 2, 25, 16, 6])\n    [3]\n    >>> index_of_min([4, 5, 2, 25, 16, 6, 6])\n    [3, 6]\n    >>> index_of_min([4, 5, 2, 25, 16, 6, 6, 6])\n    [3, 6, 7]\n    >>> index_of_min([1, 2, 3, 4, 5, 6, 7])\n    [0]\n    >>> index_of_min([1])\n    [0]\n    >>> index_of_min([2, 2, 2, 2])\n    [0, 1, 2, 3]\n    \"\"\"\n    pass\n\nif __name__ == \"__main__\":\n    test_cases()",
+      -1.8125
+    ],
+    [
+      "def index_of_min(arr):\n    # Initialize an empty list\n    min_list = []\n\n    # Set the first element as the minimum value\n    min_value = arr[0]\n\n    # Iterate through the array and compare the current element with the minimum value\n    for i in range(1, len(arr)):\n        if arr[i] < min_value:\n            min_value = arr[i]\n\n    # Iterate through the array and add the index of the minimum value to the list\n    for i in range(len(arr)):\n        if arr[i] == min_value:\n            min_list.append(i)\n\n    return min_list\n\n\nprint(index_of_min([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))",
+      -2.009765625
+    ],
+    [
+      "from typing import List\n\n\ndef find_min(nums: List[int]) -> List[int]:\n    \"\"\"Find minimum positions in a given list of numbers.\n\n    Args:\n        nums (List[int]): given list of numbers\n\n    Returns:\n        List[int]: list of positions of minimum numbers\n    \"\"\"\n    if not nums:\n        return []\n\n    min_pos = 0\n    min_num = nums[0]\n\n    for idx, num in enumerate(nums):\n        if num < min_num:\n            min_pos = idx\n            min_num = num\n\n    return [min_pos] + find_min(nums[min_pos + 1 :])\n\n\nif __name__ == \"__main__\":\n    assert find_min([4, 5, 1, 2, 3]) == [3]\n    assert find_min([4, 5, 1, 2, 3, 1]) == [3, 5]\n    assert find_min([5, 1, 2, 3, 1]) == [1, 4]",
+      -2.765625
+    ],
+    [
+      "def find_min(lst):\n    if len(lst) < 2:\n        return [0]\n\n    min_val = min(lst)\n    return [i for i, val in enumerate(lst) if val == min_val]\n\nprint(find_min([2, 2, 2, 2]))\nprint(find_min([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))\nprint(find_min([2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 6, 6, 6]))\nprint(find_min([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))",
+      -3.189453125
+    ],
+    [
+      "def min_index(list):\n    \"\"\"\n    return a list of all the index positions of the minimum value in a list\n    \"\"\"\n    minimum = min(list)\n    return [i for i, x in enumerate(list) if x == minimum]\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = min_index(test_input)\n    if sorted(test_actual) == sorted(test_expected):\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([0, 1, 2, 3, 4, 5], [0, 5]))\ntest_function(([1, 1, 1, 1, 1], [0, 1, 2, 3, 4]))\ntest_function(([1, 2, 3, 4, 5], [0]))\ntest_function(([], [0]))\ntest_function(([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]))\ntest_function(([0, 0, 1, 2, 3, 4, 5], [0, 0, 5]))\ntest_function(([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,",
+      -3.615234375
+    ],
+    [
+      "def find_min_indexes(arr):\n    \"\"\"\n    :param: arr - list of integers\n    return: list of integers\n    \"\"\"\n    arr_len = len(arr)\n    min_index = 0\n    min_num = arr[0]\n    min_index_list = []\n\n    for i in range(1, arr_len):\n        if arr[i] < min_num:\n            min_num = arr[i]\n            min_index = i\n\n    min_index_list.append(min_index)\n\n    for i in range(0, arr_len):\n        if arr[i] == min_num:\n            min_index_list.append(i)\n\n    return min_index_list\n\n# Tests\ndef find_min_indexes_test():\n\n    input_array1 = [4, 5, 2, 25, 16, 2, 4, 8, 1]\n    input_array2 = [3, 4, 5, 2, 25, 16, 2, 4, 8, 1]\n    input_array3 = [3, 4, 5, 2, 25, 16, 2, 4, 8, 1, 5]\n    input_array4 = [3, 4, 5, 2, 25, 16, 2, 4, 8, 1, 5, 3]\n\n    expected_output1 = [3, 6]\n    expected_output2 = [1, 3, 8]\n    expected_output3 = [1, 3, 8, 10]\n    expected_output4 = [1, 3, 8, 10, 11]\n\n    result_tuple1 = ( expected_output1 == find_min_indexes(input_array1), find_min_indexes(input_array1) )\n    result_tuple2 = ( expected_output2 == find_min_indexes(input_array2), find_min_indexes(input_array2) )\n    result_tuple3",
+      -3.7890625
+    ],
+    [
+      "def find_min_index(arr):\n    min_pos = 0\n    min_val = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i] < min_val:\n            min_val = arr[i]\n            min_pos = i\n    return min_pos\n\n# print(find_min_index([3, 4, 2, 1, 5, 6, 7, 8, 9, 10, 11, 12]))\n# print(find_min_index([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11, 12]))\n# print(find_min_index([10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11, 12]))\n#",
+      -5.95703125
+    ],
+    [
+      "def find_min_index(array):\n    min_index = 0\n    min_val = array[0]\n    for i in range(1, len(array)):\n        if array[i] < min_val:\n            min_index = i\n            min_val = array[i]\n    return min_index\n\n\ndef find_min_index_recursive(array, index=0):\n    if index >= len(array):\n        return None\n    min_index = find_min_index_recursive(array, index + 1)\n    if min_index is None:\n        return index\n    if array[index] < array[min_index]:\n        return index\n    else:\n        return min_index\n\n\ndef find_min_index_recursive_with_cache(array, index=0, cache=None):\n    if index >= len(array):\n        return None\n    if cache is None:\n        cache = {}\n    if index in cache:\n        return cache[index]\n    min_index = find_min_index_recursive_with_cache(array, index + 1, cache)\n    if min_index is None:\n        return index\n    if array[index] < array[min_index]:\n        return index\n    else:\n        cache[index] = min_index\n        return min_index\n\n\ndef main():\n    array = [1, 4, 5, 2, 1, 8, 9, 5, 2, 3, 1]\n    print(\"Array:\", array)\n    print(\"Min index:\", find_min_index(array))\n    print(\"Min index:\", find_min_index_recursive(array))\n    print(\"Min index:\", find_min_index_recursive_with_cache(array))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -6.671875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

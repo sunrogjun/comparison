@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/75",
+    "prompt": "Write a function to find tuples which have all elements divisible by k from the given list of tuples.",
+    "canonical_solution": "def find_tuples(test_list, K):\r\n  res = [sub for sub in test_list if all(ele % K == 0 for ele in sub)]\r\n  return (str(res)) ",
+    "test_list": [
+      "assert find_tuples([(6, 24, 12), (7, 9, 6), (12, 18, 21)], 6) == '[(6, 24, 12)]'",
+      "assert find_tuples([(5, 25, 30), (4, 2, 3), (7, 8, 9)], 5) == '[(5, 25, 30)]'",
+      "assert find_tuples([(7, 9, 16), (8, 16, 4), (19, 17, 18)], 4) == '[(8, 16, 4)]'"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 64
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from typing import List\n\n\ndef divisible_by_k(lst: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Find tuples which have all elements divisible by k from the given list of tuples.\n\n    Args:\n        lst (List[tuple]): List of tuples.\n        k (int): Divisor.\n\n    Examples:\n        >>> assert divisible_by_k([(2, 4, 6), (2, 4, 8), (2, 8, 8)], 2) == [(2, 4, 6), (2, 4, 8)]\n    \"\"\"\n    return [\n        tup\n        for tup in lst\n        if all(map(lambda x: x % k == 0, tup))\n    ]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(2, 4, 6), (2, 4, 8), (2, 8, 8)], 2))",
+      21.265625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2, 3, 4), (2, 4, 6, 8), (1, 3, 5, 7), (2, 6, 8, 10)], 2)\n    [(2, 4, 6, 8), (2, 6, 8, 10)]\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in tuples\n        if all(i % k == 0 for i in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      16.8125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6), (4, 8), (5, 10), (6, 12), (7, 14), (8, 16), (9, 18), (10, 20)], 2)\n    [(2, 4), (4, 8), (6, 12), (8, 16), (10, 20)]\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6), (4, 8), (5, 10), (6, 12), (7, 14), (8, 16), (9, 18), (10, 20)], 3)\n    [(3, 6), (6, 12), (9, 18)]\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6), (4, 8), (5, 10), (6, 12), (7, 14), (8, 16), (9, 18), (10, 20)], 10)\n    []\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      16.671875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, *args: List[tuple]) -> List[tuple]:\n    \"\"\"Returns list of tuples divisible by k.\n\n    Args:\n        k: the number to be checked\n        *args: list of tuples\n\n    Examples:\n        >>> assert divisible_by_k(2, (1, 2, 3, 4, 5), (2, 4, 6, 8, 10)) == [(1, 2, 3, 4, 5)]\n        >>> assert divisible_by_k(2, (1, 2, 3, 4, 5), (2, 4, 6, 8, 10), (4, 8, 12, 16, 20)) == [(1, 2, 3, 4, 5), (4, 8, 12, 16, 20)]\n    \"\"\"\n    return [\n        tup for tup in args\n        if all(ele % k == 0 for ele in tup)\n    ]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(2, (1, 2, 3, 4, 5), (2, 4, 6, 8, 10)))\n    print(divisible_by_k(2, (1, 2, 3, 4, 5), (2, 4, 6, 8, 10), (4, 8, 12, 16, 20)))",
+      11.28125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2, 3), (2, 4, 6), (4, 8, 12)], 2)\n    [(2, 4, 6)]\n    >>> divisible_by_k([(1, 2, 3), (2, 4, 6), (4, 8, 12)], 4)\n    []\n    >>> divisible_by_k([(1, 2, 3), (2, 4, 6), (4, 8, 12)], 3)\n    [(1, 2, 3)]\n    >>> divisible_by_k([(1, 2, 3), (2, 4, 6), (4, 8, 12)], 9)\n    [(1, 2, 3), (2, 4, 6), (4, 8, 12)]\n    \"\"\"\n    return [\n        tup\n        for tup in tuples\n        if all(map(lambda x: x % k == 0, tup))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      10.40625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, tuples: List[tuple]) -> List[tuple]:\n    \"\"\"Returns a list of tuples that have all elements divisible by k.\n\n    Args:\n        k (int): divisor\n        tuples (List[tuple]): list of tuples\n\n    Returns:\n        List[tuple]: list of tuples that have all elements divisible by k\n    \"\"\"\n    return [t for t in tuples if all(i % k == 0 for i in t)]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(3, [(1, 3, 5), (2, 4, 6), (1, 2, 3)]) == [(2, 4, 6)]\n    assert divisible_by_k(1, [(1, 3, 5), (2, 4, 6), (1, 2, 3)]) == [(1, 3, 5), (1, 2, 3)]\n    assert divisible_by_k(3, [(1, 3, 6), (2, 4, 6), (1, 2, 3)]) == []",
+      9.546875
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n*m)\n# Space complexity: O(1)\ndef divisible_by_k(list_of_tuples: List[tuple], k: int) -> List[tuple]:\n    res = []\n    for tup in list_of_tuples:\n        if all(i % k == 0 for i in tup):\n            res.append(tup)\n    return res\n\n\n# Time complexity: O(n*m)\n# Space complexity: O(1)\ndef divisible_by_k2(list_of_tuples: List[tuple], k: int) -> List[tuple]:\n    res = []\n    for tup in list_of_tuples:\n        if all(i % k == 0 for i in tup):\n            res.append(tup)\n    return res\n\n\n# Time complexity: O(n*m)\n# Space complexity: O(1)\ndef divisible_by_k3(list_of_tuples: List[tuple], k: int) -> List[tuple]:\n    res = []\n    for tup in list_of_tuples:\n        if all(i % k == 0 for i in tup):\n            res.append(tup)\n    return res\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (5, 10, 15)], 3) == [(2, 4, 6), (5, 10, 15)]\n    assert divisible_by_k2([(1, 2, 3), (2, 4, 6), (5, 10, 15)], 3) == [(2, 4, 6), (5, 10, 15)]\n    assert divisible_by_k3([(1, 2, 3), (2, 4, 6), (5, 10, 15)], 3) == [(2, 4, 6), (5, 10, 15)]",
+      9.234375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[int], k: int) -> List[int]:\n    \"\"\"\n    :param arr: given list of tuples\n    :param k: integer\n    :return: list of tuples\n    >>> arr = [(1, 1), (2, 4), (3, 9), (4, 16), (5, 25)]\n    >>> divisible_by_k(arr, 5)\n    [(2, 4), (4, 16)]\n    >>> divisible_by_k(arr, 3)\n    [(3, 9)]\n    >>> divisible_by_k(arr, 1)\n    [(1, 1), (2, 4), (3, 9), (4, 16), (5, 25)]\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in arr\n        if all(i % k == 0 for i in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      8.2421875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n*m)\n\n    :param tuples:\n    :param k:\n    :return:\n    \"\"\"\n\n    def divisible_by_k_helper(tuple_: tuple, k_: int) -> bool:\n        for x in tuple_:\n            if x % k_ != 0:\n                return False\n        return True\n\n    return [\n        t\n        for t in tuples\n        if divisible_by_k_helper(t, k)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (5, 6, 7), (2, 4, 12)], 3) == [(2, 4, 12)]",
+      7.546875
+    ],
+    [
+      "from itertools import chain\nfrom typing import List\n\n\ndef divisible_by_k_tuples(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Find all tuples with all elements divisible by k.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n        k (int): divisor\n\n    Examples:\n        >>> assert divisible_by_k_tuples([(1, 2, 3), (2, 4, 6)], 2) == [(2, 4, 6)]\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in tuples\n        if all(element % k == 0 for element in chain.from_iterable(tuple_))\n    ]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k_tuples([(1, 2, 3), (2, 4, 6)], 2))",
+      6.7265625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2, 3), (3, 6, 12), (3, 3, 3), (3, 9, 9)], 3)\n    [(1, 2, 3), (3, 3, 3)]\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      6.62890625
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k(array: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    :param array: list of tuples\n    :param k: number\n    :return: list of tuples\n    \"\"\"\n    result = []\n\n    for tuple_ in array:\n        for num in tuple_:\n            if num % k != 0:\n                break\n        else:\n            result.append(tuple_)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (1, 3, 5), (2, 6, 12)], 3) == [\n        (2, 4, 6),\n        (2, 6, 12),\n    ]\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (1, 3, 5), (2, 6, 12)], 2) == [\n        (1, 2, 3),\n        (2, 4, 6),\n    ]\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (1, 3, 5), (2, 6, 12)], 5) == []\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (1, 3, 5), (2, 6, 12)], 1) == [\n        (1, 2, 3),\n        (1, 3, 5),\n        (2, 4, 6),\n        (2, 6, 12),\n    ]",
+      6.42578125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*m)\n    \"\"\"\n\n    def is_divisible_by_k(value: int, k: int) -> bool:\n        return value % k == 0\n\n    return [\n        item for item in arr\n        if all(is_divisible_by_k(value, k) for value in item)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (5, 10, 15)], 3) == [(2, 4, 6)]",
+      5.95703125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(lst: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Returns a list of tuples which have all elements divisible by k.\n\n    Args:\n        lst (List[tuple]): list of tuples.\n        k (int): integer.\n\n    Returns:\n        List[tuple]: list of tuples which have all elements divisible by k.\n\n    Examples:\n        >>> assert divisible_by_k([(1, 2, 3), (2, 4, 6)], 2) == [(2, 4, 6)]\n    \"\"\"\n    return [\n        tuple(element // k for element in tuple_element)\n        for tuple_element in lst\n        if all(element % k == 0 for element in tuple_element)\n    ]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(1, 2, 3), (2, 4, 6)], 2))",
+      5.75390625
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    :param tuples: list of tuples\n    :param k: integer\n    :return: list of tuples\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6)], 2)\n    [(2, 4), (3, 6)]\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6)], 3)\n    []\n    \"\"\"\n    result = []\n\n    for tuple_ in tuples:\n        divisible = True\n\n        for value in tuple_:\n            if value % k != 0:\n                divisible = False\n                break\n\n        if divisible:\n            result.append(tuple_)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      5.2421875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 3, 2), (2, 3, 3), (3, 3, 3), (3, 3, 3)], 3)\n    [(2, 3, 3)]\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in tuples\n        if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.43359375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, l: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(3, [(2, 3), (1, 3), (3, 3), (4, 3), (5, 3)])\n    [(2, 3), (3, 3), (4, 3), (5, 3)]\n    >>> divisible_by_k(3, [(2, 3), (1, 3), (3, 3), (4, 3), (5, 3), (6, 3), (7, 3)])\n    [(2, 3), (3, 3), (4, 3), (5, 3), (6, 3)]\n    >>> divisible_by_k(3, [(2, 3), (1, 3), (3, 3), (4, 3), (5, 3), (6, 3), (7, 3), (8, 3)])\n    [(2, 3), (3, 3), (4, 3), (5, 3), (6, 3)]\n    \"\"\"\n    return [\n        tup\n        for tup in l\n        if all(map(lambda x: x % k == 0, tup))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      4.16796875
+    ],
+    [
+      "from functools import reduce\n\n\n# O(nk) time | O(n) space - where n is the length of the tuples, and k is the number of elements in the tuples\ndef divisibleByK(k, tuples):\n    divisible = []\n    for tuple in tuples:\n        divisible.append(all([element % k == 0 for element in tuple]))\n    return divisible\n\n\n# O(nk) time | O(n) space - where n is the length of the tuples, and k is the number of elements in the tuples\ndef divisibleByKOptimized(k, tuples):\n    return [all([element % k == 0 for element in tuple]) for tuple in tuples]\n\n\n# O(nk) time | O(n) space - where n is the length of the tuples, and k is the number of elements in the tuples\ndef divisibleByKWithReduce(k, tuples):\n    return reduce(lambda divisible, tuple: divisible + [all([element % k == 0 for element in tuple])], tuples, [])\n\n\nprint(divisibleByK(2, [[2, 3, 4, 5], [2, 3, 4, 6], [2, 3, 5, 6], [2, 4, 5, 6]]))\nprint(divisibleByKOptimized(2, [[2, 3, 4, 5], [2, 3, 4, 6], [2, 3, 5, 6], [2, 4, 5, 6]]))\nprint(divisibleByKWithReduce(2, [[2, 3, 4, 5], [2, 3, 4, 6], [2, 3, 5, 6], [2, 4, 5, 6]]))",
+      3.556640625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, tup: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if k == 0:\n        return [tup[0]]\n\n    return [x for x in tup if all(map(lambda y: y % k == 0, x))]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(3, [(1, 2, 3), (2, 4, 6), (3, 6, 9)]) == [(2, 4, 6)]",
+      3.2421875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2, 3), (2, 3, 4), (4, 5, 6)], 2)\n    [(2, 3, 4)]\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(map(lambda x: x % k == 0, tuple_))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.23828125
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(n)\ndef divisible_by_k(lst_of_tuples: List[tuple], k: int) -> list:\n    return list(\n        filter(\n            lambda tpl: all(map(lambda el: el % k == 0, tpl)), lst_of_tuples\n        )\n    )\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(1, 2, 3), (2, 4, 6), (3, 6, 9)], 2))\n    print(divisible_by_k([(1, 2, 3), (2, 4, 5), (3, 6, 9)], 2))",
+      2.609375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, t: List[int]) -> bool:\n    \"\"\"\n    :param k: integer\n    :param t: list of integers\n    :return: bool\n    >>> divisible_by_k(2, [2, 3, 4])\n    False\n    >>> divisible_by_k(2, [4, 6, 8])\n    True\n    >>> divisible_by_k(3, [3, 6, 9])\n    True\n    >>> divisible_by_k(3, [3, 6, 9, 12])\n    False\n    >>> divisible_by_k(3, [3, 6, 9, 12, 18])\n    True\n    >>> divisible_by_k(3, [3, 6, 9, 12, 18, 24])\n    False\n    \"\"\"\n    return all(element % k == 0 for element in t)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.515625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, l: List[tuple]) -> List[tuple]:\n    \"\"\"Finds all the tuples which have all the elements divisible by k.\n\n    Args:\n        k (int): the divisor\n        l (List[tuple]): the list of tuples\n\n    Returns:\n        List[tuple]: the list of tuples which have all the elements divisible by k.\n    \"\"\"\n    return [i for i in l if all(map(lambda x: x % k == 0, i))]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(2, [(2, 4), (6, 8), (10, 12)]))",
+      2.46875
+    ],
+    [
+      "from functools import reduce\n\n\ndef divisible_by_k(lst, k):\n    def divisible_by_k_inner(x, y):\n        return x and y % k == 0\n\n    return [t for t in lst if reduce(divisible_by_k_inner, t, True)]\n\n\n# tests\n\ndef test_divisible_by_k_1():\n    lst = [(12, 18, 20), (4, 3, 2), (1, 3, 4)]\n    assert divisible_by_k(lst, 2) == [(12, 18, 20)]\n\n\ndef test_divisible_by_k_2():\n    lst = [(12, 18, 20), (4, 3, 2), (1, 3, 4)]\n    assert divisible_by_k(lst, 3) == [(4, 3, 2), (1, 3, 4)]\n\n\ndef test_divisible_by_k_3():\n    lst = [(12, 18, 20), (4, 3, 2), (1, 3, 4)]\n    assert divisible_by_k(lst, 4) == [(1, 3, 4)]\n\n\ndef test_divisible_by_k_4():\n    lst = [(12, 18, 20), (4, 3, 2), (1, 3, 4)]\n    assert divisible_by_k(lst, 5) == []",
+      2.333984375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(lst: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Finds tuples which have all elements divisible by k.\n\n    Args:\n        lst: list of tuples\n        k: divisor\n\n    Examples:\n        >>> assert divisible_by_k([(1, 2, 3), (2, 4, 6), (2, 3, 4)], 2) == [(1, 2, 3)]\n    \"\"\"\n    return [tuple_ for tuple_ in lst if all(i % k == 0 for i in tuple_)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(1, 2, 3), (2, 4, 6), (2, 3, 4)], 2))",
+      1.759765625
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    return [tuple for tuple in tuples if all(n % k == 0 for n in tuple)]\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k_2(tuples: List[tuple], k: int) -> List[tuple]:\n    return [\n        tuple\n        for tuple in tuples\n        if tuple[0] % k == 0 and tuple[1] % k == 0 and tuple[2] % k == 0\n    ]\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k_3(tuples: List[tuple], k: int) -> List[tuple]:\n    return [tuple for tuple in tuples if all(n % k == 0 for n in tuple)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(1, 2, 3), (5, 6, 7), (2, 4, 0)], 2))\n    print(divisible_by_k_2([(1, 2, 3), (5, 6, 7), (2, 4, 0)], 2))\n    print(divisible_by_k_3([(1, 2, 3), (5, 6, 7), (2, 4, 0)], 2))",
+      1.7314453125
+    ],
+    [
+      "from itertools import combinations\n\n\ndef divisible(arr, k, n):\n    if n == 1:\n        return list(filter(lambda x: x % k == 0, arr))\n\n    combinations_list = list(combinations(arr, n))\n    result = []\n\n    for combination in combinations_list:\n        if sum(combination) % k == 0:\n            result.append(combination)\n\n    return result\n\n\nprint(divisible([12, 3, 6, 6, 9], 3, 2))\nprint(divisible([1, 2, 3, 4], 1, 2))\nprint(divisible([1, 2, 3, 4], 1, 3))",
+      1.68359375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, tuples: List[tuple]) -> List[tuple]:\n    \"\"\"Return list of tuples divisible by k.\n\n    >>> divisible_by_k(3, [(1, 3), (2, 6), (3, 9)])\n    [(1, 3), (2, 6)]\n    >>> divisible_by_k(2, [(1, 3), (2, 6), (3, 9)])\n    [(2, 6)]\n    >>> divisible_by_k(4, [(1, 3), (2, 6), (3, 9)])\n    []\n    \"\"\"\n    return [tuple_ for tuple_ in tuples if all(element % k == 0 for element in tuple_)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.5
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(data: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2), (2, 4), (4, 6), (6, 8), (8, 10), (10, 12)], 3)\n    [(2, 4), (4, 6), (6, 8), (8, 10), (10, 12)]\n    >>> divisible_by_k([(1, 2), (2, 4), (4, 6), (6, 8), (8, 10), (10, 12)], 4)\n    []\n    >>> divisible_by_k([(1, 2), (2, 4), (4, 6), (6, 8), (8, 10), (10, 12)], 5)\n    []\n    >>> divisible_by_k([(1, 2), (2, 4), (4, 6), (6, 8), (8, 10), (10, 12)], 0)\n    []\n    \"\"\"\n    return [tuple_ for tuple_ in data if all(value % k == 0 for value in tuple_)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.357421875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, arr: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if k == 0:\n        return []\n\n    return [\n        tup for tup in arr if all(elem % k == 0 for elem in tup)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(2, [(1, 2, 3), (2, 4, 6), (3, 6, 9)]) == [(2, 4, 6)]",
+      1.2763671875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(data: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    :param data: list of tuples\n    :param k: int\n    :return: list of tuples\n    >>> divisible_by_k([(1, 2, 3), (2, 4, 6), (5, 10, 15)], 3)\n    [(2, 4, 6)]\n    \"\"\"\n    return [i for i in data if all(i[j] % k == 0 for j in range(len(i)))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.158203125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Returns all the tuples in a list of tuples which have all elements divisible by k.\n\n    >>> divisible_by_k([(1, 2, 3), (4, 5, 6), (10, 11, 12)], 2)\n    [(1, 2, 3), (10, 11, 12)]\n    >>> divisible_by_k([(1, 2, 3), (4, 5, 6), (10, 11, 12)], 3)\n    []\n    \"\"\"\n    return [t for t in tuples if all(i % k == 0 for i in t)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.1513671875
+    ],
+    [
+      "def find_tuple(arr, k):\n    return [x for x in arr if not any(y % k for y in x)]\n\n\ndef test_find_tuple():\n    assert find_tuple(\n        [(2, 4, 5), (1, 2, 3), (4, 1, 1), (5, 2, 3), (4, 2, 4), (2, 3, 4)], 2\n    ) == [(2, 4, 5), (4, 2, 4), (2, 3, 4)]\n\n\nif __name__ == \"__main__\":\n    test_find_tuple()",
+      1.1357421875
+    ],
+    [
+      "from functools import reduce\n\n\ndef divisible_by_k(tuples, k):\n    return [t for t in tuples if reduce(lambda x, y: x and y, map(lambda x: x % k == 0, t))]\n\n\ndef test_divisible_by_k():\n    \"\"\"\n    >>> test_divisible_by_k()\n    \"\"\"\n    assert divisible_by_k(((1, 2, 3), (2, 4, 6), (1, 3, 9)), 3) == [(2, 4, 6)]\n    assert divisible_by_k(((1, 2, 3), (2, 4, 6), (1, 3, 9)), 2) == [(1, 2, 3), (1, 3, 9)]\n    assert divisible_by_k(((1, 2, 3), (2, 4, 6), (1, 3, 9)), 4) == []\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      1.0146484375
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# Time complexity: O(N)\n# Space complexity: O(1)\ndef divisible_by_k(k, tup):\n    return all([i % k == 0 for i in tup])\n\n\n# Time complexity: O(N)\n# Space complexity: O(1)\ndef divisible_by_k_optimized(k, tup):\n    return all([i % k == 0 for i in tup])\n\n\n# Time complexity: O(N)\n# Space complexity: O(1)\ndef divisible_by_k_math_optimized(k, tup):\n    return reduce(mul, tup) % k == 0\n\n\nif __name__ == \"__main__\":\n    tup = ((1, 2), (3, 4), (5, 6))\n    k = 2\n    print(divisible_by_k(k, tup))\n    print(divisible_by_k_optimized(k, tup))\n    print(divisible_by_k_math_optimized(k, tup))",
+      0.9775390625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, lst: List[tuple]) -> List[tuple]:\n    \"\"\"Return all tuples from list that contain only divisible by k numbers.\"\"\"\n    return [tup for tup in lst if all(x % k == 0 for x in tup)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(3, [(2, 3, 4), (1, 2, 4), (1, 2, 5), (1, 2, 6)]))",
+      0.87939453125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def is_divisible(num: int) -> bool:\n        return num % k == 0\n\n    return [\n        item for item in arr if all(map(is_divisible, item))\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3, 4, 5), (2, 4, 6, 8, 10), (1, 2, 3, 4, 5)], 2) == [\n        (2, 4, 6, 8, 10)\n    ]",
+      0.81591796875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2), (3, 4), (5, 6), (7, 8)], 3)\n    [(3, 4), (5, 6)]\n    >>> divisible_by_k([(1, 2), (3, 4), (5, 6), (7, 8)], 2)\n    [(1, 2)]\n    >>> divisible_by_k([(1, 2), (3, 4), (5, 6), (7, 8)], 1)\n    [(1, 2), (3, 4), (5, 6), (7, 8)]\n    >>> divisible_by_k([(1, 2), (3, 4), (5, 6), (7, 8)], 0)\n    [(1, 2), (3, 4), (5, 6), (7, 8)]\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.78857421875
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\ndef divisible_by(x, k):\n    return x % k == 0\n\n\ndef divisible_by_k(t, k):\n    return all([divisible_by(x, k) for x in t])\n\n\ndef divisible_by_k_list(lst, k):\n    return [t for t in lst if divisible_by_k(t, k)]\n\n\ndef divisible_by_k_list_reduce(lst, k):\n    return list(\n        filter(\n            lambda t: all([divisible_by(x, k) for x in t]),\n            lst\n        )\n    )\n\n\ndef divisible_by_k_list_reduce_2(lst, k):\n    return list(\n        filter(\n            lambda t: reduce(mul, t) % k == 0,\n            lst\n        )\n    )\n\n\ndef divisible_by_k_list_reduce_3(lst, k):\n    return list(filter(lambda t: reduce(lambda x, y: x * y, t) % k == 0, lst))\n\n\ndef divisible_by_k_list_reduce_4(lst, k):\n    return list(filter(lambda t: reduce(lambda a, b: a * b, t, 1) % k == 0, lst))\n\n\nif __name__ == '__main__':\n    lst = [(2, 3, 4), (1, 1, 1), (1, 2, 1), (1, 1, 2), (2, 4, 8)]\n    print(divisible_by_k_list(lst, 2))\n    print(divisible_by_k_list_reduce(lst, 2))\n    print(divisible_by_k_list_reduce_2(lst, 2))\n    print(divisible_by_k_list_reduce_3(lst, 2))\n    print(divisible_by_k_list_reduce_4(lst, 2))",
+      0.7177734375
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k(tuples, k):\n    if not tuples:\n        return []\n\n    return [\n        tup for tup in tuples\n        if reduce(mul, tup, 1) % k == 0\n    ]\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k_2(tuples, k):\n    if not tuples:\n        return []\n\n    return [\n        tup for tup in tuples\n        if sum(tup) % k == 0\n    ]",
+      0.5029296875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    result = []\n\n    for el in arr:\n        if all(not el[i] % k for i in range(len(el))):\n            result.append(el)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (1, 5, 10)], 2) == [\n        (1, 2, 3),\n        (1, 5, 10),\n    ]",
+      0.440673828125
+    ],
+    [
+      "def divisible_by_k(tuples, k):\n    return [tuple for tuple in tuples if all(element % k == 0 for element in tuple)]\n\n\nprint(divisible_by_k(((1, 2), (2, 4), (3, 6)), 2))\nprint(divisible_by_k(((1, 2, 3), (3, 6, 9), (10, 15, 10)), 3))",
+      0.3837890625
+    ],
+    [
+      "from functools import reduce\n\n\ndef divisible_by(a, b):\n    return a % b == 0\n\n\ndef divisible_by_k(tuples, k):\n    return [tuple for tuple in tuples if reduce(divisible_by, tuple, True)]\n\n\nif __name__ == '__main__':\n    print(divisible_by_k(((2, 3, 4), (2, 4, 8), (1, 3, 9), (1, 2, 3), (2, 6, 12)), 2))",
+      0.359619140625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, lst: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(2, [(1, 2, 3), (2, 3, 4), (3, 4, 5)])\n    [(2, 3, 4)]\n    \"\"\"\n    return [\n        element\n        for element in lst\n        if all(element[index] % k == 0 for index in range(len(element)))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.19775390625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not tuples:\n        return []\n\n    if len(tuples[0]) == 1:\n        return list(filter(lambda x: x % k == 0, tuples))\n\n    return list(filter(lambda x: all(i % k == 0 for i in x), tuples))\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(3, [(1, 2, 3), (6, 2, 1), (5, 6, 7)]) == [(6, 2, 1)]\n    assert divisible_by_k(2, [(1, 2, 3), (6, 2, 1), (5, 6, 7)]) == [(1, 2, 3), (6, 2, 1)]\n    assert divisible_by_k(3, [(1, 2, 3), (6, 2, 1)]) == []\n    assert divisible_by_k(2, [(1, 2, 3), (6, 2, 1)]) == [(1, 2, 3)]\n    assert divisible_by_k(3, [(1, 2, 3)]) == []\n    assert divisible_by_k(2, [(1, 2, 3)]) == [(1, 2, 3)]",
+      0.1824951171875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(2, 2, 3), (2, 3, 3), (2, 3, 4)], 2)\n    [(2, 2, 3)]\n    >>> divisible_by_k([(2, 2, 3), (2, 3, 3), (2, 3, 4)], 3)\n    [(2, 2, 3), (2, 3, 3)]\n    >>> divisible_by_k([(2, 2, 3), (2, 3, 3), (2, 3, 4)], 4)\n    []\n    \"\"\"\n    return [tuple_ for tuple_ in tuples if all(element % k == 0 for element in tuple_)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.1536865234375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    return [tup for tup in arr if all(i % k == 0 for i in tup)]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (6, 7, 8), (3, 6, 9)], 3) == [(6, 7, 8)]",
+      0.1514892578125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(lst: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*k)\n    \"\"\"\n    result = []\n\n    for i in lst:\n        is_divisible = True\n\n        for j in i:\n            if j % k != 0:\n                is_divisible = False\n                break\n\n        if is_divisible:\n            result.append(i)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 2) == [(2, 4, 6, 8)]",
+      0.0794677734375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(lst: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Return a list of tuples which have all elements divisible by k from the given list of tuples.\n\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6), (4, 8), (5, 10)], 2)\n    [(2, 4), (4, 8)]\n    \"\"\"\n    return [tuple(val // k for val in tup) for tup in lst if all(val % k == 0 for val in tup)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.0134429931640625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2, 3), (2, 4, 6)], 2)\n    [(1, 2, 3)]\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.011810302734375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, lst: List[tuple]) -> List[tuple]:\n    \"\"\"Finds all tuples in a list of tuples which have all elements divisible by k.\n\n    Args:\n        k (int): divisor\n        lst (List[tuple]): list of tuples\n\n    Returns:\n        List[tuple]: list of tuples\n    \"\"\"\n\n    def divisible(n):\n        return n % k == 0\n\n    return [t for t in lst if all(divisible(n) for n in t)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(3, [(2, 1, 2, 3), (2, 4, 6, 8), (1, 3, 3, 9)]))",
+      -0.0143280029296875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def is_divisible(number: int) -> bool:\n        return number % k == 0\n\n    def divisible(value: tuple) -> bool:\n        return all(map(is_divisible, value))\n\n    return list(filter(divisible, tuples))\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (3, 6, 9)], 2) == [(2, 4, 6)]",
+      -0.274658203125
+    ],
+    [
+      "from functools import reduce\nfrom itertools import combinations\nfrom typing import List\n\n\ndef divisible_by_k(divisible_k_tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Finds all tuples that have all elements divisible by k from the list of tuples.\n\n    Args:\n        divisible_k_tuples (List[tuple]): list of tuples\n        k (int): k\n\n    Returns:\n        List[tuple]: list of tuples\n    \"\"\"\n    if k == 0:\n        return []\n\n    return [\n        divisible_k_tuple\n        for divisible_k_tuple in divisible_k_tuples\n        if all(element % k == 0 for element in divisible_k_tuple)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(2, 5), (2, 10), (3, 6), (5, 6), (1, 2)], 2) == [(2, 5), (3, 6), (5, 6)]\n    assert divisible_by_k([(2, 5), (2, 10), (3, 6), (5, 6), (1, 2)], 0) == []\n    assert divisible_by_k([(2, 5), (2, 10), (3, 6), (5, 6), (1, 2)], 1) == [(1, 2)]\n    assert divisible_by_k([(2, 5), (2, 10), (3, 6), (5, 6), (1, 2)], 3) == [(2, 5), (2, 10), (3, 6), (5, 6)]",
+      -0.349609375
+    ],
+    [
+      "from functools import reduce\nfrom operator import and_\n\n\ndef check_divisibility(tup, k):\n    return reduce(and_, (i % k == 0 for i in tup))\n\n\ndef divisibility_checker(tuples, k):\n    return [tup for tup in tuples if check_divisibility(tup, k)]\n\n\nif __name__ == \"__main__\":\n    print(divisibility_checker([(2, 5, 3), (5, 1, 1), (3, 6, 4)], 3))",
+      -0.62060546875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, t: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(1, [(1, 2), (2, 2), (3, 2)])\n    [(1, 2), (2, 2)]\n    >>> divisible_by_k(2, [(1, 2), (2, 2), (3, 2)])\n    [(2, 2)]\n    >>> divisible_by_k(2, [(1, 2, 3), (2, 2, 2), (3, 2, 2)])\n    [(2, 2, 2)]\n    \"\"\"\n    return [\n        tuple(x // k for x in tup)\n        for tup in t\n        if all(x % k == 0 for x in tup)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.62548828125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, data: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def divisible(num: int) -> bool:\n        return num % k == 0\n\n    return [tup for tup in data if all(map(divisible, tup))]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(3, [(2, 6), (1, 2), (2, 3), (5, 6)]) == [(2, 6), (2, 3), (5, 6)]",
+      -0.6533203125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2), (3, 4), (5, 6)], 2)\n    [(1, 2)]\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(item % k == 0 for item in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "def divisible_by_k(tuples, k):\n    return [tuple_ for tuple_ in tuples if all(x % k == 0 for x in tuple_)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(((1, 2), (3, 4), (5, 6), (7, 8), (9, 10)), 2))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6)], 2)\n    [(2, 4)]\n    >>> divisible_by_k([(1, 2), (2, 4), (3, 6)], 3)\n    []\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in tuples\n        if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    O(n*m)\n    \"\"\"\n    result = []\n\n    for i in arr:\n        if all(x % k == 0 for x in i):\n            result.append(i)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (6, 5, 3), (4, 3, 8)], 3) == [(1, 2, 3), (4, 3, 8)]",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    return [\n        tuple_ for tuple_ in arr if all(elem % k == 0 for elem in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (5, 6, 7), (2, 4, 12)], 2) == [(1, 2, 3), (2, 4, 12)]",
+      -0.85693359375
+    ],
+    [
+      "def divisible_by_k(tuples, k):\n    \"\"\"\n    tuples: list of tuples\n    k: int\n\n    return: list of tuples\n    \"\"\"\n    divisible_tuples = []\n    for t in tuples:\n        all_divisible = True\n        for n in t:\n            if n % k != 0:\n                all_divisible = False\n        if all_divisible:\n            divisible_tuples.append(t)\n    return divisible_tuples\n\nif __name__ == '__main__':\n    print(divisible_by_k([(1, 2), (3, 4), (5, 6), (7, 8)], 3))",
+      -0.85693359375
+    ],
+    [
+      "from functools import reduce\n\n\ndef divisible_by(lst, k):\n    return [tuple(x // k for x in tup) for tup in lst if reduce(lambda x, y: x * y, tup) % k == 0]\n\n\ndef test_divisible_by():\n    assert divisible_by([(1, 2, 3), (6, 5, 1), (1, 3, 10)], 2) == [(1, 1, 2), (3, 1, 5)]\n\n\nif __name__ == '__main__':\n    test_divisible_by()",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n * m)\n# where n is the number of tuples and m is the number of elements in each tuple\ndef divisible_by_k(k: int, l: List[tuple]) -> List[tuple]:\n    return [tup for tup in l if all(num % k == 0 for num in tup)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(2, [(1, 2, 3), (2, 4, 6), (3, 6, 9), (4, 8, 12), (5, 10, 15)]))",
+      -0.85791015625
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\ndef divisible_by_k(list_of_tuples, k):\n    \"\"\"Return list of tuples that have all elements divisible by k\"\"\"\n    return [tup for tup in list_of_tuples if divisible_by(tup, k)]\n\n\ndef divisible_by(tup, k):\n    \"\"\"Return True if tup has all elements divisible by k\"\"\"\n    return reduce(mul, tup, 1) % k == 0",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, l: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def check_tuple(tup: tuple) -> bool:\n        for i in tup:\n            if i % k != 0:\n                return False\n        return True\n\n    return [tup for tup in l if check_tuple(tup)]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(3, [(1, 2, 3), (2, 3, 4), (3, 4, 5)]) == [(2, 3, 4)]",
+      -0.85791015625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    return [t for t in tuples if all(x % k == 0 for x in t)]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3, 4), (5, 6, 7, 8), (3, 6, 9, 12)], 3) == [\n        (3, 6, 9, 12)\n    ]",
+      -0.8583984375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(2, [(2, 3), (1, 2), (3, 3), (2, 3)])\n    [(1, 2), (2, 3), (2, 3)]\n    \"\"\"\n    return [\n        tpl for tpl in tuples\n        if all(map(lambda x: x % k == 0, tpl))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def divisible_by(tuples, k):\n    return [t for t in tuples if all(i % k == 0 for i in t)]\n\ndef test_divisible_by():\n    \"\"\"\n    >>> test_divisible_by()\n    \"\"\"\n\n    assert divisible_by([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 2) == [(2, 4, 6, 8)]\n    assert divisible_by([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 3) == [(3, 6, 9, 12)]\n\nif __name__ == '__main__':\n    test_divisible_by()",
+      -0.8583984375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(list_of_tuples: List[tuple], k: int) -> list:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    return [\n        tuple_ for tuple_ in list_of_tuples\n        if all(element % k == 0 for element in tuple_)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(2, 4, 5), (1, 3, 5), (2, 3, 4)], 2) == [(2, 4, 5), (2, 3, 4)]",
+      -0.8583984375
+    ],
+    [
+      "from functools import reduce\n\n\n# O(N) time | O(N) space\ndef find_divisible_tuples(tuples, k):\n    divisible_tuples = []\n    for tup in tuples:\n        if divisible_tuple(tup, k):\n            divisible_tuples.append(tup)\n    return divisible_tuples\n\n\ndef divisible_tuple(tup, k):\n    return reduce(lambda divisible, el: divisible and el % k == 0, tup, True)\n\n\n# O(N) time | O(N) space\ndef find_divisible_tuples(tuples, k):\n    divisible_tuples = []\n    for tup in tuples:\n        if all(el % k == 0 for el in tup):\n            divisible_tuples.append(tup)\n    return divisible_tuples",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\ndef get_divisible_tuple(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> get_divisible_tuple([(2, 4, 6, 8), (3, 6, 9), (4, 8)], 2)\n    [(2, 4, 6, 8)]\n    \"\"\"\n    return [tpl for tpl in tuples if all(ele % k == 0 for ele in tpl)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(data: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    :param data: input list of tuples\n    :param k: number to divide by\n    :return: list of tuples which have all elements divisible by k\n\n    >>> divisible_by_k([(2, 5, 10), (1, 2, 3), (2, 3, 4), (4, 6, 8)], 2)\n    [(2, 5, 10), (2, 3, 4)]\n    \"\"\"\n    return [elem for elem in data if all(val % k == 0 for val in elem)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(2, [(1, 2, 3), (2, 4, 6), (3, 6, 9), (4, 8, 12)])\n    [(1, 2, 3), (2, 4, 6), (4, 8, 12)]\n    \"\"\"\n    result = []\n\n    for tup in tuples:\n        if all(map(lambda x: x % k == 0, tup)):\n            result.append(tup)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\ndef divisible_by_k(arr, k):\n    def divisible_by_k_helper(acc, tuple_):\n        return acc and all(map(lambda x: x % k == 0, tuple_))\n\n    return reduce(divisible_by_k_helper, arr, True)\n\n\ndef test_divisible_by_k():\n    assert divisible_by_k([(2, 4, 6), (5, 10, 20), (3, 6, 9)], 3)\n    assert not divisible_by_k([(2, 4, 6), (5, 10, 20), (3, 6, 9)], 4)\n\n\nif __name__ == \"__main__\":\n    test_divisible_by_k()",
+      -0.85888671875
+    ],
+    [
+      "from functools import reduce\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)\ndef divisible_by_k(tuples, k):\n    for t in tuples:\n        if reduce(lambda x, y: x and y, map(lambda x: x % k == 0, t)):\n            yield t\n\n\nif __name__ == \"__main__\":\n    print([*divisible_by_k([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 3)])\n    print([*divisible_by_k([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 5)])",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, lst: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(2, [(1, 2), (2, 4), (4, 6)])\n    [(2, 4)]\n    >>> divisible_by_k(3, [(1, 2), (2, 4), (4, 6)])\n    [(4, 6)]\n    >>> divisible_by_k(2, [(2, 2), (2, 4), (4, 6)])\n    [(2, 4)]\n    >>> divisible_by_k(1, [(1, 1), (2, 2), (3, 3)])\n    [(1, 1), (2, 2), (3, 3)]\n    \"\"\"\n    return [x for x in lst if all(x % k == 0 for x in x)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.9384765625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    :param tuples: list of tuples\n    :param k: number\n    :return: list of tuples divisible by k\n    >>> divisible_by_k([(2, 5, 3), (5, 2, 3), (12, 12, 12), (1, 2, 3)], 2)\n    [(2, 5, 3), (1, 2, 3)]\n    \"\"\"\n    return [tuple_ for tuple_ in tuples if all(map(lambda x: x % k == 0, tuple_))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.97412109375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[int], k: int) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n*k)\n    \"\"\"\n\n    def is_divisible(num: int) -> bool:\n        return num % k == 0\n\n    def is_divisible_tuple(tup: tuple) -> bool:\n        return all(is_divisible(num) for num in tup)\n\n    return [tup for tup in arr if is_divisible_tuple(tup)]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (2, 4, 6), (3, 6, 9)], 2) == [(2, 4, 6)]",
+      -1.134765625
+    ],
+    [
+      "def divisible_by_k(tuples, k):\n    for tup in tuples:\n        if not all([num % k == 0 for num in tup]):\n            tuples.remove(tup)\n    return tuples\n\n\nprint(divisible_by_k([(2, 6, 8, 2), (2, 6, 8, 3), (2, 6, 8, 4), (2, 6, 8, 5), (2, 6, 8, 6), (2, 6, 8, 7), (2, 6, 8, 8)], 2))",
+      -1.2119140625
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    return [tuple_ for tuple_ in tuples if all(x % k == 0 for x in tuple_)]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(2, 3), (1, 2), (3, 3), (4, 4)], 3))",
+      -1.25390625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(array: List[List[int]], k: int) -> List[List[int]]:\n    \"\"\"Returns the list of tuples which have all elements divisible by k.\n\n    Args:\n        array (List[List[int]]): list of tuples\n        k (int): number to be checked\n\n    Returns:\n        List[List[int]]: list of tuples\n    \"\"\"\n    return [\n        tuple_ for tuple_ in array\n        if all(map(lambda x: x % k == 0, tuple_))\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k(\n        [[1, 2, 3], [2, 4, 6], [3, 6, 9]],\n        3\n    ) == [[2, 4, 6]]",
+      -1.416015625
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k(tuples, k):\n    return [t for t in tuples if all(map(lambda x: x % k == 0, t))]\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k_reduce(tuples, k):\n    return [t for t in tuples if reduce(lambda x, y: x and y, map(lambda x: x % k == 0, t))]\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k_reduce2(tuples, k):\n    return [t for t in tuples if reduce(lambda x, y: x * y, map(lambda x: x % k == 0, t), 1)]\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k_reduce3(tuples, k):\n    return [t for t in tuples if all(map(lambda x: x % k == 0, t)) or not any(map(lambda x: x % k != 0, t))]\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k_reduce4(tuples, k):\n    return [t for t in tuples if not any(map(lambda x: x % k != 0, t)) or all(map(lambda x: x % k == 0, t))]\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k_reduce5(tuples, k):\n    return [t for t in tuples if all(map(lambda x: x % k == 0 or x % k == 1, t)) or not any(map(lambda x: x % k != 0, t))]\n\n\n# Time complexity O(n) where n is the number of tuples\ndef divisible_by_k_reduce6(tuples, k):\n    return [t for t in tuples if all(map(lambda",
+      -1.421875
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# time O(n) | space O(n)\ndef divisible_by_k_tuples(tuples, k):\n    for t in tuples:\n        if not all(element % k == 0 for element in t):\n            return False\n    return True\n\n\n# time O(n) | space O(n)\ndef divisible_by_k_tuples_2(tuples, k):\n    return all(all(element % k == 0 for element in t) for t in tuples)\n\n\n# time O(n) | space O(n)\ndef divisible_by_k_tuples_3(tuples, k):\n    return reduce(mul, [reduce(mul, t) for t in tuples]) % k == 0\n\n\nprint(divisible_by_k_tuples([(24, 40), (6, 8), (12, 16)], 8))\nprint(divisible_by_k_tuples([(24, 40), (6, 8), (12, 16)], 12))\nprint(divisible_by_k_tuples([(24, 40), (6, 8), (12, 16)], 6))\nprint(divisible_by_k_tuples([(24, 40), (6, 8), (12, 16)], 3))\n\nprint(divisible_by_k_tuples_2([(24, 40), (6, 8), (12, 16)], 8))\nprint(divisible_by_k_tuples_2([(24, 40), (6, 8), (12, 16)], 12))\nprint(divisible_by_k_tuples_2([(24, 40), (6, 8), (12, 16)], 6))\nprint(divisible_by_k_tuples_2([(24, 40), (6,",
+      -1.6484375
+    ],
+    [
+      "from gfg.dynamic_programming.greedy_algos.knapsack_problem import knapsack\n\n\ndef divisible_by_k(tuples: list, k: int) -> list:\n    \"\"\"\n    Time Complexity: O(nk)\n    Space Complexity: O(nk)\n    \"\"\"\n\n    result = []\n    for tup in tuples:\n        if knapsack(tup, k, 0, 0):\n            result.append(tup)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k([(1, 2, 3), (2, 4, 6), (3, 6, 9)], 3))",
+      -1.6953125
+    ],
+    [
+      "from typing import List\n\n\n# O(n)\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"Return a list of tuples with all elements divisible by k.\"\"\"\n    return [tup for tup in tuples if all(elem % k == 0 for elem in tup)]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 2, 3), (4, 5, 6), (10, 11, 12), (13, 14, 15), (16, 17, 18)], 3) == [\n        (10, 11, 12),\n        (13, 14, 15),\n    ]",
+      -1.7041015625
+    ],
+    [
+      "from itertools import chain\nfrom typing import List\n\n\ndef divisible_by_k(k: int, tup: tuple) -> bool:\n    for n in tup:\n        if n % k != 0:\n            return False\n    return True\n\n\ndef find_divisible_tuples(k: int, tup: tuple) -> List[tuple]:\n    \"\"\"Find all tuples in tup which have all elements divisible by k\n\n    Args:\n        k (int): the divisor\n        tup (tuple): a tuple of tuples\n\n    Returns:\n        List[tuple]: a list of tuples\n    \"\"\"\n    return [t for t in tup if divisible_by_k(k, t)]\n\n\nif __name__ == \"__main__\":\n    tup = ((2, 4, 6), (1, 3, 9), (5, 10, 15), (10, 20, 30))\n    print(find_divisible_tuples(2, tup))",
+      -2.017578125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, list_of_tuples: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(3, [(1, 1, 1), (2, 4, 6), (3, 9, 18)])\n    [(2, 4, 6)]\n    \"\"\"\n    return [\n        item\n        for item in list_of_tuples\n        if all(map(lambda x: x % k == 0, item))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.298828125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(arr: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k([(1, 4, 9), (2, 5, 10), (3, 6, 11), (4, 7, 12), (5, 8, 13), (6, 9, 14)], 3)\n    [(2, 5, 10), (4, 7, 12), (6, 9, 14)]\n    \"\"\"\n    return [\n        item for item in arr if all(item[0] % k == 0 and item[1] % k == 0 and item[2] % k == 0)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.306640625
+    ],
+    [
+      "from itertools import combinations\nfrom typing import List\n\n\ndef divisible_by_k(k: int, tuples: List[tuple]) -> list:\n    \"\"\"Find tuples which have all elements divisible by k from the given list of tuples.\n\n    Args:\n        k (int): divisor\n        tuples (List[tuple]): List of tuples to check\n\n    Returns:\n        list: List of tuples that have all elements divisible by k\n    \"\"\"\n    return [\n        tpl\n        for tpl in combinations(tuples, len(tuples))\n        if all(x % k == 0 for x in tpl)\n    ]\n\n\nif __name__ == \"__main__\":\n    print(divisible_by_k(5, [(1, 2, 3), (2, 3, 4), (1, 3, 4), (2, 6, 8)]))",
+      -2.681640625
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)\ndef divisible_by_k(tuples, k):\n    result = []\n\n    for tup in tuples:\n        if reduce(mul, tup, 1) % k == 0:\n            result.append(tup)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([(1, 2, 3), (2, 3, 4), (4, 5, 6)], 3, [(2, 3, 4)]),\n        ([(2, 3, 4), (3, 4, 5), (4, 5, 6)], 3, [(3, 4, 5)]),\n        ([(1, 2, 3), (2, 3, 4), (4, 5, 6)], 4, []),\n        ([(1, 2, 3), (2, 3, 4), (4, 5, 6)], 6, [(4, 5, 6)]),\n    ]\n\n    for test_case in test_cases:\n        assert divisible_by_k(test_case[0], test_case[1]) == test_case[2]",
+      -3.046875
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# Time complexity is O(n*m)\ndef divisible_by_k(tuples, k):\n    \"\"\"\n    >>> divisible_by_k([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 3)\n    [(4, 5, 6), (7, 8, 9)]\n    \"\"\"\n    return [\n        tuple_ for tuple_ in tuples if all(tuple_[i] % k == 0 for i in range(len(tuple_)))\n    ]\n\n\n# Time complexity is O(n*m)\ndef divisible_by_k_reduce(tuples, k):\n    \"\"\"\n    >>> divisible_by_k_reduce([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 3)\n    [(4, 5, 6), (7, 8, 9)]\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in tuples\n        if reduce(mul, (i % k for i in tuple_), 1) == 0\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.271484375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, data: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> divisible_by_k(5, [(1, 2, 3), (2, 4, 10), (1, 2, 5), (1, 4, 8)])\n    [(1, 2, 3), (1, 2, 5)]\n    \"\"\"\n    return [\n        tuple(element for element in tup if element % k == 0)\n        for tup in data\n        if all(element % k == 0 for element in tup)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.884765625
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(k: int, t: List[int]) -> List[List[int]]:\n    \"\"\"\n    >>> divisible_by_k(3, [(1, 2), (2, 4), (3, 6), (4, 8)])\n    [[1, 2], [2, 4], [3, 6], [4, 8]]\n    >>> divisible_by_k(3, [(1, 2), (2, 4), (3, 6), (4, 8), (6, 9)])\n    [[1, 2], [2, 4], [3, 6]]\n    >>> divisible_by_k(3, [(1, 2), (2, 4), (3, 6), (4, 8), (6, 9), (9, 12)])\n    [[1, 2], [2, 4], [3, 6]]\n    >>> divisible_by_k(3, [(1, 2), (2, 4), (3, 6), (4, 8), (6, 9), (9, 12), (9, 12)])\n    [[1, 2], [2, 4], [3, 6]]\n    >>> divisible_by_k(3, [])\n    []\n    \"\"\"\n    return [\n        tuple_\n        for tuple_ in t\n        if all(map(lambda x: x % k == 0, tuple_))\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.01953125
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k(tuples, k):\n    if not tuples:\n        return []\n\n    if len(tuples) == 1:\n        return [tuples[0]] if reduce(mul, tuples[0], 1) % k == 0 else []\n\n    return [t for t in tuples if reduce(mul, t, 1) % k == 0]\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef divisible_by_k2(tuples, k):\n    if not tuples:\n        return []\n\n    if len(tuples) == 1:\n        return [tuples[0]] if reduce(mul, tuples[0], 1) % k == 0 else []\n\n    return [t for t in tuples if all(x % k == 0 for x in t)]",
+      -4.77734375
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(tuples: List[tuple], k: int) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n*m)\n    \"\"\"\n\n    def divisible_by_k_helper(tuples, k, index):\n        if index == len(tuples):\n            return True\n\n        for i in range(index, len(tuples)):\n            for j in range(len(tuples[i])):\n                if tuples[i][j] % k:\n                    return False\n\n            if divisible_by_k_helper(tuples, k, i + 1):\n                return True\n\n        return False\n\n    return [\n        tuple_ for tuple_ in tuples if divisible_by_k_helper(tuples, k, 0)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert divisible_by_k([(1, 4, 6, 9), (2, 4, 8, 10), (3, 6, 9, 12)], 3) == [(1, 4, 6, 9)]",
+      -4.984375
+    ],
+    [
+      "from gfg.divide_and_conquer.helper import print_list\n\n\ndef divisible_by_k(data, k):\n    result = []\n\n    for i in range(len(data)):\n        divisible = True\n\n        for j in range(len(data[0])):\n            if data[i][j] % k != 0:\n                divisible = False\n                break\n\n        if divisible:\n            result.append(i)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    data = [(12, 18, 21), (14, 35, 36), (3, 5, 7)]\n    print_list(divisible_by_k(data, 3))",
+      -4.98828125
+    ],
+    [
+      "from typing import List\n\n\ndef divisible_by_k(array: List[int], k: int) -> List[int]:\n    \"\"\"\n    >>> divisible_by_k([(1, 3, 2), (2, 4, 5), (4, 1, 3), (3, 2, 1)], 2)\n    [(1, 3, 2), (2, 4, 5), (3, 2, 1)]\n    \"\"\"\n    return [\n        tuple(ele for ele in sub_array if ele % k == 0)\n        for sub_array in array\n        if all(ele % k == 0 for ele in sub_array)\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.02734375
+    ],
+    [
+      "from functools import reduce\nfrom itertools import combinations\nfrom typing import List\n\n\ndef divisible_by_k(k: int, list_of_tuples: List[tuple]) -> list:\n    \"\"\"\n    :param k: int\n    :param list_of_tuples: list of tuples\n    :return: list of tuples\n    >>> divisible_by_k(2, [(1, 2), (2, 4), (3, 6)])\n    [(2, 4)]\n    >>> divisible_by_k(3, [(1, 2), (2, 4), (3, 6)])\n    [(1, 2), (2, 4), (3, 6)]\n    >>> divisible_by_k(4, [(1, 2), (2, 4), (3, 6)])\n    []\n    >>> divisible_by_k(3, [(1, 2, 3, 4, 5, 6), (2, 4, 6, 8, 10, 12), (3, 6, 9, 12, 15, 18)])\n    [(1, 2, 3, 4, 5, 6), (2, 4, 6, 8, 10, 12), (3, 6, 9, 12, 15, 18)]\n    >>> divisible_by_k(2, [(1, 2, 3, 4, 5, 6), (2, 4, 6, 8, 10, 12), (3, 6, 9, 12, 15, 18)])\n    [(2, 4, 6, 8, 10, 12)]\n    >>> divisible_by_k(3, [(1, 2, 3, 4, 5, 6), (2, 4, 6, 8, 10, 12), (3, 6, 9, 12, 15, 18)])\n    [(3, 6,",
+      -7.828125
+    ],
+    [
+      "from functools import reduce\nfrom operator import mul\n\n\ndef divisible_by_k(lst, k):\n    \"\"\"Returns list of tuples divisible by k\"\"\"\n    return [\n        tpl for tpl in lst\n        if len(set(tpl)) == 1 and reduce(mul, tpl) % k == 0\n    ]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 2, []),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 3, [(1, 2, 3, 4)]),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 4, [(1, 2, 3, 4), (5, 6, 7, 8)]),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 8, [(1, 2, 3, 4), (5, 6, 7, 8)]),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 16, [(1, 2, 3, 4), (5, 6, 7, 8)]),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 9, [(1, 2, 3, 4)]),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 10, []),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 15, []),\n        ([(1, 2, 3, 4), (5, 6, 7, 8)], 100, []),\n        ([(1, 2, 3, 4), (",
+      -10.75
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

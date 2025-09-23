@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/337",
+    "prompt": "Write a function that matches a word at the end of a string, with optional punctuation.",
+    "canonical_solution": "import re\r\ndef text_match_word(text):\r\n        patterns = '\\w+\\S*$'\r\n        if re.search(patterns,  text):\r\n                return 'Found a match!'\r\n        else:\r\n                return 'Not matched!'",
+    "test_list": [
+      "assert text_match_word(\"python.\")==('Found a match!')",
+      "assert text_match_word(\"python.\")==('Found a match!')",
+      "assert text_match_word(\"  lang  .\")==('Not matched!')"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 326
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "import re\n\ndef checkio(text, ending):\n    #replace this for solution\n    return bool(re.search(r\"{}($|[\\.\\?!])\".format(ending), text, re.IGNORECASE))\n\n#Some hints\n#Just like in the previous task you should use re.search(...)\n\n\nif __name__ == '__main__':\n    assert checkio(\"Is this a tail?\", \"ail\") == True, \"Regexr tail\"\n    assert checkio(\"Is this a tail!\", \"ail\") == True, \"Regexr tail!\"\n    assert checkio(\"Is this a tail?\", \"is\") == True, \"Regexr is\"\n    assert checkio(\"Is this a tail?\", \"tail\") == True, \"Regexr tail\"\n    assert checkio(\"Is this a tail?\", \"Is\") == True, \"Regexr Is\"\n    assert checkio(\"Is this a tail?\", \"hey\") == False, \"Regexr hey\"\n    assert checkio(\"Is this a tail?\", \"hey!\") == False, \"Regexr hey!\"\n    assert checkio(\"Is this a tail?\", \"tail?\") == True, \"Regexr tail?\"\n    assert checkio(\"Is this a tail?\", \"tail!\") == True, \"Regexr tail!\"\n    assert checkio(\"Is this a tail?\", \"tail.\") == True, \"Regexr tail.\"\n    assert checkio(\"Is this a tail?\", \"i\") == False, \"Regexr i\"\n    assert checkio(\"Is this a tail?\", \"Ai\") == True, \"Regexr Ai\"\n    assert checkio(\"Is this a tail?\", \"aAi\") == True, \"Regexr aAi\"\n    print('Done')",
+      6.26171875
+    ],
+    [
+      "import re\n\n\ndef word_at_end(s: str) -> bool:\n    \"\"\"Returns True if a word is at the end of the string s,\n    with optional punctuation after the word.\n\n    >>> word_at_end('Hi there!')\n    True\n    >>> word_at_end('Hi there')\n    True\n    >>> word_at_end('Hi there.')\n    True\n    >>> word_at_end('Hi there,')\n    True\n    >>> word_at_end('Hi there?')\n    True\n    >>> word_at_end('Hi there!?')\n    True\n    >>> word_at_end('Hi there.?')\n    True\n    >>> word_at_end('Hi there,?')\n    True\n    >>> word_at_end('Hi there.!')\n    True\n    >>> word_at_end('Hi there,!')\n    True\n    >>> word_at_end('Hi there?!')\n    True\n    >>> word_at_end('Hi there?!?')\n    True\n    >>> word_at_end('Hi there!?!')\n    True\n    >>> word_at_end('Hi there,!?!')\n    True\n    >>> word_at_end('Hi there')\n    True\n    >>> word_at_end('Hi there?!?')\n    True\n    >>> word_at_end('Hi there!?!?')\n    True\n    >>> word_at_end('Hi there!?!?!')\n    False\n    >>> word_at_end('Hi there!?!?!?')\n    False\n    \"\"\"\n    return bool(re.search(r'(\\w+)\\W*$', s))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.6796875
+    ],
+    [
+      "import re\n\n\ndef check(text: str) -> bool:\n    return bool(re.search(r\"[.!?]?\\s(\\w+)$\", text))\n\n\nif __name__ == \"__main__\":\n    assert check(\"She speaks English\") is False\n    assert check(\"He speaks English.\") is True\n    assert check(\"Do you speak English?\") is True\n    assert check(\"She speaks English!\") is True\n    assert check(\"She speaks English. She is British.\") is False",
+      3.43359375
+    ],
+    [
+      "import re\n\n# Write your code here.\ndef end_with_word(text: str, word: str) -> bool:\n    return re.search(rf\"{word}$\", text) is not None\n\n\n# Tests\nprint(end_with_word(\"Hello World!\", \"World\"))\nprint(end_with_word(\"He was the ruler of the World!\", \"World!\"))\nprint(end_with_word(\"He was the ruler of the World!\", \"World.\"))\nprint(end_with_word(\"He was the ruler of the World!\", \"World,\"))\nprint(end_with_word(\"He was the ruler of the World!\", \"World?\"))\nprint(end_with_word(\"He was the ruler of the World!\", \"World?\"))\nprint(end_with_word(\"He was the ruler of the World\", \"World\"))",
+      3.15234375
+    ],
+    [
+      "import re\n\ndef word_end(word):\n    \"\"\"Takes a string and returns a regex to match that string at the end of a string,\n    with optional punctuation.\"\"\"\n    return rf\"{word}([.,?!;]?)$\"\n\nprint(re.compile(word_end(\"cat\")).search(\"The cat.\").group())\n#> The cat.\n\nprint(re.compile(word_end(\"cat\")).search(\"The dog cat?\").group())\n#> cat?\n\nprint(re.compile(word_end(\"cat\")).search(\"The dog cat!\").group())\n#> cat!\n\nprint(re.compile(word_end(\"cat\")).search(\"The dog, cat.\").group())\n#> cat.\n\nprint(re.compile(word_end(\"cat\")).search(\"The dog cat;\").group())\n#> cat;\n\nprint(re.compile(word_end(\"cat\")).search(\"The cat,\").group())\n#> The cat,\n\nprint(re.compile(word_end(\"cat\")).search(\"The cat?\").group())\n#> The cat?\n\nprint(re.compile(word_end(\"cat\")).search(\"The cat!\").group())\n#> The cat!\n\nprint(re.compile(word_end(\"cat\")).search(\"The cat\").group())\n#> The cat\n\nprint(re.compile(word_end(\"cat\")).search(\"The cat;\").group())\n#> The cat;",
+      3.1328125
+    ],
+    [
+      "import re\n\n\ndef last_word(text):\n    \"\"\"\n    Matches a word at the end of a string, with optional punctuation.\n\n    :param text: str to check.\n    :return: Match or None.\n\n    >>> last_word(\"I am a person.\")\n    'person.'\n    >>> last_word(\"person!\")\n    'person!'\n    >>> last_word(\"I am a person?\")\n    'person?'\n    >>> last_word(\"person\")\n    'person'\n    >>> last_word(\"I am a person;\")\n    'person;'\n    >>> last_word(\"person:\")\n    'person:'\n    >>> last_word(\"person,\")\n    'person,'\n    >>> last_word(\"person?!\")\n    'person?!'\n    >>> last_word(\"person?!:,\")\n    'person?!:,'\n    \"\"\"\n    pattern = re.compile(r\"(\\w+[\\.\\?!;:,\\)]*)$\")\n    match = pattern.search(text)\n    if match:\n        return match.group()",
+      2.455078125
+    ],
+    [
+      "import re\n\n# Case 1\ndef word_end(s):\n    return re.findall(r'[a-zA-Z]+[\\.\\!\\?]*$', s)\n\nprint(word_end(\"Hello World!\"))\nprint(word_end(\"Hello World?\"))\nprint(word_end(\"Hello World.\"))\nprint(word_end(\"Hello World\"))\n\n# Case 2\ndef word_end(s):\n    return re.findall(r'[a-zA-Z]+[\\.\\!\\?]*$', s)\n\nprint(word_end(\"Hello World!\"))\nprint(word_end(\"Hello World?\"))\nprint(word_end(\"Hello World.\"))\nprint(word_end(\"Hello World\"))\n\n# Case 3\ndef word_end(s):\n    return re.findall(r'[a-zA-Z]+[\\.\\!\\?]*$', s)\n\nprint(word_end(\"Hello World!\"))\nprint(word_end(\"Hello World?\"))\nprint(word_end(\"Hello World.\"))\nprint(word_end(\"Hello World\"))\n\n# Case 4\ndef word_end(s):\n    return re.findall(r'[a-zA-Z]+[\\.\\!\\?]*$', s)\n\nprint(word_end(\"Hello World!\"))\nprint(word_end(\"Hello World?\"))\nprint(word_end(\"Hello World.\"))\nprint(word_end(\"Hello World\"))\n\n# Case 5\ndef word_end(s):\n    return re.findall(r'[a-zA-Z]+[\\.\\!\\?]*$', s)\n\nprint(word_end(\"Hello World!\"))\nprint(word_end(\"Hello World?\"))\nprint(word_end(\"Hello World.\"))\nprint(word_end(\"Hello World\"))\n\n# Case 6\ndef word_end(s):\n    return re.findall(r'[a-zA-Z]+[\\.\\!\\?]*$', s)\n\nprint(word_end(\"Hello World!\"))\nprint(word_end(\"Hello World?\"))\nprint(word_end(\"Hello World.\"))\nprint(word_end(\"Hello World\"))\n\n# Case",
+      2.23046875
+    ],
+    [
+      "import re\n\n\ndef end_with_match(text: str) -> str:\n    \"\"\"\n    >>> end_with_match('abcd')\n    'abcd'\n    >>> end_with_match('abcd.')\n    'abcd.'\n    >>> end_with_match('abcd,')\n    'abcd,'\n    >>> end_with_match('abcd?')\n    'abcd?'\n    >>> end_with_match('abcd!')\n    'abcd!'\n    >>> end_with_match('abcd:')\n    'abcd:'\n    >>> end_with_match('abcd;')\n    'abcd;'\n    >>> end_with_match('abcd.efgh')\n    'abcd.efgh'\n    >>> end_with_match('abcd.efgh.')\n    'abcd.efgh.'\n    >>> end_with_match('abcd,efgh,')\n    'abcd,efgh,'\n    >>> end_with_match('abcd?efgh?')\n    'abcd?efgh?'\n    >>> end_with_match('abcd!efgh!')\n    'abcd!efgh!'\n    >>> end_with_match('abcd:efgh:')\n    'abcd:efgh:'\n    >>> end_with_match('abcd;efgh;')\n    'abcd;efgh;'\n    \"\"\"\n    return re.findall(r\"([a-z]+)$\", text)[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.5888671875
+    ],
+    [
+      "import re\n\ndef word_end_with(string, word):\n    return re.search(r'{}\\b'.format(word), string)\n\ndef main():\n    assert word_end_with(\"This is the end\", \"end\") is not None\n    assert word_end_with(\"This is the end.\", \"end\") is not None\n    assert word_end_with(\"This is the end!\", \"end\") is not None\n    assert word_end_with(\"This is the end.\", \"end!\") is None\n    assert word_end_with(\"This is the end. There is an end to this!\", \"end\") is not None\n    assert word_end_with(\"This is the end. There is an end to this!\", \"end.\") is None\n    assert word_end_with(\"This is the end. There is an end to this!\", \"end!\") is not None\n    assert word_end_with(\"This is the end. There is an end to this!\", \"end!?\") is not None\n    assert word_end_with(\"This is the end. There is an end to this!\", \"end?\") is None\n    print(\"Test succes!\")\n\nmain()",
+      1.5380859375
+    ],
+    [
+      "import re\n\ndef match_ending(string, search):\n\n    regex = re.compile(r'{}?$'.format(search))\n\n    return bool(regex.search(string))\n\n\nassert match_ending('abcde', 'cde') == True\nassert match_ending('abcde', 'abc') == True\nassert match_ending('abcde', 'abcd') == False\nassert match_ending('abcde', 'ABCD') == False\nassert match_ending('abcde', 'abcde') == True\nassert match_ending('abcde', 'abcde?') == True\nassert match_ending('abcde', 'abcde!') == True\nassert match_ending('abcde', 'abcde:') == True\nassert match_ending('abcde', 'abcde.') == True",
+      1.537109375
+    ],
+    [
+      "import re\n\ndef word_end(string, word):\n    return bool(re.search(r'\\b' + word + r'[\\W]*$', string))\n\nprint(word_end(\"The dog was playing.\", \"dog\"))\nprint(word_end(\"The dog was playing.\", \"playing\"))\nprint(word_end(\"The dog was playing.\", \"was\"))\nprint(word_end(\"The dog was playing.\", \"dog was playing\"))\nprint(word_end(\"The dog was playing.\", \"dogwasplaying\"))\nprint(word_end(\"The dog was playing.\", \"the dog was playing\"))",
+      1.16015625
+    ],
+    [
+      "import re\n\n\ndef get_ending(string, ending):\n    regex = r\"{}($|[.?!,;:])\".format(ending)\n    pattern = re.compile(regex)\n    match = pattern.search(string)\n    if match:\n        return match.group(0)\n    else:\n        return \"\"\n\n\ndef test_get_ending():\n    string = \"She sells seashells by the seashore.\"\n    assert get_ending(string, \"seashells\") == \"seashells\"\n    assert get_ending(string, \"she\") == \"\"\n    assert get_ending(string, \"seashells by the\") == \"seashells by the\"\n    assert get_ending(string, \"by the\") == \"by the.\"\n    assert get_ending(string, \"seashells by\") == \"seashells by.\"\n\n\nif __name__ == \"__main__\":\n    test_get_ending()",
+      1.0166015625
+    ],
+    [
+      "import re\n\n\ndef word_end(word, string):\n    return re.search(f\"{word}$\", string)\n\n\ndef word_end_regex(word, string):\n    return re.search(rf\"{word}\\W*$\", string)\n\n\ndef main():\n    print(word_end(\"hi\", \"hi\"))\n    print(word_end(\"hi\", \"hi.\"))\n    print(word_end(\"hi\", \"hello\"))\n    print(word_end(\"hi\", \"hello hi\"))\n    print(word_end(\"hi\", \"hello hi.\"))\n\n    print(word_end_regex(\"hi\", \"hi\"))\n    print(word_end_regex(\"hi\", \"hi.\"))\n    print(word_end_regex(\"hi\", \"hello\"))\n    print(word_end_regex(\"hi\", \"hello hi\"))\n    print(word_end_regex(\"hi\", \"hello hi.\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.00390625
+    ],
+    [
+      "import re\n\n\ndef my_funct(string):\n    result = re.search(r\"(\\w+)\\W*$\", string)\n    if result:\n        return result.group(1)\n    else:\n        return \"\"\n\n\nprint(my_funct(\"Hello world!\"))\nprint(my_funct(\"Hello world.\"))\nprint(my_funct(\"Hello world:\"))\nprint(my_funct(\"Hello\"))",
+      0.9423828125
+    ],
+    [
+      "import re\n\ndef last_word_regex(text):\n    return re.search(r\"\\w+\\S*$\", text)\n\ndef test_regex(regex, text, expected):\n    result = regex(text)\n    if result:\n        matched = result.group()\n    else:\n        matched = None\n    if matched == expected:\n        print(\"OK\")\n    else:\n        print(f\"ERROR: {matched}\")\n\ntest_regex(last_word_regex, \"Hi Bob!\", \"Bob\")\ntest_regex(last_word_regex, \"Hello World\", \"World\")\ntest_regex(last_word_regex, \"This is a test.\", \"test.\")\ntest_regex(last_word_regex, \"Amazing\", \"Amazing\")\ntest_regex(last_word_regex, \"Amaze.\", None)\ntest_regex(last_word_regex, \"Hi\", \"Hi\")\ntest_regex(last_word_regex, \"Hello, world\", \"world\")\ntest_regex(last_word_regex, \"Hello\", \"Hello\")\ntest_regex(last_word_regex, \"Hi!\", \"Hi\")",
+      0.90673828125
+    ],
+    [
+      "import re\n\ndef word_end(string):\n    regex = r\"\\w+\\W*[.,?!]$\"\n    pattern = re.compile(regex)\n    match = pattern.search(string)\n    if match:\n        return match.group()\n    else:\n        return None\n\nprint(word_end(\"Hi. I am John.\"))\nprint(word_end(\"Hello, how are you?\"))\nprint(word_end(\"This is a sentence ending with a question mark?\"))\nprint(word_end(\"This is a sentence ending with a period.\"))",
+      0.79931640625
+    ],
+    [
+      "import re\n\n\ndef last_word_matches(string: str, word: str, punctuation: str = r'[.,]') -> bool:\n    \"\"\"\n    >>> last_word_matches(\"The rain in Spain\", \"ain\")\n    True\n    >>> last_word_matches(\"The rain in Spain.\", \"ain\")\n    True\n    >>> last_word_matches(\"The rain in Spain\", \"an\")\n    False\n    >>> last_word_matches(\"The rain in Spain.\", \"an\")\n    False\n    >>> last_word_matches(\"The rain in Spain.\", \"Spain.\")\n    True\n    >>> last_word_matches(\"The rain in Spain\", \"Spain.\")\n    False\n    >>> last_word_matches(\"The rain in Spain.\", \"Spain\")\n    False\n    >>> last_word_matches(\"The rain in Spain\", \"Spain\")\n    True\n    \"\"\"\n    regex = fr\"{word}({punctuation})?$\"\n    pattern = re.compile(regex)\n    return bool(pattern.search(string))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.426025390625
+    ],
+    [
+      "import re\n\ndef end_with_word(string):\n    \"\"\"\n    >>> end_with_word('Hi, what is your name?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!?!?!?')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!?!?!?!?!')\n    'name'\n    >>> end_with_word('Hi, what is your name?!?!?!?!",
+      0.213623046875
+    ],
+    [
+      "import re\n\n\ndef last_word_with_optional_punctuation(text: str) -> str:\n    \"\"\"Find the last word in a string, with optional punctuation.\n\n    Args:\n        text (str): the input string.\n\n    Examples:\n        >>> assert last_word_with_optional_punctuation('Hello world') == 'world'\n        >>> assert last_word_with_optional_punctuation('Hello world!') == 'world!'\n        >>> assert last_word_with_optional_punctuation('Hello world?!') == 'world?'\n        >>> assert last_word_with_optional_punctuation('Hello world.') == 'world.'\n        >>> assert last_word_with_optional_punctuation('Hello world,') == 'world,'\n        >>> assert last_word_with_optional_punctuation('Hello world;') == 'world;'\n    \"\"\"\n    return re.findall(r\"\\w+\\W*$\", text)[0]\n\n\nif __name__ == \"__main__\":\n    print(last_word_with_optional_punctuation(\"Hello world!\"))",
+      0.1739501953125
+    ],
+    [
+      "import re\n\ndef checkio(data: str) -> bool:\n    result = re.search(r\"[\\w]+$\", data)\n    if result:\n        return True\n    return False\n\n\nif __name__ == '__main__':  # pragma: no cover\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert checkio(\"Hello World!\") == True, \"Hello\"\n    assert checkio(\"He is 1st here!\") == False, \"First\"\n    assert checkio(\"This is a sentence.\") == False, \"Dot\"\n    assert checkio(\"This is a function!\") == True, \"Function\"\n    assert checkio(\"This is a regEx!\") == True, \"RegEx\"\n    print(\"Coding complete? Click 'Check' to review your tests and earn cool rewards!\")",
+      0.138671875
+    ],
+    [
+      "import re\n\n\ndef word_ending_with(string: str, word: str) -> bool:\n    \"\"\"\n    >>> word_ending_with(\"I am a cat.\", \"at\")\n    True\n    >>> word_ending_with(\"I am a cat.\", \"me\")\n    False\n    >>> word_ending_with(\"I am a cat.\", \"cat\")\n    True\n    >>> word_ending_with(\"I am a cat.\", \"at.\")\n    True\n    >>> word_ending_with(\"I am a cat.\", \"cat.\")\n    True\n    >>> word_ending_with(\"I am a cat.\", \"cat\")\n    True\n    \"\"\"\n    return bool(re.search(r\"(\\W|^)%s(\\W|$)?\" % word, string))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.004001617431640625
+    ],
+    [
+      "import re\n\ndef check(text):\n    return bool(re.search(r\"^.*\\b(\\w+)\\W*$\", text))\n\n\ndef main():\n    print(check(\"Hi my name is John\"))\n    print(check(\"Hi my name is John.\"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n    print(check(\"Hi my name is John. \"))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.0192108154296875
+    ],
+    [
+      "import re\n\ndef match_end(input_str):\n    \"\"\"\n    Match a word at the end of a string, with optional punctuation.\n    \"\"\"\n    regex = re.compile(r'^.*\\s(\\w+)\\W*$')\n    match = regex.search(input_str)\n\n    if match:\n        return match.group(1)\n    else:\n        return ''\n\n\ndef main():\n    print(match_end(\"The last word here is slice, right?!\")) # slice\n    print(match_end(\"My word goes here.\")) # My word goes here\n    print(match_end(\"This is a sentence without a word at the end. \")) # ''\n    print(match_end(\"This is a sentence without punctuation\")) # This is a sentence without punctuation\n    print(match_end(\"My word goes here!\")) # My word goes here\n\nif __name__ == '__main__':\n    main()",
+      -0.09368896484375
+    ],
+    [
+      "import re\n\n\ndef word_end_string(input_str: str) -> bool:\n    \"\"\"Checks if string ends with a word.\n\n    Args:\n        input_str (str): input string to check\n\n    Examples:\n        >>> assert word_end_string(\"hello\")\n        >>> assert word_end_string(\"hello,\")\n        >>> assert word_end_string(\"hello!\")\n        >>> assert not word_end_string(\"hello world\")\n    \"\"\"\n    pattern = re.compile(r\"^.*\\s(\\w+)$\")\n    if pattern.match(input_str):\n        return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(word_end_string(\"hello\"))\n    print(word_end_string(\"hello,\"))\n    print(word_end_string(\"hello!\"))\n    print(word_end_string(\"hello world\"))",
+      -0.2109375
+    ],
+    [
+      "import re\n\ndef check(regex, string):\n    print(bool(re.search(regex, string)))\n\ncheck('at$', 'cat')\ncheck('at$', 'cat?')\ncheck('at$', 'cat.')\ncheck('at$', 'cat!')\ncheck('at$', 'cat?!')\ncheck('at$', 'cats')\n\nprint('--------------------------------------')\n\ndef check(regex, string):\n    match = re.search(regex, string)\n    if match:\n        print(\"'{}' found in '{}'\".format(match.group(), string))\n    else:\n        print(\"'{}' not found in '{}'\".format(regex, string))\n\ncheck('at$', 'cat')\ncheck('at$', 'cat?')\ncheck('at$', 'cat.')\ncheck('at$', 'cat!')\ncheck('at$', 'cat?!')\ncheck('at$', 'cats')\n\nprint('--------------------------------------')\n\ndef check(regex, string):\n    print(bool(re.search(regex, string)))\n\ncheck('at$', 'cat')\ncheck('at$', 'cat?')\ncheck('at$', 'cat.')\ncheck('at$', 'cat!')\ncheck('at$', 'cat?!')\ncheck('at$', 'cats')\n\nprint('--------------------------------------')\n\ndef check(regex, string):\n    match = re.search(regex, string)\n    if match:\n        print(\"'{}' found in '{}'\".format(match.group(), string))\n    else:\n        print(\"'{}' not found in '{}'\".format(regex, string))\n\ncheck('at$', 'cat')\ncheck('at$', 'cat?')\ncheck('at$', 'cat.')\ncheck('at$', 'cat!')\ncheck('at$', 'cat?!')\ncheck('at$', 'cats')\n\nprint('--------------------------------------')\n\ndef check(regex, string):\n    print(bool(re.search(regex, string)))\n\ncheck('at$', 'cat')\ncheck('at$', 'cat?')\ncheck",
+      -0.273193359375
+    ],
+    [
+      "import re\n\ndef last_word_with_optional_punctuation(text):\n    \"\"\"Return the last word in a string, with optional punctuation.\"\"\"\n    pattern = re.compile(r'(\\w+[\\.\\?!])*$')\n    result = pattern.search(text)\n    if result:\n        return result.group()\n    return ''\n\ndef main():\n    assert last_word_with_optional_punctuation(\"The last word is sparta!\") == \"sparta!\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta?\") == \"sparta?\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta.\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta,\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta;\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta:\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta-\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta!\") == \"sparta!\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta...\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta,,,,\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta???\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta!!\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"The last word is sparta!!!!\") == \"sparta\"\n    assert last_word_with_optional_punctuation(\"",
+      -0.28173828125
+    ],
+    [
+      "import re\n\ndef word_at_end(s, word):\n    return re.compile(r\"(\\W{})(\\W*)$\".format(word), re.IGNORECASE).search(s)\n\n# Tests\nprint(word_at_end(\"This is a test.\", \"test\"))\nprint(word_at_end(\"This is a test!\", \"test\"))\nprint(word_at_end(\"This is a test.\", \"tost\"))\nprint(word_at_end(\"This is a test. Not really.\", \"tost\"))",
+      -0.35546875
+    ],
+    [
+      "import re\n\ndef checkio(words):\n    return re.search(r\"(\\w+)\\W*$\", words)\n\n#Some hints\n#Just try to draw it by hand.\n#In real world scenario use re.search\n\n#These \"asserts\" using only for self-checking and not necessary for auto-testing\nif __name__ == '__main__':\n    assert checkio(\"Hello World!\") == \"World\"\n    assert checkio(\"Hello World?\") == \"World\"\n    assert checkio(\"Hello World.\") == \"World\"\n    assert checkio(\"Hello, World?\") == \"World\"\n    assert checkio(\"Hello: World.\") == \"World\"\n    assert checkio(\"Hello. World?\") == \"World\"\n    assert checkio(\"Hello. World\") == \"World\"\n    assert checkio(\"Hello; World?\") == None\n    assert checkio(\"Hello; World\") == None\n    assert checkio(\"Hello; World!\") == None\n    print(\"Coding complete? Click 'Check' to review your tests and earn cool rewards!\")",
+      -0.541015625
+    ],
+    [
+      "import re\n\ndef word_end(word, string):\n    return re.search(f\"{word}$\", string)\n\ndef test_word_end():\n    assert word_end(\"c\", \"I'm a developer\") == None\n    assert word_end(\"dev\", \"I'm a developer\") != None\n    assert word_end(\"dev\", \"I'm a developer.\") != None\n    assert word_end(\"dev\", \"I'm a developer!\") != None\n    assert word_end(\"dev\", \"I'm a developer?\") != None\n    assert word_end(\"dev\", \"I'm a developer!?\") != None\n\ntest_word_end()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n# My solution\n\n\ndef match_end(line, word):\n    line = line.lower()\n    word = word.lower()\n    pattern = r\"{}\\W$\".format(word)\n    result = re.search(pattern, line)\n    return result != None\n\n\n# Best way\n\n\ndef match_end_best(line, word):\n    return line.lower().endswith(word.lower() + \"\\\\W$\")",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef checkio(string):\n    return re.search(r'\\w+\\S*$', string)\n\n#Some hints\n#Try to utilize information which you can get from re.search\n#Or make your own regex\n\n#Here is your for testing purposes\nif __name__ == '__main__':\n    print checkio(\"Hello World!\")\n    print checkio(\"Hello World.\")\n    print checkio(\"Hello World\")\n    print checkio(\"Hello, World\")",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_at_end(string, word):\n    \"\"\"\n    >>> word_at_end('hello world', 'world')\n    True\n    >>> word_at_end('hello world!', 'world')\n    True\n    >>> word_at_end('hello world!', 'mars')\n    False\n    \"\"\"\n    return re.search(f\"{word}([.!?]?)$\", string) is not None\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef main(word):\n    return re.search(r'^(\\w+)\\W*$', word)\n\nif __name__ == '__main__':\n    print(main(\"Hello\"))\n    print(main(\"Hello!\"))\n    print(main(\"Hello?!\"))\n    print(main(\"Hello!!\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_end(s):\n    return re.search(r\"(\\w+[,.;?!]*)$\", s)",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef word_end(string, word, punctuation=None):\n    if punctuation is None:\n        punctuation = r\"[.,;!?]\"\n\n    pattern = r\"{}\\s*({})$\".format(punctuation, word)\n    result = re.search(pattern, string)\n\n    if result is None:\n        return False\n    return True\n\nprint(word_end(\"The rain in Spain\", \"ain\"))\nprint(word_end(\"The rain in Spain\", \"ain\", \".\"))\nprint(word_end(\"The rain in Spain.\", \"ain\"))\nprint(word_end(\"The rain in Spain.\", \"ain\", \".\"))\nprint(word_end(\"The rain in Spain.\", \"ain\", \"!\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_end_with_punct(string):\n    return bool(re.search(r\"[a-zA-Z]+$\", string))\n\n\nprint(word_end_with_punct(\"apple\"))\nprint(word_end_with_punct(\"apple.\"))\nprint(word_end_with_punct(\"apple, \"))\nprint(word_end_with_punct(\"apple! \"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef end_with(s: str, pattern: str) -> bool:\n    return bool(re.search(f\"{pattern}$\", s))\n\n\nif __name__ == \"__main__\":\n    print(end_with(\"abc\", \"bc\"))\n    print(end_with(\"abc\", \"bc$\"))\n    print(end_with(\"abc\", \"abc\"))\n    print(end_with(\"abc\", \"abc$\"))\n    print(end_with(\"abc\", \"a.c\"))\n    print(end_with(\"abc\", \"a.c$\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_end_match(text: str, word: str) -> re.Match:\n    \"\"\"Matches a word at the end of a string, with optional punctuation.\"\"\"\n    return re.match(rf\"{word}\\s*[.,!?;]?$\", text)",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_end(word):\n    return re.search(r\"(?:\\W*)(\\w+)$\", word)\n\n\ndef test_word_end():\n    \"\"\"\n    >>> all(map(word_end, [\n    ...     \"apple\",\n    ...     \"apple,\",\n    ...     \"apple.\",\n    ...     \"apple!\",\n    ...     \"apple?\",\n    ...     \"apple!.\",\n    ...     \"apple,?!\",\n    ...     \"apple,?!?\",\n    ...     \"apple?!?!\",\n    ...     \"apple!?!?!\",\n    ... ]))\n    True\n    \"\"\"\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_at_end(string, word):\n    return re.search(f\"{word}([.,?!])?$\", string)",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_end(s):\n    return re.search(r'(\\w+)(?=\\W*$)', s)\n\n\ndef test_word_end():\n    assert word_end(\"Robots need coffee, too.\")\n    assert word_end(\"Coffee, with milk and sugar.\")\n    assert not word_end(\"Cats are better than dogs.\")\n\n\nif __name__ == '__main__':\n    print(word_end(\"Robots need coffee, too.\"))\n    print(word_end(\"Coffee, with milk and sugar.\"))\n    print(word_end(\"Cats are better than dogs.\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef valid_end(input_str):\n\n    match = re.search(r\"(.*)([\\?\\!]\\s*)$\", input_str)\n    if match:\n        return match.group(1)\n\n    return input_str\n\nprint(valid_end(\"Absolutely positive\"))\nprint(valid_end(\"Very positive!\"))\nprint(valid_end(\"Not so sure...\"))\nprint(valid_end(\"Any questions?\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_end(word):\n    return re.search(f\"{word}$\", word)\n\n\ndef test_word_end():\n    assert word_end(\"Hello\")\n    assert not word_end(\"Hello?\")\n    assert word_end(\"Hello!\")\n    assert not word_end(\"Hello?!\")\n    assert word_end(\"Hello?!?\")\n\n\nif __name__ == \"__main__\":\n    test_word_end()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef word_end(word, string):\n    return re.search(r'(?i)(\\s|\\W)' + word + r'(\\W|\\s|\\Z)', string)",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef word_ending(string, word):\n    return re.findall(r\"{}$\".format(word), string)",
+      -0.857421875
+    ],
+    [
+      "import re\n\ndef valid_end(input_str):\n    return re.match(r'.*?\\b\\w+\\s*\\W*$', input_str)",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef end_with(string, word):\n    return bool(re.search(rf'{word}$', string))\n\n\nif __name__ == '__main__':\n    print(end_with('Hello world!', 'world'))",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef match_end(end, word):\n    return re.search(f\"{word}$\", end)",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n# My first approach\ndef end_with(string, word):\n    return string.endswith(word)\n\n# My second approach\ndef end_with(string, word):\n    return bool(re.search(f\"{word}\\W*$\", string))\n\nprint(end_with(\"apple pie.\", \"pie\"))\nprint(end_with(\"apple pie!\", \"pie\"))\nprint(end_with(\"apple pie\", \"pie\"))\nprint(end_with(\"apple\", \"pie\"))",
+      -0.85791015625
+    ],
+    [
+      "import re\n\ndef end_with_match(s):\n    \"\"\"\n    >>> end_with_match(\"This is a test.\")\n    'test.'\n    >>> end_with_match(\"Ends with a question?\")\n    'question?'\n    >>> end_with_match(\"Ends with a period.\")\n    'period.'\n    \"\"\"\n    pattern = re.compile(r\"(?P<word>\\w+)$\")\n    match = pattern.search(s)\n    return match.group(\"word\")\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n# def end_with(s, word):\n#     return s.endswith(word)\n\ndef end_with(s, word):\n    \"\"\"\n    >>> end_with('abc', 'c')\n    True\n    >>> end_with('abc', 'b')\n    False\n    \"\"\"\n    return re.match(r'.*{}$'.format(word), s)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n# Write your code here\ntest_str = \"The quick brown fox jumps over the lazy dog.\"\npattern = r\"[.!?]\\s(\\w+)$\"\n\nprint(bool(re.search(pattern, test_str)))",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef regex_and_replace(text):\n    \"\"\"Apply regex.\"\"\"\n    pattern = re.compile(r'(\\w+)(?=[.!?)(\"\\n\\r])?$')\n    result = pattern.search(text)\n    if result:\n        return result.group()\n    return ''",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n# Write a function that matches a word at the end of a string, with optional punctuation.\n\n\ndef last_word(input_str):\n    return re.search(r\"\\w+\\W*$\", input_str)",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef get_ending(text, ending):\n    pattern = f\"{ending}$\"\n    return re.findall(pattern, text)",
+      -0.85791015625
+    ],
+    [
+      "import re\n\ndef main():\n    regex = r\"\\w+\\S*$\"\n    string = input()\n\n    print(bool(re.match(regex, string)))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef check(regex, string):\n    print(f'Regex: {regex}')\n    print(f'String: {string}')\n    print(f'Result: {bool(re.search(regex, string))}\\n')\n\n\nstring = 'I love cat.'\ncheck('love\\s*$', string)\n\ncheck('love\\s*\\.$', string)",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef word_end_pattern_match(input_str, word):\n    # pattern = r\"{}($|\\s)\".format(word)\n    # return re.search(pattern, input_str)\n\n    pattern = r\"{}\\s?$\".format(word)\n    return re.search(pattern, input_str)\n\n\ndef main():\n    input_str = \"This is a test case. This is a second test case!\"\n    print(word_end_pattern_match(input_str, \"test\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "import re\n\ndef word_end(word):\n    return re.search(r'\\b' + word + r'(\\W*|$)', word)\n\nprint(word_end(\"example\"))\nprint(word_end(\"example.\"))\nprint(word_end(\"example!\"))\nprint(word_end(\"example?\"))\nprint(word_end(\"example:\"))\nprint(word_end(\"example;\"))\nprint(word_end(\"example,\") == None)\nprint(word_end(\"example:\") == None)\nprint(word_end(\"example;\") == None)\nprint(word_end(\"example,\") == None)\nprint(word_end(\"example.\") == None)\nprint(word_end(\"example!\") == None)\nprint(word_end(\"example?\") == None)",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef word_end(word: str, punctuation: str = r\"!?\") -> re.Pattern:\n    \"\"\"Return a regex pattern for a word at the end of a string, with optional punctuation.\n\n    Default punctuation characters are exclamation point and question mark.\n    \"\"\"\n    punctuation = re.escape(punctuation)\n    return re.compile(rf\"{word}(?={punctuation}|\\Z)\")\n\n\nif __name__ == \"__main__\":\n    print(word_end(\"is\"))\n    print(word_end(\"is\")(\"This is the answer.\"))\n    print(word_end(\"is\")(\"This is the answer.\"))\n    print(word_end(\"is\", \"!\")(\"This is the answer!\"))\n    print(word_end(\"is\", \"!\")(\"This is the answer.\"))\n    print(word_end(\"is\", \"!\")(\"This is the answer?!\"))",
+      -0.8583984375
+    ],
+    [
+      "import re\n\ndef word_end(word, string):\n    return re.search(word + r\"\\b(?:\\s*[?!.,:;])?$\", string)",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n# My solution\n\n\ndef word_end(word):\n    return re.match(\".*\" + word + \"$\", word)\n\n\n# Best solutions\n\n# def word_end(word):\n#     return re.match(r\".*(\" + word + r\")(\\W|$)\", word)\n\n\n# def word_end(word):\n#     return re.search(r\"(?:\\W|^)(\" + word + r\")\\b\", word)",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef word_at_end(string):\n    return re.search(r\"(\\w+[\\.\\?!]?)$\", string)",
+      -0.8583984375
+    ],
+    [
+      "import re\n\ndef checkio(data: str) -> bool:\n    return bool(re.search(r\"(?:\\w+|\\s*)\\s*(\\w+)\\s*$\", data))\n\n#Some hints\n#Just try to draw a table for this task\n\n\nif __name__ ==  \"__main__\":\n    assert checkio(\"Hello World!\") == True, \"Hello\"\n    assert checkio(\"Hello World\") == True, \"Hello\"\n    assert checkio(\"World\") == False, \"World\"\n    assert checkio(\"\") == False, \"Empty\"\n    assert checkio(\"Hello\") == False, \"Hello\"",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef match_end(end, word):\n    return re.match(r\"{0}$\".format(end), word)",
+      -0.8583984375
+    ],
+    [
+      "import re\n\ndef word_at_end(word, string):\n    return re.search(r'{}\\W?$'.format(word), string)",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef word_end(word):\n    return re.search(r\"(?:^|\\s)\" + word + r\"(?:[\\.?!]*$|\\s)\", word)\n\n\ndef test_word_end():\n    assert word_end(\"candy\")\n    assert word_end(\"candy?\")\n    assert word_end(\"candy!\")\n    assert word_end(\"candy.\")\n    assert word_end(\"candy?!\")\n    assert word_end(\"candy?! \")\n    assert not word_end(\"candy?\")",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\n# My solution\n\ndef end_justified(word, string):\n    return re.findall(f\"{word}$|{word}\\.|{word}\\!\", string)\n\n\n# Best solutions\n\ndef best_solution_1(word, string):\n    return re.search(f\"{word}(!|\\.|$)\", string) is not None\n\n\ndef best_solution_2(word, string):\n    return bool(re.search(r\"\\b%s\\W*$\" % word, string))",
+      -0.86083984375
+    ],
+    [
+      "import re\n\ndef match_end(input_str):\n\n    end_regex = re.compile(r'.*[^\\w](\\w+[^\\w]?)$')\n    match = end_regex.search(input_str)\n\n    if match:\n        return match.group(1)\n    return ''\n\ndef test_function(test_case):\n    input_str = test_case[0]\n    solution = test_case[1]\n    output = match_end(input_str)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\ntest_function([\"babble\", \"able\"])\ntest_function([\"123#\", \"3\"])\ntest_function([\"able\", \"able\"])\ntest_function([\"able\", \"\"])\ntest_function([\"\", \"\"])\ntest_function([\"\", \"1\"])\ntest_function([\" \", \"\"])",
+      -0.94677734375
+    ],
+    [
+      "import re\n\n\ndef match_end(input_str):\n    return re.search(r'[a-zA-Z]+$', input_str)\n\n\ndef test_match_end():\n    assert match_end(\"abc\")\n    assert match_end(\"abc.\")\n    assert match_end(\"abc?\")\n    assert match_end(\"abc!\")\n    assert match_end(\"abc!!\")\n    assert not match_end(\"!abc\")\n    assert not match_end(\".abc\")\n    assert not match_end(\"?abc\")\n    assert not match_end(\"abc?!?!\")\n\n\nif __name__ == '__main__':\n    test_match_end()",
+      -1.181640625
+    ],
+    [
+      "import re\n\n# My solution\n\n\ndef word_end(string):\n    pattern = r\"(\\w+[\\.\\?!]+$)\"\n    matches = re.search(pattern, string)\n    if matches:\n        return matches.group()\n    else:\n        return \"\"\n\n\n# Best solution\n\n\ndef word_end_B(string):\n    return re.search(r\"\\w+[\\.\\?!]+$\", string).group()",
+      -1.3203125
+    ],
+    [
+      "import re\n\n# My solution\n\n\ndef word_at_end(string, word, punctuation=None):\n    if punctuation is None:\n        punctuation = '!?.,;:'\n    return re.search(r'{}([.!?]|$)'.format(word), string)\n\n\n# Best solution\n\n\ndef word_at_end_best(string, word, punctuation=None):\n    if punctuation is None:\n        punctuation = '!?.,;:'\n\n    punctuation_pattern = '[{}]'.format(re.escape(punctuation))\n    return re.search(r'{}$'.format(word), string) or \\\n        re.search(r'{}({})'.format(word, punctuation_pattern), string)",
+      -1.458984375
+    ],
+    [
+      "import re\n\n\ndef last_word(string):\n    pattern = r\"^.*\\s(\\w+[,.?!])?$\"\n    result = re.match(pattern, string)\n    if result:\n        return result.group(1)\n    return None\n\n\ndef test_last_word():\n    assert last_word(\"Hello, world!\") == \"world!\"\n    assert last_word(\"Hello\") == \"Hello\"\n    assert last_word(\"Alice, Bob and Carrie\") == \"Carrie\"\n    assert last_word(\"This is Spinal Tap\") == \"Tap\"\n    assert last_word(\"I'm hungry!\") == \"hungry!\"\n    assert last_word(\"Hello, world\") == \"world\"\n\n\nif __name__ == \"__main__\":\n    test_last_word()",
+      -1.5537109375
+    ],
+    [
+      "import re\n\n\ndef match_end(s):\n    return re.findall(r\"(\\w+)\\W*$\", s)\n\n\ndef test_match_end():\n    assert match_end(\"Hi\") == [\"Hi\"]\n    assert match_end(\"Hello, World!\") == [\"World\"]\n    assert match_end(\"World.\") == [\"World\"]\n    assert match_end(\"World?\") == [\"World\"]\n    assert match_end(\"World!\") == [\"World\"]\n\n\nif __name__ == \"__main__\":\n    test_match_end()",
+      -1.6171875
+    ],
+    [
+      "import re\n\n\ndef word_end_match(string: str) -> str:\n    \"\"\"Return a string with a match at the end of the string.\n\n    :return: str - match at the end of the string.\n    \"\"\"\n    pattern = re.compile(r\"(\\w+[.,;!?]?)$\")\n    return re.search(pattern, string).group()\n\n\nif __name__ == \"__main__\":\n    assert word_end_match(\"The quick brown fox jumps over the lazy dog.\") == \"dog.\"\n    assert (\n        word_end_match(\"The quick brown fox jumps over the lazy dog. In the end?\")\n        == \"end?\"\n    )\n    assert word_end_match(\"Please compare apples to bananas.\") == \"bananas.\"\n    assert word_end_match(\"Walk the dog.\") == \"dog.\"\n    assert word_end_match(\"The quick brown fox.\") == \"fox.\"\n    assert word_end_match(\"The quick brown fox...\") == \"fox...\"\n    assert word_end_match(\"The quick brown fox!!!\") == \"fox!!!\"\n    print(\"Passed.\")",
+      -1.6474609375
+    ],
+    [
+      "import re\n\ndef word_end(string, word):\n    return re.search(r'{}$'.format(word), string)\n\ndef test_word_end():\n    assert word_end('This is a test.', 'test')\n    assert word_end('She said \"this is a test\".', 'test')\n    assert word_end('\"This is a test\"', 'test')\n    assert word_end('This! is? a test.', 'test')\n    assert not word_end('This! is? a test.', '!')\n\nif __name__ == '__main__':\n    test_word_end()",
+      -1.8076171875
+    ],
+    [
+      "import re\n\n\ndef word_at_end(string):\n    return bool(re.search(r\"[a-zA-Z]+[\\.\\?!]*$\", string))\n\n\ndef test_word_at_end():\n    assert word_at_end(\"Hi there\")\n    assert word_at_end(\"Hi there.\")\n    assert word_at_end(\"Hi there?\")\n    assert word_at_end(\"Hi there!\")\n    assert word_at_end(\"Hi there?!\")\n    assert word_at_end(\"Hi there!?\")\n    assert not word_at_end(\"Hi there?!?\")\n    assert not word_at_end(\"Hi there!?!\")\n    assert not word_at_end(\"Hi there!!\")\n\n\nif __name__ == \"__main__\":\n    test_word_at_end()",
+      -1.88671875
+    ],
+    [
+      "import re\n\ndef match_end(text):\n    \"\"\"\n    >>> match_end('end')\n    'end'\n    >>> match_end('end.')\n    'end'\n    >>> match_end('end!')\n    'end'\n    >>> match_end('woo end?!')\n    'end'\n    >>> match_end('start')\n    >>> match_end('started')\n    \"\"\"\n    return re.search(r\"end$\", text).group()\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.900390625
+    ],
+    [
+      "import re\n\n\ndef word_end(string: str) -> str:\n    \"\"\"Return word at the end of a string, with optional punctuation.\n\n    >>> word_end(\"Hi, how are you?\")\n    'you?'\n    >>> word_end(\"Hi, how are you!!\")\n    'you!!'\n    >>> word_end(\"Hi, how are you?!\")\n    'you?!'\n    >>> word_end(\"Hi, how are you?!!\")\n    'you?!!'\n    >>> word_end(\"Hi, how are you\")\n    'you'\n    >>> word_end(\"Hi, how are you!!\")\n    'you!!'\n    >>> word_end(\"Hi, how are you?!\")\n    'you?!'\n    >>> word_end(\"Hi, how are you?!!\")\n    'you?!!'\n    >>> word_end(\"Hi, how are you!!!\")\n    'you!!!'\n    >>> word_end(\"Hi, how are you?!!!!\")\n    'you?!!!!'\n    \"\"\"\n    return re.search(r\"[a-zA-Z]+[!?]*$\", string).group()\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.091796875
+    ],
+    [
+      "import re\n\n\ndef checkio(string, word):\n    \"\"\"\n        returns True if string contains word at the end (with optional punctuation), False otherwise\n        word is always not empty\n        string may be not containing word at all\n\n        Not empty string\n        Not empty word\n\n        >>> checkio(\"Robots everywhre search the world!\", \"the\")\n        True\n        >>> checkio(\"Staying at the Shady oak tree\", \"the\")\n        True\n        >>> checkio(\"Jumping at the frog\", \"the\")\n        False\n        >>> checkio(\"Amazing Spider-Man 2\", \"Man\")\n        True\n        >>> checkio(\"I am your father\", \"your\")\n        True\n        >>> checkio(\"Let us do some shape of magic\", \"some\")\n        False\n        >>> checkio(\"World\", \"world\")\n        False\n        >>> checkio(\"It's your world\", \"world\")\n        True\n        >>> checkio(\"\", \"world\")\n        False\n    \"\"\"\n    # return bool(re.search(r\"^.*\\b{}\\b[.,!?]*$\".format(word), string))\n    return bool(re.search(r\"(?i)\\b{}\\b[.,!?]*$\".format(word), string))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.111328125
+    ],
+    [
+      "import re\n\n\ndef word_ending(word, punctuation):\n    return re.match(r\"{word}{punctuation}?$\".format(word=word, punctuation=punctuation), word)\n\n\ndef test_word_ending():\n    assert word_ending(\"cats\", \".\")\n    assert word_ending(\"cats\", \"!\")\n    assert word_ending(\"cats\", \"?\")\n    assert word_ending(\"cats\", \"\")\n    assert not word_ending(\"cats\", \"x\")\n    assert not word_ending(\"cats\", \"y\")\n    assert not word_ending(\"cats\", \"z\")\n    assert not word_ending(\"cats\", \"a\")\n    assert not word_ending(\"cats\", \"b\")\n    assert not word_ending(\"cats\", \"c\")\n\n\nif __name__ == '__main__':\n    test_word_ending()",
+      -2.177734375
+    ],
+    [
+      "import re\n\ndef check(text):\n    pattern = re.compile(r'^.*(word)\\W*$', re.IGNORECASE)\n    result = pattern.match(text)\n    return result.group(1) if result else False\n\n\ndef main():\n    assert check(\"I am a word\") == \"word\"\n    assert check(\"I am a word.\") == \"word\"\n    assert check(\"I am a word. \") == \"word\"\n    assert check(\"I am a word. !\") == \"word\"\n    assert check(\"I am a word?\") == \"word\"\n    assert check(\"I am a word!\") == \"word\"\n    assert check(\"I am a word!!\") == \"word\"\n    assert check(\"I am a word!!!\") == \"word\"\n    assert check(\"I am a word?!\") == \"word\"\n    assert check(\"I am a word?! \") == \"word\"\n    assert check(\"I am a word?!.\") == \"word\"\n    assert check(\"I am a word?!..\") == \"word\"\n    assert check(\"I am a word?!.. \") == \"word\"\n    assert check(\"I am a word?!..!!\") == \"word\"\n    assert check(\"I am a word?!..!! \") == \"word\"\n    assert check(\"I am a word?!..!!?\") == \"word\"\n    assert check(\"I am a word?!..!!? \") == \"word\"\n    assert check(\"I am a word?!..!!?!\") == \"word\"\n    assert check(\"I am a word?!..!!?! \") == \"word\"\n    assert check(\"I am a word?!..!!?!?\") == \"word\"\n    assert check(\"I am a word?!..!!?!? \") == \"word\"\n    assert check(\"I am a word?!..!!?!?!\") == \"word\"\n    assert check(\"I am a word?!..!!?!?! \") == \"word\"\n    assert check(\"I am a word?!..!!?!?!?\") == \"word\"\n    assert check(\"I am a word?!..!!?!?!? \") == \"word\"",
+      -2.38671875
+    ],
+    [
+      "import re\n\n# 1)\ndef end_word(text):\n    pattern = r\"(\\w+)$\"\n    return re.findall(pattern, text)\n\n# 2)\ndef end_word(text):\n    pattern = r\"(\\w+)\\W*$\"\n    return re.findall(pattern, text)\n\n# 3)\ndef end_word(text):\n    pattern = r\"(\\w+)(?:\\W+|$)\"\n    return re.findall(pattern, text)",
+      -2.5703125
+    ],
+    [
+      "import re\n\ndef checkio(words):\n    #replace this for solution\n    return re.search(\"(?i)\\\\b(\\\\w+)\\\\b\\\\.?$\", words)\n\n#Some hints\n#\\w - Is a word character\n#\\d - Is a digit\n#+ - Is one or more\n#* - Is zero or more\n#? - Is optional\n#\\b - Is a word boundary\n\n#These sites have some good information about regex\n#http://www.rexegg.com/regex-quickstart.html\n#http://www.regular-expressions.info/quickstart.html\n\n#These are the tests, don't remove them\ndef test_function():\n    assert checkio(\"Hello World!\") == \"World\", \"Hello test\"\n    assert checkio(\"Hello World?\") == \"World\", \"Hello test 2\"\n    assert checkio(\"This is test.!\") == \"test\", \"Dot test\"\n    assert checkio(\"One\") == \"One\", \"One test\"\n    assert checkio(\"O_O\") == None, \"O_O test\"",
+      -2.76953125
+    ],
+    [
+      "import re\n\ndef last_word_regex(text):\n    return re.findall(r\"\\w+\\W*$\", text)\n\ndef last_word(text):\n    words = text.split()\n    return words[-1]\n\ndef test(text, expected_answer):\n    answer = last_word(text)\n    if answer == expected_answer:\n        print(\"Yay. '{}' matched '{}'\".format(text, expected_answer))\n    else:\n        print(\"Oh no. '{}' should match '{}'\".format(text, expected_answer))\n\n\nif __name__ == '__main__':\n    test(\"Hello there\", \"there\")\n    test(\"Hello there!\", \"there\")\n    test(\"Hello there!!\", \"there\")\n    test(\"Hello there!?\", \"there\")\n    test(\"Hello there?\", \"there\")\n    test(\"Hello there. What is your name?\", \"name\")\n    test(\"Hello there!! What is your name?\", \"name\")",
+      -2.78125
+    ],
+    [
+      "import re\n\n\ndef end_with_punct(string):\n    regex = r\"^.*(\\w+)$\"\n    pattern = re.compile(regex)\n    match = pattern.match(string)\n    if match:\n        return match.group(1)\n    return None\n\n\ndef test_end_with_punct():\n    assert end_with_punct(\"Hello world.\") == \"world.\"\n    assert end_with_punct(\"He said it!\") == \"it!\"\n    assert end_with_punct(\"He said it.\") == \"it.\"\n    assert end_with_punct(\"He said it, but she didn't listen.\") is None\n    assert end_with_punct(\"She said: \\\"hello\\\"\") == \"hello\"\n    assert end_with_punct(\"She said: \\\"hello, how are you?\\\"\") == \"how are you?\"\n    assert end_with_punct(\"He said: \\\"hello?\\\"\") == \"hello?\"\n\n\nif __name__ == '__main__':\n    test_end_with_punct()",
+      -2.814453125
+    ],
+    [
+      "import re\n\ndef end_with_punct(text: str, pattern: str):\n    \"\"\"Return a list of all words matching pattern at end of string.\"\"\"\n    return re.findall(rf'{pattern}$', text)\n\n\ndef test_function():\n    assert end_with_punct(\"Hi, how are you this evening?\", \"ing\") == ['ing']\n    assert end_with_punct(\"Hi, how are you this evening?\", \"ing \") == [' evening?']\n    assert end_with_punct(\"Hi, how are you this evening?\", \"eve?\") == ['evening?']\n    assert end_with_punct(\"Hi, how are you this evening?\", \"eve\") == []\n    assert end_with_punct(\"Hi, how are you this evening?\", \"eve \") == []\n    assert end_with_punct(\"Hi, how are you this evening!\", \"eve\") == ['evening!']\n    assert end_with_punct(\"Hi, how are you this evening!\", \"eve \") == []\n    assert end_with_punct(\"Hi, how are you this evening!!!\", \"eve\") == ['evening!!!']\n    assert end_with_punct(\"Hi, how are you this evening!!!\", \"eve \") == []\n    assert end_with_punct(\"Hi, how are you this evening!!\", \"eve \") == [' evening!!']\n    assert end_with_punct(\"Hi, how are you this evening!!\", \"eve\") == ['evening!!']\n    assert end_with_punct(\"Hi, how are you this evening!!\", \"eve!\") == []\n    assert end_with_punct(\"Hi, how are you this evening!!\", \"eve! \") == []\n    assert end_with_punct(\"Hi, how are you this evening!!!\", \"eve!\") == ['evening!!!']\n    assert end_with_punct(\"Hi, how are you this evening!!!\", \"eve! \") == []\n    assert end_with_punct(\"Hi, how are you this evening!\", \"eve!\") == ['evening!']\n    assert end_with_punct(\"Hi, how are",
+      -2.9921875
+    ],
+    [
+      "import re\n\n\ndef check(text):\n    pattern = r\"^[a-zA-Z0-9]+([.,]?[a-zA-Z0-9]+)?$\"\n    regex = re.compile(pattern)\n    result = regex.findall(text)\n    return result\n\n\nassert check(\"Hello\") == []\nassert check(\"Hello,\") == []\nassert check(\"Hello!\") == []\nassert check(\"Hello?\") == []\nassert check(\"Hello World\") == []\nassert check(\"Hello World!\") == []\nassert check(\"Hello World?\") == []\nassert check(\"Hello World.\") == []\nassert check(\"Hello World,\") == []\nassert check(\"HelloWorld\") == [\"HelloWorld\"]\nassert check(\"HelloWorld!\") == [\"HelloWorld\"]\nassert check(\"HelloWorld?\") == [\"HelloWorld\"]\nassert check(\"HelloWorld.\") == [\"HelloWorld\"]\nassert check(\"HelloWorld,\") == [\"HelloWorld\"]\nassert check(\"Hello World.\") == []\nassert check(\"Hello World,\") == []",
+      -3.224609375
+    ],
+    [
+      "import re\n\ndef check(text):\n    pattern = re.compile(r\"(\\w+[.,;?!]+)$\")\n    match = pattern.search(text)\n    return match.group(1) if match else \"Invalid Input\"\n\nprint(check(\"Robot\"))\nprint(check(\"Robot.\"))\nprint(check(\"Robot, \"))\nprint(check(\"Robot;\"))\nprint(check(\"Robot:\"))\nprint(check(\"Robot?\"))\nprint(check(\"Robot!\"))\nprint(check(\"Robot..\"))\nprint(check(\"Robot,;\"))\nprint(check(\"Robot;?\"))\nprint(check(\"Robot:!\"))\nprint(check(\"Robot?!\"))\nprint(check(\"Robot?;\"))\nprint(check(\"Robot:?\"))\nprint(check(\"Robot!;\"))\nprint(check(\"Robot?;?\"))\nprint(check(\"Robot;?!\"))\nprint(check(\"Robot?!;\"))\nprint(check(\"Robot?!;?\"))\nprint(check(\"Robot?!;?!\"))\nprint(check(\"Robot?!;?!;\"))\nprint(check(\"Robot?!;?!;?\"))\nprint(check(\"Robot?!;?!;?!\"))\nprint(check(\"Robot?!;?!;?!;\"))\nprint(check(\"Robot?!;?!;?!;?\"))\nprint(check(\"Robot?!;?!;?!;?!\"))\nprint(check(\"Robot?!;?!;?!;?!;\"))\nprint(check(\"Robot?!;?!;?!;?!;?\"))\nprint(check(\"Robot?!;?!;?!;?!;?!\"))\nprint(check(\"Robot?!;?!;?!;?!;?!;\"))\nprint(check(\"Robot?!;?!;?!;?!;?!;?\"))\nprint(check(\"Robot?!;?!;?!;?!;?!;?!\"))\nprint(check(\"Robot?!;?!;?!;?!;?",
+      -3.310546875
+    ],
+    [
+      "import re\n\ndef last_word_ends_in_punctuation(text):\n    \"\"\"Returns a word at the end of a string, with optional punctuation\"\"\"\n    # \\S+ matches any non-whitespace character\n    # \\w+ matches any alphanumeric character (including underscore)\n    # \\s+ matches any whitespace character (including space)\n    # \\S+ matches any non-whitespace character\n    regex = r\"(\\S+)\\s*(\\w+)(\\S*)$\"\n    match = re.search(regex, text)\n    if match:\n        return match.group(1)\n    return None\n\nprint(last_word_ends_in_punctuation(\"It's raining cats and dogs.\"))\nprint(last_word_ends_in_punctuation(\"The sky is blue.\"))\nprint(last_word_ends_in_punctuation(\"The sky is blue!\"))\nprint(last_word_ends_in_punctuation(\"The sky is blue!!!\"))\nprint(last_word_ends_in_punctuation(\"The sky is blue??\"))",
+      -4.58984375
+    ],
+    [
+      "import re\n\n\ndef word_end(word: str, string: str) -> str:\n    \"\"\"Checks if word is at the end of string and returns it.\n\n    Args:\n        word: word to check\n        string: string to check\n\n    Examples:\n        >>> assert word_end(\"car\", \"I like cars!\") == \"cars\"\n        >>> assert word_end(\"car\", \"cars\") == \"cars\"\n        >>> assert word_end(\"car\", \"cars?\") == \"cars\"\n        >>> assert word_end(\"car\", \"Cars?\") == \"Cars\"\n        >>> assert word_end(\"car\", \"Cars,\") == \"Cars\"\n        >>> assert word_end(\"car\", \"Cars.\") == \"Cars\"\n        >>> assert word_end(\"car\", \"Cars:\") == \"Cars\"\n        >>> assert word_end(\"car\", \"Cars;\") == \"Cars\"\n        >>> assert word_end(\"car\", \"Cars!\") == \"Cars\"\n        >>> assert word_end(\"car\", \"Cars?!\") == \"Cars\"\n    \"\"\"\n    pattern = rf\"{word}$\"\n    return re.search(pattern, string).group()\n\n\nif __name__ == \"__main__\":\n    print(word_end(\"car\", \"I like cars!\"))",
+      -4.66796875
+    ],
+    [
+      "import re\n\n# def word_end(text):\n#     pattern = re.compile(r\"(\\w+[.,;!?])?\\Z\")\n#     match = pattern.search(text)\n#     if match:\n#         return match.group()\n#     else:\n#         return None\n\ndef word_end(text):\n    pattern = re.compile(r\"(\\w+[.,;!?])?\\Z\")\n    match = pattern.search(text)\n    if match:\n        return match.group()\n    else:\n        return None\n\n\nprint(word_end(\"She spoke to me.\"))\nprint(word_end(\"She spoke to me...\"))\nprint(word_end(\"She spoke to me....\"))\nprint(word_end(\"She spoke to me???\"))\nprint(word_end(\"She spoke to me!!\"))\nprint(word_end(\"She spoke to me;\"))\nprint(word_end(\"She spoke to me:\"))\nprint(word_end(\"She spoke to me.\"))\nprint(word_end(\"She spoke to me??\"))\nprint(word_end(\"She spoke to me!?\"))\nprint(word_end(\"She spoke to me;?\"))\nprint(word_end(\"She spoke to me:?\"))\nprint(word_end(\"She spoke to me.??\"))\nprint(word_end(\"She spoke to me.!?\"))\nprint(word_end(\"She spoke to me.?;\"))\nprint(word_end(\"She spoke to me.?;??\"))\nprint(word_end(\"She spoke to me.?!;??\"))\nprint(word_end(\"She spoke to me.?!;?!?\"))\nprint(word_end(\"She spoke to me.?!;?!?;?!?;?!?\"))\nprint(word_end(\"She spoke to me.?!;?!?;?!?;?!?;?!?\"))\nprint(word_end(\"She spoke to me.?!;?!?;?!?;?!?;?!?;?!?\"))\nprint(word_end(\"She spoke to me.?!;?!?;?!?",
+      -4.9375
+    ],
+    [
+      "import re\n\ndef checkio(game_words, text):\n    for word in game_words:\n        pattern = re.compile(r'{0}$'.format(word))\n        if pattern.search(text):\n            return word\n    return \"\"\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert checkio([\"dot\", \"cat\", \"dog\", \"log\", \"long\"], \"The quick brown fox jumped over the lazy dog.\") == \"dog\", \"Basic pattern\"\n    assert checkio([\"dot\", \"cat\", \"dog\", \"log\", \"long\"], \"The quick brown fox jumped over the lazy cog.\") == \"cog\", \"Dot at the end\"\n    assert checkio([\"dot\", \"cat\", \"dog\", \"log\", \"long\"], \"The quick brown fox jumped over the lazy dog dot.\") == \"dot\", \"Dot at the beginning\"\n    assert checkio([\"dot\", \"cat\", \"dog\", \"log\", \"long\"], \"The quick brown fox dot jumped over the lazy dog.\") == \"dot\", \"Two words\"\n    assert checkio([\"dot\", \"dot\", \"dot\", \"dot\"], \"I think we need more dots in this string.\") == \"dot\", \"Pattern anywhere\"\n    assert checkio([\"dot\", \"cog\", \"dog\", \"bog\", \"log\"], \"The quick brown fox jumped over the lazy bog.\") == \"bog\", \"Other words\"\n    assert checkio([\"dot\", \"cog\", \"dog\", \"bog\", \"log\"], \"The quick brown fox jumped over the lazy bog.\") == \"bog\", \"Other words 2\"\n    assert checkio([\"look\", \"foot\", \"feet\"], \"The quick brown fox jumped over the lazy dog.\") == \"\", \"No word\"\n    print(\"Coding complete? Click 'Check' to review your tests and earn cool rewards!\")",
+      -4.9453125
+    ],
+    [
+      "import re\n\n# pylint: disable=invalid-name\n\npattern = re.compile(r\"^(.*) (cat)$\")\n\n\ndef cat_at_end(string):\n    \"\"\"Check if a string ends with the word \"cat\".\"\"\"\n    match = re.match(pattern, string)\n    if match:\n        return match.group(1)\n    return None\n\n\ndef main():\n    \"\"\"Test the regex.\"\"\"\n    assert cat_at_end(\"the cat\") == \"the \"\n    assert cat_at_end(\"the cat!\") == \"the \"\n    assert cat_at_end(\"the cat?\") == \"the \"\n    assert cat_at_end(\"the cats\") is None\n    assert cat_at_end(\"cats\") is None\n    assert cat_at_end(\"\") is None\n    print 'passed.'\n\n\nif __name__ == \"__main__\":\n    main()",
+      -5.01171875
+    ],
+    [
+      "import re\n\ndef checkio(words):\n    #print(re.search(\"(\\w+)$\",words))\n    if re.search(\"(\\w+)$\",words):\n        return re.search(\"(\\w+)$\",words).group(1)\n    else:\n        return None\n\n#These \"asserts\" using only for self-checking and not necessary for auto-testing\nif __name__ == '__main__':\n    assert checkio(\"Hello World!\") == \"World!\", \"Hello test\"\n    assert checkio(\"Hello World?\") == \"World?\", \"Hello test 2\"\n    assert checkio(\"World? Hello?\") == \"Hello?\", \"Hello test 3\"\n    assert checkio(\"?! World? Hello? +\") == \"Hello?\", \"Hello test 4\"",
+      -5.5
+    ],
+    [
+      "import re\n\n\ndef check(text):\n    pattern = r\"[a-zA-Z]+[a-zA-Z]*$\"\n    # pattern = r\"[a-zA-Z]*[a-zA-Z]+$\"\n    # pattern = r\"[a-zA-Z]+$\"\n    # pattern = r\"[a-zA-Z]+[a-zA-Z]*\"\n    # pattern = r\"[a-zA-Z]*[a-zA-Z]+\"\n    # pattern = r\"^[a-zA-Z]*[a-zA-Z]+\"\n    # pattern = r\"^[a-zA-Z]+[a-zA-Z]*\"\n    # pattern = r\"[a-zA-Z]+[a-zA-Z]*\"\n    # pattern = r\"[a-zA-Z]*[a-zA-Z]+\"\n    # pattern = r\"[a-zA-Z]*$\"\n    # pattern = r\"^[a-zA-Z]*\"\n    # pattern = r\"^[a-zA-Z]+\"\n    # pattern = r\"[a-zA-Z]+\"\n    # pattern = r\"[a-zA-Z]*\"\n    # pattern = r\"^[a-zA-Z]+[a-zA-Z]*$\"\n    # pattern = r\"^[a-zA-Z]+[a-zA-Z]*$\"\n    # pattern = r\"[a-zA-Z]+[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-",
+      -5.60546875
+    ],
+    [
+      "import re\n\n\ndef word_end(text):\n    \"\"\"\n    >>> word_end('abc')\n    ['abc']\n    >>> word_end('abc.')\n    ['abc.']\n    >>> word_end('abc,')\n    ['abc,']\n    >>> word_end('abc?')\n    ['abc?']\n    >>> word_end('abc!')\n    ['abc!']\n    >>> word_end('abc.!?')\n    ['abc.!?']\n    >>> word_end('abc.?!')\n    ['abc.?!']\n    >>> word_end('abc.!?abc')\n    ['abc.!?']\n    >>> word_end('abc.!?abc.!?abc')\n    ['abc.!?', 'abc.!?']\n    >>> word_end('abc.!?abc.!?abc.!?')\n    ['abc.!?', 'abc.!?', 'abc.!?']\n    >>> word_end('abc.!?abc.!?abc.!?abc.!?')\n    ['abc.!?', 'abc.!?', 'abc.!?', 'abc.!?']\n    >>> word_end('abc.!?abc.!?abc.!?abc.!?abc.!?')\n    ['abc.!?', 'abc.!?', 'abc.!?', 'abc.!?']\n    >>> word_end('abc.!?abc.!?abc.!?abc.!?abc.!?abc.!?')\n    ['abc.!?', 'abc.!?', 'abc.!?', 'abc.!?']\n    >>> word_end('abc.!?abc.!?abc.!?abc.!?abc.!?abc.!?abc.!?')\n    ['abc.!?', 'abc.!?', 'abc.!?', 'abc.!?']\n    >>> word_end('abc.!?abc.!?abc.!?abc.!?abc.!?abc.!?abc.!?abc.!?')\n    ['abc.!?', 'abc.!?', 'abc.!?', 'abc",
+      -6.203125
+    ],
+    [
+      "import re\n\ndef match_end(input_str, word):\n    \"\"\"\n    >>> match_end('Hi, what is your name?', 'name')\n    'name'\n    >>> match_end('Hi, what is your name?', 'name?')\n    'name?'\n    >>> match_end(\"It's sunset in Vegas!!\", 'set')\n    'set'\n    >>> match_end('', 'name')\n    >>> match_end('Hi, what is your name?', 'Name')\n    \"\"\"\n    punctuation = '.,?!;:'\n    regex = f'[{punctuation}]*{word}[{punctuation}]*$'\n    result = re.search(regex, input_str)\n    return result.group() if result else None\n\ndef main():\n    assert match_end('Hi, what is your name?', 'name') == 'name'\n    assert match_end('Hi, what is your name?', 'name?') == 'name?'\n    assert match_end(\"It's sunset in Vegas!!\", 'set') == 'set'\n    assert match_end('', 'name') == None\n    assert match_end('Hi, what is your name?', 'Name') == None\n    assert match_end('Hi, what is your name?', 'name!') == None\n    assert match_end('Hi, what is your name?', 'Name!') == None\n    assert match_end('Hi, what is your name?', 'name.') == None\n    assert match_end('Hi, what is your name?', 'name.!') == None\n    assert match_end('Hi, what is your name?', 'name.?') == None\n    assert match_end('Hi, what is your name?', 'name?!') == None\n    assert match_end('Hi, what is your name?', 'name!?') == None\n    assert match_end('Hi, what is your name?', 'name?!?') == None\n    assert match_end('Hi, what is your name?', 'name?!?!') == None\n    assert match_end('Hi, what is your name?', 'name!?!?') == None",
+      -6.44921875
+    ],
+    [
+      "import re\n\ndef end_with_punct(string):\n    \"\"\"Returns True if string ends with punctuation.\"\"\"\n    pattern = re.compile(r\"[.?!]$\")\n    result = pattern.search(string)\n    return bool(result)\n\ndef match_at_end(word, string):\n    \"\"\"Returns True if word matches a word at the end of string.\"\"\"\n    pattern = re.compile(r\"(\\W{})($|\\W)\")\n    result = pattern.search(string)\n    return bool(result)\n\ndef test_match_at_end():\n    \"\"\"Some tests to help verify that the method is working correctly.\"\"\"\n    assert match_at_end(\"wow\", \"Wow!!!\")\n    assert match_at_end(\"wow\", \"Wow!!!.\")\n    assert not match_at_end(\"wow\", \"Wow!!!???\")\n    assert not match_at_end(\"wow\", \"Wow\")\n    assert not match_at_end(\"wow\", \"wow\")\n    assert match_at_end(\"wow\", \"wow!!\")\n    assert match_at_end(\"wow\", \"wow!!.\")\n    assert not match_at_end(\"wow\", \"wow!!???\")\n    assert not match_at_end(\"wow\", \"wow?\")\n    assert not match_at_end(\"wow\", \"wow?!\")\n    assert not match_at_end(\"wow\", \"wow?!?\")\n    assert not match_at_end(\"wow\", \"wow?!?!\")\n    assert not match_at_end(\"wow\", \"wow?!?!?\")\n\nif __name__ == '__main__':\n    test_match_at_end()",
+      -7.2265625
+    ],
+    [
+      "import re\n\ndef check(text):\n    regex = r\"^.+(\\W+)$\"\n    pattern = re.compile(regex)\n\n    match = pattern.search(text)\n    if match:\n        return \"YES, word at the end of a string with optional punctuation\"\n\n    return \"NO\"\n\n\n\nprint(check(\"abc\"))\nprint(check(\"abc!\"))\nprint(check(\"abc??\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!?\"))\nprint(check(\"abc???\"))\nprint(check(\"abc??!\"))\nprint(check(\"abc??!?\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc!!!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc!!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc??!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc??!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint(check(\"abc?!\"))\nprint",
+      -7.93359375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

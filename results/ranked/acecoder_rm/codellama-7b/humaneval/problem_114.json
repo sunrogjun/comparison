@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/114",
+    "prompt": "\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n",
+    "canonical_solution": "    max_sum = 0\n    s = 0\n    for num in nums:\n        s += -num\n        if (s < 0):\n            s = 0\n        max_sum = max(s, max_sum)\n    if max_sum == 0:\n        max_sum = max(-i for i in nums)\n    min_sum = -max_sum\n    return min_sum\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate([2, 3, 4, 1, 2, 4]) == 1, \"This prints if this assert fails 1 (good for debugging!)\"\n    assert candidate([-1, -2, -3]) == -6\n    assert candidate([-1, -2, -3, 2, -10]) == -14\n    assert candidate([-9999999999999999]) == -9999999999999999\n    assert candidate([0, 10, 20, 1000000]) == 0\n    assert candidate([-1, -2, -3, 10, -5]) == -6\n    assert candidate([100, -1, -2, -3, 10, -5]) == -6\n    assert candidate([10, 11, 13, 8, 3, 4]) == 3\n    assert candidate([100, -33, 32, -1, 0, -2]) == -33\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate([-10]) == -10, \"This prints if this assert fails 2 (also good for debugging!)\"\n    assert candidate([7]) == 7\n    assert candidate([1, -1]) == -1\n",
+    "entry_point": "minSubArraySum",
+    "docstring": "",
+    "problem_id": 114
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "if len(nums) == 1:\n        return nums[0]\n\n    sum = nums[0]\n    min_sum = sum\n    for num in nums[1:]:\n        sum = min(sum + num, num)\n        if sum < min_sum:\n            min_sum = sum\n    return min_sum\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    min_sum = nums[0]\n    sum = nums[0]\n\n    for num in nums[1:]:\n        sum = min(sum + num, num)\n        min_sum = min(min_sum, sum)\n    return min_sum",
+      12.515625
+    ],
+    [
+      "# find the min sub array sum\n    # 1. traverse the array\n    # 2. find the min sub array sum\n    # 3. return the min sub array sum\n\n    minSubArraySum = float('inf')\n    minSubArraySumIndex = 0\n    currentSum = 0\n    for i in range(0, len(nums)):\n        currentSum += nums[i]\n        if currentSum < minSubArraySum:\n            minSubArraySum = currentSum\n            minSubArraySumIndex = i\n        if currentSum < 0:\n            currentSum = 0\n    return minSubArraySum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\n\n\ndef minSubArraySum2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    # find the min sub array sum\n    # 1. traverse the array\n    # 2. find the min sub array sum\n    # 3. return the min sub array sum\n\n    minSubArraySum = float('inf')\n    minSubArraySumIndex = 0\n    currentSum = 0\n    for i in range(0, len(nums)):\n        currentSum += nums[i]\n        if currentSum < minSubArraySum:\n            minSubArraySum = currentSum\n            minSubArraySumIndex = i\n        if currentSum < 0:\n            currentSum = 0\n    return minSubArraySum\n\n\nprint(minSubArraySum2([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum2([-1, -2, -3]))",
+      8.1015625
+    ],
+    [
+      "min_sum = nums[0]\n    cur_sum = nums[0]\n    for i in range(1, len(nums)):\n        cur_sum = min(cur_sum + nums[i], nums[i])\n        min_sum = min(min_sum, cur_sum)\n    return min_sum\n\n\ndef minSubArraySum2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    min_sum = sum(nums)\n    for i in range(len(nums)):\n        cur_sum = 0\n        for j in range(i, len(nums)):\n            cur_sum += nums[j]\n            min_sum = min(min_sum, cur_sum)\n    return min_sum\n\n\ndef main():\n    print(\"minSubArraySum: \" + str(minSubArraySum([2, 3, 4, 1, 2, 4])))\n    print(\"minSubArraySum: \" + str(minSubArraySum([-1, -2, -3])))\n    print(\"minSubArraySum2: \" + str(minSubArraySum2([2, 3, 4, 1, 2, 4])))\n    print(\"minSubArraySum2: \" + str(minSubArraySum2([-1, -2, -3])))\n\n\nif __name__ == \"__main__\":\n    main()",
+      6.6328125
+    ],
+    [
+      "# O(n) time | O(n) space\n    if len(nums) == 0:\n        return 0\n    min_sum = nums[0]\n    curr_sum = nums[0]\n    for i in range(1, len(nums)):\n        curr_sum = min(curr_sum + nums[i], nums[i])\n        min_sum = min(min_sum, curr_sum)\n    return min_sum\n\n\ndef minSubArraySum(nums):\n    # O(n) time | O(1) space\n    min_sum = float(\"inf\")\n    curr_sum = 0\n    for num in nums:\n        curr_sum += num\n        min_sum = min(min_sum, curr_sum)\n        if curr_sum < 0:\n            curr_sum = 0\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      3.861328125
+    ],
+    [
+      "if not nums:\n        return 0\n\n    min_sum = sum(nums)\n    current_sum = 0\n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum)\n        current_sum = max(current_sum, 0)\n\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      2.9140625
+    ],
+    [
+      "# Find the smallest sum of any sub-array\n    # if the sum of the array is negative, return the largest of the array\n    # else return the smallest\n    min_sum = float('inf')\n    largest_sum = float('-inf')\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            current_sum = sum(nums[i:j+1])\n            min_sum = min(min_sum, current_sum)\n            largest_sum = max(largest_sum, current_sum)\n\n    if min_sum < 0:\n        return largest_sum\n    return min_sum\n\n\n# Given an array of integers nums, find the minimum sum of any non-empty sub-array\n# of nums.\n# Example\n# minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n# minSubArraySum([-1, -2, -3]) == -6\n# def minSubArraySum(nums):\n#     # Find the smallest sum of any sub-array\n#     # if the sum of the array is negative, return the largest of the array\n#     # else return the smallest\n#     min_sum = float('inf')\n#     largest_sum = float('-inf')\n#     for i in range(len(nums)):\n#         for j in range(i, len(nums)):\n#             current_sum = sum(nums[i:j+1])\n#             min_sum = min(min_sum, current_sum)\n#             largest_sum = max(largest_sum, current_sum)\n\n#     if min_sum < 0:\n#         return largest_sum\n#     return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))  # 1\nprint(minSubArraySum([-1, -2, -3]))  # -6",
+      2.4921875
+    ],
+    [
+      "# initialize the variables\n    min_sum, curr_sum, n = float(\"inf\"), 0, len(nums)\n    # iterate through the list\n    for i in range(n):\n        # if the current sum is negative, set it to 0\n        if curr_sum < 0:\n            curr_sum = 0\n        # add the current element to the sum\n        curr_sum += nums[i]\n        # if the current sum is less than the minimum sum, update the minimum sum\n        if curr_sum < min_sum:\n            min_sum = curr_sum\n    # return the minimum sum\n    return min_sum",
+      2.453125
+    ],
+    [
+      "# if (len(nums) == 1):\n    #     return nums[0]\n\n    # if (len(nums) == 2):\n    #     return min(nums[0], nums[1])\n\n    # if (len(nums) == 3):\n    #     return min(nums[0], nums[1], nums[2])\n\n    # min_sum = nums[0] + nums[1] + nums[2]\n\n    # for i in range(len(nums) - 2):\n    #     for j in range(i + 1, len(nums) - 1):\n    #         for k in range(j + 1, len(nums)):\n    #             min_sum = min(min_sum, nums[i] + nums[j] + nums[k])\n\n    # return min_sum\n\n    if (len(nums) == 1):\n        return nums[0]\n\n    min_sum = nums[0] + nums[1]\n    cur_sum = nums[0] + nums[1]\n\n    for i in range(2, len(nums)):\n        cur_sum = min(cur_sum + nums[i], nums[i])\n        min_sum = min(min_sum, cur_sum)\n\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      2.435546875
+    ],
+    [
+      "# minSum = nums[0]\n    # for i in range(len(nums)):\n    #     for j in range(i+1, len(nums)+1):\n    #         minSum = min(minSum, sum(nums[i:j]))\n    # return minSum\n    minSum = nums[0]\n    subSum = nums[0]\n    for i in range(1, len(nums)):\n        subSum = min(subSum+nums[i], nums[i])\n        minSum = min(minSum, subSum)\n    return minSum",
+      2.2734375
+    ],
+    [
+      "if not nums:\n        return 0\n\n    min_sum = nums[0]\n    sub_array_sum = nums[0]\n\n    for num in nums[1:]:\n        sub_array_sum = min(sub_array_sum+num, num)\n        if sub_array_sum < min_sum:\n            min_sum = sub_array_sum\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      2.197265625
+    ],
+    [
+      "if not nums:\n        return 0\n    minSum = nums[0]\n    currentSum = nums[0]\n    for i in range(1, len(nums)):\n        currentSum = min(currentSum+nums[i], nums[i])\n        minSum = min(currentSum, minSum)\n    return minSum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\n\n# \u53e6\u4e00\u79cd\u89e3\u6cd5\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    if not nums:\n        return 0\n    minSum = nums[0]\n    currentSum = nums[0]\n    for i in range(1, len(nums)):\n        if currentSum < 0:\n            currentSum = nums[i]\n        else:\n            currentSum += nums[i]\n        minSum = min(currentSum, minSum)\n    return minSum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      1.990234375
+    ],
+    [
+      "# If we have a list of numbers, we can use the built-in min() function\n    # to find the minimum value.\n    return min(nums)\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      1.64453125
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = nums[0]\n    curr_sum = nums[0]\n    for i in range(1, len(nums)):\n        curr_sum += nums[i]\n        if curr_sum < min_sum:\n            min_sum = curr_sum\n        if curr_sum < 0:\n            curr_sum = 0\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\nprint(minSubArraySum([-1, -1]))",
+      1.15625
+    ],
+    [
+      "# \u521d\u59cb\u5316\u4e24\u4e2a\u53d8\u91cf\uff0c\u6700\u5c0f\u7684\u6570\u548c\u6700\u5c0f\u7684\u6570\u7684\u548c\n    min_num = nums[0]\n    min_sum = nums[0]\n    # \u904d\u5386\u6574\u4e2a\u6570\u7ec4\n    for i in range(1, len(nums)):\n        # \u5982\u679c\u5f53\u524d\u7684\u6570\u5c0f\u4e8e\u6700\u5c0f\u7684\u6570\uff0c\u66f4\u65b0\u6700\u5c0f\u7684\u6570\u548c\u6700\u5c0f\u7684\u6570\u7684\u548c\n        if nums[i] < min_num:\n            min_num = nums[i]\n            min_sum = nums[i]\n        # \u5982\u679c\u5f53\u524d\u7684\u6570\u548c\u6700\u5c0f\u7684\u6570\u7684\u548c\u5c0f\u4e8e\u6700\u5c0f\u7684\u6570\u7684\u548c\uff0c\u66f4\u65b0\u6700\u5c0f\u7684\u6570\u7684\u548c\n        if nums[i] + min_sum < min_sum:\n            min_sum = nums[i] + min_sum\n    return min_sum\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      0.82568359375
+    ],
+    [
+      "min_sum = float('inf')\n    curr_sum = 0\n    for i in nums:\n        curr_sum += i\n        min_sum = min(min_sum, curr_sum)\n        if curr_sum < 0:\n            curr_sum = 0\n\n    return min_sum if min_sum != float('inf') else 0\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      0.75390625
+    ],
+    [
+      "# init\n    min_sum = float(\"inf\")\n    current_sum = 0\n    left_idx = 0\n    right_idx = 0\n\n    while right_idx < len(nums):\n        current_sum += nums[right_idx]\n        min_sum = min(min_sum, current_sum)\n        if current_sum < 0:\n            current_sum = 0\n            left_idx = right_idx + 1\n        right_idx += 1\n\n    return min_sum",
+      0.74169921875
+    ],
+    [
+      "if not nums:\n        return 0\n    if len(nums) == 1:\n        return nums[0]\n\n    min_sum = sum(nums)\n    min_sub_array = nums\n    for i in range(len(nums)):\n        for j in range(i+1, len(nums)+1):\n            sub_array = nums[i:j]\n            if sum(sub_array) < min_sum:\n                min_sum = sum(sub_array)\n                min_sub_array = sub_array\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\nprint(minSubArraySum([0, 1, 1]))\nprint(minSubArraySum([1, 1, 1]))\nprint(minSubArraySum([1, 2, 3]))\nprint(minSubArraySum([1]))\nprint(minSubArraySum([2, 3]))\nprint(minSubArraySum([2, 3, 4]))\nprint(minSubArraySum([]))",
+      0.72998046875
+    ],
+    [
+      "if len(nums) == 1:\n        return nums[0]\n    min_sum = nums[0]\n    for i in range(1, len(nums)):\n        if nums[i] + nums[i-1] < min_sum:\n            min_sum = nums[i] + nums[i-1]\n        else:\n            min_sum = min(nums[i], min_sum)\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      0.51416015625
+    ],
+    [
+      "if not nums:\n        return 0\n    minSum = nums[0]\n    sum = 0\n    for i in nums:\n        sum += i\n        minSum = min(sum, minSum)\n        if sum < 0:\n            sum = 0\n    return minSum\n\nprint(minSubArraySum([-1, -2, -3]))\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    if not nums:\n        return 0\n    minSum = nums[0]\n    sum = 0\n    for i in range(len(nums)):\n        sum += nums[i]\n        minSum = min(sum, minSum)\n        if sum < 0:\n            sum = 0\n    return minSum\n\nprint(minSubArraySum([-1, -2, -3]))\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    if not nums:\n        return 0\n    minSum = nums[0]\n    sum = 0\n    for i in range(len(nums)):\n        sum += nums[i]\n        minSum = min(sum, minSum)\n        if sum < 0:\n            sum = 0\n    return minSum\n\nprint(minSubArraySum([-1, -2, -3]))\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array",
+      0.1385498046875
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            min_sum = min(min_sum, sum(nums[i:j+1]))\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.046539306640625
+    ],
+    [
+      "# Minimum sum\n    minSum = float('inf')\n    # Current sum\n    currSum = 0\n    for num in nums:\n        currSum += num\n        minSum = min(minSum, currSum)\n        currSum = min(currSum, 0)\n    return minSum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\n\n# Time complexity O(n)\n# Space complexity O(1)",
+      -0.2266845703125
+    ],
+    [
+      "minSum = 2**32\n    curSum = 0\n    for num in nums:\n        curSum += num\n        if curSum < minSum:\n            minSum = curSum\n        if curSum < 0:\n            curSum = 0\n    return minSum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.235107421875
+    ],
+    [
+      "# Fill this in.\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\n# 1\nprint(minSubArraySum([-1, -2, -3]))\n# -6\nprint(minSubArraySum([0]))\n# 0\nprint(minSubArraySum([-100000]))\n# -100000\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    # Fill this in.\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\n# 1\nprint(minSubArraySum([-1, -2, -3]))\n# -6\nprint(minSubArraySum([0]))\n# 0\nprint(minSubArraySum([-100000]))\n# -100000\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    # Fill this in.\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\n# 1\nprint(minSubArraySum([-1, -2, -3]))\n# -6\nprint(minSubArraySum([0]))\n# 0\nprint(minSubArraySum([-100000]))\n# -100000\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find",
+      -0.607421875
+    ],
+    [
+      "return _minSubArraySum(nums, 0, len(nums) - 1)\n\ndef _minSubArraySum(nums, start, end):\n    if start == end:\n        return nums[start]\n    mid = (start + end) // 2\n    return min(_minSubArraySum(nums, start, mid),\n               _minSubArraySum(nums, mid + 1, end),\n               _minSubArraySum2(nums, start, mid, end))\n\ndef _minSubArraySum2(nums, start, mid, end):\n    left, right = mid, mid + 1\n    total = float('inf')\n    while left >= start:\n        while right <= end and nums[left] + nums[right] > nums[right]:\n            total = min(total, nums[left] + nums[right])\n            right += 1\n        left -= 1\n    return total\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4])) # 1\nprint(minSubArraySum([-1, -2, -3])) # -6",
+      -0.8193359375
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = nums[0]\n    current_sum = nums[0]\n    for i in range(1, len(nums)):\n        current_sum = min(current_sum + nums[i], nums[i])\n        min_sum = min(current_sum, min_sum)\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85595703125
+    ],
+    [
+      "# minSum = 0\n    # for num in nums:\n    #     minSum = min(minSum, num)\n    # return minSum\n    minSum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            subSum = sum(nums[i:j+1])\n            minSum = min(minSum, subSum)\n    return minSum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85595703125
+    ],
+    [
+      "# TODO: Write your code here\n    min_sum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i+1, len(nums)+1):\n            min_sum = min(min_sum, sum(nums[i:j]))\n    return min_sum",
+      -0.85693359375
+    ],
+    [
+      "min_sum = sum(nums)\n    current_sum = 0\n    for i in range(len(nums)):\n        current_sum += nums[i]\n        min_sum = min(current_sum, min_sum)\n        if current_sum < 0:\n            current_sum = 0\n    return min_sum",
+      -0.85693359375
+    ],
+    [
+      "min_sum = float('inf')\n    window_sum = 0\n    for i in range(len(nums)):\n        window_sum += nums[i]\n        min_sum = min(window_sum, min_sum)\n        if window_sum < 0:\n            window_sum = 0\n\n    return min_sum\n\n\n# Test cases:\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\nprint(minSubArraySum([-100000]))",
+      -0.85693359375
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = nums[0]\n    sub_sum = nums[0]\n    for i in range(1, len(nums)):\n        sub_sum = min(sub_sum + nums[i], nums[i])\n        min_sum = min(min_sum, sub_sum)\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85693359375
+    ],
+    [
+      "min_sum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            if min_sum > sum(nums[i:j+1]):\n                min_sum = sum(nums[i:j+1])\n    return min_sum",
+      -0.85693359375
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            if i == j:\n                continue\n            if sum(nums[i:j+1]) < min_sum:\n                min_sum = sum(nums[i:j+1])\n    return min_sum\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -0.85693359375
+    ],
+    [
+      "# initialize variables\n    sum = 0\n    minSum = 0\n    start = 0\n\n    # loop through nums\n    for i in range(len(nums)):\n        sum += nums[i]\n\n        # if the current sum is less than the minSum, update it\n        if sum < minSum:\n            minSum = sum\n\n        # if the current sum is greater than 0, update start\n        if sum > 0:\n            start = i\n\n    return minSum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))",
+      -0.85693359375
+    ],
+    [
+      "# return the min sum of any subarray\n    # if there is a subarray with sum of 0, return 0\n    # else return the min sum of any subarray\n    # we need to keep track of the smallest sum of any subarray\n    # we also need to keep track of the current sum\n\n    if len(nums) == 0:\n        return 0\n\n    smallest_sum = nums[0]\n    current_sum = 0\n    for num in nums:\n        current_sum += num\n        smallest_sum = min(smallest_sum, current_sum)\n        if current_sum < 0:\n            current_sum = 0\n\n    return smallest_sum",
+      -0.85693359375
+    ],
+    [
+      "minSum = float(\"inf\")\n    sum = 0\n    for i in nums:\n        sum += i\n        minSum = min(minSum, sum)\n        if sum < 0:\n            sum = 0\n    return minSum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85693359375
+    ],
+    [
+      "min_sum = nums[0]\n    cur_sum = 0\n    for i in range(len(nums)):\n        cur_sum += nums[i]\n        if cur_sum < min_sum:\n            min_sum = cur_sum\n        if cur_sum >= 0:\n            cur_sum = 0\n\n    if min_sum == 0:\n        return min(nums)\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))",
+      -0.85693359375
+    ],
+    [
+      "# Initialize variables\n    sum = 0\n    min_sum = nums[0]\n    start_index = 0\n\n    # Iterate through the array\n    for i in range(len(nums)):\n        sum += nums[i]\n\n        # Check if the sum is less than the min_sum\n        if sum < min_sum:\n            min_sum = sum\n\n        # Check if the sum is less than the min_sum\n        elif sum > 0:\n            min_sum = sum\n\n        # Reset sum\n        elif sum < 0:\n            sum = 0\n\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85693359375
+    ],
+    [
+      "# minSum = sum(nums)\n    # for i in range(1, len(nums)):\n    #     minSum = min(minSum, nums[i] + nums[i - 1])\n    # return minSum\n\n    minSum = float('inf')\n    curSum = 0\n    for i in nums:\n        curSum += i\n        minSum = min(minSum, curSum)\n        if curSum < 0:\n            curSum = 0\n    return minSum if minSum != float('inf') else 0\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -0.85693359375
+    ],
+    [
+      "sum = 0\n    minSum = 10**6\n    for num in nums:\n        sum += num\n        minSum = min(minSum, sum)\n        if sum < 0:\n            sum = 0\n    return minSum",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    min_sub = float('inf')\n    current_sum = 0\n    for i in nums:\n        current_sum += i\n        min_sub = min(current_sum, min_sub)\n        if current_sum < 0:\n            current_sum = 0\n    return min_sub if min_sub != float('inf') else 0\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85693359375
+    ],
+    [
+      "if not nums:\n        return 0\n\n    min_sum = nums[0]\n    total = 0\n    for num in nums:\n        total += num\n        if total < 0:\n            total = 0\n        min_sum = min(min_sum, total)\n    return min_sum",
+      -0.85693359375
+    ],
+    [
+      "# Fill this in.\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\n\n\n# \u4f5c\u8005\uff1aliweiwei1419\n# \u94fe\u63a5\uff1ahttps://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/python3-by-liweiwei1419/\n# \u6765\u6e90\uff1a\u529b\u6263\uff08LeetCode\uff09\n# \u8457\u4f5c\u6743\u5f52\u4f5c\u8005\u6240\u6709\u3002\u5546\u4e1a\u8f6c\u8f7d\u8bf7\u8054\u7cfb\u4f5c\u8005\u83b7\u5f97\u6388\u6743\uff0c\u975e\u5546\u4e1a\u8f6c\u8f7d\u8bf7\u6ce8\u660e\u51fa\u5904\u3002",
+      -0.85791015625
+    ],
+    [
+      "n = len(nums)\n    if n == 0:\n        return 0\n    if n == 1:\n        return nums[0]\n    min_sum = nums[0]\n    for i in range(1, n):\n        if nums[i] + nums[i-1] < 0:\n            min_sum = min(min_sum, nums[i])\n        else:\n            min_sum = min(min_sum, nums[i] + nums[i-1])\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85791015625
+    ],
+    [
+      "if not nums:\n        return 0\n\n    sum = 0\n    min_sum = float('inf')\n    for num in nums:\n        sum += num\n        min_sum = min(min_sum, sum)\n\n        if sum < 0:\n            sum = 0\n\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85791015625
+    ],
+    [
+      "min_sum = float('inf')\n    cur_sum = 0\n    for num in nums:\n        cur_sum += num\n        min_sum = min(min_sum, cur_sum)\n        if cur_sum < 0:\n            cur_sum = 0\n    return min_sum",
+      -0.85791015625
+    ],
+    [
+      "# min_sum = sum(nums)\n    # for i in range(len(nums)):\n    #     for j in range(i, len(nums)):\n    #         sub_array = nums[i:j]\n    #         print(sub_array)\n    #         min_sum = min(min_sum, sum(sub_array))\n    # return min_sum\n\n    min_sum = sum(nums)\n    curr_sum = 0\n    for num in nums:\n        curr_sum += num\n        min_sum = min(min_sum, curr_sum)\n        if curr_sum < 0:\n            curr_sum = 0\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85791015625
+    ],
+    [
+      "# Initialize variables\n    min_sum = 0\n    total = 0\n    # Iterate through each element in the list\n    for num in nums:\n        total += num\n        min_sum = min(min_sum, total)\n        if total < 0:\n            total = 0\n    return min_sum",
+      -0.85791015625
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = nums[0]\n    current_sum = nums[0]\n    for i in range(1, len(nums)):\n        current_sum = min(current_sum + nums[i], nums[i])\n        min_sum = min(current_sum, min_sum)\n    return min_sum",
+      -0.8583984375
+    ],
+    [
+      "# Your code here\n    min_sum = float('inf')\n    curr_sum = 0\n    for num in nums:\n        curr_sum += num\n        min_sum = min(min_sum, curr_sum)\n        if curr_sum < 0:\n            curr_sum = 0\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))",
+      -0.8583984375
+    ],
+    [
+      "# iterate through the array\n    for i in range(len(nums)):\n        # iterate through the array again\n        for j in range(i+1, len(nums)):\n            # if the current sum is less than the current min, update the min\n            if sum(nums[i:j]) < result:\n                result = sum(nums[i:j])\n    return result\n\n\nresult = minSubArraySum([2, 3, 4, 1, 2, 4])\nprint(result)\nresult = minSubArraySum([-1, -2, -3])\nprint(result)",
+      -0.8583984375
+    ],
+    [
+      "min_sum = float('inf')\n    running_sum = 0\n    for num in nums:\n        running_sum += num\n        min_sum = min(min_sum, running_sum)\n        if running_sum < 0:\n            running_sum = 0\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.8583984375
+    ],
+    [
+      "if len(nums) == 0:\n        return 0\n    if len(nums) == 1:\n        return nums[0]\n    minSum = float('inf')\n    currentSum = 0\n    for i in range(len(nums)):\n        currentSum += nums[i]\n        if currentSum < minSum:\n            minSum = currentSum\n        if currentSum < 0:\n            currentSum = 0\n    return minSum\n\nif __name__ == '__main__':\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -0.8583984375
+    ],
+    [
+      "min_sum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            sub_sum = sum(nums[i:j+1])\n            if sub_sum < min_sum:\n                min_sum = sub_sum\n    return min_sum\n\n\ndef main():\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "if not nums:\n        return 0\n    if len(nums) == 1:\n        return nums[0]\n    min_sum = nums[0]\n    curr_sum = nums[0]\n    for i in range(1, len(nums)):\n        curr_sum += nums[i]\n        min_sum = min(min_sum, curr_sum - nums[i])\n        curr_sum = max(curr_sum, nums[i])\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.8583984375
+    ],
+    [
+      "n = len(nums)\n    if n == 0:\n        return 0\n    # \u521d\u59cb\u5316\uff0csum[i]\u8868\u793anums[0:i]\u7684\u548c\n    sum = [0] * n\n    sum[0] = nums[0]\n    for i in range(1, n):\n        sum[i] = sum[i-1] + nums[i]\n\n    min_sum = float(\"inf\")\n    for i in range(n):\n        # \u4ecei\u5f00\u59cb\u627e\uff0c\u627e\u5230j\uff0c\u6ee1\u8db3sum[j]-sum[i]\u6700\u5c0f\uff0c\u5373\u6ee1\u8db3sum[j]-sum[i]\u6700\u5c0f\u7684j\uff0c\n        # \u90a3\u4e48sum[j]-sum[i]\u5373\u4e3a\u6700\u5c0f\u7684\u548c\n        for j in range(i, n):\n            min_sum = min(min_sum, sum[j]-sum[i])\n    return min_sum\n\nif __name__ == '__main__':\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -0.85888671875
+    ],
+    [
+      "if not nums:\n        return 0\n    min_sum = nums[0]\n    curr_sum = nums[0]\n    for i in range(1, len(nums)):\n        curr_sum = min(curr_sum+nums[i], nums[i])\n        min_sum = min(min_sum, curr_sum)\n    return min_sum",
+      -0.85888671875
+    ],
+    [
+      "# Your code here\n    min_sum = float(\"inf\")\n    total = 0\n    for i in nums:\n        total += i\n        min_sum = min(min_sum, total)\n        if total < 0:\n            total = 0\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.85888671875
+    ],
+    [
+      "min_sum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            min_sum = min(min_sum, sum(nums[i:j+1]))\n    return min_sum\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -0.85888671875
+    ],
+    [
+      "# Your code here\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -0.888671875
+    ],
+    [
+      "# Fill this in.\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\nprint(minSubArraySum([0, 1, 2, 3, 4]))\nprint(minSubArraySum([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,",
+      -0.91259765625
+    ],
+    [
+      "minSum = float('inf')\n    currSum = 0\n    for num in nums:\n        currSum += num\n        minSum = min(currSum, minSum)\n        if currSum < 0:\n            currSum = 0\n    return minSum\n\n\ndef minSubArraySum2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    minSum = float('inf')\n    currSum = 0\n    for i in range(len(nums)):\n        currSum += nums[i]\n        minSum = min(currSum, minSum)\n        if currSum < 0:\n            currSum = 0\n    return minSum\n\n\ndef minSubArraySum3(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    minSum = float('inf')\n    currSum = 0\n    for i in range(len(nums)):\n        currSum += nums[i]\n        minSum = min(currSum, minSum)\n        if currSum < 0:\n            currSum = 0\n    return minSum\n\n\ndef minSubArraySum4(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    minSum = float('inf')\n    currSum = 0",
+      -0.92138671875
+    ],
+    [
+      "# Iterate through the array and keep track of the smallest sum\n    # if the current sum is smaller than the smallest sum so far, update it\n    smallest_sum = nums[0]\n    current_sum = nums[0]\n\n    for num in nums[1:]:\n        current_sum += num\n\n        if current_sum < smallest_sum:\n            smallest_sum = current_sum\n\n        if current_sum < 0:\n            current_sum = 0\n\n    return smallest_sum",
+      -0.94580078125
+    ],
+    [
+      "min_sum = sum(nums)\n    for i in range(len(nums)):\n        curr_sum = nums[i]\n        for j in range(i + 1, len(nums)):\n            curr_sum += nums[j]\n            min_sum = min(min_sum, curr_sum)\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -1.0830078125
+    ],
+    [
+      "# Initialize variables\n    min_subarray_sum = float('inf')\n    subarray_sum = 0\n\n    # Iterate through nums\n    for num in nums:\n        subarray_sum += num\n        # Update min_subarray_sum\n        min_subarray_sum = min(min_subarray_sum, subarray_sum)\n\n        # Check if subarray sum is negative and reset\n        if subarray_sum < 0:\n            subarray_sum = 0\n\n    return min_subarray_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\nprint(minSubArraySum([0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1",
+      -1.216796875
+    ],
+    [
+      "# initialize the min value\n    min_value = nums[0]\n\n    # for each number in the array, compare the current number with the min_value\n    for number in nums:\n        if number < min_value:\n            min_value = number\n\n    # return the min_value\n    return min_value\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -1.29296875
+    ],
+    [
+      "min_sum = float('inf')\n    cur_sum = 0\n    for num in nums:\n        cur_sum += num\n        min_sum = min(min_sum, cur_sum)\n        if cur_sum < 0:\n            cur_sum = 0\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -1.3046875
+    ],
+    [
+      "# # Initialization\n    # min_sum = float('inf')\n    # curr_sum = 0\n    # left = 0\n    # right = 0\n    # # Loop\n    # while right < len(nums):\n    #     curr_sum += nums[right]\n    #     if curr_sum < min_sum:\n    #         min_sum = curr_sum\n    #     right += 1\n    #     if curr_sum < 0:\n    #         curr_sum = 0\n    #         left = right\n    # return min_sum\n\n    min_sum = float('inf')\n    curr_sum = 0\n    left = 0\n    right = 0\n    while right < len(nums):\n        curr_sum += nums[right]\n        right += 1\n        if curr_sum < 0:\n            curr_sum = 0\n            left = right\n        if curr_sum < min_sum:\n            min_sum = curr_sum\n    return min_sum\n\n\nif __name__ == '__main__':\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -1.3330078125
+    ],
+    [
+      "return minSubArraySumHelper(nums, 0, len(nums) - 1, float(\"inf\"))\n\n\ndef minSubArraySumHelper(nums, i, j, min_sum):\n    if i == j:\n        return nums[i]\n\n    mid = (i + j) // 2\n    left_min = minSubArraySumHelper(nums, i, mid, min_sum)\n    right_min = minSubArraySumHelper(nums, mid + 1, j, min_sum)\n    left_min_sum = float(\"inf\")\n    right_min_sum = float(\"inf\")\n    left_sum = 0\n    right_sum = 0\n    for k in range(mid, i - 1, -1):\n        left_sum += nums[k]\n        if left_sum < left_min_sum:\n            left_min_sum = left_sum\n\n    for k in range(mid + 1, j + 1):\n        right_sum += nums[k]\n        if right_sum < right_min_sum:\n            right_min_sum = right_sum\n\n    return min(left_min, right_min, left_min_sum + right_min_sum)\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -1.40234375
+    ],
+    [
+      "if len(nums) == 0:\n        return 0\n\n    min_sum = nums[0]\n    for i in range(1, len(nums)):\n        min_sum = min(nums[i], min_sum + nums[i])\n    return min_sum",
+      -1.43359375
+    ],
+    [
+      "if len(nums) == 0:\n        return 0\n\n    min_sum = sum(nums)\n    sum = 0\n\n    for num in nums:\n        sum += num\n        min_sum = min(min_sum, sum)\n        if sum < 0:\n            sum = 0\n\n    return min_sum\n\n\ndef maxSubArray(nums):\n    \"\"\"\n    Given an array of integers nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.\n\n    Example:\n    Input: [-2,1,-3,4,-1,2,1,-5,4],\n    Output: 6\n    Explanation: [4,-1,2,1] has the largest sum = 6.\n    \"\"\"\n    if len(nums) == 0:\n        return 0\n\n    max_sum = nums[0]\n    sum = 0\n\n    for num in nums:\n        sum += num\n        max_sum = max(max_sum, sum)\n        if sum < 0:\n            sum = 0\n\n    return max_sum\n\n\ndef maxProfit(prices):\n    \"\"\"\n    Given an array prices where prices[i] is the price of a given stock on the ith day,\n    find the maximum profit you can achieve.\n\n    You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).\n    However, you may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).\n\n    Example 1:\n    Input: prices = [7,1,5,3,6,4]\n    Output: 7\n    Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.\n    Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.\n\n    Example 2:\n    Input: prices = [1,2,3,",
+      -1.6669921875
+    ],
+    [
+      "# best = 0\n    # current = 0\n    # for num in nums:\n    #     current += num\n    #     if current < best:\n    #         best = current\n    #     if current < 0:\n    #         current = 0\n    # return best\n\n    # best = 0\n    # current = 0\n    # for num in nums:\n    #     current += num\n    #     if current > 0:\n    #         best = current\n    # return best\n\n    best = 0\n    current = 0\n    for num in nums:\n        current = max(num, current + num)\n        best = max(best, current)\n    return best\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -1.7734375
+    ],
+    [
+      "min_sum = 1000000\n    current_sum = 0\n\n    for i in range(len(nums)):\n        current_sum += nums[i]\n        min_sum = min(min_sum, current_sum)\n        if current_sum < 0:\n            current_sum = 0\n\n    return min_sum\n\n\nif __name__ == '__main__':\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -1.7802734375
+    ],
+    [
+      "if not nums:\n        return 0\n    sum = 0\n    min = 0\n    for i in nums:\n        sum += i\n        if sum < min:\n            min = sum\n        if sum < 0:\n            sum = 0\n    return min\n\n\ndef minSubArraySum2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    if not nums:\n        return 0\n    min = 0\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            sub_sum = sum(nums[i:j + 1])\n            if sub_sum < min:\n                min = sub_sum\n    return min\n\n\nprint(minSubArraySum2([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum2([-1, -2, -3]))",
+      -1.8076171875
+    ],
+    [
+      "min_sum = 10**9\n    sum = 0\n    for i in range(len(nums)):\n        sum += nums[i]\n        if sum < min_sum:\n            min_sum = sum\n        if sum < 0:\n            sum = 0\n    return min_sum\n\n\ndef minSubArraySum_2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    min_sum = 10**9\n    sum = 0\n    for i in range(len(nums)):\n        sum += nums[i]\n        if sum > 0:\n            min_sum = min(min_sum, sum)\n        else:\n            sum = 0\n    return min_sum\n\n\ndef minSubArraySum_3(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    min_sum = 10**9\n    sum = 0\n    for i in range(len(nums)):\n        sum += nums[i]\n        min_sum = min(min_sum, sum)\n        if sum < 0:\n            sum = 0\n    return min_sum\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))\n    print(minSubArraySum([-1, -2, -3, -1, -2, -3]))\n    print(minSubArraySum([-1, -",
+      -1.8818359375
+    ],
+    [
+      "if not nums:\n        return 0\n\n    min_sub_array_sum = sum(nums)\n    sub_array_sum = 0\n    for num in nums:\n        sub_array_sum += num\n        min_sub_array_sum = min(min_sub_array_sum, sub_array_sum)\n        if sub_array_sum < 0:\n            sub_array_sum = 0\n    return min_sub_array_sum\n\n\n# 2. \u7ed9\u5b9a\u4e00\u4e2a\u6574\u6570\u6570\u7ec4\uff0c\u627e\u5230\u4e00\u4e2a\u5177\u6709\u6700\u5927\u548c\u7684\u8fde\u7eed\u5b50\u6570\u7ec4\uff0c\u5e76\u8fd4\u56de\u5176\u6700\u5927\u548c\u3002\n# \u8f93\u5165: [-2,1,-3,4,-1,2,1,-5,4],\n# \u8f93\u51fa: 6\n# \u89e3\u91ca: \u8fde\u7eed\u5b50\u6570\u7ec4[4,-1,2,1] \u7684\u548c\u6700\u5927\uff0c\u4e3a 6.\n\ndef maxSubArray(nums):\n    \"\"\"\n    Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.\n    A subarray is a contiguous part of an array.\n    Example\n    maxSubArray([-2,1,-3,4,-1,2,1,-5,4]) == 6\n    maxSubArray([1]) == 1\n    maxSubArray([5,4,-1,7,8]) == 23\n    \"\"\"\n    if not nums:\n        return 0\n\n    min_sub_array_sum = sum(nums)\n    sub_array_sum = 0\n    for num in nums:\n        sub_array_sum += num\n        min_sub_array_sum = max(min_sub_array_sum, sub_array_sum)\n        if sub_array_sum < 0:\n            sub_array_sum = 0\n    return min_sub_array_sum\n\n\n# 3. \u7ed9\u5b9a\u4e00\u4e2a\u6574\u6570\u6570\u7ec4\uff0c\u5224\u65ad\u6570\u7ec4\u4e2d\u662f\u5426\u6709\u4e24\u4e2a\u4e0d\u540c\u7684\u7d22\u5f15 i \u548c j\uff0c\u4f7f\u5f97 nums",
+      -2.013671875
+    ],
+    [
+      "total = sum(nums)\n    if len(nums) == 1:\n        return nums[0]\n    elif len(nums) == 2:\n        return nums[0] if nums[0] < nums[1] else nums[1]\n    elif len(nums) == 3:\n        return min(nums[0], nums[1], nums[2])\n    else:\n        nums.sort()\n        print(nums)\n        if nums[0] > 0:\n            return nums[0]\n        elif nums[1] > 0:\n            return nums[1]\n        elif nums[2] > 0:\n            return nums[2]\n        else:\n            return nums[3]\n\n\nprint(minSubArraySum([-2, -1, -3, -1, -2, -4, -2, -3, -5, -2]))",
+      -2.130859375
+    ],
+    [
+      "# Your code here\n    if len(nums) == 0:\n        return 0\n    elif len(nums) == 1:\n        return nums[0]\n    else:\n        min_val = 0\n        for i in range(len(nums)):\n            for j in range(i, len(nums)):\n                min_val = min(min_val, sum(nums[i:j+1]))\n        return min_val\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -2.2421875
+    ],
+    [
+      "if len(nums) == 1:\n        return nums[0]\n    minSum = sum(nums)\n    sum = 0\n    for num in nums:\n        sum += num\n        if sum < minSum:\n            minSum = sum\n        if sum < 0:\n            sum = 0\n    return minSum\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    if len(nums) == 1:\n        return nums[0]\n    minSum = sum(nums)\n    sum = 0\n    for num in nums:\n        sum += num\n        if sum < minSum:\n            minSum = sum\n        if sum < 0:\n            sum = 0\n    return minSum\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    if len(nums) == 1:\n        return nums[0]\n    minSum = sum(nums)\n    sum = 0\n    for num in nums:\n        sum += num\n        if sum < minSum:\n            minSum = sum\n        if sum < 0:\n            sum = 0\n    return minSum\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([",
+      -2.2734375
+    ],
+    [
+      "min_sub = float(\"inf\")\n    start = 0\n    total = 0\n    for i in range(len(nums)):\n        total += nums[i]\n        min_sub = min(min_sub, total - min_sub)\n        if total < 0:\n            total = 0\n    return min_sub\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -2.466796875
+    ],
+    [
+      "# iterate through the array\n    # if the sum is lower than the current min, then update the min\n    # if the sum is equal to the current min, then return the min\n    # if the sum is higher than the current min, then return the current min\n    min_sum = sum(nums)\n    current_sum = 0\n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum)\n    return min_sum\n\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    # iterate through the array\n    # if the sum is lower than the current min, then update the min\n    # if the sum is equal to the current min, then return the min\n    # if the sum is higher than the current min, then return the current min\n    min_sum = sum(nums)\n    current_sum = 0\n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum)\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -2.5234375
+    ],
+    [
+      "# minSum = 10000000000\n    # for i in range(len(nums)):\n    #     for j in range(i, len(nums)):\n    #         if nums[i:j+1] == None:\n    #             continue\n    #         else:\n    #             minSum = min(minSum, sum(nums[i:j+1]))\n    # return minSum\n    minSum = sum(nums)\n    for i in range(len(nums)):\n        for j in range(i, len(nums)):\n            if nums[i:j+1] == None:\n                continue\n            else:\n                minSum = min(minSum, sum(nums[i:j+1]))\n    return minSum",
+      -2.53125
+    ],
+    [
+      "if not nums:\n        return 0\n    if len(nums) == 1:\n        return nums[0]\n    min_sum = nums[0] + nums[1]\n    cur_sum = nums[0] + nums[1]\n    for i in range(2, len(nums)):\n        cur_sum = min(cur_sum - nums[i-2], nums[i])\n        min_sum = min(cur_sum, min_sum)\n    return min_sum\n\n\nif __name__ == '__main__':\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -2.79296875
+    ],
+    [
+      "if not nums:\n        return 0\n\n    cur_sum = nums[0]\n    min_sum = nums[0]\n    for num in nums[1:]:\n        cur_sum = min(cur_sum + num, num)\n        min_sum = min(cur_sum, min_sum)\n\n    return min_sum\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4])) # 1\nprint(minSubArraySum([-1, -2, -3])) # -6\nprint(minSubArraySum([1, 1, 1])) # 1\nprint(minSubArraySum([0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1",
+      -2.927734375
+    ],
+    [
+      "minSub = nums[0]\n    minSum = 0\n    for i in range(1, len(nums)):\n        if nums[i] + minSum < minSub:\n            minSub = nums[i] + minSum\n        if nums[i] < 0:\n            minSum = nums[i]\n        else:\n            minSum += nums[i]\n    return minSub\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -3.041015625
+    ],
+    [
+      "# # Initializing the sum variable\n    # sum = 0\n    # # Initializing the minimum sum variable\n    # minimum_sum = 0\n    # # Looping through the array\n    # for num in nums:\n    #     # If the sum is less than 0, we make it 0\n    #     if sum < 0:\n    #         sum = 0\n    #     # We add the current number to the sum\n    #     sum += num\n    #     # We compare the sum to the minimum sum\n    #     minimum_sum = min(sum, minimum_sum)\n    # return minimum_sum\n\n    sum = 0\n    minimum_sum = 0\n\n    for num in nums:\n        sum = max(num, sum + num)\n        minimum_sum = min(minimum_sum, sum)\n\n    return minimum_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -3.39453125
+    ],
+    [
+      "# 3, 4, 1, 2, 4\n    # 3, 4, 1, 2, 4, 4\n    # 3, 4, 1, 2, 4, 4, 1\n    # 3, 4, 1, 2, 4, 4, 1, 2\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4\n    # 3, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4",
+      -3.9375
+    ],
+    [
+      "# Find the smallest sum of any subarray, starting at any index\n    min_sum = nums[0]\n    current_sum = nums[0]\n\n    for i in range(1, len(nums)):\n        current_sum = min(current_sum + nums[i], nums[i])\n        min_sum = min(current_sum, min_sum)\n    return min_sum\n\n\ndef minSubArraySum2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum2([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum2([-1, -2, -3]) == -6\n    \"\"\"\n    # Find the smallest sum of any subarray, starting at any index\n    min_sum = nums[0]\n    current_sum = nums[0]\n\n    for i in range(1, len(nums)):\n        current_sum = max(current_sum + nums[i], nums[i])\n        min_sum = min(current_sum, min_sum)\n    return min_sum\n\n\ndef minSubArraySum3(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum2([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum2([-1, -2, -3]) == -6\n    \"\"\"\n    # Find the smallest sum of any subarray, starting at any index\n    min_sum = nums[0]\n    current_sum = nums[0]\n\n    for i in range(1, len(nums)):\n        current_sum = max(current_sum + nums[i], nums[i])\n        min_sum = min(current_sum, min_sum)\n    return min_sum\n\n\ndef minSubArraySum4(nums):\n    \"\"\"\n    Given an array of integers nums,",
+      -4.16796875
+    ],
+    [
+      "# return sum(nums)\n    # O(n)\n    # O(n)\n    # if not nums:\n    #     return 0\n    # if len(nums) == 1:\n    #     return nums[0]\n\n    # min_sum = float(\"inf\")\n\n    # for i in range(len(nums)):\n    #     current_sum = 0\n    #     for j in range(i, len(nums)):\n    #         current_sum += nums[j]\n    #         if current_sum < min_sum:\n    #             min_sum = current_sum\n    # return min_sum\n\n    # O(n)\n    # O(n)\n    # if not nums:\n    #     return 0\n    # if len(nums) == 1:\n    #     return nums[0]\n\n    # min_sum = float(\"inf\")\n\n    # for i in range(len(nums)):\n    #     current_sum = nums[i]\n    #     for j in range(i + 1, len(nums)):\n    #         current_sum += nums[j]\n    #         if current_sum < min_sum:\n    #             min_sum = current_sum\n    # return min_sum\n\n    # O(n)\n    # O(n)\n    # if not nums:\n    #     return 0\n    # if len(nums) == 1:\n    #     return nums[0]\n\n    # min_sum = float(\"inf\")\n\n    # for i in range(len(nums)):\n    #     current_sum = 0\n    #     for j in range(i, len(nums)):\n    #         current_sum += nums[j]\n    #         if current_sum < min_sum:\n    #             min_sum = current_sum\n    # return min_sum\n\n    # O(n)\n    # O(1)\n    if not nums:\n        return 0\n    if len(nums) == 1:\n        return nums[0]\n\n    min_",
+      -4.234375
+    ],
+    [
+      "# minSum = sum(nums)\n    # for i in range(len(nums)):\n    #     for j in range(i, len(nums)):\n    #         tempSum = sum(nums[i:j+1])\n    #         if tempSum < minSum:\n    #             minSum = tempSum\n    # return minSum\n\n    # minSum = sum(nums)\n    # for i in range(len(nums)):\n    #     tempSum = sum(nums[i:])\n    #     if tempSum < minSum:\n    #         minSum = tempSum\n    # return minSum\n\n    # minSum = sum(nums)\n    # for i in range(len(nums)):\n    #     for j in range(i, len(nums)):\n    #         tempSum = sum(nums[i:j+1])\n    #         if tempSum < minSum:\n    #             minSum = tempSum\n    # return minSum\n\n    minSum = sum(nums)\n    for i in range(len(nums)):\n        tempSum = nums[i]\n        for j in range(i+1, len(nums)):\n            tempSum += nums[j]\n            if tempSum < minSum:\n                minSum = tempSum\n    return minSum\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -4.38671875
+    ],
+    [
+      "if len(nums) == 0:\n        return 0\n    elif len(nums) == 1:\n        return nums[0]\n    else:\n        sum = nums[0]\n        min = sum\n        for i in range(1, len(nums)):\n            sum += nums[i]\n            if sum < min:\n                min = sum\n            if sum < 0:\n                sum = 0\n        return min\n\n\nprint(minSubArraySum([-1, -2, -3]))",
+      -4.59765625
+    ],
+    [
+      "if len(nums) == 1:\n        return nums[0]\n\n    min_sum = sum(nums)\n    current_sum = 0\n    for i in range(len(nums)):\n        current_sum += nums[i]\n        if current_sum < min_sum:\n            min_sum = current_sum\n        if current_sum > 0:\n            current_sum = 0\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -5.015625
+    ],
+    [
+      "# iterate through array\n    # store the sum of the sub array in a variable\n    # iterate through the array again\n    # compare the current sum to the stored sum\n    # if the current sum is less than the stored sum, replace the stored sum with the current sum\n    # if the current sum is greater than the stored sum, do nothing\n    # return the stored sum\n    # O(n^2)\n\n    # iterate through array\n    # store the sum of the sub array in a variable\n    # iterate through the array again\n    # compare the current sum to the stored sum\n    # if the current sum is less than the stored sum, replace the stored sum with the current sum\n    # if the current sum is greater than the stored sum, do nothing\n    # return the stored sum\n    # O(n^2)\n    # if len(nums) == 1:\n    #     return nums[0]\n    #\n    # sub_array_sum = nums[0]\n    #\n    # for i in range(1, len(nums)):\n    #     if sub_array_sum < 0:\n    #         sub_array_sum = nums[i]\n    #     else:\n    #         sub_array_sum += nums[i]\n    #\n    #     for j in range(i, len(nums)):\n    #         if sub_array_sum < 0:\n    #             sub_array_sum = nums[j]\n    #         else:\n    #             sub_array_sum += nums[j]\n    #\n    # return sub_array_sum\n\n    if len(nums) == 1:\n        return nums[0]\n\n    sub_array_sum = nums[0]\n\n    for i in range(1, len(nums)):\n        if sub_array_sum < 0:\n            sub_array_sum = nums[i]\n        else:\n            sub_array_sum += nums[i]\n\n        for j in range(i, len(nums)):\n            if sub_array_sum < 0:\n                sub_array_sum = nums[j]\n            else:\n                sub",
+      -5.1953125
+    ],
+    [
+      "sum = 0\n    minSum = sum\n    for i in nums:\n        sum += i\n        if sum < minSum:\n            minSum = sum\n        if sum < 0:\n            sum = 0\n    return minSum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))\n\n\n\n# from collections import deque\n#\n#\n# class Solution:\n#     def minSubArraySum(self, nums):\n#         \"\"\"\n#         :type nums: List[int]\n#         :rtype: int\n#         \"\"\"\n#         sum = 0\n#         minSum = sum\n#         for i in nums:\n#             sum += i\n#             if sum < minSum:\n#                 minSum = sum\n#             if sum < 0:\n#                 sum = 0\n#         return minSum\n#\n#\n# s = Solution()\n# print(s.minSubArraySum([2, 3, 4, 1, 2, 4]))\n# print(s.minSubArraySum([-1, -2, -3]))",
+      -5.57421875
+    ],
+    [
+      "# Subtracting the lowest value from the array will ensure that the minimum sum\n    # will always be positive.\n    min_num = min(nums)\n    nums = [num - min_num for num in nums]\n\n    # We'll create a list to store the cumulative sums of the subarrays we're considering.\n    # We'll use this list to check if there's a subarray with a sum greater than the\n    # minimum sum.\n    sums = []\n    cum_sum = 0\n    for num in nums:\n        cum_sum += num\n        sums.append(cum_sum)\n\n    # We'll use a two pointer approach to find the minimum sum.\n    # We'll start with the first pointer at index 0, and the second pointer at the\n    # last index.\n    min_sum = sums[-1]\n    left = 0\n    right = len(nums) - 1\n\n    while left < right:\n        # If the sum of the subarray we're considering is less than the minimum sum,\n        # we need to move the left pointer to the right.\n        if sums[right] - sums[left] < min_sum:\n            min_sum = sums[right] - sums[left]\n        if sums[right] - sums[left] >= min_sum:\n            left += 1\n        # If the sum of the subarray we're considering is greater than the minimum sum,\n        # we need to move the right pointer to the left.\n        if sums[right] - sums[left] > min_sum:\n            right -= 1\n\n    return min_sum + min_num",
+      -5.8203125
+    ],
+    [
+      "if not nums:\n        return 0\n    # 1. Use two pointers to create a window\n    # 2. Move the left pointer to the right as much as possible.\n    # 3. Move the right pointer to the right as much as possible.\n    # 4. Update the result if needed\n    # 5. Move the left pointer to the right as much as possible\n    # 6. return the result\n\n    result = nums[0]\n    left = 0\n    right = 1\n    while right < len(nums):\n        result = min(result, sum(nums[left:right+1]))\n        if nums[right] < nums[left]:\n            left = right\n        right += 1\n    return result\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))",
+      -6.1953125
+    ],
+    [
+      "# if len(nums) == 0:\n    #     return 0\n    # min_sum = nums[0]\n    # for i in range(1, len(nums)):\n    #     if nums[i] + nums[i - 1] < min_sum:\n    #         min_sum = nums[i] + nums[i - 1]\n    # return min_sum\n    # \u53c8\u662f\u4e00\u9053DP\u9898\n    # dp[i] \u8868\u793a\u4ee5\u7b2ci\u4e2a\u5143\u7d20\u7ed3\u5c3e\u7684\u6700\u5c0f\u5b50\u5e8f\u5217\u548c\n    # dp[i] = min(dp[i-1]+nums[i], nums[i])\n    # return min(dp)\n    # dp[i]\u8868\u793a\u4ee5\u7b2ci\u4e2a\u5143\u7d20\u5f00\u5934\u7684\u6700\u5c0f\u5b50\u5e8f\u5217\u548c\n    # dp[i] = min(dp[i-1]+nums[i], nums[i])\n    # return min(dp)\n\n    # \u53c8\u662f\u4e00\u9053DP\u9898\n    # dp[i]\u8868\u793a\u4ee5\u7b2ci\u4e2a\u5143\u7d20\u7ed3\u5c3e\u7684\u6700\u5c0f\u5b50\u5e8f\u5217\u548c\n    # dp[i] = min(dp[i-1]+nums[i], nums[i])\n    # return min(dp)\n\n    # \u53c8\u662f\u4e00\u9053DP\u9898\n    # dp[i]\u8868\u793a\u4ee5\u7b2ci\u4e2a\u5143\u7d20\u7ed3\u5c3e\u7684\u6700\u5c0f\u5b50\u5e8f\u5217\u548c\n    # dp[i] = min(dp[i-1]+nums[i], nums[i])\n    # return min(dp)\n    # \u53c8\u662f\u4e00\u9053DP\u9898\n    # dp[i]\u8868\u793a\u4ee5\u7b2ci\u4e2a\u5143\u7d20\u7ed3\u5c3e\u7684\u6700\u5c0f\u5b50\u5e8f\u5217\u548c\n    # dp[i] = min(dp[i-1]+nums[i], nums[i])\n    # return min(dp)\n    # \u53c8\u662f\u4e00\u9053DP\u9898\n    # dp[i]\u8868\u793a\u4ee5\u7b2ci\u4e2a\u5143\u7d20\u7ed3\u5c3e\u7684\u6700\u5c0f\u5b50\u5e8f\u5217\u548c\n    # dp[i] = min(dp[i-1]+nums[i], nums[",
+      -6.296875
+    ],
+    [
+      "min_sum = float('inf')\n    min_sum_sub = []\n    curr_sum = 0\n    for i in nums:\n        curr_sum += i\n        min_sum = min(min_sum, curr_sum)\n        if min_sum == curr_sum:\n            min_sum_sub.append(nums[i])\n        if curr_sum < 0:\n            curr_sum = 0\n    return min_sum, min_sum_sub\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -8.5546875
+    ],
+    [
+      "# init\n    min_sum = 0\n    min_sum_sub_array = []\n    total = 0\n\n    for i in range(len(nums)):\n        total += nums[i]\n        min_sum_sub_array.append(total)\n        if total < min_sum:\n            min_sum = total\n\n    print(min_sum_sub_array)\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))",
+      -8.5546875
+    ],
+    [
+      "# 1. Brute force\n    # 2. Sliding window\n    # 3. Divide and conquer\n    # 4. Dynamic programming\n\n    # 2. Sliding window\n    # 1. Keep track of min sum\n    # 2. Keep track of current sum\n    # 3. If current sum is greater than min sum, update min sum\n    # 4. If current sum is smaller than current sum, subtract the last value and subtract it from current sum\n    # 5. If current sum is greater than min sum, update min sum\n    # 6. If the window is at the end, return the min sum\n\n    # O(n) time | O(1) space\n\n    min_sum = float(\"inf\")\n    current_sum = 0\n\n    for i in range(len(nums)):\n        current_sum += nums[i]\n\n        if current_sum < min_sum:\n            min_sum = current_sum\n\n        if current_sum > min_sum:\n            current_sum -= nums[i - 1]\n\n    return min_sum\n\n\nprint(minSubArraySum([2, 3, 4, 1, 2, 4]))\nprint(minSubArraySum([-1, -2, -3]))",
+      -8.9609375
+    ],
+    [
+      "# if len(nums) == 1:\n    #     return nums[0]\n    # else:\n    #     return min(nums[0], minSubArraySum(nums[1:]))\n\n    sum = nums[0]\n    minSum = nums[0]\n    for i in range(1, len(nums)):\n        sum += nums[i]\n        if sum < minSum:\n            minSum = sum\n        if nums[i] < sum:\n            sum = nums[i]\n    return minSum\n\n\ndef minSubArraySum2(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum2([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum2([-1, -2, -3]) == -6\n    \"\"\"\n    minSum = float('inf')\n    sum = 0\n    for i in range(len(nums)):\n        sum += nums[i]\n        minSum = min(minSum, sum - minSubArraySum2(nums[i + 1 :]))\n    return minSum\n\n\nif __name__ == \"__main__\":\n    print(minSubArraySum([2, 3, 4, 1, 2, 4]))\n    print(minSubArraySum([-1, -2, -3]))\n    print(minSubArraySum([1, 2, -1, -2, -2]))\n    print(minSubArraySum([4, 4, 4, 1, 2, 1, 2]))\n    print(minSubArraySum([1]))",
+      -9.46875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

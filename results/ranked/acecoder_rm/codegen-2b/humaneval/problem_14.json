@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/14",
+    "prompt": "from typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n",
+    "canonical_solution": "    result = []\n\n    for i in range(len(string)):\n        result.append(string[:i+1])\n    return result\n",
+    "test": "\n\nMETADATA = {\n    'author': 'jt',\n    'dataset': 'test'\n}\n\n\ndef check(candidate):\n    assert candidate('') == []\n    assert candidate('asdfgh') == ['a', 'as', 'asd', 'asdf', 'asdfg', 'asdfgh']\n    assert candidate('WWW') == ['W', 'WW', 'WWW']\n",
+    "entry_point": "all_prefixes",
+    "docstring": "",
+    "problem_id": 14
+  },
+  "model_name": "codegen-2b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "return [string[:i] for i in range(len(string))]\n\n\ndef all_prefixes_of_substrings(string: str) -> List[List[str]]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes_of_substrings('abc')\n    [[], ['a'], ['ab'], ['abc']]\n    \"\"\"\n    return [list(prefix) for prefix in all_prefixes(string)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      2.77734375
+    ],
+    [
+      "return [s[:i] for i in range(len(string) + 1)]\n\n\ndef get_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> get_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [s[:i] for i in range(len(string) + 1)]\n\n\ndef get_prefixes_lengths(string: str) -> List[int]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> get_prefixes_lengths('abc')\n    [3, 3, 3]\n    \"\"\"\n    return [len(s) for s in get_prefixes(string)]\n\n\ndef longest_prefix(string: str, prefixes: List[str]) -> int:\n    \"\"\" Return longest prefix of the input string from shortest to longest of the input string\n    >>> longest_prefix('abc', ['a', 'ab', 'abc'])\n    3\n    \"\"\"\n    return max(get_prefixes_lengths(string), key=lambda x: x)",
+      2.140625
+    ],
+    [
+      "return [string[:i] for i in range(len(string) + 1)]\n\n\ndef longest_prefix(string: str) -> List[str]:\n    \"\"\" Return list of all longest prefixes from shortest to longest of the input string\n    >>> longest_prefix('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [string[:i] for i in range(1, len(string) + 1)]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from longest to shortest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc', 'abc']\n    \"\"\"\n    return [string[i:] for i in range(1, len(string) + 1)]\n\n\ndef longest_suffix(string: str) -> List[str]:\n    \"\"\" Return list of all longest suffixes from longest to shortest of the input string\n    >>> longest_suffix('abc')\n    ['abc', 'abc', 'abc']\n    \"\"\"\n    return [string[i:] for i in range(1, len(string) + 1)]",
+      1.3056640625
+    ],
+    [
+      "return [string[0:i] for i in range(len(string) + 1)]\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return the longest common prefix of all the strings in the list\n    >>> longest_common_prefix(['abc', 'def', 'ghi'])\n    'abc'\n    >>> longest_common_prefix(['a', 'ab', 'abc'])\n    'a'\n    >>> longest_common_prefix(['a', 'ab', 'abc', 'def'])\n    ''\n    \"\"\"\n    return max(all_prefixes(s) for s in strings)\n\ndef longest_common_suffix(strings: List[str]) -> str:\n    \"\"\" Return the longest common suffix of all the strings in the list\n    >>> longest_common_suffix(['abc', 'def', 'ghi'])\n    'ghi'\n    >>> longest_common_suffix(['a', 'ab', 'abc'])\n    'abc'\n    >>> longest_common_suffix(['a', 'ab', 'abc', 'def'])\n    ''\n    \"\"\"\n    return min(all_prefixes(s) for s in strings)\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.08203125
+    ],
+    [
+      "if not string:\n        return []\n    prefixes = []\n    for i in range(len(string) + 1):\n        prefix = string[:i]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes",
+      1.013671875
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [s[0] for s in string_prefixes_iter(string)]\n\n\ndef string_prefixes_iter(string: str) -> Iterator[str]:\n    \"\"\" Return generator of all prefixes from shortest to longest of the input string\n    >>> list(string_prefixes_iter('abc'))\n    ['a', 'ab', 'abc']\n    \"\"\"\n    for i in range(len(string)):\n        yield string[:i+1]\n\n\ndef longest_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from longest to shortest of the input string\n    >>> longest_prefixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    return [s[-1] for s in string_prefixes_iter(string)]\n\n\ndef longest_prefixes_iter(string: str) -> Iterator[str]:\n    \"\"\" Return generator of all prefixes from longest to shortest of the input string\n    >>> list(longest_prefixes_iter('abc'))\n    ['abc', 'abc']\n    \"\"\"\n    for i in range(len(string)):\n        yield string[-i:]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      0.8095703125
+    ],
+    [
+      "prefixes = [string[:i] for i in range(len(string))]\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3']\n    \"\"\"\n    suffixes = [string[i:] for i in range(len(string))]\n    return suffixes",
+      0.75537109375
+    ],
+    [
+      "if not string:\n        return []\n    result = []\n    for i in range(1, len(string) + 1):\n        result.append(string[:i])\n    return result\n\n\ndef find_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> find_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    result = []\n    for i in range(1, len(string) + 1):\n        result.append(string[:i])\n    return result\n\n\ndef find_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> find_suffixes('abc')\n    ['bc', 'bcd', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    result = []\n    for i in range(1, len(string) + 1):\n        result.append(string[-i:])\n    return result\n\n\ndef find_suffixes_from_prefixes(prefixes: List[str]) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> find_suffixes_from_prefixes(['a', 'ab', 'abc'])\n    ['bc', 'bcd', 'abc']\n    \"\"\"\n    if not prefixes:\n        return []\n    result = []\n    for i in range(1, len(prefixes[-1]) + 1):\n        result.append(prefixes[-1][-i:])\n    return result",
+      -0.042327880859375
+    ],
+    [
+      "if not string:\n        return []\n    else:\n        return [string[:i] for i in range(len(string) + 1)]\n\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return the longest common prefix of the input strings.\n    >>> longest_common_prefix(['abc', 'ab', 'abc'])\n    'abc'\n    >>> longest_common_prefix(['abc', 'ab', 'abcxyz'])\n    'abc'\n    >>> longest_common_prefix(['abc', 'abcxyz'])\n    ''\n    >>> longest_common_prefix(['abc', 'abcxyz'])\n    ''\n    \"\"\"\n    if not strings:\n        return ''\n    elif len(strings) == 1:\n        return strings[0]\n    else:\n        return max(all_prefixes(s) for s in strings)",
+      -0.061370849609375
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return longest prefix of the input string\n    >>> longest_prefix('abc')\n    'abc'\n    \"\"\"\n    for i in range(len(string)):\n        if string[:i] not in all_prefixes(string):\n            return string[:i]\n    return string\n\n\ndef longest_prefix_from_list(string: str) -> str:\n    \"\"\" Return longest prefix from list\n    >>> longest_prefix_from_list('abc')\n    'abc'\n    >>> longest_prefix_from_list('abcd')\n    'ab'\n    >>> longest_prefix_from_list('abc')\n    'abc'\n    >>> longest_prefix_from_list('abcd')\n    'ab'\n    >>> longest_prefix_from_list('abcde')\n    'abc'\n    \"\"\"\n    for i in range(len(string)):\n        if string[:i] not in all_prefixes(string):\n            return string[:i]\n    return string\n\n\ndef longest_prefix_from_dict(string: str) -> str:\n    \"\"\" Return longest prefix from dict\n    >>> longest_prefix_from_dict('abc')\n    'abc'\n    >>> longest_prefix_from_dict('abcd')\n    'ab'\n    >>> longest_prefix_from_dict('abc')\n    'abc'\n    >>> longest_prefix_from_dict('abcd')\n    'ab'\n    >>> longest_prefix_from_dict('abcde')\n    'abc'\n    \"\"\"\n    for i in range(len(string)):\n        if string[:i] not in all_prefixes(string):\n            return string[:i]\n    return string",
+      -0.85546875
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes",
+      -0.85595703125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes",
+      -0.85595703125
+    ],
+    [
+      "return [s[:i] for i in range(len(string) + 1)]",
+      -0.85595703125
+    ],
+    [
+      "return [prefix for prefix in string if prefix]",
+      -0.85595703125
+    ],
+    [
+      "if not string:\n        return []\n\n    return [\n        string[: i + 1]\n        for i in range(len(string) - 1)\n    ]\n\n\ndef main() -> None:\n    \"\"\"\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    print(all_prefixes('abc'))\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "return [s[:i] for i in range(len(string))]\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return longest prefix from shortest to longest of the input string\n    >>> longest_prefix('abc')\n    'abc'\n    >>> longest_prefix('abcd')\n    'ab'\n    \"\"\"\n    if len(string) == 0:\n        return ''\n    elif len(string) == 1:\n        return string\n    else:\n        return longest_prefix(string[1:]) + string[0]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i+1])\n    return prefixes\n\n\ndef get_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of prefixes from shortest to longest of the input string\n    >>> get_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i+1])\n    return prefixes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "prefixes = ['']\n    for i in range(1, len(string) + 1):\n        prefix = string[0:i]\n        for j in range(len(prefixes)):\n            if prefix == prefixes[j]:\n                prefixes.append(prefix)\n            else:\n                break\n    return prefixes",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in range(len(string)):\n        result.append(string[:i])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return [s for s in string[1:] if s[0] == string[0]]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for prefix in string[:-1]:\n        result += [prefix + suffix for suffix in string[:-1]]\n    result.append(string[:-1])\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return [s[0] for s in itertools.takewhile(lambda s: s,\n                                              itertools.takewhile(lambda s: s.startswith(string),\n                                                                  string[1:], reverse=True))]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['c', 'bc', 'abc']\n    \"\"\"\n    return [s[-1] for s in itertools.takewhile(lambda s: s,\n                                               itertools.takewhile(lambda s: s.endswith(string),\n                                                                  string[1:], reverse=True))]",
+      -0.85693359375
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[0:i+1]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if not string:\n        return []\n    prefixes = [string[0:i] for i in range(1, len(string) + 1)]\n    return prefixes + all_prefixes(string[1:])\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3']\n    \"\"\"\n    if not string:\n        return []\n    suffixes = [string[-i:] for i in range(1, len(string) + 1)]\n    return suffixes + all_suffixes(string[1:])",
+      -0.85693359375
+    ],
+    [
+      "if not string:\n        return []\n    return [s[0] for s in itertools.takewhile(lambda s: s[0], enumerate(string))]\n\n\ndef prefixes_to_words(prefixes: List[str]) -> List[str]:\n    \"\"\" Convert prefixes list to words list\n    >>> prefixes_to_words(['a', 'ab', 'abc'])\n    ['a', 'b', 'c']\n    >>> prefixes_to_words(['a', 'ab', 'abc'])\n    ['a', 'b', 'c']\n    \"\"\"\n    words = []\n    for prefix in prefixes:\n        words.extend(all_prefixes(prefix))\n    return words",
+      -0.85693359375
+    ],
+    [
+      "if not string:\n        return []\n    if string == 'a':\n        return [string]\n    return all_prefixes(string[1:]) + [string]",
+      -0.85791015625
+    ],
+    [
+      "return [s for s in string[::-1] if s]",
+      -0.85791015625
+    ],
+    [
+      "prefixes = [string[0:i] for i in range(len(string))]\n    return prefixes",
+      -0.85791015625
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes of the input string\n    >>> string_prefixes('abc')\n    ['abc', 'a', 'ab']\n    \"\"\"\n    return [s for s in string.split('a')]",
+      -0.85791015625
+    ],
+    [
+      "prefixes = ['']\n    for i in range(1, len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef first_prefix(string: str) -> str:\n    \"\"\" Return first prefix from shortest to longest of the input string\n    >>> first_prefix('abc')\n    'a'\n    \"\"\"\n    return all_prefixes(string)[0]",
+      -0.85791015625
+    ],
+    [
+      "prefixes = []\n    prefix = string[0]\n    while prefix:\n        prefixes.append(prefix)\n        prefix = prefix[1:]\n    return prefixes",
+      -0.85791015625
+    ],
+    [
+      "return [s[0] for s in itertools.product(string, repeat=len(string))]\n\n\ndef is_palindrome(string: str) -> bool:\n    \"\"\" Check if the input string is a palindrome.\n    >>> is_palindrome('abcd')\n    True\n    >>> is_palindrome('abc')\n    False\n    \"\"\"\n    return string == string[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "prefixes = [string[:i] for i in range(len(string))]\n    return prefixes\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "return [s[0] for s in itertools.chain.from_iterable([(s[1:],) for s in itertools.product(string, repeat=i)])]\n\n\ndef longest_prefix(string: str, prefixes: List[str]) -> str:\n    \"\"\" Return longest prefix from shortest to longest of the input string\n    >>> longest_prefix('abc', ['a', 'ab', 'abc'])\n    'abc'\n    >>> longest_prefix('abc', ['a', 'ab', 'abc', 'abcd'])\n    'abc'\n    >>> longest_prefix('abc', ['a', 'ab', 'abc', 'abcd', 'abcd'])\n    'abc'\n    \"\"\"\n    return max(prefixes, key=len)",
+      -0.8583984375
+    ],
+    [
+      "if not string:\n        return []\n    return [s[:i] for i in range(len(string) + 1)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "result = []\n    for i in range(len(string)):\n        for prefix in all_prefixes(string[:i]):\n            if prefix + string[i:] in result:\n                break\n            result.append(prefix + string[i:])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "prefixes = [string[0]]\n    for i in range(1, len(string)):\n        prefix = string[:i]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "return [s[:i] for i in range(len(string))]",
+      -0.8583984375
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[0:i]\n        prefixes.append(prefix)\n        if i == len(string) - 1:\n            break\n        prefixes.extend(all_prefixes(string[i + 1:]))\n    return prefixes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "prefixes = [string[:0]]\n    for i in range(1, len(string)):\n        prefixes.append(string[:i])\n    return prefixes",
+      -0.8583984375
+    ],
+    [
+      "return [string[:i] for i in range(len(string) + 1)]\n\n\ndef all_prefixes_with_n(string: str, n: int) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes_with_n('abc', 3)\n    ['abc', 'abc1', 'abc2']\n    \"\"\"\n    return [string[:i] for i in range(len(string) + n)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "return [str(s) for s in reversed(string)]\n\n\ndef common_prefixes(strings: List[str]) -> List[str]:\n    \"\"\" Return list of common prefixes of all strings in input list\n    >>> common_prefixes(['ab', 'abc', 'def'])\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [s for s in all_prefixes(strings[0]) if s in all_prefixes(strings)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "if not string:\n        return ['']\n    prefixes = []\n    for i in range(len(string)):\n        prefix = string[:i+1]\n        prefixes.append(prefix)\n        prefixes.extend(all_prefixes(string[i+1:]))\n    return prefixes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes",
+      -0.8583984375
+    ],
+    [
+      "return [s[0] for s in itertools.chain.from_iterable([string[:i], string[:i + 1]]\n                                                         for i in range(len(string) + 1))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "return [prefix for prefix in string +'' if prefix]\n\n\ndef longest_prefix(string: str, prefixes: List[str]) -> str:\n    \"\"\" Find the longest prefix in the list of prefixes\n    >>> longest_prefix('abc', ['a', 'ab', 'abc'])\n    'abc'\n    \"\"\"\n    return max(prefixes, key=len)\n\n\ndef longest_prefix_length(string: str, prefixes: List[str]) -> int:\n    \"\"\" Find the longest prefix length in the list of prefixes\n    >>> longest_prefix_length('abc', ['a', 'ab', 'abc'])\n    3\n    \"\"\"\n    return max(map(len, prefixes), key=len)\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "return [string[:i] for i in range(1, len(string) + 1)]",
+      -0.8583984375
+    ],
+    [
+      "return [s for s in string if len(s) > 0]\n\n\ndef longest_prefix(string: str, prefixes: List[str]) -> str:\n    \"\"\" Return longest prefix from string\n    >>> longest_prefix('abc', ['a', 'ab', 'abc'])\n    'abc'\n    \"\"\"\n    return max(prefixes, key=len)\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string) + 1):\n        prefix = string[:i]\n        prefixes.append(prefix)\n    return prefixes",
+      -0.85888671875
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [s for s in string.split() if len(s) > 1]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "return [x[:len(string)] for x in string]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    return [x[len(string):] for x in string]",
+      -0.85888671875
+    ],
+    [
+      "if not string:\n        return []\n    return [string[:i] for i in range(len(string))]\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "return [s[0] for s in itertools.takewhile(lambda s: s, itertools.count(string))]",
+      -0.86083984375
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[0:i]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "return [string[:i] for i in range(len(string)+1)]\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "result = []\n    for i in range(len(string)):\n        result.append(string[:i])\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "return [s[:i] for i in range(len(string) + 1)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "return [s[:i] for i in range(len(string))]",
+      -0.86083984375
+    ],
+    [
+      "if not string:\n        return []\n    return [string[:i] for i in range(len(string) + 1)]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    return [string[i:] for i in range(len(string) + 1)]\n\n\ndef longest_prefix_of_string(string: str) -> str:\n    \"\"\" Return the longest prefix of the input string\n    >>> longest_prefix_of_string('abc')\n    'abc'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of_string('abcd')\n    'abcd'\n    >>> longest_prefix_of",
+      -1.255859375
+    ],
+    [
+      "return [string[:i] for i in range(len(string))]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc12', 'abc123', 'abc1234']\n    \"\"\"\n    return [string[i:] for i in range(len(string))]\n\n\ndef all_combinations(string: str) -> List[str]:\n    \"\"\" Return list of all possible combinations from the input string\n    >>> all_combinations('abc')\n    ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']\n    \"\"\"\n    return [string[:i] + string[i + 1:] for i in range(len(string) - 1)]\n\n\ndef all_strings(length: int) -> List[str]:\n    \"\"\" Return list of all strings of given length\n    >>> all_strings(3)\n    ['abc', 'abcd', 'abcde', 'abcdef', 'abcdefg', 'abcdefgh', 'abcdefghi', 'abcdefghij', 'abcdefghijk', 'abcdefghijkl', 'abcdefghijklm', 'abcdefghijklmn', 'abcdefghijklmno', 'abcdefghijklmnop', 'abcdefghijklmnopq', 'abcdefghijklmnopqr', 'abcdefghijklmnopqrs', 'abcdefghijklmnopqrst', 'abcdefghijklmnopqrstu', 'abcdefghijklmnopqrstuv', 'abcdefghijklmnopqrstuvw', 'abcdefghijklmnopqrstuvwx', 'abcdefghijklmnopqrstuvwy', 'abcdefghijklmnopqrstuvwyz']\n    \"\"\"\n    return [''.join(random.sample(string, length)) for string in all_combinations(length)]",
+      -1.2646484375
+    ],
+    [
+      "return [s[0] for s in string.split('abc')]\n\n\ndef find_prefixes_of_all_strings(strings: List[str]) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> find_prefixes_of_all_strings(['abc', 'abcd', 'bcd'])\n    ['a', 'ab', 'abc', 'abcd', 'bcd']\n    \"\"\"\n    return [s[0] for s in strings]\n\n\ndef find_prefixes_of_all_strings_without_duplicates(strings: List[str]) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> find_prefixes_of_all_strings_without_duplicates(['abc', 'abcd', 'bcd'])\n    ['a', 'ab', 'abc', 'abcd', 'bcd']\n    \"\"\"\n    return [s[0] for s in set(strings)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -1.33203125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef prefix_count(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes and their count\n    >>> prefix_count('abc')\n    ['a', 'ab', 'abc']\n    >>> prefix_count('ab')\n    ['a', 'ab']\n    \"\"\"\n    prefixes = all_prefixes(string)\n    return [str(len(p)) + p for p in prefixes]\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == '__main__':\n    main()",
+      -1.4580078125
+    ],
+    [
+      "if not string:\n        return []\n    return [s[0] for s in prefixes(string)]\n\n\ndef prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> prefixes('abc')\n    ['a', 'ab', 'abc']\n    >>> prefixes('abcd')\n    ['ab', 'abc', 'abcd']\n    \"\"\"\n    prefixes = []\n    if not string:\n        return prefixes\n    prefixes.append(string)\n    for i in range(1, len(string) + 1):\n        for s in prefixes:\n            prefix = s[:i]\n            if not prefix in prefixes:\n                prefixes.append(prefix)\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    >>> all_suffixes('abcdefghijklmnopqrstuvwxyz')\n    ['abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxyz']\n    \"\"\"\n    if not string:\n        return []\n    return [s[-1] for s in suffixes(string)]\n\n\ndef suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> suffixes('abc')\n    ['abc', 'abc']\n    >>> suffixes('abcdefghijklmnopqrstuvwxyz')\n    ['abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxyz']\n    \"\"\"\n    suffixes = []\n    if not string:\n        return suffixes\n    suffixes.append(string)\n    for i in range(1, len(string) + 1):\n        for s in suffixes:\n            suffix = s[-i:]\n            if not suffix in suffixes:\n                suffixes.append(suffix)",
+      -1.841796875
+    ],
+    [
+      "return [string[:i] for i in range(len(string) + 1)]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    return [string[i:] for i in range(len(string) + 1)]\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'ab', 'a', 'bc', 'b', 'c']\n    \"\"\"\n    return [string[:i] + string[i + 1:] for i in range(len(string) + 1)]\n\n\ndef all_substrings_of_length(string: str, length: int) -> List[str]:\n    \"\"\" Return list of all substrings of given length from shortest to longest of the input string\n    >>> all_substrings_of_length('abc', 3)\n    ['abc', 'abc', 'abc']\n    \"\"\"\n    return [string[:i] + string[i + length:] for i in range(len(string) + 1 - length)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -1.95703125
+    ],
+    [
+      "return [prefix for prefix in string[1:] if prefix in string[:1]]\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return longest prefix from shortest to longest of the input string\n    >>> longest_prefix('abc')\n    'a'\n    >>> longest_prefix('abc')\n    'ab'\n    >>> longest_prefix('abc')\n    'abc'\n    \"\"\"\n    return max(all_prefixes(string), key=len)\n\n\ndef longest_suffix(string: str) -> str:\n    \"\"\" Return longest suffix from longest to shortest of the input string\n    >>> longest_suffix('abc')\n    'bc'\n    >>> longest_suffix('abc')\n    'abc'\n    >>> longest_suffix('abc')\n    'b'\n    \"\"\"\n    return string[-1]\n\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return longest common prefix from shortest to longest of the input strings\n    >>> longest_common_prefix(['a', 'ab', 'abc'])\n    'a'\n    >>> longest_common_prefix(['a', 'ab', 'abc'])\n    'ab'\n    >>> longest_common_prefix(['a', 'ab', 'abc'])\n    'abc'\n    >>> longest_common_prefix(['a', 'ab', 'abc'])\n    'a'\n    >>> longest_common_prefix(['a', 'a', 'a'])\n    'a'\n    >>> longest_common_prefix(['a', 'a', 'a'])\n    'a'\n    \"\"\"\n    return max(all_prefixes(s) for s in strings)\n\n\ndef longest_common_suffix(strings: List[str]) -> str:\n    \"\"\" Return longest common suffix from longest to shortest of the input strings\n    >>> longest_common_suffix(['a', 'ab', 'abc'])\n    'bc'\n    >>> longest_common_suffix(['a', 'ab', 'abc'])\n    'abc'\n    >>> longest_common_suffix(['a', 'ab', 'abc'])\n    'b'\n    >>> longest_common_suffix(['a',",
+      -2.353515625
+    ],
+    [
+      "return [s[0] for s in prefixes(string)]\n\n\ndef prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    if string == string[0]:\n        return [string]\n    else:\n        return [string[0]] + prefixes(string[1:])\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    return [s[-1] for s in suffixes(string)]\n\n\ndef suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    if string == string[-1]:\n        return [string]\n    else:\n        return [string[-1]] + suffixes(string[:-1])\n\n\ndef all_words(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words('abc')\n    ['abc']\n    >>> all_words('abcdef')\n    ['abcdef']\n    >>> all_words('abcdefg')\n    ['abcdefg']\n    >>> all_words('abcdefgh')\n    ['abcdefgh']\n    >>> all_words('abcdefghi')\n    ['abcdefghi']\n    >>> all_words('abcdefghij')\n    ['abcdefghij']\n    >>> all_words('abcdefghijk')\n    ['abcdefghijk']\n    >>> all_words('abcdefghijkl')\n    ['abcdefghijkl']\n    >>> all_words('abcdefghijklm')\n    ['abcdefghijklm']\n    \"\"\"\n    return [word for word in words(string) if word]",
+      -2.84765625
+    ],
+    [
+      "prefixes = [string[: i] for i in range(len(string))]\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    suffixes = [string[i:] for i in range(len(string))]\n    return suffixes\n\n\ndef all_suffixes_with_same_first_character(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes_with_same_first_character('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    prefixes = [string[: i] for i in range(len(string))]\n    suffixes = [string[i:] for i in range(len(string))]\n    return prefixes + suffixes\n\n\ndef all_prefixes_with_same_first_character(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes_with_same_first_character('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    prefixes = [string[: i] for i in range(len(string))]\n    suffixes = [string[i:] for i in range(len(string))]\n    return prefixes + suffixes\n\n\ndef all_prefixes_with_same_last_character(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes_with_same_last_character('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    prefixes = [string[: i] for i in range(len(string))]\n    suffixes = [string[i:] for i in range(len(string))]\n    return prefixes + suffixes\n\n\ndef all_suffixes_with_same_last_character(string: str) -> List[str]:\n    \"\"\" Return",
+      -3.4921875
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [s for s in string.split(' ') if s]\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return the longest prefix from the input string\n    >>> longest_prefix('abc')\n    'abc'\n    >>> longest_prefix('abcdefg')\n    'abc'\n    \"\"\"\n    return max(all_prefixes(string), key=len)\n\n\ndef longest_prefix_length(string: str) -> int:\n    \"\"\" Return the length of the longest prefix from the input string\n    >>> longest_prefix_length('abc')\n    3\n    >>> longest_prefix_length('abcdefg')\n    3\n    \"\"\"\n    return len(longest_prefix(string))\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -3.509765625
+    ],
+    [
+      "prefixes = []\n    while string:\n        prefixes.append(string[:])\n        string = string[1:]\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4', 'abc5', 'abc6', 'abc7']\n    \"\"\"\n    suffixes = []\n    while string:\n        suffixes.append(string[-1])\n        string = string[:-1]\n    return suffixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'a', 'ab', 'abc', 'b', 'ba', 'bac', 'bca', 'c', 'cab', 'cba', 'ca', 'cac', 'cbc', 'cb', 'cba1', 'cba2', 'cba3', 'cba4', 'cba5', 'cba6', 'cba7', 'cba8', 'cba9', 'cbaa', 'cbaa1', 'cbaa2', 'cbaa3', 'cbaa4', 'cbaa5', 'cbaa6', 'cbaa7', 'cbaa8', 'cbaa9', 'cbaa']\n    \"\"\"\n    substrings = []\n    for i in range(len(string)):\n        substrings.append(string[:i] + string[i + 1:])\n    return substrings\n\n\ndef all_substrings_with_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings_with_prefixes('abc')\n    ['abc', 'a', 'ab', 'abc', 'b', 'ba', 'bac', 'bca', 'c', 'cab', 'cba', 'ca', 'cac', 'cbc', '",
+      -3.6953125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string) + 1):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3']\n    \"\"\"\n    suffixes = []\n    for i in range(len(string) + 1):\n        suffixes.append(string[-i:])\n    return suffixes\n\n\ndef common_prefixes(a: str, b: str) -> List[str]:\n    \"\"\" Return list of common prefixes from shortest to longest of the input strings\n    >>> common_prefixes('abc', 'abc')\n    ['a', 'ab']\n    >>> common_prefixes('abc', 'ab')\n    ['a', 'ab']\n    >>> common_prefixes('abc', 'xyz')\n    []\n    \"\"\"\n    return [s for s in all_prefixes(a) if s in all_prefixes(b)]\n\n\ndef common_suffixes(a: str, b: str) -> List[str]:\n    \"\"\" Return list of common suffixes from shortest to longest of the input strings\n    >>> common_suffixes('abc', 'abc')\n    ['abc', 'abc1']\n    >>> common_suffixes('abc', 'ab')\n    ['abc', 'abc1']\n    >>> common_suffixes('abc', 'xyz')\n    []\n    \"\"\"\n    return [s for s in all_suffixes(a) if s in all_suffixes(b)]\n\n\ndef main():\n    \"\"\" Test the functions in this file \"\"\"\n    assert common_prefixes('abc', 'abc') == ['a', 'ab']\n    assert common_suffixes('abc', 'abc') == ['abc', 'abc1']\n    assert common_prefixes('abc', 'xyz') == []\n    assert common_suffixes('abc', 'xyz') == []\n\n\nif __name__ == '__main__':\n    main()",
+      -4.046875
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    >>> string_prefixes('abcdef')\n    ['abc', 'a', 'ab', 'abcd', 'abcde', 'abcdef']\n    >>> string_prefixes('abcd')\n    ['ab', 'a', 'abcd']\n    >>> string_prefixes('abcd')\n    ['ab', 'a', 'abcd']\n    >>> string_prefixes('abcde')\n    ['abc', 'ab', 'abcd', 'abcde']\n    >>> string_prefixes('abcdef')\n    ['abc', 'a', 'ab', 'abcd', 'abcde', 'abcdef']\n    >>> string_prefixes('a')\n    ['a']\n    >>> string_prefixes('')\n    []\n    \"\"\"\n    if not string:\n        return []\n    prefixes = [string[0]]\n    for i in range(1, len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.0859375
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[:i+1]\n        prefixes.append(prefix)\n    return prefixes\n\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return longest common prefix from shortest to longest of the input strings\n    >>> longest_common_prefix(['abc', 'abcdef'])\n    'abc'\n    \"\"\"\n    if len(strings) == 1:\n        return strings[0]\n    longest = ''\n    for i in range(len(strings[0])):\n        for j in range(len(strings)):\n            if j >= i:\n                if strings[j][i]!= strings[0][i]:\n                    break\n            else:\n                longest = longest + strings[0][i]\n    return longest\n\n\ndef longest_common_suffix(strings: List[str]) -> str:\n    \"\"\" Return longest common suffix from shortest to longest of the input strings\n    >>> longest_common_suffix(['abc', 'abcdef'])\n    'c'\n    \"\"\"\n    if len(strings) == 1:\n        return strings[0]\n    longest = ''\n    for i in range(len(strings[0])):\n        for j in range(len(strings)):\n            if j >= i:\n                if strings[j][-i-1]!= strings[0][-i-1]:\n                    break\n            else:\n                longest = longest + strings[0][-i-1]\n    return longest\n\n\ndef longest_common_prefix_length(strings: List[str]) -> int:\n    \"\"\" Return longest common prefix length from shortest to longest of the input strings\n    >>> longest_common_prefix_length(['abc', 'abcdef'])\n    2\n    \"\"\"\n    if len(strings) == 1:\n        return len(strings[0])\n    longest = ''\n    for i in range(len(strings[0])):\n        for j in range(len(strings)):\n            if j >= i:\n                if strings[j][i]!= strings[0][i]:\n                    break\n            else:\n                longest = longest + strings[",
+      -4.51953125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i+1])\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4', 'abc5', 'abc6', 'abc7', 'abc8', 'abc9']\n    \"\"\"\n    suffixes = []\n    for i in range(len(string)-1, -1, -1):\n        suffixes.append(string[i+1:])\n    return suffixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'ab', 'a', 'bc', 'b', 'c']\n    >>> all_substrings('abcd')\n    ['abcd', 'abc', 'ab', 'ac', 'ad', 'bcd', 'bc', 'bd', 'cd']\n    \"\"\"\n    substrings = []\n    for i in range(len(string)):\n        substrings.append(string[:i] + string[i+1:])\n    return substrings",
+      -4.63671875
+    ],
+    [
+      "return [s for s in string.split(' ') if s]\n\n\ndef longest_prefix(string: str, prefixes: List[str]) -> str:\n    \"\"\" Return longest prefix of the input string from all prefixes of the input string\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    >>> longest_prefix('abc', all_prefixes('abc'))\n    'abc'\n    \"\"\"\n    if not prefixes:\n        return string\n    return max(prefixes, key=len)\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == '__main__':\n    main()",
+      -5.0234375
+    ],
+    [
+      "return [s[0] for s in itertools.starmap(str.rstrip, itertools.takewhile(lambda s: s, string))]\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return longest prefix from shortest to longest of the input string\n    >>> longest_prefix('abc')\n    'abc'\n    >>> longest_prefix('abcdef')\n    'abc'\n    >>> longest_prefix('abcdefghij')\n    'abcdef'\n    \"\"\"\n    return all_prefixes(string)[-1]\n\n\ndef longest_substring(string: str) -> str:\n    \"\"\" Return longest substring from shortest to longest of the input string\n    >>> longest_substring('abc')\n    'abc'\n    >>> longest_substring('abcdef')\n    'abc'\n    >>> longest_substring('abcdefghij')\n    'abcdef'\n    \"\"\"\n    return all_prefixes(string)[-1]\n\n\ndef main() -> None:\n    print('Longest prefix: {}'.format(longest_prefix('abcdefghij')))\n    print('Longest substring: {}'.format(longest_substring('abcdefghij')))\n\n\nif __name__ == '__main__':\n    main()",
+      -5.1875
+    ],
+    [
+      "result = []\n    current = \"\"\n    for i in range(len(string)):\n        if i == 0:\n            current = \"\"\n        else:\n            current = string[i - 1]\n        result.append(current + string[i])\n    return result\n\n\ndef longest_prefix_length(string: str) -> int:\n    \"\"\" Return length of the longest prefix of the input string\n    >>> longest_prefix_length('abc')\n    3\n    \"\"\"\n    prefixes = all_prefixes(string)\n    return max(map(len, prefixes))\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return longest prefix of the input string\n    >>> longest_prefix('abc')\n    'abc'\n    >>> longest_prefix('aabbccdd')\n    'aabb'\n    \"\"\"\n    prefixes = all_prefixes(string)\n    return prefixes[-1]\n\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return longest common prefix of the input strings\n    >>> longest_common_prefix(['abc', 'aabbccdd', 'aabbccdd'])\n    'abc'\n    >>> longest_common_prefix(['aabbccdd', 'aabbccdd'])\n    'aabbccdd'\n    \"\"\"\n    if len(strings) == 0:\n        return \"\"\n    if len(strings) == 1:\n        return strings[0]\n    prefix = longest_prefix(strings[0])\n    for string in strings[1:]:\n        if len(string) < len(prefix):\n            prefix = string\n        else:\n            prefix = prefix[:len(string)]\n    return prefix\n\n\ndef common_prefix_length(strings: List[str]) -> int:\n    \"\"\" Return length of the longest common prefix of the input strings\n    >>> common_prefix_length(['abc', 'aabbccdd', 'aabbccdd'])\n    3\n    >>> common_prefix_length(['aabbccdd', 'aabbccdd'])\n    0\n    \"\"\"\n    return longest_common_prefix(strings).count(\"\")",
+      -5.2890625
+    ],
+    [
+      "return [s[:i] for i in range(len(string) + 1)]\n\n\ndef longest_prefix(string: str) -> str:\n    \"\"\" Return longest prefix from shortest to longest of the input string\n    >>> longest_prefix('abc')\n    'abc'\n    >>> longest_prefix('abcd')\n    'ab'\n    >>> longest_prefix('abcdef')\n    'abc'\n    >>> longest_prefix('abcdefgh')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')\n    'abc'\n    >>> longest_prefix('abcdefghi')",
+      -5.5
+    ],
+    [
+      "return [s[:i] for i in range(len(string))]\n\n\ndef prefix_to_length(prefix: str) -> int:\n    \"\"\" Return length of the longest prefix of the input string\n    >>> prefix_to_length('abc')\n    3\n    \"\"\"\n    return len(max(all_prefixes(prefix), key=len))\n\n\ndef is_prefix(prefix: str, string: str) -> bool:\n    \"\"\" Return true if the input string starts with the input prefix\n    >>> is_prefix('abc', 'abc')\n    True\n    >>> is_prefix('abc', 'ab')\n    True\n    >>> is_prefix('abc', 'abb')\n    True\n    >>> is_prefix('abc', 'abbc')\n    False\n    >>> is_prefix('abc', 'abbcdef')\n    False\n    \"\"\"\n    return prefix == string[:len(prefix)]\n\n\ndef is_suffix(suffix: str, string: str) -> bool:\n    \"\"\" Return true if the input string ends with the input suffix\n    >>> is_suffix('abc', 'abc')\n    True\n    >>> is_suffix('abc', 'abb')\n    False\n    >>> is_suffix('abc', 'abbc')\n    True\n    >>> is_suffix('abc', 'abbcdef')\n    False\n    \"\"\"\n    return suffix == string[-len(suffix):]\n\n\ndef is_substring(substring: str, string: str) -> bool:\n    \"\"\" Return true if the input string contains the input substring\n    >>> is_substring('abc', 'abc')\n    True\n    >>> is_substring('abc', 'abb')\n    False\n    >>> is_substring('abc', 'abbc')\n    True\n    >>> is_substring('abc', 'abbcdef')\n    False\n    \"\"\"\n    return string.find(substring)!= -1\n\n\ndef is_contiguous(string: str) -> bool:\n    \"\"\" Return true if the input string is contiguous\n    >>> is_contiguous('abc')\n    True\n    >>> is_contiguous('abcd')\n    False\n    >>> is_contiguous('abcdef')\n    False\n    \"\"\"",
+      -5.9453125
+    ],
+    [
+      "if len(string) == 0:\n        return []\n    prefixes = [string[0:i] for i in range(1, len(string) + 1)]\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc0', 'abc01', 'abc012', 'abc0123', 'abc01234', 'abc012345', 'abc0123456']\n    \"\"\"\n    if len(string) == 0:\n        return []\n    suffixes = [string[i:len(string)] for i in range(1, len(string) + 1)]\n    return suffixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'ab', 'a', 'ababc', 'abab', 'abb', 'abbc']\n    \"\"\"\n    if len(string) == 0:\n        return []\n    substrings = [string[i:j] for i in range(1, len(string) + 1) for j in range(i, len(string) + 1)]\n    return substrings",
+      -6.04296875
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> list(string_prefixes('abc'))\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [string[:i] for i in range(len(string))]\n\n\ndef is_valid_prefix(prefix: str) -> bool:\n    \"\"\" Return True if input string is a valid prefix, False otherwise\n    >>> is_valid_prefix('abc')\n    True\n    >>> is_valid_prefix('abcd')\n    True\n    >>> is_valid_prefix('abcdx')\n    False\n    \"\"\"\n    return all(len(s) == len(prefix) for s in string_prefixes(prefix))\n\n\ndef is_valid_prefixes(prefixes: List[str]) -> bool:\n    \"\"\" Return True if input list of prefixes is a valid prefix, False otherwise\n    >>> is_valid_prefixes(['abc', 'abcd'])\n    True\n    >>> is_valid_prefixes(['abcd', 'abcdx'])\n    False\n    \"\"\"\n    return all(is_valid_prefix(prefix) for prefix in prefixes)\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc']\n    \"\"\"\n    return [s[-1] for s in string_suffixes(string)]\n\n\ndef string_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> list(string_suffixes('abc'))\n    ['abc', 'abc']\n    \"\"\"\n    return [s[-i] for i in range(len(string))]\n\n\ndef is_valid_suffix(suffix: str) -> bool:\n    \"\"\" Return True if input string is a valid suffix, False otherwise\n    >>> is_valid_suffix('abc')\n    True\n    >>> is",
+      -6.09765625
+    ],
+    [
+      "prefixes = [string[:i] for i in range(len(string) + 1)]\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4', 'abc5', 'abc6', 'abc7', 'abc8', 'abc9']\n    \"\"\"\n    suffixes = [string[:i] for i in range(len(string) + 1)]\n    return suffixes\n\n\ndef all_combinations(string: str) -> List[str]:\n    \"\"\" Return list of all combinations from shortest to longest of the input string\n    >>> all_combinations('abc')\n    ['abc', 'ab', 'a', 'b', 'c']\n    \"\"\"\n    combinations = [string[:i] for i in range(len(string) + 1)]\n    return combinations\n\n\ndef all_combinations_with_replacement(string: str) -> List[str]:\n    \"\"\" Return list of all combinations from shortest to longest of the input string\n    >>> all_combinations_with_replacement('abc')\n    ['abc', 'aabb', 'aaabb', 'aabbc', 'abbaa', 'abbc', 'abcc', 'abcbc', 'abccc', 'abccc']\n    \"\"\"\n    combinations = [string[:i] for i in range(len(string) + 1)]\n    return combinations\n\n\ndef all_words(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words('abc')\n    ['abc', 'a', 'b', 'c']\n    \"\"\"\n    words = [string[:i] for i in range(len(string) + 1)]\n    return words\n\n\ndef all_words_with_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words_with_suffixes('abc')\n    ['abc', 'a', 'b', 'c",
+      -6.109375
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    prefix = string[0]\n    return [prefix] + string_prefixes(string[1:])\n\n\ndef string_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> string_suffixes('abc')\n    ['bc', 'bcd', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    suffix = string[-1]\n    return [suffix] + string_suffixes(string[:-1])\n\n\ndef string_suffixes_from_prefix(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> string_suffixes_from_prefix('abc')\n    ['bc', 'bcd', 'abc']\n    \"\"\"\n    if not string:\n        return []\n    suffix = string[-1]\n    return [suffix] + string_suffixes_from_prefix(string[:-1])\n\n\ndef string_substring_lengths(string: str) -> List[int]:\n    \"\"\" Return list of all substring lengths from shortest to longest of the input string\n    >>> string_substring_lengths('abc')\n    [3, 2, 1]\n    \"\"\"\n    if not string:\n        return []\n    substrings = [string[:i + 1] for i in range(len(string))]\n    return [len(s) for s in substrings]\n\n\ndef string_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> string_substrings('abc')\n    ['a', 'b', 'c']\n    \"\"\"\n    if not string:\n        return []\n    substrings = [string[:i + 1",
+      -6.546875
+    ],
+    [
+      "return [s[:i] for i in range(1, len(string) + 1)]\n\n\ndef all_prefixes_with_length(string: str, length: int) -> List[str]:\n    \"\"\" Return list of all prefixes of the input string with length length\n    >>> all_prefixes_with_length('abc', 3)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    \"\"\"\n    return [s[:i] for i in range(length)]\n\n\ndef all_prefixes_with_length_and_length_difference(\n        string: str, length: int, length_difference: int) -> List[str]:\n    \"\"\" Return list of all prefixes of the input string with length length and length difference length_difference\n    >>> all_prefixes_with_length_and_length_difference('abc', 3, 2)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    >>> all_prefixes_with_length_and_length_difference('abc', 3, 1)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    >>> all_prefixes_with_length_and_length_difference('abc', 3, 2)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    >>> all_prefixes_with_length_and_length_difference('abc', 3, 3)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    >>> all_prefixes_with_length_and_length_difference('abc', 3, 4)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    >>> all_prefixes_with_length_and_length_difference('abc', 3, 5)\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    \"\"\"\n    return [s[:i] for i in range(length, length + length_difference)]\n\n\ndef all",
+      -6.7578125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['bc', 'bcd', 'cde']\n    \"\"\"\n    suffixes = []\n    for i in range(len(string)):\n        suffixes.append(string[-i:])\n    return suffixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'ab', 'a', 'b', 'c']\n    \"\"\"\n    substrings = []\n    for i in range(len(string)):\n        substrings.append(string[:i] + string[i+1:])\n    return substrings\n\n\ndef all_words(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words('abc')\n    ['abc', 'a', 'ab', 'abc']\n    \"\"\"\n    words = []\n    for i in range(len(string)):\n        words.append(string[:i] + string[i+1:])\n    return words\n\n\ndef all_words_with_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words_with_prefixes('abc')\n    ['abc', 'a', 'ab', 'abc']\n    \"\"\"\n    words = []\n    for i in range(len(string)):\n        words.append(string[:i] + string[i+1:])\n    return words\n\n\ndef all_words_with_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words_with_suffixes('abc')\n    ['abc', 'a', 'b', '",
+      -6.84765625
+    ],
+    [
+      "prefixes = [string[0]]\n    for i in range(1, len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef is_palindrome(string: str) -> bool:\n    \"\"\" Return True if string is a palindrome, else False\n    >>> is_palindrome('abc')\n    True\n    >>> is_palindrome('aab')\n    True\n    >>> is_palindrome('aab')\n    False\n    >>> is_palindrome('aa')\n    False\n    >>> is_palindrome('')\n    False\n    >>> is_palindrome('b')\n    False\n    \"\"\"\n    if not string:\n        return False\n    if len(string) == 1:\n        return True\n    return string[-1] == string[0] and is_palindrome(string[1:-1])\n\n\ndef is_word_in_dict(word: str, dict_: Dict[str, str]) -> bool:\n    \"\"\" Return True if word is in the dictionary, else False\n    >>> is_word_in_dict('hello', {'hello': 'world'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'worl'})\n    False\n    >>> is_word_in_dict('hello', {'hello': 'world'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'worl'})\n    False\n    >>> is_word_in_dict('hello', {'hello': 'world'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'worl'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'world'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'worl'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'world'})\n    True\n    >>> is_word_in_dict('hello', {'hello': 'worl'})\n    True\n    >>> is_word_in_dict('",
+      -6.9921875
+    ],
+    [
+      "prefixes = [string[0]]\n    for i in range(1, len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc']\n    \"\"\"\n    return [string[:i] + string[i:i + 1] + string[i + 1:i + 2] + string[i + 2:i + 3] + string[i + 3:]\n            for i in range(len(string) + 1)]\n\n\ndef all_prefix_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all prefix substrings from shortest to longest of the input string\n    >>> all_prefix_substrings('abc')\n    ['a', 'ab', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc",
+      -7.203125
+    ],
+    [
+      "if not string:\n        return []\n    if len(string) == 1:\n        return [string]\n    else:\n        return all_prefixes(string[1:]) + [string[0]]\n\n\ndef find_common_prefixes(strings: List[str]) -> List[str]:\n    \"\"\" Return a list of all common prefixes of the input strings\n    >>> find_common_prefixes(['abc', 'xyz', 'xyz'])\n    ['abc', 'xyz']\n    \"\"\"\n    common_prefixes = []\n    for s1 in strings:\n        for s2 in strings:\n            if s1!= s2 and s1.startswith(s2):\n                common_prefixes.append(s1)\n    return common_prefixes\n\n\ndef find_common_suffixes(strings: List[str]) -> List[str]:\n    \"\"\" Return a list of all common suffixes of the input strings\n    >>> find_common_suffixes(['abc', 'xyz', 'xyz'])\n    ['xyz', 'xyz']\n    \"\"\"\n    common_suffixes = []\n    for s1 in strings:\n        for s2 in strings:\n            if s1!= s2 and s1.endswith(s2):\n                common_suffixes.append(s1)\n    return common_suffixes\n\n\ndef find_common_prefix_suffix(strings: List[str]) -> List[str]:\n    \"\"\" Return a list of all common prefixes and suffixes of the input strings\n    >>> find_common_prefix_suffix(['abc', 'xyz', 'xyz'])\n    ['abc', 'xyz']\n    \"\"\"\n    common_prefixes = []\n    common_suffixes = []\n    for s1 in strings:\n        for s2 in strings:\n            if s1!= s2 and s1.startswith(s2) and s1.endswith(s2):\n                common_prefixes.append(s1)\n                common_suffixes.append(s1)\n    return common_prefixes, common_suffixes\n\n\ndef find_common_prefix_suffix_all(strings:",
+      -7.64453125
+    ],
+    [
+      "return [string[:i] for i in range(1, len(string) + 1)]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3']\n    \"\"\"\n    return [string[i:] for i in range(1, len(string) + 1)]\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'ab', 'a', 'abcd', 'abc1', 'abc2', 'abc3']\n    \"\"\"\n    return [string[:i] + string[i:] for i in range(1, len(string) + 1)]\n\n\ndef all_words(string: str) -> List[str]:\n    \"\"\" Return list of all words from shortest to longest of the input string\n    >>> all_words('abc')\n    ['abc', 'a', 'ab', 'abc1', 'abc2', 'abc3']\n    \"\"\"\n    return [word for word in all_substrings(string) if word]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.9453125
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[:i+1]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['bc', 'bcd', 'cde']\n    \"\"\"\n    suffixes = []\n    for i in range(len(string)):\n        suffix = string[-i:]\n        if suffix not in suffixes:\n            suffixes.append(suffix)\n    return suffixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'bcd', 'cde', 'd']\n    \"\"\"\n    substrings = []\n    for i in range(len(string)):\n        for j in range(i):\n            if string[j:i+1] not in substrings:\n                substrings.append(string[j:i+1])\n    return substrings\n\n\ndef all_substrings_with_prefix(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings_with_prefix('abc')\n    ['abc', 'bcd', 'cde', 'd', 'bcd', 'cde']\n    \"\"\"\n    substrings = []\n    for i in range(len(string)):\n        for j in range(i):\n            prefix = string[:j+1]\n            if prefix not in substrings:\n                substrings.append(prefix)\n            substrings.append(string[j:i+1])\n    return substrings\n\n\ndef all_substrings_with_suffix(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings_with_suffix('abc')\n    ['abc', 'bcd', '",
+      -8.2109375
+    ],
+    [
+      "return [s[0] for s in prefixes(string)]\n\n\ndef prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [s[0] for s in string[:1]] + prefixes(string[1:])\n\n\ndef common_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of common prefixes from shortest to longest of the input string\n    >>> common_prefixes('abc')\n    ['ab', 'abc']\n    \"\"\"\n    return [s[0] for s in common_prefixes(string)]\n\n\ndef common_prefixes_of_all_strings(strings: List[str]) -> List[str]:\n    \"\"\" Return list of common prefixes from shortest to longest of the input strings\n    >>> common_prefixes_of_all_strings(['abc', 'ab', 'abc'])\n    ['abc', 'abc']\n    \"\"\"\n    return [s[0] for s in common_prefixes_of_all_strings(strings)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -8.9453125
+    ],
+    [
+      "if not string:\n        return ['']\n    prefixes = [string[0]]\n    for i in range(1, len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4']\n    \"\"\"\n    if not string:\n        return ['']\n    suffixes = [string[-1]]\n    for i in range(1, len(string)):\n        suffixes.append(string[-i:])\n    return suffixes\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'ab', 'a', 'b', 'c']\n    \"\"\"\n    if not string:\n        return ['']\n    substrings = [string]\n    for i in range(1, len(string)):\n        substrings.append(string[:i])\n        substrings.append(string[i:])\n    return substrings",
+      -8.9921875
+    ],
+    [
+      "if not string:\n        return []\n    return [string[:i + 1] for i in range(len(string))]\n\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return longest common prefix of all the strings in the input list\n    >>> longest_common_prefix(['ab', 'abc', 'abcd'])\n    'ab'\n    >>> longest_common_prefix(['abc', 'abcd', 'a'])\n    'abc'\n    \"\"\"\n    if not strings:\n        return ''\n    if len(strings) == 1:\n        return strings[0]\n    for i in range(len(strings[0])):\n        for j in range(i, len(strings)):\n            if not strings[i][i:j] in strings[j]:\n                break\n        else:\n            return strings[0][:i]\n    return strings[0]\n\n\ndef longest_common_suffix(strings: List[str]) -> str:\n    \"\"\" Return longest common suffix of all the strings in the input list\n    >>> longest_common_suffix(['ab', 'abc', 'abcd'])\n    'cd'\n    >>> longest_common_suffix(['abc', 'abcd', 'a'])\n    'abc'\n    \"\"\"\n    if not strings:\n        return ''\n    if len(strings) == 1:\n        return strings[0]\n    for i in range(len(strings[0])):\n        for j in range(i, len(strings)):\n            if not strings[i][-j:] in strings[j]:\n                break\n        else:\n            return strings[0][-i:]\n    return strings[0][-i:]\n\n\ndef longest_common_substring(strings: List[str]) -> str:\n    \"\"\" Return longest common substring of all the strings in the input list\n    >>> longest_common_substring(['ab', 'abc', 'abcd'])\n    'abc'\n    >>> longest_common_substring(['abc', 'abcd', 'a'])\n    'abcd'\n    \"\"\"\n    if not strings:\n        return ''\n    if len(strings) == 1:",
+      -9.21875
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef all_prefixes_with_length(string: str, length: int) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes_with_length('abc', 3)\n    ['abc', 'aabc', 'ababc', 'abbc']\n    >>> all_prefixes_with_length('abc', 6)\n    ['abc', 'abc', 'aabc', 'ababc', 'abbc', 'abc', 'aabc', 'ababc', 'abbc']\n    >>> all_prefixes_with_length('abc', 7)\n    ['abc', 'abc', 'aabc', 'ababc', 'abbc', 'abc', 'aabc', 'ababc', 'abbc', 'abc', 'aabc', 'ababc', 'abbc', 'abc']\n    >>> all_prefixes_with_length('abc', 8)\n    ['abc', 'abc', 'aabc', 'ababc', 'abbc', 'abc', 'aabc', 'ababc', 'abbc', 'abc', 'aabc', 'ababc', 'abbc', 'abc', 'aabc', 'ababc', 'abbc', 'abc']\n    \"\"\"\n    prefixes = []\n    for i in range(length, 0, -1):\n        prefixes.append(string[:i])\n    return prefixes\n\n\ndef all_prefixes_of_length(string: str, length: int) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes_of_length('abc', 3)\n    ['abc', 'aabc', 'ababc']\n    >>> all_prefixes_of_length('abc', 6)\n    ['abc', 'abc', 'aabc', 'ababc', 'abbc']\n    >>> all_prefixes_of_length('abc', 7)\n    ['abc', 'abc', 'aabc', 'ababc', 'abbc']\n    >>> all_prefixes_of_length('abc', 8)",
+      -9.765625
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[:i + 1]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from longest to shortest of the input string\n    >>> all_suffixes('abc')\n    ['bc', 'bcd', 'abc']\n    \"\"\"\n    suffixes = []\n    for i in range(len(string)):\n        suffix = string[i:]\n        if suffix not in suffixes:\n            suffixes.append(suffix)\n    return suffixes\n\n\ndef all_combinations(string: str, n: int) -> List[str]:\n    \"\"\" Returns a list of all combinations of the given string of length n\n    >>> all_combinations('abc', 2)\n    ['ab', 'ac', 'bb', 'bc', 'cb']\n    >>> all_combinations('abc', 3)\n    ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']\n    \"\"\"\n    if n == 0:\n        return []\n    elif n == 1:\n        return [string]\n    else:\n        return [string] + all_combinations(string[1:], n - 1)\n\n\ndef all_permutations(string: str) -> List[str]:\n    \"\"\" Returns a list of all permutations of the given string\n    >>> all_permutations('abc')\n    ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']\n    \"\"\"\n    return [string] + all_permutations(string[1:])\n\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Returns a list of all substrings of the given string\n    >>> all_substrings('abc')\n    ['', 'a', 'ab', 'abc', 'b', 'bc', 'bcd', 'c', 'cde', 'abcde']\n    \"\"\"\n    substrings = [string]\n    for i in range(len(string)):\n        substrings += all_",
+      -9.9296875
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    if len(string) == 0:\n        return []\n    else:\n        return [string[:i] for i in range(len(string))]\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4']\n    \"\"\"\n    return [s[-1] for s in string_suffixes(string)]\n\ndef string_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> string_suffixes('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4']\n    \"\"\"\n    if len(string) == 0:\n        return []\n    else:\n        return [string[-i:] for i in range(len(string))]\n\ndef all_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> all_substrings('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4', 'abc5', 'abc6', 'abc7', 'abc8', 'abc9', 'abc10']\n    \"\"\"\n    return [s for s in string_substrings(string)]\n\ndef string_substrings(string: str) -> List[str]:\n    \"\"\" Return list of all substrings from shortest to longest of the input string\n    >>> string_substrings('abc')\n    ['abc', 'abc1', 'abc2', 'abc3', 'abc4', 'abc5', 'abc6', 'abc7', 'abc8', 'abc9', 'abc10']\n    \"\"\"\n    return [",
+      -9.96875
+    ],
+    [
+      "return [prefix for prefix in string +'' if prefix.startswith(string)]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc ']\n    \"\"\"\n    return [suffix for suffix in string +'' if suffix.endswith(string)]\n\n\ndef all_prefix_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes and suffixes from shortest to longest of the input string\n    >>> all_prefix_suffixes('abc')\n    ['a', 'ab', 'abc', 'abc ', 'abc ']\n    \"\"\"\n    return all_prefixes(string) + all_suffixes(string)\n\n\ndef all_prefixes_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes, suffixes, and combinations of those\n    >>> all_prefixes_suffixes('abc')\n    ['a', 'ab', 'abc', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', 'abc ', '",
+      -10.015625
+    ],
+    [
+      "return [s[0] for s in string_prefixes(string)]\n\n\ndef string_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> string_prefixes('abc')\n    ['a', 'ab', 'abc']\n    >>> string_prefixes('abcdef')\n    ['abc', 'abcdef']\n    \"\"\"\n    return [s for s in string[:-1] if s[-1] == string[-1]]\n\n\ndef find_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> find_prefixes('abc')\n    ['a', 'ab', 'abc']\n    >>> find_prefixes('abcdef')\n    ['abc', 'abcdef']\n    \"\"\"\n    return [s[0] for s in string_prefixes(string)]\n\n\ndef find_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from shortest to longest of the input string\n    >>> find_suffixes('abc')\n    ['abc', 'abc']\n    >>> find_suffixes('abcdef')\n    ['abcdef']\n    \"\"\"\n    return [s[-1] for s in string_prefixes(string)]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -10.1953125
+    ],
+    [
+      "return [x[:len(string)] for x in string.split('abc')]\n\n\ndef all_suffixes(string: str) -> List[str]:\n    \"\"\" Return list of all suffixes from longest to shortest of the input string\n    >>> all_suffixes('abc')\n    ['abc', 'abc', 'abc']\n    \"\"\"\n    return [x[len(string):] for x in string.split('abc')]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.21875
+    ],
+    [
+      "prefixes = []\n    for i in range(len(string)):\n        prefix = string[:i + 1]\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\ndef all_prefixes_of_length(length: int) -> List[str]:\n    \"\"\" Return list of all prefixes of length from shortest to longest of the input string\n    >>> all_prefixes_of_length(2)\n    ['aa', 'a', 'aa']\n    >>> all_prefixes_of_length(3)\n    ['aaa', 'aa', 'a', 'aaa']\n    \"\"\"\n    prefixes = []\n    for i in range(length + 1):\n        prefix = '{:0>{width}}'.format('', width=i).rstrip('0')\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\ndef all_prefixes_of_length_less_than(length: int) -> List[str]:\n    \"\"\" Return list of all prefixes of length from shortest to longest of the input string\n    >>> all_prefixes_of_length_less_than(2)\n    ['aa', 'a', 'aa']\n    >>> all_prefixes_of_length_less_than(3)\n    ['aaa', 'aa', 'a', 'aaa']\n    \"\"\"\n    prefixes = []\n    for i in range(length, 0, -1):\n        prefix = '{:0>{width}}'.format('', width=i).rstrip('0')\n        if prefix not in prefixes:\n            prefixes.append(prefix)\n    return prefixes\n\n\ndef all_prefixes_of_length_greater_than(length: int) -> List[str]:\n    \"\"\" Return list of all prefixes of length from shortest to longest of the input string\n    >>> all_prefixes_of_length_greater_than(2)\n    ['aaa', 'aa', 'a', 'aaa']\n    >>> all_prefixes_of_length_greater_than(3)\n    ['aaa', 'aaa', 'aaa', 'aaa']\n    \"\"\"\n    prefixes = []\n    for i",
+      -11.40625
+    ],
+    [
+      "if not string:\n        return ['']\n    return [prefix for prefix in all_prefixes(string[1:]) if prefix + string[0] == string]\n\n\ndef longest_common_prefix(strings: List[str]) -> str:\n    \"\"\" Return longest common prefix of all strings in the list\n    >>> longest_common_prefix(['abc', 'abcd', 'ab'])\n    'abc'\n    >>> longest_common_prefix(['abc', 'abcd', 'abxyz'])\n    'abc'\n    >>> longest_common_prefix(['abc', 'abcd', 'xyz'])\n    ''\n    >>> longest_common_prefix(['abc', 'abcd', 'xyz', 'xyz'])\n    ''\n    >>> longest_common_prefix(['abc', 'abc'])\n    ''\n    >>> longest_common_prefix(['abc', 'abc', 'abc'])\n    ''\n    >>> longest_common_prefix(['abc', 'abcd', 'xyz', 'xyz'])\n    ''\n    \"\"\"\n    if not strings:\n        return ''\n    return all_prefixes(strings[0])[0]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -14.0234375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

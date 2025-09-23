@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T00:04:16.827559",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 234,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "def get_max_sub_sum(arr):\n    # Initialize variables\n    n = len(arr)\n    curr_sum, max_sum = 0, 0\n\n    # Iterate over the array and calculate sum\n    for i in range(n):\n        curr_sum += arr[i]\n        max_sum = max(max_sum, curr_sum)\n        if curr_sum < 0:\n            curr_sum = 0\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert get_max_sub_sum([5, -3, 2, 3, -1, 3, 1, 2, 5, -3]) == 10"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bionic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    max_sum = [0] * n\n\n    for i in range(n):\n        max_sum[i] = arr[i]\n\n    for i in range(1, n):\n        for j in range(i):\n            if arr[i] + max_sum[j] > max_sum[i]:\n                max_sum[i] = arr[i] + max_sum[j]\n\n    return max(max_sum)\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bionic_sub_sequence([1, 2, 3, 4, 5, -10, 7, 8, 9, 10]) == 27"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "def max_bi_tonic_sub_seq(arr):\n    n = len(arr)\n    dp = [[0] * n for _ in range(n)]\n\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    for l in range(2, n + 1):\n        for i in range(n - l + 1):\n            j = i + l - 1\n            if i == j:\n                dp[i][j] = arr[i]\n            else:\n                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n                if arr[i] + arr[j] > arr[i + 1]:\n                    dp[i][j] = max(dp[i][j], arr[i] + arr[j])\n\n    return dp[0][-1]\n\n\ndef main():\n    arr = [10, 5, 2, 7, 8, 7]\n    ans = max_bi_tonic_sub_seq(arr)\n    print(ans)\n\n\nmain()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "def max_sum_bi_tonic(arr):\n    n = len(arr)\n    dp = [[0] * 2 for _ in range(n)]\n    for i in range(n):\n        if i == 0:\n            dp[i][0] = arr[i]\n            dp[i][1] = 0\n        elif i == 1:\n            dp[i][0] = max(arr[i], arr[i] + dp[i - 1][1])\n            dp[i][1] = max(0, arr[i] + dp[i - 1][0])\n        else:\n            dp[i][0] = max(arr[i], arr[i] + dp[i - 1][1])\n            dp[i][1] = max(dp[i - 1][0], arr[i] + dp[i - 1][1])\n    return max(dp[n - 1][0], dp[n - 1][1])\n\n\ndef main():\n    arr = [3, -4, 5, -9, 1, 3, -8, 9, 10, -1]\n    ans = max_sum_bi_tonic(arr)\n    print(ans)\n\n\nmain()"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\n# def bionic_sum(arr: List[int]) -> int:\n#     \"\"\"\n#     Time Complexity: O(n)\n#     Space Complexity: O(1)\n#     \"\"\"\n#     n = len(arr)\n#     if n == 0:\n#         return 0\n\n#     max_sum = 0\n#     pre_max, pre_min = arr[0], arr[0]\n#     curr_sum = arr[0]\n#     for i in range(1, n):\n#         curr_sum = max(arr[i], curr_sum + arr[i])\n#         if curr_sum > pre_max:\n#             pre_max = curr_sum\n#         if curr_sum < pre_min:\n#             pre_min = curr_sum\n\n#         max_sum = max(max_sum, pre_max - pre_min)\n\n#     return max_sum\n\n\ndef bionic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    n = len(arr)\n    if n == 0:\n        return 0\n\n    max_sum = 0\n    pre_max, pre_min = arr[0], arr[0]\n    curr_sum = arr[0]\n    for i in range(1, n):\n        if curr_sum + arr[i] < arr[i]:\n            curr_sum = arr[i]\n        else:\n            curr_sum += arr[i]\n\n        if curr_sum > pre_max:\n            pre_max = curr_sum\n        if curr_sum < pre_min:\n            pre_min = curr_sum\n\n        max_sum = max(max_sum, pre_max - pre_min)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    arr = [3, 4, -5, 2, -1, 6, -2, 1]\n    print(bionic_sum(arr))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def max_bi_tonic_subsequence(arr):\n    n = len(arr)\n    max_sum = 0\n    for i in range(n):\n        for j in range(i, n):\n            if arr[i] < arr[j]:\n                curr_sum = sum(arr[i:j+1])\n                if curr_sum > max_sum:\n                    max_sum = curr_sum\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    arr = [3, 7, 9, 1, 5, 8, 3]\n    max_bi_tonic_subsequence(arr)"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        return 0\n\n    max_sum = arr[0]\n\n    prev_max, prev_min = arr[0], arr[0]\n\n    for i in range(1, len(arr)):\n        curr_max = max(arr[i], arr[i] + prev_max, arr[i] + prev_min)\n        curr_min = min(arr[i], arr[i] + prev_max, arr[i] + prev_min)\n\n        max_sum = max(max_sum, curr_max)\n\n        prev_max = curr_max\n        prev_min = curr_min\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sub_sequence([2, 4, 6, -1, 4, 7, -2, 10]) == 18"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    prefix_sum = [0] * (n + 1)\n    for i in range(n):\n        prefix_sum[i + 1] = prefix_sum[i] + arr[i]\n\n    max_sum = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            if prefix_sum[j + 1] - prefix_sum[i] == prefix_sum[i] - prefix_sum[j]:\n                max_sum = max(max_sum, prefix_sum[j + 1] - prefix_sum[i])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, 2, 3, 4, 5, 3, 4, 8, 9, 7]) == 26"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "def find_max_bi_tonic_subsequence(arr):\n    # Create the dp table\n    dp = [[0 for _ in range(len(arr))] for _ in range(len(arr))]\n\n    # Create the table\n    for i in range(len(arr)):\n        dp[i][i] = arr[i]\n\n    # Fill the table\n    for i in range(len(arr) - 2, -1, -1):\n        for j in range(i + 1, len(arr)):\n            dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])\n            if arr[i] == arr[j]:\n                dp[i][j] = max(dp[i][j], dp[i + 1][j - 1] + arr[i])\n\n    return dp[0][-1]\n\n\ndef main():\n\n    arr = [1, 3, 7, 10, 12, 1, -1, 4, -5, -10]\n    print(find_max_bi_tonic_subsequence(arr))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    n = len(arr)\n\n    dp = [0] * n\n    prev = [0] * n\n\n    for i in range(n):\n        dp[i] = arr[i]\n\n    max_sum = dp[0]\n\n    for i in range(1, n):\n        if arr[i] + dp[i - 1] > dp[i]:\n            prev[i] = i - 1\n            dp[i] = arr[i] + dp[i - 1]\n        else:\n            prev[i] = i\n\n        if dp[i] > max_sum:\n            max_sum = dp[i]\n\n    result = []\n    i = n - 1\n    while i != -1:\n        result.append(arr[i])\n        i = prev[i]\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_sub_sequence([1, -2, 0, 3, -2]) == 3\n    assert bi_tonic_sub_sequence([1, 2, 3, 2, 1]) == 6\n    assert bi_tonic_sub_sequence([-1, -2, -3, -2, -1]) == -1\n    assert bi_tonic_sub_sequence([-1, 2, 3, 2, -1]) == 4"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "def max_sum_subarray(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_sum = 0\n    cur_sum = 0\n    for num in arr:\n        if cur_sum < 0:\n            cur_sum = 0\n        cur_sum += num\n        if cur_sum > max_sum:\n            max_sum = cur_sum\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(max_sum_subarray([1, 2, 3, 4, 5, 6, 7, -8, 9, 10, -11, 12, 13]))"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(A: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n\n    :param A: given array\n    :return: maximum sum of bi-tonic sub-sequence\n    \"\"\"\n    n = len(A)\n    dp = [[0 for _ in range(2)] for _ in range(n)]\n    dp[0][0] = A[0]\n    dp[0][1] = 0\n    max_sum = dp[0][0]\n\n    for i in range(1, n):\n        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + A[i])\n        dp[i][1] = dp[i - 1][0] - A[i]\n        max_sum = max(max_sum, dp[i][0])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 31"
+    },
+    {
+      "rank": 13,
+      "score": 9.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n    n = len(arr)\n\n    # dp[i][j] will store the maximum sum of bionic sub-sequence ending at arr[i] and starting at arr[j]\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n\n    # Initialize the dp array\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    # Initialize the result\n    max_sum = arr[0]\n\n    # Fill the table in bottom-up manner\n    for i in range(n - 1, -1, -1):\n        for j in range(i + 1, n):\n            # If the two elements are same, then the sum will be the sum of elements itself\n            if arr[i] == arr[j]:\n                dp[i][j] = arr[i] + dp[i + 1][j - 1]\n\n            # Else, check the maximum of two sums\n            else:\n                dp[i][j] = max(arr[i] + dp[i + 1][j], arr[j] + dp[i][j - 1])\n\n            # Update the maximum result\n            max_sum = max(max_sum, dp[i][j])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic([1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1]) == 128"
+    },
+    {
+      "rank": 14,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    # To store maximum bi-tonic sum for sub-array\n    # ending at index i\n    max_sum = [0 for _ in range(n + 1)]\n\n    # To store maximum sum for sub-array ending\n    # at index i\n    sum_arr = [0 for _ in range(n + 1)]\n\n    # Initialize maximum bi-tonic sum for sub-array\n    # ending at index 0\n    max_sum[0] = 0\n\n    # Initialize maximum sum for sub-array ending\n    # at index 0\n    sum_arr[0] = 0\n\n    for i in range(1, n + 1):\n        # If arr[i] is positive, then we can\n        # include arr[i] in the current window\n        # and add it to the maximum sum of\n        # sub-array ending at index i-1.\n        # Otherwise we will not include arr[i]\n        # in the current window\n        sum_arr[i] = max(sum_arr[i - 1] + arr[i - 1], 0)\n\n        # If maximum sum in the current window\n        # is positive, then add it to maximum\n        # sum of the sub-arrays ending at index\n        # 0 to i-1.\n        max_sum[i] = max(max_sum[i - 1], sum_arr[i])\n\n    return max_sum[-1]\n\n\nif __name__ == \"__main__\":\n    print(max_bi_tonic_sum([-2, -3, 4, -1, -2, 1, 5, -3]))\n    print(max_bi_tonic_sum([-4, -3, 5, 4, -3, 4, -2]))"
+    },
+    {
+      "rank": 15,
+      "score": 8.0,
+      "candidate": "def find_max_sum_bionic_subsequence(arr):\n    n = len(arr)\n    if n <= 2:\n        return max(arr)\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n    for i in range(n):\n        dp[i][i] = arr[i]\n    for i in range(n - 2, -1, -1):\n        for j in range(i + 1, n):\n            dp[i][j] = max(arr[i] + arr[j], arr[i] + dp[i + 1][j], arr[j] + dp[i][j - 1])\n    return dp[0][n - 1]\n\n\nif __name__ == \"__main__\":\n    print(find_max_sum_bionic_subsequence([1, 2, 3, 4, 10, 4, 3, 2, 1, 2, 3, 4, 10, 4, 3, 2, 1]))"
+    },
+    {
+      "rank": 16,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic_sub_sequence(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(nums) < 3:\n        return max(nums)\n\n    max_ending_here = max_so_far = nums[0]\n\n    for i in range(1, len(nums)):\n        max_ending_here = max(nums[i], max_ending_here + nums[i])\n\n        if max_so_far < max_ending_here:\n            max_so_far = max_ending_here\n\n    return max_so_far\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic_sub_sequence([5, 4, 7, 5]) == 12\n    assert max_sum_bi_tonic_sub_sequence([2, 4, 6, 2, 5]) == 13\n    assert max_sum_bi_tonic_sub_sequence([5, 6, 5, 4, 7]) == 16"
+    },
+    {
+      "rank": 17,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic_subsequence(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if not nums:\n        return 0\n\n    length = len(nums)\n\n    # Maximum sum of bi-tonic sub-sequence\n    max_sum = nums[0]\n\n    # Sum of two consecutive numbers\n    sum_two = nums[0] + nums[1]\n\n    # Sum of three consecutive numbers\n    sum_three = nums[0] + nums[1] + nums[2]\n\n    for i in range(2, length):\n        sum_two = max(sum_two, nums[i] - nums[i - 2])\n        sum_three = max(sum_three, nums[i] - nums[i - 3])\n        max_sum = max(max_sum, sum_two, sum_three)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic_subsequence([10, 20, 30, 40, 50, 60, 70]) == 200\n    assert max_sum_bi_tonic_subsequence([10, 20, 30, 40, 50, 60, 70, 80]) == 280\n    assert max_sum_bi_tonic_subsequence([10, 20, 30, 40, 50, 60, 70, 80, 90]) == 300\n    assert max_sum_bi_tonic_subsequence([10, 20, 30, 40, 50, 60, 70, 80, 90, 100]) == 300"
+    },
+    {
+      "rank": 18,
+      "score": 8.0,
+      "candidate": "def bi_tonic_sum(arr):\n    n = len(arr)\n    dp = [[0 for _ in range(n)] for _ in range(2)]\n    for i in range(n):\n        dp[0][i] = arr[i]\n        dp[1][i] = arr[i]\n    for i in range(1, n):\n        for j in range(i, n):\n            if arr[i] < arr[j]:\n                dp[0][j] = max(dp[0][j-1], dp[1][j])\n                dp[1][j] = dp[0][j] + arr[j]\n            else:\n                dp[1][j] = max(dp[0][j-1], dp[1][j])\n                dp[0][j] = dp[1][j] + arr[j]\n    return max(dp[0][n-1], dp[1][n-1])\n\n\nif __name__ == '__main__':\n    print(bi_tonic_sum([1, 6, 10, 14, 4, 12, 16]))"
+    },
+    {
+      "rank": 19,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_sum = 0\n    max_neg_sum = 0\n    min_neg_sum = 0\n    min_sum = 0\n\n    for num in arr:\n        if num > 0:\n            max_sum += num\n            max_neg_sum = min(max_neg_sum, min_neg_sum)\n        elif num < 0:\n            min_sum += num\n            min_neg_sum = max(min_neg_sum, max_neg_sum)\n        else:\n            max_sum = 0\n            min_sum = 0\n            max_neg_sum = 0\n            min_neg_sum = 0\n\n        max_sum = max(max_sum, max_neg_sum + min_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sub_sequence([1, -2, 3, 4, -5]) == 6\n    assert max_bi_tonic_sub_sequence([1, -2, -3, 4, -5]) == 3\n    assert max_bi_tonic_sub_sequence([1, -2, -3, -4, 5]) == 2\n    assert max_bi_tonic_sub_sequence([1, -2, -3, -4, -5]) == 0\n    assert max_bi_tonic_sub_sequence([-1, -2, -3, -4, -5]) == -1"
+    },
+    {
+      "rank": 20,
+      "score": 8.0,
+      "candidate": "def find_max_bi_tonic_sub_sequence(arr):\n    n = len(arr)\n    if n < 2:\n        return 0\n    if n == 2:\n        return max(arr[0], arr[1])\n\n    max_sum = arr[0] + arr[1]\n    for i in range(1, n-1):\n        max_sum = max(arr[i], arr[i] + arr[i+1], max_sum)\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(find_max_bi_tonic_sub_sequence([1, 3, 2, 4, 5, 2, 1, 5, 6, 3]))\n    print(find_max_bi_tonic_sub_sequence([1, 3, 2, 4, 5, 2, 1, 5, 6, 3, 6]))"
+    },
+    {
+      "rank": 21,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\ndef max_sub_tonic(arr):\n    n = len(arr)\n    max_sum = -float('inf')\n    dp = defaultdict(int)\n\n    for i in range(n):\n        dp[i] = arr[i]\n\n        if i >= 2:\n            dp[i] += dp[i-2]\n\n        if i >= 3:\n            dp[i] = max(dp[i], dp[i-3] + arr[i])\n\n        max_sum = max(max_sum, dp[i])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    arr = [2, 4, 6, 2, 5, 4, 2, 1, 3, 5]\n    assert max_sub_tonic(arr) == 17"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    # dp[i][j] stores the maximum sum of bi-tonic sub-sequence ending at index i\n    # and starting at index j\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    for i in range(n - 1, -1, -1):\n        for j in range(i + 1, n):\n            dp[i][j] = max(dp[i][j], dp[i + 1][j])\n            dp[i][j] = max(dp[i][j], dp[i + 1][j - 1] + arr[i])\n\n    return max(dp[0][n - 1], dp[1][n - 1])\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, 2, 3, 4, 5, 3, 4, 5, 6, 7, 8, 9]) == 40"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    length = len(arr)\n\n    max_sum = arr[0]\n\n    for i in range(length):\n        for j in range(i + 1, length):\n            if arr[i] + arr[j] == 0:\n                max_sum = max(max_sum, arr[i] + arr[j])\n                break\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic_sub_sequence([1, 2, 3, -1, -2, -3, 4]) == 5\n    assert max_sum_bi_tonic_sub_sequence([1, 2, 3, 4, -1, -2, -3, -4]) == 10\n    assert max_sum_bi_tonic_sub_sequence([1, 2, 3, 4, -1, -2, -3, -4]) == 10\n    assert max_sum_bi_tonic_sub_sequence([1, 2, 3, 4, 5, 6, 7, -1, -2, -3, -4, -5, -6, -7]) == 28"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_subsequence(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n    max_sum = 0\n\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] != nums[j]:\n                max_sum = max(max_sum, nums[i] + nums[j])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_subsequence([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 22\n    assert bi_tonic_subsequence([1, 5, 2, 4, 3, 8, 9, 7, 6]) == 31\n    assert bi_tonic_subsequence([1, 3, 2, 4, 5, 6, 7, 8, 9]) == 23\n    assert bi_tonic_subsequence([1, 3, 2, 4, 5, 6, 7, 8, 9, 10]) == 31"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    dp = [0 for _ in arr]\n\n    for i in range(len(arr)):\n        if i == 0:\n            dp[i] = arr[i]\n            continue\n\n        dp[i] = max(dp[i - 1], 0) + arr[i]\n\n    max_sum = max(dp)\n\n    dp = [0 for _ in arr]\n\n    for i in range(len(arr) - 1, -1, -1):\n        if i == len(arr) - 1:\n            dp[i] = arr[i]\n            continue\n\n        dp[i] = max(dp[i + 1], 0) + arr[i]\n\n    max_sum = max(max_sum, max(dp))\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic([1, 2, 3, -1, -2, -3, 4]) == 7\n    assert max_sum_bi_tonic([-1, -2, -3, -4, -5, -6]) == -1"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def bi_tonic(arr):\n    arr = [0] + arr\n    arr_len = len(arr)\n    dp = [[0 for _ in range(arr_len)] for _ in range(arr_len)]\n    for i in range(arr_len):\n        for j in range(i, arr_len):\n            if i == j:\n                dp[i][j] = arr[i]\n            elif arr[i] < arr[j]:\n                dp[i][j] = max(dp[i][j - 1], arr[j] + dp[i][j - 1])\n            else:\n                dp[i][j] = dp[i + 1][j]\n    return dp[0][-1]\n\n\ndef main():\n    arr = [1, 4, -1, 6, -7, 2, 1]\n    print(bi_tonic(arr))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "from collections import namedtuple\n\n\ndef max_sum_bt_sub_seq(arr):\n    \"\"\"\n    :param arr: List[int]\n    :return: int\n    \"\"\"\n    if len(arr) == 0:\n        return 0\n\n    State = namedtuple('State', ['max_sum', 'end_idx'])\n\n    # dp[i] represents the max sum of bt subseq ending at index i\n    dp = [State(0, -1)] * len(arr)\n    dp[0] = State(arr[0], 0)\n\n    for i in range(1, len(arr)):\n        # if arr[i] is positive, then we can add it to the previous positive\n        # subseq and update the end_idx of the previous positive subseq\n        if arr[i] > 0:\n            dp[i] = State(max(dp[i - 1].max_sum, arr[i] + dp[i - 1].max_sum), i - 1)\n        # if arr[i] is negative, then we can add it to the previous negative\n        # subseq and update the end_idx of the previous negative subseq\n        elif arr[i] < 0:\n            dp[i] = State(max(dp[i - 1].max_sum, arr[i] + dp[i - 1].max_sum), i)\n        # if arr[i] is zero, then we can't add it to the previous subseq\n        # so we need to check whether the previous positive subseq or previous negative subseq is bigger\n        else:\n            dp[i] = State(max(dp[i - 1].max_sum, dp[i - 1].max_sum), i)\n\n    return dp[-1].max_sum\n\n\nif __name__ == '__main__':\n    arr = [1, 2, -1, -4, 5, -6, -1, 3, 2, 1, 3, -1, -2, 4, 6, -1, -4]\n    assert max_sum_bt_sub_seq("
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def bi_tonic_subsequence(array):\n    # max_ending_here\n    # max_so_far\n    max_ending_here = max_so_far = array[0]\n    for i in range(1, len(array)):\n        max_ending_here = max(array[i], max_ending_here + array[i])\n        max_so_far = max(max_so_far, max_ending_here)\n    return max_so_far\n\n\nif __name__ == \"__main__\":\n    print(bi_tonic_subsequence([3, -1, 10, -1, -2, 5, -1, 2, -1]))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def max_sum_biconic_subsequence(arr):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n    dp = [[0 for _ in range(2)] for _ in range(n)]\n\n    for i in range(n):\n        for j in range(2):\n            if i == 0:\n                dp[i][j] = arr[i]\n            elif i == 1:\n                dp[i][j] = max(dp[i - 1][j], arr[i])\n            elif i == 2:\n                dp[i][j] = max(dp[i - 1][j], dp[i - 2][not j] + arr[i])\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i - 2][not j] + arr[i])\n\n    return max(dp[-1])\n\n\ndef main():\n\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(f\"Max sum biconic subsequence: {max_sum_biconic_subsequence(arr)}\")\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    size = len(arr)\n\n    # Two arrays to store results of subproblems\n    # dp[i][0] stores the maximum sum of bi-tonic sub-sequence ending at arr[i]\n    # dp[i][1] stores the maximum sum of bi-tonic sub-sequence not ending at arr[i]\n    dp = [[0] * 2 for _ in range(size)]\n\n    # Initialize the results for the first two elements\n    if arr[0] > 0:\n        dp[0][0] = arr[0]\n    elif arr[0] < 0:\n        dp[0][1] = arr[0]\n\n    if arr[1] > 0:\n        dp[1][0] = arr[1]\n    elif arr[1] < 0:\n        dp[1][1] = arr[1]\n\n    # Fill the table in bottom-up fashion\n    for i in range(2, size):\n        # dp[i][0]: Maximum sum of sub-sequence ending at arr[i]\n        # dp[i - 1][0] + arr[i]: Maximum sum of sub-sequence ending at arr[i - 1] and arr[i]\n        # dp[i - 1][1] + arr[i]: Maximum sum of sub-sequence ending at arr[i - 1] and arr[i]\n        # dp[i][1]: Maximum sum of sub-sequence not ending at arr[i]\n        # dp[i - 1][1]: Maximum sum of sub-sequence not ending at arr[i - 1]\n        dp[i][0] = max(dp[i - 1][0] + arr[i], dp[i - 1][1] + arr[i], arr[i])\n        dp[i][1] = max(dp[i - 1][0], dp"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef max_bi_tonic(arr):\n    d = deque()\n    d.append(arr[0])\n    max_sum = arr[0]\n\n    for i in range(1, len(arr)):\n        if arr[i] > d[-1]:\n            d.append(arr[i])\n        else:\n            d.append(d[-1] + arr[i])\n        max_sum = max(max_sum, d[-1])\n\n    return max_sum\n\n\nif __name__ == '__main__':\n    arr = [4, 0, -1, 3, -2, 1, 2, 4, 5]\n    print(max_bi_tonic(arr))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def max_sum_btns(arr: list) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_sum = 0\n\n    for i in range(len(arr)):\n        if i + 2 < len(arr):\n            if arr[i] > arr[i + 1] and arr[i + 1] > arr[i + 2]:\n                max_sum = max(arr[i] + arr[i + 1] + arr[i + 2], max_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(max_sum_btns([5, 4, 3, 2, 1]))"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n    n = len(arr)\n    max_sum = 0\n\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] != arr[j]:\n                max_sum = max(max_sum, arr[i] + arr[j])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_sub_sequence([3, 1, 4, 1, 5, 9]) == 13\n    assert bi_tonic_sub_sequence([3, 1, 1, 4, 1, 5, 4, 9]) == 13\n    assert bi_tonic_sub_sequence([3, 1, 1, 4, 1, 5, 4, 9, 2]) == 15"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sub_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    # dp[i] is the maximum sum of subsequence ending at arr[i]\n    dp = [0] * n\n\n    # dp[i] = max(dp[i - 1], dp[i - 2] + arr[i])\n    dp[0] = arr[0]\n    dp[1] = max(arr[0], arr[1])\n\n    for i in range(2, n):\n        dp[i] = max(dp[i - 1], dp[i - 2] + arr[i])\n\n    return max(dp)\n\n\nif __name__ == \"__main__\":\n    assert max_sub_sum([3, 7, -4, 12, -6, 14, -1, 2]) == 17"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_max_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if len(arr) < 3:\n        return max(arr)\n\n    max_sum = arr[0]\n\n    for i in range(len(arr) - 2):\n        if arr[i] > 0:\n            max_sum = max(max_sum, arr[i] + arr[i + 1])\n        else:\n            max_sum = max(max_sum, arr[i + 1], arr[i + 2])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert find_max_sum([1, 2, 3, 4, 5, -1, -2, -3, -4, -5]) == 14"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef find_max_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    if n == 0:\n        return 0\n\n    dp = [[0 for _ in range(n)] for _ in range(2)]\n\n    dp[0][0] = arr[0]\n    dp[1][0] = 0\n\n    for i in range(1, n):\n        dp[0][i] = max(arr[i], dp[0][i - 1])\n        dp[1][i] = dp[0][i - 1] + arr[i]\n\n    return max(max(dp[0]), max(dp[1]))\n\n\nif __name__ == \"__main__\":\n    assert find_max_sum([1, 4, 2, 10, 2, 3, 1, 1, 1, 1]) == 17"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_of_btonic_sub_seq(arr: List[int]) -> int:\n    \"\"\"\n    Find the maximum sum of bi-tonic sub-sequence for the given array.\n    :param arr: List[int]\n    :return: int\n\n    >>> max_sum_of_btonic_sub_seq([1, 2, 3, 4, 1, 2, 3, 4])\n    12\n    >>> max_sum_of_btonic_sub_seq([1, 2, -10, 4, 1, 2, -10, 4])\n    6\n    >>> max_sum_of_btonic_sub_seq([1, 2, 3, 4, -10, 3, 2, 1])\n    10\n    >>> max_sum_of_btonic_sub_seq([1, 2, 3, 4, -10, 3, 2, 1, 1, 1, 1])\n    10\n    >>> max_sum_of_btonic_sub_seq([1, 2, -1, 4, -10, 3, 2, 1, 1, 1, 1])\n    5\n    >>> max_sum_of_btonic_sub_seq([1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4])\n    12\n    >>> max_sum_of_btonic_sub_seq([1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4])\n    24\n    >>> max_sum_of_btonic_sub_seq([1, 2, -1, 4, 1, 2, -1, 4])\n    6\n    >>> max_sum_of_btonic_sub_seq([1, 2, 3, 4, 1, 2, 3, 4, 1,"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    if n < 3:\n        return 0\n\n    dp = [[0] * n for _ in range(2)]\n\n    for i in range(n):\n        dp[i % 2][i] = arr[i]\n\n    for i in range(2, n):\n        for j in range(i, n):\n            dp[i % 2][j] = max(dp[(i - 1) % 2][j], dp[i % 2][j - 1])\n\n    return max(dp[(n - 1) % 2])\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic([1, 2, 3, 4, 5, 6, 7]) == 14\n    assert max_sum_bi_tonic([1, 2, 3, 4, -10, 5, 6, 7]) == 14\n    assert max_sum_bi_tonic([1, -2, 3, 4, -10, 5, 6, -7]) == 12"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic(A: List[int]) -> int:\n    n = len(A)\n    if n < 3:\n        return -1\n\n    res = [[0 for _ in range(n)] for _ in range(3)]\n    res[0][0] = A[0]\n    res[1][0] = A[0]\n    res[2][0] = A[0]\n\n    for i in range(1, n):\n        res[0][i] = max(res[0][i - 1], res[1][i - 1], res[2][i - 1]) + A[i]\n        res[1][i] = max(res[0][i - 1], res[1][i - 1], res[2][i - 1])\n        res[2][i] = max(res[0][i - 1], res[1][i - 1], res[2][i - 1])\n\n    return max(res[0][-1], res[1][-1], res[2][-1])\n\n\nif __name__ == \"__main__\":\n    A = [1, 2, 3, -1, 4, 5, -2, 6]\n    assert bi_tonic(A) == 7"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    length = len(arr)\n\n    dp = [[0] * 2 for _ in range(length)]\n\n    for i in range(length):\n        dp[i][0] = arr[i]\n        dp[i][1] = max(dp[i - 1][0], dp[i - 1][1]) + arr[i]\n\n    return max(dp[-1][0], dp[-1][1])\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, -2, 1, -2, 4, -6, 1, -3, 1, -4, -1, 3, -5, -4]) == 7"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    Space Complexity: O(n)\n\n    :param nums: list of numbers\n    :return: maximum sum of bi-tonic subsequence\n    \"\"\"\n    n = len(nums)\n    if n < 2:\n        return 0\n\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n\n    for i in range(n - 1, -1, -1):\n        for j in range(i, n):\n            if i == j:\n                dp[i][j] = nums[i]\n            else:\n                dp[i][j] = max(dp[i][j], nums[i] + dp[i + 1][j])\n                dp[i][j] = max(dp[i][j], nums[j] + dp[i][j - 1])\n\n    return dp[0][n - 1]\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([2, -8, -1, 0, 7, 10, 5, -3]) == 17"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "def find_max_sum_bi_tonic_subsequence(arr):\n    length = len(arr)\n    dp = [[0 for _ in range(2)] for _ in range(length)]\n\n    for i in range(length):\n        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + arr[i])\n        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - arr[i])\n\n    return max(dp[length - 1][0], dp[length - 1][1])\n\n\nif __name__ == \"__main__\":\n    print(find_max_sum_bi_tonic_subsequence([-1, -2, 3, -2, 2, 3, 1, 5, -3, -5]))"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(nums: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_sum = nums[0]\n    min_sum = nums[0]\n    max_sum_so_far = nums[0]\n\n    for i in range(1, len(nums)):\n        max_sum = max(max_sum + nums[i], nums[i])\n        min_sum = min(min_sum + nums[i], nums[i])\n        max_sum_so_far = max(max_sum_so_far, max_sum - min_sum)\n\n    return max_sum_so_far\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([2, 4, 6, -1, 3, -5, -4, 3, 2, -1, -3]) == 14"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def bi_tonic_sum(arr):\n    \"\"\"\n    :param arr: list\n    :return: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    if len(arr) == 2:\n        if arr[0] < arr[1]:\n            return arr[1]\n        return arr[0]\n\n    max_sum = 0\n    for i in range(len(arr)):\n        if i == 0:\n            curr_sum = arr[i]\n            if arr[i] < arr[i + 1]:\n                curr_sum += arr[i + 1]\n            max_sum = max(max_sum, curr_sum)\n        elif i == len(arr) - 1:\n            curr_sum = arr[i]\n            if arr[i - 1] < arr[i]:\n                curr_sum += arr[i - 1]\n            max_sum = max(max_sum, curr_sum)\n        else:\n            curr_sum = arr[i]\n            if arr[i - 1] < arr[i] and arr[i] < arr[i + 1]:\n                curr_sum += arr[i - 1] + arr[i + 1]\n            max_sum = max(max_sum, curr_sum)\n    return max_sum\n\n\ndef bi_tonic_sum_2(arr):\n    \"\"\"\n    :param arr: list\n    :return: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n\n    if len(arr) == 2:\n        if arr[0] < arr[1]:\n            return arr[1]\n        return arr[0]\n\n    max_sum = 0\n    for i in range(len(arr)):\n        curr_sum = arr[i]\n        if i == 0:\n            if arr[i] < arr[i + 1]:\n                curr_sum += arr[i + 1]\n        elif i == len(arr) - 1:\n            if arr[i - 1] < arr[i]:\n                curr_sum += arr"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def max_bi_tonic_subsequence(arr):\n    if not arr:\n        return 0\n\n    max_sum = 0\n    even_max_sum = 0\n    odd_max_sum = 0\n\n    for num in arr:\n        if num % 2 == 0:\n            even_max_sum = max(even_max_sum + num, num)\n            max_sum = max(max_sum, even_max_sum)\n        else:\n            odd_max_sum = max(odd_max_sum + num, num)\n            max_sum = max(max_sum, odd_max_sum)\n\n    return max_sum\n\n\nprint(max_bi_tonic_subsequence([3, 1, 4, 1, 5]))\nprint(max_bi_tonic_subsequence([3, 1, 4, 1, 5, 9]))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    if n <= 2:\n        return sum(arr)\n\n    dp = [[0 for _ in range(2)] for _ in range(n)]\n\n    for i in range(n):\n        if i == 0:\n            dp[i][0] = arr[i]\n            dp[i][1] = arr[i]\n        elif i == 1:\n            dp[i][0] = max(arr[i], arr[i] + arr[i - 1])\n            dp[i][1] = max(arr[i - 1], arr[i])\n        else:\n            dp[i][0] = max(arr[i] + dp[i - 2][1], dp[i - 1][1])\n            dp[i][1] = max(arr[i] + dp[i - 2][0], dp[i - 1][0])\n\n    return max(dp[-1])\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, 4, -1, 6, -2, 3, 2, 7, 10]) == 19"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "def bi_tonic(arr: list) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    max_sum: int = 0\n    max_sum_1: int = 0\n    max_sum_2: int = 0\n\n    for i in range(len(arr)):\n        max_sum_1 = max(max_sum_1 + arr[i], 0)\n        max_sum_2 = max(max_sum_2 + arr[i], 0)\n        max_sum = max(max_sum_1, max_sum_2, max_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(bi_tonic([-1, -2, 2, -3, 3]))\n    print(bi_tonic([-1, -2, 2, -3, 3, 5, -6, 7]))"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "def max_bi_tonic_subsequence(arr):\n    max_sum = 0\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == -arr[j]:\n                max_sum = max(max_sum, arr[i] + arr[j])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(max_bi_tonic_subsequence([1, 2, -1, 4, -2, 1, -4]))\n    print(max_bi_tonic_subsequence([1, 3, 5, -3, -5]))\n    print(max_bi_tonic_subsequence([0, 0, 0]))\n    print(max_bi_tonic_subsequence([-1, 2, 3, 2, -1, 1]))\n    print(max_bi_tonic_subsequence([-1, -2, -3, -4, -5]))"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def max_bi_tonic_subsequence(arr):\n    n = len(arr)\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    for i in range(n-1, -1, -1):\n        for j in range(i+1, n):\n            dp[i][j] = max(arr[i], arr[j], dp[i+1][j], dp[i][j-1])\n\n    return dp[0][-1]\n\n\nif __name__ == \"__main__\":\n    print(max_bi_tonic_subsequence([1, 2, 3, 4, 5, 6, 7, 8, 9]))"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def bi_tonic_sum(arr):\n    n = len(arr)\n\n    # dp[i][j] contains the maximum sum for subarray arr[i...j]\n    dp = [[0] * n for _ in range(n)]\n\n    # if array has only one element, then maximum sum is the element itself\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    # consider all subarrays of length 2\n    for i in range(n - 1):\n        dp[i][i + 1] = max(arr[i], arr[i + 1], arr[i] + arr[i + 1])\n\n    # consider all subarrays of length 3\n    for i in range(n - 2):\n        dp[i][i + 2] = max(dp[i + 1][i + 2], dp[i + 1][i + 1] + arr[i + 2], arr[i] + arr[i + 2])\n\n    # consider all subarrays of length 4\n    for i in range(n - 3):\n        dp[i][i + 3] = max(dp[i + 1][i + 3], dp[i + 2][i + 3], dp[i + 2][i + 2] + arr[i + 3], arr[i] + arr[i + 3])\n\n    # consider all subarrays of length 5\n    for i in range(n - 4):\n        dp[i][i + 4] = max(dp[i + 1][i + 4], dp[i + 2][i + 4], dp[i + 3][i + 4], dp[i + 3][i + 3] + arr[i + 4], arr[i] + arr[i + 4])\n\n    # consider all subarrays of length 6\n    for i in range(n - 5):\n        dp[i][i + 5] = max(dp[i + 1][i + 5], d"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n    if n <= 1:\n        return 0\n\n    inc_max, dec_max = [0] * n, [0] * n\n    inc_max[0], dec_max[0] = arr[0], -arr[0]\n    inc_max[1], dec_max[1] = max(arr[0], arr[1]), min(arr[0], arr[1])\n\n    for i in range(2, n):\n        inc_max[i] = max(inc_max[i - 1], dec_max[i - 2] + arr[i])\n        dec_max[i] = min(dec_max[i - 1], inc_max[i - 2] - arr[i])\n\n    return max(inc_max[-1], dec_max[-1])\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, -2, 3, 10, -4, 7, 2, -5]) == 18"
+    },
+    {
+      "rank": 52,
+      "score": 7.0,
+      "candidate": "from typing import List\n\n\n# O(n) time | O(1) space - where n is the length of the input array\ndef maxSumTwoNoOverlapping(array: List[int]) -> int:\n    # edge cases\n    if len(array) <= 2:\n        return 0\n\n    # two pointers\n    max_sum = array[0] + array[1]\n    prev_sum = array[0]\n    prev_prev_sum = array[1]\n\n    # start from 2nd position\n    for i in range(2, len(array)):\n        prev_prev_sum, prev_sum = prev_sum, max(prev_sum + array[i], prev_prev_sum)\n        max_sum = max(max_sum, prev_sum)\n\n    return max_sum\n\n\nprint(maxSumTwoNoOverlapping([1, -2, 3, 10, -4, 7, 2, -5]))\nprint(maxSumTwoNoOverlapping([1, 2, 3, 4, -1, -2, -3, -4]))\nprint(maxSumTwoNoOverlapping([5, -9, 6, -7, 10]))"
+    },
+    {
+      "rank": 53,
+      "score": 1.0,
+      "candidate": "from itertools import accumulate\nfrom typing import List\n\n\ndef bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    prefix_sums = list(accumulate(arr))\n\n    max_ending_here = max_so_far = arr[0]\n\n    for num in arr[1:]:\n        max_ending_here = max(num, max_ending_here + num)\n        max_so_far = max(max_so_far, max_ending_here)\n\n    return max_so_far\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_sub_sequence([2, 4, 6, 8]) == 16\n    assert bi_tonic_sub_sequence([5, 1, 1, 5]) == 10"
+    },
+    {
+      "rank": 54,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if len(arr) < 3:\n        return max(arr)\n\n    min_sum = max_sum = 0\n\n    for num in arr:\n        max_sum = max(min_sum + num, max_sum)\n        min_sum = min(min_sum + num, max_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) == 39\n    assert max_bi_tonic_subsequence([-1, -2, -3, -4, -5]) == -1"
+    },
+    {
+      "rank": 55,
+      "score": 1.0,
+      "candidate": "def get_maximum_sum_of_bt_subsequence(arr):\n    n = len(arr)\n    max_sum = -float('inf')\n    dp = [[0] * (n + 1) for _ in range(n + 1)]\n    for i in range(1, n + 1):\n        for j in range(1, n + 1):\n            if i == j:\n                dp[i][j] = arr[i - 1]\n            elif i < j:\n                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])\n            if dp[i][j] > max_sum:\n                max_sum = dp[i][j]\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 45),\n        ([1, 1, 1, 1, 1], 5),\n        ([1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 45),\n        ([2, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 45),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 45),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 46),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 47),\n        ([1, 2,"
+    },
+    {
+      "rank": 56,
+      "score": 1.0,
+      "candidate": "from itertools import combinations\n\n\ndef max_bi_tonic_subsequence(arr):\n    \"\"\"\n    Time Complexity: O(n*2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    res = []\n\n    def find_bi_tonic(arr):\n        for i in range(len(arr)):\n            for j in range(i + 1, len(arr)):\n                if arr[i] == arr[j]:\n                    res.append(sum(arr[i:j + 1]))\n\n    find_bi_tonic(arr)\n    return max(res)\n\n\ndef max_bi_tonic_subsequence_eff(arr):\n    \"\"\"\n    Time Complexity: O(n*2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    res = []\n\n    def find_bi_tonic(arr):\n        for i in range(len(arr)):\n            for j in range(i + 1, len(arr)):\n                if arr[i] == arr[j]:\n                    res.append(sum(arr[i:j + 1]))\n\n    find_bi_tonic(arr)\n    return max(res)\n\n\ndef max_bi_tonic_subsequence_eff_2(arr):\n    \"\"\"\n    Time Complexity: O(n*2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    res = []\n\n    def find_bi_tonic(arr):\n        for i in range(len(arr)):\n            for j in range(i + 1, len(arr)):\n                if arr[i] == arr[j]:\n                    res.append(sum(arr[i:j + 1]))\n\n    find_bi_tonic(arr)\n    return max(res)\n\n\nif __name__ == \"__main__\":\n    print(max_bi_tonic_subsequence([1, 2, 3, 4, 5, 6, 7, 8]))\n    print(max_bi_tonic_subsequence_eff([1, 2, 3, 4, 5,"
+    },
+    {
+      "rank": 57,
+      "score": 1.0,
+      "candidate": "def max_bi_tonic_subsequence(arr):\n    \"\"\"\n    :param: arr - input array\n    TODO: complete this method and return max bi-tonic subsequence\n    \"\"\"\n    # Write your code here.\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = max_bi_tonic_subsequence(arr)\n    \n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\narr = [1, 3, 2, 4, 7, 8]\nsolution = 19\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [3, 2, 4, 1]\nsolution = 10\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 3, 2, 4, 7, 8]\nsolution = 17\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 3, 2, 4, 7, 8]\nsolution = 19\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 3, 2, 4, 7, 8]\nsolution = 19\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 3, 2, 4, 7, 8]\nsolution = 19\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 3, 2, 4, 7, 8]\nsolution = 19\ntest_case = [arr, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 58,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_seq(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_sum = 0\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] == arr[j]:\n                curr_sum = arr[i] + arr[j]\n                if curr_sum > max_sum:\n                    max_sum = curr_sum\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sub_seq([1, 2, 3, 4, 1, 5, 6, 7]) == 16"
+    },
+    {
+      "rank": 59,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bt(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    n = len(arr)\n\n    if n < 3:\n        return 0\n\n    max_sum = arr[0] + arr[1]\n    min_sum = arr[0]\n\n    for i in range(1, n):\n        max_sum, min_sum = max(max_sum, min_sum + arr[i]), min(min_sum, arr[i])\n\n    return max(max_sum, max_sum + min_sum)\n\n\nif __name__ == \"__main__\":\n    print(max_sum_bt([1, 2, 3, 4, 5]))\n    print(max_sum_bt([1, 2, -3, 4, 5]))\n    print(max_sum_bt([1, 2, -3, 4, -5]))\n    print(max_sum_bt([1, 2, -3, -4, 5]))"
+    },
+    {
+      "rank": 60,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*2)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        return 0\n\n    max_sum = arr[0]\n\n    # create 2 variables to keep track of the current and the previous bi-tonic sum\n    # start with the 2nd element\n    curr_sum = arr[1]\n    prev_sum = arr[0]\n\n    for i in range(2, len(arr)):\n        # if the current element is greater than the previous element\n        # then add it to the current sum\n        if arr[i] > arr[i - 1]:\n            curr_sum += arr[i]\n        else:\n            # otherwise subtract the previous element from the current sum\n            curr_sum -= arr[i - 1]\n\n        # if the current sum is greater than the max sum\n        # then update the max sum\n        if curr_sum > max_sum:\n            max_sum = curr_sum\n\n        # update the previous sum to the current sum\n        prev_sum = curr_sum\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 40\n    assert max_sum_bi_tonic([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 55\n    assert max_sum_bi_tonic([1, 10, 2, 3, 4, 5, 6, 7, 8, 9]) == 30\n    assert max_sum_bi_tonic([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) == 10"
+    },
+    {
+      "rank": 61,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_ending = max_ending_here = 0\n\n    for i in arr:\n        max_ending = max(i, max_ending + i)\n        max_ending_here = max(max_ending_here, max_ending)\n\n    return max_ending_here\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([-1, 3, -2, 5, -3]) == 7"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "def max_sub_sum(arr):\n    dp = [[0] * (len(arr) + 1) for _ in range(3)]\n    for i in range(1, 3):\n        for j in range(1, len(arr) + 1):\n            if i == j % 2:\n                dp[i][j] = max(dp[i][j - 1], arr[j - 1] + dp[i][j - 2])\n            else:\n                dp[i][j] = dp[i][j - 1]\n    return max(dp[2][-1], dp[1][-1])\n\n\nif __name__ == \"__main__\":\n    arr = [2, 4, 6, 2, 5, 1, 3]\n    assert max_sub_sum(arr) == 14"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "def bi_tonic_subsequence(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - maximum sum of bi-tonic sub-sequence\n    \"\"\"\n    if len(arr) <= 2:\n        return max(arr)\n\n    max_sum = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            if arr[i] <= arr[j]:\n                max_sum = max(max_sum, arr[i] + arr[j])\n\n    return max_sum\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = bi_tonic_subsequence(arr)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\n# test case 1\narr = [1, 6, 1, 4, 10, 2, 9, 3, 5, 11, 9]\nsolution = 33\ntest_case = [arr, solution]\ntest_function(test_case)\n\n# test case 2\narr = [1, 2, 3, 4]\nsolution = 7\ntest_case = [arr, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_of_bionic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not arr:\n        return 0\n\n    size = len(arr)\n\n    left_max: List[int] = [0] * size\n    right_max: List[int] = [0] * size\n\n    left_max[0] = arr[0]\n    right_max[size - 1] = arr[size - 1]\n\n    for i in range(1, size):\n        left_max[i] = max(left_max[i - 1], arr[i])\n\n    for i in range(size - 2, -1, -1):\n        right_max[i] = max(right_max[i + 1], arr[i])\n\n    max_sum = 0\n\n    for i in range(size):\n        max_sum = max(max_sum, left_max[i] + right_max[i])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_of_bionic_subsequence([1, 2, 3, 4, 5]) == 12\n    assert max_sum_of_bionic_subsequence([5, 4, 3, 2, 1]) == 12\n    assert max_sum_of_bionic_subsequence([-1, -2, -3, -4, -5]) == -1"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    for i in range(1, n):\n        if arr[i] < arr[i - 1]:\n            arr[i] = arr[i - 1]\n\n    max_sum = arr[0]\n\n    for i in range(1, n):\n        if arr[i] > arr[i - 1]:\n            arr[i] += arr[i - 1]\n        max_sum = max(arr[i], max_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_sub_sequence([1, 2, 3, 4, 5, 6, 7]) == 28"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum(arr: List[int]) -> int:\n    \"\"\"\n    Let's assume that the array is of length N.\n    Let's also assume that the sum of the array is S.\n\n    Let's now assume that the sum of the bi-tonic sub-sequence is MAX.\n\n    We can write the following equations:\n\n    S = 2 * MAX\n    S = (N - 1) * MAX\n\n    Solving the above equations, we get MAX = S / (N - 1).\n\n    Now, we can easily find the maximum sum of bi-tonic sub-sequence using\n    Dynamic Programming.\n\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n\n    :param arr: List[int]\n    :return: int\n    \"\"\"\n\n    # Base Case\n    if len(arr) < 2:\n        return 0\n\n    # Memoization Table\n    table: List[int] = [0] * len(arr)\n\n    # Initializing the table\n    for i in range(len(arr)):\n        table[i] = arr[i]\n\n    # Finding the maximum sum of bi-tonic sub-sequence\n    for i in range(1, len(arr)):\n        for j in range(i):\n            table[i] = max(table[i], table[j] + (arr[i] - arr[j]) * 2)\n\n    return max(table)\n\n\nif __name__ == \"__main__\":\n    assert max_sum([1, 2, 3, 4]) == 10\n    assert max_sum([1, 3, 2, 4]) == 10\n    assert max_sum([1, 2, 4, 3]) == 10\n    assert max_sum([2, 4, 6, 8]) == 20\n    assert max_sum([-1, -3, -5, -7, -9]) == -1"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n    length = len(arr)\n\n    if length < 3:\n        return sum(arr)\n\n    dp = [[0] * length for _ in range(length)]\n\n    for i in range(length):\n        for j in range(i + 1):\n            if i == j:\n                dp[i][j] = arr[i]\n            else:\n                dp[i][j] = max(arr[i], dp[i - 1][j], dp[i - 1][j - 1])\n\n    return dp[-1][-1]\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_subsequence([1, 2, 3, 4, 5]) == 14"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef maximum_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    max_sum = 0\n\n    prev_max = prev_min = arr[0]\n\n    for num in arr[1:]:\n        curr_max = max(num, num + prev_max, prev_min)\n        curr_min = min(num, num + prev_max, prev_min)\n        max_sum = max(max_sum, curr_max)\n\n        prev_max = curr_max\n        prev_min = curr_min\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert maximum_sum([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]) == 14"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_sub_seq(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n\n    n = len(arr)\n\n    max_sum = 0\n\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] + arr[j] > max_sum:\n                max_sum = arr[i] + arr[j]\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_sub_seq([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 30"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "def max_bi_tonic_subsequence(arr):\n    max_bi_tonic_sum = 0\n    max_even_sum = 0\n    max_odd_sum = 0\n\n    for i in range(len(arr)):\n        if i % 2 == 0:\n            max_even_sum = max(max_even_sum, 0) + arr[i]\n            max_bi_tonic_sum = max(max_bi_tonic_sum, max_even_sum)\n        else:\n            max_odd_sum = max(max_odd_sum, 0) + arr[i]\n            max_bi_tonic_sum = max(max_bi_tonic_sum, max_odd_sum)\n\n    return max_bi_tonic_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, 2, 3, 4, 5, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]) == 55"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    max_sum = arr[0]\n    max_ending = arr[0]\n    min_ending = arr[0]\n\n    for num in arr[1:]:\n        max_ending, min_ending = max(max_ending + num, min_ending + num), min(max_ending + num, min_ending + num)\n        max_sum = max(max_sum, max_ending)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sub_sequence([-1, 3, 5, -4, 2, -1]) == 7"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "def max_bi_tonic_sub_sequence(array):\n    \"\"\"\n    :param: array - list of integers\n    return: list of integers\n    \"\"\"\n    if len(array) == 0:\n        return []\n\n    if len(array) == 1:\n        return array\n\n    if len(array) == 2:\n        return array if array[0] > array[1] else array[::-1]\n\n    max_bi_tonic_sub_sequence_aux(array, 0, [array[0]])\n    return sorted(array[0].values(), reverse=True)\n\n\ndef max_bi_tonic_sub_sequence_aux(array, index, curr_sub_seq):\n    \"\"\"\n    :param: array - list of integers\n    :param: index - int\n    :param: curr_sub_seq - list of integers\n    \"\"\"\n    if index >= len(array):\n        return\n\n    if len(curr_sub_seq) >= 2:\n        if curr_sub_seq[-1] > curr_sub_seq[-2]:\n            curr_sub_seq[-1] += array[index]\n        else:\n            curr_sub_seq[-2] += array[index]\n    else:\n        curr_sub_seq.append(array[index])\n\n    max_bi_tonic_sub_sequence_aux(array, index + 1, curr_sub_seq)\n    max_bi_tonic_sub_sequence_aux(array, index + 1, curr_sub_seq[:-1])\n\n\ndef test_function(test_case):\n    output = max_bi_tonic_sub_sequence(test_case[0])\n    if output == test_case[1]:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_case_1 = [[1, 2, 3], [1, 2, 3]]\ntest_function(test_case_1)\n\ntest_case_2 = [[1, 4, 5, 2, 6, 3, 7, 10], [10, 7, 6, 5,"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bt(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def max_sum_bt_helper(arr: List[int], l: int, r: int) -> int:\n        if l == r:\n            return arr[l]\n\n        mid = l + (r - l) // 2\n        left_max = max_sum_bt_helper(arr, l, mid)\n        right_max = max_sum_bt_helper(arr, mid + 1, r)\n\n        max_sum = 0\n        temp_sum = 0\n\n        for i in range(mid, l - 1, -1):\n            temp_sum += arr[i]\n\n            if temp_sum > max_sum:\n                max_sum = temp_sum\n\n        temp_sum = 0\n\n        for i in range(mid + 1, r + 1):\n            temp_sum += arr[i]\n\n            if temp_sum > max_sum:\n                max_sum = temp_sum\n\n        return max(left_max, right_max, max_sum)\n\n    return max_sum_bt_helper(arr, 0, len(arr) - 1)\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bt([1, 2, 3, 4, 10, 4, 3, 2]) == 29"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bt(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    Space Complexity: O(1)\n    \"\"\"\n    arr_len = len(arr)\n\n    # Check if array contains 3 or less elements.\n    # If so, then return the sum of the entire array.\n    if arr_len <= 3:\n        return sum(arr)\n\n    # Initialize the maximum sum\n    max_sum = -1000000000\n\n    # Initialize the sum of the current sub-sequence\n    curr_sum = 0\n\n    # Traverse the array\n    for i in range(arr_len):\n        curr_sum += arr[i]\n\n        # Update the maximum sum if the current sum is greater than the maximum sum.\n        max_sum = max(max_sum, curr_sum)\n\n        # If the current sum is negative, then reset it to 0.\n        if curr_sum < 0:\n            curr_sum = 0\n\n    # Return the maximum sum\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bt([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 23"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    dp = [[0] * n for _ in range(2)]\n\n    for i in range(n):\n        if i == 0:\n            dp[0][i] = arr[i]\n            dp[1][i] = arr[i]\n        elif i == 1:\n            dp[0][i] = max(dp[0][i - 1], dp[1][i - 1], arr[i])\n            dp[1][i] = max(dp[0][i - 1], dp[1][i - 1], arr[i])\n        else:\n            dp[0][i] = max(dp[0][i - 1], dp[1][i - 1], arr[i])\n            dp[1][i] = max(dp[0][i - 1], dp[1][i - 1], arr[i] + dp[1][i - 2])\n\n    return max(dp[0][-1], dp[1][-1])\n\n\nif __name__ == \"__main__\":\n    assert find_bi_tonic_subsequence([1, -2, 1, -2, -1, 2, 1, -2, 1]) == 4"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bionic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    dp = [[0] * n for _ in range(n)]\n\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    for i in range(n - 1, -1, -1):\n        for j in range(i + 1, n):\n            dp[i][j] = max(arr[i], arr[j], dp[i + 1][j], dp[i][j - 1])\n\n    return dp[0][-1]\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bionic_subsequence([10, -10, 5, 20, 10]) == 40"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    # init\n    min_val, max_val = arr[0], arr[0]\n    min_sum, max_sum = arr[0], arr[0]\n\n    for i in range(1, len(arr)):\n        # get the max sum\n        max_val = max(max_val + arr[i], arr[i])\n        max_sum = max(max_sum, max_val)\n\n        # get the min sum\n        min_val = min(min_val + arr[i], arr[i])\n        min_sum = min(min_sum, min_val)\n\n    return max(max_sum, 0)\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_sum([1, 2, 3, -1, 4, -1, 2]) == 6"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_bi_tonic(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n\n    :param arr: list of integers\n    :return: maximum sum of bi-tonic sub-sequence\n    \"\"\"\n    n = len(arr)\n\n    # dp[i][j] stores maximum sum of bi-tonic sub-sequence with ending index i and\n    # maximum ending index of sub-sequence with starting index j\n    dp = [[0] * (n + 1) for _ in range(n + 1)]\n\n    for i in range(n):\n        for j in range(i + 1):\n            # maximum ending index of sub-sequence with starting index j\n            k = i - j\n\n            # maximum sum of bi-tonic sub-sequence with ending index i\n            if dp[j][k] == 0:\n                dp[j][k] = arr[j]\n            else:\n                dp[j][k] += arr[j]\n\n            # maximum sum of bi-tonic sub-sequence with ending index i\n            # and maximum ending index of sub-sequence with starting index j\n            if (k - 1 >= 0) and (k - 1 <= i):\n                dp[i + 1][k] = max(dp[i + 1][k], dp[j][k])\n\n    # maximum sum of bi-tonic sub-sequence\n    return dp[n][n]\n\n\nif __name__ == \"__main__\":\n    assert max_sum_bi_tonic([5, -10, 10, 20, -10, -10, -10, -10, -10, -10, -10, -10, 10, -10]) == 100"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_sum_of_two_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    # dp[i][0] = max sum of first bi-tonic sub-sequence ending at index i\n    # dp[i][1] = max sum of second bi-tonic sub-sequence ending at index i\n    dp = [[0, 0] for _ in range(n)]\n\n    # base case\n    dp[0][0] = 0\n    dp[0][1] = 0\n\n    # dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + arr[i])\n    # dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - arr[i])\n    for i in range(1, n):\n        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + arr[i])\n        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - arr[i])\n\n    return max(dp[-1])\n\n\nif __name__ == \"__main__\":\n    assert max_sum_of_two_tonic_sub_sequence([1, 3, -1, 4, 5, -3, 2]) == 17"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "def max_bi_tonic_subsequence(A):\n    if not A:\n        return 0\n    if len(A) == 1:\n        return A[0]\n    if len(A) == 2:\n        return max(A[0], A[1])\n\n    dp = [[0] * len(A) for _ in range(len(A))]\n\n    for i in range(len(A)):\n        dp[i][i] = A[i]\n\n    for i in range(len(A) - 1, -1, -1):\n        for j in range(i + 1, len(A)):\n            dp[i][j] = max(dp[i + 1][j], dp[i + 1][j - 1] + A[j])\n\n    return max(dp[0][-1], dp[-1][-1])\n\n\nif __name__ == \"__main__\":\n    A = [1, -1, 4, -3, 5, -2, 2, 2, 1, -5, 3]\n    assert max_bi_tonic_subsequence(A) == 7\n\n    A = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    assert max_bi_tonic_subsequence(A) == 26\n\n    A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    assert max_bi_tonic_subsequence(A) == 30"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    min_sum = arr[0]\n    max_sum = arr[0]\n\n    for i in range(1, len(arr)):\n        temp_max_sum = max(max_sum, min_sum + arr[i])\n        temp_min_sum = min(min_sum, max_sum + arr[i])\n\n        max_sum = temp_max_sum\n        min_sum = temp_min_sum\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_sum([1, -1, 1, -1]) == 2\n    assert bi_tonic_sum([1, 2, -1, -2, 2, 1, -2, 1, 3, -6]) == 5\n    assert bi_tonic_sum([1, 3, -1, -2, 2, 1, -2, 1, 3, -6]) == 7\n    assert bi_tonic_sum([1, 3, -1, -2, 2, 1, -2, 1, 3, -6, 1]) == 8"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef find_max_bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not arr:\n        return 0\n\n    n = len(arr)\n    dp = [[0 for _ in range(2)] for _ in range(n)]\n\n    for i in range(n):\n        dp[i][0] = max(dp[i - 1][1] + arr[i], dp[i - 1][0] + arr[i])\n        dp[i][1] = max(dp[i - 1][0] + arr[i], dp[i - 1][1] + arr[i])\n\n    return max(max(dp[-1]))\n\n\nif __name__ == \"__main__\":\n    assert find_max_bi_tonic_sum([-1, 2, 3, -2, 4, -3]) == 6"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    size = len(arr)\n\n    # if array is empty\n    if size == 0:\n        return 0\n\n    # if array has only one element\n    if size == 1:\n        return arr[0]\n\n    # if array has only two elements\n    if size == 2:\n        return max(arr[0], arr[1])\n\n    # dp[i] is the max sum of bi-tonic sub-sequence ending with the element at index i\n    dp = [0] * size\n\n    # if first element is positive, then the max sum is the element itself\n    dp[0] = arr[0]\n\n    # if first element is negative, then the max sum is 0\n    if arr[0] < 0:\n        dp[0] = 0\n\n    # if second element is positive, then the max sum is the element itself\n    dp[1] = max(arr[1], arr[0])\n\n    # if second element is negative, then the max sum is 0\n    if arr[1] < 0:\n        dp[1] = 0\n\n    # for i = 2 to n - 1\n    for i in range(2, size):\n        # if the element at index i is positive\n        if arr[i] > 0:\n            # if the element at index i - 1 is negative\n            if arr[i - 1] < 0:\n                dp[i] = max(dp[i - 1], dp[i - 2] + arr[i])\n            else:\n                dp[i] = max(dp[i - 1], dp[i - 2] + arr[i], dp[i - 3] + arr[i - 1] + arr[i])\n        # if the element at index i is negative\n        elif arr[i] < 0:\n            # if the element at index i - 1 is"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    dp = [0] * len(arr)\n\n    for i in range(len(arr)):\n        dp[i] = arr[i]\n\n    for i in range(1, len(arr)):\n        for j in range(i):\n            if arr[i] > arr[j]:\n                dp[i] = max(dp[i], dp[j] + arr[i])\n\n    return max(dp)\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_subsequence([5, 4, 1, 3, 1, 3, 6, 5, 4]) == 12"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n    n = len(arr)\n\n    if n == 0:\n        return 0\n\n    # dp[i][j] is the maximum sum of the bi-tonic sub-sequence ending at arr[i-1] and starting at arr[j]\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n\n    for i in range(n):\n        dp[i][i] = arr[i]\n\n    for i in range(n - 1, -1, -1):\n        for j in range(i + 1, n):\n            dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])\n            if arr[i] == arr[j]:\n                dp[i][j] = max(dp[i][j], dp[i + 1][j - 1] + arr[i])\n\n    return dp[0][n - 1]\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sub_sequence([1, 3, -1, 4, 5, -4, 1]) == 10"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic(array: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def max_bi_tonic_rec(array: List[int], start: int, end: int) -> int:\n        if start == end:\n            return array[start]\n\n        current_sum = 0\n        for i in range(start, end + 1):\n            if i == start or array[i - 1] <= array[i]:\n                current_sum = max(\n                    current_sum,\n                    array[i] + max_bi_tonic_rec(array, i + 1, end),\n                )\n        return current_sum\n\n    return max_bi_tonic_rec(array, 0, len(array) - 1)\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic([1, -1, 4, 5, -3, 2, 1]) == 7"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "def find_max_bi_tonic_subsequence(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - maximum possible sum of bi-tonic sequence\n    TODO: Write your solution here\n    \"\"\"\n    pass\n\n\n# Test cases\nassert find_max_bi_tonic_subsequence([3, 7, 4, 6, 5, 2]) == 12\nassert find_max_bi_tonic_subsequence([1, 2, 3, 4, 5]) == 15\nassert find_max_bi_tonic_subsequence([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 30\nassert find_max_bi_tonic_subsequence([-1, -2, -3, -4, -5]) == -1\nassert find_max_bi_tonic_subsequence([1, 1, 1, 1, 1]) == 5\nassert find_max_bi_tonic_subsequence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 40"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    n = len(arr)\n\n    # dp[i][0] stores the maximum sum of the leftmost bi-tonic sub-sequence of arr[0...i]\n    # dp[i][1] stores the maximum sum of the rightmost bi-tonic sub-sequence of arr[0...i]\n    dp = [[0 for _ in range(2)] for _ in range(n)]\n\n    for i in range(n):\n        # if arr[i] is negative, then maximum sum of bi-tonic sub-sequence\n        # will be maximum sum of bi-tonic sub-sequence of arr[0...i-1]\n        if arr[i] < 0:\n            dp[i][0] = dp[i - 1][0]\n            dp[i][1] = dp[i - 1][1]\n        # else maximum sum of bi-tonic sub-sequence\n        # will be maximum of (maximum sum of bi-tonic sub-sequence of arr[0...i-1],\n        # maximum sum of bi-tonic sub-sequence of arr[0...i-1] + arr[i])\n        else:\n            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1])\n            dp[i][1] = dp[i - 1][0] + arr[i]\n\n    return max(dp[n - 1][0], dp[n - 1][1])\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sub_sequence([3, -4, 5, 1, -5, 4]) == 7"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    \"\"\"\n\n    def bi_tonic_sum(arr, i, j):\n        return arr[i] + arr[j] - min(arr[i + 1 : j + 1])\n\n    n = len(arr)\n\n    # dp[i][j] contains the maximum sum of bi-tonic sub-sequence for the first 2 elements\n    dp = [[0] * n for _ in range(n)]\n\n    # sum of the first element\n    dp[0][0] = arr[0]\n\n    # sum of the first 2 elements\n    dp[1][1] = bi_tonic_sum(arr, 0, 1)\n\n    # maximum of the first 2 elements\n    max_so_far = max(dp[0][0], dp[1][1])\n\n    # for each pair of elements\n    for i in range(2, n):\n        # for each possible starting index\n        for j in range(i - 1, -1, -1):\n            # calculate the maximum sum of bi-tonic sub-sequence\n            # of the current pair of elements and the starting index\n            dp[i][j] = max(dp[i - 1][j], bi_tonic_sum(arr, j, i))\n            # update the maximum sum\n            max_so_far = max(max_so_far, dp[i][j])\n\n    return max_so_far\n\n\nif __name__ == \"__main__\":\n    arr = [1, 6, -1, 4, -1, 2]\n    assert max_bi_tonic_subsequence(arr) == 7"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\n# O(n^2)\ndef bi_tonic_subsequence(arr: List[int]) -> int:\n    n = len(arr)\n\n    # dp[i] is the maximum sum of the subsequence ending with arr[i]\n    dp = [0 for _ in range(n)]\n\n    for i in range(n):\n        dp[i] = arr[i]\n\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] == arr[j]:\n                dp[j] = max(dp[j - 1], dp[j] + arr[j])\n\n    return max(dp)\n\n\nif __name__ == \"__main__\":\n    assert bi_tonic_subsequence([1, -1, 2, -2, 3, -3, 4, -4]) == 10"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\n# O(n^2)\ndef max_bi_tonic_sub_sequence(nums: List[int]) -> int:\n    \"\"\"\n    :param nums: array of numbers\n    :return: maximum sum of bi-tonic sub-sequence\n    >>> max_bi_tonic_sub_sequence([-2, 3, -4, 5, 1, -5, 4])\n    7\n    >>> max_bi_tonic_sub_sequence([2, 3, -4, 5, 1, -5, 4])\n    10\n    >>> max_bi_tonic_sub_sequence([-2, 3, -4, 5, 1, -5, 4, 6])\n    13\n    >>> max_bi_tonic_sub_sequence([-2, -3, -4, -5, -1, -5, -4, 6])\n    0\n    >>> max_bi_tonic_sub_sequence([0, 0, 0, 0, 0, 0, 0])\n    0\n    >>> max_bi_tonic_sub_sequence([-1, -2, -3, -4, -5, -6, -7])\n    0\n    >>> max_bi_tonic_sub_sequence([-1, -2, -3, -4, -5, -6, -7, -8])\n    0\n    \"\"\"\n    # Base case\n    if not nums:\n        return 0\n\n    # Initialize variables\n    max_sum = 0\n    max_negative_sum = 0\n\n    # iterate over the array\n    for i in range(len(nums)):\n        # iterate over the array\n        for j in range(len(nums)):\n            # Check if the sum of the current bi-tonic sub-sequence is greater than the current maximum sum.\n            if i == j:\n                continue\n            if (nums[i] + nums[j]) > max_sum:\n                max_sum = nums[i] + nums[j]\n            if (nums[i] + nums[j]) < max"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "def max_bi_tonic(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - maximum bi-tonic sum\n    \"\"\"\n    if len(arr) < 2:\n        return 0\n\n    dp = [[0 for _ in range(len(arr))] for _ in range(len(arr))]\n\n    for i in range(len(arr)):\n        dp[i][i] = arr[i]\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n            dp[i][j] += arr[j]\n\n    return max(max(row) for row in dp)\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = max_bi_tonic(arr)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 4, 2, 10, 2, 3, 1]\nsolution = 15\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [2, 3, 4, 10, 2, 3, 1]\nsolution = 17\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 2, 3, 4, 5, 6, 7]\nsolution = 21\ntest_case = [arr, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n*n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def max_bi_tonic_sum_rec(arr: List[int], i: int, j: int, m: int) -> int:\n        if i > j:\n            return 0\n\n        if m == 0:\n            return max(max_bi_tonic_sum_rec(arr, i + 1, j, 1), max_bi_tonic_sum_rec(arr, i, j - 1, 1))\n\n        elif m == 1:\n            return max(max_bi_tonic_sum_rec(arr, i + 1, j, 0), max_bi_tonic_sum_rec(arr, i, j - 1, 0))\n\n        return max(arr[i] + max_bi_tonic_sum_rec(arr, i + 1, j, 1), arr[j] + max_bi_tonic_sum_rec(arr, i, j - 1, 1))\n\n    return max_bi_tonic_sum_rec(arr, 0, len(arr) - 1, 0)\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sum([1, 2, 3, -1, 4]) == 6\n    assert max_bi_tonic_sum([1, 2, 3, 4, 5, 6]) == 12\n    assert max_bi_tonic_sum([5, 4, 3, 2, 1]) == 12\n    assert max_bi_tonic_sum([1, 3, 2]) == 4\n    assert max_bi_tonic_sum([2, 3, 1]) == 4\n    assert max_bi_tonic_sum([2, 2, 2]) == 4\n    assert max_bi_tonic_sum([1, 1, 1, 1])"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "def find_max_bi_tonic_sub_sequence(arr):\n    \"\"\"\n    :param: arr - input array\n    return: int - maximum sum of bi-tonic sub-sequence\n    TODO: Write your solution here\n    \"\"\"\n    pass\n\n\n# Test cases\nassert find_max_bi_tonic_sub_sequence([2, 4, 6, 8, 10, 12, 14, 16, 18, 20]) == 78\nassert find_max_bi_tonic_sub_sequence([5, 1, 4, 5, 1, 1]) == 12\nassert find_max_bi_tonic_sub_sequence([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 45"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_subsequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def max_bi_tonic_subsequence_helper(arr: List[int], i: int, j: int) -> int:\n        if i > j:\n            return 0\n\n        if i == j:\n            return arr[i]\n\n        mid = (i + j) // 2\n        max_left = max_bi_tonic_subsequence_helper(arr, i, mid)\n        max_right = max_bi_tonic_subsequence_helper(arr, mid + 1, j)\n\n        left_max = max(max_left, arr[mid])\n        right_max = max(max_right, arr[mid + 1])\n\n        return max(left_max + right_max, max_left, max_right)\n\n    return max_bi_tonic_subsequence_helper(arr, 0, len(arr) - 1)\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_subsequence([1, 3, -1, 4, 5, -3, 2]) == 12\n    assert max_bi_tonic_subsequence([1, 2, 3, 4, 5, 6]) == 15\n    assert max_bi_tonic_subsequence([1, 3, 5, 7]) == 16"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\n# O(n) time | O(1) space\ndef maxBiTonicSubSequence(array: List[int]) -> int:\n    max_sum = 0\n    cur_max = 0\n    cur_min = 0\n    for i in array:\n        cur_max = max(i, cur_max + i)\n        max_sum = max(max_sum, cur_max - cur_min)\n        cur_min = min(cur_min + i, 0)\n    return max_sum\n\n\nprint(maxBiTonicSubSequence([-1, 3, 2, 4, 5, -3, 1, 2, 3, -1]))\nprint(maxBiTonicSubSequence([-1, -2, -3, 4, 5, -3, 1, 2, -1, -2]))\nprint(maxBiTonicSubSequence([4, 2, 3, 10, 1, 10, 2, 9, -10, 1]))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sub_sequence(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    # Initialise two variables for the maximum sum and the minimum sum.\n    max_sum = arr[0]\n    min_sum = arr[0]\n\n    # Iterate over the list and update the maximum and minimum sums.\n    for num in arr[1:]:\n        max_sum, min_sum = max(num + max_sum, max_sum), min(num + min_sum, min_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    print(max_bi_tonic_sub_sequence([1, 6, 5, 4, 2]))\n    print(max_bi_tonic_sub_sequence([2, 7, 9, 4, 10, 12, 1]))"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def max_bi_tonic_subarray(arr: List[int], start: int, end: int) -> int:\n        if start == end:\n            return arr[start]\n\n        mid = (start + end) // 2\n\n        left_sum = max_bi_tonic_subarray(arr, start, mid)\n        right_sum = max_bi_tonic_subarray(arr, mid + 1, end)\n\n        left_max = max_bi_tonic_subarray_left(arr, start, mid)\n        right_max = max_bi_tonic_subarray_right(arr, mid + 1, end)\n\n        return max(left_sum, right_sum, left_max + right_max)\n\n    def max_bi_tonic_subarray_left(arr: List[int], start: int, end: int) -> int:\n        \"\"\"\n        Find maximum sum of bi-tonic sub-array in left side\n        \"\"\"\n        curr_max = -10000000\n        temp_sum = 0\n\n        for i in range(end, start, -1):\n            temp_sum += arr[i]\n\n            if temp_sum > curr_max:\n                curr_max = temp_sum\n\n            if temp_sum < 0:\n                temp_sum = 0\n\n        return curr_max\n\n    def max_bi_tonic_subarray_right(arr: List[int], start: int, end: int) -> int:\n        \"\"\"\n        Find maximum sum of bi-tonic sub-array in right side\n        \"\"\"\n        curr_max = -10000000\n        temp_sum = 0\n\n        for i in range(start, end):\n            temp_sum += arr[i]\n\n            if temp_sum > curr_max:\n                curr_max = temp_sum\n\n            if temp_sum < 0:"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef max_bi_tonic_sum(arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if not arr:\n        return 0\n\n    length = len(arr)\n\n    if length == 1:\n        return arr[0]\n\n    if length == 2:\n        return max(arr)\n\n    if length == 3:\n        return arr[0] + arr[2]\n\n    max_sum = -1e9\n\n    for i in range(length):\n        curr_sum = 0\n        curr_sum += arr[i]\n\n        for j in range(i + 1, length):\n            curr_sum += arr[j]\n            max_sum = max(curr_sum, max_sum)\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_bi_tonic_sum([]) == 0\n    assert max_bi_tonic_sum([1]) == 1\n    assert max_bi_tonic_sum([1, 2]) == 2\n    assert max_bi_tonic_sum([1, 2, 3]) == 4\n    assert max_bi_tonic_sum([1, 2, 3, 4]) == 6\n    assert max_bi_tonic_sum([1, 2, 3, 4, 5]) == 9\n    assert max_bi_tonic_sum([1, 2, 3, 4, 5, 6]) == 12\n    assert max_bi_tonic_sum([1, 2, 3, 4, 5, 6, 7]) == 14\n    assert max_bi_tonic_sum([1, 2, 3, 4, 5, 6, 7, 8]) == 16\n    assert max_bi_tonic_sum([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 18"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "def max_sum_subarray(arr):\n    \"\"\"\n    :param arr: given array\n    :return: maximum sum of bi-tonic sub-sequence\n    \"\"\"\n    max_sum = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] + arr[j] == 0:\n                max_sum = max(max_sum, arr[i] + arr[j])\n\n    return max_sum\n\n\nif __name__ == \"__main__\":\n    assert max_sum_subarray([1, 2, 3, 4, 5, -6, 7, 8, -9, 10]) == 19"
+    }
+  ]
+}

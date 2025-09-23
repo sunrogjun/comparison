@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/20",
+    "prompt": "from typing import List, Tuple\n\n\ndef find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n",
+    "canonical_solution": "    closest_pair = None\n    distance = None\n\n    for idx, elem in enumerate(numbers):\n        for idx2, elem2 in enumerate(numbers):\n            if idx != idx2:\n                if distance is None:\n                    distance = abs(elem - elem2)\n                    closest_pair = tuple(sorted([elem, elem2]))\n                else:\n                    new_distance = abs(elem - elem2)\n                    if new_distance < distance:\n                        distance = new_distance\n                        closest_pair = tuple(sorted([elem, elem2]))\n\n    return closest_pair\n",
+    "test": "\n\nMETADATA = {\n    'author': 'jt',\n    'dataset': 'test'\n}\n\n\ndef check(candidate):\n    assert candidate([1.0, 2.0, 3.9, 4.0, 5.0, 2.2]) == (3.9, 4.0)\n    assert candidate([1.0, 2.0, 5.9, 4.0, 5.0]) == (5.0, 5.9)\n    assert candidate([1.0, 2.0, 3.0, 4.0, 5.0, 2.2]) == (2.0, 2.2)\n    assert candidate([1.0, 2.0, 3.0, 4.0, 5.0, 2.0]) == (2.0, 2.0)\n    assert candidate([1.1, 2.2, 3.1, 4.1, 5.1]) == (2.2, 3.1)\n\n",
+    "entry_point": "find_closest_elements",
+    "docstring": "",
+    "problem_id": 20
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "min_difference = numbers[1] - numbers[0]\n    result = (numbers[0], numbers[1])\n\n    for i in range(len(numbers) - 1):\n        difference = numbers[i + 1] - numbers[i]\n\n        if difference < min_difference:\n            min_difference = difference\n            result = (numbers[i], numbers[i + 1])\n\n    return result\n\n\ndef find_closest_elements_2(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_2([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_2([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n\n    min_difference = numbers[1] - numbers[0]\n    result = (numbers[0], numbers[1])\n\n    for i in range(len(numbers) - 1):\n        difference = numbers[i + 1] - numbers[i]\n\n        if difference < min_difference:\n            min_difference = difference\n            result = (numbers[i], numbers[i + 1])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      7.14453125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError('List must have at least two elements.')\n    closest_pair = [numbers[0], numbers[1]]\n    closest_distance = abs(closest_pair[0] - closest_pair[1])\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < closest_distance:\n                closest_distance = distance\n                closest_pair = [numbers[i], numbers[j]]\n    return tuple(closest_pair)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)\n\n    user_input = input('Enter numbers separated by a comma:\\n').strip()\n    print(find_closest_elements([float(item) for item in user_input.split(',')]))",
+      5.68359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError('List must contain at least two numbers')\n\n    closest_pair = (0, 1)\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            pair = (i, j)\n            if abs(numbers[pair[0]] - numbers[pair[1]]) < abs(numbers[closest_pair[0]] - numbers[closest_pair[1]]):\n                closest_pair = pair\n    return numbers[closest_pair[0]], numbers[closest_pair[1]]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      5.5703125
+    ],
+    [
+      "# We assume that the list is of length at least two.\n    # The first step is to create a sorted list of tuples, where the first element is the value of the number and\n    # the second element is the index of the number in the original list.\n    sorted_numbers = sorted(\n        [(numbers[i], i) for i in range(len(numbers))], key=lambda x: x[0]\n    )\n    # The second step is to find the two closest numbers. To do this, we look at the first two numbers in the sorted\n    # list. If the first is closer to the second than the second is to the third, we return them in order. If the\n    # second is closer to the third than the first is to the second, we return them in reverse order. Otherwise, we\n    # return the first and the last element in the sorted list.\n    if abs(sorted_numbers[0][0] - sorted_numbers[1][0]) < abs(\n        sorted_numbers[1][0] - sorted_numbers[2][0]\n    ):\n        return sorted_numbers[0][0], sorted_numbers[1][0]\n    elif abs(sorted_numbers[1][0] - sorted_numbers[2][0]) < abs(\n        sorted_numbers[0][0] - sorted_numbers[1][0]\n    ):\n        return sorted_numbers[1][0], sorted_numbers[2][0]\n    else:\n        return sorted_numbers[0][0], sorted_numbers[-1][0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.5078125
+    ],
+    [
+      "# 1. Brute-force implementation\n    # min_diff = float('inf')\n    # smallest_pair = (float('inf'), float('inf'))\n    # for i in range(len(numbers) - 1):\n    #     for j in range(i + 1, len(numbers)):\n    #         diff = abs(numbers[i] - numbers[j])\n    #         if diff < min_diff:\n    #             min_diff = diff\n    #             smallest_pair = (numbers[i], numbers[j])\n    # return smallest_pair\n\n    # 2. Improvement - O(n log n) time complexity\n    # numbers.sort()\n    # min_diff = float('inf')\n    # smallest_pair = (float('inf'), float('inf'))\n    # for i in range(len(numbers) - 1):\n    #     diff = abs(numbers[i] - numbers[i + 1])\n    #     if diff < min_diff:\n    #         min_diff = diff\n    #         smallest_pair = (numbers[i], numbers[i + 1])\n    # return smallest_pair\n\n    # 3. Improvement - O(n) time complexity\n    min_diff = float('inf')\n    smallest_pair = (float('inf'), float('inf'))\n    current_min = float('inf')\n    for x in numbers:\n        candidate = abs(x - current_min)\n        if candidate < min_diff:\n            min_diff = candidate\n            smallest_pair = (current_min, x)\n        if x < current_min:\n            current_min = x\n    return smallest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.4921875
+    ],
+    [
+      "min_distance = float(\"inf\")\n    first_closest = second_closest = None\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < min_distance:\n                min_distance = distance\n                first_closest = numbers[i]\n                second_closest = numbers[j]\n    return first_closest, second_closest\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.359375
+    ],
+    [
+      "# Initialise the min and max values to the first element in the list\n    min_value = numbers[0]\n    max_value = numbers[0]\n    # Set the min and max to the first two elements\n    min_index = 0\n    max_index = 0\n\n    # Iterate through the list\n    for index, number in enumerate(numbers):\n        # If the number is smaller than the smallest number, set it as the new smallest\n        if number < min_value:\n            min_value = number\n            min_index = index\n        # If the number is larger than the largest number, set it as the new largest\n        elif number > max_value:\n            max_value = number\n            max_index = index\n    # If the smallest number is not the first element, swap the numbers\n    if min_index != 0:\n        numbers[min_index] = numbers[0]\n        numbers[0] = min_value\n    # If the largest number is not the last element, swap the numbers\n    if max_index != len(numbers) - 1:\n        numbers[max_index] = numbers[len(numbers) - 1]\n        numbers[len(numbers) - 1] = max_value\n    # Return the two numbers\n    return numbers[0], numbers[len(numbers) - 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.3359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"At least 2 numbers are required.\")\n\n    sorted_numbers = sorted(numbers)\n\n    if len(sorted_numbers) == 2:\n        return tuple(sorted_numbers)\n\n    closest_pair = sorted_numbers[0], sorted_numbers[-1]\n    closest_distance = abs(sorted_numbers[0] - sorted_numbers[-1])\n\n    for index in range(1, len(sorted_numbers) - 1):\n        pair = sorted_numbers[index], sorted_numbers[index + 1]\n        distance = abs(sorted_numbers[index] - sorted_numbers[index + 1])\n        if distance < closest_distance:\n            closest_pair = pair\n            closest_distance = distance\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.98828125
+    ],
+    [
+      "numbers = sorted(numbers)\n    return numbers[0], numbers[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.927734375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n    min_diff = float(\"inf\")\n    closest_nums = []\n    for i, num in enumerate(numbers):\n        for j in range(i + 1, len(numbers)):\n            if abs(num - numbers[j]) < min_diff:\n                min_diff = abs(num - numbers[j])\n                closest_nums = [num, numbers[j]]\n    return tuple(sorted(closest_nums))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.83203125
+    ],
+    [
+      "# TODO: implement\n    return numbers[0], numbers[1]\n\n\ndef find_closest_elements_in_sorted_list(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" Same as above, but the input list is pre-sorted.\n    >>> find_closest_elements_in_sorted_list([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_in_sorted_list([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # TODO: implement\n    return numbers[0], numbers[1]\n\n\ndef find_closest_elements_in_sorted_list_binary(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" Same as above, but use binary search.\n    >>> find_closest_elements_in_sorted_list_binary([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_in_sorted_list_binary([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # TODO: implement\n    return numbers[0], numbers[1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.822265625
+    ],
+    [
+      "min_distance = float(\"inf\")\n    closest_pair = (float(\"inf\"), float(\"inf\"))\n\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n\n            if distance < min_distance:\n                min_distance = distance\n                closest_pair = (numbers[i], numbers[j])\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.986328125
+    ],
+    [
+      "# Initialize the two closest numbers to the first number in the list\n    closest_numbers = [numbers[0], numbers[0]]\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < abs(closest_numbers[0] - closest_numbers[1]):\n                closest_numbers = [numbers[i], numbers[j]]\n    return tuple(sorted(closest_numbers))\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      2.578125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must contain at least two numbers\")\n    closest_pair = [None, None]\n    closest_distance = float(\"inf\")\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < closest_distance:\n                closest_distance = distance\n                closest_pair = [numbers[i], numbers[j]]\n    return tuple(closest_pair)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.400390625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must be at least two elements long\")\n    smallest_diff = numbers[0] - numbers[1]\n    first = numbers[0]\n    second = numbers[1]\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < smallest_diff:\n                smallest_diff = diff\n                first = numbers[i]\n                second = numbers[j]\n    return (first, second)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.11328125
+    ],
+    [
+      "min_distance = numbers[0] - numbers[1]\n    closest_numbers = numbers[0], numbers[1]\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = numbers[i] - numbers[j]\n            if abs(distance) < min_distance:\n                min_distance = abs(distance)\n                closest_numbers = numbers[i], numbers[j]\n\n    return closest_numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.9951171875
+    ],
+    [
+      "min_diff = numbers[1] - numbers[0]\n    closest = numbers[0], numbers[1]\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                closest = numbers[i], numbers[j]\n    return closest\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.7861328125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Number of elements in list must be at least 2\")\n\n    min_diff = numbers[0] - numbers[1]\n    min_diff_index = (0, 1)\n\n    for i in range(1, len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_index = (i, j)\n\n    return numbers[min_diff_index[0]], numbers[min_diff_index[1]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.599609375
+    ],
+    [
+      "min_diff = abs(numbers[0] - numbers[1])\n    min_diff_indices = (0, 1)\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_indices = (i, j)\n    return numbers[min_diff_indices[0]], numbers[min_diff_indices[1]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.470703125
+    ],
+    [
+      "numbers_len = len(numbers)\n    if numbers_len < 2:\n        raise ValueError(\"The list must contain at least two elements\")\n    min_diff = float(\"inf\")\n    for i in range(numbers_len - 1):\n        for j in range(i + 1, numbers_len):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_i = i\n                min_diff_j = j\n    return numbers[min_diff_i], numbers[min_diff_j]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.396484375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"At least two numbers are needed\")\n    min_diff = float('inf')\n    min_pair = tuple()\n    for i, first_number in enumerate(numbers):\n        for j, second_number in enumerate(numbers[i+1:]):\n            diff = abs(first_number - second_number)\n            if diff < min_diff:\n                min_diff = diff\n                min_pair = (first_number, second_number)\n    return min_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      1.3828125
+    ],
+    [
+      "# Check that the list is not empty\n    if len(numbers) == 0:\n        raise ValueError(\"Empty list supplied\")\n\n    # Check that the list has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"Supplied list has only one element\")\n\n    # Initialise the minimum difference\n    min_diff = numbers[1] - numbers[0]\n    # Initialise the index of the smallest difference\n    min_diff_indexes = (0, 1)\n\n    for i in range(1, len(numbers)):\n        for j in range(i):\n            if abs(numbers[i] - numbers[j]) < min_diff:\n                min_diff = abs(numbers[i] - numbers[j])\n                min_diff_indexes = (i, j)\n\n    return numbers[min_diff_indexes[0]], numbers[min_diff_indexes[1]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.3740234375
+    ],
+    [
+      "closest_pair = (None, None)\n    closest_distance = None\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if closest_distance is None or distance < closest_distance:\n                closest_distance = distance\n                closest_pair = (numbers[i], numbers[j])\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      1.150390625
+    ],
+    [
+      "min_diff = float(\"inf\")\n    result = (0, 0)\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                result = (numbers[i], numbers[j])\n                min_diff = diff\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      1.06640625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"You must provide at least two numbers.\")\n\n    smallest_diff = numbers[1] - numbers[0]\n    closest_numbers = (numbers[0], numbers[1])\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = numbers[j] - numbers[i]\n            if diff < smallest_diff:\n                smallest_diff = diff\n                closest_numbers = (numbers[i], numbers[j])\n    return closest_numbers\n\n\ndef find_closest_elements_2(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    if len(numbers) < 2:\n        raise ValueError(\"You must provide at least two numbers.\")\n\n    smallest_diff = numbers[1] - numbers[0]\n    closest_numbers = (numbers[0], numbers[1])\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = numbers[j] - numbers[i]\n            if diff < smallest_diff:\n                smallest_diff = diff\n                closest_numbers = (numbers[i], numbers[j])\n    return closest_numbers\n\n\ndef find_closest_elements_3(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>>",
+      0.97216796875
+    ],
+    [
+      "min_distance = float(\"inf\")\n    pair = ()\n\n    for i in range(0, len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < min_distance:\n                min_distance = distance\n                pair = (numbers[i], numbers[j])\n\n    return pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)\n\n    input_list = [1.0, 2.0, 3.0, 4.0, 5.0, 2.2]\n    print(f\"Input list: {input_list}\")\n    print(f\"Closest pair: {find_closest_elements(input_list)}\")",
+      0.97119140625
+    ],
+    [
+      "return sorted(numbers)[1:3]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.90869140625
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.90869140625
+    ],
+    [
+      "min_distance = numbers[1] - numbers[0]\n    closest_pair = (numbers[0], numbers[1])\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < min_distance:\n                min_distance = distance\n                closest_pair = (numbers[i], numbers[j])\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.8017578125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n    # Sort the list in ascending order\n    sorted_list = sorted(numbers)\n    # Get the first two elements\n    first_two = sorted_list[:2]\n    # Check the difference between the first and second element\n    diff = first_two[1] - first_two[0]\n    # Check if the difference is less than the previous difference\n    for index in range(2, len(sorted_list)):\n        if abs(sorted_list[index] - sorted_list[index - 1]) < diff:\n            diff = abs(sorted_list[index] - sorted_list[index - 1])\n            first_two = [sorted_list[index - 1], sorted_list[index]]\n    return tuple(first_two)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.73974609375
+    ],
+    [
+      "# This solution assumes that all numbers are different\n    # and that the numbers list is sorted\n    return numbers[0], numbers[-1]\n\n\ndef find_closest_elements_non_sorted(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_non_sorted([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_non_sorted([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # This solution assumes that all numbers are different\n    # and that the numbers list is NOT sorted\n    numbers_sorted = sorted(numbers)\n    return numbers_sorted[0], numbers_sorted[-1]",
+      0.673828125
+    ],
+    [
+      "min_diff = numbers[1] - numbers[0]\n    res = numbers[0], numbers[1]\n    for i in range(len(numbers) - 1):\n        diff = numbers[i + 1] - numbers[i]\n        if diff < min_diff:\n            min_diff = diff\n            res = numbers[i], numbers[i + 1]\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.66357421875
+    ],
+    [
+      "smallest_diff = float(\"inf\")\n    smallest_pair = ()\n    for i, first in enumerate(numbers):\n        for j in range(i + 1, len(numbers)):\n            second = numbers[j]\n            diff = abs(first - second)\n            if diff < smallest_diff:\n                smallest_diff = diff\n                smallest_pair = (first, second)\n    return smallest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.640625
+    ],
+    [
+      "# Find the minimum distance between any two elements\n    min_distance = float(\"inf\")\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < min_distance:\n                min_distance = distance\n    # Find the two numbers with the minimum distance\n    min_distance_numbers = []\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance == min_distance:\n                min_distance_numbers.append(numbers[i])\n                min_distance_numbers.append(numbers[j])\n    return min(min_distance_numbers)\n\n\ndef find_closest_elements_alt(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_alt([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_alt([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # Find the minimum distance between any two elements\n    min_distance = float(\"inf\")\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < min_distance:\n                min_distance = distance\n                min_i, min_j = i, j\n    return numbers[min_i], numbers[min_j]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.test",
+      0.638671875
+    ],
+    [
+      "min_diff = float(\"inf\")\n    result = []\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                result = [numbers[i], numbers[j]]\n    return tuple(result)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.493896484375
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.437744140625
+    ],
+    [
+      "numbers.sort()\n    return numbers[0:2]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.437744140625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError('The list should be of length at least 2')\n    if len(numbers) == 2:\n        return (numbers[0], numbers[1])\n    numbers.sort()\n    min_distance = abs(numbers[1] - numbers[0])\n    min_distance_index = 1\n    for i in range(2, len(numbers)):\n        if abs(numbers[i] - numbers[i-1]) < min_distance:\n            min_distance = abs(numbers[i] - numbers[i-1])\n            min_distance_index = i\n    return (numbers[min_distance_index-1], numbers[min_distance_index])\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.329833984375
+    ],
+    [
+      "numbers.sort()\n    return numbers[0], numbers[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.2420654296875
+    ],
+    [
+      "current_minimum = float('inf')\n    current_minimum_pair = ()\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < current_minimum:\n                current_minimum = abs(numbers[i] - numbers[j])\n                current_minimum_pair = (numbers[i], numbers[j])\n    return current_minimum_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.10150146484375
+    ],
+    [
+      "min_diff = numbers[1] - numbers[0]\n    index = 0\n    for i in range(len(numbers) - 1):\n        diff = numbers[i + 1] - numbers[i]\n        if diff < min_diff:\n            min_diff = diff\n            index = i\n    return numbers[index], numbers[index + 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.07196044921875
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]), key=lambda x: abs(x[0] - x[1]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.00621795654296875
+    ],
+    [
+      "min_diff = abs(numbers[0] - numbers[1])\n    closest_pair = (numbers[0], numbers[1])\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                closest_pair = (numbers[i], numbers[j])\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      -0.011566162109375
+    ],
+    [
+      "smallest_difference = numbers[1] - numbers[0]\n    closest_numbers = (numbers[0], numbers[1])\n\n    for i in range(len(numbers) - 1):\n        difference = numbers[i + 1] - numbers[i]\n        if difference < smallest_difference:\n            smallest_difference = difference\n            closest_numbers = (numbers[i], numbers[i + 1])\n\n    return closest_numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.258056640625
+    ],
+    [
+      "# TODO: implement this method\n    pass\n\n\ndef find_closest_elements_sorted(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_sorted([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_sorted([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # TODO: implement this method\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.6923828125
+    ],
+    [
+      "smallest_difference = float('inf')\n    smallest_difference_pair = (float('inf'), float('inf'))\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            difference = abs(numbers[i] - numbers[j])\n            if difference < smallest_difference:\n                smallest_difference = difference\n                smallest_difference_pair = (numbers[i], numbers[j])\n    return smallest_difference_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.70849609375
+    ],
+    [
+      "min_diff = float('inf')\n    min_diff_index = 0\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < min_diff:\n                min_diff = abs(numbers[i] - numbers[j])\n                min_diff_index = i\n    return numbers[min_diff_index], numbers[min_diff_index + 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.72607421875
+    ],
+    [
+      "min_diff = numbers[1] - numbers[0]\n    for i in range(1, len(numbers) - 1):\n        diff = numbers[i + 1] - numbers[i - 1]\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i - 1], numbers[i + 1])\n    return closest_pair\n\n\ndef find_closest_elements_naive(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    min_diff = numbers[1] - numbers[0]\n    for i in range(1, len(numbers) - 1):\n        diff = numbers[i + 1] - numbers[i - 1]\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i - 1], numbers[i + 1])\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.72705078125
+    ],
+    [
+      "pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "# 1) check that the list has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n\n    # 2) find the closest elements\n    closest_pair = min(\n        [(numbers[i], numbers[i + 1]) for i in range(len(numbers) - 1)],\n        key=lambda pair: abs(pair[0] - pair[1]),\n    )\n\n    # 3) return them\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "numbers_with_index = enumerate(numbers)\n    numbers_with_index_sorted = sorted(numbers_with_index, key=lambda x: abs(x[1]))\n    first_number_index = numbers_with_index_sorted[0][0]\n    second_number_index = numbers_with_index_sorted[1][0]\n    return numbers[first_number_index], numbers[second_number_index]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_diff = abs(numbers[0] - numbers[1])\n    min_diff_indices = (numbers[0], numbers[1])\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_indices = (numbers[i], numbers[j])\n    return min_diff_indices\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "result = sorted(numbers, key=lambda x: abs(numbers[0] - x))\n    return result[0], result[1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"numbers must have at least 2 elements\")\n    closest_numbers = numbers[0], numbers[1]\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < abs(closest_numbers[0] - closest_numbers[1]):\n                closest_numbers = numbers[i], numbers[j]\n    return closest_numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# TODO: implement\n    #raise NotImplementedError()\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "result = (min(numbers), max(numbers))\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "numbers.sort()\n    return numbers[0], numbers[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]), key=lambda x: abs(x[0] - x[1]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"length of the list must be at least two\")\n\n    min_distance = float(\"inf\")\n    first_index = None\n    second_index = None\n\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < min_distance:\n                min_distance = abs(numbers[i] - numbers[j])\n                first_index = i\n                second_index = j\n\n    return numbers[first_index], numbers[second_index]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "numbers.sort()\n    return numbers[0], numbers[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# TODO: implement me\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_diff = float(\"inf\")\n    first_number = float(\"inf\")\n    second_number = float(\"inf\")\n    for i, x in enumerate(numbers):\n        for j, y in enumerate(numbers[i + 1 :]):\n            diff = abs(x - y)\n            if diff < min_diff:\n                min_diff = diff\n                first_number = x\n                second_number = y\n    return first_number, second_number\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_difference = numbers[1] - numbers[0]\n    closest_numbers = numbers[0], numbers[1]\n\n    for i in range(1, len(numbers) - 1):\n        difference = numbers[i + 1] - numbers[i - 1]\n        if difference < min_difference:\n            min_difference = difference\n            closest_numbers = numbers[i - 1], numbers[i]\n\n    return closest_numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Length of numbers must be at least 2\")\n\n    min_diff = numbers[1] - numbers[0]\n    result = numbers[0], numbers[1]\n    for i in range(1, len(numbers) - 1):\n        diff = numbers[i + 1] - numbers[i - 1]\n        if diff < min_diff:\n            min_diff = diff\n            result = numbers[i - 1], numbers[i + 1]\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "closest = min(enumerate(numbers), key=lambda x: abs(x[1] - numbers[0]))\n    return numbers[closest[0]], numbers[closest[0] + 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# TODO: implement\n    pass\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError('List must be of length at least 2.')\n    smallest_diff = float('inf')\n    closest_nums = None\n    for i in range(0, len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < smallest_diff:\n                smallest_diff = diff\n                closest_nums = (numbers[i], numbers[j])\n    return closest_nums\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "closest_pair = min([(numbers[i], numbers[i+1]) for i in range(len(numbers) - 1)], key=lambda x: abs(x[0] - x[1]))\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"The list must be of length at least two\")\n\n    minimum_distance = float(\"inf\")\n    first_number = numbers[0]\n    second_number = numbers[1]\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            current_distance = abs(numbers[i] - numbers[j])\n            if current_distance < minimum_distance:\n                first_number = numbers[i]\n                second_number = numbers[j]\n                minimum_distance = current_distance\n\n    return first_number, second_number\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_diff = float(\"inf\")\n    first_closest = second_closest = None\n\n    for i, number in enumerate(numbers):\n        for j, other_number in enumerate(numbers[i + 1 :]):\n            diff = abs(number - other_number)\n            if diff < min_diff:\n                min_diff = diff\n                first_closest = number\n                second_closest = other_number\n\n    return first_closest, second_closest\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "smallest_difference = float(\"inf\")\n    closest_pair = (None, None)\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < smallest_difference:\n                smallest_difference = abs(numbers[i] - numbers[j])\n                closest_pair = (numbers[i], numbers[j])\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]), key=lambda x: abs(x[0] - x[1]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]), key=lambda x: abs(x[0] - x[1]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "return min(zip(numbers, numbers[1:]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "pass",
+      -0.8583984375
+    ],
+    [
+      "closest_pair = (0, 1)\n    min_distance = numbers[0] - numbers[1]\n\n    for i in range(1, len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = numbers[i] - numbers[j]\n            if abs(distance) < min_distance:\n                min_distance = abs(distance)\n                closest_pair = (numbers[i], numbers[j])\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "min_diff = float(\"inf\")\n    result = None\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < min_diff:\n                min_diff = abs(numbers[i] - numbers[j])\n                result = (numbers[i], numbers[j])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"list must be of length at least two\")\n\n    closest_pair = (None, None)\n    smallest_distance = float(\"inf\")\n\n    for i, n1 in enumerate(numbers):\n        for j, n2 in enumerate(numbers[i + 1 :]):\n            distance = abs(n1 - n2)\n            if distance < smallest_distance:\n                closest_pair = (n1, n2)\n                smallest_distance = distance\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "diff = float('inf')\n    num_a = None\n    num_b = None\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff_new = abs(numbers[i] - numbers[j])\n            if diff_new < diff:\n                diff = diff_new\n                num_a = numbers[i]\n                num_b = numbers[j]\n    return (num_a, num_b)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "min_diff = float(\"inf\")\n    first_num = second_num = 0.0\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                first_num, second_num = numbers[i], numbers[j]\n    return first_num, second_num\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"The list must have at least two elements\")\n\n    closest_pair = (numbers[0], numbers[1])\n    min_diff = abs(numbers[0] - numbers[1])\n\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                closest_pair = (numbers[i], numbers[j])\n\n    return closest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "min_distance = float(\"inf\")\n    pair = None\n\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n\n            if distance < min_distance:\n                min_distance = distance\n                pair = (numbers[i], numbers[j])\n\n    return pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "closest_pair = []\n    min_diff = numbers[1] - numbers[0]\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = numbers[j] - numbers[i]\n            if diff < min_diff:\n                min_diff = diff\n                closest_pair = [numbers[i], numbers[j]]\n    return tuple(sorted(closest_pair))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "min_diff = float('inf')\n    min_diff_indices = []\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_indices = [i, j]\n\n    return sorted(numbers[min_diff_indices[0]], numbers[min_diff_indices[1]])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "numbers.sort()\n    return numbers[0], numbers[-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.90673828125
+    ],
+    [
+      "# check that the list has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"List must contain at least two elements\")\n    # check that all elements in the list are numbers\n    for number in numbers:\n        if not isinstance(number, (int, float)):\n            raise TypeError(\"List must only contain numbers\")\n    # store the first element as the smallest number\n    smallest_number = numbers[0]\n    # store the second element as the largest number\n    largest_number = numbers[1]\n    # iterate over the list\n    for number in numbers[2:]:\n        # if the current number is smaller than the smallest number, set the smallest number as the current number\n        if number < smallest_number:\n            smallest_number = number\n        # if the current number is larger than the largest number, set the largest number as the current number\n        elif number > largest_number:\n            largest_number = number\n    # return the two closest numbers\n    return smallest_number, largest_number\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.96142578125
+    ],
+    [
+      "min_distance = float(\"inf\")\n    first_closest = None\n    second_closest = None\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            distance = abs(numbers[i] - numbers[j])\n            if distance < min_distance:\n                min_distance = distance\n                first_closest = numbers[i]\n                second_closest = numbers[j]\n    return first_closest, second_closest\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.091796875
+    ],
+    [
+      "# 1. Brute force approach:\n    # for i in range(len(numbers)):\n    #     for j in range(i+1, len(numbers)):\n    #         if abs(numbers[i] - numbers[j]) < abs(numbers[i - 1] - numbers[i]):\n    #             min_diff = abs(numbers[i] - numbers[j])\n    #             closest_numbers = [numbers[i], numbers[j]]\n    #         elif abs(numbers[i] - numbers[j]) == abs(numbers[i - 1] - numbers[i]):\n    #             min_diff = abs(numbers[i] - numbers[j])\n    #             closest_numbers = [numbers[i], numbers[j]]\n    # return closest_numbers\n\n    # 2. Optimized brute force approach:\n    # min_diff = abs(numbers[0] - numbers[1])\n    # closest_numbers = [numbers[0], numbers[1]]\n    # for i in range(len(numbers)):\n    #     for j in range(i+1, len(numbers)):\n    #         if abs(numbers[i] - numbers[j]) < min_diff:\n    #             min_diff = abs(numbers[i] - numbers[j])\n    #             closest_numbers = [numbers[i], numbers[j]]\n    # return closest_numbers\n\n    # 3. Sorting approach:\n    numbers.sort()\n    min_diff = abs(numbers[0] - numbers[1])\n    closest_numbers = [numbers[0], numbers[1]]\n    for i in range(len(numbers) - 1):\n        if abs(numbers[i] - numbers[i + 1]) < min_diff:\n            min_diff = abs(numbers[i] - numbers[i + 1])\n            closest_numbers = [numbers[i], numbers[i + 1]]\n    return closest_numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -1.34765625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"The list must have at least two numbers\")\n    min_diff = numbers[1] - numbers[0]\n    result = numbers[0], numbers[1]\n    for i in range(1, len(numbers) - 1):\n        left_diff = numbers[i] - numbers[i - 1]\n        right_diff = numbers[i + 1] - numbers[i]\n        diff = left_diff if left_diff < right_diff else right_diff\n        if diff < min_diff:\n            min_diff = diff\n            result = numbers[i - 1], numbers[i]\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.529296875
+    ],
+    [
+      "min_diff = max(numbers) - min(numbers)\n    min_diff_index = 0\n    for i in range(1, len(numbers)):\n        if numbers[i] - numbers[i - 1] < min_diff:\n            min_diff = numbers[i] - numbers[i - 1]\n            min_diff_index = i\n    return numbers[min_diff_index - 1], numbers[min_diff_index]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.5693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must be of length at least 2\")\n    return min(zip(numbers, numbers[1:]), key=lambda x: abs(x[0] - x[1]))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.591796875
+    ],
+    [
+      "# Check that the list has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n\n    # Set the initial minimum difference\n    min_diff = float(\"inf\")\n\n    # Initialise the initial minimum difference to the difference between the first two numbers\n    min_diff = abs(numbers[0] - numbers[1])\n\n    # Initialise the initial minimum difference to the first pair of numbers\n    min_diff_pair = (numbers[0], numbers[1])\n\n    # Iterate through all pairs of numbers\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            # Calculate the difference between the two numbers\n            diff = abs(numbers[i] - numbers[j])\n\n            # If the difference is less than the current minimum difference, store it\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_pair = (numbers[i], numbers[j])\n\n    # Return the minimum difference pair\n    return min_diff_pair\n\n\ndef find_closest_elements_compact(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_compact([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_compact([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # Check that the list has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n\n    # Iterate through all pairs of numbers\n    for i in range(len(numbers) - 1):\n        for j in range(i +",
+      -1.7587890625
+    ],
+    [
+      "min_distance = float(\"inf\")\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            distance = numbers[i] - numbers[j]\n            if abs(distance) < min_distance:\n                min_distance = abs(distance)\n                closest_elements = (numbers[i], numbers[j])\n    return closest_elements\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.150390625
+    ],
+    [
+      "closest_numbers: List[float] = [numbers[0], numbers[0]]\n\n    for index in range(1, len(numbers)):\n        if abs(numbers[index] - numbers[index - 1]) < abs(closest_numbers[1] - closest_numbers[0]):\n            closest_numbers[1] = numbers[index]\n        else:\n            closest_numbers[0] = numbers[index]\n\n    return tuple(closest_numbers)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.982421875
+    ],
+    [
+      "# the smallest distance between any two numbers is zero, so let's\n    # initialize the smallest distance as the distance between the first\n    # and second element in the list\n    smallest_distance = abs(numbers[0] - numbers[1])\n    # let's also initialize the numbers that are closest to each other as\n    # the first two numbers in the list\n    closest_numbers = (numbers[0], numbers[1])\n\n    # now we will compare the absolute value of the difference between\n    # each number and the next number to the smallest distance\n    for i in range(len(numbers) - 1):\n        current_distance = abs(numbers[i] - numbers[i + 1])\n        if current_distance < smallest_distance:\n            # if the current distance is less than the smallest distance,\n            # we will update the smallest distance and the closest numbers\n            smallest_distance = current_distance\n            closest_numbers = (numbers[i], numbers[i + 1])\n\n    return closest_numbers\n\n\ndef find_closest_elements_in_sorted_list(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_in_sorted_list([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_in_sorted_list([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    # let's first check if the list is sorted\n    if numbers != sorted(numbers):\n        raise ValueError(\"List is not sorted\")\n\n    # the smallest distance between any two numbers is zero, so let's\n    # initialize the smallest distance as the distance between the first\n    # and second element in the list\n    smallest_distance = abs(numbers[0] - numbers[1])",
+      -3.005859375
+    ],
+    [
+      "min_diff = float('inf')\n    min_diff_elems = (float('inf'), float('inf'))\n    for i in range(len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_elems = (numbers[i], numbers[j])\n    return min_diff_elems\n\n\ndef find_closest_elements_v2(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_v2([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_v2([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    min_diff = float('inf')\n    min_diff_elems = (float('inf'), float('inf'))\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_elems = (numbers[i], numbers[j])\n    return min_diff_elems\n\n\ndef find_closest_elements_v3(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_v3([1.0, 2.0, 3.0, 4.0,",
+      -3.251953125
+    ],
+    [
+      "min_diff = float('inf')\n    min_diff_pair = (float('inf'), float('inf'))\n    for i, n1 in enumerate(numbers[:-1]):\n        for n2 in numbers[i + 1:]:\n            diff = abs(n1 - n2)\n            if diff < min_diff:\n                min_diff = diff\n                min_diff_pair = (n1, n2)\n    return min_diff_pair\n\n\ndef find_closest_elements_in_sorted(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_in_sorted([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements_in_sorted([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    min_diff = float('inf')\n    min_diff_pair = (float('inf'), float('inf'))\n    for i, n1 in enumerate(numbers[:-1]):\n        n2 = numbers[i + 1]\n        diff = abs(n1 - n2)\n        if diff < min_diff:\n            min_diff = diff\n            min_diff_pair = (n1, n2)\n    return min_diff_pair\n\n\ndef find_closest_elements_in_sorted_with_index(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements_in_sorted_with_index([1.0, 2.0, 3.0, 4.0, 5.",
+      -3.9609375
+    ],
+    [
+      "# This function is designed to work for any number of numbers.\n    # First, we will find the index of the smallest number, and the index of the largest number.\n    smallest_index = numbers.index(min(numbers))\n    largest_index = numbers.index(max(numbers))\n\n    # Then, we will find the difference between the smallest and largest numbers.\n    difference = abs(numbers[smallest_index] - numbers[largest_index])\n\n    # We will then find the difference between each number and the smallest number.\n    for i in range(len(numbers)):\n        difference_to_smallest = abs(numbers[i] - numbers[smallest_index])\n\n        # If the difference between the smallest and largest numbers is greater than the difference between the number\n        # and the smallest number, we will update the difference to the largest number and update the index.\n        if difference > difference_to_smallest:\n            difference = difference_to_smallest\n            largest_index = i\n\n    return numbers[smallest_index], numbers[largest_index]",
+      -5.4140625
+    ],
+    [
+      "# check that numbers has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"List must contain at least two numbers.\")\n\n    # get the smallest and largest number in the list\n    smallest = numbers[0]\n    largest = numbers[0]\n    for number in numbers:\n        if number < smallest:\n            smallest = number\n        if number > largest:\n            largest = number\n\n    # check if all numbers are the same\n    if smallest == largest:\n        raise ValueError(\"All numbers in list are the same.\")\n\n    # initialise the smallest difference to infinity\n    smallest_difference = float(\"inf\")\n\n    # initialise the smallest pair to None\n    smallest_pair = None\n\n    # iterate through the list and compare each element to the smallest and largest number\n    for number in numbers:\n        # if the number is not in the range of the smallest and largest number, continue\n        if number < smallest or number > largest:\n            continue\n\n        # get the absolute value of the difference between the number and the smallest number\n        difference_smallest = abs(number - smallest)\n\n        # get the absolute value of the difference between the number and the largest number\n        difference_largest = abs(number - largest)\n\n        # get the minimum of the two differences\n        difference = min(difference_smallest, difference_largest)\n\n        # if the minimum difference is smaller than the current smallest difference, set the new smallest difference\n        if difference < smallest_difference:\n            smallest_difference = difference\n            smallest_pair = (smallest, number)\n\n    return smallest_pair\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.73046875
+    ],
+    [
+      "closest_elements = (0, 0)\n    for i in range(len(numbers)):\n        for j in range(i, len(numbers)):\n            if i != j:\n                if abs(numbers[i] - numbers[j]) < abs(closest_elements[0] - closest_elements[1]):\n                    closest_elements = (numbers[i], numbers[j])\n    return closest_elements\n\n\ndef find_closest_elements_list_comprehension(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    return min((abs(numbers[i] - numbers[j]), numbers[i], numbers[j])\n               for i in range(len(numbers)) for j in range(i, len(numbers)) if i != j)\n\n\ndef find_closest_elements_tuple_comprehension(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    return min((abs(",
+      -8.890625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

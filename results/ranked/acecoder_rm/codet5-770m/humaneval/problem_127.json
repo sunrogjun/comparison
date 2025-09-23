@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/127",
+    "prompt": "\ndef intersection(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n",
+    "canonical_solution": "    def is_prime(num):\n        if num == 1 or num == 0:\n            return False\n        if num == 2:\n            return True\n        for i in range(2, num):\n            if num%i == 0:\n                return False\n        return True\n\n    l = max(interval1[0], interval2[0])\n    r = min(interval1[1], interval2[1])\n    length = r - l\n    if length > 0 and is_prime(length):\n        return \"YES\"\n    return \"NO\"\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate((1, 2), (2, 3)) == \"NO\"\n    assert candidate((-1, 1), (0, 4)) == \"NO\"\n    assert candidate((-3, -1), (-5, 5)) == \"YES\"\n    assert candidate((-2, 2), (-4, 0)) == \"YES\"\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate((-11, 2), (-1, -1)) == \"NO\"\n    assert candidate((1, 2), (3, 5)) == \"NO\"\n    assert candidate((1, 2), (1, 2)) == \"NO\"\n    assert candidate((-2, -2), (-3, -2)) == \"NO\"\n\n",
+    "entry_point": "intersection",
+    "docstring": "",
+    "problem_id": 127
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# Your code here\n    if interval1[0] < interval2[1]:\n        return \"YES\"\n    elif interval2[0] < interval1[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n# test\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      3.2109375
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_v2(interval1, interval2):\n    \"\"\"Solution using list comprehension.\n    If one interval is a prime number, it is returned.\n    If the two intervals don't intersect, it is returned.\n    If both intervals are prime numbers, it is returned as \"YES\"\n    otherwise, it is returned as \"NO\".\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_v3(interval1, interval2):\n    \"\"\"Solution using set comprehension.\n    If one interval is a prime number, it is returned.\n    If the two intervals don't intersect, it is returned.\n    If both intervals are prime numbers, it is returned as \"YES\"\n    otherwise, it is returned as \"NO\".\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_v4(interval1, interval2):\n    \"\"\"Solution using set comprehension using set.\n    If one interval is a prime number, it is returned.\n    If the two intervals don't intersect, it is returned.\n    If both intervals are prime numbers, it is returned as \"YES\"\n    otherwise, it is returned as \"NO\".\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    \"\"\"Example:\n    Input: (1, 2), (2, 3)\n    Output: \"YES\"\n    \"\"\"\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n    print(intersection_v2((1, 2), (2, 3)))\n    print(intersection_v2((-1, 1), (0, 4)))\n    print(intersection_v2((-3, -1), (-",
+      2.880859375
+    ],
+    [
+      "start1, end1 = interval1\n    start2, end2 = interval2\n\n    if start1 <= start2 and end1 <= end2:\n        return f\"YES\"\n    else:\n        return f\"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((-2, 0), (0, 2)))\n    print(intersection((1, 3), (2, 4)))\n    print(intersection((1, 2), (3, 4)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.9853515625
+    ],
+    [
+      "return \"NO\"\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      1.1591796875
+    ],
+    [
+      "return \"YES\" if (interval1[0] <= interval2[1] and interval2[0] <= interval1[1]) else \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      1.13671875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert intersection((1, 2), (2, 3)) == \"NO\", \"One\"\n    assert intersection((-1, 1), (0, 4)) == \"NO\", \"Two\"\n    assert intersection((-3, -1), (-5, 5)) == \"YES\", \"Three\"\n    assert intersection((1, 2), (1, 2)) == \"YES\", \"One\"\n    assert intersection((1, 2), (1, 3)) == \"YES\", \"Two\"\n    assert intersection((1, 2), (2, 4)) == \"YES\", \"Three\"\n    assert intersection((-1, 1), (0, 4)) == \"YES\", \"One\"\n    assert intersection((-1, 1), (0, 5)) == \"NO\", \"Two\"\n    assert intersection((-3, -1), (-5, 5)) == \"NO\", \"Four\"\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      0.0540771484375
+    ],
+    [
+      "# Your code here\n    a = sorted([interval1[0], interval2[0]])\n    b = sorted([interval1[1], interval2[1]])\n    if (a[0] <= b[1]):\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_1(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    # Your code here\n    a = sorted([interval1[0], interval2[0]])\n    b = sorted([interval1[1], interval2[1]])\n    if (a[0] <= b[1]):\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_2(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the",
+      0.045745849609375
+    ],
+    [
+      "if interval1[0] < interval2[1]:\n        return \"NO\"\n    elif interval1[1] > interval2[0]:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      0.0343017578125
+    ],
+    [
+      "# Your code here\n    l1, l2 = interval1[0], interval2[0]\n    r1, r2 = interval1[1], interval2[1]\n    if l1 <= r2 and l2 <= r1:\n        if l1 == r2:\n            return \"YES\"\n        else:\n            return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.62890625
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    if interval1[1] <= interval2[0]:\n        return \"NO\"\n    return \"YES\"\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((1, 2), (1, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.7314453125
+    ],
+    [
+      "# Your code here\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    # Your task is to determine whether the length of intersection of these two intervals is a prime number.\n    # Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    # which its length is 1, which not a prime number.\n    # If the length of the intersection is a prime number, return \"YES\",\n    # otherwise, return \"NO\".\n    # If the two intervals don't intersect, return \"NO\".\n    \n    # [input/output] samples:\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\n# Test Cases\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.85693359375
+    ],
+    [
+      "if (interval1[0] <= interval2[1]):\n        if (interval1[1] == interval2[1]):\n            return \"YES\"\n        else:\n            return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "if interval1[0] < interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.85693359375
+    ],
+    [
+      "if interval1[1] > interval2[0]:\n        return \"YES\"\n    elif interval1[0] > interval2[1]:\n        return \"YES\"\n    elif interval1[0] == interval2[0]:\n        return \"YES\"\n    elif interval1[1] == interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85693359375
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85791015625
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return 'YES'\n    else:\n        return 'NO'\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85791015625
+    ],
+    [
+      "start1, end1 = interval1\n    start2, end2 = interval2\n    if start1 > start2:\n        start1, start2 = start2, start1\n    if end1 > end2:\n        end1, end2 = end2, end1\n    if start1 < start2:\n        return \"NO\"\n    if end1 < end2:\n        return \"YES\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.8583984375
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "if interval1[0] < interval2[1]:\n        return \"NO\"\n    else:\n        if interval1[1] == interval2[0]:\n            return \"YES\"\n        else:\n            return \"NO\"\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.8583984375
+    ],
+    [
+      "if interval1[0] > interval2[0]:\n        return \"NO\"\n    if interval1[1] > interval2[1]:\n        return \"NO\"\n    if interval1[0] == interval2[0]:\n        return \"YES\"\n    if interval1[1] == interval2[1]:\n        return \"YES\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.8583984375
+    ],
+    [
+      "# your code here\n    if interval1[1] > interval2[0]:\n        return \"NO\"\n    elif interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.8583984375
+    ],
+    [
+      "# Your code here\n    if interval1[1] < interval2[0]:\n        return \"NO\"\n    else:\n        if interval1[0] <= interval2[1]:\n            return \"YES\"\n        else:\n            return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[0] == interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((-1, 1), (-1, 2)))\n    print(intersection((-1, 1), (1, 2)))\n    print(intersection((1, 2), (-1, 2)))",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        if interval1[1] <= interval2[0]:\n            return 'YES'\n        else:\n            return 'NO'\n    else:\n        return 'NO'\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] < interval2[1]:\n        return \"YES\"\n    elif interval2[0] < interval1[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "return 'YES' if (interval1[1] <= interval2[0] and interval2[1] <= interval1[0]) else 'NO'\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[1] >= interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "# Your code here\n    # 1. Check if the intervals are identical\n    # 2. Check if the start and end of intervals are equal\n    # 3. Check if the intervals are prime\n    # 4. If they are prime, return \"YES\"\n    # 5. If they are not prime, return \"NO\"\n\n    if interval1[0] > interval2[0]:\n        return \"YES\"\n    elif interval1[1] > interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    if interval1[1] > interval2[0]:\n        return \"NO\"\n    if interval1[1] == interval2[1]:\n        return \"YES\"\n    return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[1] > interval2[0]:\n        return \"NO\"\n    elif interval1[0] == interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "if (interval1[0] < interval2[1]):\n        return \"YES\"\n    else:\n        return \"NO\"",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "# Your code here\n    interval1 = sorted(interval1)\n    interval2 = sorted(interval2)\n\n    if len(interval1) == 0:\n        return \"NO\"\n    elif len(interval2) == 0:\n        return \"NO\"\n\n    if interval1[0] >= interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "# Your code here\n    if interval1[0] <= interval2[1]:\n        return 'YES'\n    else:\n        return 'NO'\n\n\n# Test cases:\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "def is_prime(n):\n        if n == 1:\n            return False\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n    if len(interval1)!= len(interval2):\n        return \"NO\"\n\n    result = []\n    for i in range(len(interval1)):\n        if is_prime(interval1[i]):\n            result.append(interval1[i])\n\n        if is_prime(interval2[i]):\n            result.append(interval2[i])\n\n    return len(set(result))\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "# Write your code here\n    if interval1[0] >= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "start1, end1 = interval1\n    start2, end2 = interval2\n    if start1 < start2:\n        return \"YES\"\n    elif start2 < start1:\n        return \"YES\"\n    elif end1 > end2:\n        return \"NO\"\n    elif end2 > end1:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n    elif interval1[1] < interval2[0]:\n        return \"NO\"\n    elif interval1[0] == interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[1] > interval2[0]:\n        return \"NO\"\n    else:\n        return str(interval1[0]) + \" \" + str(interval2[0])\n\n\ndef main():\n    interval1 = (1, 2)\n    interval2 = (2, 3)\n    print(intersection(interval1, interval2))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((1, 2), (1, 2)))\n    print(intersection((1, 2), (1, 2)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "# Your code here\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -0.921875
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n    elif interval1[1] <= interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.9287109375
+    ],
+    [
+      "interval1_start, interval1_end = interval1\n    interval2_start, interval2_end = interval2\n\n    if interval1_start > interval2_start:\n        return \"NO\"\n    elif interval2_start > interval1_end:\n        return \"NO\"\n    elif interval1_end < interval2_end:\n        return \"YES\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -1.0751953125
+    ],
+    [
+      "# Your code here\n    if not interval1 or not interval2:\n        return \"NO\"\n    \n    intersection_list = []\n    for i in interval1:\n        if i in interval2:\n            intersection_list.append(i)\n    \n    if len(intersection_list) == 0:\n        return \"NO\"\n    \n    intersection_list.sort()\n    return intersection_list[0]\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.1474609375
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n    else:\n        return str(interval1[1] - interval2[0])\n\n\ndef intersection2(interval1, interval2):\n    \"\"\"Given two intervals, find the length of intersection.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] >= interval2[1]:\n        return str(interval1[1] - interval2[0])\n    else:\n        return \"NO\"\n\n\ndef intersection3(interval1, interval2):\n    \"\"\"Given two intervals, find the length of intersection.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] >= interval2[1]:\n        return str(interval1[1] - interval2[0])\n    else:\n        return \"NO\"\n\n\ndef intersection4(interval1, interval2):\n    \"\"\"Given two intervals, find the length of intersection.\n    Example, the intersection of the intervals (1, 3), (2,",
+      -1.3037109375
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"YES\"\n    elif interval1[1] >= interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -1.330078125
+    ],
+    [
+      "# Your code here\n    # 1. Create a set of all intervals\n    # 2. If the first interval is greater than the second interval\n    # 3. If the first interval is less than or equal the second interval\n    # 4. If the second interval is greater than or equal the first interval\n    # 5. If both intervals are equal, return \"YES\"\n    # 6. If both intervals are not equal, return \"NO\"\n    # 7. If both intervals are equal, return \"NO\"\n    # 8. If both intervals are not equal, return \"NO\"\n    # 9. If both intervals are not equal, return \"NO\"\n\n    # Set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n\n    # 1. Create a set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n\n    # 2. If the first interval is greater than the second interval\n    # 3. If the first interval is less than or equal the second interval\n    # 4. If the second interval is greater than or equal the first interval\n    # 5. If both intervals are equal, return \"YES\"\n    # 6. If both intervals are not equal, return \"NO\"\n    # 7. If both intervals are not equal, return \"NO\"\n    # 8. If both intervals are not equal, return \"NO\"\n    # 9. If both intervals are not equal, return \"NO\"\n\n    # 1. Create a set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n    # Set of all intervals\n\n    # 2. If the first interval is greater than the second interval\n    # 3. If the first interval is less than or equal the second interval\n    # 4. If the second interval is greater than or equal the first interval\n    # 5. If both intervals are equal, return \"YES\"\n    # 6. If both intervals are not equal, return \"NO\"\n    # 7. If both intervals are not equal, return \"NO\"\n    # 8. If both intervals are not equal, return \"NO\"\n    # 9. If both intervals are not equal, return \"NO",
+      -1.337890625
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef union(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    union((1, 2), (2, 3)) ==> \"NO\"\n    union((-1, 1), (0, 4)) ==> \"NO\"\n    union((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[1] <= interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_union(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the",
+      -1.3427734375
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef is_prime(num):\n    \"\"\"Check if a given number is prime or not.\n    A prime number is a number that is evenly divisible by all of its sub-numbers.\n    If it is, return True, otherwise False.\n    \"\"\"\n    for i in range(2, int(num ** 0.5) + 1):\n        if num % i == 0:\n            return False\n    return True\n\n\ndef main():\n    \"\"\"\n    Sample Input/Output\n    1, 3\n    2, 4\n    -1, 1\n    0, 4\n    -3, -1\n    -5, 5\n    \"\"\"\n    print(intersection((1, 3), (2, 4)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(is_prime(15))\n    print(is_prime(2))\n    print(is_prime(1))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.6728515625
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_2(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_3(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don",
+      -1.798828125
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[0] == interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.9990234375
+    ],
+    [
+      "# Your code here\n    if interval1[0] < interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    # Test 1\n    print(intersection((1, 2), (2, 3)))\n    # Test 2\n    print(intersection((-1, 1), (0, 4)))\n    # Test 3\n    print(intersection((-3, -1), (-5, 5)))\n    # Test 4\n    print(intersection((1, 2), (2, 5)))\n    # Test 5\n    print(intersection((1, 2), (-1, -2)))\n    # Test 6\n    print(intersection((1, 2), (2, 1)))\n    # Test 7\n    print(intersection((-1, 1), (0, 4)))\n    # Test 8\n    print(intersection((-3, -1), (-5, 5)))\n    # Test 9\n    print(intersection((1, 2), (1, 2)))\n    # Test 10\n    print(intersection((1, 2), (3, 3)))\n    # Test 11\n    print(intersection((1, 2), (1, 3)))\n    # Test 12\n    print(intersection((1, 2), (2, 4)))\n    # Test 13\n    print(intersection((1, 2), (3, -1)))\n    # Test 14\n    print(intersection((-1, 1), (-1, -2)))\n    # Test 15\n    print(intersection((-1, 1), (-5, 5)))\n    # Test 16\n    print(intersection((-1, 1), (-3, -1)))\n    # Test 17\n    print(intersection((-3, -1), (-5, 5)))\n    # Test 18\n    print(intersection((-1, 1), (-1, -2)))\n    # Test 19\n    print(intersection((1, 2), (1, 2)))\n    # Test 20\n    print(intersection((-3, -1), (-5, 5)))\n    # Test 21\n    print(intersection((-1, 1), (-3, -2)))\n    # Test 22\n    print(intersection((-1, 1), (-5, 5)))\n    # Test 23",
+      -2.03125
+    ],
+    [
+      "if interval1[0] > interval2[0]:\n        return \"NO\"\n    else:\n        if interval1[1] < interval2[1]:\n            return \"NO\"\n        else:\n            return \"YES\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -2.3125
+    ],
+    [
+      "# Your code here\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -2.318359375
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n\n    if interval1[1] < interval2[0]:\n        return \"YES\"\n\n    if interval1[0] == interval2[1]:\n        return \"YES\"\n\n\ndef is_prime(n):\n    \"\"\"Given a positive integer, return whether it is a prime number.\n    Example, is_prime(1) ==> True\n    Example, is_prime(2) ==> False\n    Example, is_prime(3) ==> True\n    Example, is_prime(10) ==> True\n    Example, is_prime(100) ==> False\n    Example, is_prime(1000) ==> True\n    Example, is_prime(10000) ==> False\n    \"\"\"\n    if n == 1:\n        return False\n\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_prime_iterative(n):\n    \"\"\"Given a positive integer, return whether it is a prime number.\n    Example, is_prime_iterative(1) ==> True\n    Example, is_prime_iterative(2) ==> False\n    Example, is_prime_iterative(3) ==> True\n    Example, is_prime_iterative(10) ==> False\n    Example, is_prime_iterative(100) ==> True\n    Example, is_prime_iterative(1000) ==> False\n    Example, is_prime_iterative(10000) ==> True\n    Example, is_prime_iterative(100000) ==> False\n    \"\"\"\n    if n == 1:\n        return False\n\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_prime_recursive(n):\n    \"\"\"Given a positive integer, return whether it is a prime number.\n    Example, is_prime_recursive(1) ==> True\n    Example, is_prime_recursive(2) ==> False\n    Example, is_prime_recursive(3)",
+      -2.34375
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -2.6171875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n    # Expected: 'YES'\n    # Actual: 'NO'",
+      -2.619140625
+    ],
+    [
+      "# Your code here\n    intersection = []\n    for i in range(len(interval1)):\n        if interval1[i] > interval2[i]:\n            intersection.append(interval1[i])\n        else:\n            intersection.append(interval2[i])\n    return intersection\n\n\ndef main():\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert intersection((1, 2), (2, 3)) == \"NO\", \"No intersection\"\n    assert intersection((-1, 1), (0, 4)) == \"NO\", \"No intersection\"\n    assert intersection((-3, -1), (-5, 5)) == \"YES\", \"Yes intersection\"\n    assert intersection((-2, -1), (0, 1)) == \"YES\", \"Yes intersection\"\n    assert intersection((-2, -1), (0, 5)) == \"NO\", \"No intersection\"\n    assert intersection((-2, -1), (0, 10)) == \"NO\", \"No intersection\"\n    assert intersection((1, 2), (3, 4)) == \"YES\", \"Yes intersection\"\n    assert intersection((1, 2), (3, 5)) == \"NO\", \"No intersection\"\n    assert intersection((-1, 1), (0, 4)) == \"NO\", \"No intersection\"\n    assert intersection((-2, -1), (-5, 5)) == \"NO\", \"No intersection\"\n    assert intersection((-2, -1), (0, 5)) == \"YES\", \"Yes intersection\"\n    assert intersection((-2, -1), (0, 10)) == \"YES\", \"Yes intersection\"\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.716796875
+    ],
+    [
+      "start1, end1 = interval1\n    start2, end2 = interval2\n    if start1 > end2:\n        start1, end1 = end2, start1\n    if end1 > start2:\n        end2, start2 = start1, end2\n\n    if end1 - start1 == 1:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.189453125
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef interval_len(interval):\n    \"\"\"Given an interval, return the length of the interval.\n    Example:\n    interval_len((1, 2)) ==> 2\n    interval_len((1, 3)) ==> 3\n    interval_len((-1, 1)) ==> 1\n    \"\"\"\n    return interval[1] - interval[0]\n\n\ndef prime_number(num):\n    \"\"\"Given an integer, return whether it is prime or not.\n    Example:\n    prime_number(6) ==> True\n    prime_number(1) ==> False\n    \"\"\"\n    if num <= 1:\n        return False\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n    return True\n\n\ndef test_function(test_case):\n    result = intersection(test_case[0], test_case[1])\n    if result == \"YES\":\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_cases = [\n    [(1, 2), (2, 3), \"YES\"],\n    [(-1, 1), (0, 4), \"NO\"],\n    [(-3, -1), (-5, 5), \"YES\"],\n]\n\nfor test_case in test_cases:\n    test_function(test_case)",
+      -3.24609375
+    ],
+    [
+      "# Your code here\n    # 1. Check whether the given interval is a prime number\n    # 2. Check whether the two intervals are prime numbers\n    # 3. If they are, return the length of the intersection\n    # 4. If they are not, return \"NO\"\n    # 5. If they are, return \"YES\"\n    # 6. Otherwise, return \"NO\"\n    if (interval1[0] <= interval2[1] and interval1[1] >= interval2[0]):\n        if (interval1[1] % interval2[0] == 0 or interval2[1] % interval1[0] == 0):\n            return \"YES\"\n        else:\n            return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -3.390625
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_fast(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    intersection_fast((1, 2), (2, 3)) ==> \"NO\"\n    intersection_fast((-1, 1), (0, 4)) ==> \"NO\"\n    intersection_fast((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] >= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    \"\"\"Example:\n    input:\n    [1, 2] = [1, 2]\n    [2, 3] = [2, 3]\n    [1, 3] = [1, 3]\n    output:\n    [YES, NO]\n    \"\"\"\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection_fast((1, 2), (2, 3)))\n    print(intersection_fast((-1, 1), (0, 4)))\n    print(intersection_fast((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main",
+      -3.4140625
+    ],
+    [
+      "if not interval1[0] <= interval2[1]:\n        return \"NO\"\n\n    if interval1[1] < interval2[0]:\n        return \"YES\"\n\n    return \"NO\"\n\n\ndef union(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    union((1, 2), (2, 3)) ==> \"YES\"\n    union((-1, 1), (0, 4)) ==> \"YES\"\n    union((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if not interval1[0] <= interval2[1]:\n        return \"NO\"\n\n    if interval1[1] > interval2[0]:\n        return \"YES\"\n\n    return \"NO\"\n\n\ndef prime(n):\n    \"\"\"Given a positive integer n, \n    return True if it is a prime number,\n    False otherwise.\n    Example, prime(3) ==> True\n    \"\"\"\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n\n    return True\n\n\ndef main():\n    # This code is contributed by Ronak Shah\n    # I'm interested in the testing of the intersection function\n    # and the union function and the prime function\n    print(\"Intersection test cases:\")\n    for i in range(2, 11):\n        print(\"Input\", i)",
+      -3.53515625
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_2(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_3(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals",
+      -3.58984375
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[1] < interval2[0]:\n        return \"NO\"\n    else:\n        return str(interval1[0]) + \" and \" + str(interval1[1])\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -3.607421875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        if interval1[1] <= interval2[0]:\n            return \"YES\"\n        else:\n            return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef intersection_1(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        if interval1[1] <= interval2[0]:\n            return \"YES\"\n        else:\n            return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef intersection_2(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2,",
+      -3.822265625
+    ],
+    [
+      "if not interval1[0] <= interval2[1]:\n        return \"NO\"\n    else:\n        intersection = interval1[1] - interval2[0]\n        return \"YES\" if intersection > 0 and intersection % intersection == 0 else \"NO\"\n\n\ndef intersection_prime(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n    [input/output] samples:\n    intersection_prime((1, 2), (2, 3)) ==> \"NO\"\n    intersection_prime((-1, 1), (0, 4)) ==> \"NO\"\n    intersection_prime((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n\n    if not interval1[0] <= interval2[1]:\n        return \"NO\"\n    else:\n        intersection = interval1[1] - interval2[0]\n        if intersection > 0 and intersection % intersection == 0:\n            return \"YES\"\n        else:\n            return \"NO\"\n\n\ndef is_prime(n):\n    \"\"\"Given an integer n, return whether it is a prime number.\n    Example, n = 2, is_prime(2) ==> True\n    Example, n = 3, is_prime(3) ==> False\n    Example, n = 5, is_prime(5) ==> True\n    Example, n = 7, is_prime(7) ==> False\n    \"\"\"\n    if n == 2:\n        return True",
+      -3.87109375
+    ],
+    [
+      "start1, end1 = interval1\n    start2, end2 = interval2\n\n    if start1 >= start2:\n        return \"NO\"\n\n    if end1 >= end2:\n        return \"NO\"\n\n    if start1 == start2 and end1 == end2:\n        return \"YES\"\n\n    return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((-2, -1), (-2, 2)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.98046875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    if interval1[1] > interval2[0]:\n        return \"NO\"\n    if interval1[1] == interval2[1]:\n        return \"YES\"\n    return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == '__main__':\n    main()",
+      -3.982421875
+    ],
+    [
+      "if interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.078125
+    ],
+    [
+      "start1, end1 = interval1\n    start2, end2 = interval2\n    if start1 < start2 or start1 > end2 or start2 < start1 or start2 > end1:\n        return \"NO\"\n\n    if (end1 == end2) and (end1 <= end2):\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.21484375
+    ],
+    [
+      "if (interval1[0] <= interval2[1]):\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\nprint(intersection((1, 2), (2, 3)))\nprint(intersection((-1, 1), (0, 4)))\nprint(intersection((-3, -1), (-5, 5)))",
+      -4.34375
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[1] < interval2[0]:\n        return \"NO\"\n    else:\n        if interval1[0] == interval2[0]:\n            return \"YES\"\n        else:\n            return \"NO\"\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\nif __name__ == '__main__':\n    main()",
+      -4.4375
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n    else:\n        if interval1[0] == interval2[0]:\n            return \"YES\"\n        else:\n            return \"NO\"\n\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -4.484375
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n    elif interval1[1] <= interval2[0]:\n        return \"YES\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.56640625
+    ],
+    [
+      "# Your code here\n    if interval1[0] > interval2[0]:\n        return \"NO\"\n    if interval1[1] > interval2[1]:\n        return \"NO\"\n    if interval1[1] == interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((-1, 1), (-1, 1)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -5.30859375
+    ],
+    [
+      "if (interval1[0] >= interval2[0]):\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef is_prime(n):\n    \"\"\"Check whether a number is prime or not.\n    \"\"\"\n    for i in range(2, n):\n        if (n % i == 0):\n            return False\n    return True\n\n\ndef is_prime_list(n):\n    \"\"\"Check whether a list of numbers is prime or not.\n    \"\"\"\n    for i in range(len(n)):\n        if (is_prime(n[i])):\n            return True\n    return False\n\n\ndef is_prime_dict(n):\n    \"\"\"Check whether a dictionary is prime or not.\n    \"\"\"\n    for key in n:\n        if (is_prime(n[key])):\n            return True\n    return False\n\n\ndef is_prime_set(n):\n    \"\"\"Check whether a set of numbers is prime or not.\n    \"\"\"\n    for key in n:\n        if (is_prime(n[key])):\n            return True\n    return False\n\n\ndef is_prime_tuple(n):\n    \"\"\"Check whether a tuple of numbers is prime or not.\n    \"\"\"\n    for i in range(len(n)):\n        if (is_prime(n[i])):\n            return True\n    return False\n\n\ndef is_prime_dict_tuple(n):\n    \"\"\"Check whether a dictionary of numbers is prime or not.\n    \"\"\"\n    for key in n:\n        if (is_prime(n[key])):\n            return True\n    return False\n\n\ndef is_prime_list_tuple(n):\n    \"\"\"Check whether a list of numbers is prime or not.\n    \"\"\"\n    for i in range(len(n)):\n        if (is_prime(n[i])):\n            return True\n    return False\n\n\ndef is_prime_set_tuple(n):\n    \"\"\"Check whether a set of numbers is prime or not.\n    \"\"\"\n    for i in range(len(n)):\n        if (is_prime(n[i])):\n            return True\n    return False",
+      -6.0
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[1] > interval2[0]:\n        return \"NO\"\n    else:\n        if (interval1[0] + interval1[1]) == (interval2[0] + interval2[1]):\n            return \"YES\"\n        else:\n            return \"NO\"\n\n\ndef test_intersection():\n    assert intersection((1, 2), (2, 3)) == \"NO\"\n    assert intersection((-1, 1), (0, 4)) == \"NO\"\n    assert intersection((-3, -1), (-5, 5)) == \"YES\"\n    assert intersection((1, 3), (2, 4)) == \"YES\"\n    assert intersection((1, 2), (-1, 1)) == \"YES\"\n\n\nif __name__ == \"__main__\":\n    test_intersection()",
+      -6.23828125
+    ],
+    [
+      "# Your code here\n    return \"YES\"\n\n\ndef intersection_v2(interval1, interval2):\n    \"\"\"Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n    [input/output] samples:\n    intersection_v2((1, 2), (2, 3)) ==> \"NO\"\n    intersection_v2((-1, 1), (0, 4)) ==> \"NO\"\n    intersection_v2((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n\n    # Your code here\n    if len(interval1) == 1:\n        return \"YES\"\n    elif len(interval2) == 1:\n        return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -6.96875
+    ],
+    [
+      "# Your code here\n    interval1_start, interval1_end = interval1\n    interval2_start, interval2_end = interval2\n\n    if interval1_start > interval2_end:\n        interval1_start, interval1_end = interval2_start, interval1_end\n\n    if interval1_start < interval2_start:\n        return \"NO\"\n\n    if interval1_end > interval2_end:\n        return \"NO\"\n\n    if interval1_end == interval2_end:\n        return \"YES\"\n\n    return \"NO\"\n\n\n\nif __name__ == \"__main__\":\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))",
+      -7.03515625
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return \"NO\"\n    elif interval1[1] > interval2[0]:\n        return \"NO\"\n    elif interval1[0] <= interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_2(interval1, interval2):\n    \"\"\"This is an implementation of the intersection function.\n    It is a function that takes two intervals and returns whether the length of intersection of these two \n    intervals is a prime number.\n    The function is defined as:\n    function intersection(interval1, interval2) {\n        if(interval1[0] <= interval2[1]) {\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    Example:\n    intersection((1, 2), (2, 3)) ==> \"YES\"\n    intersection((-1, 1), (0, 4)) ==> \"YES\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] >= interval2[1]:\n        return \"YES\"\n    elif interval1[1] > interval2[0]:\n        return \"YES\"\n    elif interval1[0] <= interval2[1]:\n        return \"NO\"\n    else:\n        return \"NO\"\n\n\ndef intersection_3(interval1, interval2):\n    \"\"\"This is an implementation of the intersection function.\n    It is a function that takes two intervals and returns whether the length of intersection of these two \n    intervals is a prime number.\n    The function is defined as:\n    function intersection(interval1, interval2) {\n        if(interval1[0] <= interval2[1]) {\n            return true;\n        }\n        else {\n            return false;\n        }\n    }\n\n    Example:\n    intersection((1, 2), (2, 3)) ==> \"YES\"\n    intersection((-1, 1), (0, 4)) ==> \"YES\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] >= interval2[1]:",
+      -7.13671875
+    ],
+    [
+      "# Your code here\n    # (1) Create a list of integers\n    # (2) Create a list of integers\n    # (3) Create a list of integers\n    # (4) Create a list of integers\n    # (5) Create a list of integers\n    # (6) Create a list of integers\n    # (7) Create a list of integers\n    # (8) Create a list of integers\n    # (9) Create a list of integers\n    # (10) Create a list of integers\n    # (11) Create a list of integers\n    # (12) Create a list of integers\n    # (13) Create a list of integers\n    # (14) Create a list of integers\n    # (15) Create a list of integers\n    # (16) Create a list of integers\n    # (17) Create a list of integers\n    # (18) Create a list of integers\n    # (19) Create a list of integers\n    # (20) Create a list of integers\n    # (21) Create a list of integers\n    # (22) Create a list of integers\n    # (23) Create a list of integers\n    # (24) Create a list of integers\n    # (25) Create a list of integers\n    # (26) Create a list of integers\n    # (27) Create a list of integers\n    # (28) Create a list of integers\n    # (29) Create a list of integers\n    # (30) Create a list of integers\n    # (31) Create a list of integers\n    # (32) Create a list of integers\n    # (33) Create a list of integers\n    # (34) Create a list of integers\n    # (35) Create a list of integers\n    # (36) Create a list of integers\n    # (37) Create a list of integers\n    # (38) Create a list of integers\n    # (39) Create a list of integers\n    # (40) Create a list of integers\n    # (41) Create a list of integers\n    # (42) Create a list of integers\n    # (43) Create a list of integers\n    # (44) Create a list of integers\n    # (45) Create a list of integers\n    # (46) Create a list of",
+      -7.23828125
+    ],
+    [
+      "if interval1[0] >= interval2[1]:\n        return 'NO'\n\n    # if intervals overlap, return \"YES\"\n    if (interval1[1] < interval2[0] or interval1[0] > interval2[1]):\n        return 'NO'\n\n    # if all intervals are prime, return \"YES\"\n    if all(interval1[1] == interval2[1] for interval in zip(interval1, interval2)):\n        return 'YES'\n\n    # otherwise, return \"NO\"\n    return 'NO'\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((-1, 1), (2, 4)))\n\n\nif __name__ == '__main__':\n    main()",
+      -7.56640625
+    ],
+    [
+      "# Your code here\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n    # 5. If both intervals do not overlap, return \"NO\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If no, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n\n    # 1. Check if the two intervals overlap\n    # 2. If yes, return \"YES\"\n    # 3. If",
+      -7.9140625
+    ],
+    [
+      "if interval1[0] < interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\ndef intersection_2(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    intersection_2((1, 2), (2, 3)) ==> \"NO\"\n    intersection_2((-1, 1), (0, 4)) ==> \"NO\"\n    intersection_2((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] > interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\ndef intersection_3(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"",
+      -8.5546875
+    ],
+    [
+      "if interval1[0] > interval2[1]:\n        return \"NO\"\n    elif interval1[1] > interval2[0]:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\ndef intersection_of_primes(a, b):\n    \"\"\"Given two primes, determine whether the intersection of them is a prime number.\n    Example, intersection_of_primes(3, 5) is True.\n    If the intersection is a prime number, return True.\n    Otherwise, return False.\n\n    [input/output] samples:\n    intersection_of_primes(3, 5) ==> True\n    intersection_of_primes(7, 11) ==> False\n    \"\"\"\n    if a < b:\n        return False\n    else:\n        return True\n\n\ndef intersection_of_primes_of_two(a, b):\n    \"\"\"Given two primes, determine whether the intersection of them is a prime number.\n    Example, intersection_of_primes_of_two(2, 5) is True.\n    If the intersection is a prime number, return True.\n    Otherwise, return False.\n\n    [input/output] samples:\n    intersection_of_primes_of_two(3, 5) ==> True\n    intersection_of_primes_of_two(7, 11) ==> False\n    \"\"\"\n    if a < b:\n        return False\n    else:\n        return True\n\n\ndef intersection_of_primes_of_three(a, b, c):\n    \"\"\"Given two primes, determine whether the intersection of them is a prime number.\n    Example, intersection_of_primes_of_three(3, 5, 7) is True.\n    If the intersection is a prime number, return True.\n    Otherwise, return False.\n\n    [input/output] samples:\n    intersection_of_primes_of_three(2, 5, 7) ==> True\n    intersection_of_primes_of_three(2, 5, 11) ==> False\n    \"\"\"\n    if a < b < c:\n        return False\n    else:\n        return True\n\n\ndef intersection_of",
+      -8.6875
+    ],
+    [
+      "# Your code here\n    # 1. Check the first interval and the second interval\n    if interval1[0] < interval2[0] or interval1[1] > interval2[1]:\n        return \"NO\"\n    # 2. If both intervals are prime\n    elif interval1[1] == interval2[1]:\n        # 3. If the first interval is less than the second interval\n        if interval1[0] <= interval2[0]:\n            return \"YES\"\n        # 4. If the first interval is greater than the second interval\n        else:\n            return \"NO\"\n    # 5. If the first interval is greater than the second interval\n    else:\n        return \"NO\"\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -8.859375
+    ],
+    [
+      "if interval1[1] > interval2[0]:\n        return \"YES\"\n    if interval1[0] <= interval2[1]:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\ndef union(interval1, interval2):\n    \"\"\"You are given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of union of these two \n    intervals is a prime number.\n    Example, the union of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the union is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    union((1, 2), (2, 3)) ==> \"NO\"\n    union((-1, 1), (0, 4)) ==> \"NO\"\n    union((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] <= interval2[1]:\n        return \"YES\"\n    if interval1[1] > interval2[0]:\n        return \"NO\"\n    else:\n        return \"YES\"\n\n\ndef is_prime(num):\n    \"\"\"Given a number, check if it is prime or not.\n    \"\"\"\n    if num <= 1:\n        return False\n    for i in range(2, num):\n        if num % i == 0:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n    print(intersection((1, 2), (2, 3)))\n    print(",
+      -8.8984375
+    ],
+    [
+      "if interval1[0] < interval2[1]:\n        return \"NO\"\n    if interval1[1] > interval2[0]:\n        return \"NO\"\n    if interval1[1] == interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_2(interval1, interval2):\n    \"\"\"\n    Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the length of intersection of these two \n    intervals is a prime number.\n    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)\n    which its length is 1, which not a prime number.\n    If the length of the intersection is a prime number, return \"YES\",\n    otherwise, return \"NO\".\n    If the two intervals don't intersect, return \"NO\".\n\n\n    [input/output] samples:\n    intersection((1, 2), (2, 3)) ==> \"NO\"\n    intersection((-1, 1), (0, 4)) ==> \"NO\"\n    intersection((-3, -1), (-5, 5)) ==> \"YES\"\n    \"\"\"\n    if interval1[0] < interval2[1]:\n        return \"YES\"\n    if interval1[1] > interval2[0]:\n        return \"NO\"\n    if interval1[1] == interval2[0]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\ndef intersection_3(interval1, interval2):\n    \"\"\"\n    Given two intervals,\n    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).\n    The given intervals are closed which means that the interval (start, end)\n    includes both start and end.\n    For each given interval, it is assumed that its start is less or equal its end.\n    Your task is to determine whether the",
+      -8.9375
+    ],
+    [
+      "# Your code here\n    # 1. Use set() to create a set of unique values.\n    # 2. Use set() to create a set of unique values.\n    # 3. Use set() to create a set of unique values.\n    # 4. Create a set of unique values.\n    # 5. Create a set of unique values.\n    # 6. Create a set of unique values.\n    # 7. Create a set of unique values.\n    # 8. Create a set of unique values.\n    # 9. Create a set of unique values.\n    # 10. Create a set of unique values.\n    # 11. Create a set of unique values.\n    # 12. Create a set of unique values.\n    # 13. Create a set of unique values.\n    # 14. Create a set of unique values.\n    # 15. Create a set of unique values.\n    # 16. Create a set of unique values.\n    # 17. Create a set of unique values.\n    # 18. Create a set of unique values.\n    # 19. Create a set of unique values.\n    # 20. Create a set of unique values.\n    # 21. Create a set of unique values.\n    # 22. Create a set of unique values.\n    # 23. Create a set of unique values.\n    # 24. Create a set of unique values.\n    # 25. Create a set of unique values.\n    # 26. Create a set of unique values.\n    # 27. Create a set of unique values.\n    # 28. Create a set of unique values.\n    # 29. Create a set of unique values.\n    # 30. Create a set of unique values.\n    # 31. Create a set of unique values.\n    # 32. Create a set of unique values.\n    # 33. Create a set of unique values.\n    # 34. Create a set of unique values.\n    # 35. Create a set of unique values.\n    # 36. Create a set of unique values.\n    # 37. Create a set of unique values.\n    # 38. Create a set of unique values.\n    # 39. Create a set of unique values.\n    # 40. Create a set of unique values.\n    # 41. Create a set of unique values.",
+      -9.6015625
+    ],
+    [
+      "# Your code here\n    # check that the two intervals are of the same length\n    if len(interval1)!= len(interval2):\n        return \"NO\"\n\n    # check that the two intervals don't overlap\n    if interval1[0] > interval2[1]:\n        return \"YES\"\n    else:\n        return \"NO\"\n\n\n\n\n\ndef main():\n    print(intersection((1, 2), (2, 3)))\n    print(intersection((-1, 1), (0, 4)))\n    print(intersection((-3, -1), (-5, 5)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -12.375
+    ],
+    [
+      "# Your code here\n    # 1. Use set() to find out if a given interval is a prime number or not.\n    # 2. If a given interval is a prime number, return \"YES\".\n    # 3. If not, return \"NO\"\n    # 4. If both intervals are prime, return \"YES\"\n    # 5. If both intervals are not prime, return \"NO\"\n    # 6. If both intervals are equal, return \"YES\"\n    # 7. If both intervals are not equal, return \"NO\"\n    # 8. If both intervals are not equal, return \"NO\"\n\n    # 1. Set()\n    set1 = set()\n    set2 = set()\n    for i in range(len(interval1)):\n        set1.add(interval1[i])\n    for i in range(len(interval2)):\n        set2.add(interval2[i])\n\n    # 2. If a given interval is a prime number, return \"YES\"\n    # 3. If not, return \"NO\"\n    # 4. If both intervals are a prime number, return \"YES\"\n    # 5. If both intervals are not prime, return \"NO\"\n    # 6. If both intervals are equal, return \"YES\"\n    # 7. If both intervals are not equal, return \"NO\"\n    # 8. If both intervals are not equal, return \"NO\"\n\n    # 3. If a given interval is a prime number, return \"YES\"\n    # 4. If not, return \"NO\"\n    # 5. If both intervals are a prime number, return \"YES\"\n    # 6. If both intervals are not prime, return \"NO\"\n    # 7. If both intervals are not equal, return \"NO\"\n\n    # 4. If a given interval is a prime number, return \"YES\"\n    # 5. If not, return \"NO\"\n    # 6. If both intervals are a prime number, return \"YES\"\n    # 7. If both intervals are not prime, return \"NO\"\n\n    # 5. If a given interval is a prime number, return \"YES\"\n    # 6. If not, return \"NO\"\n    # 7. If both intervals are a prime number, return \"YES",
+      -13.4375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

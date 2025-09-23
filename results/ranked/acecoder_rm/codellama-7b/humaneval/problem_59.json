@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/59",
+    "prompt": "\n\ndef largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\n    >>> largest_prime_factor(13195)\n    29\n    >>> largest_prime_factor(2048)\n    2\n    \"\"\"\n",
+    "canonical_solution": "    def is_prime(k):\n        if k < 2:\n            return False\n        for i in range(2, k - 1):\n            if k % i == 0:\n                return False\n        return True\n    largest = 1\n    for j in range(2, n + 1):\n        if n % j == 0 and is_prime(j):\n            largest = max(largest, j)\n    return largest\n",
+    "test": "\n\nMETADATA = {}\n\n\ndef check(candidate):\n    assert candidate(15) == 5\n    assert candidate(27) == 3\n    assert candidate(63) == 7\n    assert candidate(330) == 11\n    assert candidate(13195) == 29\n\n",
+    "entry_point": "largest_prime_factor",
+    "docstring": "",
+    "problem_id": 59
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "i = 2\n    while i * i <= n:\n        if n % i != 0:\n            i += 1\n        else:\n            n //= i\n    return n\n\n\ndef prime_factors(n):\n    \"\"\"Return a list of the prime factors of n, in increasing order.\n    >>> prime_factors(100)\n    [2, 2, 5, 5]\n    >>> prime_factors(701)\n    [701]\n    >>> prime_factors(4012)\n    [2, 2, 2, 3, 13]\n    \"\"\"\n    result = []\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            result.append(i)\n            n //= i\n            i = 2\n        else:\n            i += 1\n    if n > 1:\n        result.append(n)\n    return result\n\n\ndef prime_factorization(n):\n    \"\"\"Return a dictionary mapping each prime factor of n to its multiplicity.\n    >>> prime_factorization(100) == {2: 2, 5: 2}\n    True\n    >>> prime_factorization(701) == {701: 1}\n    True\n    >>> prime_factorization(4012) == {2: 3, 3: 1, 13: 1}\n    True\n    \"\"\"\n    result = {}\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            result[i] = result.get(i, 0) + 1\n            n //= i\n        else:\n            i += 1\n    if n > 1:\n        result[n] = result.get(n, 0) + 1\n    return result\n\n\ndef is_prime(n):\n    \"\"\"Returns True if n is a prime number, otherwise False.\n    >>> is_prime(2)\n    True\n    >>> is_prime(15)\n    False\n    >>> is_prime(521)\n    True",
+      2.994140625
+    ],
+    [
+      "# largest prime factor must be prime\n    # so we can start our search with 2\n    i = 2\n    while i * i < n:\n        while n % i != 0:\n            i += 1\n        n //= i\n    return n\n\nprint(largest_prime_factor(13195))\n\n# 29\n# 2",
+      1.15625
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n == 1:\n        return 1\n    prime = 2\n    while n % prime != 0:\n        prime += 1\n    while n % prime == 0:\n        n /= prime\n    if n == 1:\n        return prime\n    return largest_prime_factor(n)\n\n\ndef sum_multiples(n: int, max_multiple: int):\n    \"\"\"Return the sum of multiples of n <= max_multiple.\n    >>> sum_multiples(3, 6)\n    3\n    >>> sum_multiples(5, 10)\n    25\n    >>> sum_multiples(7, 15)\n    76\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    total = 0\n    for i in range(max_multiple + 1):\n        if i % n == 0:\n            total += i\n    return total\n\n\ndef sum_divisible(n: int, max_number: int):\n    \"\"\"Return the sum of integers <= max_number divisible by n.\n    >>> sum_divisible(3, 6)\n    0\n    >>> sum_divisible(3, 10)\n    3\n    >>> sum_divisible(7, 15)\n    7\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return sum_multiples(n, max_number // n)\n\n\ndef sum_powers(n: int, max_power: int):\n    \"\"\"Return the sum of n**i for i in the range 1 through max_power.\n    >>> sum_powers(2, 5)\n    12\n    >>> sum_powers(2, 10)\n    90\n    >>> sum_powers(3, 5)\n    54\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    total = 0\n    for i in range(1, max_power + 1):\n        total += n ** i\n    return total\n\n\ndef count_divisible(n: int, max_number: int):\n    \"\"\"Return",
+      0.9609375
+    ],
+    [
+      "# Find the largest power of each prime factor.\n    prime_factor = 2\n    while prime_factor * prime_factor <= n:\n        # If prime_factor divides n, then record its largest factor.\n        if n % prime_factor == 0:\n            n //= prime_factor\n        else:\n            prime_factor += 1\n    return n\n\n\ndef main():\n    n = int(input(\"Enter a number: \"))\n    print(largest_prime_factor(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.459716796875
+    ],
+    [
+      "i = 2\n    while i * i <= n:\n        while n % i == 0:\n            n //= i\n        i += 1\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n\n    # print(largest_prime_factor(13195))\n    # print(largest_prime_factor(2048))",
+      0.3427734375
+    ],
+    [
+      "# 2 is the only even prime number\n    if n % 2 == 0:\n        return 2\n\n    # all other primes are odd\n    # start with the first odd number that is not 2\n    next_number = 3\n\n    while n != 1:\n        # keep going until we find a divisor\n        while n % next_number != 0:\n            next_number = next_number + 2\n\n        # found a divisor\n        # reset n to the next number to divide\n        n = n / next_number\n\n        # if n is now even, we have a new largest prime factor\n        if n % 2 == 0:\n            return next_number\n\n    # n is 1, so we have our largest prime factor\n    return next_number\n\n\nprint(largest_prime_factor(13195))\nprint(largest_prime_factor(2048))",
+      0.0172576904296875
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    # If n is even, divide n by 2 repeatedly until n is odd.\n    while n % 2 == 0:\n        n /= 2\n    # Now n is odd. If it is a prime, it is the largest prime factor of n.\n    if is_prime(int(n)):\n        return int(n)\n    # Divide n by odd numbers (starting from 3) until the largest prime factor\n    # of n is found.\n    i = 3\n    while i * i <= n:\n        while n % i == 0:\n            n /= i\n        i += 2\n    return int(n)\n\n\ndef is_prime(n: int):\n    \"\"\"Returns True if n is a prime number, False otherwise.\n    >>> is_prime(2)\n    True\n    >>> is_prime(16)\n    False\n    >>> is_prime(521)\n    True\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n == 2 or n == 3:\n        return True\n    elif n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True\n\n\ndef sum_of_digits(n: int):\n    \"\"\"Return the sum of the digits of n.\n    >>> sum_of_digits(10) # 1 + 0 = 1\n    1\n    >>> sum_of_digits(4224) # 4 + 2 + 2 + 4 = 12\n    12\n    >>> sum_of_digits(1234567890)\n    45\n    >>> a = sum_of_digits(123) # make sure that you are using return rather than print\n    >>> a\n    6\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    sum = 0\n    while n != 0:",
+      -0.1993408203125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    while n % 2 == 0:\n        n = n // 2\n    factor = 3\n    while n != 1 and n % factor != 0:\n        factor += 2\n    return factor if n % factor == 0 else n\n\n\ndef sum_of_digits(n):\n    \"\"\"Sum all the digits of n.\n\n    >>> sum_of_digits(10) # 1 + 0 = 1\n    1\n    >>> sum_of_digits(4224) # 4 + 2 + 2 + 4 = 12\n    12\n    >>> sum_of_digits(1234567890)\n    45\n    >>> a = sum_of_digits(123) # make sure that you are using return rather than print\n    >>> a\n    6\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return sum(int(i) for i in str(n))\n\n\ndef double_eights(n):\n    \"\"\"Return true if n has two eights in a row.\n\n    >>> double_eights(8)\n    False\n    >>> double_eights(88)\n    True\n    >>> double_eights(2882)\n    True\n    >>> double_eights(880088)\n    True\n    >>> double_eights(12345)\n    False\n    >>> double_eights(80808080)\n    False\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return '88' in str(n)\n\n\ndef count_eights(n):\n    \"\"\"Return the number of times 8 appears as a digit of n.\n\n    >>> count_eights(3)\n    0\n    >>> count_eights(8)\n    1\n    >>> count_eights(88)\n    2\n    >>> count_eights(2882)\n    2\n    >>> count_eights(12345)\n    0\n    >>> count_eights(808080",
+      -0.1995849609375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n\n\n\ndef smallest_prime_factor(n: int):\n    \"\"\"Return the smallest prime factor of n. Assume n > 1 and is not a prime.\n    >>> smallest_prime_factor(86)\n    7\n    >>> smallest_prime_factor(100)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n\n\n\ndef prime_factors(n: int):\n    \"\"\"Return a sorted list of the prime factors of n. Assume n > 1 and is not a\n    prime.\n    >>> prime_factors(315)\n    [3, 3, 5, 5]\n    >>> prime_factors(20)\n    [2, 2, 5]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n\n\n\ndef is_power_of_two(n: int):\n    \"\"\"Return whether n is a power of two.\n    >>> is_power_of_two(32)\n    True\n    >>> is_power_of_two(20)\n    False\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n\n\n\ndef unique_prime_factors(n: int):\n    \"\"\"Return a sorted list of the unique prime factors of n. Assume n > 1 and is\n    not a prime.\n    >>> unique_prime_factors(315)\n    [3, 5]\n    >>> unique_prime_factors(20)\n    [2, 5]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n\n\n\ndef appended_list(n: int):\n    \"\"\"Return a list of all the numbers from 1 to n, followed by n.\n    >>> appended_list(3)\n    [1, 2, 3, 3]\n    >>> appended_list(6)\n    [1, 2, 3, 4, 5, 6, 6]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n\n\n\ndef list_of_lists(n: int):\n    \"\"\"Return a list of n lists, where the i",
+      -0.348876953125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n == 1:\n        return 1\n    for i in range(2, n+1):\n        if i > 1 and n % i == 0:\n            return i\n\n\ndef sum_of_digits(n: int):\n    \"\"\"Return the sum of the digits of n.\n    >>> sum_of_digits(1234)\n    10\n    >>> sum_of_digits(456)\n    15\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n == 0:\n        return 0\n    else:\n        return n % 10 + sum_of_digits(n//10)\n\n\ndef count_digit(n: int, d: int) -> int:\n    \"\"\"Return the number of times d appears in n.\n    >>> count_digit(1234, 3)\n    1\n    >>> count_digit(456, 5)\n    1\n    >>> count_digit(2457, 7)\n    1\n    >>> count_digit(876, 8)\n    1\n    >>> count_digit(876, 6)\n    1\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n == 0:\n        return 0\n    elif n % 10 == d:\n        return 1 + count_digit(n//10, d)\n    else:\n        return count_digit(n//10, d)\n\n\ndef double_eights(n: int) -> int:\n    \"\"\"Return the number of times 8 appears in n with each digit doubled.\n    >>> double_eights(8)\n    1\n    >>> double_eights(88)\n    2\n    >>> double_eights(888888)\n    4\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n == 0:\n        return 0\n    elif n % 10 == 8:\n        return 1 + double_eights(n//10)\n    else:\n        return double_e",
+      -0.40576171875
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    largest_factor = 2\n    while n > 1 and n % 2 == 0:\n        largest_factor = 2\n        n /= 2\n    while n > 1 and n % largest_factor == 0:\n        n /= largest_factor\n        largest_factor = largest_factor + 2\n    return largest_factor\n\n\ndef sum_divisors(n: int):\n    \"\"\"Return the sum of all divisors of n.\n    >>> sum_divisors(100) # 1 + 2 + 4 + 5 + 10 + 20 + 25 + 50\n    231\n    >>> sum_divisors(0) # 0 has only 0 as its divisor\n    0\n    >>> sum_divisors(1) # 1 has only 1 as its divisor\n    1\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    sum = 0\n    for i in range(1, n):\n        if n % i == 0:\n            sum += i\n    return sum\n\n\ndef is_prime(n: int):\n    \"\"\"Returns True if n is a prime number, False otherwise.\n    >>> is_prime(2)\n    True\n    >>> is_prime(16)\n    False\n    >>> is_prime(-1)\n    False\n    >>> is_prime(0)\n    False\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        return False\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef unique_values(seq: Sequence):\n    \"\"\"Return a list of values appearing in `seq` exactly once.\n    >>> unique_values([1, 5, 4, 5, 4, 1, 2, 1, 3, 4, 2])\n    [1, 2, 3]\n    >>> unique_values([1, 2, 3, 4]) # already unique",
+      -0.417724609375
+    ],
+    [
+      "i = 2\n    while n % i != 0:\n        i += 1\n    return i\n\n\ndef smallest_prime_factor(n: int):\n    \"\"\"Return the smallest prime factor of n. Assume n > 1 and is not a prime.\n    >>> smallest_prime_factor(13195)\n    19\n    >>> smallest_prime_factor(2048)\n    2\n    \"\"\"\n    i = 2\n    while n % i != 0:\n        i += 1\n    return i\n\n\ndef prime_factors(n: int):\n    \"\"\"Return a sorted list of the prime factors of n. Assume n > 1 and is not a prime.\n    >>> prime_factors(13195)\n    [5, 7, 19]\n    >>> prime_factors(2048)\n    [2, 2, 2, 2, 2, 2]\n    \"\"\"\n    prime_factors = []\n    i = 2\n    while n != 1:\n        if n % i == 0:\n            n = n // i\n            prime_factors.append(i)\n        else:\n            i += 1\n    return prime_factors",
+      -0.52587890625
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    i = 2\n    while i ** 2 <= n:\n        if n % i == 0:\n            n //= i\n        else:\n            i += 1\n    return n\n\n\ndef unique_values(seq):\n    \"\"\"Return a list of the elements in seq that are unique.\n    >>> unique_values([1, 2, 3, 1, 2, 3])\n    [1, 2, 3]\n    >>> unique_values([1, 2, 3, 4])\n    [1, 2, 3, 4]\n    >>> unique_values([1, 1, 1, 1])\n    [1]\n    >>> unique_values([])\n    []\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    list_of_unique_values = []\n    for item in seq:\n        if item not in list_of_unique_values:\n            list_of_unique_values.append(item)\n    return list_of_unique_values\n\n\ndef multimap(d1, d2):\n    \"\"\"Return a new dictionary that combines the mappings from both d1 and d2.\n    If the same key is present in both d1 and d2, then the new dictionary\n    should contain a mapping for that key that combine the two values in d1 and d2\n    The values for keys in d1 should override those for equivalent keys in d2\n    d1 and d2 may contain multiple (non-equal) equivalent values\n    d1 and d2 may contain no equivalent values\n    d1 and d2 may be empty\n    >>> multimap({'a': 1, 'b': 2}, {1: 3, 2: 4})\n    {'a': 1, 'b': 2, 1: 3, 2: 4}\n    >>> multimap({'a': 1, 'b': 2}, {})\n    {'a': 1, 'b': 2}\n    >>> multimap({}, {'a': 1, 'b': 2})\n    {'a': 1, 'b': 2}",
+      -0.57080078125
+    ],
+    [
+      "largest_prime = 2\n    while n % 2 == 0:\n        largest_prime = 2\n        n //= 2\n    i = 3\n    while i * i <= n:\n        while n % i == 0:\n            largest_prime = i\n            n //= i\n        i += 2\n    return largest_prime\n\n\ndef main():\n    n = 600851475143\n    print(largest_prime_factor(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.70849609375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n % 2 == 0:\n        return 2\n    i = 3\n    while i ** 2 <= n:\n        if n % i == 0:\n            n //= i\n            continue\n        i += 2\n    return n\n\ndef sum_multiples(n: int, max_multiple: int):\n    \"\"\"Return the sum of multiples of n <= max_multiple.\n    >>> sum_multiples(3, 5)\n    3\n    >>> sum_multiples(3, 10)\n    23\n    >>> sum_multiples(3, 11)\n    24\n    >>> sum_multiples(5, 50)\n    255\n    >>> sum_multiples(3, 100)\n    2318\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    total = 0\n    i = 1\n    while i <= max_multiple:\n        if i % n == 0:\n            total += i\n        i += 1\n    return total\n\ndef sum_divisible(n: int, max_multiple: int):\n    \"\"\"Return the sum of integers <= max_multiple divisible by n.\n    >>> sum_divisible(3, 9)\n    0\n    >>> sum_divisible(3, 10)\n    3\n    >>> sum_divisible(3, 11)\n    3\n    >>> sum_divisible(7, 13)\n    7\n    >>> sum_divisible(7, 14)\n    14\n    >>> sum_divisible(2, 20)\n    50\n    >>> sum_divisible(5, 20)\n    50\n    >>> sum_divisible(4, 20)\n    60\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return sum_multiples(n, max_multiple // n)\n\ndef pythagorean_triples(n: int):\n    \"\"\"Print all pythagorean triples with perimeter n.\n    >>> pythag",
+      -0.74462890625
+    ],
+    [
+      "# The prime numbers are 2, 3, 5, 7, ...\n    # We can stop the search for factors at sqrt(n)\n    # since factors will also be located at n//factor\n    # and every factor > sqrt(n).\n    # 2 is the only even prime number.\n    factor = 2\n    # If n is even, set it to 3 and skip even numbers\n    # in the for loop.\n    if n % 2 == 0:\n        n = 3\n        factor = 3\n    # Only bother checking the odd numbers\n    # since all the even factors of a number\n    # are already included in its factorization.\n    for i in range(3, int(math.sqrt(n)) + 1, 2):\n        if n % i == 0:\n            n = n // i\n            factor = i\n    if n > 2:\n        factor = n\n    return factor\n\n\nif __name__ == \"__main__\":\n    import doctest\n    import math\n    doctest.testmod()",
+      -0.8486328125
+    ],
+    [
+      "i = 2\n    while i * i <= n:\n        while n % i == 0:\n            n //= i\n        i += 1\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# largest prime factor of a number n is the largest factor of n\n    # that is prime.\n\n    # largest prime factor of a number n is the largest factor of n\n    # that is prime.\n    i = 2\n    while n % i != 0:\n        i += 1\n    return i\n\n\nprint(largest_prime_factor(13195))\nprint(largest_prime_factor(2048))",
+      -0.85693359375
+    ],
+    [
+      "i = 2\n    while n > 1:\n        while n % i != 0:\n            i += 1\n        n = n // i\n        if n % i == 0:\n            i += 1\n    return i - 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "i = 2\n    while i ** 2 <= n:\n        while n % i == 0:\n            n //= i\n        i += 1\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# If n is even, the largest factor is 2.\n    if n % 2 == 0:\n        return 2\n\n    # This loop tests all the odd numbers up to sqrt(n).\n    # If we find a factor, we can stop looking.\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return i\n\n    # The largest factor of n is n itself, if we've reached this point.\n    return n",
+      -0.85693359375
+    ],
+    [
+      "# Initialize a factor variable\n    factor = 2\n    # Loop until factor is not the number\n    while n > 1:\n        # If the number is evenly divisible by the factor\n        if n % factor == 0:\n            # Set the number to the factor\n            n = n // factor\n        # Otherwise, increase the factor by 1\n        else:\n            factor += 1\n    return factor\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "prime = 2\n    while n % prime != 0:\n        prime = prime + 1\n    while n % prime == 0:\n        n = n / prime\n    return prime",
+      -0.85693359375
+    ],
+    [
+      "i = 2\n    while n % i != 0:\n        i += 1\n    return i\n\n\nprint(largest_prime_factor(13195))\nprint(largest_prime_factor(2048))",
+      -0.85693359375
+    ],
+    [
+      "largest_prime_factor = 1\n    i = 2\n\n    while i * i <= n:\n        while n % i == 0:\n            largest_prime_factor = i\n            n = n // i\n        i += 1\n\n    if largest_prime_factor < n:\n        largest_prime_factor = n\n\n    return largest_prime_factor\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        return None\n\n    if is_prime(n):\n        return n\n\n    m = n // 2\n    while m > 1:\n        if is_prime(m) and n % m == 0:\n            return m\n        m -= 1\n    return 1\n\ndef is_prime(n: int):\n    if n <= 1:\n        return False\n    for i in range(2, n // 2 + 1):\n        if n % i == 0:\n            return False\n    return True",
+      -0.85693359375
+    ],
+    [
+      "max_prime = 2\n    while n % 2 == 0:\n        n = n // 2\n    # n is now odd\n    while n % 3 == 0:\n        max_prime = 3\n        n = n // 3\n    i = 5\n    while n > 1:\n        if n % i == 0:\n            max_prime = i\n            while n % i == 0:\n                n = n // i\n        i = i + 2\n    return max_prime\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "assert n > 1\n    i = 2\n    while i * i < n:\n        while n % i != 0:\n            i += 1\n        n //= i\n    return n",
+      -0.85693359375
+    ],
+    [
+      "# prime numbers are greater than 1\n    if n <= 1:\n        return None\n\n    # find largest prime factor\n    # loop from largest to smallest prime\n    # if n is divisible by prime, return prime and break loop\n    # else move to next prime\n    for prime in range(n - 1, 1, -2):\n        if n % prime == 0:\n            return prime\n\n\nprint(largest_prime_factor(13195))\nprint(largest_prime_factor(2048))",
+      -0.85693359375
+    ],
+    [
+      "for i in range(2, n + 1):\n        if n % i == 0:\n            while n % i == 0:\n                n = n / i\n            return i - 1\n    return n - 1\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n    n = int(input(\"Enter a number: \"))\n    print(\"The largest prime factor is:\", largest_prime_factor(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "while n % 2 == 0:\n        n = n // 2\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        while n % i == 0:\n            n = n // i\n    return n\n\n\nif __name__ == \"__main__\":\n    print(largest_prime_factor(600851475143))",
+      -0.85693359375
+    ],
+    [
+      "# If n is a prime number, return n.\n    prime_factors = []\n    i = 2\n    while i*i <= n:\n        if n % i == 0:\n            prime_factors.append(i)\n            n //= i\n        else:\n            i += 1\n    prime_factors.append(n)\n    return max(prime_factors)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "i = 2\n    while n % i != 0:\n        i = i + 1\n    return i\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if n % 2 == 0:\n        return 2\n    largest = 3\n    while largest <= n / largest:\n        if n % largest == 0:\n            return largest\n        largest += 2\n    return n\n\n\nif __name__ == \"__main__\":\n    print(largest_prime_factor(600851475143))",
+      -0.85693359375
+    ],
+    [
+      "largest_prime_factor = 1\n    divisor = 2\n    while n > 1:\n        while n % divisor != 0:\n            divisor += 1\n        largest_prime_factor = divisor\n        n = n / divisor\n    return largest_prime_factor\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "for i in range(3, n//2, 2):\n        if n % i == 0:\n            n = n // i\n            break\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "i = 2\n    while n % i != 0:\n        i = next_prime(i)\n    return i\n\n\ndef next_prime(n: int):\n    \"\"\"Return the smallest prime number greater than n.\n    >>> next_prime(3)\n    5\n    >>> next_prime(13)\n    17\n    >>> next_prime(17)\n    19\n    \"\"\"\n    while True:\n        n += 1\n        for i in range(2, n):\n            if n % i == 0:\n                break\n        else:\n            return n\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "while n % 2 == 0:\n        n = n / 2\n    if n % 1 == 0:\n        return int(n)\n    while n % 3 == 0:\n        n = n / 3\n    if n % 2 == 0:\n        return 2\n    i = 5\n    while n > 1:\n        while n % i == 0:\n            n = n / i\n        while n % (i + 2) == 0:\n            n = n / (i + 2)\n        i += 6\n    return int(n)",
+      -0.85693359375
+    ],
+    [
+      "# The largest prime factor will be at least 2 and at most sqrt(n).\n    largest = 2\n    while largest * largest <= n:\n        if n % largest == 0:\n            n //= largest\n        else:\n            largest += 1\n    return n\n\nprint(largest_prime_factor(13195))",
+      -0.85693359375
+    ],
+    [
+      "i = 2\n    while i ** 2 <= n:\n        if n % i == 0:\n            n //= i\n            while n % i == 0:\n                n //= i\n        else:\n            i += 1\n    return n\n\n\ndef smallest_multiple(n: int):\n    \"\"\"Return the smallest positive number that is evenly divisible by all of\n    the numbers from 1 to n.\n    >>> smallest_multiple(10)\n    2520\n    >>> smallest_multiple(13)\n    360360\n    \"\"\"\n    i = n\n    while True:\n        if largest_prime_factor(i) == n:\n            return i\n        else:\n            i += 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "for i in range(2, n + 1):\n        if n % i == 0:\n            while n % i == 0:\n                n //= i\n            if n == 1:\n                return i\n    assert False, 'Should not reach here'\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "for i in range(2, n + 1):\n        if n % i == 0:\n            j = 2\n            while i % j != 1:\n                j += 1\n            if j == i:\n                return i\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# The first prime number is 2\n    prime_factor = 2\n\n    while n % prime_factor != 0:\n        prime_factor += 1\n\n    # Now we have found the first prime factor (which is also the largest)\n    while n % prime_factor == 0:\n        n = n // prime_factor\n\n    return prime_factor\n\n\nprint(largest_prime_factor(600851475143))",
+      -0.85693359375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n\n\ndef smallest_prime_factor(n: int):\n    \"\"\"Return the smallest prime factor of n. Assume n > 1 and is not a prime.\n    >>> smallest_prime_factor(13195)\n    19\n    >>> smallest_prime_factor(2048)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b.\n    >>> gcd(34, 42)\n    14\n    >>> gcd(2048, 1440)\n    32\n    >>> gcd(48, 64)\n    16\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"",
+      -0.85791015625
+    ],
+    [
+      "i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n    return n",
+      -0.85791015625
+    ],
+    [
+      "if n % 2 == 0:\n        return 2\n    i = 3\n    while i * i < n:\n        if n % i == 0:\n            return i\n        i += 2\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "max_prime = 1\n    for i in range(2, n):\n        if n % i == 0:\n            max_prime = max(max_prime, i)\n            while n % i == 0:\n                n //= i\n    return max_prime\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n    num = int(input(\"Enter a number: \"))\n    print(largest_prime_factor(num))",
+      -0.8583984375
+    ],
+    [
+      "# if n is even, remove the even factors\n    while n % 2 == 0:\n        n //= 2\n    # now n is odd\n    i = 3\n    while i * i <= n:\n        while n % i == 0:\n            n //= i\n        i += 2\n    return n\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n    n = 600851475143\n    print(largest_prime_factor(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "i = 2\n    while n % i != 0:\n        i += 1\n    return i",
+      -0.8583984375
+    ],
+    [
+      "# Keep dividing by two until n is odd\n    while n % 2 == 0:\n        n /= 2\n    # Keep dividing by all odd numbers starting with three until n is not even\n    for i in range(3, int(n ** 0.5), 2):\n        while n % i == 0:\n            n /= i\n    return int(n)\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n    n = int(input(\"Enter an integer greater than 1: \"))\n    print(largest_prime_factor(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "while n % 2 == 0:\n        n //= 2\n    while n % 3 == 0:\n        n //= 3\n    i = 5\n    while i * i <= n:\n        while n % i == 0:\n            n //= i\n        while n % (i + 2) == 0:\n            n //= i + 2\n        i += 6\n    return n\n\n\ndef main():\n    print(largest_prime_factor(600851475143))\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n    main()",
+      -0.8583984375
+    ],
+    [
+      "i = 2\n    while i * i <= n:\n        if n % i != 0:\n            i += 1\n        else:\n            n //= i\n    return n\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "i = 2\n    while i*i <= n:\n        while n % i == 0:\n            n //= i\n        i += 1\n    return n",
+      -0.8583984375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    max_prime = 2\n    while n % 2 == 0:\n        max_prime = 2\n        n /= 2\n    for i in range(3, int(n**0.5) + 1, 2):\n        while n % i == 0:\n            max_prime = i\n            n /= i\n    if n > 2:\n        max_prime = n\n    return max_prime\n\n\ndef main():\n    try:\n        n = int(input(\"Enter the number: \"))\n        print(\"The largest prime factor of\", n, \"is\", largest_prime_factor(n))\n    except (ValueError, SyntaxError):\n        print(\"You did not enter a valid integer.\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "# Find the largest factor of n under its square root.\n    # If n is a prime number, it will be under its square root.\n    largest = 1\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            largest = i\n    return largest\n\n\nprint(largest_prime_factor(600851475143))",
+      -0.8583984375
+    ],
+    [
+      "# The largest prime factor will be at least 2\n    factor = 2\n    while n % factor != 0:\n        factor += 1\n    # Now factor is the largest prime factor of n\n    # Find the next largest prime factor\n    n = n // factor\n    while n % factor == 0:\n        factor += 1\n    return factor - 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "factor = 2\n    while n % factor != 0:\n        factor += 1\n    return factor\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "for p in range(3, 21, 2):\n        while n % p == 0:\n            n = n // p\n            if n == 1:\n                return p\n\n\nprint(largest_prime_factor(13195))  # = 29\nprint(largest_prime_factor(2048))  # = 2",
+      -0.8583984375
+    ],
+    [
+      "largest_factor = 1\n    while n % 2 == 0:\n        largest_factor = 2\n        n //= 2\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        while n % i == 0:\n            largest_factor = i\n            n //= i\n    if n > 2:\n        largest_factor = n\n    return largest_factor\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "largest_prime = 2\n    while n % 2 == 0:\n        largest_prime = 2\n        n /= 2\n    for i in range(3, int(n**0.5) + 1, 2):\n        while n % i == 0:\n            largest_prime = i\n            n /= i\n    if n > 2:\n        return n\n    return largest_prime",
+      -0.85888671875
+    ],
+    [
+      "# check if n is a prime number\n    if n == 2:\n        return 2\n\n    # check if n is even\n    if n % 2 == 0:\n        return 2\n\n    # n is odd\n    # check if n is a prime number\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return i\n        i += 2\n\n    return n\n\n\nprint(largest_prime_factor(13195))\nprint(largest_prime_factor(2048))",
+      -0.85888671875
+    ],
+    [
+      "max_prime = 2\n    while n % 2 == 0:\n        n //= 2\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        while n % i == 0:\n            max_prime = i\n            n //= i\n    if n > 2:\n        max_prime = n\n    return max_prime\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "for i in range(3, n//2, 2):\n        if n % i == 0:\n            n //= i\n            return largest_prime_factor(n)\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    # This is a simple solution, which runs in O(sqrt(n))\n    # You can do better!\n    i = 2\n    while i <= n:\n        while n % i == 0:\n            n = n // i\n        i += 1\n    return n\n\n\ndef first_n_prime(n: int):\n    \"\"\"Return the first n prime number.\n    >>> first_n_prime(5)\n    [2, 3, 5, 7, 11]\n    >>> first_n_prime(1)\n    [2]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    # This is a simple solution, which runs in O(n)\n    # You can do better!\n    prime_list = []\n    i = 1\n    while i <= n:\n        if largest_prime_factor(i) == i:\n            prime_list.append(i)\n            i += 1\n        else:\n            i += 1\n    return prime_list\n\n\ndef is_prime(n: int):\n    \"\"\"Return whether n is a prime number.\n    >>> is_prime(13)\n    True\n    >>> is_prime(13195)\n    False\n    >>> is_prime(2048)\n    True\n    >>> is_prime(2)\n    True\n    >>> is_prime(1)\n    False\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    # This is a simple solution, which runs in O(sqrt(n))\n    # You can do better!\n    if n <= 1:\n        return False\n    return largest_prime_factor(n) == n",
+      -1.6943359375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    p = 2\n    while n > p:\n        if n % p == 0:\n            n //= p\n            while n % p == 0:\n                n //= p\n        else:\n            p += 1\n    return p\n\n\ndef smallest_prime_factor(n: int):\n    \"\"\"Return the smallest prime factor of n. Assume n > 1 and is not a prime.\n    >>> smallest_prime_factor(13195)\n    13\n    >>> smallest_prime_factor(2048)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    p = 2\n    while n > p:\n        if n % p == 0:\n            n //= p\n            while n % p == 0:\n                n //= p\n        else:\n            p += 1\n    return p\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return greatest common divisor of a and b.\n    >>> gcd(34, 19)\n    1\n    >>> gcd(39, 91)\n    13\n    >>> gcd(4, 16)\n    4\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if a < b:\n        a, b = b, a\n    while b != 0:\n        a, b = b, a % b\n    return a\n\n\ndef lcm(a: int, b: int):\n    \"\"\"Return lowest common multiple of a and b.\n    >>> lcm(7, 9)\n    63\n    >>> lcm(12, 15)\n    60\n    >>> lcm(120, 864)\n    4320\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return a * b // gcd(a, b)\n\n\ndef find_public_key(n: int, g: int, p: int):\n    \"\"\"Return the public key for n and p given g.\n    >>> find_public_key(29, 7, 3)\n    2",
+      -1.77734375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        return n\n    factor = 2\n    while n % factor != 0:\n        factor += 1\n    return factor\n\n\ndef smallest_divisor(n: int, largest_divisor: int):\n    \"\"\"Return the smallest divisor of n, excluding one. Assume n > 1.\n    >>> smallest_divisor(8, 18)\n    4\n    >>> smallest_divisor(15, 25)\n    5\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        return n\n    factor = 2\n    while n % factor != 0:\n        factor += 1\n    if factor > largest_divisor:\n        return 1\n    return factor\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b. Assume a and b are\n    positive integers.\n    >>> gcd(34, 19)\n    1\n    >>> gcd(39, 91)\n    13\n    >>> gcd(202, 100)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if a <= 1 or b <= 1:\n        return 1\n    if a < b:\n        a, b = b, a\n    while a % b != 0:\n        a, b = b, a % b\n    return b\n\n\ndef gcd_recursive(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b. Assume a and b are\n    positive integers.\n    >>> gcd_recursive(34, 19)\n    1\n    >>> gcd_recursive(39, 91)\n    13\n    >>> gcd_recursive(202, 100)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if a <= 1 or b <= 1:\n        return 1\n    if a < b:\n        a, b = b,",
+      -2.19921875
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    largest_prime = 2\n    while n % largest_prime != 1:\n        for i in range(2, largest_prime):\n            if largest_prime % i == 0:\n                break\n        else:\n            largest_prime += 1\n    return largest_prime\n\n\n\n\ndef prime_factors(n):\n    \"\"\"Return a list of the prime factors of n, from largest to smallest.\n    >>> prime_factors(100)\n    [10, 5, 2, 2]\n    >>> prime_factors(70)\n    [7, 5, 2, 2, 2]\n    >>> prime_factors(4)\n    [2, 2]\n    >>> prime_factors(91)\n    [91]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    factors = []\n    largest_factor = 2\n    while n > 1:\n        if n % largest_factor == 0:\n            n //= largest_factor\n            factors.append(largest_factor)\n        else:\n            largest_factor += 1\n    return factors\n\n\n\n\ndef main():\n    import time\n\n    start = time.time()\n    for trial in range(1000):\n        n = 100000\n        largest_prime_factor(n)\n    end = time.time()\n    print('time =', end - start)\n\n    start = time.time()\n    for trial in range(1000):\n        n = 100000\n        prime_factors(n)\n    end = time.time()\n    print('time =', end - start)\n\n\nif __name__ == '__main__':\n    main()",
+      -2.33203125
+    ],
+    [
+      "factor = 2\n    while n % factor != 0:\n        factor = next_larger_prime(factor)\n    return factor\n\n\ndef next_larger_prime(n: int):\n    \"\"\"Return the next larger prime number than n.\n    >>> next_larger_prime(31)\n    37\n    >>> next_larger_prime(127)\n    131\n    >>> next_larger_prime(2047)\n    2047\n    \"\"\"\n    while True:\n        n += 1\n        if is_prime(n):\n            return n\n\n\ndef is_prime(n: int):\n    \"\"\"Return True if n is a prime number, False otherwise.\n    >>> is_prime(13)\n    True\n    >>> is_prime(12)\n    False\n    >>> is_prime(25)\n    False\n    \"\"\"\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -2.396484375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    i = 2\n    while n > i:\n        if n % i == 0:\n            n = n // i\n            i = 2\n        else:\n            i = i + 1\n    return i\n\n\ndef first_n_prime_factors(n: int):\n    \"\"\"Return the first n prime factors of n. Assume n > 1 and is not a prime.\n    >>> first_n_prime_factors(13195)\n    [29, 53]\n    >>> first_n_prime_factors(2048)\n    [2]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    factors = []\n    i = 2\n    while len(factors) < n:\n        if n % i == 0:\n            n = n // i\n            factors.append(i)\n            i = 2\n        else:\n            i = i + 1\n    return factors\n\n\ndef first_prime_factor(n: int):\n    \"\"\"Return the first prime factor of n. Assume n > 1 and is not a prime.\n    >>> first_prime_factor(13195)\n    29\n    >>> first_prime_factor(2048)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    i = 2\n    while n > i:\n        if n % i == 0:\n            return i\n        i = i + 1\n\n\ndef prime_factors(n: int):\n    \"\"\"Return a list of all prime factors of n. Assume n > 1 and is not a prime.\n    >>> prime_factors(13195)\n    [29, 53]\n    >>> prime_factors(2048)\n    [2, 2, 2, 2]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    factors = []\n    i = 2\n    while n > i:\n        if n % i == 0:\n            factors.append(i)\n            n = n // i\n            i = 2",
+      -2.412109375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    largest = 2\n    while n % 2 == 0:\n        n = n // 2\n        largest = 2\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        while n % i == 0:\n            n = n // i\n            largest = i\n    if n > 2:\n        largest = n\n    return largest\n\n\ndef unique_values(seq):\n    \"\"\"Return a list of the elements in seq that are unique.\n\n    >>> unique_values([1, 2, 3, 1, 2, 3])\n    [1, 2, 3]\n\n    >>> unique_values([3, 7, 9, 3, 2, 3, 1, 2, 3])\n    [3, 7, 9, 2, 3, 1]\n\n    >>> unique_values([3, 7, 2, 3, 2, 1, 2, 1])\n    [3, 7, 2, 1]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return list(set(seq))\n\n\ndef linear_search(l: list, e) -> bool:\n    \"\"\"Return whether element e is in list l.\n\n    >>> linear_search([2, 3, 5, 7], 3)\n    True\n    >>> linear_search([2, 3, 5, 7], 4)\n    False\n    >>> linear_search([], 3)\n    False\n    \"\"\"\n    for x in l:\n        if x == e:\n            return True\n    return False\n\n\ndef binary_search(l: list, e) -> bool:\n    \"\"\"Return whether element e is in sorted list l.\n\n    >>> binary_search([2, 3, 4, 5, 7], 3)\n    True\n    >>> binary_search([2, 3, 4, 5, 7], 4)\n    True\n    >>> binary_search([2, 3, 4, 5, 7",
+      -2.427734375
+    ],
+    [
+      "if n % 2 == 0:\n        return 2\n    i = 3\n    while i * i <= n:\n        if n % i != 0:\n            i += 2\n        else:\n            n //= i\n            return i\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -2.4921875
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        raise ValueError('n must be greater than 1')\n    max_prime = 2\n    while n % 2 == 0:\n        n /= 2\n    while n % 2 == 0:\n        n /= 2\n    for i in range(3, int(n**0.5)+1, 2):\n        while n % i == 0:\n            n /= i\n            if i > max_prime:\n                max_prime = i\n    if n > 2:\n        return n\n    else:\n        return max_prime\n\n\ndef first_in_common(s1: set, s2: set):\n    \"\"\"Return the first element in both sets. Return None if there is no such\n    element.\n    >>> first_in_common({'a', 'b', 'c'}, {'c', 'd', 'e'})\n    'c'\n    >>> first_in_common({'a', 'b', 'c'}, {'d', 'e', 'f'})\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if s1 <= s2:\n        for i in s1:\n            if i in s2:\n                return i\n    else:\n        for i in s2:\n            if i in s1:\n                return i\n    return None\n\n\ndef max_product_not_two_sum(nums: list, k: int):\n    \"\"\"Return the maximum value of A[i] * A[j] where 0 <= i < j < n and\n    A[i] + A[j] is not equal to k. If no such value exists, return 0.\n    >>> max_product_not_two_sum([1, 3, 2, 4, 5], 6)\n    12\n    >>> max_product_not_two_sum([2, 3], 6)\n    0\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    nums.sort()\n    i = 0\n    j = len(nums) - 1\n    while i < j:",
+      -2.548828125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    # Use the Sieve of Eratosthenes to generate a list of primes.\n    # Then, check if the prime is greater than the number.\n    # If it is, then the number is prime.\n    # If not, then keep dividing the number by the prime.\n    # When the number is no longer divisible by the prime, return the prime.\n    # This is because the prime is the largest prime factor of the number.\n    def generate_primes():\n        primes = []\n        for i in range(2, n + 1):\n            is_prime = True\n            for j in range(2, i):\n                if i % j == 0:\n                    is_prime = False\n                    break\n            if is_prime:\n                primes.append(i)\n        return primes\n\n    primes = generate_primes()\n    for prime in primes:\n        if n % prime == 0:\n            return prime\n\n\ndef smallest_divisor(n: int, divisors: list):\n    \"\"\"Return smallest divisor of n that is in divisors. If no divisors of n\n    are in divisors, return None.\n    >>> smallest_divisor(8, [2, 3])\n    2\n    >>> smallest_divisor(7, [2, 3]) is None\n    True\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    for divisor in divisors:\n        if n % divisor == 0:\n            return divisor\n\n\ndef sum_of_divisors(n: int):\n    \"\"\"Return sum of all divisors of n.\n    >>> sum_of_divisors(12)\n    19\n    >>> sum_of_divisors(20)\n    88\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    # Use a list comprehension to generate a list of all divisors of n.\n    # Then, sum the list.\n    divisors = [i for i in range(1, n + 1) if n % i == 0]\n    return sum(divisors)",
+      -2.75390625
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    largest = n\n    prime_factor = 2\n    while prime_factor * prime_factor <= n:\n        while n % prime_factor == 0:\n            n //= prime_factor\n            largest = prime_factor\n        prime_factor += 1\n    if n > 1:\n        largest = n\n    return largest\n\n\ndef sum_divisors(n: int):\n    \"\"\"Return the sum of all divisors of n.\n    >>> sum_divisors(10) # 1 + 2 + 5 = 8\n    8\n    >>> sum_divisors(0) # 0 has only 0 as its divisor\n    0\n    >>> sum_divisors(1) # 1 has only 1 as its divisor\n    1\n    >>> sum_divisors(101) # 1 + 101 has only these two as divisors\n    102\n    >>> sum_divisors(4) # 1 + 2 + 4 has only these three as divisors\n    7\n    >>> sum_divisors(12) # 1 + 2 + 3 + 4 + 6 + 12 has these six as divisors\n    28\n    >>> sum_divisors(20) # 1 + 2 + 4 + 5 + 10 + 20 has these six as divisors\n    30\n    >>> sum_divisors(644) # 2 + 71 + 142 has these three as divisors\n    287\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    sum = 0\n    prime_factor = 2\n    while prime_factor * prime_factor <= n:\n        while n % prime_factor == 0:\n            n //= prime_factor\n            sum += prime_factor\n        prime_factor += 1\n    if n > 1:\n        sum += n\n    return sum\n\n\ndef is_prime(n: int):\n    \"\"\"Returns True if n is a prime number, otherwise False.\n    >>> is_prime(2)\n    True\n    >>>",
+      -2.806640625
+    ],
+    [
+      "# make sure n is even\n    while n % 2 == 0:\n        n = n // 2\n    # now n is odd\n    while n > 2:\n        # check if n is a multiple of 3\n        if n % 3 == 0:\n            n = n // 3\n        # n is not a multiple of 3\n        else:\n            # check if n is a multiple of 6\n            if n % 6 == 0:\n                n = n // 6\n            # n is not a multiple of 6\n            else:\n                # n is prime\n                if is_prime(n):\n                    return n\n                # n is not prime\n                else:\n                    # check if n is a multiple of 9\n                    if n % 9 == 0:\n                        n = n // 9\n                    # n is not a multiple of 9\n                    else:\n                        # n is not a multiple of 2\n                        if n % 2 == 1:\n                            n = n - 1\n                        # n is a multiple of 2\n                        else:\n                            n = n + 1\n\n\ndef is_prime(n: int):\n    \"\"\"Returns True if n is prime.\n    >>> is_prime(2)\n    True\n    >>> is_prime(15)\n    False\n    >>> is_prime(53)\n    True\n    \"\"\"\n    if n == 2:\n        return True\n    if n == 3:\n        return True\n    if n % 2 == 0:\n        return False\n    if n % 3 == 0:\n        return False\n\n    i = 5\n    w = 2\n\n    while i * i <= n:\n        if n % i == 0:\n            return False\n\n        i += w\n        w = 6 - w\n\n    return True",
+      -2.837890625
+    ],
+    [
+      "prime = 2\n    while n % prime != 0:\n        prime += 1\n    while n % prime == 0:\n        n = n / prime\n    return prime\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -2.865234375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    i = 2\n    while n > i:\n        if n % i == 0:\n            while n % i == 0:\n                n //= i\n            i += 1\n        else:\n            i += 1\n    return n\n\n\n\ndef sum_multiples(n: int, max_factor: int):\n    \"\"\"Return the sum of multiples of n less than max_factor.\n    >>> sum_multiples(3, 2)\n    3\n    >>> sum_multiples(3, 4)\n    9\n    >>> sum_multiples(3, 6)\n    15\n    >>> sum_multiples(3, 10)\n    27\n    >>> sum_multiples(3, 1000)\n    234168\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return sum([i for i in range(n, max_factor, n)])\n\n\n\ndef sum_divisible_by(n: int, max_number: int):\n    \"\"\"Return the sum of all positive numbers that divide evenly into n but\n    not n itself.\n    >>> sum_divisible_by(3, 2)\n    0\n    >>> sum_divisible_by(3, 4)\n    3\n    >>> sum_divisible_by(3, 6)\n    3\n    >>> sum_divisible_by(3, 10)\n    9\n    >>> sum_divisible_by(5, 100)\n    250\n    >>> sum_divisible_by(15, 100)\n    750\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return sum_multiples(n, max_number // n)\n\n\n\ndef sum_square_multiples(n: int, max_factor: int):\n    \"\"\"Return the sum of the squares of multiples of n less than max_factor.\n    >>> sum_square_multiples(3, 2)\n    0\n    >>> sum_square_multiples(3, 4)\n    9",
+      -2.87109375
+    ],
+    [
+      "# If the number is even, divide by two\n    # to see if the number is now odd.\n    # Repeat until no more divisors exist.\n    while n % 2 == 0:\n        n = n // 2\n    # Start at 3 and increment by 2 to skip\n    # even numbers.\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        while n % i == 0:\n            n = n // i\n        if n == 1:\n            break\n    return n\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n    n = int(input(\"Enter the number: \"))\n    print(\"The largest prime factor is\", largest_prime_factor(n))",
+      -3.017578125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n % 2 == 0:\n        return 2\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return i\n        i += 2\n    return n\n\n\ndef smallest_divisor(n: int, threshold: int):\n    \"\"\"Return the smallest divisor of n that is larger than the square root of n.\n    If there is no such divisor, return None. Assume n > 1 and is not a prime.\n    >>> smallest_divisor(8, 3) # 2 is the smallest divisor of 8\n    2\n    >>> smallest_divisor(768, 100) # 8 is the smallest divisor of 768\n    8\n    >>> smallest_divisor(8, 100) # 8 is the smallest divisor of 8\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            return i\n        i += 1\n    return None\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b.\n    >>> gcd(34, 19)\n    1\n    >>> gcd(20, 8)\n    4\n    >>> gcd(25 * 36, 35 * 18)\n    9\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    while b != 0:\n        r = a % b\n        a, b = b, r\n    return a\n\n\ndef gcd_iter(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b.\n    >>> gcd_iter(34, 19)\n    1\n    >>> gcd_iter(20, 8)\n    4\n    >>> gcd_iter(25 * 36, 35 * 18)\n    9\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    while b != 0",
+      -3.3203125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n % 2 == 0:\n        return 2\n    while n % 2 == 1:\n        n = n // 2\n    while n % 2 == 0:\n        n = n // 2\n    i = 3\n    while i ** 2 <= n:\n        if n % i == 0:\n            n = n // i\n            while n % i == 0:\n                n = n // i\n        else:\n            i = i + 2\n    return n\n\n\ndef sum_divisors(n: int):\n    \"\"\"Return the sum of all divisors of n.\n\n    >>> sum_divisors(10) # 1 + 2 + 5 = 8\n    8\n    >>> sum_divisors(0) # 0 has only 0 as its divisor\n    0\n    >>> sum_divisors(1) # 1 has only 1 as its divisor\n    1\n    >>> sum_divisors(10**15) # this will take a while\n    115299635779973\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return largest_prime_factor(n)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -3.78515625
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        raise ValueError('n must be > 1')\n    if is_prime(n):\n        return n\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            n //= i\n            while n % i == 0:\n                n //= i\n        else:\n            i += 1\n    return n\n\n\ndef is_prime(n: int):\n    \"\"\"Returns True if n is a prime number, False otherwise. Assumes n is a\n    positive integer.\n    >>> is_prime(2)\n    True\n    >>> is_prime(16)\n    False\n    >>> is_prime(521)\n    True\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n <= 1:\n        return False\n    if n == 2:\n        return True\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef prime_factors(n: int):\n    \"\"\"Return a list of the prime factors of n, from smallest to largest.\n    >>> prime_factors(20)\n    [2, 2, 5]\n    >>> prime_factors(25)\n    [5, 5]\n    >>> prime_factors(701)\n    [701]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    factors = []\n    while n != 1:\n        if is_prime(n):\n            factors.append(n)\n            break\n        for i in range(2, int(n ** 0.5) + 1):\n            if n % i == 0:\n                factors.append(i)\n                n //= i\n                break\n    return factors\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b using prime\n    factorization. Assume that a > 0, b > 0.\n    >>> gcd(2, 12",
+      -4.18359375
+    ],
+    [
+      "factor = 2\n    while n % factor != 0:\n        factor = next_prime(factor)\n    return factor\n\n\ndef next_prime(n: int):\n    \"\"\"Return the smallest prime that is larger than n.\n    >>> next_prime(123)\n    131\n    >>> next_prime(131)\n    137\n    \"\"\"\n    return next_prime_from(n + 1, n)\n\n\ndef next_prime_from(n: int, previous_prime: int):\n    \"\"\"Return the smallest prime that is larger than n.\n    >>> next_prime_from(123, 121)\n    131\n    >>> next_prime_from(131, 121)\n    137\n    \"\"\"\n    while not is_prime(n):\n        n += 1\n    if n > previous_prime:\n        return n\n    else:\n        return next_prime_from(n + 1, previous_prime)\n\n\ndef is_prime(n: int):\n    \"\"\"Return True if n is prime and False otherwise.\n    >>> is_prime(131)\n    True\n    >>> is_prime(137)\n    True\n    >>> is_prime(13195)\n    True\n    >>> is_prime(123)\n    False\n    >>> is_prime(2048)\n    True\n    >>> is_prime(2049)\n    False\n    \"\"\"\n    if n < 2:\n        return False\n    elif n in [2, 3, 5, 7]:\n        return True\n    else:\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n    # print(largest_prime_factor(13195))",
+      -4.78515625
+    ],
+    [
+      "# Factor n into a prime and a composite.\n    p = 2\n    # Keep testing whether p is a factor of n until p >= n's largest prime factor.\n    while p * p <= n and n > 1:\n        while n % p == 0:\n            n //= p\n        p = next_prime(p)\n    return n\n\n\ndef next_prime(n: int):\n    \"\"\"Return the smallest prime greater than n.\n    >>> next_prime(1024)\n    1025\n    >>> next_prime(1113)\n    1121\n    >>> next_prime(1987)\n    1989\n    >>> next_prime(2001)\n    2003\n    \"\"\"\n    # We only need to check odd numbers.\n    if n % 2 == 0:\n        n += 1\n    # We can use trial division to find the next largest prime.\n    while True:\n        n += 2\n        is_prime = True\n        for divisor in range(3, int(n ** 0.5) + 1, 2):\n            if n % divisor == 0:\n                is_prime = False\n                break\n        if is_prime:\n            return n\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.9375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    i = 2\n    while i * i <= n:\n        while n % i == 0:\n            n = n // i\n        i += 1\n    return n\n\n\ndef largest_prime_factor_alt(n):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\n    >>> largest_prime_factor_alt(13195)\n    29\n    >>> largest_prime_factor_alt(2048)\n    2\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    i = 2\n    while n % i != 0:\n        i += 1\n    return i\n\n\n\ndef sum_multiples(n, low, high):\n    \"\"\"Return the sum of all multiples of n in [low, high).\n    >>> sum_multiples(3, 3, 9)\n    18\n    >>> sum_multiples(5, 3, 9)\n    10\n    >>> sum_multiples(3, -3, -9)\n    0\n    >>> sum_multiples(3, -9, -3)\n    18\n    >>> sum_multiples(7, -3, 0)\n    0\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    sum = 0\n    if low < 0:\n        low = 0\n    if high < 0:\n        high = 0\n    i = low\n    while i < high:\n        if i % n == 0:\n            sum += i\n        i += 1\n    return sum\n\n\n\ndef sum_multiples_alt(n, low, high):\n    \"\"\"Return the sum of all multiples of n in [low, high).\n    >>> sum_multiples(3, 3, 9)\n    18\n    >>> sum_multiples(5, 3, 9)\n    10\n    >>> sum_multiples(3, -3, -9)\n    0\n    >>> sum_multiples(3, -9, -3)\n    18\n    >>> sum_multiples(7",
+      -5.2109375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    while n % 2 == 0:\n        n /= 2\n    for i in range(3, int(math.sqrt(n)) + 1, 2):\n        while n % i == 0:\n            n /= i\n    return n\n\ndef prime_factors(n: int):\n    \"\"\"Return a list of the prime factors of n, from largest to smallest.\n    >>> prime_factors(100)\n    [10, 5, 2, 2]\n    >>> prime_factors(7)\n    [7]\n    >>> prime_factors(12)\n    [2, 2, 3]\n    >>> prime_factors(24)\n    [2, 2, 2, 3]\n    >>> prime_factors(25)\n    [5, 5]\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    factors = []\n    while n % 2 == 0:\n        factors.append(2)\n        n /= 2\n    for i in range(3, int(math.sqrt(n)) + 1, 2):\n        while n % i == 0:\n            factors.append(i)\n            n /= i\n    if n != 1:\n        factors.append(n)\n    return factors",
+      -5.24609375
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    if n % 2 == 0:\n        return 2\n\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return i\n        i += 2\n    return n\n\n\ndef smallest_divisor(n: int):\n    \"\"\"Return the smallest divisor of n that is larger than its square root.\n    Assume n > 0.\n    >>> smallest_divisor(8)\n    2\n    >>> smallest_divisor(99)\n    11\n    >>> smallest_divisor(123)\n    11\n    >>> smallest_divisor(256)\n    16\n    >>> smallest_divisor(2564123)\n    127\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    i = int(n ** 0.5) + 1\n    while i * i <= n:\n        if n % i == 0:\n            return i\n        i += 1\n    return n\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b.\n    >>> gcd(34, 19)\n    1\n    >>> gcd(39, 91)\n    13\n    >>> gcd(20, 30)\n    10\n    >>> gcd(40, 40)\n    40\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if a < b:\n        a, b = b, a\n    while b != 0:\n        a, b = b, a % b\n    return a\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b.\n    >>> gcd(34, 19)\n    1\n    >>> gcd(39, 91)\n    13\n    >>> gcd(20, 30)\n    10\n    >>> gcd(40, 40)\n    40\n    \"\"\"\n    if a < b",
+      -5.35546875
+    ],
+    [
+      "# find the largest factor of n that is prime\n    # loop from 2 to int(math.sqrt(n))\n    # if n % i == 0, check if i is prime\n    # if i is prime, return i\n    # if i is not prime, continue\n    # if no prime factors, return 1\n    largest_prime = 1\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            if is_prime(i):\n                largest_prime = i\n    return largest_prime\n\n\ndef is_prime(n):\n    \"\"\"Return True if n is a prime number and False otherwise.\n    >>> is_prime(2)\n    True\n    >>> is_prime(16)\n    False\n    >>> is_prime(521)\n    True\n    \"\"\"\n    # return True if n <= 1 or n % 2 == 0\n    # return False if n <= 3 or n % 3 == 0\n    # for i in range(5, n + 1, 6):\n    #     if n % i == 0 or n % (i + 2) == 0:\n    #         return False\n    # return True\n    if n <= 1 or n % 2 == 0:\n        return False\n    if n <= 3 or n % 3 == 0:\n        return False\n    if n <= 7 or n % 5 == 0:\n        return False\n    for i in range(7, int(n ** 0.5) + 1, 6):\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -5.63671875
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    largest = 0\n    while n % 2 == 0:\n        largest = 2\n        n //= 2\n    while n % 3 == 0:\n        largest = 3\n        n //= 3\n    while n % 5 == 0:\n        largest = 5\n        n //= 5\n    while n % 7 == 0:\n        largest = 7\n        n //= 7\n    while n % 11 == 0:\n        largest = 11\n        n //= 11\n    while n % 13 == 0:\n        largest = 13\n        n //= 13\n    while n % 17 == 0:\n        largest = 17\n        n //= 17\n    while n % 19 == 0:\n        largest = 19\n        n //= 19\n    while n % 23 == 0:\n        largest = 23\n        n //= 23\n    while n % 29 == 0:\n        largest = 29\n        n //= 29\n    while n % 31 == 0:\n        largest = 31\n        n //= 31\n    while n % 37 == 0:\n        largest = 37\n        n //= 37\n    while n % 41 == 0:\n        largest = 41\n        n //= 41\n    while n % 43 == 0:\n        largest = 43\n        n //= 43\n    while n % 47 == 0:\n        largest = 47\n        n //= 47\n    while n % 53 == 0:\n        largest = 53\n        n //= 53\n    while n % 59 == 0:\n        largest = 59\n        n //= 59\n    while n % 61 == 0:\n        largest = 61\n        n //= 61\n    while n % 67 == 0:\n        largest = 67",
+      -5.85546875
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    prime = n\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            prime = i\n            n = n // i\n        i += 1\n    return prime\n\n\ndef smallest_divisor(n: int):\n    \"\"\"Return the smallest integer that is divisible by n and all prime\n    numbers up to and including n. Assume n > 1.\n    >>> smallest_divisor(12)\n    2\n    >>> smallest_divisor(25)\n    5\n    >>> smallest_divisor(100)\n    25\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n % 2 == 0:\n        return 2\n    for i in range(3, n + 1, 2):\n        if n % i == 0:\n            return i\n    return n\n\n\ndef lcm(a: int, b: int):\n    \"\"\"Return the Least Common Multiple of a and b. Assume a > 0, b > 0.\n    >>> lcm(3, 10)\n    30\n    >>> lcm(333, 333)\n    999\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    return smallest_divisor(a * b)\n\n\ndef find_path_from_root_to_node(tree, target):\n    \"\"\"Return a list of nodes from the root of tree to a node with value\n    target, or an empty list if there is no such node.\n    >>> t1 = tree(1, [tree(2), tree(3)])\n    >>> find_path_from_root_to_node(t1, 2)\n    [1, 2]\n    >>> find_path_from_root_to_node(t1, 1)\n    [1]\n    >>> find_path_from_root_to_node(t1, 3)\n    [1, 2, 3]\n    >>> find_path_from_root_to_node(t1, 4)\n    []\n    >>>",
+      -6.4140625
+    ],
+    [
+      "# 2 is the only even prime number\n    while n % 2 == 0:\n        n //= 2\n\n    # now n is odd\n    while n % 3 == 0:\n        n //= 3\n\n    # now n is divisible only by 5 or 7\n    while n % 5 == 0:\n        n //= 5\n\n    # now n is divisible only by 7 or 11\n    while n % 7 == 0:\n        n //= 7\n\n    # now n is divisible only by 11 or 13\n    while n % 11 == 0:\n        n //= 11\n\n    # now n is divisible only by 13 or 17\n    while n % 13 == 0:\n        n //= 13\n\n    # now n is divisible only by 17 or 19\n    while n % 17 == 0:\n        n //= 17\n\n    # now n is divisible only by 19 or 23\n    while n % 19 == 0:\n        n //= 19\n\n    # now n is divisible only by 23 or 29\n    while n % 23 == 0:\n        n //= 23\n\n    # now n is divisible only by 29 or 31\n    while n % 29 == 0:\n        n //= 29\n\n    # now n is divisible only by 31 or 37\n    while n % 37 == 0:\n        n //= 37\n\n    # now n is divisible only by 37 or 41\n    while n % 41 == 0:\n        n //= 41\n\n    # now n is divisible only by 41 or 43\n    while n % 43 == 0:\n        n //= 43\n\n    # now n is divisible only by 43 or 47\n    while n % 47 == 0:\n        n //= 47\n\n    # now n is divisible",
+      -6.92578125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    largest_prime_factor = 1\n    while n % 2 == 0:\n        largest_prime_factor = 2\n        n = n / 2\n    while n % 3 == 0:\n        largest_prime_factor = 3\n        n = n / 3\n    while n % 5 == 0:\n        largest_prime_factor = 5\n        n = n / 5\n    while n % 7 == 0:\n        largest_prime_factor = 7\n        n = n / 7\n    while n % 11 == 0:\n        largest_prime_factor = 11\n        n = n / 11\n    while n % 13 == 0:\n        largest_prime_factor = 13\n        n = n / 13\n    while n % 17 == 0:\n        largest_prime_factor = 17\n        n = n / 17\n    while n % 19 == 0:\n        largest_prime_factor = 19\n        n = n / 19\n    while n % 23 == 0:\n        largest_prime_factor = 23\n        n = n / 23\n    while n % 29 == 0:\n        largest_prime_factor = 29\n        n = n / 29\n    while n % 31 == 0:\n        largest_prime_factor = 31\n        n = n / 31\n    while n % 37 == 0:\n        largest_prime_factor = 37\n        n = n / 37\n    while n % 41 == 0:\n        largest_prime_factor = 41\n        n = n / 41\n    while n % 43 == 0:\n        largest_prime_factor = 43\n        n = n / 43\n    while n % 47 == 0:\n        largest_prime_factor = 47\n        n = n / 47\n    while n % 53 == 0:\n        largest_prime_factor = 53",
+      -7.06640625
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    def is_prime(n):\n        if n <= 1:\n            return False\n        if n <= 3:\n            return True\n        for i in range(2, int(n ** 0.5) + 1, 2):\n            if n % i == 0:\n                return False\n        return True\n\n    for i in range(int(n ** 0.5), 1, -1):\n        if n % i == 0:\n            if is_prime(i):\n                return i\n\n\ndef sum_multiples(n: int, p: int):\n    \"\"\"Return the sum of multiples of p which are smaller than n.\n    >>> sum_multiples(3, 5)\n    0\n    >>> sum_multiples(10, 3)\n    18\n    >>> sum_multiples(10, 5)\n    0\n    >>> sum_multiples(10, 7)\n    14\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    res = 0\n    for i in range(1, n):\n        if i % p == 0:\n            res += i\n    return res\n\n\ndef sum_divisible_by(n: int, digits: list):\n    \"\"\"Return the sum of all numbers that use only the given digits. Assume the\n    digits are in some order.\n    >>> sum_divisible_by(256, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])\n    216\n    >>> sum_divisible_by(256, [1, 2, 4, 8])\n    188\n    >>> sum_divisible_by(1234, [0, 1])\n    1\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    res = 0\n    for i in range(n + 1):\n        if i % 1000 != 0:\n            res += int(str(i).strip(str(0)))\n    return res\n\n\ndef count",
+      -7.3515625
+    ],
+    [
+      "# n is the largest prime factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n\n    # n is the largest factor of n",
+      -9.0078125
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    factor = 2\n    while factor * factor <= n and n % factor == 0:\n        n //= factor\n    return n\n\n\ndef smallest_divisor(n: int):\n    \"\"\"Return the smallest integer that is larger than 1 and divides n.\n    >>> smallest_divisor(12)\n    2\n    >>> smallest_divisor(3)\n    3\n    >>> smallest_divisor(15)\n    3\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n % 2 == 0:\n        return 2\n    i = 3\n    while i * i <= n and n % i != 0:\n        i += 2\n    if i * i > n:\n        return n\n    else:\n        return i\n\n\ndef gcd(a: int, b: int):\n    \"\"\"Return the greatest common divisor of a and b.\n    Should be implemented using recursion.\n    >>> gcd(34, 19)\n    1\n    >>> gcd(39, 91)\n    13\n    >>> gcd(20, 30)\n    10\n    >>> gcd(40, 40)\n    40\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef is_prime(n: int):\n    \"\"\"Return whether n is a prime number.\n    >>> is_prime(2)\n    True\n    >>> is_prime(16)\n    False\n    >>> is_prime(521)\n    True\n    \"\"\"\n    \"*** YOUR CODE HERE ***\"\n    if n == 2:\n        return True\n    if n < 2 or n % 2 == 0:\n        return False\n    for i in range(3, int(math.sqrt(n) + 1), 2):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef swap(a: int, b: int):\n    \"\"\"Swap",
+      -9.25
+    ],
+    [
+      "# prime factors can only be prime numbers\n    # so we need to find the largest prime factor first\n    # then use the prime factor theorem to find the largest prime factor\n    # since n is not a prime number, it must have a prime factor\n    largest_prime = n\n    while largest_prime % 2 == 0:\n        largest_prime /= 2\n    # now we have the largest prime factor\n    # we can use the prime factor theorem to get the largest prime factor\n    while largest_prime > 1:\n        while largest_prime % n == 0:\n            largest_prime /= n\n        n = largest_prime\n        while largest_prime % 2 == 0:\n            largest_prime /= 2\n    return int(largest_prime)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -11.0234375
+    ],
+    [
+      "factor = 2\n    while n > 1:\n        while n % factor == 0:\n            n = n / factor\n        factor = factor + 1\n    return factor - 1\n\n\ndef smallest_prime_factor(n: int):\n    \"\"\"Return the smallest prime factor of n. Assume n > 1 and is not a prime.\n    >>> smallest_prime_factor(13195)\n    19\n    >>> smallest_prime_factor(2048)\n    2\n    \"\"\"\n    factor = 2\n    while n > 1:\n        if n % factor == 0:\n            return factor\n        factor = factor + 1\n\n\ndef prime_factors(n: int):\n    \"\"\"Return a list of all prime factors of n. Assume n > 1 and is not a prime.\n    >>> prime_factors(13195)\n    [5, 7, 19]\n    >>> prime_factors(2048)\n    [2, 2, 2, 2, 2, 2]\n    >>> prime_factors(8)\n    [2, 2, 2]\n    >>> prime_factors(9)\n    [3, 3]\n    >>> prime_factors(11)\n    [11]\n    \"\"\"\n    factors = []\n    factor = 2\n    while n > 1:\n        while n % factor == 0:\n            factors.append(factor)\n            n = n / factor\n        factor = factor + 1\n    return factors\n\n\ndef is_prime(n: int):\n    \"\"\"Return True if n is a prime number, False otherwise. Assume n >= 1.\n    >>> is_prime(2)\n    True\n    >>> is_prime(16)\n    False\n    >>> is_prime(521)\n    True\n    \"\"\"\n    if n == 2:\n        return True\n    elif n < 2 or n % 2 == 0:\n        return False\n    else:\n        for i in range(3, int(math.sqrt(n)) + 1, 2):\n            if n % i == 0:",
+      -12.265625
+    ],
+    [
+      "\"*** YOUR CODE HERE ***\"\n    # largest prime factor = largest prime factor of n / 2\n    #                       = largest prime factor of n / 2 / 2\n    #                       = largest prime factor of n / 4\n    #                       = largest prime factor of n / 4 / 2\n    #                       = largest prime factor of n / 4 / 2 / 2\n    #                       = ...\n    #                       = largest prime factor of n / 2^k\n    #                       = n / 2^k\n    #                       = 2^k / n\n    #                       = 2^(k-1) / n\n    # largest prime factor of n / 2\n    largest_prime_factor_of_n_over_2 = 2\n    # largest prime factor of n / 2^k\n    largest_prime_factor_of_n_over_2_power_k = 2\n    # largest prime factor of n\n    largest_prime_factor_of_n = n\n    # k = 1\n    k = 1\n    while largest_prime_factor_of_n > 2:\n        # if n / 2^k is prime\n        if is_prime(largest_prime_factor_of_n_over_2_power_k):\n            # largest prime factor of n = largest prime factor of n / 2^k\n            largest_prime_factor_of_n = largest_prime_factor_of_n_over_2_power_k\n        else:\n            # if n / 2^k is not prime\n            # n / 2^k = prime * m\n            # n / 2^k = prime * 2^k_1 * m_1\n            # m = n / (prime * 2^k_1 * m_1)\n            # m = n / (prime * (2^k - k_1) * m_1)\n            # m = 2^(k-1) / (prime * (2^k - k_1) * m_1)\n            m = largest_prime_factor_of_n_over_2_power_k / largest_prime_factor_of",
+      -12.875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

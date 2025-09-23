@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/141",
+    "prompt": "Write a function to sort a list of elements using pancake sort.",
+    "canonical_solution": "def pancake_sort(nums):\r\n    arr_len = len(nums)\r\n    while arr_len > 1:\r\n        mi = nums.index(max(nums[0:arr_len]))\r\n        nums = nums[mi::-1] + nums[mi+1:len(nums)]\r\n        nums = nums[arr_len-1::-1] + nums[arr_len:len(nums)]\r\n        arr_len -= 1\r\n    return nums",
+    "test_list": [
+      "assert pancake_sort([15, 79, 25, 38, 69]) == [15, 25, 38, 69, 79]",
+      "assert pancake_sort([98, 12, 54, 36, 85]) == [12, 36, 54, 85, 98]",
+      "assert pancake_sort([41, 42, 32, 12, 23]) == [12, 23, 32, 41, 42]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 130
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    >>> pancake_sort([4, 2, 0, 1, 3])\n    [0, 1, 2, 3, 4]\n    >>> pancake_sort([])\n    []\n    >>> pancake_sort([1])\n    [1]\n    \"\"\"\n    length = len(arr)\n\n    for i in range(length - 1, 0, -1):\n        # Find the maximum number in the first i+1 elements.\n        max_index = arr.index(max(arr[: i + 1]))\n\n        # If it's not in the right position, we need to flip it to the beginning.\n        if max_index != i:\n            # Flip the element at max_index to the beginning.\n            arr[: max_index + 1] = reversed(arr[: max_index + 1])\n\n            # Flip the element at i to the beginning.\n            arr[: i + 1] = reversed(arr[: i + 1])\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      7.98828125
+    ],
+    [
+      "def pancake_sort(lst: list) -> list:\n    \"\"\"Sort the given list using pancake sort.\n\n    Args:\n        lst (list): list of elements to be sorted\n\n    Returns:\n        list: sorted list\n    \"\"\"\n\n    def flip(lst: list, i: int) -> None:\n        \"\"\"Flip the list from the start to the given index.\n\n        Args:\n            lst (list): list to be flipped\n            i (int): index to flip until\n        \"\"\"\n        j = 0\n\n        while j < i:\n            lst[j], lst[i] = lst[i], lst[j]\n            j += 1\n            i -= 1\n\n    size = len(lst)\n\n    while size > 0:\n        # find the maximum element from the list\n        max_index = 0\n        for i in range(1, size):\n            if lst[i] > lst[max_index]:\n                max_index = i\n\n        # flip the list from the start to the maximum element\n        flip(lst, max_index)\n\n        # flip the list from the start to the size\n        flip(lst, size - 1)\n\n        size -= 1\n\n    return lst\n\n\nif __name__ == \"__main__\":\n    l = [1, 5, 8, 2, 6, 3, 0, 9, 7, 4]\n    print(pancake_sort(l))",
+      6.41796875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    >>> pancake_sort([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    length = len(arr)\n\n    for i in range(length - 1, 0, -1):\n        max_index = arr.index(max(arr[:i + 1]))\n\n        if max_index == i:\n            continue\n\n        arr = flip(arr, max_index)\n        arr = flip(arr, i)\n\n    return arr\n\n\ndef flip(arr: List[int], index: int) -> List[int]:\n    \"\"\"\n    >>> flip([1, 2, 3, 4, 5], 2)\n    [1, 3, 2, 4, 5]\n    \"\"\"\n    return arr[:index][::-1] + arr[index:][::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.556640625
+    ],
+    [
+      "import unittest\n\n\ndef pancake_sort(arr):\n    \"\"\"\n    Pancake sort algorithm implementation.\n    :param arr: list of elements to sort\n    :return: sorted list\n    \"\"\"\n    size = len(arr)\n    for i in range(size, 0, -1):\n        max_index = arr.index(max(arr[:i]))\n        if max_index != i - 1:\n            arr = flip(arr, max_index)\n            arr = flip(arr, i - 1)\n    return arr\n\n\ndef flip(arr, index):\n    \"\"\"\n    Flip the sublist of the array from index 0 to index.\n    :param arr: list of elements\n    :param index: index of the element in the list\n    :return: flipped list\n    \"\"\"\n    i = 0\n    while i < index:\n        arr[i], arr[index] = arr[index], arr[i]\n        i += 1\n        index -= 1\n    return arr\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_pancake_sort(self):\n\n        self.assertListEqual([1, 2, 3, 4, 5], pancake_sort([5, 4, 3, 2, 1]))\n        self.assertListEqual([1, 2, 3, 4, 5, 6, 7, 8, 9], pancake_sort([9, 8, 7, 6, 5, 4, 3, 2, 1]))\n        self.assertListEqual([1, 2, 3, 4, 5, 6, 7, 8, 9], pancake_sort([9, 1, 8, 7, 6, 5, 4, 3, 2]))\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      3.353515625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(lst: List[int]) -> List[int]:\n    \"\"\"Return a sorted list of integers.\"\"\"\n    lst_len = len(lst)\n    sorted_lst = lst[:]\n    for i in range(lst_len - 1, 0, -1):\n        max_index = i\n        for j in range(0, i):\n            if lst[j] > lst[max_index]:\n                max_index = j\n        if max_index != i - 1:\n            sorted_lst.append(i)\n            lst[max_index] = lst[i - 1]\n            lst[i - 1] = lst[max_index]\n            lst[i - 1:i + 1] = lst[i - 1:i + 1][::-1]\n    return sorted_lst\n\n\nif __name__ == \"__main__\":\n    lst = [2, 1, 5, 4, 3]\n    print(pancake_sort(lst))",
+      2.8984375
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Pancake sort.\n\n    Time Complexity: O(N^2)\n    Space Complexity: O(N)\n    \"\"\"\n    if len(arr) < 2:\n        return arr\n\n    sorted_indices = []\n\n    while len(arr) > 0:\n        max_index = arr.index(max(arr))\n        if max_index == 0:\n            arr = arr[1:]\n            sorted_indices.append(max_index)\n        else:\n            arr = arr[1:max_index + 1][::-1] + arr[max_index + 1:]\n            sorted_indices.append(max_index)\n            sorted_indices.append(len(arr) - 1)\n\n    return sorted_indices\n\n\nif __name__ == \"__main__\":\n    assert pancake_sort([1, 4, 3, 2, 6, 5]) == [0, 1, 3, 2, 5, 4]",
+      2.896484375
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(elements: List[int]) -> List[int]:\n    \"\"\"Sorts the given list of elements using pancake sort.\n\n    Args:\n        elements (List[int]): list of elements to sort\n\n    Returns:\n        List[int]: list of elements in sorted order\n    \"\"\"\n    sorted_elements = []\n    elements_len = len(elements)\n\n    for i in range(elements_len):\n        max_index = elements.index(max(elements[i:]))\n\n        if max_index == i:\n            continue\n\n        # Flip the list from beginning to max_index\n        elements = elements[:max_index + 1][::-1] + elements[max_index + 1:]\n\n        # Flip the list from 0 to max_index\n        elements = elements[: max_index + 1][::-1]\n\n        # Append the flipped list to sorted_elements\n        sorted_elements += elements\n\n        # Set the elements list to the sorted list\n        elements = sorted_elements\n\n        # Reset the sorted_elements list\n        sorted_elements = []\n\n    return elements",
+      2.865234375
+    ],
+    [
+      "import unittest\nfrom typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sorts the given list using pancake sort algorithm.\n\n    Args:\n        arr (List[int]): list to be sorted\n\n    Returns:\n        List[int]: sorted list\n    \"\"\"\n    length = len(arr)\n    if length <= 1:\n        return arr\n\n    for i in range(length - 1):\n        max_idx = arr.index(max(arr))\n        if max_idx == length - 1:\n            continue\n\n        arr = arr[:max_idx + 1][::-1] + arr[max_idx + 1:]\n        arr = arr[: i + 1][::-1] + arr[i + 1:]\n\n    return arr\n\n\nclass Test(unittest.TestCase):\n    def test_pancake_sort(self):\n        arr = [3, 2, 1, 5, 4]\n        self.assertEqual(pancake_sort(arr), sorted(arr))\n\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      2.7734375
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    >>> pancake_sort([4, 5, 3, 1, 2])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    for i in range(len(arr) - 1):\n        max_index = i\n        for j in range(i + 1, len(arr)):\n            if arr[j] > arr[max_index]:\n                max_index = j\n        if max_index != i:\n            arr = flip(arr, max_index)\n            arr = flip(arr, i)\n    return arr\n\n\ndef flip(arr, index):\n    \"\"\"\n    >>> flip([1, 2, 3, 4, 5], 2)\n    [1, 2, 4, 3, 5]\n    \"\"\"\n    return arr[:index][::-1] + arr[index:][::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.587890625
+    ],
+    [
+      "def pancake_sort(arr):\n    for i in range(len(arr)-1, 0, -1):\n        mi = i\n        for j in range(0, i):\n            if arr[j] > arr[mi]:\n                mi = j\n        if mi != i:\n            arr[mi:mi+1] = reversed(arr[mi:mi+1])\n            arr[0:i+1] = reversed(arr[0:i+1])\n    return arr\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([2, 1, 5, 3, 4]))",
+      2.55078125
+    ],
+    [
+      "import unittest\n\ndef flip(arr, i):\n    \"\"\"\n    Flip the first i+1 elements of the array arr.\n    \"\"\"\n    left = 0\n    right = i\n\n    while left < right:\n        tmp = arr[left]\n        arr[left] = arr[right]\n        arr[right] = tmp\n        left += 1\n        right -= 1\n\ndef pancake_sort(arr):\n    \"\"\"\n    Pancake sort algorithm.\n    \"\"\"\n    n = len(arr)\n\n    for i in range(n-1):\n        max_idx = i\n        for j in range(i+1, n):\n            if arr[max_idx] < arr[j]:\n                max_idx = j\n\n        if max_idx != i:\n            flip(arr, max_idx)\n            flip(arr, i)\n\n    return arr\n\n\nclass TestSuite(unittest.TestCase):\n    \"\"\"\n        test suite for the function (above)\n    \"\"\"\n    def test_pancake_sort(self):\n        self.assertEqual([1, 2, 3, 4, 5], pancake_sort([5, 4, 3, 2, 1]))\n        self.assertEqual([1, 2, 3, 4, 5], pancake_sort([4, 3, 2, 1, 5]))\n\nif __name__ == '__main__':\n    unittest.main()",
+      2.345703125
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sorts the array using pancake sort.\n\n    Time complexity: O(n ** 2).\n    Space complexity: O(1).\n    \"\"\"\n    n = len(arr)\n\n    # Start from the last element and go backwards.\n    for i in reversed(range(n)):\n        # Find the index of the largest element in the current pancake.\n        largest_idx = i\n        for j in range(i + 1, n):\n            if arr[j] > arr[largest_idx]:\n                largest_idx = j\n\n        # If the largest element is not in the correct position,\n        # flip the subarray to put it in the correct position.\n        if largest_idx != i:\n            # Flip the subarray to put the largest element in the right position.\n            arr = arr[:largest_idx + 1][::-1] + arr[largest_idx + 1:]\n\n            # Flip the subarray to put the i-th element in the right position.\n            arr = arr[:i + 1][::-1] + arr[i + 1:]\n\n    return arr\n\n\nif __name__ == '__main__':\n    print(pancake_sort([0, 5, 3, 2, 2]))",
+      2.181640625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sorts a list of elements using pancake sort.\n\n    Args:\n        arr (List[int]): list of elements\n\n    Returns:\n        List[int]: list of elements sorted\n    \"\"\"\n    n = len(arr)\n    curr = n\n\n    while curr > 1:\n        # Find the maximum number in arr from 0 to curr - 1\n        mi = arr.index(max(arr[:curr]))\n\n        # If it\u2019s not at the beginning, we need to flip it to the beginning\n        if mi != 0:\n            arr = arr[:mi+1][::-1] + arr[mi+1:]\n            arr = arr[:curr][::-1] + arr[curr:]\n\n        # Move curr to next element\n        curr -= 1\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([4, 3, 2, 1]))\n    print(pancake_sort([1, 5, 2, 3, 4]))\n    print(pancake_sort([1, 2, 3, 4, 5]))",
+      2.068359375
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(N^2)\n# Space Complexity: O(1)\ndef pancake_sort(nums: List[int]) -> List[int]:\n    length = len(nums)\n    res = []\n    for i in range(length - 1):\n        if nums[i] == length - i:\n            continue\n        nums = flip(nums, i)\n        res.append(nums[i])\n        nums = flip(nums, length - i - 1)\n        res.append(nums[length - i - 1])\n    return res\n\n\ndef flip(nums: List[int], k: int) -> List[int]:\n    \"\"\"\n    >>> flip([3, 2, 4, 1], 2)\n    [2, 4, 1, 3]\n    \"\"\"\n    return nums[:k+1][::-1] + nums[k+1:]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      1.4638671875
+    ],
+    [
+      "def pancake_sort(lst: list) -> list:\n    \"\"\"\n    Sort a list of elements using pancake sort.\n    >>> pancake_sort([4, 5, 3, 1, 2])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([-1, -5, -45, -3, -54])\n    [-54, -5, -45, -3, -1]\n    >>> pancake_sort([1, 1, 1, 1, 1, 1, 1, 1])\n    [1, 1, 1, 1, 1, 1, 1, 1]\n    >>> pancake_sort([])\n    []\n    \"\"\"\n    if not lst:\n        return lst\n    lst_len = len(lst)\n    lst_sorted = lst[:]\n\n    while lst_len:\n        max_idx = lst_sorted.index(max(lst_sorted))\n        if max_idx != lst_len - 1:\n            lst_sorted = lst_sorted[: max_idx + 1]\n            lst_sorted.reverse()\n            lst_sorted = lst_sorted[: max_idx + 1] + lst_sorted[max_idx + 1 :]\n            lst_sorted.reverse()\n        lst_len -= 1\n    return lst_sorted\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.369140625
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    >>> pancake_sort([0, 5, 3, 2, 2])\n    [0, 2, 2, 3, 5]\n    \"\"\"\n    for i in range(len(arr) - 1, 0, -1):\n        max_index = i\n        for j in range(0, i):\n            if arr[j] > arr[max_index]:\n                max_index = j\n        if max_index != i:\n            arr[max_index], arr[i] = arr[i], arr[max_index]\n            arr[0:max_index + 1] = arr[0:max_index + 1][::-1]\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.1591796875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(nums: List[int]) -> List[int]:\n    \"\"\"Sorts a list of numbers in non-decreasing order using pancake sort.\n\n    Args:\n        nums (List[int]): list of numbers to sort\n\n    Returns:\n        List[int]: list of integers sorted in non-decreasing order\n    \"\"\"\n    if len(nums) <= 1:\n        return nums\n\n    result = []\n    nums_length = len(nums)\n\n    while nums_length > 0:\n        max_index = nums.index(max(nums))\n        nums = nums[:max_index + 1][::-1] + nums[max_index + 1:]\n        nums_length -= 1\n\n        result.append(max_index + 1)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([3, 2, 4, 1]))",
+      1.1572265625
+    ],
+    [
+      "import unittest\nfrom typing import List\n\n\n# Time complexity: O(n^2)\n# Space complexity: O(1)\ndef pancake_sort(nums: List[int]) -> List[int]:\n    \"\"\"\n    Input: nums = [3,2,4,1]\n    Output: [1,2,3,4]\n    Explanation:\n        [3,2,4,1] -> [4,3,2,1] -> [2,4,3,1] -> [4,2,3,1]\n    \"\"\"\n    n = len(nums)\n\n    # Start from the last element and search for the maximum element.\n    # If maximum element is not the last element, reverse from 0 to position of maximum element - 1\n    # and then reverse from position of maximum element to end.\n    for i in range(n - 1, 0, -1):\n        max_index = i\n        for j in range(i):\n            if nums[j] > nums[max_index]:\n                max_index = j\n\n        if max_index != i:\n            # Reverse the sub-list from 0 to max_index\n            nums = nums[:max_index+1][::-1] + nums[max_index+1:]\n            # Reverse the sub-list from max_index to n-1\n            nums = nums[:i+1][::-1] + nums[i+1:]\n\n    return nums\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_pancake_sort(self):\n\n        self.assertListEqual(pancake_sort([3, 2, 4, 1]), [1, 2, 3, 4])\n\n        self.assertListEqual(pancake_sort([0, 2, 1, 3]), [0, 1, 2, 3])\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      1.126953125
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n^2)\n# Space complexity: O(1)\ndef pancake_sort(arr: List[int]) -> List[int]:\n    size = len(arr)\n    res = []\n\n    for i in range(size - 1):\n        # Find the index of the maximum element in the unsorted subarray\n        max_index = arr.index(max(arr[i:]))\n        if max_index == i:\n            continue\n\n        # Reverse the subarray from position i to max_index\n        arr = arr[:i:-1] + arr[:i]\n        res.append(arr[:max_index+1][::-1])\n\n        # Reverse the entire array again\n        arr = arr[::-1]\n        res.append(arr)\n\n    return res\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([1, 5, 2, 4, 3]))",
+      1.064453125
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    \"\"\"\n    length = len(arr)\n\n    for i in range(length - 1, 0, -1):\n        max_index = arr.index(max(arr[:i + 1]))\n        if max_index == i:\n            continue\n\n        arr = arr[:max_index + 1][::-1] + arr[max_index + 1:]\n        arr = arr[:i + 1][::-1] + arr[i + 1:]\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    assert pancake_sort([1, 5, 2, 4, 3]) == [1, 2, 3, 4, 5]",
+      1.0322265625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    \"\"\"\n    size = len(arr)\n\n    for i in range(size, 0, -1):\n        max_index = arr.index(max(arr[0:i]))\n\n        # Reverse first i elements\n        if max_index != i - 1:\n            arr = arr[:max_index + 1][::-1] + arr[max_index + 1:]\n\n        # Reverse whole array\n        arr = arr[::-1]\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    assert pancake_sort([1, 3, 2, 4, 5]) == [1, 2, 3, 4, 5]",
+      1.029296875
+    ],
+    [
+      "def sort_pancake(arr, target):\n    \"\"\"\n    The idea is to reverse the sublist from 0 to target, then reverse the whole array.\n    \"\"\"\n    if len(arr) == 0:\n        return arr\n    if len(arr) == 1:\n        return arr\n    if len(arr) == 2:\n        if arr[0] > arr[1]:\n            arr = [arr[1], arr[0]]\n        return arr\n\n    for i in range(len(arr)-1):\n        if arr[i] == target:\n            break\n    arr = arr[:i+1][::-1] + arr[i+1:]\n    arr = arr[::-1]\n    return arr\n\n\nif __name__ == \"__main__\":\n    print(sort_pancake([3,2,4,1], 1))\n    print(sort_pancake([1,2,3,4], 2))\n    print(sort_pancake([4,3,2,1], 4))\n    print(sort_pancake([3,2,4,1], 3))\n    print(sort_pancake([4,3,2,1], 3))",
+      0.97705078125
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(lst: List[int]) -> List[int]:\n    \"\"\"Sort a list using pancake sort.\n\n    Time Complexity: O(n*n)\n    Space Complexity: O(1)\n    \"\"\"\n    lst = lst[:]\n    for i in range(len(lst) - 1, 0, -1):\n        max_index = lst.index(max(lst[:i + 1]))\n        if max_index == i:\n            continue\n        lst = lst[:max_index + 1][::-1] + lst[max_index + 1:]\n        lst = lst[:i + 1][::-1] + lst[i + 1:]\n    return lst\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([1, 5, 4, 3, 2]))",
+      0.94970703125
+    ],
+    [
+      "def flip(lst, index):\n    if index == 0:\n        return lst\n    return lst[:index+1][::-1] + lst[index+1:]\n\n\ndef pancake_sort(lst):\n    n = len(lst)\n    while n > 1:\n        max_index = 0\n        for i in range(1, n):\n            if lst[i] > lst[max_index]:\n                max_index = i\n        lst = flip(lst, max_index)\n        lst = flip(lst, n-1)\n        n -= 1\n    return lst\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        [4, 3, 2, 1],\n        [1, 2, 3, 4],\n        [1, 2, 3, 5, 4],\n        [4, 3, 2, 1, 5, 6],\n    ]\n    for case in test_cases:\n        print(case)\n        print(pancake_sort(case))",
+      0.904296875
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(N^2)\n# Space Complexity: O(1)\ndef pancake_sort(array: List[int]) -> List[int]:\n    length = len(array)\n\n    while length > 1:\n        max_index = array.index(max(array[:length]))\n        array = array[max_index::-1] + array[max_index+1:length]\n\n        length -= 1\n\n    return array\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([1, 5, 2, 4, 3]))",
+      0.712890625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(nums: List[int]) -> List[int]:\n    \"\"\"Sorts a list of numbers using pancake sort.\n\n    Args:\n        nums (List[int]): list of numbers to sort\n\n    Returns:\n        List[int]: list of swaps performed\n    \"\"\"\n    n = len(nums)\n    swaps = []\n\n    for i in range(n - 1):\n        max_idx = i\n\n        for j in range(i + 1, n):\n            if nums[j] > nums[max_idx]:\n                max_idx = j\n\n        if max_idx != i:\n            nums = nums[: max_idx + 1]\n            nums.reverse()\n            nums = nums[: max_idx + 1]\n            nums.reverse()\n            nums = nums[max_idx + 1 :] + nums[: max_idx + 1]\n\n            swaps.append(max_idx + 1)\n\n    return swaps\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([5, 3, 2, 1, 4]))\n    print(pancake_sort([1, 2, 3, 4, 5]))\n    print(pancake_sort([5, 4, 3, 2, 1]))",
+      0.291259765625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    \"\"\"\n\n    length = len(arr)\n\n    for i in range(length - 1):\n        # Find index of the largest element in the array\n        largest_index = arr.index(max(arr[i:]))\n        # Reverse the first elements in the array\n        # to bring the largest element to the top\n        arr = arr[:largest_index + 1][::-1] + arr[largest_index + 1:]\n        # Reverse the entire array to bring the largest element\n        # to the bottom\n        arr = arr[::-1]\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    arr = [1, 4, 5, 2, 3, 1, 0]\n    print(pancake_sort(arr))",
+      0.1727294921875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sort list using pancake sort.\n\n    Args:\n        arr (List[int]): list to sort\n\n    Returns:\n        List[int]: sorted list\n    \"\"\"\n    arr_len = len(arr)\n    res = []\n    while arr_len > 0:\n        max_idx = arr.index(max(arr))\n        if max_idx != arr_len - 1:\n            arr = arr[: max_idx + 1][::-1] + arr[max_idx + 1 :]\n            arr = arr[: arr_len][::-1]\n            res.append(arr_len)\n            res.append(max_idx + 1)\n        arr_len -= 1\n    return res\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([1, 2, 3, 4, 5, 6]))",
+      0.1368408203125
+    ],
+    [
+      "def flip(arr, i):\n    \"\"\"\n    Flip the first i+1 elements of the array.\n    \"\"\"\n    start = 0\n    end = i\n    while start < end:\n        arr[start], arr[end] = arr[end], arr[start]\n        start += 1\n        end -= 1\n\n\ndef pancake_sort(arr):\n    \"\"\"\n    Sort the given array using pancake sort.\n    \"\"\"\n    if len(arr) < 2:\n        return arr\n    while len(arr) > 1:\n        max_index = arr.index(max(arr))\n        if max_index != len(arr) - 1:\n            flip(arr, max_index)\n            flip(arr, len(arr) - 1)\n        arr.pop()\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([3, 2, 4, 1], [1, 2, 3, 4]),\n        ([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]),\n        ([1, 2, 3, 2, 1], [1, 1, 2, 2, 3]),\n    ]\n\n    for test_case, expected_result in test_cases:\n        assert pancake_sort(test_case) == expected_result",
+      0.1351318359375
+    ],
+    [
+      "def pancake_sort(lst):\n    \"\"\"Sorts a list of integers using pancake sort.\n\n    Args:\n        lst: list of integers\n\n    Returns:\n        sorted lst\n    \"\"\"\n    lst_len = len(lst)\n    for i in range(lst_len-1):\n        max_index = i\n        for j in range(i, lst_len):\n            if lst[j] > lst[max_index]:\n                max_index = j\n        if max_index != i:\n            lst = lst[:max_index+1][::-1] + lst[max_index+1:]\n            lst = lst[:i+1][::-1] + lst[i+1:]\n    return lst\n\n\nif __name__ == '__main__':\n    print(pancake_sort([4, 3, 2, 10, 12, 1, 5, 6]))",
+      0.07537841796875
+    ],
+    [
+      "def pancake_sort(arr):\n    for i in range(len(arr)):\n        if arr[i] == max(arr[0:i+1]):\n            continue\n        if arr[i] == arr[0]:\n            continue\n        arr = flip_pancake(arr, i)\n        arr = flip_pancake(arr, arr.index(max(arr[0:i+1])))\n    return arr\n\n\ndef flip_pancake(arr, index):\n    return arr[0:index+1][::-1] + arr[index+1:]\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([1, 4, 1, 2, 3, 6, 5, 7, 8, 2]))",
+      0.037445068359375
+    ],
+    [
+      "from typing import List\n\n\n# Time Complexity: O(n*n)\n# Space Complexity: O(1)\ndef pancake_sort(arr: List[int]) -> List[int]:\n    length = len(arr)\n\n    for i in range(length - 1):\n        # find the index of the maximum element in the unsorted sublist\n        max_index = arr.index(max(arr[i:]))\n\n        # reverse the sublist until the maximum element reaches the front\n        arr = arr[:max_index + i + 1][::-1] + arr[max_index + i + 1:]\n\n        # reverse the entire list until the maximum element reaches the front\n        arr = arr[::-1]\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([2, 3, 1, 5, 4]))",
+      0.01812744140625
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    We're going to do a bubble sort but instead of bubbling the largest element\n    to the end of the list, we're going to bubble it to the front.\n    \"\"\"\n    for i in range(len(arr)):\n        largest = i\n        for j in range(i, len(arr)):\n            if arr[j] > arr[largest]:\n                largest = j\n        if largest != i:\n            arr = arr[:largest+1] + arr[i:-1:-1]\n            arr = arr[:i+1] + arr[largest+1:]\n    return arr\n\nif __name__ == '__main__':\n    import sys\n\n    def main(argv):\n        print(pancake_sort([int(x) for x in argv[1:]]))\n\n    main(sys.argv)",
+      -0.04132080078125
+    ],
+    [
+      "import unittest\nfrom typing import List\n\n\ndef flip(arr: List[int], i: int) -> None:\n    \"\"\"Flip arr[0...i] in-place.\"\"\"\n    j = 0\n\n    while j < i:\n        arr[j], arr[i] = arr[i], arr[j]\n        j += 1\n        i -= 1\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sort list using pancake sort.\n\n    Space complexity: O(1)\n    Time complexity: O(n^2)\n    \"\"\"\n    n = len(arr)\n\n    for i in range(n - 1):\n        # Find the maximum element in remaining unsorted array.\n        # The maximum element is guaranteed to be in the unsorted\n        # subarray arr[0...i].\n        m = 0\n\n        for j in range(i + 1, n):\n            if arr[j] > arr[m]:\n                m = j\n\n        # If element to place is different from current position,\n        # flip arr[0...i] and arr[m] to move the maximum element\n        # of unsorted subarray to position i\n        if m != i:\n            flip(arr, i)\n            flip(arr, m)\n\n    return arr\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        arr = [4, 2, 1, 5, 3]\n        pancake_sort(arr)\n        self.assertEqual(arr, [1, 2, 3, 4, 5])\n\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      -0.236572265625
+    ],
+    [
+      "import unittest\n\n\ndef sort(arr):\n    n = len(arr)\n    while n > 1:\n        max_index = arr.index(max(arr[:n]))\n        if max_index != n - 1:\n            arr = arr[max_index+1:] + arr[:max_index+1]\n            arr = arr[::-1]\n            arr = arr[:max_index+1] + arr[max_index+1:][::-1]\n        n -= 1\n    return arr\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_sort(self):\n\n        arr = [3, 2, 4, 1, 5]\n        self.assertListEqual(sort(arr), [1, 2, 3, 4, 5])\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      -0.2410888671875
+    ],
+    [
+      "import unittest\n\n\ndef sort(arr):\n    if len(arr) < 2:\n        return arr\n\n    n = len(arr)\n    for i in range(n-1, 0, -1):\n        max_index = i\n        for j in range(1, i+1):\n            if arr[j] > arr[max_index]:\n                max_index = j\n\n        if max_index != i:\n            arr = flip(arr, max_index)\n            arr = flip(arr, i)\n\n    return arr\n\n\ndef flip(arr, index):\n    left = 0\n    right = index\n    while left < right:\n        arr[left], arr[right] = arr[right], arr[left]\n        left += 1\n        right -= 1\n    return arr\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_sort(self):\n\n        self.assertListEqual(sort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])\n        self.assertListEqual(sort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5])\n        self.assertListEqual(sort([4, 3, 2, 1, 5]), [1, 2, 3, 4, 5])\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      -0.375
+    ],
+    [
+      "def pancake_sort(l):\n    \"\"\"Return the list l sorted.\"\"\"\n\n    def flip(l, i):\n        \"\"\"Flip the sublist of l starting at index i.\"\"\"\n        return l[:i][::-1] + l[i:]\n\n    def find_max(l):\n        \"\"\"Return the index of the maximum element in the list l.\"\"\"\n        m = max(l)\n        return l.index(m)\n\n    for i in range(len(l)-1):\n        m = find_max(l)\n        if m != i:\n            l = flip(l, m)\n            l = flip(l, i)\n\n    return l\n\n\ndef test():\n    \"\"\"Run the tests.\"\"\"\n    assert pancake_sort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]\n    assert pancake_sort([1, 5, 4, 3, 2]) == [1, 2, 3, 4, 5]\n    assert pancake_sort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]\n    assert pancake_sort([]) == []\n    assert pancake_sort([1]) == [1]\n    assert pancake_sort([1, 1]) == [1, 1]\n    assert pancake_sort([1, 2]) == [1, 2]\n    assert pancake_sort([2, 1]) == [1, 2]\n    print 'Yay! All tests pass!'\n\n\ndef main():\n    \"\"\"Run the main function.\"\"\"\n    test()\n\n\nif __name__ == '__main__':\n    main()",
+      -0.49658203125
+    ],
+    [
+      "import unittest\n\n\ndef sort(lst):\n    for i in range(len(lst)-1, -1, -1):\n        max_idx = i\n        for j in range(i):\n            if lst[j] > lst[max_idx]:\n                max_idx = j\n\n        if max_idx != i:\n            lst = flip(lst, max_idx) + flip(lst, i)\n    return lst\n\n\ndef flip(lst, idx):\n    return lst[:idx+1][::-1] + lst[idx+1:]\n\n\nclass TestSort(unittest.TestCase):\n    def test_sort(self):\n        self.assertEqual(sort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])\n        self.assertEqual(sort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5])\n        self.assertEqual(sort([1, 2, 3, 1, 2, 3]), [1, 2, 3, 1, 2, 3])\n        self.assertEqual(sort([5, 4, 3, 2, 1, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5, 1, 2, 3, 4, 5])\n\n\nif __name__ == \"__main__\":\n    unittest.main(verbosity=2)",
+      -0.5390625
+    ],
+    [
+      "def pancake_sort(array):\n    \"\"\"\n    This function sorts the array using pancake sort.\n\n    :param array: The array to be sorted.\n    :return: The sorted array.\n    \"\"\"\n    if not array:\n        return array\n\n    def flip(array, n):\n        \"\"\"\n        This function flips the first n elements in the array.\n\n        :param array: The array to be flipped.\n        :param n: The number of elements to be flipped.\n        :return: The flipped array.\n        \"\"\"\n        for i in range(n // 2):\n            array[i], array[n - i - 1] = array[n - i - 1], array[i]\n        return array\n\n    def get_max(array):\n        \"\"\"\n        This function returns the maximum element in the array.\n\n        :param array: The array.\n        :return: The maximum element.\n        \"\"\"\n        max_elem = array[0]\n        for i in range(len(array)):\n            if array[i] > max_elem:\n                max_elem = array[i]\n        return max_elem\n\n    for i in range(len(array) - 1, 0, -1):\n        max_elem = get_max(array[:i + 1])\n        if max_elem == array[i]:\n            continue\n        flip_index = array.index(max_elem)\n        flip(array, flip_index + 1)\n        flip(array, i + 1)\n    return array\n\n\ndef main():\n    \"\"\"\n    Driver code.\n    \"\"\"\n    array = [4, 5, 2, 1, 6, 3, 3, 4, 1, 2, 5]\n    assert pancake_sort(array) == sorted(array)\n    print(\"All tests passed!\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.5576171875
+    ],
+    [
+      "def flip(arr, i):\n    start = 0\n    while start < i:\n        temp = arr[i]\n        arr[i] = arr[start]\n        arr[start] = temp\n        i -= 1\n        start += 1\n\n\ndef sort_pancake(arr):\n    \"\"\"\n    :param - array to be sorted\n    :return - sorted array\n    \"\"\"\n    n = len(arr)\n    # Find index of maximum element in array\n    mi = n - 1\n    while mi > 0:\n        # Find the maximum number in remaining unsorted array\n        ma = mi\n        while mi > 0:\n            if arr[mi] > arr[ma]:\n                ma = mi\n            mi -= 1\n        # If ma is not equal to n-1, swap with the last element\n        if ma != n - 1:\n            flip(arr, ma)\n        # Now flip the entire array to get the required sorted array\n        flip(arr, n - 1)\n    return arr\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = sort_pancake(arr)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\n# Test cases\ntest_function([[3, 2, 4, 1], [1, 2, 3, 4]])\ntest_function([[4, 5, 1, 2, 3], [1, 2, 3, 4, 5]])\ntest_function([[], []])\ntest_function([[1], [1]])\ntest_function([[2, 1], [1, 2]])",
+      -0.5703125
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    The idea is to find the index of the maximum element in the array.\n    After that, we reverse the sub-array from 0 to the index found.\n    Then, we do the same thing for the sub-array from 0 to the new index.\n    We continue this process until the array is sorted.\n    \"\"\"\n    length = len(arr)\n\n    for index in range(length - 1):\n        max_index = index\n\n        for i in range(index + 1, length):\n            if arr[max_index] < arr[i]:\n                max_index = i\n\n        if max_index != index:\n            arr[: max_index + 1] = reversed(arr[: max_index + 1])\n            arr[: index + 1] = reversed(arr[: index + 1])\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    assert pancake_sort([5, 2, 4, 6, 1]) == [1, 2, 4, 5, 6]",
+      -0.66845703125
+    ],
+    [
+      "def pancake_sort(l: list) -> list:\n    \"\"\"\n    >>> pancake_sort([])\n    []\n    >>> pancake_sort([2, 4, 1])\n    ['Began from front', 'Began from back', ['1', '2', '4']]\n    \"\"\"\n    if len(l) <= 1:\n        return l\n\n    n = len(l)\n    res = []\n    while n > 1:\n        # find the maximum number in the list\n        max_index = l.index(max(l[:n]))\n        # reverse the sublist from front till the maximum number\n        l = l[:max_index+1][::-1] + l[max_index+1:]\n        # reverse the whole list\n        l = l[::-1]\n        # append the result\n        res.append(f\"Began from front\")\n        res.append(f\"Began from back\")\n        res.append(l)\n        n -= 1\n\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.75
+    ],
+    [
+      "from random import shuffle\n\n\ndef sort_list(lst):\n    for i in range(len(lst)):\n        max_index = i\n        for j in range(i, len(lst)):\n            if lst[max_index] < lst[j]:\n                max_index = j\n        if max_index != i:\n            lst = flip(lst, max_index) + flip(lst, i)\n    return lst\n\n\ndef flip(lst, i):\n    return lst[:i][::-1] + lst[i:]\n\n\nif __name__ == '__main__':\n    lst = list(range(10))\n    shuffle(lst)\n    print(lst)\n    print(sort_list(lst))",
+      -0.810546875
+    ],
+    [
+      "def pancake_sort(arr):\n    for i in range(len(arr)):\n        max_index = arr.index(max(arr[:i+1]))\n        if max_index != i:\n            arr = arr[:max_index+1][::-1] + arr[max_index+1:]\n            arr = arr[:i+1][::-1] + arr[i+1:]\n    return arr\n\n\n\ndef main():\n    arr = [2, 5, 3, 8, 6, 7, 1]\n    arr = pancake_sort(arr)\n    print(arr)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85595703125
+    ],
+    [
+      "def flip_it(lst, index):\n    \"\"\"Flip the list from beginning to index.\"\"\"\n    return lst[:index + 1][::-1] + lst[index + 1:]\n\n\ndef pancake_sort(lst):\n    \"\"\"Sort a list in place.\"\"\"\n    size = len(lst)\n    while size > 1:\n        max_idx = lst.index(max(lst[:size]))\n        if max_idx != size - 1:\n            lst = flip_it(lst, max_idx)\n            lst = flip_it(lst, size - 1)\n        size -= 1\n    return lst\n\n\nif __name__ == '__main__':\n    print(pancake_sort([1, 2, 3, 4, 5, 6, 7, 8, 9]))",
+      -0.85693359375
+    ],
+    [
+      "def sort_list(a):\n    for i in range(len(a)):\n        if a[i] == a[0]:\n            break\n        flip(a, i)\n    flip(a, len(a) - 1)\n    return a\n\ndef flip(a, i):\n    for j in range(i // 2):\n        a[j], a[i - j] = a[i - j], a[j]",
+      -0.85693359375
+    ],
+    [
+      "def sort_list(arr):\n    # TODO: Write your code here\n    return arr\n\n\nif __name__ == \"__main__\":\n    arr = [5, 4, 3, 2, 1]\n    print(f\"Original list: {arr}\")\n    arr = sort_list(arr)\n    print(f\"Sorted list: {arr}\")",
+      -0.85791015625
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    Time Complexity: O(n^2)\n    \"\"\"\n    n = len(arr)\n    while n > 1:\n        mi = arr.index(max(arr[:n]))\n        if mi != n-1:\n            arr = arr[:mi+1][::-1] + arr[mi+1:]\n            arr = arr[:n][::-1]\n            n -= 1\n        n -= 1\n    return arr",
+      -0.85791015625
+    ],
+    [
+      "def sort_pancake(l: list) -> list:\n    \"\"\"\n    >>> sort_pancake([3, 2, 4, 1])\n    [1, 2, 3, 4]\n    \"\"\"\n    l = l[:]\n    res = []\n    for i in range(len(l) - 1):\n        max_index = l.index(max(l[i:]))\n        if max_index != i:\n            l[max_index : max_index + 1] = l[i : i + 1]\n            res.append(max_index + 1)\n            res.append(i + 1)\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def pancake_sort(arr):\n    for i in range(len(arr)-1):\n        # find index of max element in the unsorted part\n        m = arr.index(max(arr[i:]))\n        # reverse the sublist of the unsorted part\n        arr[i:i+m+1] = arr[i:i+m+1][::-1]\n        # reverse the whole list\n        arr[:i+1] = arr[:i+1][::-1]\n\n\nif __name__ == '__main__':\n    arr = [2, 3, 1, 4, 5]\n    pancake_sort(arr)\n    print(arr)",
+      -0.8583984375
+    ],
+    [
+      "def pancake_sort(elements):\n    \"\"\"\n    >>> pancake_sort([1, 5, 2, 3, 4])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    length = len(elements)\n    while length > 1:\n        maximum = elements.index(max(elements[:length]))\n        if maximum != length - 1:\n            elements = elements[:maximum + 1][::-1] + elements[maximum + 1:]\n            elements = elements[:length][::-1] + elements[length:]\n        length -= 1\n    return elements",
+      -0.8583984375
+    ],
+    [
+      "def sort(arr):\n    for i in range(len(arr)):\n        if arr[i] == arr[0]:\n            continue\n        for j in range(i):\n            if arr[j] > arr[i]:\n                arr[j], arr[i] = arr[i], arr[j]\n                print(arr)\n                break\n    return arr\n\n\nprint(sort([3, 2, 4, 1, 5]))",
+      -0.8583984375
+    ],
+    [
+      "from random import randint\n\n\ndef pancake_sort(arr):\n    def flip(i):\n        nonlocal arr\n        arr = arr[:i + 1][::-1] + arr[i + 1:]\n\n    for i in range(len(arr) - 1, 0, -1):\n        if arr[0] > arr[i]:\n            flip(i)\n        if arr[0] != arr[i]:\n            flip(0)\n\n\nif __name__ == '__main__':\n    for _ in range(10):\n        lst = [randint(-10, 10) for _ in range(randint(0, 10))]\n        print(lst)\n        pancake_sort(lst)\n        print(lst)\n        print()",
+      -0.85888671875
+    ],
+    [
+      "def sort_pancakes(arr):\n    if not arr:\n        return []\n\n    for i in range(len(arr)):\n        max_idx = arr.index(max(arr))\n        if max_idx != i:\n            arr = arr[:max_idx+1][::-1] + arr[max_idx+1:]\n            arr = arr[:i+1][::-1] + arr[i+1:]\n    return arr\n\n\nif __name__ == \"__main__\":\n    print(sort_pancakes([3, 2, 1, 5, 4, 6, 7]))",
+      -0.86083984375
+    ],
+    [
+      "def sort(arr):\n    \"\"\"\n    Sort the given list using pancake sort.\n    \"\"\"\n\n    for i in range(len(arr) - 1, 0, -1):\n        max_idx = i\n\n        for j in range(0, i):\n            if arr[j] > arr[max_idx]:\n                max_idx = j\n\n        if max_idx != i:\n            # Flip the array from the front of the list to max_idx\n            arr[0:max_idx + 1] = arr[0:max_idx + 1][::-1]\n\n            # Flip the array from the back of the list to i\n            arr[i:len(arr)] = arr[i:len(arr)][::-1]\n\n    return arr",
+      -0.904296875
+    ],
+    [
+      "def pancake_sort(lst):\n    \"\"\"Sort a list of elements using pancake sort.\n\n    Args:\n        lst: list of elements\n\n    Returns:\n        sorted lst\n    \"\"\"\n    # the number of flips it takes to sort the list\n    flips = 0\n\n    for i in range(len(lst) - 1):\n        # find the maximum element in remaining unsorted sublist\n        # i.e. the element at the top of the pancake\n        max_idx = i\n        for j in range(i + 1, len(lst)):\n            if lst[j] > lst[max_idx]:\n                max_idx = j\n\n        # if the maximum element is not the top element,\n        # flip the sublist until it reaches the top\n        if max_idx != i:\n            lst = flip(lst, max_idx)\n            lst = flip(lst, i)\n            flips += 2\n\n    return lst, flips\n\n\ndef flip(lst, i):\n    \"\"\"Flip a sublist.\n\n    Args:\n        lst: list of elements\n        i: index of the top of the pancake\n\n    Returns:\n        flipped lst\n    \"\"\"\n    # flip the sublist\n    lst[i + 1 :] = lst[i :: -1]\n    return lst",
+      -0.9599609375
+    ],
+    [
+      "def flip_pancake(arr, i):\n    \"\"\"Flip the pancake from index i to the end.\n\n    Args:\n        arr: list of elements\n        i: index to flip from\n    \"\"\"\n    n = len(arr)\n    while i > 0:\n        arr[i], arr[i-1] = arr[i-1], arr[i]\n        i -= 1\n\n\ndef sort_pancake(arr):\n    \"\"\"Sort the list arr using pancake sort.\n\n    Args:\n        arr: list of elements\n    \"\"\"\n    n = len(arr)\n    for i in range(n-1, 0, -1):\n        max_index = i\n        for j in range(0, i):\n            if arr[j] > arr[max_index]:\n                max_index = j\n\n        if max_index != i-1:\n            flip_pancake(arr, max_index)\n            flip_pancake(arr, i-1)\n\n\ndef main():\n    arr = [5, 4, 3, 2, 1]\n    sort_pancake(arr)\n    print(arr)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.0546875
+    ],
+    [
+      "import unittest\n\n\ndef pancake_sort(arr):\n    curr = len(arr)\n    while curr > 1:\n        max_ind = arr.index(max(arr[:curr]))\n        if max_ind != curr - 1:\n            arr = arr[:max_ind+1][::-1] + arr[max_ind+1:]\n            arr = arr[:curr][::-1] + arr[curr:]\n        curr -= 1\n    return arr\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_pancake_sort(self):\n\n        self.assertListEqual(pancake_sort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])\n        self.assertListEqual(pancake_sort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5])\n        self.assertListEqual(pancake_sort([1, 2, 3, 2, 1]), [1, 2, 2, 3, 1])\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      -1.2578125
+    ],
+    [
+      "from typing import List\n\n\ndef sort_pancake(array: List[int]) -> List[int]:\n    \"\"\"\n    The idea is to use the fact that if we flip the array from 0 to i,\n    then the value at i is the largest.\n\n    We can use this information to make the largest element at the start\n    and bring the next largest element to the start.\n    This is done by flipping the array from 0 to i - 1.\n\n    We then do the same thing for the next largest element by flipping the array\n    from 0 to i - 2 and so on.\n    \"\"\"\n    if not array:\n        return array\n\n    result = []\n    size = len(array)\n\n    for i in range(size - 1, 0, -1):\n        # find the index of the largest element\n        largest_index = array.index(max(array[:i + 1]))\n\n        # reverse the array from 0 to largest_index\n        array = array[:largest_index + 1][::-1] + array[largest_index + 1:]\n\n        result.append(largest_index + 1)\n\n    return result",
+      -1.294921875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(elements: List[int]) -> List[int]:\n    \"\"\"\n    O(n^2) time | O(1) space\n    \"\"\"\n    sorted_list = []\n    length = len(elements)\n\n    while length > 0:\n        max_idx = elements.index(max(elements[:length]))\n        if max_idx != length - 1:\n            elements = elements[:max_idx + 1][::-1] + elements[max_idx + 1:]\n            elements = elements[:length][::-1]\n            sorted_list.append(max_idx + 1)\n        length -= 1\n\n    return sorted_list\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([5, 3, 6, 2, 10]))",
+      -1.328125
+    ],
+    [
+      "def pancake_sort(l):\n    n = len(l)\n    for i in range(n-1):\n        index_of_max = l.index(max(l[:n-i]))\n        if index_of_max != n-i-1:\n            l = l[:index_of_max+1][::-1] + l[index_of_max+1:]\n            l = l[:n-i][::-1] + l[n-i:]\n    return l\n\nl = [1, 5, 2, 3, 4, 1]\nprint(pancake_sort(l))",
+      -1.5556640625
+    ],
+    [
+      "from random import shuffle\n\n\ndef pancake_sort(arr):\n    \"\"\"\n    This function takes in a list of integers and returns a list\n    which is sorted using pancake sort.\n    \"\"\"\n    if len(arr) < 2:\n        return arr\n    for i in range(len(arr) - 1):\n        max_index = arr.index(max(arr[:len(arr) - i]))\n        if max_index != len(arr) - i - 1:\n            arr = flip(arr, max_index)\n            arr = flip(arr, len(arr) - i - 1)\n    return arr\n\n\ndef flip(arr, index):\n    \"\"\"\n    This function takes in a list and an index and flips the sublist\n    starting at the index.\n    \"\"\"\n    new_arr = arr[:index+1][::-1] + arr[index+1:]\n    return new_arr\n\n\nif __name__ == \"__main__\":\n    arr = list(range(20))\n    shuffle(arr)\n    print(pancake_sort(arr))",
+      -1.7802734375
+    ],
+    [
+      "from typing import List\n\n\ndef sort_pancake(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time complexity: O(n**2)\n    Space complexity: O(n)\n    \"\"\"\n    if not arr:\n        return arr\n\n    size = len(arr)\n    result = []\n\n    for i in range(size, 0, -1):\n        # find max element\n        max_idx = 0\n        for j in range(i):\n            if arr[j] > arr[max_idx]:\n                max_idx = j\n\n        # reverse first i elements to get max element to the top\n        arr[:i] = arr[:i][::-1]\n        result.append(arr[i - 1])\n\n        # reverse the whole array to get max element to the bottom\n        arr[:] = arr[::-1]\n        result.append(arr[0])\n\n        # reverse the first i elements to get max element to the bottom\n        arr[:i] = arr[:i][::-1]\n        result.append(arr[i - 1])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert sort_pancake([3, 2, 4, 1, 5]) == [3, 4, 2, 5, 1]",
+      -1.8515625
+    ],
+    [
+      "from random import shuffle\n\ndef pancake_sort(arr: list) -> list:\n    \"\"\"\n    Returns the sorted list.\n    \"\"\"\n    length = len(arr)\n    sorted_list = list(arr)\n\n    while length > 0:\n        max_index = sorted_list.index(max(sorted_list[:length]))\n        if max_index == length - 1:\n            length -= 1\n            continue\n\n        # flip max to front\n        sorted_list[0:max_index+1] = sorted_list[max_index::-1]\n        # flip max to end\n        sorted_list[max_index::-1] = sorted_list[0:max_index+1]\n        length -= 1\n\n    return sorted_list\n\nif __name__ == \"__main__\":\n    arr = list(range(10))\n    shuffle(arr)\n    print(arr)\n    print(pancake_sort(arr))",
+      -1.8994140625
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    >>> pancake_sort([3, 2, 1])\n    [1, 2, 3]\n\n    >>> pancake_sort([1])\n    [1]\n\n    >>> pancake_sort([3, 2, 3, 3, 3])\n    [3, 3, 3, 2, 3]\n    \"\"\"\n    if len(arr) < 2:\n        return arr\n\n    # We use a while loop to find the index of the max element\n    # In case of multiple max elements, we choose the leftmost one\n    # If we choose the rightmost one, the result will be wrong\n    # For example, pancake_sort([3, 2, 3, 3, 3]) should be [3, 3, 3, 2, 3]\n    # If we choose the rightmost one, the result will be [3, 3, 3, 3, 3]\n    i = 0\n    while i < len(arr) - 1:\n        max_index = i\n        for j in range(i + 1, len(arr)):\n            if arr[max_index] < arr[j]:\n                max_index = j\n\n        if max_index != i:\n            # Flip arr[i] to the top\n            # For example, arr[i] = 2, arr[2] = 3\n            arr[i : i + 1] = arr[i : i + 1][::-1]\n            # Flip arr[max_index] to the top\n            # For example, arr[max_index] = 2, arr[0] = 3\n            arr[max_index : max_index + 1] = arr[max_index : max_index + 1][::-1]\n\n        i += 1\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.9072265625
+    ],
+    [
+      "from typing import List\n\n\ndef sort_list(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n\n    def flip(arr, index):\n        if index == 0:\n            return arr\n\n        return arr[:index + 1][::-1] + arr[index + 1:]\n\n    def find_max(arr):\n        max_index = 0\n        max_value = arr[0]\n\n        for index in range(1, len(arr)):\n            if arr[index] > max_value:\n                max_index = index\n                max_value = arr[index]\n\n        return max_index\n\n    for index in range(len(arr) - 1):\n        max_index = find_max(arr)\n\n        if max_index == index:\n            continue\n\n        arr = flip(arr, max_index)\n        arr = flip(arr, index)\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    assert sort_list([1, 2, 3]) == [1, 2, 3]\n    assert sort_list([3, 2, 1]) == [1, 2, 3]\n    assert sort_list([3, 1, 2]) == [1, 2, 3]",
+      -1.966796875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(array: List[int]) -> List[int]:\n    \"\"\"\n    Perform pancake sort on a given array.\n    >>> pancake_sort([4, 3, 2, 1])\n    [1, 2, 3, 4]\n    >>> pancake_sort([-1, -5, -4, -3, -2])\n    [-5, -4, -3, -2, -1]\n    >>> pancake_sort([1, 2, 3, 4])\n    [1, 2, 3, 4]\n    >>> pancake_sort([])\n    []\n    \"\"\"\n    if not array:\n        return []\n    if len(array) == 1:\n        return array\n\n    # Find the maximum element in array and its index\n    max_element = max(array)\n    max_element_index = array.index(max_element)\n\n    # Reverse array from 0 to max_element_index\n    array = array[0:max_element_index + 1][::-1] + array[max_element_index + 1:]\n\n    # Reverse the whole array\n    array = array[::-1]\n\n    return array\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.9912109375
+    ],
+    [
+      "def sort_list(arr):\n    \"\"\"\n    >>> sort_list([5, 4, 3, 2, 1])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    for i in range(len(arr) - 1, -1, -1):\n        max_index = i\n        for j in range(i):\n            if arr[j] > arr[max_index]:\n                max_index = j\n        if max_index != i:\n            arr = flip(arr, max_index)\n            arr = flip(arr, i)\n    return arr\n\n\ndef flip(arr, i):\n    \"\"\"\n    >>> flip([1, 2, 3, 4, 5], 0)\n    [5, 2, 3, 4, 1]\n    \"\"\"\n    left = 0\n    right = i\n    while left < right:\n        arr[left], arr[right] = arr[right], arr[left]\n        left += 1\n        right -= 1\n    return arr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.373046875
+    ],
+    [
+      "def sort_pancakes(pancakes):\n    \"\"\"\n    Sort a list of pancakes using pancake sort.\n    \"\"\"\n    pancakes_len = len(pancakes)\n    for i in range(pancakes_len - 1):\n        max_index = pancakes.index(max(pancakes[:pancakes_len - i]))\n        if max_index == pancakes_len - i - 1:\n            continue\n        pancakes = pancakes[:max_index + 1][::-1] + pancakes[max_index + 1:]\n        pancakes = pancakes[:pancakes_len - i][::-1] + pancakes[pancakes_len - i:]\n        pancakes_len -= i\n    return pancakes\n\n\ndef test_pancakes():\n    \"\"\"\n    >>> test_pancakes()\n    \"\"\"\n    assert sort_pancakes([3, 2, 4, 1]) == [1, 2, 3, 4]\n    assert sort_pancakes([3, 2, 1, 4]) == [1, 2, 3, 4]\n    assert sort_pancakes([1, 4, 2, 3]) == [1, 2, 3, 4]\n    assert sort_pancakes([1, 2, 3, 4]) == [1, 2, 3, 4]\n    assert sort_pancakes([4, 3, 2, 1]) == [1, 2, 3, 4]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -2.583984375
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n^2)\n    \"\"\"\n\n    def flip(arr, index):\n        length = len(arr)\n        while index > 0:\n            arr[index], arr[index - 1] = arr[index - 1], arr[index]\n            index -= 1\n        return arr\n\n    def find_max(arr):\n        max_index = 0\n        for i in range(len(arr)):\n            if arr[i] > arr[max_index]:\n                max_index = i\n        return max_index\n\n    length = len(arr)\n    cur_length = length\n\n    while cur_length > 1:\n        max_index = find_max(arr[:cur_length])\n\n        if max_index != cur_length - 1:\n            arr = flip(arr, max_index)\n            arr = flip(arr, cur_length - 1)\n\n        cur_length -= 1\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    assert pancake_sort([1, 5, 2, 4, 0]) == [0, 1, 2, 4, 5]",
+      -2.6484375
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    The time complexity of pancake sort is O(n^2)\n    \"\"\"\n\n    def flip(arr, n):\n        for i in range(n):\n            arr[i], arr[n] = arr[n], arr[i]\n        return arr\n\n    n = len(arr)\n    curr_max = 0\n    curr_max_idx = 0\n    while n > 0:\n        curr_max_idx = arr.index(max(arr[0:n]))\n        if curr_max_idx == n - 1:\n            n -= 1\n        else:\n            arr = flip(arr, curr_max_idx)\n            arr = flip(arr, n - 1)\n            n -= 2\n        curr_max = max(curr_max, curr_max_idx)\n\n    return curr_max\n\n\ndef test_pancake_sort():\n    \"\"\"run test cases\"\"\"\n    assert pancake_sort([3, 2, 4, 1, 5]) == 4",
+      -2.751953125
+    ],
+    [
+      "import unittest\n\n\ndef pancake_sort(arr):\n    curr_max = arr[0]\n    curr_max_index = 0\n\n    for i in range(len(arr)):\n        if arr[i] > curr_max:\n            curr_max = arr[i]\n            curr_max_index = i\n\n    arr = arr[:curr_max_index+1]\n    arr.reverse()\n\n    return arr\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_pancake_sort(self):\n\n        arr = [2, 5, 1, 7, 8, 3, 4, 6, 9, 0]\n        result = pancake_sort(arr)\n\n        self.assertListEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      -2.83203125
+    ],
+    [
+      "def flip(arr, i):\n    j = i - 1\n    while j >= 0:\n        temp = arr[i]\n        arr[i] = arr[j]\n        arr[j] = temp\n        i -= 1\n        j -= 1\n\n\ndef sort(arr):\n    for i in range(len(arr) - 1):\n        if arr[i] < arr[i + 1]:\n            flip(arr, i)\n            if arr[i] < arr[i + 1]:\n                flip(arr, i + 1)\n    return arr\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 2, 4, 5, 6, 7, 9, 8, 10]\n    print(sort(arr))",
+      -3.048828125
+    ],
+    [
+      "from random import randint\n\n\ndef pancake_sort(arr):\n    \"\"\"\n    Pancake sort.\n\n    :param arr: list\n    :type arr: list\n    :return: sorted list\n    :rtype: list\n    \"\"\"\n    for i in range(len(arr) - 1, 0, -1):\n        max_index = 0\n        for j in range(1, i + 1):\n            if arr[j] > arr[max_index]:\n                max_index = j\n        if max_index != i:\n            arr = flip(arr, max_index)\n            arr = flip(arr, i)\n    return arr\n\n\ndef flip(arr, index):\n    \"\"\"\n    Flip elements in the array from 0 to index.\n\n    :param arr: list\n    :type arr: list\n    :param index: int\n    :type index: int\n    :return: list\n    :rtype: list\n    \"\"\"\n    for j in range(int((index - index % 2) / 2)):\n        arr[index - j - 1], arr[j] = arr[j], arr[index - j - 1]\n    return arr\n\n\nif __name__ == \"__main__\":\n    arr = [randint(0, 1000) for _ in range(100)]\n    print(pancake_sort(arr))",
+      -3.068359375
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    >>> pancake_sort([4, 3, 2, 1])\n    [1, 2, 3, 4]\n    >>> pancake_sort([1, 2, 3, 4])\n    [1, 2, 3, 4]\n    >>> pancake_sort([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    >>> pancake_sort([9, 8, 7, 6, 5, 4, 3, 2, 1])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    \"\"\"\n    length = len(arr)\n    for i in range(length - 1, 0, -1):\n        # Find the maximum number in the list\n        mi = arr[i]\n        mipos = i\n        for j in range(i):\n            if mi < arr[j]:\n                mi = arr[j]\n                mipos = j\n        if mipos != i:\n            # Reverse the list from 0 to mipos\n            arr[: mipos + 1] = arr[: mipos + 1][::-1]\n            # Reverse the list from 0 to i\n            arr[: i + 1] = arr[: i + 1][::-1]\n    return arr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.095703125
+    ],
+    [
+      "def pancake_sort(l):\n    \"\"\"\n    >>> pancake_sort([1, 3, 2, 5, 4])\n    [1, 2, 3, 4, 5]\n\n    >>> pancake_sort([1, 2, 3])\n    [1, 2, 3]\n\n    >>> pancake_sort([])\n    []\n\n    \"\"\"\n    if not l:\n        return []\n    n = len(l)\n    for i in range(n - 1, 0, -1):\n        # find the max element in the list\n        max_idx = i\n        for j in range(i):\n            if l[j] > l[max_idx]:\n                max_idx = j\n        # reverse the sublist to make the max element in the front\n        if max_idx != i - 1:\n            l[: max_idx + 1] = reversed(l[: max_idx + 1])\n        # reverse the whole list\n        l[: i + 1] = reversed(l[: i + 1])\n    return l\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.1484375
+    ],
+    [
+      "def pancake_sort(arr):\n    \"\"\"\n    We can solve this problem by using pancake sort.\n    In pancake sort, we flip the array from the first element to the index of the max element.\n    Then, we flip the array from the first element to the index of the second max element.\n    We keep doing this until we have sorted the array.\n\n    In the worst case, we have to flip the array O(N) times.\n    Therefore, the time complexity of this algorithm is O(N^2).\n\n    :param arr: The list of elements to be sorted.\n    :return: The sorted list of elements.\n    \"\"\"\n    if len(arr) <= 1:\n        return arr\n\n    for i in range(len(arr), 0, -1):\n        max_index = arr.index(max(arr[:i]))\n        if max_index == i - 1:\n            continue\n\n        # flip the array from the first element to the max element\n        arr = arr[max_index::-1] + arr[max_index + 1:i] + arr[:max_index]\n\n        # flip the array from the first element to the second max element\n        arr = arr[i - 2::-1] + arr[i - 1:i] + arr[:i - 2]\n\n    return arr",
+      -3.205078125
+    ],
+    [
+      "import unittest\n\n\ndef pancake_sort(array):\n    \"\"\"\n    Pancake sort is a variation of the bubble sort algorithm in which the\n    entire array is flipped over once during each iteration.\n    \"\"\"\n\n    if len(array) < 2:\n        return array\n\n    for index in range(len(array) - 1, 0, -1):\n        # find the maximum number in the array\n        maximum = index\n        for i in range(index):\n            if array[i] > array[maximum]:\n                maximum = i\n\n        # if maximum == index, the array is sorted, so break\n        if maximum == index:\n            break\n\n        # reverse the array from beginning to maximum\n        array = array[maximum::-1] + array[maximum + 1 :]\n\n        # reverse the array from index to end\n        array = array[:index + 1][::-1] + array[index + 1 :]\n\n    return array\n\n\nclass Test(unittest.TestCase):\n    def test_pancake_sort(self):\n        self.assertEqual(pancake_sort([1, 2, 3, 4, 5, 6, 7]), [1, 2, 3, 4, 5, 6, 7])\n        self.assertEqual(pancake_sort([1, 2, 3, 4, 5, 6, 7, 8]), [1, 2, 3, 4, 5, 6, 7, 8])\n        self.assertEqual(pancake_sort([1, 2, 3, 4, 5, 6, 7, 8, 9]), [1, 2, 3, 4, 5, 6, 7, 8, 9])\n        self.assertEqual(pancake_sort([9, 8, 7, 6, 5, 4, 3, 2, 1]), [1, 2, 3, 4, 5, 6, 7, 8, 9])\n        self.assertEqual(",
+      -3.248046875
+    ],
+    [
+      "from random import shuffle\n\n\ndef sort_list(list_):\n    \"\"\"Return sorted list.\"\"\"\n    if len(list_) == 1:\n        return list_\n    elif len(list_) == 2:\n        return [min(list_)]\n    else:\n        max_ = max(list_)\n        index = list_.index(max_)\n        if index == 0:\n            return sort_list(list_[1:]) + [max_]\n        else:\n            return sort_list(list_[:index+1][::-1]) + [max_] + list_[index+1:]\n\n\nif __name__ == '__main__':  # pragma no cover\n    from timeit import timeit\n    from random import randint\n\n    setup = 'from random import randint; from f_pancake_sort import sort_list; '\n    print('Random input time (ms):')\n    for i in range(5):\n        lst = [randint(0, 1000) for _ in range(randint(1, 50))]\n        print('List {}: {:.2f}'.format(lst, timeit(\n            'sort_list(lst)', setup=setup, globals=globals())))",
+      -3.734375
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sort the given list using pancake sort.\n\n    Args:\n        arr (List[int]): list of elements to sort\n\n    Returns:\n        List[int]: list of elements sorted in ascending order\n    \"\"\"\n\n    def flip(arr, n):\n        for i in range(n):\n            if arr[i] != n:\n                return i\n        return n\n\n    def flip_and_reverse(arr, n):\n        i = flip(arr, n)\n        for i in range(i):\n            arr[i], arr[n - i - 1] = arr[n - i - 1], arr[i]\n\n    n = len(arr)\n    curr_max = 0\n\n    for i in range(n - 1, 0, -1):\n        if arr[i] > arr[curr_max]:\n            curr_max = i\n\n        if curr_max != i:\n            flip_and_reverse(arr, i)\n            flip_and_reverse(arr, curr_max)\n            curr_max = 0\n\n    return arr\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([3, 1, 2]))\n    print(pancake_sort([3, 1, 2, 4, 5]))",
+      -3.90234375
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n^2)\n# Space complexity: O(1)\ndef pancake_sort(array: List[int]) -> None:\n    \"\"\"\n    Do not return anything, modify nums in-place instead.\n    \"\"\"\n    length = len(array)\n    for i in range(length - 1):\n        # Find the max element in the unsorted subarray\n        max_index = i\n        for j in range(i + 1, length):\n            if array[max_index] < array[j]:\n                max_index = j\n\n        # If it's not the first element, reverse it to make it to the first\n        if max_index != i:\n            array = reverse(array, 0, max_index)\n\n        # Reverse the subarray again to put the max element to the bottom\n        array = reverse(array, i + 1, length - 1)\n\n\ndef reverse(array: List[int], start: int, end: int) -> List[int]:\n    while start < end:\n        array[start], array[end] = array[end], array[start]\n        start += 1\n        end -= 1\n    return array\n\n\n# Time complexity: O(n^2)\n# Space complexity: O(n)\ndef pancake_sort_2(array: List[int]) -> None:\n    length = len(array)\n    for i in range(length - 1):\n        # Find the max element in the unsorted subarray\n        max_index = i\n        for j in range(i + 1, length):\n            if array[max_index] < array[j]:\n                max_index = j\n\n        # If it's not the first element, reverse it to make it to the first\n        if max_index != i:\n            array = reverse(array, 0, max_index)\n\n        # Reverse the subarray again to put the max element to the bottom\n        array = reverse(array, i + 1, length - 1)\n\n\nif __name__ == \"__main__\":\n    array = [1, 2, 3, 4",
+      -3.96875
+    ],
+    [
+      "from typing import List\n\n\ndef sort_list(lst: List[int]) -> List[int]:\n    \"\"\"Sorts a list using pancake sort.\n\n    Args:\n        lst (List[int]): list to be sorted.\n\n    Returns:\n        List[int]: sorted list.\n    \"\"\"\n    lst_cpy = lst[:]\n\n    # Traverse the list.\n    for i in range(len(lst_cpy) - 1):\n        # Find the maximum element in remaining\n        # unsorted array.\n        max_elem = max(lst_cpy[i:])\n\n        # Find the index of the maximum element in\n        # unsorted array.\n        max_elem_index = lst_cpy.index(max_elem)\n\n        # If the maximum element is not in its\n        # original position, then we need to flip\n        # the sub-list. First flip the sub-list and\n        # then move the maximum element to its\n        # original position.\n        if max_elem_index != i:\n            lst_cpy = lst_cpy[: max_elem_index] + list(reversed(lst_cpy[max_elem_index : i + 1])) + lst_cpy[i + 1 :]\n\n    return lst_cpy\n\n\nif __name__ == \"__main__\":\n    lst = [2, 5, 3, 0, 2, 3, 0, 3]\n    print(f\"Sorted list: {sort_list(lst)}\")",
+      -4.34765625
+    ],
+    [
+      "def sort_pancakes(arr):\n    \"\"\"\n    :param arr: list of integers to be sorted\n    :return: list of operations in form of a string\n    \"\"\"\n    if not arr:\n        return []\n\n    operations = []\n    for i in range(len(arr) - 1):\n        # find the index of the max element\n        max_index = arr.index(max(arr[i:]))\n        # reverse from 0 to max_index\n        arr = arr[:max_index+1][::-1] + arr[max_index+1:]\n        # reverse the whole array\n        arr = arr[::-1]\n        operations.append(str(max_index + 1))\n    return operations\n\n\nif __name__ == '__main__':\n    test_cases = [\n        [1, 2, 3, 4, 5],\n        [10, 20, 15, 30, 12],\n        [1, 2, 3, 4, 5, 6],\n        [6, 5, 4, 3, 2, 1],\n        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],\n        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],\n        [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],\n        [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]\n    ]\n\n    for case in test_cases:\n        print(case)\n        print(sort_pancakes(case))\n        print()",
+      -4.5546875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"\n    >>> pancake_sort([3, 2, 4, 1])\n    [1, 2, 3, 4]\n    >>> pancake_sort([3, 2, 1, 4])\n    [1, 2, 3, 4]\n    >>> pancake_sort([4, 3, 2, 1])\n    [1, 2, 3, 4]\n    >>> pancake_sort([1, 2, 3, 4])\n    [1, 2, 3, 4]\n    >>> pancake_sort([4, 3, 2, 1, 5])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([4, 1, 3, 2, 5])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    if len(arr) < 2:\n        return arr\n\n    # Find the index of the maximum element in the list\n    max_index = arr.index(max(arr))\n\n    # If the maximum element is not in the first position, we need to flip it to the first position\n    if max_index != 0:\n        arr = arr[:max_index + 1][::-1] + arr[max_index + 1:]\n\n    # Find the index of the minimum element in the list\n    min_index = arr.index(min(arr))\n\n    # If the minimum element is not in the last position, we need to flip it to the last position\n    if min_index != len(arr) - 1:\n        arr = arr[:min_index] + arr[min_index:][::-1]\n\n    return pancake_sort(arr[:-1]) + [arr[-1]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.66796875
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(nums: List[int]) -> List[int]:\n    \"\"\"\n    >>> pancake_sort([1, 4, 5, 2, 3])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([5, 4, 3, 2, 1])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([1])\n    [1]\n    >>> pancake_sort([1, 1, 1, 1, 1])\n    [1, 1, 1, 1, 1]\n    >>> pancake_sort([5, 3, 4, 2, 1])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    size = len(nums)\n    if size == 1:\n        return nums\n    result = []\n\n    while size > 0:\n        idx = nums.index(max(nums))\n        nums = nums[:idx + 1][::-1] + nums[idx + 1:]\n        result.append(idx + 1)\n        size -= 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.83984375
+    ],
+    [
+      "import unittest\n\n\ndef sort(arr):\n    if not arr:\n        return []\n    if len(arr) == 1:\n        return arr\n\n    # Find the maximum element in arr and its index\n    max_index = arr.index(max(arr))\n\n    # Reverse the sub-list from beginning to the maximum element\n    arr = arr[:max_index+1][::-1] + arr[max_index+1:]\n\n    # Reverse the entire list\n    return arr[::-1]\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_sort(self):\n        self.assertListEqual(sort([]), [])\n        self.assertListEqual(sort([1]), [1])\n        self.assertListEqual(sort([1, 2, 3]), [1, 2, 3])\n        self.assertListEqual(sort([3, 2, 1]), [1, 2, 3])\n        self.assertListEqual(sort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5])\n        self.assertListEqual(sort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])\n\n\nif __name__ == '__main__':\n\n    unittest.main()",
+      -4.9375
+    ],
+    [
+      "def pancake_sort(l):\n    \"\"\"\n    Sorts a list l using pancake sort\n    :param l: list to be sorted\n    :return: sorted list\n    \"\"\"\n    # If the list is empty or has one element, return it\n    if len(l) < 2:\n        return l\n    # If the list has more than one element, continue\n    else:\n        # Find the index of the largest element\n        max_index = l.index(max(l))\n        # Reverse the first elements of the list up to the largest element\n        l = l[:max_index+1][::-1] + l[max_index+1:]\n        # Reverse the entire list\n        l = l[::-1]\n        # Return the list\n        return l\n\n\n# Example\nprint(pancake_sort([2, 4, 5, 3, 1]))",
+      -5.5078125
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sorts a list of elements using pancake sort.\n\n    Time Complexity: O(N*N) where N is the length of the list.\n\n    Space Complexity: O(1)\n\n    :param arr: The list of elements to sort.\n    :return: The sorted list.\n    \"\"\"\n\n    if len(arr) <= 1:\n        return arr\n\n    sorted_arr = []\n    while len(arr) > 1:\n        # Find the index of the max element.\n        max_index = arr.index(max(arr))\n\n        # Reverse the elements till max index.\n        arr[: max_index + 1] = arr[: max_index + 1][::-1]\n\n        # Append the reversed list.\n        sorted_arr.append(arr[: max_index + 1])\n\n        # Remove the reversed list.\n        arr = arr[max_index + 1 :]\n\n    return sorted_arr\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([3, 2, 4, 1]))",
+      -5.67578125
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(lst: List[int]) -> List[int]:\n    \"\"\"Sorts a list using pancake sort.\n\n    Args:\n        lst: list of elements to sort\n\n    Returns:\n        List of operations needed to sort the list\n\n    Examples:\n        >>> assert pancake_sort([1, 2, 3, 4, 5]) == [5, 4, 1, 3, 2]\n    \"\"\"\n    res = []\n\n    def _sort(lst: List[int], idx: int) -> None:\n        if len(lst) == 1:\n            return\n\n        if lst[idx] == lst[-1]:\n            res.append(idx + 1)\n            lst = lst[:-1]\n            return _sort(lst, 0)\n\n        if lst[idx] == lst[idx + 1]:\n            res.append(idx + 1)\n            lst = lst[:idx] + lst[idx + 1 :]\n            return _sort(lst, 0)\n\n        if lst[idx] > lst[-1]:\n            res.append(idx + 1)\n            lst = lst[idx : idx + 1] + lst[:-1]\n            return _sort(lst, 0)\n\n        if lst[idx] > lst[idx + 1]:\n            res.append(idx + 1)\n            lst = lst[:idx] + lst[idx : idx + 1] + lst[idx + 2 :]\n            return _sort(lst, 0)\n\n    _sort(lst, 0)\n    return res\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([1, 2, 3, 4, 5]))",
+      -5.7578125
+    ],
+    [
+      "def sort_pancakes(arr: list) -> list:\n    \"\"\"Return sorted arr using pancake sort.\n\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7])\n    [1, 2, 3, 4, 5, 6, 7]\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7, 8])\n    [1, 2, 3, 4, 5, 6, 7, 8]\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7, 8, 9])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    >>> sort_pancakes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])\n    [1, 2, 3, 4, 5,",
+      -5.859375
+    ],
+    [
+      "def sort_pancake(lst, target):\n    for i in range(len(lst) - 1, -1, -1):\n        if lst[i] == target:\n            break\n    else:\n        return lst\n    lst = lst[:i + 1]\n    lst.reverse()\n    return lst\n\n\ndef sort_pancake_best(lst, target):\n    for i in range(len(lst) - 1, -1, -1):\n        if lst[i] == target:\n            break\n    else:\n        return lst\n    for j in range(i - 1, -1, -1):\n        if lst[j] == target:\n            break\n    else:\n        return lst\n    if j > i:\n        lst = lst[:j + 1]\n        lst.reverse()\n    lst = lst[:i + 1]\n    lst.reverse()\n    return lst\n\n\n# lst = [2, 1, 4, 3, 5]\n# target = 5\n# print(sort_pancake(lst, target))\n# print(sort_pancake_best(lst, target))",
+      -6.15234375
+    ],
+    [
+      "def flip(arr: list, n: int) -> None:\n    \"\"\"Flip the first n elements of the array.\n\n    >>> arr = [1, 2, 3, 4, 5]\n    >>> flip(arr, 3)\n    >>> arr\n    [3, 2, 1, 4, 5]\n    \"\"\"\n    for i in range(n // 2):\n        arr[i], arr[n - i - 1] = arr[n - i - 1], arr[i]\n\n\ndef flip_to_kth(arr: list, k: int) -> int:\n    \"\"\"Flip the array to the kth position.\n\n    >>> arr = [1, 2, 3, 4, 5]\n    >>> flip_to_kth(arr, 3)\n    3\n    >>> arr\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    for i in range(len(arr) - k):\n        flip(arr, len(arr) - i)\n    return len(arr) - k\n\n\ndef pancake_sort(arr: list) -> list:\n    \"\"\"Sort the list using pancake sort.\n\n    >>> pancake_sort([1, 5, 4, 3, 2])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    for i in range(len(arr) - 1):\n        k = flip_to_kth(arr, arr.index(max(arr[i:])) + i)\n        flip(arr, k)\n    return arr\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.4765625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(data: List[int]) -> List[int]:\n    \"\"\"Returns a list of integers sorted using pancake sort.\n\n    Examples:\n    >>> pancake_sort([4, 2, 3, 1, 5])\n    [1, 2, 3, 4, 5]\n\n    >>> pancake_sort([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n\n    >>> pancake_sort([5, 4, 3, 2, 1])\n    [1, 2, 3, 4, 5]\n\n    >>> pancake_sort([1, 2, 3])\n    [1, 2, 3]\n\n    >>> pancake_sort([1, 1, 1, 1, 1])\n    [1, 1, 1, 1, 1]\n    \"\"\"\n    if len(data) <= 1:\n        return data\n\n    for i in range(len(data) - 1, 0, -1):\n        index = data.index(max(data[:i + 1]))\n\n        if index == i:\n            continue\n\n        data = data[:index + 1] + data[index + 1:i + 1][::-1] + data[i + 1:]\n        data = data[:index + 1] + data[i][::-1] + data[index + 1 : i + 1] + data[i + 1 :]\n\n    return data\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([4, 2, 3, 1, 5]))",
+      -6.69921875
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n^2) where n is the number of elements in the list\n# Space complexity: O(1)\ndef pancake_sort(nums: List[int]) -> List[int]:\n    \"\"\"Sorts a list of elements using pancake sort.\"\"\"\n    result = []\n\n    for i in range(len(nums) - 1, 0, -1):\n        max_index = 0\n        for j in range(1, i + 1):\n            if nums[j] > nums[max_index]:\n                max_index = j\n\n        if max_index != i:\n            # Reverse from 0 to max_index\n            nums = nums[:max_index+1][::-1] + nums[max_index+1:]\n            # Reverse from 0 to i\n            nums = nums[:i+1][::-1] + nums[i+1:]\n            result.append(nums[:])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([0, 5, 3, 2, 2]))\n    print(pancake_sort([0, 5, 3, 2, 2]))\n    print(pancake_sort([0, 5, 3, 2, 2, 1]))\n    print(pancake_sort([0, 5, 3, 2, 2, 1, 4]))",
+      -7.8515625
+    ],
+    [
+      "import random\nfrom typing import List\n\n\ndef pancake_sort(lst: List[int]) -> List[int]:\n    \"\"\"\n    :param lst: list of integers\n    :return: list of integers\n    >>> lst = [1, 2, 3, 4, 5, 6, 7, 8]\n    >>> pancake_sort(lst) == sorted(lst)\n    True\n    >>> lst = [1, 2, 3, 4, 5, 6, 7, 8]\n    >>> pancake_sort(lst) == sorted(lst)\n    True\n    \"\"\"\n    lst_len = len(lst)\n    result = []\n\n    for i in range(lst_len - 1):\n        # find index of max element\n        max_index = i\n        for j in range(i + 1, lst_len):\n            if lst[j] > lst[max_index]:\n                max_index = j\n\n        # if max element is not equal to i,\n        # flip lst[i] and lst[max_index]\n        if max_index != i:\n            lst[max_index], lst[i] = lst[i], lst[max_index]\n            result.append(lst[max_index])\n\n            # flip lst[0:i+1] to get lst[0] to be the max element\n            for k in range(i + 1):\n                lst[k], lst[i - k] = lst[i - k], lst[k]\n                result.append(lst[k])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()\n    input_list = [random.randint(1, 50) for i in range(10)]\n    print(\"Before sorting: \", input_list)\n    print(\"After sorting: \", pancake_sort(input_list))",
+      -8.890625
+    ],
+    [
+      "def pancake_sort(l: list) -> list:\n    \"\"\"\n    >>> pancake_sort([5, 1, 2, 3, 4])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> pancake_sort([-2, 0, -1, 1, -1, 2, 0, 2, -2, 1])\n    [-2, -2, -1, -1, -1, 0, 0, 1, 1, 2, 2]\n    >>> pancake_sort([2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])\n    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1]\n    \"\"\"\n    result = []\n    while len(l) > 1:\n        largest = l.index(max(l))\n        result.append(largest + 1)\n        l[0:largest + 1] = l[largest::-1]\n        l = l[largest::-1]\n        result.append(largest + 1)\n        l[0:largest + 1] = l[largest::-1]\n        l = l[largest::-1]\n    return result\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -9.2109375
+    ],
+    [
+      "from typing import List\n\n\ndef sort_pancake(arr: List[int]) -> List[int]:\n    \"\"\"\n    >>> sort_pancake([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n\n    >>> sort_pancake([4, 3, 2, 1])\n    [1, 2, 3, 4]\n\n    >>> sort_pancake([1, 2, 3, 4, 5, 6, 7, 8])\n    [1, 2, 3, 4, 5, 6, 7, 8]\n\n    >>> sort_pancake([1, 2, 3, 4, 5, 6, 7, 8, 9])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n    >>> sort_pancake([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n    >>> sort_pancake([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    \"\"\"\n    result = []\n\n    for i in range(len(arr) - 1, 0, -1):\n        max_index = i\n\n        for j in range(0, i):\n            if arr[j] > arr[max_index]:\n                max_index = j\n\n        if max_index != i:\n            result.append(f\"{arr[max_index + 1:i + 1]}{arr[max_index]}\")\n            arr[max_index : i + 1] = arr[max_index",
+      -9.4140625
+    ],
+    [
+      "def sort_list(lst):\n    sorted_lst = []\n    while lst:\n        curr_max = max(lst)\n        curr_max_index = lst.index(curr_max)\n        lst = lst[:curr_max_index] + lst[curr_max_index+1:]\n        lst = lst[:1] + lst[1:][::-1]\n        lst = lst[::-1] + lst[1:]\n        sorted_lst.append(lst)\n        lst = lst[1:]\n    return sorted_lst\n\ndef sort_list2(lst):\n    sorted_lst = []\n    while lst:\n        curr_max = max(lst)\n        curr_max_index = lst.index(curr_max)\n        lst = lst[:curr_max_index] + lst[curr_max_index+1:]\n        lst = lst[::-1] + lst[1:]\n        lst = lst[1:] + lst[:1]\n        sorted_lst.append(lst)\n        lst = lst[1:]\n    return sorted_lst\n\ndef sort_list3(lst):\n    sorted_lst = []\n    while lst:\n        curr_max = max(lst)\n        curr_max_index = lst.index(curr_max)\n        lst = lst[:curr_max_index] + lst[curr_max_index+1:]\n        lst = lst[::-1] + lst[1:]\n        lst = lst[1:] + lst[:1]\n        sorted_lst.append(lst)\n        lst = lst[1:]\n    return sorted_lst\n\n\ndef sort_list4(lst):\n    sorted_lst = []\n    while lst:\n        curr_max = max(lst)\n        curr_max_index = lst.index(curr_max)\n        lst = lst[:curr_max_index] + lst[curr_max_index+1:]\n        lst = lst[::-1] + lst[1:]\n        lst = lst[1:] + lst[:1]\n        sorted_lst.append(lst)\n        lst = lst[1:]\n    return sorted_lst\n\ndef sort_list5(lst):\n    sorted_lst =",
+      -10.6015625
+    ],
+    [
+      "from typing import List\n\n\ndef pancake_sort(arr: List[int]) -> List[int]:\n    \"\"\"Sort a list of elements using pancake sort.\n\n    Args:\n        arr (List[int]): list of elements to be sorted\n\n    Returns:\n        List[int]: sorted list of elements\n    \"\"\"\n    swapped = True\n    idx = len(arr) - 1\n    count = 0\n\n    while swapped:\n        swapped = False\n        i = 0\n\n        while i < idx:\n            if arr[i] < arr[i + 1]:\n                i += 1\n            else:\n                arr[i], arr[i + 1] = arr[i + 1], arr[i]\n                count += 1\n                swapped = True\n                idx -= 1\n                break\n\n        if idx == 0:\n            idx = len(arr) - 1\n\n    return [count]\n\n\nif __name__ == \"__main__\":\n    print(pancake_sort([4, 3, 2, 1]))",
+      -14.03125
+    ],
+    [
+      "def pancake_sort(elements: list) -> list:\n    \"\"\"Sorts a list of elements using pancake sort.\n\n    Args:\n        elements (list): list of elements to sort\n\n    Returns:\n        list: list of elements in ascending order\n    \"\"\"\n    sorted_elements = elements[:]\n\n    def flip(elements, i):\n        \"\"\"Flips a list of elements from the beginning to the index provided.\n\n        Args:\n            elements (list): list of elements to flip\n            i (int): index to flip to\n        \"\"\"\n        for j in range(i):\n            elements[j], elements[i - j - 1] = (\n                elements[i - j - 1],\n                elements[j],\n            )\n\n    def find_max_index(elements):\n        \"\"\"Finds the index of the maximum element in a list.\n\n        Args:\n            elements (list): list of elements to find the maximum element in\n\n        Returns:\n            int: index of the maximum element\n        \"\"\"\n        max_value = 0\n        max_index = 0\n\n        for i, element in enumerate(elements):\n            if element > max_value:\n                max_value = element\n                max_index = i\n\n        return max_index\n\n    def sort(elements):\n        \"\"\"Sorts a list of elements using pancake sort.\n\n        Args:\n            elements (list): list of elements to sort\n        \"\"\"\n        flip_count = 0\n        for i in range(len(elements) - 1, 0, -1):\n            max_index = find_max_index(elements)\n            if max_index != i:\n                flip(elements, max_index)\n                flip(elements, i)\n                flip_count += 1\n\n        return flip_count\n\n    flip_count = sort(elements)\n\n    return (\n        f\"{sorted_elements}\\n\"\n        f\"Flips: {flip_count}\\n\"\n        f\"Output: {sorted_elements}\"\n    )\n\n\nif __name__ == \"__main__\":",
+      -16.453125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

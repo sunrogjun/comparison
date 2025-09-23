@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/82",
+    "prompt": "\ndef prime_length(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_length('Hello') == True\n    prime_length('abcdcba') == True\n    prime_length('kittens') == True\n    prime_length('orange') == False\n    \"\"\"\n",
+    "canonical_solution": "    l = len(string)\n    if l == 0 or l == 1:\n        return False\n    for i in range(2, l):\n        if l % i == 0:\n            return False\n    return True\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate('Hello') == True\n    assert candidate('abcdcba') == True\n    assert candidate('kittens') == True\n    assert candidate('orange') == False\n    assert candidate('wow') == True\n    assert candidate('world') == True\n    assert candidate('MadaM') == True\n    assert candidate('Wow') == True\n    assert candidate('') == False\n    assert candidate('HI') == True\n    assert candidate('go') == True\n    assert candidate('gogo') == False\n    assert candidate('aaaaaaaaaaaaaaa') == False\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate('Madam') == True\n    assert candidate('M') == False\n    assert candidate('0') == False\n\n",
+    "entry_point": "prime_length",
+    "docstring": "",
+    "problem_id": 82
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "if len(string) < 2:\n        return False\n    for i in range(2, len(string)):\n        if string[i] == '1':\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      3.931640625
+    ],
+    [
+      "return len(string) == len(set(string))\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      0.80810546875
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    if len(string) == 1:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i-1]:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      0.72021484375
+    ],
+    [
+      "if string.isdigit():\n        if len(string) == 1:\n            return True\n        else:\n            for i in range(2, len(string)):\n                if string[i] == string[i - 1]:\n                    return False\n            return True\n    else:\n        return False\n\n\ndef test_prime_length():\n    assert prime_length('Hello') == True\n    assert prime_length('abcdcba') == True\n    assert prime_length('kittens') == True\n    assert prime_length('orange') == False\n    assert prime_length('a') == True\n    assert prime_length('') == False\n    assert prime_length(' ') == False\n\n\nif __name__ == '__main__':\n    test_prime_length()",
+      0.3369140625
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    else:\n        for i in range(2, len(string)):\n            if string[i] == string[i-1]:\n                return False\n        return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.1983642578125
+    ],
+    [
+      "if len(string) == 1:\n        return False\n    if len(string) == 2:\n        return True\n    if string[0] == string[1]:\n        return prime_length(string[2:])\n    else:\n        return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.202392578125
+    ],
+    [
+      "prime_list = [True] * len(string)\n\n    for i in range(2, len(string) - 1):\n        if string[i] == '1':\n            prime_list[i] = False\n            for j in range(i * i, len(string), i):\n                prime_list[j] = False\n\n    return sum(prime_list) == len(string)\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.2386474609375
+    ],
+    [
+      "length = len(string)\n    for i in range(2, length):\n        if string.count(str(i)) > 1:\n            return False\n    return True\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime\n    number or False otherwise\n    Examples\n    prime_number(3) == True\n    prime_number(15) == True\n    prime_number(4) == False\n    \"\"\"\n    if number < 2:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime\n    number or False otherwise\n    Examples\n    is_prime(3) == True\n    is_prime(15) == True\n    is_prime(4) == False\n    \"\"\"\n    if number < 2:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      -0.4033203125
+    ],
+    [
+      "if len(string) < 2:\n        return False\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\n# Testing\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if not isinstance(string, str):\n        raise TypeError(\"string must be a string\")\n    if not string:\n        raise ValueError(\"string must not be empty\")\n    if len(string) <= 1:\n        return False\n\n    for i in range(2, len(string)):\n        if string[i]!= string[i-1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if string == '':\n        return False\n    if string.isdigit():\n        return True\n    else:\n        for i in range(1, int(string) + 1):\n            if string.count(str(i)) == 1:\n                return False\n        return True",
+      -0.85693359375
+    ],
+    [
+      "if len(string) < 2:\n        return False\n    if len(string) == 1:\n        return True\n    elif len(string) == 2:\n        return True\n    else:\n        return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if len(string) < 2:\n        return False\n    for i in range(2, len(string)):\n        if string[i] == string[-i-1]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    if string[0] == string[-1]:\n        return True\n    else:\n        for i in range(2, int(len(string)/2)+1):\n            if string[0:i] == string[i:len(string)]:\n                return False\n        return True",
+      -0.85693359375
+    ],
+    [
+      "if len(string) < 2:\n        return False\n    if string[0]!= '0':\n        return False\n    if string[-1]!= '0':\n        return False\n    for i in range(2, len(string) - 1):\n        if string[i] == '0':\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "prime = True\n    for letter in string:\n        if string.count(letter)!= 1:\n            prime = False\n    return prime\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if string == \"\":\n        return False\n\n    if len(string) == 1:\n        return True\n\n    if len(string) == 2:\n        return string[0] == string[1]\n\n    if len(string) > 2:\n        for i in range(len(string) - 1):\n            if string[i] == string[i + 1]:\n                return False\n    else:\n        return False\n\n\nif __name__ == '__main__':\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if string.isalpha():\n        string = string.lower()\n        count = 0\n        for i in string:\n            if string.count(i) > 1:\n                count = count + 1\n        if count == 2:\n            return True\n        else:\n            return False\n    else:\n        return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "# your code here\n    pass\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if string == '':\n        return False\n    for i in range(2, len(string)):\n        if string[i] == string[i-1]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "string = string.lower()\n    if len(string) <= 1:\n        return False\n    for i in range(2, len(string) - 1):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85693359375
+    ],
+    [
+      "if string.isdigit():\n        return True\n    else:\n        return False\n\n\nif __name__ == '__main__':\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))",
+      -0.85791015625
+    ],
+    [
+      "# Your code here\n    for i in string:\n        if string.count(i) > 1:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85791015625
+    ],
+    [
+      "if string == \"\":\n        return False\n    for i in range(1, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(prime_length(\"Hello\"))\n    print(prime_length(\"abcdcba\"))\n    print(prime_length(\"kittens\"))\n    print(prime_length(\"orange\"))",
+      -0.85791015625
+    ],
+    [
+      "string = string.lower()\n    for x in range(1, len(string)):\n        if string[x] == string[x-1]:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85791015625
+    ],
+    [
+      "if string.isalpha():\n        string = string.lower()\n        if string.isdigit():\n            string = string.replace(' ', '')\n            for i in range(2, int(string) + 1):\n                if string.count(str(i)) > 1:\n                    return False\n            return True\n        else:\n            return False\n    else:\n        return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85791015625
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    if len(string) == 1:\n        return True\n    elif string[0] == string[-1]:\n        return prime_length(string[1:-1])\n    else:\n        return False\n\n\ndef main():\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "prime_count = 0\n    for i in string:\n        if string.count(i) == 1:\n            prime_count += 1\n    if prime_count > 1:\n        return True\n    else:\n        return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "if string == '':\n        return False\n    if string[0] == '0':\n        return False\n    for i in range(1, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "# Your code here\n    if len(string) == 1:\n        return False\n    else:\n        for i in range(2, len(string)):\n            if string[i] == string[i-1]:\n                return False\n        return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "string = str(string)\n    prime = True\n    for i in range(1, len(string)):\n        if string[i] == string[i-1]:\n            prime = False\n    return prime\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n\n    for i in range(2, len(string)):\n        if string[i]!= string[i - 1]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "if string == '':\n        return False\n    else:\n        for i in range(2, len(string)):\n            if string[i] == string[i-1]:\n                return False\n        return True\n\n\ndef main():\n    string = 'Hello'\n    print(prime_length(string))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "prime_list = []\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            prime_list.append(string[i])\n    return len(prime_list) == 2\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "if string.isdigit():\n        if string.isnumeric():\n            if int(string) > 1:\n                for i in string:\n                    if string.count(i) > 1:\n                        return False\n                return True\n        else:\n            return False\n    else:\n        return False",
+      -0.8583984375
+    ],
+    [
+      "if len(string) == 1:\n        return False\n    else:\n        if len(string) == 2:\n            return True\n        else:\n            if len(string) == 3:\n                return False\n            else:\n                for i in range(2, len(string)):\n                    if string[i] == string[i-1]:\n                        return False\n                return True",
+      -0.8583984375
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n\n    if len(string) == 2:\n        return True\n\n    if string[0] == '1':\n        return False\n\n    for i in range(2, len(string)):\n        if string[i] == '1':\n            return False\n\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "if string == \"\":\n        return False\n    if string[0] == \"0\":\n        return False\n    if string[0] == \"1\":\n        return True\n\n    for i in range(1, len(string)):\n        if string[i]!= \"0\" and string[i]!= \"1\":\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    string = \"Hello\"\n    print(prime_length(string))",
+      -0.8583984375
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n\n    return True",
+      -0.8583984375
+    ],
+    [
+      "if len(string) > 1:\n        if string[0] == string[-1]:\n            return prime_length(string[1:-1])\n        return False\n    else:\n        return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "string = str(string)\n    for i in range(len(string)):\n        if string[i].isdigit():\n            if string[i]!= '0':\n                return False\n        else:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    string = input('Enter a string: ')\n    print(prime_length(string))",
+      -0.8583984375
+    ],
+    [
+      "for i in range(1, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))",
+      -0.8583984375
+    ],
+    [
+      "if not isinstance(string, str):\n        return False\n    string = string.strip()\n    length = len(string)\n    if length <= 1:\n        return False\n    for i in range(2, length):\n        if string[i] == '0':\n            return False\n        if string[i] == '1':\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85888671875
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n\n    for i in range(2, int(len(string)/2) + 1):\n        if string.count(str(i)) > 1:\n            return False\n\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85888671875
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    if string[0]!= '0' and string[-1]!= '0':\n        return False\n    for i in range(1, len(string)):\n        if string[i]!= '0' and string[i-1]!= '0':\n            return False\n    return True\n\n\ndef test_prime_length():\n    assert prime_length('Hello') == True\n    assert prime_length('abcdcba') == True\n    assert prime_length('kittens') == True\n    assert prime_length('orange') == False",
+      -0.85888671875
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    for i in range(2, int(len(string)**0.5)+1):\n        if string[0] == string[i]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85888671875
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    else:\n        if string[0] == string[-1]:\n            return True\n        else:\n            return False",
+      -0.85888671875
+    ],
+    [
+      "if len(string) > 1:\n        for i in range(2, int(len(string)/2)+1):\n            if string.count(str(i)) > 1:\n                return False\n        return True\n    else:\n        return False\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.85888671875
+    ],
+    [
+      "if string.isdigit() == False:\n        return False\n    length = len(string)\n    for i in range(2, length):\n        if string[i] == '0' or string[i] == '1':\n            return False\n        if string[i] == string[length - i]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "for i in string:\n        if string.count(i)!= 1:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "if string.isdigit():\n        if int(string) > 1:\n            for i in range(2, int(string) + 1):\n                if string.count(str(i)) == 1:\n                    return False\n        else:\n            return False\n    else:\n        return False",
+      -0.86083984375
+    ],
+    [
+      "count = 0\n    for i in string:\n        if string.count(i) > 1:\n            count = count + 1\n        if count == 2:\n            return True\n    return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "if len(string) == 1:\n        return True\n    else:\n        for i in range(2, len(string)):\n            if string[i] == string[i - 1]:\n                return False\n        return True\n\n\nif __name__ == '__main__':\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "string = string.lower()\n\n    for i in range(2, len(string)):\n        if string.count(str(i)) > 1:\n            return False\n\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "count = 0\n    for i in range(len(string)):\n        if string[i] == '1':\n            count += 1\n        if count == 2:\n            return True\n    return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "string = string.lower()\n    number = 0\n    for char in string:\n        if string.count(char) == 1:\n            number += 1\n    if number == 2:\n        return True\n    else:\n        return False",
+      -0.86083984375
+    ],
+    [
+      "if string.isdigit():\n        return True\n    if not string.isalpha():\n        return False\n    if string.isupper():\n        return False\n    if string.islower():\n        return False\n    for i in range(2, len(string)):\n        if string[i].isdigit():\n            return False\n        if string[i].islower():\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "if len(string) < 2:\n        return False\n\n    for i in range(2, len(string)):\n        if string[i] == string[i-1]:\n            return False\n\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -0.86083984375
+    ],
+    [
+      "# Your code here\n    if len(string) <= 1:\n        return False\n\n    return any(string[i]!= string[i+1] for i in range(len(string)-1))",
+      -0.990234375
+    ],
+    [
+      "if len(string) == 1:\n        return False\n    if string[0] == '0':\n        return False\n\n    for i in range(1, len(string)):\n        if string[i] == '0':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '1':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '2':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '3':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '4':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '5':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '6':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '7':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '8':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == '9':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == 'A':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == 'B':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == 'C':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == 'D':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == 'E':\n            return False\n\n    for i in range(1, len(string)):\n        if string[i] == 'F':\n            return False",
+      -1.076171875
+    ],
+    [
+      "return len(string) == 1 or string.count(string[0]) == 1\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime or\n    False otherwise\n    Examples\n    prime_number(2) == True\n    prime_number(4) == True\n    prime_number(12) == False\n    \"\"\"\n    return number > 1 and all(number % i == 0 for i in range(2, number))\n\n\ndef prime_number_list(number_list):\n    \"\"\"Write a function that takes a list of numbers and returns True if the numbers\n    are prime or False otherwise\n    Examples\n    prime_number_list([2, 3, 5, 7, 11]) == True\n    prime_number_list([1, 2, 3, 4, 5]) == False\n    \"\"\"\n    return all(prime_number(number) for number in number_list)\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number is prime or\n    False otherwise\n    Examples\n    is_prime(2) == True\n    is_prime(3) == True\n    is_prime(4) == False\n    \"\"\"\n    return number > 1 and all(number % i == 0 for i in range(2, number))\n\n\ndef is_prime_list(number_list):\n    \"\"\"Write a function that takes a list of numbers and returns True if the numbers\n    are prime or False otherwise\n    Examples\n    is_prime_list([2, 3, 5, 7, 11]) == True\n    is_prime_list([1, 2, 3, 4, 5]) == False\n    \"\"\"\n    return all(is_prime(number) for number in number_list)",
+      -1.080078125
+    ],
+    [
+      "if len(string) == 1:\n        return False\n    if len(string) == 2:\n        return True\n    if len(string) == 3:\n        return string[1] == string[2]\n    if len(string) == 4:\n        return string[1] == string[3] and string[2] == string[4]\n    if len(string) == 5:\n        return string[1] == string[2] and string[3] == string[4] and string[4] == string[5]\n    return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -1.1494140625
+    ],
+    [
+      "count = 0\n    for i in range(1, len(string)):\n        if string[i]!= string[i-1]:\n            count += 1\n        else:\n            continue\n    return count == 1\n\n\ndef is_prime(n):\n    \"\"\"Write a function that takes a number and returns True if it is a prime or\n    False otherwise\n    Examples\n    is_prime(2) == True\n    is_prime(10) == False\n    is_prime(3) == False\n    \"\"\"\n    if n == 1:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n**0.5)+1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_pandigital(string):\n    \"\"\"Write a function that takes a string and returns True if the string is\n    pandigital or False otherwise\n    Examples\n    is_pandigital('Hello') == True\n    is_pandigital('abcdcba') == True\n    is_pandigital('kittens') == True\n    is_pandigital('orange') == False\n    \"\"\"\n    if len(string) < 3:\n        return False\n    if string[0] == string[-1]:\n        return False\n    for i in range(len(string)-2, 0, -2):\n        if string[i] == string[i-1]:\n            return False\n    return True\n\n\ndef is_palindrome(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a palindrome\n    or False otherwise\n    Examples\n    is_palindrome('abcdcba') == True\n    is_palindrome('abc') == False\n    is_palindrome('helllo') == False\n    is_palindrome('hellloabcdcba') == False\n    is_palindrome('hellloabcdcbaabc') == True\n    is_palindrome('hellloabcdcbaabcabc') == True\n    \"\"\"\n    if",
+      -1.4306640625
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    if len(string) == 2:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\ndef prime_number(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_number('Hello') == True\n    prime_number('abcdcba') == True\n    prime_number('kittens') == True\n    prime_number('orange') == False\n    \"\"\"\n    if len(string) <= 1:\n        return False\n    if len(string) == 2:\n        return True\n    if len(string) == 3:\n        return True\n    if len(string) == 4:\n        return True\n    if len(string) == 5:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1] and string[i] == string[i - 2]:\n            return False\n    return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number\n    is prime or False otherwise\n    Examples\n    is_prime(0) == True\n    is_prime(1) == True\n    is_prime(2) == False\n    is_prime(3) == False\n    is_prime(4) == True\n    is_prime(5) == False\n    \"\"\"\n    if number <= 1:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_prime_in_range(number, lower_bound, upper_bound):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    prime in the given range or False otherwise\n    Examples\n    is_prime_in_range(0, 2, 5) == True\n    is_prime_in_range(0, 2, 6) == False\n    is_prime_in_range(3, 2, 3",
+      -1.4853515625
+    ],
+    [
+      "counter = 0\n    for i in range(len(string)):\n        if string[i] == '1':\n            counter += 1\n        if counter == 2:\n            return True\n    return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -1.94921875
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    if string[0] == '1' or string[0] == '2':\n        return True\n    else:\n        return False\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -2.068359375
+    ],
+    [
+      "if len(string) == 1:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if the number\n    is a prime number or False otherwise\n    Examples\n    prime_number(12) == True\n    prime_number(5) == True\n    prime_number(7) == False\n    \"\"\"\n    if number == 1:\n        return False\n    if number % 2 == 0 or number % 3 == 0 or number % 5 == 0:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number\n    is a prime number or False otherwise\n    Examples\n    is_prime(12) == True\n    is_prime(5) == True\n    is_prime(7) == False\n    \"\"\"\n    if number == 1:\n        return False\n    if number % 2 == 0 or number % 3 == 0 or number % 5 == 0:\n        return False\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_palindrome(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a palindrome or False otherwise\n    Examples\n    is_palindrome('Hello') == True\n    is_palindrome('abcdcba') == True\n    is_palindrome('kittens') == True\n    is_palindrome('orange') == False\n    \"\"\"\n    if len(string) == 1:\n        return True\n    if string[0]!= string[-1]:\n        return False\n    return is_palindrome(string[1:-1])\n\n\ndef is_palindrome_list(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a palindrome or False otherwise\n    Examples\n    is_",
+      -2.564453125
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    if len(string) == 1:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i-1]:\n            return False\n    return True\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    prime or False otherwise\n    Examples\n    prime_number(9) == True\n    prime_number(10) == False\n    \"\"\"\n    if number == 0:\n        return False\n    if number == 1:\n        return True\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    prime or False otherwise\n    Examples\n    is_prime(3) == True\n    is_prime(6) == False\n    \"\"\"\n    if number == 0:\n        return False\n    if number == 1:\n        return True\n    for i in range(2, number):\n        if number % i == 0:\n            return False\n    return True",
+      -2.59375
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    a prime number or False otherwise\n    Examples\n    prime_number(5) == True\n    prime_number(4) == True\n    prime_number(6) == False\n    \"\"\"\n    if number < 2:\n        return False\n    if number == 2:\n        return True\n    for i in range(2, int(number ** 0.5) + 1):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    prime or False otherwise\n    Examples\n    is_prime(5) == True\n    is_prime(4) == True\n    is_prime(6) == False\n    \"\"\"\n    if number < 2:\n        return False\n    if number == 2:\n        return True\n    for i in range(2, int(number ** 0.5) + 1):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef is_prime_length(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_length('Hello') == True\n    prime_length('abcdcba') == True\n    prime_length('kittens') == True\n    prime_length('orange') == False\n    \"\"\"\n    if len(string) <= 1:\n        return False\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\ndef prime_number_length(number):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    a prime number or False otherwise\n    Examples\n    prime_number_length(5) == True\n    prime_number_length(4) ==",
+      -2.787109375
+    ],
+    [
+      "string = str(string)\n    string = string.replace(' ', '')\n    string = string.replace('\\n', '')\n    string = string.replace('\\t', '')\n    string = string.replace('/', '')\n    string = string.replace(',', '')\n    string = string.replace('.', '')\n    string = string.replace('!', '')\n    string = string.replace('?', '')\n    string = string.replace(';', '')\n    string = string.replace(':', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace(')', '')\n    string = string.replace('-', '')\n    string = string.replace('(', '')\n    string = string.replace",
+      -3.283203125
+    ],
+    [
+      "if len(string) == 1:\n        return False\n\n    for i in range(2, int(len(string)/2)):\n        if string[0] == string[-1]:\n            return False\n        if string[i] == string[-2]:\n            return False\n\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -3.37890625
+    ],
+    [
+      "# Write your code here\n    string_length = len(string)\n    for i in range(1, string_length):\n        if string[i] == string[i-1]:\n            return False\n    return True\n\n\ndef prime_number(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_number('Hello') == True\n    prime_number('abcdcba') == True\n    prime_number('kittens') == True\n    prime_number('orange') == False\n    \"\"\"\n\n    # Write your code here\n    string_length = len(string)\n    for i in range(2, string_length):\n        if string[i] == string[i-1]:\n            return False\n    return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number\n    is prime or False otherwise\n    Examples\n    is_prime(10) == True\n    is_prime(4) == True\n    is_prime(2) == False\n    is_prime(5) == False\n    is_prime(9) == False\n    \"\"\"\n\n    # Write your code here\n    if number < 2:\n        return False\n    for i in range(2, int(number**0.5)+1):\n        if number % i == 0:\n            return False\n    return True",
+      -3.48828125
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    if len(string) == 1:\n        return True\n    if string[0] == '0':\n        return False\n    if string[0] == '1':\n        return True\n    if string[0] == '2':\n        return True\n    if string[0] == '3':\n        return True\n    if string[0] == '4':\n        return True\n    if string[0] == '5':\n        return True\n    if string[0] == '6':\n        return True\n    if string[0] == '7':\n        return True\n    if string[0] == '8':\n        return True\n    if string[0] == '9':\n        return True\n    if string[0] == 'a':\n        return True\n    if string[0] == 'b':\n        return True\n    if string[0] == 'c':\n        return True\n    if string[0] == 'd':\n        return True\n    if string[0] == 'e':\n        return True\n    if string[0] == 'f':\n        return True\n    if string[0] == 'g':\n        return True\n    if string[0] == 'h':\n        return True\n    if string[0] == 'i':\n        return True\n    if string[0] == 'j':\n        return True\n    if string[0] == 'k':\n        return True\n    if string[0] == 'l':\n        return True\n    if string[0] =='m':\n        return True\n    if string[0] == 'n':\n        return True\n    if string[0] == 'o':\n        return True\n    if string[0] == 'p':\n        return True\n    if string[0] == 'q':\n        return True\n    if string[0] == 'r':\n        return True\n    if string[0] =='s':\n        return True\n    if string[0] == 't':\n        return True\n    if string[0] == 'u':\n        return True\n    if string[0] == 'v':\n        return True\n    if",
+      -3.845703125
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    for i in range(2, int(len(string)/2)+1):\n        if string[0] == string[i]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))",
+      -3.880859375
+    ],
+    [
+      "if string.isdigit():\n        string = str(string)\n        for i in range(1, len(string)):\n            if string[i].isdigit():\n                return False\n        return True\n    else:\n        return False\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -4.0078125
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    for i in range(2, len(string)):\n        if string[i]!= string[i-1]:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -4.875
+    ],
+    [
+      "# Your code here\n    n = len(string)\n    for i in range(2,n):\n        if string.count(str(i)) == 1:\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -5.09375
+    ],
+    [
+      "for i in range(1, len(string)):\n        if string[i]!= string[i - 1]:\n            return False\n    return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -5.37890625
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    if string[0] == string[-1]:\n        return True\n    for i in range(2, len(string) - 1):\n        if string[i]!= string[i - 1]:\n            return False\n    return True\n\n\ndef main():\n    \"\"\"Run the main function.\"\"\"\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))\n\n\nif __name__ == '__main__':\n    main()",
+      -5.40234375
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    for i in range(2, len(string) + 1):\n        if string.count(str(i)) == 1:\n            return False\n    return True\n\n\ndef test_prime_length():\n    assert prime_length('Hello') == True\n    assert prime_length('abcdcba') == True\n    assert prime_length('kittens') == True\n    assert prime_length('orange') == False\n    assert prime_length('') == False\n    assert prime_length('1') == False\n    assert prime_length('2') == False\n    assert prime_length('3') == False\n    assert prime_length('4') == False\n    assert prime_length('5') == False\n    assert prime_length('6') == False\n    assert prime_length('7') == False\n    assert prime_length('8') == False\n    assert prime_length('9') == False\n    assert prime_length('0') == False\n    assert prime_length('1') == False\n    assert prime_length('2') == False\n    assert prime_length('3') == False\n    assert prime_length('4') == False\n    assert prime_length('5') == False\n    assert prime_length('6') == False\n    assert prime_length('7') == False\n    assert prime_length('8') == False\n    assert prime_length('9') == False\n    assert prime_length('0') == False\n    assert prime_length('1') == False\n    assert prime_length('2') == False\n    assert prime_length('3') == False\n    assert prime_length('4') == False\n    assert prime_length('5') == False\n    assert prime_length('6') == False\n    assert prime_length('7') == False\n    assert prime_length('8') == False\n    assert prime_length('9') == False\n    assert prime_length('0') == False\n    assert prime_length('1') == False\n    assert prime_length('2') == False\n    assert prime_length('3') == False\n    assert prime_length('4') == False\n    assert prime_length('5') == False\n    assert prime",
+      -5.4921875
+    ],
+    [
+      "if string == '':\n        return False\n    if string.isdigit():\n        return True\n    else:\n        for i in range(2, len(string)):\n            if string[i] == string[i-1]:\n                return False\n        return True\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))\n\n\ndef find_prime_number(number):\n    \"\"\"Write a function that takes a number and returns the number of\n    prime numbers greater than the number.\n    Examples\n    find_prime_number(13) == 3\n    find_prime_number(8) == 4\n    find_prime_number(1) == 0\n    find_prime_number(2) == 1\n    \"\"\"\n    if number == '':\n        return 0\n    if number.isdigit():\n        return 1\n    else:\n        prime_numbers = []\n        for i in range(2, int(number)):\n            if prime_length(i):\n                prime_numbers.append(i)\n        return len(prime_numbers)\n\n\nprint(find_prime_number(13))\nprint(find_prime_number(8))\nprint(find_prime_number(1))\nprint(find_prime_number(2))\n\n\ndef find_prime_number_with_prefix(number):\n    \"\"\"Write a function that takes a number and returns the number of\n    prime numbers greater than the number.\n    Examples\n    find_prime_number_with_prefix(13) == 3\n    find_prime_number_with_prefix(8) == 4\n    find_prime_number_with_prefix(1) == 0\n    find_prime_number_with_prefix(2) == 1\n    \"\"\"\n    if number == '':\n        return 0\n    if number.isdigit():\n        return 1\n    else:\n        prime_numbers = []\n        for i in range(2, int(number)):\n            if prime_length(i):\n                prime_numbers.append(i)\n        prime_numbers.sort()\n        return prime_numbers[-",
+      -5.72265625
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    for i in range(2, int(len(string)/2)):\n        if string[i]!= '0':\n            return False\n    return True\n\n\ndef prime_number(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a prime number or False otherwise\n    Examples\n    prime_number('Hello') == True\n    prime_number('abcdcba') == True\n    prime_number('kittens') == True\n    prime_number('orange') == False\n    \"\"\"\n    if len(string) <= 1:\n        return False\n    for i in range(2, int(len(string)/2)):\n        if string[i] == '0':\n            return False\n    return True\n\n\ndef prime_number_loop(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a prime number or False otherwise\n    Examples\n    prime_number_loop('Hello') == True\n    prime_number_loop('abcdcba') == True\n    prime_number_loop('kittens') == True\n    prime_number_loop('orange') == False\n    \"\"\"\n    for i in range(2, int(len(string)/2)):\n        if string[i] == '0':\n            return False\n    return True\n\n\ndef prime_number_loop_recursive(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a prime number or False otherwise\n    Examples\n    prime_number_loop_recursive('Hello') == True\n    prime_number_loop_recursive('abcdcba') == True\n    prime_number_loop_recursive('kittens') == True\n    prime_number_loop_recursive('orange') == False\n    \"\"\"\n    if len(string) <= 1:\n        return False\n    for i in range(2, int(len(string)/2)):\n        if string[i] == '0':\n            return False\n        if string[i] == '1':\n            if not prime_number_loop_recursive(string[i+1:]):\n                return False",
+      -5.98828125
+    ],
+    [
+      "prime_list = []\n    for i in range(len(string)):\n        if string[i].isdigit():\n            prime_list.append(string[i])\n    if len(prime_list) == 1:\n        return True\n    else:\n        return False\n\n\nstring = input('Please enter a string: ')\nprint(prime_length(string))",
+      -5.99609375
+    ],
+    [
+      "if string.isdigit():\n        return True\n    else:\n        return False\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime\n    number or False otherwise\n    Examples\n    prime_number(1) == True\n    prime_number(2) == True\n    prime_number(3) == False\n    prime_number(4) == False\n    \"\"\"\n\n    if number == 1 or number == 2 or number == 3 or number == 4:\n        return True\n    elif number > 2 and number % 2 == 0:\n        return False\n    elif number > 3 and number % 3 == 0:\n        return False\n    elif number > 4 and number % 5 == 0:\n        return False\n    else:\n        return True\n\n\ndef prime_number_generator(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime\n    number or False otherwise\n    Examples\n    prime_number_generator(1) == True\n    prime_number_generator(2) == True\n    prime_number_generator(3) == True\n    prime_number_generator(4) == False\n    prime_number_generator(5) == False\n    \"\"\"\n\n    if number == 1 or number == 2 or number == 3 or number == 4:\n        return True\n    elif number > 2 and number % 2 == 0:\n        return False\n    elif number > 3 and number % 3 == 0:\n        return False\n    elif number > 4 and number % 5 == 0:\n        return False\n    else:\n        return True\n\n\ndef prime_number_generator_2(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime\n    number or False otherwise\n    Examples\n    prime_number_generator_2(1) == True\n    prime_number_generator_2(2) == True\n    prime_number_generator_2(3) == True\n    prime_number_generator_2(4) == False\n    prime_number_generator_2(5) == False\n    \"\"\"\n\n    if number == 1 or number == 2 or number == 3 or number == 4:\n        return True",
+      -6.49609375
+    ],
+    [
+      "if string == \"\":\n        return False\n    length = len(string)\n    for i in range(length):\n        if string[i] == \"0\":\n            return False\n        elif string[i] == \"1\":\n            return False\n        else:\n            for j in range(i+2, length, i):\n                if string[j] == \"0\":\n                    return False\n                elif string[j] == \"1\":\n                    return False\n    return True\n\n\ndef prime_string(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a prime number or False otherwise\n    Examples\n    prime_string('Hello') == True\n    prime_string('abcdcba') == True\n    prime_string('kittens') == True\n    prime_string('orange') == False\n    \"\"\"\n    if string == \"\":\n        return False\n    if len(string) == 1:\n        return True\n    else:\n        for i in range(len(string)-1):\n            if string[i] == \"0\":\n                return False\n            elif string[i] == \"1\":\n                return False\n        return True\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number is\n    prime or False otherwise\n    Examples\n    is_prime(3) == True\n    is_prime(5) == True\n    is_prime(7) == False\n    \"\"\"\n    if number == 1:\n        return False\n    elif number == 2:\n        return True\n    else:\n        for i in range(2, number):\n            if number % i == 0:\n                return False\n        return True\n\n\ndef is_palindrome(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    is a palindrome or False otherwise\n    Examples\n    is_palindrome('Hello') == True\n    is_palindrome('abcdcba') == True\n    is_palindrome('kittens') == True\n    is_palindrome('orange') == False\n    \"\"\"\n    if string == \"\":\n        return False\n    if string ==",
+      -7.04296875
+    ],
+    [
+      "# Your code here\n    if string.isdigit():\n        return True\n    else:\n        return False\n\n\ndef is_prime(n):\n    \"\"\"Write a function that takes an integer n and returns True if the integer is\n    prime or False otherwise\n    Examples\n    is_prime(5) == True\n    is_prime(10) == False\n    is_prime(20) == True\n    is_prime(101) == False\n    \"\"\"\n    # Your code here\n    if n < 2:\n        return False\n    elif n == 2 or n == 3:\n        return True\n    elif n % 2 == 0 or n % 3 == 0:\n        return False\n    else:\n        for i in range(5, int(n ** 0.5) + 1, 2):\n            if n % i == 0:\n                return False\n        return True\n\n\ndef is_square(n):\n    \"\"\"Write a function that takes an integer n and returns True if the integer\n    is a square or False otherwise\n    Examples\n    is_square(5) == True\n    is_square(10) == False\n    is_square(20) == True\n    is_square(101) == False\n    \"\"\"\n    # Your code here\n    if n < 2:\n        return False\n    elif n == 2 or n == 3:\n        return True\n    elif n % 2 == 0 or n % 3 == 0:\n        return False\n    else:\n        for i in range(5, int(n ** 0.5) + 1, 2):\n            if n % i == 0 or n % (3 * i) == 0:\n                return False\n        return True\n\n\ndef is_trivial(n):\n    \"\"\"Write a function that takes an integer n and returns True if the integer is\n    trivial or False otherwise\n    Examples\n    is_trivial(5) == False\n    is_trivial(10) == True\n    is_trivial(20) == False\n    is_trivial(101) == False\n    \"\"\"\n    # Your code here\n    if n < 2:\n        return False\n    elif n == 2 or n == 3:\n        return True\n    elif n % 2 ==",
+      -7.23828125
+    ],
+    [
+      "if string.isdigit():\n        return True\n    if len(string) <= 1:\n        return False\n    for i in range(2, int(len(string)/2)+1):\n        if string.count(str(i)) == 1:\n            return False\n    return True\n\n\ndef test_prime_length():\n    assert prime_length('Hello') == True\n    assert prime_length('abcdcba') == True\n    assert prime_length('kittens') == True\n    assert prime_length('orange') == False\n\n\nif __name__ == '__main__':\n    test_prime_length()",
+      -7.6171875
+    ],
+    [
+      "length = len(string)\n    if length == 0:\n        return False\n    for i in range(2, length):\n        if string[i] == '0':\n            return False\n    return True\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))\n\ndef prime_generator(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_generator('Hello') == True\n    prime_generator('abcdcba') == True\n    prime_generator('kittens') == True\n    prime_generator('orange') == False\n    \"\"\"\n    length = len(string)\n    if length == 0:\n        return False\n    for i in range(2, length):\n        if string[i] == '0':\n            return False\n    for i in range(2, length):\n        if string[i] == '1':\n            return False\n    return True\n\nprint(prime_generator('Hello'))\nprint(prime_generator('abcdcba'))\nprint(prime_generator('kittens'))\nprint(prime_generator('orange'))\n\ndef prime_generator_2(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_generator_2('Hello') == True\n    prime_generator_2('abcdcba') == True\n    prime_generator_2('kittens') == True\n    prime_generator_2('orange') == False\n    \"\"\"\n    length = len(string)\n    if length == 0:\n        return False\n    for i in range(2, length):\n        if string[i] == '0':\n            return False\n    for i in range(2, length):\n        if string[i] == '1':\n            return False\n    for i in range(2, length):\n        if string[i] == '2':\n            return False\n    return True\n\nprint(prime_generator_2('Hello'))\nprint(prime",
+      -7.7578125
+    ],
+    [
+      "counter = 0\n    for i in range(1, len(string)):\n        if string[i] == '1':\n            counter += 1\n        elif counter == 1:\n            return False\n    return True\n\n\ndef prime_numbers(string):\n    \"\"\"Write a function that takes a string and returns a list of prime numbers.\n    Examples\n    prime_numbers('Hello') == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 263, 269, 271, 277, 281, 283, 289, 293, 311, 313, 317, 331, 337, 347, 353, 359, 367, 361, 369, 373, 379, 383, 389, 397, 411, 413, 417, 429, 441, 447, 453, 459, 461, 467, 471, 477, 483, 489, 497, 511, 513, 517, 529, 537, 541, 547, 553, 559, 561, 567, 571, 573, 579, 583, 589, 597, 611, 613, 617, 629, 633, 639, 647, 653, 659, 661, 667, 671, 673, 679, 683, 689, 697, 711, 713, 717, 729, 739, 741, 747, 753, 759, 761, 767, 771, 773, 779, 783, 789, 797, 811, 813, 817, 829, 839, 847,",
+      -8.6484375
+    ],
+    [
+      "if len(string) < 2:\n        return False\n    if len(string) == 2:\n        return True\n    if string[0]!= string[-1]:\n        return False\n    else:\n        return all([prime_length(string[i:]) for i in range(len(string) - 1)])\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes a number and returns True if the number is a prime number\n    or False otherwise\n    Examples\n    is_prime(0) == False\n    is_prime(1) == True\n    is_prime(2) == False\n    is_prime(5) == False\n    is_prime(10) == True\n    is_prime(12) == True\n    is_prime(13) == True\n    \"\"\"\n    if number < 2:\n        return False\n    if number == 2:\n        return True\n    if number % 2 == 0:\n        return False\n    else:\n        return all([is_prime(number - 1), is_prime(number - 2), is_prime(number - 3), is_prime(number - 4)])\n\n\ndef is_palindrome(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a palindrome\n    or False otherwise\n    Examples\n    is_palindrome('Hello') == True\n    is_palindrome('abcdcba') == True\n    is_palindrome('kittens') == True\n    is_palindrome('orange') == False\n    is_palindrome(2) == True\n    is_palindrome(3) == False\n    is_palindrome(4) == False\n    \"\"\"\n    if len(string) < 2:\n        return False\n    if string[0]!= string[-1]:\n        return False\n    else:\n        return all([is_palindrome(string[:i]) for i in range(len(string) - 1)])\n\n\ndef is_palindrome_2(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a palindrome\n    or False otherwise\n    Examples\n    is_palindrome_2",
+      -8.8671875
+    ],
+    [
+      "if len(string) == 1:\n        return False\n    elif len(string) == 2:\n        return True\n    else:\n        for i in range(2, len(string)):\n            if string[i]!= '1' and string[i]!= '2':\n                return False\n        return True\n\n\nif __name__ == \"__main__\":\n    print(prime_length(\"Hello\"))\n    print(prime_length(\"abcdcba\"))\n    print(prime_length(\"kittens\"))\n    print(prime_length(\"orange\"))",
+      -9.1015625
+    ],
+    [
+      "n = len(string)\n    for i in range(2, n):\n        if string[i] == '1':\n            continue\n        if string[i] == '0':\n            return False\n        if string[i] == '0' and string[i-1]!= '0':\n            return False\n    return True\n\n\ndef prime_number(number):\n    \"\"\"Write a function that takes a number and returns True if it is a prime number\n    or False otherwise\n    Examples\n    prime_number(1) == True\n    prime_number(2) == True\n    prime_number(3) == False\n    \"\"\"\n    n = len(number)\n    for i in range(2, n):\n        if number[i] == '0':\n            return False\n        if number[i] == '0' and number[i-1]!= '0':\n            return False\n    return True\n\n\ndef prime_string(string):\n    \"\"\"Write a function that takes a string and returns True if it is a prime string\n    or False otherwise\n    Examples\n    prime_string('Hello') == True\n    prime_string('abcdcba') == True\n    prime_string('kittens') == True\n    prime_string('orange') == False\n    \"\"\"\n    n = len(string)\n    for i in range(2, n):\n        if string[i] == '0':\n            return False\n        if string[i] == '0' and string[i-1]!= '0':\n            return False\n    return True",
+      -9.2109375
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    if len(string) == 2:\n        return True\n    if len(string) == 3:\n        return string[0] == string[1] == string[2]\n    if string[0] == string[1] == string[2] and string[0]!= string[2]:\n        return False\n    if string[0]!= string[2] and string[0]!= string[1]:\n        return False\n    if string[0] == string[1] and string[0]!= string[2]:\n        return True\n    if string[0] == string[2] and string[0]!= string[1]:\n        return True\n    if string[0] == string[1] and string[0]!= string[2]:\n        return False\n    return False\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -9.21875
+    ],
+    [
+      "if len(string) == 0:\n        return False\n    if len(string) == 1:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\ndef prime_length_v2(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_length_v2('Hello') == True\n    prime_length_v2('abcdcba') == True\n    prime_length_v2('kittens') == True\n    prime_length_v2('orange') == False\n    \"\"\"\n    if len(string) == 0:\n        return False\n    if len(string) == 1:\n        return True\n    for i in range(2, len(string)):\n        if string[i] == string[i - 1]:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(prime_length('Hello'))\n    print(prime_length('abcdcba'))\n    print(prime_length('kittens'))\n    print(prime_length('orange'))\n    print(prime_length_v2('Hello'))\n    print(prime_length_v2('abcdcba'))\n    print(prime_length_v2('kittens'))\n    print(prime_length_v2('orange'))",
+      -9.515625
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    if string[0] == '0':\n        return False\n    elif string[0] == '1':\n        return True\n    else:\n        for i in range(1, len(string)):\n            if string[i]!= '0' and string[i]!= '1':\n                return False\n        return True\n\n\ndef is_prime(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a prime\n    number or False otherwise\n    Examples\n    is_prime('Hello') == True\n    is_prime('abcdcba') == True\n    is_prime('kittens') == True\n    is_prime('orange') == False\n    \"\"\"\n    if len(string) <= 1:\n        return False\n    if string[0] == '0':\n        return False\n    elif string[0] == '1':\n        return True\n    else:\n        for i in range(1, len(string)):\n            if string[i]!= '0' and string[i]!= '1':\n                return False\n        return True\n\n\ndef is_palindrome(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a palindrome\n    or False otherwise\n    Examples\n    is_palindrome('Hello') == True\n    is_palindrome('abcdcba') == True\n    is_palindrome('kittens') == True\n    is_palindrome('orange') == False\n    \"\"\"\n    if len(string) <= 1:\n        return False\n    if string[0] == '0':\n        return False\n    elif string[0] == '1':\n        return True\n    else:\n        for i in range(1, len(string)):\n            if string[i]!= string[len(string) - 1]:\n                return False\n        return True\n\n\ndef is_prime_string(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a prime\n    number or False otherwise\n    Examples\n    is_prime_string('Hello') == True\n    is_prime_string",
+      -9.8203125
+    ],
+    [
+      "string = string.upper()\n    for i in range(1, len(string)):\n        if string.count(string[i]) == 1:\n            return False\n    return True\n\n\ndef prime_number(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a prime number\n    or False otherwise\n    Examples\n    prime_number('Hello') == True\n    prime_number('abcdcba') == True\n    prime_number('kittens') == True\n    prime_number('orange') == False\n    \"\"\"\n    string = string.upper()\n    for i in range(1, len(string)):\n        if string.count(string[i]) == 1:\n            return False\n    return True\n\n\ndef prime_number_length(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a prime number\n    or False otherwise\n    Examples\n    prime_number_length('Hello') == True\n    prime_number_length('abcdcba') == True\n    prime_number_length('kittens') == True\n    prime_number_length('orange') == False\n    \"\"\"\n    string = string.upper()\n    for i in range(1, len(string)):\n        if len(string[i]) == 1:\n            return False\n    return True\n\n\ndef prime_number_length_2(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a prime number\n    or False otherwise\n    Examples\n    prime_number_length_2('Hello') == True\n    prime_number_length_2('abcdcba') == True\n    prime_number_length_2('kittens') == True\n    prime_number_length_2('orange') == False\n    \"\"\"\n    string = string.upper()\n    for i in range(1, len(string)):\n        if len(string[i]) == 1:\n            return False\n    return True\n\n\ndef prime_number_length_3(string):\n    \"\"\"Write a function that takes a string and returns True if the string is a prime number\n    or False otherwise\n    Examples\n    prime_number_",
+      -9.953125
+    ],
+    [
+      "if len(string) == 0:\n        return False\n\n    if string[0] == '0':\n        return False\n\n    for i in range(1, len(string)):\n        if string[i] == '0':\n            return False\n\n    return True\n\n\ndef prime_number(n):\n    \"\"\"Write a function that takes an integer and returns True if the\n    integer is a prime number or False otherwise\n    Examples\n    prime_number(3) == True\n    prime_number(5) == True\n    prime_number(7) == False\n    \"\"\"\n    if n < 2:\n        return False\n\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n\n    return True\n\n\ndef prime_number_sieve(n):\n    \"\"\"Write a function that takes an integer and returns True if the\n    integer is a prime number or False otherwise\n    Examples\n    prime_number_sieve(3) == True\n    prime_number_sieve(5) == True\n    prime_number_sieve(7) == False\n    \"\"\"\n    if n < 2:\n        return False\n\n    sieve = [True for i in range(n + 1)]\n    sieve[0] = sieve[1] = False\n\n    for i in range(2, n + 1):\n        if sieve[i]:\n            for j in range(i * i, n + 1, i):\n                sieve[j] = False\n\n    return sieve\n\n\ndef prime_number_factorization(n):\n    \"\"\"Write a function that takes an integer and returns a list of prime\n    factors of the integer or empty list otherwise\n    Examples\n    prime_number_factorization(3) == [2, 3]\n    prime_number_factorization(5) == [2, 3]\n    prime_number_factorization(7) == []\n    \"\"\"\n    if n < 2:\n        return []\n\n    factors = [1]\n    for i in range(2, n + 1):\n        if n % i == 0:\n            factors.append(i)\n\n    return factors\n\n\ndef prime_number_",
+      -11.5625
+    ],
+    [
+      "if string == '':\n        return False\n    return string.isdigit() and len(string) > 2 and string.count('0') == 1\n\n\ndef is_prime(number):\n    \"\"\"Write a function that takes an integer and returns True if the number is\n    prime or False otherwise\n    Examples\n    is_prime(3) == True\n    is_prime(4) == False\n    is_prime(7) == True\n    is_prime(11) == False\n    is_prime(0) == False\n    \"\"\"\n    if number < 2:\n        return False\n    if number == 2:\n        return True\n    if number % 2 == 0:\n        return False\n    for i in range(3, int(number**0.5)+1, 2):\n        if number % i == 0:\n            return False\n    return True\n\n\ndef prime_number(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_number('Hello') == True\n    prime_number('abcdcba') == True\n    prime_number('kittens') == True\n    prime_number('orange') == False\n    \"\"\"\n    if string == '':\n        return False\n    if string.isdigit() and len(string) > 2 and string.count('0') == 1:\n        if is_prime(int(string)):\n            return True\n    return False",
+      -11.578125
+    ],
+    [
+      "if string.isalpha() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif len(string) < 2:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isalpha() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isalpha() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isalpha() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isalpha() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False\n    elif string.isdigit() == False:\n        return False",
+      -12.7578125
+    ],
+    [
+      "if len(string) <= 1:\n        return False\n    elif len(string) == 2:\n        return True\n    elif string[0] == '0' and string[1] == '0':\n        return False\n    elif string[0] == '0' and string[1]!= '0':\n        return True\n\n    for i in range(2, int(len(string) / 2) + 1):\n        if string[i] == '0':\n            for j in range(i * i, len(string), i):\n                string = string[:j] + string[j + 1:]\n\n    return prime_length(string)\n\n\nprint(prime_length('Hello'))\nprint(prime_length('abcdcba'))\nprint(prime_length('kittens'))\nprint(prime_length('orange'))",
+      -13.15625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

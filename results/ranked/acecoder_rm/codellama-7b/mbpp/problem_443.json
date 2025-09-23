@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/454",
+    "prompt": "Write a function that matches a word containing 'z'.",
+    "canonical_solution": "import re\r\ndef text_match_wordz(text):\r\n        patterns = '\\w*z.\\w*'\r\n        if re.search(patterns,  text):\r\n                return 'Found a match!'\r\n        else:\r\n                return('Not matched!')",
+    "test_list": [
+      "assert text_match_wordz(\"pythonz.\")==('Found a match!')",
+      "assert text_match_wordz(\"xyz.\")==('Found a match!')",
+      "assert text_match_wordz(\"  lang  .\")==('Not matched!')"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 443
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "import re\n\ndef has_z(text):\n    \"\"\"Return True if any of the characters in text are 'z'.\n\n    >>> has_z('red')\n    False\n    >>> has_z('green')\n    False\n    >>> has_z('blue')\n    True\n    >>> has_z('white')\n    False\n    >>> has_z('violet')\n    True\n    \"\"\"\n    pattern = re.compile(r'z')\n    return bool(pattern.search(text))\n\n\ndef has_z_regex(text):\n    \"\"\"Return True if any of the characters in text are 'z'.\n\n    >>> has_z_regex('red')\n    False\n    >>> has_z_regex('green')\n    False\n    >>> has_z_regex('blue')\n    True\n    >>> has_z_regex('white')\n    False\n    >>> has_z_regex('violet')\n    True\n    \"\"\"\n    pattern = re.compile(r'[z]')\n    return bool(pattern.search(text))\n\n\ndef has_z_regex_verbose(text):\n    \"\"\"Return True if any of the characters in text are 'z'.\n\n    >>> has_z_regex_verbose('red')\n    False\n    >>> has_z_regex_verbose('green')\n    False\n    >>> has_z_regex_verbose('blue')\n    True\n    >>> has_z_regex_verbose('white')\n    False\n    >>> has_z_regex_verbose('violet')\n    True\n    \"\"\"\n    pattern = re.compile(r\"\"\"\n    z\n    \"\"\")\n    return bool(pattern.search(text))",
+      6.2734375
+    ],
+    [
+      "import re\n\n\ndef match_regex(regex, text):\n    \"\"\"\n    >>> match_regex(r'z', 'Python is awesome')  # 'z' is in Python\n    True\n    >>> match_regex(r'z', 'Google was founded in 1999')  # 'z' is not in Google\n    False\n    >>> match_regex(r'[a-zA-Z0-9]z', 'Python is awesome')  # 'z' is in Python\n    True\n    >>> match_regex(r'[a-zA-Z0-9]z', 'Google was founded in 1999')  # 'z' is not in Google\n    False\n    \"\"\"\n    pattern = re.compile(regex)\n    return pattern.search(text) is not None\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      5.0390625
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Returns True if the text contains a word with 'z'.\n\n    >>> match_z(\"There is a match here.\")\n    True\n    >>> match_z(\"No match.\")\n    False\n    \"\"\"\n    pattern = re.compile(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\")\n    return pattern.search(text) is not None\n\n\ndef main():\n    assert match_z(\"There is a match here.\")\n    assert not match_z(\"No match.\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      5.015625
+    ],
+    [
+      "import re\n\n\ndef contains_z(text: str) -> bool:\n    \"\"\"Does the text contain the letter 'z'?\n\n    Args:\n        text (str): The text to check.\n\n    Returns:\n        bool: True if the text contains 'z'.\n    \"\"\"\n    return bool(re.search(r\"\\b.*z.*\\b\", text))",
+      4.1953125
+    ],
+    [
+      "import re\n\n\ndef match_z(text):\n    pattern = r\"\\w*z\\w*\"\n    regex = re.compile(pattern)\n    match = regex.search(text)\n    return match.group() if match else \"Didn't find 'z'.\"\n\n\ndef main():\n    print(match_z(\"The quick brown fox jumps over the lazy dog.\"))\n    print(match_z(\"Python is named after Monty Python's Flying Circus\"))\n    print(match_z(\"There are zebras in my garden.\"))\n    print(match_z(\"I love bananas\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      3.576171875
+    ],
+    [
+      "import re\n\ndef match_z(text):\n    \"\"\"Return a regex that matches a word containing 'z'.\"\"\"\n    return re.compile(r'\\b\\w*z\\w*\\b', re.IGNORECASE)",
+      3.208984375
+    ],
+    [
+      "import re\nimport pytest\n\n\ndef f(txt):\n    match = re.search(r\"\\w*z\\w*\", txt)\n    return match.group(0) if match else \"\"\n\n\n@pytest.mark.parametrize(\"arg,expect\", [\n    (\"z\", \"z\"),\n    (\"az\", \"az\"),\n    (\"aaz\", \"aaz\"),\n    (\"zz\", \"zz\"),\n    (\"a\", \"\"),\n    (\"zoz\", \"zoz\"),\n])\ndef test_f(arg, expect):\n    assert f(arg) == expect\n\n\nif __name__ == '__main__':\n    pytest.main([__file__])",
+      2.970703125
+    ],
+    [
+      "import re\n\n\ndef match_z_word(text: str) -> bool:\n    \"\"\"Returns True if text contains word containing 'z', False otherwise.\n\n    >>> match_z_word(\"z\")\n    True\n    >>> match_z_word(\"zzz\")\n    True\n    >>> match_z_word(\"abc\")\n    False\n    >>> match_z_word(\"123\")\n    False\n    >>> match_z_word(\"z12\")\n    True\n    >>> match_z_word(\"12z\")\n    True\n    >>> match_z_word(\"1z2\")\n    True\n    \"\"\"\n    pattern = re.compile(r\"\\b.*z.*\\b\")\n    if pattern.match(text):\n        return True\n    return False\n\n\ndef main():\n    text = input(\"Enter some text: \")\n    if match_z_word(text):\n        print(\"Match found!\")\n    else:\n        print(\"No match!\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      2.8671875
+    ],
+    [
+      "import re\n\n\ndef matches_z(text: str) -> bool:\n    \"\"\"Return True if the text contains a word with 'z'.\n\n    >>> matches_z(\"A word with z in it.\")\n    True\n    >>> matches_z(\"No word here.\")\n    False\n    >>> matches_z(\"This line has no z in it.\")\n    False\n    \"\"\"\n    return bool(re.search(r\"\\b\\w*z\\w*\\b\", text))\n\n\ndef matches_z_regex(text: str) -> bool:\n    \"\"\"Return True if the text contains a word with 'z'.\n\n    >>> matches_z_regex(\"A word with z in it.\")\n    True\n    >>> matches_z_regex(\"No word here.\")\n    False\n    >>> matches_z_regex(\"This line has no z in it.\")\n    False\n    \"\"\"\n    return bool(re.search(r\"\\b\\w*z\\w*\\b\", text))\n\n\ndef matches_z_alternative(text: str) -> bool:\n    \"\"\"Return True if the text contains a word with 'z'.\n\n    >>> matches_z_alternative(\"A word with z in it.\")\n    True\n    >>> matches_z_alternative(\"No word here.\")\n    False\n    >>> matches_z_alternative(\"This line has no z in it.\")\n    False\n    \"\"\"\n    for word in text.split():\n        if \"z\" in word:\n            return True\n    return False\n\n\ndef matches_z_alternative_regex(text: str) -> bool:\n    \"\"\"Return True if the text contains a word with 'z'.\n\n    >>> matches_z_alternative_regex(\"A word with z in it.\")\n    True\n    >>> matches_z_alternative_regex(\"No word here.\")\n    False\n    >>> matches_z_alternative_regex(\"This line has no z in it.\")\n    False\n    \"\"\"\n    for word in text.split():\n        if re.search(r\"\\b\\w*z\\w*\\b\", word):\n            return True\n    return False\n\n\ndef matches_z_alternative_regex2(text: str) -> bool:\n    \"\"\"Return True if",
+      2.736328125
+    ],
+    [
+      "import re\n\n\ndef match_regex_z(input_str):\n    pattern = r'[a-zA-Z]*z[a-zA-Z]*'\n    regex = re.compile(pattern)\n    match = regex.search(input_str)\n    if match:\n        print(\"match found: {}\".format(match.group()))\n    else:\n        print(\"No match found\")\n\n\ndef main():\n    match_regex_z(\"myzzymazy\")\n    match_regex_z(\"myzzymazy\")\n    match_regex_z(\"123\")\n    match_regex_z(\"\")\n    match_regex_z(\"z\")\n    match_regex_z(\"123z\")\n    match_regex_z(\"z123\")\n\n\nif __name__ == '__main__':\n    main()",
+      2.4921875
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Match a word containing 'z'.\n\n    Args:\n        text (str): target text.\n\n    Examples:\n        >>> assert match_z('Python is awesome!')\n        >>> assert not match_z('Hello world!')\n    \"\"\"\n    pattern = re.compile(r\"\\b\\w*z\\w*\\b\")\n    return bool(pattern.search(text))\n\n\nif __name__ == \"__main__\":\n    print(match_z(\"Python is awesome!\"))",
+      2.361328125
+    ],
+    [
+      "import re\n\n# 1.\ndef match_z(text):\n    return re.search(r\"\\w*z\\w*\", text)\n\n# 2.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 3.\ndef match_z(text):\n    return re.search(r\"[a-zA-Z]*z[a-zA-Z]*\", text)\n\n# 4.\ndef match_z(text):\n    return re.search(r\"[a-zA-Z]*z\", text)\n\n# 5.\ndef match_z(text):\n    return re.search(r\"[a-zA-Z]*z[a-zA-Z]*\", text)\n\n# 6.\ndef match_z(text):\n    return re.search(r\"\\w*z\\w*\", text)\n\n# 7.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 8.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 9.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 10.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 11.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 12.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 13.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 14.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 15.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 16.\ndef match_z(text):\n    return re.search(r\"z\", text)\n\n# 17.\ndef match_z(text):\n    return re.search(r\"z",
+      2.1328125
+    ],
+    [
+      "import re\n\n\ndef contains_z(text: str) -> bool:\n    \"\"\"Returns True if text contains 'z', False otherwise.\n    \n    >>> contains_z('hello')\n    False\n    >>> contains_z('world')\n    False\n    >>> contains_z('wonderful')\n    True\n    >>> contains_z('z')\n    True\n    >>> contains_z('zebra')\n    True\n    >>> contains_z('zeal')\n    True\n    >>> contains_z('zealot')\n    True\n    \"\"\"\n    pattern = r\"z\"\n    regex = re.compile(pattern)\n    return bool(regex.search(text))\n\n\ndef contains_z_with_find(text: str) -> bool:\n    \"\"\"Returns True if text contains 'z', False otherwise.\n    \n    >>> contains_z_with_find('hello')\n    False\n    >>> contains_z_with_find('world')\n    False\n    >>> contains_z_with_find('wonderful')\n    True\n    >>> contains_z_with_find('z')\n    True\n    >>> contains_z_with_find('zebra')\n    True\n    >>> contains_z_with_find('zeal')\n    True\n    >>> contains_z_with_find('zealot')\n    True\n    \"\"\"\n    return \"z\" in text\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.982421875
+    ],
+    [
+      "import re\n\n\ndef word_z(s):\n    return bool(re.search(r'\\b.*z.*\\b', s))\n\n\ndef test_word_z():\n    assert word_z('z')\n    assert word_z('zzz')\n    assert word_z('xzxzx')\n    assert word_z('xzzzx')\n    assert word_z('xzxzzzx')\n    assert word_z('xzxzxzx')\n    assert not word_z('xzx')\n    assert not word_z('zz')\n    assert not word_z('zzzx')\n    assert not word_z('zxzx')\n    assert not word_z('xzz')\n    assert not word_z('xzxzxz')\n    assert not word_z('zzzzz')\n    assert not word_z('zzz')\n\n\nif __name__ == '__main__':\n    test_word_z()",
+      1.853515625
+    ],
+    [
+      "import re\n\ndef z_word(sentence):\n    \"\"\"Return a regex that matches a word containing 'z'.\"\"\"\n    regex = re.compile(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\")\n    match = regex.search(sentence)\n    if match:\n        return match.group()\n    return \"\"\n\ndef main():\n    assert z_word(\"I like zebras.\") == \"zebras\"\n    assert z_word(\"I like horses.\") == \"\"\n    assert z_word(\"I like apples.\") == \"\"\n    assert z_word(\"I like azaleas.\") == \"azaleas\"\n    print 'all passed.'\n\nif __name__ == '__main__':\n    main()",
+      1.5625
+    ],
+    [
+      "import re\n\ndef z_match(text):\n    \"\"\"\n    >>> z_match(\"There is a zebra in the house\")\n    True\n    >>> z_match(\"There is a coffee in the house\")\n    False\n    \"\"\"\n    pattern = r\"[z]\"\n    result = re.findall(pattern, text)\n    if result:\n        return True\n    return False\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      1.4658203125
+    ],
+    [
+      "import re\n\ndef match_z(text):\n    \"\"\"Return a regex that matches a word containing 'z'.\"\"\"\n    regex = r\"\\b\\w*z\\w*\\b\"\n    pattern = re.compile(regex)\n    result = pattern.findall(text)\n    return result\n\n\ndef test_match_z():\n    \"\"\"Test match_z().\"\"\"\n    assert match_z(\"I love Python.\") == []\n    assert match_z(\"I love Java.\") == []\n    assert match_z(\"Python is fun.\") == [\"Python\"]\n    assert match_z(\"Java is not fun.\") == []\n    assert match_z(\"I love Python zen.\") == [\"Python zen\"]\n    assert match_z(\"I love Python, Java and C.\") == [\"Python\"]\n    assert match_z(\"I love Java, Python and C.\") == [\"Python\", \"Java\"]\n    assert match_z(\"Java is not Python.\") == []\n    assert match_z(\"Python is not Java.\") == [\"Python\"]\n    assert match_z(\"I love Python zen.\") == [\"Python zen\"]\n    assert match_z(\"I love Java, Python and C.\") == [\"Python\", \"Java\"]\n    assert match_z(\"Java is not Python.\") == []\n    assert match_z(\"Python is not Java.\") == [\"Python\"]\n\n\nif __name__ == '__main__':\n    test_match_z()",
+      1.412109375
+    ],
+    [
+      "import re\n\n\ndef match_word_z(text: str) -> bool:\n    \"\"\"Match a word containing 'z'.\n\n    Args:\n        text (str): text to search\n\n    Returns:\n        bool: True if word containing 'z', False otherwise\n\n    Examples:\n        >>> assert match_word_z(\"zapp\")\n        >>> assert match_word_z(\"zebra\")\n        >>> assert not match_word_z(\"app\")\n        >>> assert not match_word_z(\"bra\")\n    \"\"\"\n    pattern = re.compile(r\"\\b.*z.*\\b\")\n    return bool(pattern.search(text))\n\n\nif __name__ == \"__main__\":\n    print(match_word_z(\"zapp\"))",
+      1.3330078125
+    ],
+    [
+      "import re\n\n\ndef word_z(string):\n    \"\"\"\n    >>> word_z(\"There are no words containing z in this sentence\")\n    False\n    >>> word_z(\"There are some words with z in this sentence\")\n    True\n    \"\"\"\n    regex = re.compile(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\")\n    match = regex.search(string)\n    return match is not None\n\n\ndef main():\n    assert word_z(\"There are no words containing z in this sentence\") is False\n    assert word_z(\"There are some words with z in this sentence\") is True\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.330078125
+    ],
+    [
+      "import re\n\n\ndef match_regex_problem(text: str) -> str:\n    \"\"\"Return a word containing 'z'\n\n    >>> match_regex_problem(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    >>> match_regex_problem(\"The five boxing wizards jump quickly.\")\n    'wizards'\n    >>> match_regex_problem(\"Pack my box with five dozen liquor jugs.\")\n    'box'\n    >>> match_regex_problem(\"How quickly daft jumping zebras vex.\")\n    'jumping'\n    >>> match_regex_problem(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    \"\"\"\n    return re.findall(r\"\\w*z\\w*\", text)[0]\n\n\ndef match_regex_problem_regex(text: str) -> str:\n    \"\"\"Return a word containing 'z'\n\n    >>> match_regex_problem_regex(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    >>> match_regex_problem_regex(\"The five boxing wizards jump quickly.\")\n    'wizards'\n    >>> match_regex_problem_regex(\"Pack my box with five dozen liquor jugs.\")\n    'box'\n    >>> match_regex_problem_regex(\"How quickly daft jumping zebras vex.\")\n    'jumping'\n    >>> match_regex_problem_regex(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    \"\"\"\n    return re.findall(r\"\\b\\w*z\\w*\\b\", text)[0]\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.1005859375
+    ],
+    [
+      "import re\n\n\ndef has_z(text: str) -> bool:\n    \"\"\"Returns True if text has 'z' in it, False otherwise.\n\n    >>> has_z(\"string\")\n    True\n    >>> has_z(\"stringz\")\n    True\n    >>> has_z(\"stringy\")\n    False\n    \"\"\"\n    return bool(re.search(r\"\\bz\\b\", text))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.9091796875
+    ],
+    [
+      "import re\n\n# write your regex here\nregex_pattern = r\"[a-zA-Z]*z[a-zA-Z]*\"  # r\"[a-zA-Z]*z[a-zA-Z]*\"\n\n# Tests\nprint(re.match(regex_pattern, \"zebra\"))  # True\nprint(re.match(regex_pattern, \"dog\"))  # False\nprint(re.match(regex_pattern, \"dogz\"))  # True\nprint(re.match(regex_pattern, \"azzzz\"))  # True\nprint(re.match(regex_pattern, \"zzzzzzz\"))  # False",
+      0.89208984375
+    ],
+    [
+      "import re\n\ndef z_word_match(text):\n    \"\"\"\n    >>> z_word_match(\"There is a match here.\")\n    True\n    >>> z_word_match(\"No match here.\")\n    False\n    \"\"\"\n    match = re.search(r\"\\b\\w*z\\w*\\b\", text)\n    return match is not None\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      0.80810546875
+    ],
+    [
+      "import re\n\n\ndef match_z_word(text: str) -> bool:\n    \"\"\"\n    >>> match_z_word('z')\n    True\n    >>> match_z_word('zzz')\n    True\n    >>> match_z_word('a')\n    False\n    >>> match_z_word('zzza')\n    False\n    \"\"\"\n    return bool(re.search(r\"\\w*z\\w*\", text))\n\n\ndef match_z_word_regex(text: str) -> bool:\n    \"\"\"\n    >>> match_z_word_regex('z')\n    True\n    >>> match_z_word_regex('zzz')\n    True\n    >>> match_z_word_regex('a')\n    False\n    >>> match_z_word_regex('zzza')\n    False\n    \"\"\"\n    return bool(re.search(r\"z\", text))\n\n\ndef match_z_word_alt(text: str) -> bool:\n    \"\"\"\n    >>> match_z_word_alt('z')\n    True\n    >>> match_z_word_alt('zzz')\n    True\n    >>> match_z_word_alt('a')\n    False\n    >>> match_z_word_alt('zzza')\n    False\n    \"\"\"\n    return bool(re.search(r\"[a-zA-Z]*z[a-zA-Z]*\", text))\n\n\ndef match_z_word_alt_regex(text: str) -> bool:\n    \"\"\"\n    >>> match_z_word_alt_regex('z')\n    True\n    >>> match_z_word_alt_regex('zzz')\n    True\n    >>> match_z_word_alt_regex('a')\n    False\n    >>> match_z_word_alt_regex('zzza')\n    False\n    \"\"\"\n    return bool(re.search(r\"[a-zA-Z]*z\", text))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.734375
+    ],
+    [
+      "import re\n\n# 1st solution\ndef match_z(word):\n    return re.search(\"z\", word)\n\nprint(match_z(\"zebra\"))\nprint(match_z(\"dog\"))\nprint(match_z(\"banana\"))\nprint(match_z(\"apple\"))\nprint(match_z(\"cherry\"))\nprint(match_z(\"grape\"))\nprint(match_z(\"orange\"))\n\n# 2nd solution\ndef match_z_2(word):\n    return re.match(\"z\", word)\n\nprint(match_z_2(\"zebra\"))\nprint(match_z_2(\"dog\"))\nprint(match_z_2(\"banana\"))\nprint(match_z_2(\"apple\"))\nprint(match_z_2(\"cherry\"))\nprint(match_z_2(\"grape\"))\nprint(match_z_2(\"orange\"))\n\n# 3rd solution\ndef match_z_3(word):\n    return re.fullmatch(\"z\", word)\n\nprint(match_z_3(\"zebra\"))\nprint(match_z_3(\"dog\"))\nprint(match_z_3(\"banana\"))\nprint(match_z_3(\"apple\"))\nprint(match_z_3(\"cherry\"))\nprint(match_z_3(\"grape\"))\nprint(match_z_3(\"orange\"))",
+      0.505859375
+    ],
+    [
+      "import re\n\n\ndef word_z(string):\n    \"\"\"\n    >>> word_z('z')\n    True\n    >>> word_z('zzz')\n    True\n    >>> word_z('abc')\n    False\n    >>> word_z('zabc')\n    True\n    >>> word_z('aazzzbc')\n    True\n    \"\"\"\n    pattern = re.compile(r'\\bz\\b')\n    return pattern.search(string) is not None\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      0.495849609375
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Match a word containing 'z'.\n\n    Args:\n        text (str): target text.\n\n    Returns:\n        bool: True if text contains a word containing 'z'.\n\n    Examples:\n        >>> assert match_z('zzz')\n        >>> assert match_z('abcd') is False\n        >>> assert match_z('1234') is False\n        >>> assert match_z('z234')\n        >>> assert match_z('234z') is False\n    \"\"\"\n    pattern = re.compile(r\"\\b.*z.*\\b\")\n    return bool(pattern.search(text))\n\n\nif __name__ == \"__main__\":\n    print(match_z(\"zzz\"))\n    print(match_z(\"abcd\"))\n    print(match_z(\"1234\"))\n    print(match_z(\"z234\"))\n    print(match_z(\"234z\"))",
+      0.47900390625
+    ],
+    [
+      "import re\n\n\ndef matches_z(text: str) -> bool:\n    \"\"\"\n    >>> matches_z('abc')\n    False\n    >>> matches_z('abc z')\n    True\n    >>> matches_z('abc_z')\n    False\n    >>> matches_z('abc_z1')\n    False\n    >>> matches_z('abc_z12')\n    False\n    >>> matches_z('abc_z123')\n    False\n    >>> matches_z('abc_z1234')\n    False\n    >>> matches_z('abc_z12345')\n    False\n    >>> matches_z('abc_z123456')\n    False\n    >>> matches_z('abc_z1234567')\n    False\n    >>> matches_z('abc_z12345678')\n    False\n    >>> matches_z('abc_z123456789')\n    False\n    >>> matches_z('abc_z1234567890')\n    False\n    >>> matches_z('abc_z12345678901')\n    False\n    >>> matches_z('abc_z123456789012')\n    False\n    >>> matches_z('abc_z1234567890123')\n    False\n    >>> matches_z('abc_z12345678901234')\n    False\n    >>> matches_z('abc_z123456789012345')\n    False\n    >>> matches_z('abc_z1234567890123456')\n    False\n    >>> matches_z('abc_z12345678901234567')\n    False\n    >>> matches_z('abc_z123456789012345678')\n    False\n    >>> matches_z('abc_z1234567890123456789",
+      0.384521484375
+    ],
+    [
+      "import re\n\n\ndef matches_z(text: str) -> bool:\n    \"\"\"Returns if the text contains 'z'.\"\"\"\n    pattern = r\"\\w*z\\w*\"\n    return bool(re.match(pattern, text))\n\n\nif __name__ == \"__main__\":\n    print(matches_z(\"I love Python\"))\n    print(matches_z(\"I love Java\"))\n    print(matches_z(\"Java is fun\"))\n    print(matches_z(\"I love Python!\"))",
+      0.14697265625
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Does a word contain 'z'?\"\"\"\n    pattern = re.compile(r\"\\b\\w*z\\w*\\b\")\n    return bool(pattern.search(text))",
+      0.132080078125
+    ],
+    [
+      "import re\n\n\ndef find_z_word(text: str) -> str:\n    \"\"\"\n    >>> find_z_word(\"The quick brown fox jumps over the lazy dog.\")\n    'The'\n    \"\"\"\n    pattern = re.compile(r\"\\b.*z.*\\b\", re.IGNORECASE)\n    match = pattern.search(text)\n    return match.group() if match else \"\"\n\n\nif __name__ == \"__main__\":\n    print(find_z_word(\"The quick brown fox jumps over the lazy dog.\"))",
+      0.03656005859375
+    ],
+    [
+      "import re\n\n\ndef match_word(text: str) -> str:\n    \"\"\"Return word containing 'z'\n\n    >>> match_word(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    >>> match_word(\"Python is the best programming language.\")\n    'Python'\n    >>> match_word(\"There is a zebra on the loose.\")\n    'zebra'\n    \"\"\"\n    pattern = re.compile(r\"\\b\\w*z\\w*\\b\")\n    match = pattern.search(text)\n    if match:\n        return match.group()\n    return \"\"\n\n\ndef main():\n    \"\"\"Test match_word() with user input.\"\"\"\n    sentence = input(\"Enter a sentence: \")\n    print(f'\"{sentence}\" contains {match_word(sentence)}')\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.0178375244140625
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Does the text have a word containing 'z'?\n\n    Args:\n        text (str): text to search for words containing 'z'\n\n    Returns:\n        bool: True if the text has a word containing 'z'\n    \"\"\"\n    return bool(re.search(r\"\\b.*z.*\\b\", text))\n\n\nif __name__ == \"__main__\":\n    print(match_z(\"The quick brown fox jumps over the lazy dog.\"))",
+      -0.06390380859375
+    ],
+    [
+      "import re\n\ndef z_match(word):\n    pattern = re.compile(r\"\\w*z\\w*\")\n    return pattern.match(word)\n\n#tests\n\nprint(z_match(\"python\"))\nprint(z_match(\"java\"))\nprint(z_match(\"javascript\"))\nprint(z_match(\"ruby\"))\nprint(z_match(\"perl\"))\nprint(z_match(\"php\"))",
+      -0.11199951171875
+    ],
+    [
+      "import re\n\n\ndef test_z_regex(capsys, text, expected):\n    \"\"\"\n    Test a regular expression against a string\n    \"\"\"\n    pattern = re.compile(r\"z\")\n    words = pattern.findall(text)\n    assert words == expected",
+      -0.36962890625
+    ],
+    [
+      "import re\nimport itertools\nfrom collections import Counter\n\n\ndef checkio(data):\n    for word in data.split():\n        if re.search(\"z\", word):\n            return True\n    return False\n\n\ndef test_function():\n    assert checkio(\"Hello World and Coders Studio\") == True, \"Hello\"\n    assert checkio(\"Banana\") == False, \"Banana\"\n    assert checkio(\"Try again\") == False, \"Try again\"\n    assert checkio(\"No z here\") == False, \"No z\"\n    assert checkio(\"z\") == True, \"z\"\n    assert checkio(\"\") == False, \"Empty\"\n\nif __name__ == '__main__':\n    test_function()",
+      -0.39453125
+    ],
+    [
+      "import re\nimport pytest\n\n\ndef has_z(text):\n    return bool(re.search(r\"\\w*z\\w*\", text))\n\n\n@pytest.mark.parametrize(\"text,expected\", [\n    (\"Awesome\", False),\n    (\"Python\", False),\n    (\"Pythoz\", True),\n    (\"pythoz\", True),\n    (\"Pythozzzz\", True),\n    (\"Py\", False),\n    (\"PyZ\", True),\n    (\"PyZZ\", True),\n    (\"Z\", True),\n    (\"ZZ\", True),\n    (\"ZZZ\", True),\n    (\"\", False),\n    (\"ZZZZZZ\", True),\n    (\"ZZZZZZZ\", True),\n    (\"ZZZZZZZZ\", True),\n    (\"ZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZZZZZZZZZ\", True),\n    (\"ZZZZZZZZZZZZZZ",
+      -0.404296875
+    ],
+    [
+      "import re\nimport sys\n\n\ndef match_z(text):\n    return bool(re.search(r'\\bz\\w*\\b', text))\n\n\ndef main():\n    for line in sys.stdin:\n        text = line[:-1]\n        ret = match_z(text)\n        print(ret)\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85595703125
+    ],
+    [
+      "import re\n\ndef check_z(text):\n    pattern = re.compile(r'\\w*z\\w*')\n    result = pattern.search(text)\n    return result.group()\n\n\nif __name__ == '__main__':\n    print(check_z(\"The text doesn't contain z.\")) # None\n    print(check_z(\"The text contains z.\")) # The",
+      -0.85595703125
+    ],
+    [
+      "import re\n\n\ndef matches_z(text: str) -> bool:\n    \"\"\"\n    >>> assert matches_z(\"az\")\n    >>> assert not matches_z(\"a\")\n    \"\"\"\n    pattern = r\"z\"\n    return bool(re.search(pattern, text))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    pattern = re.compile(r\"z\")\n    return pattern.search(text) is not None",
+      -0.85595703125
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    pattern = re.compile(r\"\\b.*z.*\\b\", re.IGNORECASE)\n    result = pattern.search(text)\n    return bool(result)\n\n\nif __name__ == \"__main__\":\n    print(match_z(\"The Z-man came back and attacked again.\"))",
+      -0.85595703125
+    ],
+    [
+      "import re\n\ndef contains_z(text):\n    \"\"\"\n    >>> contains_z('banana')\n    True\n    >>> contains_z('apple')\n    False\n    \"\"\"\n    return re.search(r'\\bz\\b', text) is not None\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "import re\n\ndef matches_z(text):\n    pattern = r\"\\bz\\w*\\b\"\n    z_match = re.search(pattern, text)\n    if z_match:\n        return z_match.group()\n    return None\n\ndef main():\n    print(matches_z(\"The quick brown fox jumps over the lazy dog.\"))\n    print(matches_z(\"Python is named after Monty Python's Flying Circus sketch, which parodied several well-known stage comedians, including John Cleese, Eric Idle, Graham Chapman, and Terry Gilliam.\"))\n    print(matches_z(\"There is no 'z' in tazmanian devil.\"))\n    print(matches_z(\"The quick brown fox jumps over the lazy dog.\"))\n    print(matches_z(\"Amazon\"))\n    print(matches_z(\"Google\"))\n    print(matches_z(\"Microsoft\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef test_z_regex(regex, text, expected):\n    \"\"\"Test for z regex.\"\"\"\n    result = re.findall(regex, text)\n    if expected:\n        assert result\n    else:\n        assert not result\n\n\ndef test_z_regex_2(regex, text, expected):\n    \"\"\"Test for z regex.\"\"\"\n    assert re.search(regex, text) is not None is expected\n\n\ndef test_z_regex_3(regex, text, expected):\n    \"\"\"Test for z regex.\"\"\"\n    assert re.search(regex, text) is not None is expected\n\n\ndef test_z_regex_4(regex, text, expected):\n    \"\"\"Test for z regex.\"\"\"\n    assert re.match(regex, text) is not None is expected\n\n\ndef test_z_regex_5(regex, text, expected):\n    \"\"\"Test for z regex.\"\"\"\n    assert re.match(regex, text) is not None is expected",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef match_z(text: str) -> bool:\n    \"\"\"Return if text contains 'z'.\"\"\"\n    return bool(re.search(r\"\\bz\\w*\", text))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Returns True if text contains 'z'.\"\"\"\n    pattern = re.compile(r\"z\")\n    return bool(pattern.search(text))\n\n\nif __name__ == \"__main__\":\n    print(match_z(\"Python\"))\n    print(match_z(\"Java\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> bool:\n    \"\"\"Match a word containing 'z'.\"\"\"\n    pattern = re.compile(r\"\\b\\w*z\\w*\\b\")\n    return bool(pattern.search(text))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef has_z(string):\n    pattern = r\"\\w*z\\w*\"\n    result = re.search(pattern, string)\n\n    if result:\n        return True\n    else:\n        return False\n\nprint(has_z(\"I love playing with my dog.\"))\nprint(has_z(\"I have a new book.\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef test_regex(pattern, text):\n    \"\"\"\n    Function for test regex.\n    \"\"\"\n    regex = re.compile(pattern)\n    print(f'{text:10} {regex.search(text) and \"OK\" or \"Fail\"}')\n\n\nif __name__ == '__main__':\n    test_regex(r'\\w*z\\w*', 'Hello world')\n    test_regex(r'\\w*z\\w*', 'Hello worldz')\n    test_regex(r'\\w*z\\w*', 'Hello world!')\n    test_regex(r'\\w*z\\w*', 'Hello world!z')\n    test_regex(r'\\w*z\\w*', 'Hello world!z!')",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef find_z(text: str):\n    \"\"\"\n    >>> find_z(\"There is a small cat.\")\n    ['cat']\n    >>> find_z(\"The quick brown fox jumps over the lazy dog.\")\n    ['fox', 'dog']\n    \"\"\"\n    pattern = re.compile(r\"\\b\\w*z\\w*\\b\")\n    return pattern.findall(text)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef match_word_z(text):\n    return re.findall(r'\\bz\\w+', text)",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef contains_z(text):\n    pattern = re.compile(r'\\w*z\\w*')\n    result = pattern.search(text)\n\n    return result.group() if result else None\n\n\ndef main():\n    text = \"The quick brown fox jumps over the lazy dog\"\n    print(contains_z(text))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef find_z_word(text):\n    \"\"\"\n    >>> find_z_word(\"There are many many words in this text. Some of them are very long. One of them is 'Python'\")\n    ['Python']\n    >>> find_z_word(\"There are many many words in this text. Some of them are very long. One of them is 'Phyton'\")\n    []\n    \"\"\"\n    regex = r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\"\n    z_words = re.findall(regex, text)\n    return z_words\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n# Write your code here.\n\n\n# Test Cases:\n\nprint(\"z: \" + str(bool(re.search(\"z\", \"z\"))))\nprint(\"az: \" + str(bool(re.search(\"z\", \"az\"))))\nprint(\"zzz: \" + str(bool(re.search(\"z\", \"zzz\"))))\nprint(\"zzzzz: \" + str(bool(re.search(\"z\", \"zzzzz\"))))\nprint(\"zazzzz: \" + str(bool(re.search(\"z\", \"zazzzz\"))))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\ndef word_z(word):\n    return re.findall(r'\\w*z\\w*', word)\n\n#test\nprint(word_z(\"zzz\"))\nprint(word_z(\"dogzzz\"))\nprint(word_z(\"dogz\"))\nprint(word_z(\"z\"))\nprint(word_z(\"\"))",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef z_word(text: str) -> str:\n    \"\"\"Return a word containing 'z'.\n\n    >>> z_word(\"The quick brown fox jumps over the lazy dog.\")\n    'jumps'\n    >>> z_word(\"There is no z in team.\")\n    ''\n    \"\"\"\n    pattern = re.compile(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\")\n    return pattern.search(text).group() if pattern.search(text) else \"\"\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef match_z(text):\n    pattern = re.compile(r\"\\w*z\\w*\")\n    result = pattern.findall(text)\n    return result",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef test_regex_z(string):\n    \"\"\"Test for 'z' in string.\"\"\"\n    regex_z = re.findall(r'\\bz\\w*\\b', string, re.I)\n    return regex_z",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef word_z(string):\n    return re.search(r'\\b\\w*z\\w*\\b', string)",
+      -0.857421875
+    ],
+    [
+      "import re\n\n\ndef match_z(text):\n    pattern = re.compile(r\"\\w*z\\w*\")\n    return pattern.match(text)",
+      -0.857421875
+    ],
+    [
+      "import re\n\n\ndef match_regex_problem(text: str):\n    return bool(re.search(r\"\\w*z\\w*\", text))",
+      -0.857421875
+    ],
+    [
+      "import re\n\n\ndef find_z(text):\n    pattern = re.compile(r\"\\w*z\\w*\")\n    result = pattern.findall(text)\n    return result",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef matches_z(text):\n    pattern = re.compile(r\"\\bz\\w*\\b\")\n    match = pattern.search(text)\n    return match.group() if match else \"Not found\"\n\n\ndef test_matches_z():\n    assert matches_z(\"I love Python!\") == \"Python\"\n    assert matches_z(\"I love Java!\") == \"Not found\"\n    assert matches_z(\"Python is fun!\") == \"Python\"\n    assert matches_z(\"Java is not fun!\") == \"Not found\"\n    assert matches_z(\"I love Python!\") == \"Python\"\n    assert matches_z(\"I love Java!\") == \"Not found\"\n    assert matches_z(\"Python is fun!\") == \"Python\"\n    assert matches_z(\"Java is not fun!\") == \"Not found\"\n    assert matches_z(\"I love Python!\") == \"Python\"\n    assert matches_z(\"I love Java!\") == \"Not found\"\n    assert matches_z(\"Python is fun!\") == \"Python\"\n    assert matches_z(\"Java is not fun!\") == \"Not found\"\n\n\nif __name__ == \"__main__\":\n    test_matches_z()",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef match_z_word(text: str) -> str:\n    \"\"\"Return the first word containing 'z'.\"\"\"\n    return re.search(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\", text).group()",
+      -0.85791015625
+    ],
+    [
+      "import re\n\n\ndef word_z(s):\n    return re.search(r'\\b[a-zA-Z]*z[a-zA-Z]*\\b', s)",
+      -0.85791015625
+    ],
+    [
+      "import re\n\ndef match_z(text):\n    pattern = r\"z\"\n    return re.search(pattern, text)\n\nprint(match_z(\"The quick brown fox jumps over the lazy dog.\"))\nprint(match_z(\"Python\"))\nprint(match_z(\"The dog chased the fox\"))",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef matches_z(text):\n    return bool(re.search(r'\\b.*z.*\\b', text))",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef matches_z(text: str) -> bool:\n    \"\"\"Returns True if the string contains 'z'.\"\"\"\n    pattern = r\"z\"\n    result = re.findall(pattern, text)\n    return bool(result)\n\n\nif __name__ == \"__main__\":\n    print(matches_z(\"z\"))\n    print(matches_z(\"Zelda\"))\n    print(matches_z(\"Skyrim\"))",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n# Write your code here.\n\n\ndef contains_z(text: str) -> bool:\n    pattern = re.compile(r\"\\w*z\\w*\")\n    match = pattern.search(text)\n    return match is not None",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef match_z_word(text: str) -> str:\n    \"\"\"Match a word containing 'z'.\"\"\"\n    pattern = r'\\b\\w*z\\w*\\b'\n    result = re.search(pattern, text)\n    if result:\n        return result.group()\n    return \"\"",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n\ndef contains_z(text):\n    pattern = re.compile(r'\\bz\\w*')\n    result = pattern.findall(text)\n    return result\n\n\ndef main():\n    print(contains_z(\"I have a little zebra, he is so cute!\"))\n    print(contains_z(\"I have a little zebra!\"))\n    print(contains_z(\"I have a little horse!\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n# Write your code here.\n\n# Tests.\nprint(match_with_z(\"Google\")) # False\nprint(match_with_z(\"Apple\")) # False\nprint(match_with_z(\"Microzoo\")) # True\nprint(match_with_z(\"Banana\")) # True\nprint(match_with_z(\"Cherry\")) # False\nprint(match_with_z(\"Grape\")) # False\n\ndef match_with_z(string):\n    return bool(re.search(r'\\w*z\\w*', string))",
+      -0.8583984375
+    ],
+    [
+      "import re\n\n# Write your code here.\n# def word_z(s):\n#     return re.search(\"z\", s)\n\n\ndef word_z(s):\n    return bool(re.search(\"z\", s))\n\n\nprint(word_z(\"zzz\"))",
+      -0.86083984375
+    ],
+    [
+      "import re\n\n\ndef z_word(string):\n    pattern = re.compile(r'\\b[a-zA-Z]*z[a-zA-Z]*\\b')\n    result = re.search(pattern, string)\n    return result\n\n\nprint(z_word(\"The quick brown fox jumps over the lazy dog.\"))",
+      -0.86083984375
+    ],
+    [
+      "import re\n\ndef word_z(string):\n    \"\"\"\n    >>> word_z(\"The quick brown fox jumps over the lazy dog.\")\n    ['quick', 'fox', 'lazy']\n    \"\"\"\n    regex = re.compile(r\"\\b.*z.*\\b\")\n    return re.findall(regex, string)",
+      -0.86083984375
+    ],
+    [
+      "import re\n\n\ndef matches_z(text):\n    pattern = r'\\w*z\\w*'\n    regex = re.compile(pattern)\n    match = regex.search(text)\n    return match\n\n\ndef main():\n    print(matches_z(\"Amazing\"))  # True\n    print(matches_z(\"Better\"))  # False\n    print(matches_z(\"Cute\"))  # False\n    print(matches_z(\"Dizzy\"))  # True\n\n\nif __name__ == '__main__':\n    main()",
+      -0.86474609375
+    ],
+    [
+      "import re\n\ndef match_z(text):\n    \"\"\"\n    >>> match_z(\"The text does not contain the letter 'z'.\")\n    >>> match_z(\"The text contains the letter 'z'.\")\n    True\n    \"\"\"\n    pattern = re.compile(r'\\bz\\b')\n    if re.search(pattern, text):\n        return True\n\n    return False\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.92236328125
+    ],
+    [
+      "import re\n\ndef find_z(text):\n    \"\"\"Finds a word containing 'z'.\"\"\"\n    regex = r\"\\b.*z.*\\b\"\n    pattern = re.compile(regex)\n    match = re.findall(pattern, text)\n    return match",
+      -0.92431640625
+    ],
+    [
+      "import re\n\n\ndef match_z_word(text: str) -> bool:\n    \"\"\"Returns a bool if a word containing 'z' is found in a string.\n\n    >>> match_z_word('The quick brown fox jumps over the lazy dog.')\n    True\n    >>> match_z_word('Python is named after Monty Python\\'s Flying Circus.')\n    True\n    >>> match_z_word('Coding Dojo is a great place to learn Python.')\n    True\n    >>> match_z_word('The Python should be called Monty.')\n    True\n    >>> match_z_word('Monty Python is a funny cat.')\n    False\n    >>> match_z_word('There are no z in Python.')\n    False\n    >>> match_z_word('The Python word for zebra is zebra.')\n    False\n    \"\"\"\n\n    pattern = re.compile(r\"\\b\\w*z\\w*\\b\")\n    return bool(pattern.search(text))\n\n\ndef main():\n    \"\"\"Main function call to test the accuracy of the match_z_word function.\"\"\"\n\n    true_values = [\n        \"The quick brown fox jumps over the lazy dog.\",\n        \"Python is named after Monty Python's Flying Circus.\",\n        \"Coding Dojo is a great place to learn Python.\",\n        \"The Python should be called Monty.\",\n    ]\n\n    false_values = [\n        \"Monty Python is a funny cat.\",\n        \"There are no z in Python.\",\n        \"The Python word for zebra is zebra.\",\n    ]\n\n    for string in true_values:\n        result = match_z_word(string)\n        if not result:\n            print(f\"FAILED on {string}\")\n\n    for string in false_values:\n        result = match_z_word(string)\n        if result:\n            print(f\"FAILED on {string}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.0712890625
+    ],
+    [
+      "import re\n\ndef word_z(string):\n    \"\"\"\n    >>> word_z(\"The quick brown fox jumps over the lazy dog.\")\n    ['quick', 'fox', 'dog']\n    \"\"\"\n    return re.findall(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\", string)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.19921875
+    ],
+    [
+      "import re\n\ndef word_z(string):\n    \"\"\"\n    >>> word_z('apple')\n    []\n    >>> word_z('ozone')\n    ['ozone']\n    >>> word_z('zeal')\n    ['zeal']\n    >>> word_z('azimuth')\n    ['azimuth']\n    \"\"\"\n    regex = re.compile(r'\\bz\\w*\\b')\n    return re.findall(regex, string)\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.501953125
+    ],
+    [
+      "import re\n\n\ndef match_regex_problem(string):\n    pattern = re.compile(r\"[a-zA-Z]+z+[a-zA-Z]+\")\n    result = pattern.search(string)\n\n    if result:\n        return result.group()\n\n    return None\n\n\ndef main():\n    string = \"Python is the best programming language.\"\n    print(match_regex_problem(string))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.7333984375
+    ],
+    [
+      "import re\n\ndef match_regex_z(string):\n    pattern = r\"\\w*z\\w*\"\n    regex = re.compile(pattern)\n    match = regex.search(string)\n    if match:\n        return match.group()\n    else:\n        return \"\"\n\ndef test_function():\n    assert match_regex_z(\"The Z-man character first appeared in Zorro in 1957.\") == \"Z-man\", \"Z-man\"\n    assert match_regex_z(\"In 1964, he appeared in a TV series Zorro, The Legend Returns.\") == \"Zorro\", \"Zorro\"\n    assert match_regex_z(\"In 1995, a feature-length film Zorro: TheMask of Zorro was released.\") == \"Zorro:\", \"Zorro: TheMask of Zorro\"\n    assert match_regex_z(\"In 2005, 'Zorro' is a TV series that aired on Fox.\") == \"Zorro\", \"Zorro\"\n    assert match_regex_z(\"In 2007, a film Zorro: The Ghost and the Sorcerer was released.\") == \"Zorro:\", \"Zorro: TheGhost and the Sorcerer\"\n    assert match_regex_z(\"In 2011, a TV series Zorro: Legacies premiered on Disney XD.\") == \"Zorro:\", \"Zorro: Legacies\"\n    assert match_regex_z(\"In 2017, a film Zorro: The Spellbinder was released.\") == \"Zorro:\", \"Zorro: The Spellbinder\"\n    assert match_regex_z(\"In 2019, a film Zorro & Son was released.\") == \"Zorro &\", \"Zorro & Son\"\n    assert match_regex_z(\"In 2019, a film Zorro: The Gay Blade was released.\") == \"\", \"Zorro: The Gay Blade\"\n    assert match_regex_z(\"In 2020, a film Zorro: End of an Empire was released.\") == \"\", \"Z",
+      -1.7421875
+    ],
+    [
+      "import re\n\ndef match_z_word(text):\n    pattern = re.compile(r\"\\bz\\w*\")\n    result = pattern.search(text)\n    if result:\n        return result.group()\n    else:\n        return None\n\nprint(match_z_word(\"zebra\"))\nprint(match_z_word(\"apple\"))",
+      -1.75390625
+    ],
+    [
+      "import re\n\n# 1. use re.search\ndef contains_z(string):\n    pattern = re.compile(r'\\w*z\\w*')\n    result = re.search(pattern, string)\n    return result\n\n# 2. use re.match\ndef contains_z(string):\n    pattern = re.compile(r'^.*z.*$')\n    result = re.match(pattern, string)\n    return result\n\n# 3. use re.findall\ndef contains_z(string):\n    pattern = re.compile(r'\\w*z\\w*')\n    result = re.findall(pattern, string)\n    return result\n\n# 4. use re.match\ndef contains_z(string):\n    pattern = re.compile(r'^.*z.*$')\n    result = pattern.match(string)\n    return result\n\n# 5. use re.match\ndef contains_z(string):\n    pattern = re.compile(r'z')\n    result = pattern.match(string)\n    return result\n\n# 6. use str.find\ndef contains_z(string):\n    result = string.find('z')\n    return result\n\nprint(contains_z('sz'))",
+      -1.7705078125
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> str:\n    \"\"\"\n    >>> match_z(\"The text doesn't match.\")\n    >>> match_z(\"The text matches.\")\n    'matches.'\n    \"\"\"\n    pattern = re.compile(r\"\\w*z\\w*\")\n    match = pattern.search(text)\n    if match:\n        return match.group()\n\n\nif __name__ == \"__main__\":\n    print(match_z(\"The text doesn't match.\"))\n    print(match_z(\"The text matches.\"))",
+      -1.8955078125
+    ],
+    [
+      "import re\n\n\ndef find_z(text: str) -> str:\n    \"\"\"Returns word containing 'z'.\"\"\"\n    pattern = re.compile(r\"\\b\\w+z\\w+\\b\")\n    return pattern.search(text).group()\n\n\ndef test_find_z():\n    assert find_z(\"python\") == \"Python\"\n    assert find_z(\"Hello world\") == \"world\"\n    assert find_z(\"I love python\") == \"python\"\n    assert find_z(\"There is no z in this text\") is None\n    assert find_z(\"azAZ\") is None\n    assert find_z(\"\") is None\n    assert find_z(\"z\") == \"z\"",
+      -2.208984375
+    ],
+    [
+      "import re\n\ndef z_match(text):\n    pattern = re.compile(r'\\bz\\w*z\\w*\\b')\n    result = pattern.search(text)\n    if result is not None:\n        return result.group()\n    else:\n        return None\n\n# Tests\ndef test(text):\n    print \"'\" + text + \"'\"\n    print z_match(text)\n    print \"----\"\n\ntest(\"zzz\")\ntest(\"z\")\ntest(\"abc\")\ntest(\"123\")\ntest(\"abc 123\")\ntest(\"zabc\")\ntest(\"z 123\")\ntest(\"zabc 123\")\ntest(\"abc z 123\")\ntest(\"abc z\")\ntest(\"abc zdef\")\ntest(\"abc zdef 123\")\ntest(\"abc zdef 123 z\")\ntest(\"abc zdef 123 zghi\")\ntest(\"abc zdef 123 zghi jkl\")",
+      -2.2109375
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> str:\n    \"\"\"Return word containing 'z'.\n\n    >>> match_z(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    >>> match_z(\"Python is the best.\")\n    'Python'\n    >>> match_z(\"I can't believe I can't believe\")\n    'believe'\n    >>> match_z(\"I believe in the power of a dream.\")\n    'dream'\n    >>> match_z(\"This is the last time I believe.\")\n    'believe'\n    >>> match_z(\"I am the one and only.\")\n    'I'\n    >>> match_z(\"I am the one and only.\")\n    'I'\n    \"\"\"\n    return re.search(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\", text).group()\n\n\nif __name__ == \"__main__\":\n    print(match_z(input(\"Text: \")))",
+      -2.326171875
+    ],
+    [
+      "import re\n\n\ndef word_z(text: str) -> str:\n    \"\"\"\n\n    :param text:\n    :return:\n    >>> word_z(\"There are many words in this sentence, but not all of them contain a z.\")\n    'z'\n    \"\"\"\n    pattern = r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\"\n    result = re.findall(pattern, text)\n    return result[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.509765625
+    ],
+    [
+      "import re\n\n\ndef find_z(text: str) -> str:\n    \"\"\"\n    Finds a word containing 'z' in a given text.\n    >>> find_z('abcz, abczz, abczzz')\n    'abczz'\n    \"\"\"\n    return re.search(r\"\\b\\w*z\\w*\\b\", text).group()\n\n\nif __name__ == \"__main__\":\n    print(find_z(\"abcz, abczz, abczzz\"))",
+      -2.607421875
+    ],
+    [
+      "import re\n\ndef contains_z(string):\n    return bool(re.search(r'\\bz\\b', string))\n\n#tests\n\ntest = \"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+      -2.955078125
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> str:\n    \"\"\"\n\n    :param text:\n    :return:\n    \"\"\"\n\n    pattern = re.compile(r'z')\n    match = pattern.search(text)\n\n    if match:\n        return match.group()\n\n    return ''\n\n\ndef main():\n    print(match_z(\"abcz\"))\n    print(match_z(\"abc\"))\n    print(match_z(\"z\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -3.208984375
+    ],
+    [
+      "import re\n\n\ndef z_word(text: str) -> str:\n    \"\"\"Returns a word containing 'z'.\n\n    >>> z_word(\"The quick brown fox jumps over the lazy dog.\")\n    'fox'\n    >>> z_word(\"There is no z in team.\")\n    >>>\n    \"\"\"\n    match = re.search(r\"\\b.*z.*\\b\", text)\n    return match.group() if match else \"\"\n\n\nif __name__ == \"__main__\":\n    print(z_word(\"The quick brown fox jumps over the lazy dog.\"))",
+      -3.263671875
+    ],
+    [
+      "import re\n\ndef word_z(word):\n    return re.search(r'\\w*z\\w*', word)\n\n\ndef main():\n    print(word_z(\"z\"))\n    print(word_z(\"a\"))\n    print(word_z(\"za\"))\n    print(word_z(\"ab\"))\n    print(word_z(\"abc\"))\n    print(word_z(\"abcz\"))\n    print(word_z(\"zab\"))\n    print(word_z(\"abczz\"))\n    print(word_z(\"122\"))\n    print(word_z(\"122z\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -4.1328125
+    ],
+    [
+      "import re\n\n\ndef match_z(text):\n    pattern = re.compile(r'\\bz\\w*\\b')\n    result = pattern.search(text)\n    return result.group() if result else None\n\n\ndef main():\n    assert match_z('The quick brown fox jumps over the lazy dog.') == 'zebra'\n    assert match_z('The five boxing wizards jump quickly.') == 'quick'\n    assert match_z('Jack and Jill went up the hill.') == None\n    print('Passed')\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.140625
+    ],
+    [
+      "import re\n\n\ndef match_z(text: str) -> str:\n    \"\"\"\n    >>> match_z(\"The quick brown fox jumps over the lazy dog.\")\n    'The'\n    >>> match_z(\"Python is the best.\")\n    'is'\n    >>> match_z(\"Awesome is better than okay.\")\n    'awesome'\n    >>> match_z(\"Hello world!\")\n    >>> match_z(\"z\")\n    'z'\n    >>> match_z(\"Python\")\n    >>> match_z(\"\")\n    \"\"\"\n    result = re.search(r\"\\b[a-zA-Z]*z[a-zA-Z]*\\b\", text)\n    return result.group() if result else None\n\n\nif __name__ == \"__main__\":\n    print(match_z(input(\"Text: \")))",
+      -4.6875
+    ],
+    [
+      "import re\n\n\ndef match_word_z(text: str) -> str:\n    \"\"\"\n\n    :param text:\n    :return:\n    >>> match_word_z(\"zzz\")\n    'zzz'\n\n    >>> match_word_z(\"z\")\n    'z'\n\n    >>> match_word_z(\"Hello World!\")\n    ''\n\n    >>> match_word_z(\"zxz\")\n    ''\n\n    >>> match_word_z(\"zzzzzzz\")\n    'zzzzzzz'\n\n    >>> match_word_z(\"123\")\n    ''\n\n    >>> match_word_z(\"z123\")\n    'z123'\n\n    >>> match_word_z(\"123z\")\n    ''\n\n    >>> match_word_z(\"z123z\")\n    'z123z'\n\n    >>> match_word_z(\"Zzz\")\n    ''\n\n    >>> match_word_z(\"zZzz\")\n    'zZzz'\n\n    >>> match_word_z(\"123Zzz\")\n    ''\n\n    >>> match_word_z(\"z123Zzz\")\n    'z123Zzz'\n\n    >>> match_word_z(\"Zzzz123\")\n    ''\n\n    >>> match_word_z(\"zZzzz123\")\n    'zZzzz123'\n\n    >>> match_word_z(\"Zzzz123z\")\n    ''\n\n    >>> match_word_z(\"zZzzz123z\")\n    'zZzzz123z'\n\n    \"\"\"\n    pattern = re.compile(r\"\\w*z\\w*\")\n    return pattern.search(text).group()\n\n\ndef match_word_z_regex(text: str) -> str:\n    \"\"\"\n\n    :param text:\n    :return:\n    >>> match_word_z_regex(\"zzz\")\n    'zzz'\n\n    >>> match_word_z_regex(\"z\")\n    'z'\n\n    >>> match_word_z_regex(\"Hello",
+      -5.09765625
+    ],
+    [
+      "import re\nimport string\nimport itertools\nfrom collections import Counter\n\n\ndef find_matches(regex: str, text: str) -> list:\n    \"\"\"Find matches using regex.\n\n    Args:\n        regex (str): regex expression\n        text (str): text to search\n\n    Returns:\n        list: list of matches\n    \"\"\"\n    matches = re.findall(regex, text, re.IGNORECASE)\n    return matches\n\n\ndef main():\n    \"\"\"Find all matches of a given word in a text.\n    \"\"\"\n    # All possible words of length 3\n    words = [\n        ''.join(word)\n        for word in itertools.product(string.ascii_lowercase, repeat=3)\n    ]\n\n    # Count words\n    word_counter = Counter(words)\n\n    # Remove common words\n    common_words = ['the', 'and', 'of', 'a', 'to', 'in', 'is', 'you', 'that']\n    word_counter = Counter(\n        {word: count for word, count in word_counter.items() if word not in common_words}\n    )\n\n    # Create regex for each word\n    regex_words = [f\"\\\\b{word}\\\\b\" for word in word_counter.keys()]\n    regex_words = '|'.join(regex_words)\n\n    # Read text\n    with open('../data/war_and_peace_chapter1.txt', 'r') as file:\n        text = file.read()\n\n    # Find matches\n    matches = find_matches(regex_words, text)\n\n    # Print results\n    print(f\"Found {len(matches)} matches:\")\n    for match in matches:\n        print(match)\n\n\nif __name__ == '__main__':\n    main()",
+      -5.58984375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

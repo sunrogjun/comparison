@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/177",
+    "prompt": "Write a python function to find two distinct numbers such that their lcm lies within the given range.",
+    "canonical_solution": "def answer(L,R): \r\n    if (2 * L <= R): \r\n        return (L ,2*L)\r\n    else: \r\n        return (-1) ",
+    "test_list": [
+      "assert answer(3,8) == (3,6)",
+      "assert answer(2,6) == (2,4)",
+      "assert answer(1,3) == (1,2)"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 166
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def get_lcm(x, y):\n    \"\"\"\n    >>> get_lcm(2, 3)\n    6\n    >>> get_lcm(4, 6)\n    12\n    \"\"\"\n    return (x * y) // gcd(x, y)\n\n\ndef gcd(x, y):\n    \"\"\"\n    >>> gcd(2, 3)\n    1\n    >>> gcd(4, 6)\n    2\n    \"\"\"\n    while y:\n        x, y = y, x % y\n    return x\n\n\ndef get_distinct_lcm(start, end):\n    \"\"\"\n    >>> get_distinct_lcm(1, 10)\n    (2, 3)\n    >>> get_distinct_lcm(1, 20)\n    (6, 10)\n    >>> get_distinct_lcm(1, 21)\n    (10, 15)\n    \"\"\"\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if i != j:\n                if get_lcm(i, j) <= end:\n                    return i, j\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      6.046875
+    ],
+    [
+      "def lcm_range(lower, upper):\n    for i in range(lower, upper+1):\n        for j in range(i, upper+1):\n            if i != j:\n                if (i * j) <= upper:\n                    return i, j\n    return None\n\n\ndef lcm_range_efficient(lower, upper):\n    for i in range(lower, upper+1):\n        for j in range(i, upper+1):\n            if i != j:\n                if (i * j) <= upper:\n                    return i, j\n    return None\n\n\nif __name__ == \"__main__\":\n    print(lcm_range(1, 100))\n    print(lcm_range_efficient(1, 100))",
+      4.6640625
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef lcm(a, b):\n    return (a / gcd(a, b)) * b\n\n\ndef find_two_distinct_numbers(range_start, range_end):\n    for i in range(range_start, range_end + 1):\n        for j in range(i, range_end + 1):\n            if lcm(i, j) > range_start and lcm(i, j) < range_end:\n                return i, j\n\n\ndef main():\n    print(find_two_distinct_numbers(1, 10))\n\n\nif __name__ == \"__main__\":\n    main()",
+      3.60546875
+    ],
+    [
+      "def gcd(x, y):\n    if x == 0:\n        return y\n    return gcd(y % x, x)\n\n\ndef lcm(x, y):\n    return (x / gcd(x, y)) * y\n\n\ndef find_two_distinct_numbers(low, high):\n    for i in range(low, high):\n        for j in range(i, high):\n            if lcm(i, j) >= low and lcm(i, j) <= high:\n                return [i, j]\n\n\nif __name__ == \"__main__\":\n    print(find_two_distinct_numbers(12, 24))",
+      3.4921875
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return (a / gcd(a, b)) * b\n\n\ndef find_two_distinct_numbers(range_min, range_max):\n    for i in range(range_min, range_max):\n        for j in range(i, range_max):\n            if lcm(i, j) in range(range_min, range_max):\n                return i, j\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(find_two_distinct_numbers(1, 21))",
+      3.349609375
+    ],
+    [
+      "def lcm(a, b):\n    return a * b // gcd(a, b)\n\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef find_two_distinct_numbers(range_start, range_end):\n    for a in range(range_start, range_end):\n        for b in range(a + 1, range_end + 1):\n            if lcm(a, b) <= range_end:\n                return (a, b)\n    return None\n\n\ndef main():\n    start = int(input(\"Enter start: \"))\n    end = int(input(\"Enter end: \"))\n    result = find_two_distinct_numbers(start, end)\n    print(result)\n\n\nif __name__ == \"__main__\":\n    main()",
+      3.060546875
+    ],
+    [
+      "from functools import reduce\n\n\ndef gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef find_distinct_nums(lower, upper):\n    i = lower\n    while i <= upper:\n        j = i\n        while j <= upper:\n            if lcm(i, j) > upper:\n                return i, j\n            j += 1\n        i += 1\n\n\ndef main():\n    lower = int(input(\"Enter lower bound: \"))\n    upper = int(input(\"Enter upper bound: \"))\n    i, j = find_distinct_nums(lower, upper)\n    print(f\"Two distinct numbers are {i} and {j} such that their lcm lies within the given range.\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      2.71875
+    ],
+    [
+      "from math import gcd\n\n\ndef get_lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef find_two_distinct_numbers(l, r):\n    for i in range(l, r):\n        for j in range(i + 1, r + 1):\n            if get_lcm(i, j) <= r:\n                return i, j\n\n\nif __name__ == \"__main__\":\n    print(find_two_distinct_numbers(1, 10))\n    print(find_two_distinct_numbers(2, 10))\n    print(find_two_distinct_numbers(3, 10))",
+      2.53515625
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\ndef lcm(a, b):\n    return a * b / gcd(a, b)\n\ndef find_two_distinct_nums_within_range(lower, upper):\n    nums = [i for i in range(lower, upper+1)]\n    for i in range(len(nums)):\n        for j in range(i+1, len(nums)):\n            if lcm(nums[i], nums[j]) in range(lower, upper+1):\n                return nums[i], nums[j]\n\n\nprint(find_two_distinct_nums_within_range(1, 100))\nprint(find_two_distinct_nums_within_range(23, 30))\nprint(find_two_distinct_nums_within_range(1, 500))",
+      2.505859375
+    ],
+    [
+      "def gcd(a,b):\n    if b==0:\n        return a\n    return gcd(b,a%b)\n\ndef lcm(a,b):\n    return (a*b)//gcd(a,b)\n\ndef two_distinct_numbers(l,r):\n    for i in range(l,r+1):\n        for j in range(i+1,r+1):\n            if lcm(i,j)<=r:\n                return (i,j)\n\nprint(two_distinct_numbers(1,100))",
+      1.357421875
+    ],
+    [
+      "from math import gcd\n\n\ndef lcm(x, y):\n    return (x * y) // gcd(x, y)\n\n\ndef find_lcm_in_range(a, b):\n    for x in range(a, b):\n        for y in range(a, b):\n            if x != y and lcm(x, y) <= b:\n                print(x, y, lcm(x, y))\n\n\nfind_lcm_in_range(1, 100)",
+      1.314453125
+    ],
+    [
+      "def lcm(a,b):\n    if a>b:\n        greater=a\n    else:\n        greater=b\n    \n    while True:\n        if greater%a==0 and greater%b==0:\n            return greater\n        greater=greater+1\n        \na=int(input(\"Enter first number: \"))\nb=int(input(\"Enter second number: \"))\n\nprint(\"LCM of {} and {} is {}\".format(a,b,lcm(a,b)))",
+      1.19140625
+    ],
+    [
+      "def lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\n\ndef find_range(nums, l, r):\n    lcm = lcm(nums[0], nums[1])\n    if l <= lcm <= r:\n        return True\n    else:\n        return False\n\n\ndef lcm_in_range(nums, l, r):\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            lcm = lcm(nums[i], nums[j])\n            if l <= lcm <= r:\n                return True\n    return False\n\n\nnums = [2, 5, 10, 3]\nl = 10\nr = 30\nprint(find_range(nums, l, r))\nprint(lcm_in_range(nums, l, r))",
+      0.79248046875
+    ],
+    [
+      "from math import gcd\n\n\ndef lcm_in_range(range_):\n    for i in range(range_[0], range_[1] + 1):\n        for j in range(range_[0], range_[1] + 1):\n            if gcd(i, j) * i >= range_[0] and gcd(i, j) * i <= range_[1]:\n                return i, j\n\n\ndef main():\n    assert lcm_in_range([1, 30]) == (2, 6)\n    assert lcm_in_range([10, 15]) == (5, 10)\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.60791015625
+    ],
+    [
+      "def gcd(a,b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\ndef lcm(a,b):\n    return a*b//gcd(a,b)\n\ndef lcm_range(r):\n    for i in range(r[0],r[1]+1):\n        for j in range(i,r[1]+1):\n            if lcm(i,j) <= r[1]:\n                return (i,j)\n\nprint(lcm_range((15,20)))",
+      0.56103515625
+    ],
+    [
+      "def lcm_in_range(range):\n    a, b = range[0], range[1]\n    if a > b:\n        a, b = b, a\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if i != j and (i * j) >= a and (i * j) <= b:\n                return i, j\n\n\nif __name__ == \"__main__\":\n    print(lcm_in_range([1, 4]))\n    print(lcm_in_range([11, 15]))",
+      0.498046875
+    ],
+    [
+      "def lcm_in_range(l: int, r: int) -> int:\n    \"\"\"\n    >>> lcm_in_range(1, 10)\n    20\n    >>> lcm_in_range(1, 20)\n    20\n    >>> lcm_in_range(1, 21)\n    40\n    >>> lcm_in_range(1, 100)\n    200\n    \"\"\"\n    for i in range(l, r + 1):\n        for j in range(i + 1, r + 1):\n            if (i * j) >= l and (i * j) <= r:\n                return i * j\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.474853515625
+    ],
+    [
+      "def lcm_range(l, r):\n    for i in range(l, r+1):\n        for j in range(i, r+1):\n            if lcm(i, j) <= r:\n                print(i, j)\n\n\ndef lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\nlcm_range(1, 10)",
+      0.37841796875
+    ],
+    [
+      "from math import lcm\n\n\ndef find_two_distinct_nums(range1, range2):\n    for i in range(range1, range2 + 1):\n        for j in range(i + 1, range2 + 1):\n            if lcm(i, j) <= range2:\n                return i, j\n\n\ndef main():\n    print(find_two_distinct_nums(3, 15))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.31201171875
+    ],
+    [
+      "def lcm(a, b):\n    return a * b // gcd(a, b)\n\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\n\ndef lcm_in_range(range_l, range_h):\n    for i in range(2, range_l):\n        for j in range(i+1, range_l):\n            if lcm(i, j) >= range_l and lcm(i, j) <= range_h:\n                return i, j\n    return -1\n\n\ndef main():\n    print(lcm_in_range(1, 100))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.1307373046875
+    ],
+    [
+      "def find_two_distinct_nums(a, b):\n    while (b % a) != 0:\n        rem = b % a\n        b = a\n        a = rem\n    return a, b\n\n\nif __name__ == \"__main__\":\n    print(find_two_distinct_nums(1, 1))",
+      0.0977783203125
+    ],
+    [
+      "def lcm_range(range_start, range_end):\n    lcm_list = []\n    for num1 in range(range_start, range_end+1):\n        for num2 in range(range_start, range_end+1):\n            if num1 != num2:\n                lcm = num1 * num2 // gcd(num1, num2)\n                if lcm >= range_start and lcm <= range_end:\n                    lcm_list.append(lcm)\n    return lcm_list\n\ndef gcd(num1, num2):\n    if num1 == 0:\n        return num2\n    elif num2 == 0:\n        return num1\n    elif num1 > num2:\n        return gcd(num1 - num2, num2)\n    else:\n        return gcd(num1, num2 - num1)\n\nprint(lcm_range(1, 10))",
+      0.03326416015625
+    ],
+    [
+      "from math import gcd\n\n\ndef find_distinct_numbers(range_: list) -> list:\n    \"\"\"\n    Find two distinct numbers such that their lcm lies within the given range.\n    >>> find_distinct_numbers([1, 20])\n    [1, 4]\n    \"\"\"\n    lower, upper = range_[0], range_[-1]\n\n    for i in range(lower, upper + 1):\n        for j in range(i + 1, upper + 1):\n            if gcd(i, j) == 1:\n                if i * j <= upper:\n                    return [i, j]\n    return []\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.0218505859375
+    ],
+    [
+      "def gcd(x, y):\n    if x == 0:\n        return y\n    return gcd(y % x, x)\n\n\ndef lcm(x, y):\n    return (x * y) / gcd(x, y)\n\n\ndef find_range(a, b):\n    for i in range(a, b):\n        for j in range(a, b):\n            if i != j:\n                if lcm(i, j) >= a and lcm(i, j) <= b:\n                    print(i, j)\n                    print(lcm(i, j))\n\n\nfind_range(1, 100)",
+      -0.238525390625
+    ],
+    [
+      "#solution\n\ndef lcm_range(a,b,r):\n    return [i for i in range(a,b) if (i % lcm(a,b) == 0) and (r >= lcm(a,b))]\n    \ndef lcm(a,b):\n    return (a*b)//(gcd(a,b))\n    \ndef gcd(a,b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b,a%b)",
+      -0.414306640625
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\ndef lcm(a, b):\n    return (a*b)//gcd(a, b)\n\ndef find_two_distinct(num, r):\n    for i in range(1, num):\n        for j in range(i+1, num):\n            if lcm(i, j) > r:\n                return i, j\n\nif __name__ == \"__main__\":\n    num, r = 10, 100\n    print(find_two_distinct(num, r))",
+      -0.85693359375
+    ],
+    [
+      "def findLCM(a, b, l, r):\n    for i in range(l, r + 1):\n        for j in range(i, r + 1):\n            if (i * j) <= r:\n                print(i, j)\n\n\nfindLCM(2, 3, 1, 12)",
+      -0.85693359375
+    ],
+    [
+      "def lcm_in_range(lower_limit, upper_limit):\n    for i in range(lower_limit, upper_limit+1):\n        for j in range(i, upper_limit+1):\n            if i*j >= lower_limit and i*j <= upper_limit:\n                print(i, j)\n                print(i*j)\n\n\nlcm_in_range(1, 20)",
+      -0.85791015625
+    ],
+    [
+      "def find_lcm_range(range_start, range_end):\n    for a in range(range_start, range_end):\n        for b in range(range_start, range_end):\n            if a * b >= range_start and a * b <= range_end:\n                print(a, b)\n\n\nfind_lcm_range(1, 21)",
+      -0.85791015625
+    ],
+    [
+      "def find_distinct_nums(a,b,r):\n    x = a\n    y = b\n    lcm = x*y//gcd(x,y)\n    while lcm<=r:\n        x+=a\n        y+=b\n        lcm = x*y//gcd(x,y)\n    return lcm\n\ndef gcd(x,y):\n    while y:\n        x,y = y,x%y\n    return x\n\nprint(find_distinct_nums(1,2,20))",
+      -0.85791015625
+    ],
+    [
+      "def lcm_range(a, b, c):\n    lcm = a * b // gcd(a, b)\n    if lcm <= c:\n        return [a, b]\n    return [b, a]\n\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef main():\n    a = int(input(\"Enter a: \"))\n    b = int(input(\"Enter b: \"))\n    c = int(input(\"Enter c: \"))\n    print(f\"The distinct numbers whose LCM lies within the range {a} to {c} are {lcm_range(a, b, c)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "from math import gcd\nfrom functools import reduce\n\n\ndef lcm(x, y):\n    return (x * y) // gcd(x, y)\n\n\ndef find_range(a, b):\n    lcm_val = reduce(lcm, range(a, b + 1))\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if lcm(i, j) == lcm_val:\n                return (i, j)\n\n\nprint(find_range(6, 15))",
+      -0.8583984375
+    ],
+    [
+      "def find_two_distinct_numbers_lcm_within_range(min_range, max_range):\n    for i in range(min_range, max_range):\n        for j in range(min_range, max_range):\n            if i != j and (i*j) >= min_range and (i*j) <= max_range:\n                print(i, j)\n\n\nif __name__ == \"__main__\":\n    min_range = int(input(\"Enter the min range: \"))\n    max_range = int(input(\"Enter the max range: \"))\n    find_two_distinct_numbers_lcm_within_range(min_range, max_range)",
+      -0.8583984375
+    ],
+    [
+      "def find_LCM(a, b, l):\n    lcm = 1\n    while(True):\n        if(a*b <= l):\n            lcm = a*b\n            return lcm\n        if(a > b):\n            a = a - b\n        else:\n            b = b - a\n\n\n\nprint(find_LCM(1, 1, 1))",
+      -0.8583984375
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    if b == 0:\n        return a\n\n    if a == b:\n        return a\n\n    if a > b:\n        return gcd(a - b, b)\n    else:\n        return gcd(a, b - a)\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\ndef findLCM(l, r):\n    for i in range(l, r + 1):\n        for j in range(i, r + 1):\n            if lcm(i, j) <= r:\n                return [i, j]\n\nprint(findLCM(1, 2))",
+      -0.8583984375
+    ],
+    [
+      "def find_lcm_in_range(range_min, range_max):\n    for i in range(range_min, range_max+1):\n        for j in range(i, range_max+1):\n            if (i * j) > range_max and (i * j) % range_min == 0:\n                return i, j\n\n\nmin_lcm_range, max_lcm_range = find_lcm_in_range(1, 15)\nprint(f\"min_lcm_range: {min_lcm_range}, max_lcm_range: {max_lcm_range}\")",
+      -0.8583984375
+    ],
+    [
+      "def find_range_LCM(x,y):\n    #finding lcm\n    lcm = x*y\n    #finding range of lcm\n    lcm_range = lcm/2\n    #finding range of numbers\n    num_range = lcm_range//x\n    #finding first number\n    num1 = y - num_range\n    #finding second number\n    num2 = y + num_range\n    return num1, num2\n\nx = int(input(\"Enter first number: \"))\ny = int(input(\"Enter second number: \"))\nprint(find_range_LCM(x,y))\n\n\"\"\"\nSample Input:\nEnter first number: 2\nEnter second number: 3\n\nSample Output:\n(1, 5)\n\"\"\"",
+      -0.8583984375
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef lcm(a, b):\n    return (a*b)//gcd(a, b)\n\n\ndef find_range(a, b):\n    low = lcm(a, b)\n    high = (a*b)//gcd(a, b)\n    for i in range(low, high+1):\n        if gcd(i, a) == 1 and gcd(i, b) == 1:\n            return i\n    return -1\n\n\na = int(input(\"Enter first number: \"))\nb = int(input(\"Enter second number: \"))\nprint(find_range(a, b))",
+      -0.8583984375
+    ],
+    [
+      "from fractions import gcd\n\n\ndef lcm_range(a, b, r):\n    for i in range(a, b + 1):\n        for j in range(i, b + 1):\n            if i * j >= r:\n                return (i, j)\n\n\na, b, r = map(int, input().split())\nprint(lcm_range(a, b, r))",
+      -0.86083984375
+    ],
+    [
+      "def find_lcm(range_start, range_end):\n    for i in range(range_start, range_end):\n        for j in range(i + 1, range_end):\n            if i * j >= range_start and i * j <= range_end:\n                print(i, j, i * j)\n\n\nfind_lcm(1, 20)",
+      -0.90380859375
+    ],
+    [
+      "def gcd(a, b):\n    \"\"\"\n    Return the greatest common divisor of a and b\n    \"\"\"\n    if a == 0:\n        return b\n    return gcd(b%a, a)\n\ndef lcm(a, b):\n    \"\"\"\n    Return the lowest common multiple of a and b\n    \"\"\"\n    return (a*b)//gcd(a, b)\n\ndef lcm_range(start, end):\n    \"\"\"\n    Return the two distinct numbers such that their lcm lies within the given range\n    \"\"\"\n    nums = []\n    for i in range(start, end+1):\n        for j in range(i+1, end+1):\n            if lcm(i, j) <= end:\n                nums.append((i, j))\n    return nums\n\nprint(lcm_range(1, 10))\n\ndef lcm_range2(start, end):\n    \"\"\"\n    Return the two distinct numbers such that their lcm lies within the given range\n    \"\"\"\n    nums = []\n    for i in range(start, end+1):\n        for j in range(i+1, end+1):\n            if lcm(i, j) <= end:\n                nums.append((i, j))\n    return nums\n\nprint(lcm_range2(1, 10))",
+      -0.91064453125
+    ],
+    [
+      "from functools import reduce\nfrom math import gcd\n\n\ndef lcm(a, b):\n    return a * b // gcd(a, b)\n\n\ndef find_two_distinct_numbers_whose_lcm_lies_in_range(range_start, range_end):\n    for i in range(range_start, range_end + 1):\n        for j in range(i + 1, range_end + 1):\n            if lcm(i, j) >= range_start and lcm(i, j) <= range_end:\n                return i, j\n\n\ndef main():\n    range_start = 2\n    range_end = 20\n    print(find_two_distinct_numbers_whose_lcm_lies_in_range(range_start, range_end))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.9853515625
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return (a / gcd(a, b)) * b\n\n\ndef lcm_range(a, b, c, d):\n    for i in range(a, b):\n        for j in range(c, d):\n            if lcm(i, j) <= d:\n                print(i, j, lcm(i, j))\n\n\nlcm_range(1, 10, 1, 10)",
+      -1.099609375
+    ],
+    [
+      "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n\n\ndef lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef range_lcm(a, b, r):\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if lcm(i, j) <= r:\n                print(i, j, lcm(i, j))\n\n\nif __name__ == \"__main__\":\n    range_lcm(1, 20, 20)",
+      -1.1201171875
+    ],
+    [
+      "def find_two_distinct_numbers(range_start, range_end):\n    \"\"\"\n    >>> find_two_distinct_numbers(1, 100)\n    (20, 25)\n    \"\"\"\n    for i in range(range_start, range_end):\n        for j in range(i + 1, range_end):\n            if j % i == 0:\n                return (i, j)\n\n\ndef find_two_distinct_numbers_v2(range_start, range_end):\n    \"\"\"\n    >>> find_two_distinct_numbers_v2(1, 100)\n    (20, 25)\n    \"\"\"\n    for i in range(range_start, range_end):\n        for j in range(i + 1, range_end):\n            if i * j >= range_end:\n                return (i, j)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.3251953125
+    ],
+    [
+      "def gcd(a, b):\n    if a < b:\n        a, b = b, a\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\n\ndef two_distinct_numbers(l, r):\n    for i in range(l, r + 1):\n        for j in range(i, r + 1):\n            if i != j:\n                lcm_i_j = lcm(i, j)\n                if l <= lcm_i_j <= r:\n                    return i, j\n    return -1\n\n\nprint(two_distinct_numbers(1, 10))\nprint(two_distinct_numbers(1, 20))\nprint(two_distinct_numbers(1, 100))",
+      -1.3515625
+    ],
+    [
+      "from math import gcd\n\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\n\ndef find_two_distinct_numbers(range_start, range_end):\n    for i in range(range_start, range_end):\n        for j in range(i + 1, range_end):\n            if lcm(i, j) <= range_end:\n                return i, j\n\n\nif __name__ == \"__main__\":\n    print(find_two_distinct_numbers(1, 100))",
+      -1.5146484375
+    ],
+    [
+      "from math import gcd\n\n\ndef find_pair_in_range(range_start, range_end):\n    for i in range(range_start, range_end):\n        for j in range(i + 1, range_end + 1):\n            if gcd(i, j) == 1:\n                return i, j\n\n\nif __name__ == \"__main__\":\n    start, end = map(int, input(\"Enter range start and end: \").split())\n    a, b = find_pair_in_range(start, end)\n    print(f\"Found pair: ({a}, {b})\")",
+      -1.572265625
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\n\ndef find_lcm_in_range(start, end):\n    if start > end:\n        start, end = end, start\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if lcm(i, j) in range(start, end + 1):\n                return i, j\n\n\nprint(find_lcm_in_range(1, 100))",
+      -1.7529296875
+    ],
+    [
+      "def lcm_of_two_numbers(x, y, range):\n    if x > y:\n        x, y = y, x\n    for i in range(x, y+1):\n        if i % x == 0 and i % y == 0:\n            return i\n\nprint(lcm_of_two_numbers(2, 3, range(6)))",
+      -1.78125
+    ],
+    [
+      "def gcd(a,b):\n    if b==0:\n        return a\n    return gcd(b,a%b)\n\ndef lcm(a,b):\n    return (a*b)//gcd(a,b)\n\ndef rangeLCM(a,b):\n    for i in range(a,b+1):\n        for j in range(a,b+1):\n            if lcm(i,j)>=a and lcm(i,j)<=b:\n                print(i,j,lcm(i,j))\n\nrangeLCM(1,10)",
+      -1.8701171875
+    ],
+    [
+      "from fractions import gcd\nfrom math import lcm\n\n\ndef lcm_in_range(start, end):\n    lcm_result = None\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if i != j:\n                lcm_result = lcm(i, j)\n                if start <= lcm_result <= end:\n                    return [i, j]\n    return None\n\n\ndef lcm_in_range_eff(start, end):\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if i != j:\n                lcm_result = lcm(i, j)\n                if start <= lcm_result <= end:\n                    return [i, j]\n    return None\n\n\ndef lcm_in_range_eff_2(start, end):\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if i != j:\n                lcm_result = lcm(i, j)\n                if start <= lcm_result <= end:\n                    return [i, j]\n    return None\n\n\ndef lcm_in_range_eff_3(start, end):\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if i != j:\n                lcm_result = lcm(i, j)\n                if start <= lcm_result <= end:\n                    return [i, j]\n    return None\n\n\ndef lcm_in_range_eff_4(start, end):\n    for i in range(start, end + 1):\n        for j in range(start, end + 1):\n            if i != j:\n                lcm_result = lcm(i, j)\n                if start <= lcm_result <= end:\n                    return [i, j]\n    return None\n\n\ndef lcm_in_range_eff_5(start, end):\n    for i in range(start, end + 1",
+      -2.05078125
+    ],
+    [
+      "def lcm(x, y):\n    return (x*y)//gcd(x,y)\n\ndef gcd(x, y):\n    while(y):\n        x, y = y, x%y\n    return x\n\ndef find(l, h):\n    for i in range(l, h+1):\n        for j in range(i, h+1):\n            if lcm(i, j) > l and lcm(i, j) <= h:\n                return (i, j)\n    return None\n\nif __name__ == \"__main__\":\n    print(find(12, 24))\n    print(find(123, 245))\n    print(find(1234, 2456))",
+      -2.091796875
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\n\ndef two_distinct_num_lcm(a, b):\n    lcm_val = lcm(a, b)\n    for i in range(a, b+1):\n        for j in range(a, b+1):\n            if i != j:\n                if lcm(i, j) == lcm_val:\n                    return (i, j)\n    return False\n\n\nprint(two_distinct_num_lcm(4, 10))",
+      -2.291015625
+    ],
+    [
+      "def gcd(a,b):\n    if a==0:\n        return b\n    return gcd(b%a,a)\n\ndef lcm(a,b):\n    return (a*b)//gcd(a,b)\n\ndef two_num_lcm_in_range(l,h):\n    for i in range(l,h+1):\n        for j in range(i,h+1):\n            if lcm(i,j) <= h:\n                print(i,j)\n                return i,j\n\ntwo_num_lcm_in_range(1,5)",
+      -2.349609375
+    ],
+    [
+      "from fractions import gcd\n\n\ndef gcd_lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef find_two_num(l, r):\n    for num1 in range(l, r):\n        for num2 in range(l, r):\n            if num1 == num2:\n                continue\n            if gcd_lcm(num1, num2) <= r:\n                return (num1, num2)\n    return None\n\n\nif __name__ == \"__main__\":\n    print(find_two_num(1, 10))",
+      -2.44921875
+    ],
+    [
+      "def lcm_in_range(range_low, range_high):\n    for i in range(range_low, range_high + 1):\n        for j in range(i, range_high + 1):\n            if i * j >= range_low and i * j <= range_high:\n                print(i, j, i * j)\n\n\nlcm_in_range(20, 40)",
+      -2.5859375
+    ],
+    [
+      "def lcm_range(a, b, c, d):\n    lcm = 0\n    for i in range(a, b+1):\n        for j in range(c, d+1):\n            if i*j > lcm:\n                lcm = i*j\n    return lcm\n\nif __name__ == \"__main__\":\n    a, b, c, d = 1, 3, 4, 6\n    print(lcm_range(a, b, c, d))",
+      -2.736328125
+    ],
+    [
+      "def lcm_in_range(a, b, c, d):\n    for i in range(a, b+1):\n        for j in range(c, d+1):\n            if i*j >= a and i*j <= b:\n                return i, j\n\n\nprint(lcm_in_range(2, 10, 15, 100))",
+      -2.740234375
+    ],
+    [
+      "def find_two_distinct_num(range):\n    for i in range:\n        for j in range:\n            if i != j:\n                if lcm(i, j) in range:\n                    return i, j\n\n\ndef lcm(x, y):\n    return x * y // gcd(x, y)\n\n\ndef gcd(x, y):\n    if x == 0:\n        return y\n    return gcd(y % x, x)\n\n\ndef main():\n    print(find_two_distinct_num(range(1, 100)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.76171875
+    ],
+    [
+      "from functools import reduce\nfrom gcd_lcm import lcm\n\n\ndef find_lcm_in_range(arr):\n    \"\"\"\n    >>> find_lcm_in_range([1, 10])\n    (2, 3)\n    \"\"\"\n    if len(arr) != 2:\n        return -1\n    arr.sort()\n    a, b = arr\n    max_lcm = -1\n    for i in range(a, b + 1):\n        for j in range(i, b + 1):\n            if i == j:\n                continue\n            lcm_i_j = lcm(i, j)\n            if lcm_i_j > max_lcm:\n                max_lcm = lcm_i_j\n                if max_lcm <= b:\n                    return (i, j)\n    return -1\n\n\ndef find_lcm_in_range_2(arr):\n    \"\"\"\n    >>> find_lcm_in_range_2([1, 10])\n    (2, 3)\n    \"\"\"\n    if len(arr) != 2:\n        return -1\n    arr.sort()\n    a, b = arr\n    lcm_arr = []\n\n    for i in range(a, b + 1):\n        for j in range(i, b + 1):\n            if i == j:\n                continue\n            lcm_i_j = lcm(i, j)\n            lcm_arr.append(lcm_i_j)\n\n    max_lcm = max(lcm_arr)\n    if max_lcm <= b:\n        return (lcm_arr[lcm_arr.index(max_lcm) - 1], lcm_arr[lcm_arr.index(max_lcm)])\n    return -1\n\n\ndef find_lcm_in_range_3(arr):\n    \"\"\"\n    >>> find_lcm_in_range_3([1, 10])\n    (2, 3)\n    \"\"\"\n    if len(arr) != 2:\n        return -1\n    arr.sort()",
+      -2.89453125
+    ],
+    [
+      "def lcm_range(range):\n    \"\"\"\n    Find two distinct numbers such that their lcm lies within the given range\n    Args:\n       range(list): [start, end] range of numbers\n    Returns:\n       (int): LCM of two numbers\n    \"\"\"\n    if range[0] > range[1]:\n        raise ValueError(\"Start value is greater than end value\")\n\n    for i in range(range[0], range[1]):\n        for j in range(i, range[1]):\n            if i != j:\n                if i * j > range[1]:\n                    return i * j\n    raise ValueError(\"No two distinct numbers found\")\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    try:\n        test_actual = lcm_range(test_input)\n    except Exception as e:\n        if e.__class__.__name__ == test_expected:\n            print(\"Pass\")\n        else:\n            print(\"Fail\")\n\ntest_function(([2, 20], \"No two distinct numbers found\"))\ntest_function(([1, 10], \"No two distinct numbers found\"))\ntest_function(([1, 30], 6))\ntest_function(([1, 100], 25))",
+      -2.904296875
+    ],
+    [
+      "from fractions import gcd\nfrom math import lcm\n\n\ndef find_two_distinct_numbers_within_given_range(range_start: int, range_end: int) -> tuple:\n    \"\"\"\n    Returns two distinct numbers such that their lcm lies within the given range.\n    >>> find_two_distinct_numbers_within_given_range(1, 100)\n    (20, 25)\n    >>> find_two_distinct_numbers_within_given_range(1, 10)\n    (20, 25)\n    >>> find_two_distinct_numbers_within_given_range(2, 10)\n    (20, 25)\n    >>> find_two_distinct_numbers_within_given_range(2, 100)\n    (20, 25)\n    >>> find_two_distinct_numbers_within_given_range(2, 20)\n    (20, 25)\n    >>> find_two_distinct_numbers_within_given_range(100, 200)\n    (160, 180)\n    >>> find_two_distinct_numbers_within_given_range(100, 2000)\n    (160, 180)\n    >>> find_two_distinct_numbers_within_given_range(1000, 2000)\n    (1600, 1800)\n    \"\"\"\n    if range_start > range_end:\n        raise ValueError(\"The range_start should not be greater than range_end\")\n\n    for i in range(range_start, range_end + 1):\n        for j in range(i, range_end + 1):\n            if i != j and gcd(i, j) == 1 and lcm(i, j) <= range_end:\n                return i, j\n    raise ValueError(\"No such pair of distinct numbers found\")\n\n\nif __name__ == \"__main__\":\n    import",
+      -2.962890625
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef lcm(a, b):\n    return (a / gcd(a, b)) * b\n\n\ndef lcm_range(a, b, r):\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if i != j and lcm(i, j) <= r:\n                print(i, j)\n                return\n\n\nif __name__ == \"__main__\":\n    lcm_range(1, 50, 100)",
+      -3.0390625
+    ],
+    [
+      "def find_lcm(x, y, z):\n    \"\"\"\n    >>> find_lcm(3, 12, 10)\n    (2, 3)\n    \"\"\"\n    lcm = x * y // gcd(x, y)\n    if lcm <= z:\n        return x, y\n    else:\n        for i in range(x + 1, y):\n            for j in range(y + 1, z + 1):\n                if gcd(i, j) == 1:\n                    lcm = i * j // gcd(i, j)\n                    if lcm <= z:\n                        return i, j\n\n    return None\n\n\ndef gcd(a, b):\n    \"\"\"\n    >>> gcd(12, 15)\n    1\n    \"\"\"\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.060546875
+    ],
+    [
+      "from sympy import lcm\n\n\ndef find_two_distinct_numbers(a, b, n):\n    if a > b:\n        a, b = b, a\n    i = a + 1\n    while True:\n        if lcm(i, n) <= b:\n            return i, n\n        i += 1\n\n\na = 100\nb = 200\nn = 1100\nprint(find_two_distinct_numbers(a, b, n))",
+      -3.087890625
+    ],
+    [
+      "def find_lcm(range_min, range_max):\n    if range_min > range_max:\n        return\n    for i in range(range_min, range_max+1):\n        for j in range(range_min, range_max+1):\n            if i != j:\n                if i * j >= range_min and i * j <= range_max:\n                    return i, j\n    return -1, -1\n\n\nmin_range = int(input('Enter min range: '))\nmax_range = int(input('Enter max range: '))\n\na, b = find_lcm(min_range, max_range)\n\nif a == -1:\n    print('LCM not found')\nelse:\n    print(f'LCM is {a * b} and it is between {min_range} and {max_range}')",
+      -3.15234375
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef lcm_range(a, b, x, y):\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if i != j:\n                if lcm(i, j) >= x and lcm(i, j) <= y:\n                    return [i, j]\n\n\nprint(lcm_range(1, 10, 25, 50))",
+      -3.1875
+    ],
+    [
+      "def lcm_range(x, y, z):\n    if x < y:\n        x, y = y, x\n\n    if x > z:\n        return False\n\n    for i in range(x, y + 1):\n        if i % x == 0 and i % y == 0 and i % z == 0:\n            return True\n\n    return False\n\n\nprint(lcm_range(2, 3, 4))",
+      -3.220703125
+    ],
+    [
+      "from fractions import gcd\n\n\ndef gcd_and_lcm(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef find_distinct_number(a, b, range_):\n    x = a + 1\n    y = b\n    while x < y:\n        if gcd_and_lcm(x, y) <= range_:\n            return x, y\n        x += 1\n\n\ndef main():\n    a = 2\n    b = 10\n    range_ = 20\n    print(find_distinct_number(a, b, range_))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.380859375
+    ],
+    [
+      "def gcd(a,b):\n    if a == 0:\n        return b\n    return gcd(b%a,a)\n\ndef lcm(a,b):\n    return (a*b)/gcd(a,b)\n\ndef range_lcm(a,b):\n    for i in range(a,b):\n        for j in range(i,b):\n            if lcm(i,j) in range(a,b):\n                return [i,j]\n\n\nif __name__ == \"__main__\":\n    a,b = list(map(int,input().split()))\n    print(range_lcm(a,b))",
+      -3.42578125
+    ],
+    [
+      "def gcd(x,y):\n    if x == 0:\n        return y\n    if y == 0:\n        return x\n    if x == y:\n        return x\n    if x > y:\n        return gcd(x - y, y)\n    return gcd(x, y - x)\n\ndef lcm(x,y):\n    return x * y / gcd(x,y)\n\ndef find_distinct_num(a,b):\n    for i in range(a,b+1):\n        for j in range(i,b+1):\n            if (i != j) and (lcm(i,j) <= b):\n                print(i,j)\n\nif __name__ == \"__main__\":\n    a,b = input(\"Enter two integers: \").split()\n    a,b = int(a),int(b)\n    find_distinct_num(a,b)",
+      -3.451171875
+    ],
+    [
+      "def lcm_range(range_value):\n    for num in range(range_value[0], range_value[1] + 1):\n        for num2 in range(range_value[0], range_value[1] + 1):\n            if num == num2:\n                continue\n            if num * num2 > range_value[2] * range_value[3]:\n                return [num, num2]\n\n\nprint(lcm_range([1, 2, 3, 4]))",
+      -3.494140625
+    ],
+    [
+      "def find_lcm(range1, range2):\n    low = max(range1[0], range2[0])\n    high = min(range1[1], range2[1])\n\n    for i in range(low, high+1):\n        if i % range1[0] == 0 and i % range2[0] == 0:\n            return i\n\n\nif __name__ == \"__main__\":\n    print(find_lcm((1, 10), (20, 30)))",
+      -3.583984375
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return (a / gcd(a, b)) * b\n\n\ndef two_distinct_numbers(a, b, r):\n    for i in range(a, b):\n        for j in range(a, b):\n            if lcm(i, j) <= r:\n                return i, j\n\n\na, b, r = 1, 20, 200\nprint(two_distinct_numbers(a, b, r))",
+      -3.685546875
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return a * b // gcd(a, b)\n\n\ndef find_two_distinct_nums(a, b):\n    for i in range(a, b + 1):\n        for j in range(a, i + 1):\n            if lcm(i, j) <= b:\n                return i, j\n\n\na, b = map(int, input(\"Enter two numbers: \").split())\nprint(find_two_distinct_nums(a, b))",
+      -3.705078125
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\ndef lcm_range(a, b, x, y):\n    l = lcm(a, b)\n    if x <= l <= y:\n        return True\n    else:\n        return False\n\n\na, b = [int(x) for x in input().split()]\nx, y = [int(x) for x in input().split()]\nprint(lcm_range(a, b, x, y))",
+      -4.03125
+    ],
+    [
+      "def lcm_in_range(arr):\n    x = 1\n    for i in arr:\n        x = x * i\n    for i in arr:\n        for j in arr:\n            if x % i == 0 and x % j == 0 and i != j:\n                return [i, j]\n\n\ndef main():\n    arr = [1, 2, 3, 4, 5, 6, 7, 8]\n    a = lcm_in_range(arr)\n    print(a)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.125
+    ],
+    [
+      "def compute_gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n\ndef compute_lcm(a, b):\n    return a*b / compute_gcd(a, b)\n\ndef compute_lcm_range(a, b, range):\n    lcm = compute_lcm(a, b)\n    if range[0] <= lcm <= range[1]:\n        return True\n    return False\n\ndef main():\n    range = [10, 17]\n    a = int(input(\"Enter a: \"))\n    b = int(input(\"Enter b: \"))\n    if compute_lcm_range(a, b, range):\n        print(f\"lcm {a} and {b} is within the given range\")\n    else:\n        print(f\"lcm {a} and {b} is NOT within the given range\")\n\nif __name__ == \"__main__\":\n    main()",
+      -4.46875
+    ],
+    [
+      "def LCM(a, b):\n    return a * b // gcd(a, b)\n\ndef gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\ndef two_distinct_numbers_within_range(a, b):\n    lcm_a = a\n    lcm_b = b\n    for i in range(a, b+1):\n        for j in range(i, b+1):\n            lcm = LCM(i, j)\n            if lcm <= b and lcm > lcm_a:\n                lcm_a = lcm\n            if lcm <= b and lcm > lcm_b:\n                lcm_b = lcm\n    return [lcm_a, lcm_b]\n\n\nprint(two_distinct_numbers_within_range(1, 10))",
+      -4.84375
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\ndef lcm_in_range(range):\n    if range[0] >= range[1]:\n        return False\n    for i in range(range[0], range[1]):\n        for j in range(range[0], range[1]):\n            if lcm(i, j) <= range[1] and lcm(i, j) >= range[0]:\n                return True\n    return False\n\ndef test_lcm_in_range():\n    assert lcm_in_range([1, 20]) == True\n    assert lcm_in_range([21, 30]) == False\n    assert lcm_in_range([5, 10]) == False\n    assert lcm_in_range([10, 20]) == False\n    assert lcm_in_range([1, 2]) == True\n\ntest_lcm_in_range()",
+      -5.00390625
+    ],
+    [
+      "def lcm_range(a, b, r):\n    if a > b:\n        a, b = b, a\n    for i in range(a, b + 1):\n        if r % i == 0:\n            return i\n\n\na = int(input(\"Enter a: \"))\nb = int(input(\"Enter b: \"))\nr = int(input(\"Enter range: \"))\n\nprint(lcm_range(a, b, r))",
+      -5.09375
+    ],
+    [
+      "def lcm(x, y):\n    \"\"\"Returns LCM of 2 numbers\"\"\"\n    return (x*y)//gcd(x,y)\n\ndef gcd(x, y):\n    \"\"\"Returns GCD of 2 numbers\"\"\"\n    if(x == 0):\n        return y\n    return gcd(y%x, x)\n\ndef find_lcm(x, y, r):\n    lcm = x*y\n    while(True):\n        if(lcm<r):\n            break\n        x+=1\n        y=x\n        lcm = x*y\n    return x, y\n\ndef main():\n    x, y = find_lcm(1, 1, 10)\n    print(f\"LCM of {x} and {y} is {lcm(x, y)}\")\n\nmain()",
+      -5.203125
+    ],
+    [
+      "def lcm_range(a, b, r):\n    \"\"\"\n    a, b: integers\n    r: range of numbers\n    \"\"\"\n    if a > b:\n        a, b = b, a\n\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if i != j and (i * j) <= r:\n                return i, j\n    return None\n\na, b, r = 15, 25, 40\nprint(lcm_range(a, b, r))",
+      -5.46875
+    ],
+    [
+      "def LCM_range(a, b, x, y):\n    if a<=b:\n        for i in range(a, b+1):\n            if i%x==0 or i%y==0:\n                if i%x==0 and i%y==0:\n                    print(i)\n                else:\n                    print(i)\n\nprint(LCM_range(1, 100, 20, 30))",
+      -6.24609375
+    ],
+    [
+      "def find_LCM(n, r):\n    if r < n:\n        n, r = r, n\n    i = n\n    while i <= r:\n        if i % n == 0 and i % r == 0:\n            return i\n        i += 1\n    return -1\n\n\ndef main():\n    print(\"LCM of 27 and 35 is\", find_LCM(27, 35))\n    print(\"LCM of 17 and 123 is\", find_LCM(17, 123))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -6.96875
+    ],
+    [
+      "def lcm_range(a, b, k):\n    i = 1\n    while i <= k:\n        if a * b >= i:\n            return i\n        i += 1\n\n\ndef find_lcm(a, b):\n    if a > b:\n        large = a\n        small = b\n    else:\n        large = b\n        small = a\n    i = small\n    while i <= large:\n        if a % i == 0 and b % i == 0:\n            return i\n        i += 1\n\n\ndef lcm_range_eff(a, b, k):\n    lcm = find_lcm(a, b)\n    i = lcm\n    while i <= k:\n        if a * b >= i:\n            return i\n        i += lcm\n\n\ndef main():\n    a = int(input(\"Enter first number: \"))\n    b = int(input(\"Enter second number: \"))\n    k = int(input(\"Enter range: \"))\n    print(lcm_range_eff(a, b, k))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -7.4921875
+    ],
+    [
+      "from math import gcd\nfrom functools import reduce\n\n\ndef lcm(x, y):\n    return (x * y) // gcd(x, y)\n\n\ndef lcm_range(a, b, x, y):\n    return lcm(x, y) in range(a, b + 1)\n\n\ndef find_lcm(a, b):\n    lcm_list = []\n    for i in range(a, b + 1):\n        for j in range(i, b + 1):\n            if lcm(i, j) in range(a, b + 1):\n                lcm_list.append(lcm(i, j))\n    return lcm_list\n\n\ndef find_lcm_using_reduce(a, b):\n    lcm_list = []\n    for i in range(a, b + 1):\n        lcm_list.append(reduce(lcm, range(a, b + 1)))\n    return lcm_list\n\n\ndef find_lcm_using_gcd(a, b):\n    lcm_list = []\n    for i in range(a, b + 1):\n        for j in range(i, b + 1):\n            if gcd(i, j) == 1:\n                lcm_list.append(i * j)\n    return lcm_list\n\n\nif __name__ == \"__main__\":\n    a, b = 1, 2\n    print(find_lcm(a, b))\n    print(find_lcm_using_reduce(a, b))\n    print(find_lcm_using_gcd(a, b))",
+      -7.765625
+    ],
+    [
+      "def lcm_range(a, b, range):\n    lcm = a if a > b else b\n    while lcm < range:\n        if lcm % a == 0 and lcm % b == 0:\n            return lcm\n        lcm += 1\n    return -1\n\n\na, b, range = 24, 36, 100\nprint(lcm_range(a, b, range))",
+      -7.78515625
+    ],
+    [
+      "def lcm_range(arr):\n    def lcm(a, b):\n        return a if b == 0 else lcm(b, a % b)\n\n    def gcd(a, b):\n        return gcd(b, a % b) if b else a\n\n    a, b = max(arr), min(arr)\n    lcm_val = lcm(a, b)\n    while lcm_val < b:\n        a += 1\n        lcm_val = lcm(a, b)\n    return lcm_val\n\n\ndef main():\n    arr = [10, 15]\n    print(lcm_range(arr))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -7.87890625
+    ],
+    [
+      "def findLCM(a,b,r):\n    \"\"\"\n    a: integer\n    b: integer\n    r: integer\n    return: integer\n    \"\"\"\n    # Your code goes here\n    lcm = 1\n    for i in range(1, r+1):\n        if (a % i == 0) and (b % i == 0):\n            lcm = lcm * i\n    return lcm\n\nif __name__ == '__main__':\n    a = int(input())\n    b = int(input())\n    r = int(input())\n    print(findLCM(a,b,r))",
+      -8.3046875
+    ],
+    [
+      "def lcm_in_range(a, b, n):\n    lcm = 0\n    if a > b:\n        a, b = b, a\n    for i in range(a, b+1):\n        if (i % a == 0 and i % b == 0):\n            lcm = i\n            if (n >= lcm):\n                return lcm\n    return lcm\n\n\ndef main():\n    val1 = int(input(\"Enter first number: \"))\n    val2 = int(input(\"Enter second number: \"))\n    val3 = int(input(\"Enter range: \"))\n    print(lcm_in_range(val1, val2, val3))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -8.4140625
+    ],
+    [
+      "def find_lcm(a, b, range):\n    # Find the range of two numbers\n    range_1 = range[1] - range[0]\n    range_2 = range[2] - range[1]\n\n    # Find the gcd of two numbers\n    gcd = gcd_of_two_numbers(a, b)\n\n    # Find the lcm of two numbers\n    lcm = a * b // gcd\n\n    # Check if the lcm lies in the given range\n    if range_1 >= lcm >= 0:\n        return a, b\n    elif range_2 >= lcm >= 0:\n        return b, a\n    else:\n        return -1\n\n\ndef gcd_of_two_numbers(a, b):\n    while b != 0:\n        a, b = b, a % b\n    return a\n\n\ndef main():\n    a = int(input(\"Enter the first number: \"))\n    b = int(input(\"Enter the second number: \"))\n    range = [int(i) for i in input(\"Enter the range: \").split()]\n    print(f\"The two distinct numbers are: {find_lcm(a, b, range)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -9.421875
+    ],
+    [
+      "def find_lcm_in_range(range_: list) -> tuple:\n    \"\"\"\n    >>> find_lcm_in_range([1, 100])\n    (2, 4)\n    >>> find_lcm_in_range([1, 200])\n    (2, 4)\n    >>> find_lcm_in_range([1, 2000])\n    (2, 4)\n    >>> find_lcm_in_range([100, 1000])\n    (2, 4)\n    >>> find_lcm_in_range([2, 100])\n    (2, 4)\n    >>> find_lcm_in_range([2, 200])\n    (2, 4)\n    >>> find_lcm_in_range([2, 2000])\n    (2, 4)\n    >>> find_lcm_in_range([100, 200])\n    (2, 4)\n    >>> find_lcm_in_range([100, 2000])\n    (2, 4)\n    >>> find_lcm_in_range([200, 2000])\n    (2, 4)\n    >>> find_lcm_in_range([200, 20000])\n    (2, 4)\n    \"\"\"\n    lcm = 0\n    num_1, num_2 = 0, 0\n\n    for num_1 in range(range_[0], range_[1]):\n        for num_2 in range(num_1, range_[1]):\n            if num_1 * num_2 > lcm:\n                lcm = num_1 * num_2\n\n            if lcm == range_[1]:\n                return num_1, num_2\n\n\nif __name__ == \"__main__\":\n    from doctest import testmod\n\n    testmod()",
+      -9.75
+    ],
+    [
+      "def lcm_range(arr):\n    l = len(arr)\n    arr.sort()\n    print(arr)\n\n    if l < 2:\n        return -1\n\n    for i in range(l):\n        for j in range(i+1, l):\n            if arr[i] <= arr[j]:\n                continue\n            if arr[i] <= arr[j] and arr[i] + arr[j] <= arr[l-1]:\n                return arr[i], arr[j]\n\n    return -1\n\n\nprint(lcm_range([1, 2, 3, 4, 5, 6, 7, 8]))\nprint(lcm_range([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\nprint(lcm_range([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))",
+      -10.4453125
+    ],
+    [
+      "def find_lcm(x, y, z):\n    # get the lcm of x and y\n    lcm = x * y // gcd(x, y)\n\n    # check if the lcm is in the range\n    if z <= lcm:\n        return lcm\n\n    # get the lcm of the lcm and z\n    lcm = lcm * z // gcd(lcm, z)\n\n    return lcm\n\n\ndef gcd(x, y):\n    if y == 0:\n        return x\n    else:\n        return gcd(y, x % y)\n\n\ndef main():\n    x, y, z = list(map(int, input(\"Enter three numbers: \").split()))\n    print(find_lcm(x, y, z))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -10.5078125
+    ],
+    [
+      "def find_two_distinct_nums(l, r):\n    # find the gcd of the given range\n    gcd = lcm(l, r)\n\n    # get the gcd of the given range\n    gcd = lcm(l, r)\n\n    # get the lcm of the given range\n    lcm = gcd * r // get_gcd(l, r)\n\n    # find the number of numbers less than lcm in the range\n    count = lcm - l + 1\n\n    # find the two numbers\n    return 2 * count - lcm + l\n\n\ndef lcm(a, b):\n    return a * b // get_gcd(a, b)\n\n\ndef get_gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return get_gcd(b, a % b)\n\n\nprint(find_two_distinct_nums(2, 15))",
+      -10.546875
+    ],
+    [
+      "from functools import reduce\n\n\ndef gcd(a, b):\n    \"\"\"\n    Euclid's algorithm for GCD\n    \"\"\"\n    if a < b:\n        a, b = b, a\n    while b != 0:\n        a, b = b, a % b\n    return a\n\n\ndef lcm(a, b):\n    \"\"\"\n    LCM using GCD\n    \"\"\"\n    return (a * b) // gcd(a, b)\n\n\ndef range_lcm(a, b, r):\n    \"\"\"\n    Returns LCM of two distinct numbers such that their LCM lies within the given range\n    \"\"\"\n    if a > b:\n        a, b = b, a\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if i != j:\n                if lcm(i, j) >= r[0] and lcm(i, j) <= r[1]:\n                    return i, j\n    return -1, -1\n\n\ndef range_lcm_reduce(a, b, r):\n    \"\"\"\n    Returns LCM of two distinct numbers such that their LCM lies within the given range\n    \"\"\"\n    if a > b:\n        a, b = b, a\n    for i in range(a, b + 1):\n        for j in range(a, b + 1):\n            if i != j:\n                if lcm(i, j) >= r[0] and lcm(i, j) <= r[1]:\n                    return i, j\n    return -1, -1\n\n\ndef range_lcm_reduce_func(a, b, r):\n    \"\"\"\n    Returns LCM of two distinct numbers such that their LCM lies within the given range\n    \"\"\"\n    if a > b:\n        a, b = b, a\n    return reduce(\n        lambda i, j: (i[0], i[1], lcm(i[2], j[2]))\n        if (lcm(i[2], j[2]) >= r[0] and lcm(i[2], j[2]) <= r[1])",
+      -10.6328125
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\n\ndef lcm(a, b):\n    return (a * b) / gcd(a, b)\n\n\ndef two_distinct_numbers(arr, n):\n    result = -1\n    for i in range(0, n - 1):\n        for j in range(i + 1, n):\n            lcm_value = lcm(arr[i], arr[j])\n            if lcm_value <= n:\n                result = max(result, lcm_value)\n    return result\n\n\ndef main():\n    arr = [2, 3, 4, 6, 5, 10]\n    n = len(arr)\n    print(\"LCM of two distinct numbers in the range [2, 10] is\", two_distinct_numbers(arr, n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -10.7265625
+    ],
+    [
+      "def find_two_distinct_numbers(l, r):\n    \"\"\"\n    :param l: lower limit of the range\n    :param r: upper limit of the range\n    :return: the two distinct numbers whose lcm lies within the given range\n    \"\"\"\n\n    # find the lcm of two numbers\n    def lcm(a, b):\n        return a * b // math.gcd(a, b)\n\n    # find the product of all numbers within the range\n    def product(l, r):\n        p = 1\n        for i in range(l, r + 1):\n            p *= i\n        return p\n\n    # find the greatest common divisor of two numbers\n    def gcd(a, b):\n        if b == 0:\n            return a\n        else:\n            return gcd(b, a % b)\n\n    # find the greatest common divisor of a list\n    def gcd_list(l):\n        if len(l) == 1:\n            return l[0]\n        else:\n            return gcd(l[0], gcd_list(l[1:]))\n\n    # find the list of prime factors of a number\n    def prime_factors(n):\n        i = 2\n        factors = []\n        while i * i <= n:\n            if n % i:\n                i += 1\n            else:\n                n //= i\n                factors.append(i)\n        if n > 1:\n            factors.append(n)\n        return factors\n\n    # find the prime factors of a product of numbers\n    def prime_factors_product(l, r):\n        p = 1\n        for i in range(l, r + 1):\n            p *= i\n        return prime_factors(p)\n\n    # find the lcm of two numbers\n    def lcm(a, b):\n        return a * b // math.gcd(a, b)\n\n    # find the lcm of a list\n    def lcm_list(l):\n        if len(l) == 1:\n            return l[0]\n        else:\n            return lcm(lcm_list",
+      -11.828125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

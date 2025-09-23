@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T23:01:59.915531",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 97,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_iterators(*args):\n    \"\"\"\n    >>> list(merge_iterators([1, 2, 3], [4, 5, 6]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(merge_iterators([1, 2, 3], [4, 5, 6], [7, 8, 9]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    \"\"\"\n    heap = []\n    for arg in args:\n        for item in arg:\n            heappush(heap, item)\n    while heap:\n        yield heappop(heap)\n\n\ndef merge_iterators_2(*args):\n    \"\"\"\n    >>> list(merge_iterators_2([1, 2, 3], [4, 5, 6]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(merge_iterators_2([1, 2, 3], [4, 5, 6], [7, 8, 9]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    \"\"\"\n    return (\n        item\n        for arg in args\n        for item in sorted(arg)\n    )\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef create_heap(iterables):\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n    return heap\n\n\ndef merge_sorted(iterables):\n    heap = create_heap(iterables)\n    while heap:\n        yield heappop(heap)\n\n\ndef test_merge_sorted():\n    assert list(merge_sorted([[1, 3, 5, 7], [0, 2, 4, 6, 8]])) == [0, 1, 2, 3, 4, 5, 6, 7, 8]\n    assert list(merge_sorted([[1, 3, 5, 7], [0, 2, 4, 6, 8], [100, 200, 300]])) == [0, 1, 100, 2, 200, 3, 300, 4, 5, 6, 7, 8]\n\n\nif __name__ == '__main__':\n    print(list(merge_sorted([[1, 3, 5, 7], [0, 2, 4, 6, 8], [100, 200, 300]])))"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "import heapq\nfrom typing import Iterable\n\n\ndef merge(iterables: Iterable[Iterable[int]]):\n    \"\"\"Merge multiple sorted iterables into a single sorted iterator.\n\n    Time complexity: O(N * log K), where N is the total number of elements, and K is the number of iterables.\n    Space complexity: O(K).\n    \"\"\"\n    # Edge case.\n    if not iterables:\n        return\n\n    # Apply heap queue algorithm.\n    h = []\n    for iterable in iterables:\n        for num in iterable:\n            heapq.heappush(h, num)\n\n    while h:\n        yield heapq.heappop(h)\n\n\ndef main():\n    iterables = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n    print(list(merge(iterables)))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from typing import Iterator, List, TypeVar\n\nT = TypeVar(\"T\")\n\n\ndef heap_merge(iterables: List[Iterator[T]]) -> Iterator[T]:\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator using heap queue algorithm.\"\"\"\n    from heapq import heappush, heappop\n\n    heap = []\n    for it in iterables:\n        for item in it:\n            heappush(heap, item)\n\n    while heap:\n        yield heappop(heap)\n\n\nif __name__ == \"__main__\":\n    print(list(heap_merge([range(10), range(5, 20), range(20, 30)])))"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "import heapq\n\n\ndef merge(iterables):\n    h = []\n    for it in iterables:\n        for i in it:\n            heapq.heappush(h, i)\n    return heapq.merge(*h)\n\n\ndef merge1(iterables):\n    return heapq.merge(*iterables)\n\n\nif __name__ == \"__main__\":\n    print(list(merge([[1, 3, 5, 7], [2, 4, 6, 8]])))\n    print(list(merge1([[1, 3, 5, 7], [2, 4, 6, 8]])))"
+    },
+    {
+      "rank": 6,
+      "score": 9.0,
+      "candidate": "from typing import Iterator, Iterable\n\nfrom gfg.algorithms.heap.heap_q import HeapQ\nfrom gfg.algorithms.heap.heap import Heap\n\n\ndef merge_sorted(inputs: Iterable[Iterator[int]]) -> Iterator[int]:\n    heap: list[int] = []\n    for input_ in inputs:\n        try:\n            heap.append(next(input_))\n        except StopIteration:\n            continue\n\n    heap_q = HeapQ(heap)\n    heap_q.heapify()\n\n    while heap_q.size > 0:\n        yield heap_q.pop()\n\n\nif __name__ == \"__main__\":\n    inputs = [[1, 3, 5, 7], [0, 2, 4, 6, 8]]\n    for num in merge_sorted(inputs):\n        print(num)\n\n    print(list(merge_sorted([])))\n    print(list(merge_sorted([[1]])))\n    print(list(merge_sorted([[1], [1]])))\n    print(list(merge_sorted([[1], [1], [1]])))\n    print(list(merge_sorted([[1], [1], [1], [1]])))\n    print(list(merge_sorted([[1], [1], [1], [1], [1]])))\n\n    heap = Heap([1, 3, 5, 7])\n    heap.heapify()\n    print(heap.pop())\n    print(heap.pop())\n    print(heap.pop())\n    print(heap.pop())"
+    },
+    {
+      "rank": 7,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef heap_merge(iters):\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator.\n\n    :param iter: list of sorted iterators\n    :type iter: list\n    :yield: sorted items\n    :rtype: iterator\n    \"\"\"\n    h = []\n    heapify(h)\n    for it in iters:\n        heappush(h, next(it))\n    while h:\n        yield heappop(h)\n\n\ndef main():\n    \"\"\"Print the result of the merge function.\"\"\"\n    a = [1, 2, 3]\n    b = [1, 2, 3]\n    c = [1, 2, 3]\n    print(list(heap_merge([a, b, c])))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 8,
+      "score": 8.0,
+      "candidate": "from collections import deque\nfrom heapq import heappush, heappop\n\n\ndef merge_sorted(iterators):\n    \"\"\"Merge sorted iterators into single sorted iterator.\"\"\"\n    heap = deque()\n\n    for iter in iterators:\n        if iter:\n            heappush(heap, next(iter))\n\n    while heap:\n        yield heappop(heap)\n        for iter in iterators:\n            if iter:\n                heappush(heap, next(iter))\n\n\ndef test():\n    \"\"\"run test cases\"\"\"\n    test_cases = [\n        ([], []),\n        ([], [1, 2, 3, 4, 5, 6]),\n        ([1, 2, 3], [4, 5, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]),\n        ([1, 3, 5], [2, 4, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]),\n        ([1, 3, 5], [2, 4, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]),\n        ([1, 3, 5], [2, 4, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]),\n        ([1, 3, 5], [2, 4, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]),\n        ([1, 3, 5], [2, 4, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5,"
+    },
+    {
+      "rank": 9,
+      "score": 8.0,
+      "candidate": "from heapq import heappop, heappush\n\n\ndef merge(iterables):\n    \"\"\"\n    :type iterables: list[list]\n    :rtype: Iterable\n    \"\"\"\n    heap = []\n    for iterable in iterables:\n        heappush(heap, next(iterable))\n\n    while heap:\n        yield heappop(heap)\n\n        try:\n            heappush(heap, next(iterable))\n        except StopIteration:\n            continue\n\n\ndef test_merge():\n    assert list(merge([[1, 2, 3], [4, 5, 6]])) == [1, 2, 3, 4, 5, 6]\n\n\nif __name__ == '__main__':\n    test_merge()"
+    },
+    {
+      "rank": 10,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge(iters):\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator using heap queue algorithm.\"\"\"\n    if not iters:\n        return\n\n    heap = []\n    heapify(heap)\n\n    for iter in iters:\n        for elem in iter:\n            heappush(heap, elem)\n\n    return (heappop(heap) for _ in range(len(heap)))"
+    },
+    {
+      "rank": 11,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef heap_merge(*iterables):\n    h = []\n    for iterable in iterables:\n        for item in iterable:\n            heapq.heappush(h, item)\n    while h:\n        yield heapq.heappop(h)\n\n\ndef heap_merge_2(*iterables):\n    h = []\n    for iterable in iterables:\n        h.extend(iterable)\n    return heapq.merge(*h)\n\n\nif __name__ == \"__main__\":\n    print(list(heap_merge([1, 3, 5, 7], [0, 2, 4, 8])))\n    print(list(heap_merge_2([1, 3, 5, 7], [0, 2, 4, 8])))"
+    },
+    {
+      "rank": 12,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(iterables):\n    \"\"\"\n    >>> merge([[1, 3, 5], [2, 4, 6]])\n    [1, 2, 3, 4, 5, 6]\n    >>> merge([[1, 3, 5], [2, 4, 6], [7, 8, 9, 10]])\n    [1, 2, 3, 4, 5, 7, 8, 9, 10]\n    >>> merge([[1, 3, 5], [], [2, 4, 6]])\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n    return [heappop(heap) for _ in range(len(heap))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 13,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iter(iterators):\n    \"\"\"\n    >>> list(merge_sorted_iter([[1, 2, 3], [2, 3, 4]]))\n    [1, 2, 2, 3, 3, 4]\n    >>> list(merge_sorted_iter([[1, 2, 3], [3, 4]]))\n    [1, 2, 3, 3, 4]\n    >>> list(merge_sorted_iter([]))\n    []\n    >>> list(merge_sorted_iter([[1, 2, 3]]))\n    [1, 2, 3]\n    >>> list(merge_sorted_iter([[1, 2], [1]]))\n    [1, 1, 2]\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        try:\n            heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            continue\n    while heap:\n        _, iterator = heappop(heap)\n        try:\n            yield next(iterator)\n            heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            continue\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 14,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge_sorted_iter(iterable, key=None):\n    \"\"\"\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]], key=lambda x: -x))\n    [6, 5, 4, 3, 2, 1]\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]], key=lambda x: x % 2))\n    [2, 1, 4, 3, 6, 5]\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]], key=lambda x: x % 3))\n    [2, 5, 1, 4, 3, 6]\n    \"\"\"\n    heap = []\n    heapify(heap)\n\n    for iter_ in iterable:\n        for item in iter_:\n            heappush(heap, item)\n\n    while heap:\n        yield heappop(heap)"
+    },
+    {
+      "rank": 15,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge(streams):\n    queue = []\n    for stream in streams:\n        heapify(stream)\n        heappush(queue, stream[0])\n        del stream[0]\n    while queue:\n        item = heappop(queue)\n        yield item\n        if queue:\n            heappush(queue, stream[0])\n            del stream[0]\n\n\nfor item in merge([[1, 2, 3], [2, 3, 4], [3, 4, 5]]):\n    print(item)"
+    },
+    {
+      "rank": 16,
+      "score": 8.0,
+      "candidate": "from heapq import heappop, heappush\nfrom typing import Iterator, List\n\n\ndef merge_sorted_inputs(inputs: List[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Returns an iterator that merges multiple sorted inputs into a single sorted iterator.\"\"\"\n    if not inputs:\n        raise ValueError(\"There should be at least one input.\")\n\n    def _make_heap(inputs):\n        \"\"\"Returns a heap queue of the given iterators.\"\"\"\n        return [(next(iterator), iterator) for iterator in inputs]\n\n    heap = _make_heap(inputs)\n    heappop(heap)\n\n    while heap:\n        value, iterator = heappop(heap)\n        yield value\n\n        try:\n            heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            continue\n\n\nif __name__ == \"__main__\":\n    print(list(merge_sorted_inputs([iter([1, 2, 3]), iter([4, 5, 6]), iter([7, 8, 9])])))"
+    },
+    {
+      "rank": 17,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iter(inputs):\n    h = []\n    for i in inputs:\n        for v in i:\n            heappush(h, v)\n    while h:\n        yield heappop(h)\n\n\nif __name__ == \"__main__\":\n    inputs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n    for i in merge_sorted_iter(inputs):\n        print(i, end=\" \")"
+    },
+    {
+      "rank": 18,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted(iterables):\n    \"\"\"\n    >>> list(merge_sorted([[1, 2, 3], [3, 4, 5], [5, 6, 7]]))\n    [1, 2, 3, 3, 4, 5, 5, 6, 7]\n    \"\"\"\n    heap = []\n    for it in iterables:\n        for item in it:\n            heapq.heappush(heap, item)\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 19,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\nfrom typing import List, Iterator, Iterable\n\n\ndef merge(iterables: List[Iterable]) -> Iterator:\n    \"\"\"Returns iterator of the merged iterables in sorted order.\"\"\"\n    heap = []\n\n    for iterable in iterables:\n        for element in iterable:\n            heappush(heap, element)\n\n    while heap:\n        yield heappop(heap)\n\n\nif __name__ == \"__main__\":\n    print(list(merge([[1, 3, 5, 7], [0, 2, 4, 8], [5, 10, 15, 20, 25]])))"
+    },
+    {
+      "rank": 20,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iterators(*iterators):\n    \"\"\"Merge multiple sorted iterators into a single sorted iterator.\n\n    >>> list(merge_sorted_iterators([1, 3, 5], [2, 4, 6]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(merge_sorted_iterators([2, 4, 6], [1, 3, 5]))\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    h = []\n    for iterator in iterators:\n        for i in iterator:\n            heappush(h, i)\n    while h:\n        yield heappop(h)\n\n\ndef test_merge_sorted_iterators():\n    assert list(merge_sorted_iterators([1, 3, 5], [2, 4, 6])) == [1, 2, 3, 4, 5, 6]\n    assert list(merge_sorted_iterators([2, 4, 6], [1, 3, 5])) == [1, 2, 3, 4, 5, 6]\n\n\nif __name__ == '__main__':\n    test_merge_sorted_iterators()"
+    },
+    {
+      "rank": 21,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\nclass PriorityQueue:\n    def __init__(self):\n        self.q = deque()\n\n    def push(self, x):\n        self.q.append(x)\n\n    def pop(self):\n        return self.q.popleft()\n\n    def empty(self):\n        return len(self.q) == 0\n\n    def __repr__(self):\n        return str(self.q)\n\n\ndef merge_sorted(iterables):\n    \"\"\"\n    :param iterables: list of iterables\n    :return: iterator\n    \"\"\"\n    h = PriorityQueue()\n    for it in iterables:\n        try:\n            h.push(next(it))\n        except StopIteration:\n            pass\n\n    while not h.empty():\n        curr = h.pop()\n        try:\n            next_val = next(it)\n            h.push(next_val)\n        except StopIteration:\n            pass\n        yield curr\n\n\nif __name__ == \"__main__\":\n    print(list(merge_sorted([[1, 3, 5], [2, 4, 6]])))\n    print(list(merge_sorted([[1, 3, 5], [2, 4, 6], [7, 8, 9]])))"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\nfrom typing import List, Iterator\n\n\ndef merge_sorted_inputs(inputs: List[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Merge sorted iterators into a single sorted iterator.\"\"\"\n    heap = []\n\n    for it in inputs:\n        value = next(it, None)\n\n        if value is not None:\n            heappush(heap, (value, it))\n\n    while heap:\n        value, it = heappop(heap)\n        yield value\n\n        value = next(it, None)\n\n        if value is not None:\n            heappush(heap, (value, it))"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "from typing import Iterator\nfrom heapq import merge\n\n\ndef merge_iterator(*iterators: Iterator) -> Iterator:\n    return merge(*iterators)\n\n\nif __name__ == \"__main__\":\n    print(list(merge_iterator([1, 3, 5], [2, 4, 6])))"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge(iterators):\n    \"\"\"\n    >>> merge([[1, 2, 3], [1, 2, 3, 5, 6], [1, 2, 3, 4]])\n    [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 6]\n\n    :param iterators: list of iterators\n    :return: iterator\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        item = next(iterator, None)\n        if item is not None:\n            heapq.heappush(heap, item)\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\nclass MergeIterator:\n    \"\"\"\n    Use heap queue to maintain the sorted order.\n    \"\"\"\n    def __init__(self, iterators):\n        self.iterators = iterators\n        self.heap = []\n        for iterator in self.iterators:\n            if iterator:\n                heappush(self.heap, (next(iterator), iterator))\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if not self.heap:\n            raise StopIteration\n        smallest, iterator = heappop(self.heap)\n        try:\n            heappush(self.heap, (next(iterator), iterator))\n        except StopIteration:\n            pass\n        return smallest\n\n\ndef test_iterator():\n    iters = [\n        iter([1, 2, 3, 4, 5]),\n        iter([4, 5, 6, 7, 8]),\n        iter([6, 7, 8, 9, 10]),\n    ]\n    assert list(MergeIterator(iters)) == [1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10]"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iterators(iters):\n    \"\"\"\n    >>> list(merge_sorted_iterators([iter([1, 2, 3]), iter([1, 2, 3])]))\n    [1, 1, 2, 2, 3, 3]\n    >>> list(merge_sorted_iterators([iter([1, 2, 3]), iter([4, 5, 6])]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(merge_sorted_iterators([iter([1, 2, 3]), iter([3, 4, 5])]))\n    [1, 2, 3, 3, 4, 5]\n    \"\"\"\n    heap = []\n    for iter_ in iters:\n        for val in iter_:\n            heappush(heap, val)\n\n    while heap:\n        yield heappop(heap)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge(iterables):\n    heap = []\n    for iterable in iterables:\n        heapq.heappush(heap, next(iterable))\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\nfor i in merge([iter([1, 3, 5, 7]), iter([2, 4, 6, 8])]):\n    print(i)"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge_sorted(iterables):\n    \"\"\"Returns an iterator of the sorted items from multiple sorted iterables.\n\n    :param iterables: a list of sorted iterables\n    :return: an iterator of the sorted items\n\n    >>> list(merge_sorted([[1, 2, 3], [2, 3, 4]]))\n    [1, 2, 2, 3, 3, 4]\n    >>> list(merge_sorted([[1, 2, 3], [2, 3, 4], [100, 200]]))\n    [1, 2, 2, 3, 3, 4, 100, 200]\n    >>> list(merge_sorted([]))\n    []\n    \"\"\"\n    if not iterables:\n        return\n    heap = []\n    heapify(heap)\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n    while heap:\n        yield heappop(heap)\n\n\ndef main():\n    print(list(merge_sorted([[1, 2, 3], [2, 3, 4]])))\n    print(list(merge_sorted([[1, 2, 3], [2, 3, 4], [100, 200]])))\n    print(list(merge_sorted([])))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_iter(iterables):\n    \"\"\"\n    :param iterables: list of iterators\n    :return:\n    \"\"\"\n    queue = []\n    for it in iterables:\n        try:\n            heapq.heappush(queue, (next(it), it))\n        except StopIteration:\n            pass\n\n    while queue:\n        val, it = heapq.heappop(queue)\n        yield val\n        try:\n            heapq.heappush(queue, (next(it), it))\n        except StopIteration:\n            pass\n\n\ndef main():\n    iter1 = [1, 3, 5, 7]\n    iter2 = [2, 4, 6, 8]\n    iter3 = [0, 9, 11]\n    for i in merge_iter([iter1, iter2, iter3]):\n        print(i)\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "from collections import deque\nfrom heapq import heappush, heappop\n\n\ndef merge_sorted_iter(iters):\n    \"\"\"\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]]))\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    heap = []\n    for iter in iters:\n        for item in iter:\n            heappush(heap, item)\n    while heap:\n        yield heappop(heap)\n\n\ndef merge_sorted_iter2(iters):\n    \"\"\"\n    >>> list(merge_sorted_iter2([[1, 3, 5], [2, 4, 6]]))\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    heap = deque()\n    for iter in iters:\n        for item in iter:\n            heap.append(item)\n    while heap:\n        yield heap.popleft()\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(streams):\n    heap = []\n    for stream in streams:\n        heappush(heap, next(stream))\n    while heap:\n        yield heappop(heap)\n        try:\n            heappush(heap, next(stream))\n        except StopIteration:\n            continue\n\n\nfor i in merge([iter([1, 3, 5]), iter([2, 4, 6])]):\n    print(i)"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge_sorted_iter(iterators):\n    \"\"\"\n    >>> list(merge_sorted_iter([[1, 2, 3], [3, 4, 5]]))\n    [1, 2, 3, 3, 4, 5]\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        try:\n            heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            continue\n    heapify(heap)\n    while heap:\n        yield heappop(heap)[0]\n        try:\n            heappush(heap, (next(heap[0][1]), heap[0][1]))\n        except StopIteration:\n            continue"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_iterators(iterators):\n    \"\"\"\n    >>> list(merge_iterators([[1,2,3], [3,4,5], [5,6,7]]))\n    [1, 2, 3, 3, 4, 5, 5, 6, 7]\n    \"\"\"\n    h = []\n    for it in iterators:\n        try:\n            heappush(h, (next(it), it))\n        except StopIteration:\n            pass\n    while h:\n        n, it = heappop(h)\n        yield n\n        try:\n            heappush(h, (next(it), it))\n        except StopIteration:\n            pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\nclass HeapQueue(object):\n    def __init__(self, iterables):\n        self.iterables = iterables\n        self.heap = []\n        for it in self.iterables:\n            try:\n                heapq.heappush(self.heap, (next(it), it))\n            except StopIteration:\n                pass\n\n    def __iter__(self):\n        while self.heap:\n            val, it = heapq.heappop(self.heap)\n            try:\n                heapq.heappush(self.heap, (next(it), it))\n            except StopIteration:\n                pass\n            yield val\n\n\ndef merge_sorted_inputs(*args):\n    return HeapQueue(args)\n\n\nif __name__ == \"__main__\":\n    inputs = [[1, 2, 3], [2, 4, 6], [1, 2, 3]]\n    for item in merge_sorted_inputs(*inputs):\n        print(item)"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(iterables):\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n\n    return iter(lambda: heappop(heap), None)\n\n\nif __name__ == '__main__':\n    print(list(merge([[1, 3, 5], [2, 4, 6]])))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def heap_merge(iterables):\n    \"\"\"\n    >>> list(heap_merge([[1, 3, 5, 7], [0, 2, 4, 8], [5, 10, 15, 20]]))\n    [0, 1, 2, 3, 4, 5, 5, 7, 8, 10, 15, 20]\n    \"\"\"\n    from heapq import merge\n\n    return merge(*iterables)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\ndef merge_sorted(iters):\n    h = []\n    for it in iters:\n        try:\n            heappush(h, next(it))\n        except StopIteration:\n            continue\n    while h:\n        yield heappop(h)\n        try:\n            heappush(h, next(it))\n        except StopIteration:\n            continue\n\nif __name__ == '__main__':\n    print list(merge_sorted([[1, 3, 5, 7, 9], [2, 4, 6, 8, 10]]))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def merge_sorted_inputs(inputs):\n    \"\"\"\n    :param inputs: list of iterators of sorted inputs\n    :return: merged sorted iterators\n    \"\"\"\n    if len(inputs) == 0:\n        return None\n\n    heap = []\n    for it in inputs:\n        try:\n            heap.append((it.__next__(), it))\n        except StopIteration:\n            continue\n\n    heapq.heapify(heap)\n\n    while len(heap) != 0:\n        item = heapq.heappop(heap)[0]\n        yield item\n        try:\n            heap.append((it.__next__(), it))\n        except StopIteration:\n            continue\n\n\nclass MergeIterator:\n    def __init__(self, inputs):\n        self.inputs = inputs\n        self.heap = []\n        for it in inputs:\n            try:\n                self.heap.append((it.__next__(), it))\n            except StopIteration:\n                continue\n\n        heapq.heapify(self.heap)\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if len(self.heap) == 0:\n            raise StopIteration\n        item = heapq.heappop(self.heap)[0]\n        try:\n            self.heap.append((it.__next__(), it))\n        except StopIteration:\n            continue\n        return item\n\n\nif __name__ == \"__main__\":\n    inputs = [[1, 3, 4], [1, 2, 5]]\n    print([i for i in merge_sorted_inputs(inputs)])\n\n    inputs = [MergeIterator([1, 3, 4]), MergeIterator([1, 2, 5])]\n    print([i for i in merge_sorted_inputs(inputs)])"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(*args):\n    \"\"\"\n    >>> merge([1, 3, 4, 6], [1, 2, 4, 6], [2, 3, 4, 6])\n    [1, 1, 2, 2, 3, 3, 4, 4, 6, 6, 6]\n    >>> merge([1, 3, 5], [2, 4, 6])\n    [1, 2, 3, 4, 5, 6]\n    >>> merge([1, 2, 5], [2, 4, 6], [3, 4, 6])\n    [1, 2, 2, 3, 4, 4, 5, 6, 6, 6]\n    \"\"\"\n    heap = []\n    for iter in args:\n        for item in iter:\n            heappush(heap, item)\n    return [heappop(heap) for _ in range(len(heap))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "class PriorityQueue:\n    def __init__(self):\n        self.elements = []\n\n    def is_empty(self):\n        return not self.elements\n\n    def put(self, item, priority):\n        heapq.heappush(self.elements, (priority, item))\n\n    def get(self):\n        return heapq.heappop(self.elements)[1]\n\n\ndef merge_sorted_iterators(iterators):\n    pq = PriorityQueue()\n    for iterator in iterators:\n        try:\n            pq.put(next(iterator), iterator)\n        except StopIteration:\n            continue\n\n    while not pq.is_empty():\n        yield pq.get()\n        try:\n            pq.put(next(pq.get()[1]), pq.get()[1])\n        except StopIteration:\n            continue\n\n\ndef merge_sorted_iterators_2(iterators):\n    pq = PriorityQueue()\n    for iterator in iterators:\n        try:\n            pq.put(next(iterator), iterator)\n        except StopIteration:\n            continue\n\n    while not pq.is_empty():\n        yield pq.get()\n        try:\n            pq.put(next(pq.get()[1]), pq.get()[1])\n        except StopIteration:\n            continue\n\n\ndef merge_sorted_iterators_3(iterators):\n    pq = PriorityQueue()\n    for iterator in iterators:\n        try:\n            pq.put(next(iterator), iterator)\n        except StopIteration:\n            continue\n\n    while not pq.is_empty():\n        yield pq.get()\n        try:\n            pq.put(next(pq.get()[1]), pq.get()[1])\n        except StopIteration:\n            continue\n\n\ndef merge_sorted_iterators_4(iterators):\n    pq = PriorityQueue()\n    for iterator in iterators:\n        try:\n            pq.put(next(iterator), iterator)\n        except StopIteration:\n            continue"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iter(iterators):\n    \"\"\"\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6], [7, 8, 9]]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    >>> list(merge_sorted_iter([]))\n    []\n    >>> list(merge_sorted_iter([[1, 3, 5], [2, 4, 6], [7, 8, 9, 11]]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 11]\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        if iterator:\n            heappush(heap, (next(iterator), iterator))\n    while heap:\n        yield heappop(heap)[0]\n        iterator = heap[0][1]\n        if iterator:\n            heappush(heap, (next(iterator), iterator))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_iterators(inputs):\n    h = []\n    for i in inputs:\n        next_val = next(i)\n        heapq.heappush(h, (next_val, i))\n    while h:\n        next_val, i = heapq.heappop(h)\n        yield next_val\n        try:\n            next_val = next(i)\n            heapq.heappush(h, (next_val, i))\n        except StopIteration:\n            pass\n\n\ndef test():\n    inputs = [iter([1, 2, 3]), iter([4, 5, 6]), iter([7, 8, 9])]\n    merged = merge_iterators(inputs)\n    for i in range(1, 10):\n        assert next(merged) == i\n\n\nif __name__ == '__main__':\n    test()"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "import heapq\nfrom typing import Iterator, List\n\n\ndef merge(iterables: List[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator.\"\"\"\n    # A heap queue is a priority queue, so we'll use that here.\n    # The heap queue is initialized with the first value from each\n    # iterator.\n    heap: List[int] = []\n    for iterator in iterables:\n        try:\n            heapq.heappush(heap, next(iterator))\n        except StopIteration:\n            pass\n\n    # We use a sentinel value to mark the end of each iterator, and\n    # we keep track of how many iterators are still open.\n    sentinel = object()\n    remaining = len(iterables)\n\n    while heap and remaining:\n        value = heapq.heappop(heap)\n\n        # If we've reached the end of an iterator, we'll add a new\n        # sentinel value to the heap and decrement remaining.\n        if value is sentinel:\n            remaining -= 1\n            continue\n\n        yield value\n\n        try:\n            heapq.heappush(heap, next(iterator))\n        except StopIteration:\n            heapq.heappush(heap, sentinel)\n            remaining -= 1\n\n\nif __name__ == \"__main__\":\n    first = (num for num in range(10))\n    second = (num for num in range(10, 20))\n    third = (num for num in range(20, 30))\n\n    for num in merge([first, second, third]):\n        print(num)"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "from heapq import heappop, heappush\n\n\ndef merge(streams):\n    h = []\n    for stream in streams:\n        item = next(stream, None)\n        if item:\n            heappush(h, item)\n\n    while h:\n        item = heappop(h)\n        yield item\n        try:\n            item = next(stream)\n            heappush(h, item)\n        except StopIteration:\n            pass\n\n\ndef main():\n    pass\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappop\n\n\ndef create_heap(iters):\n    \"\"\"Create a heap of iterators.\"\"\"\n    heap = []\n    for it in iters:\n        try:\n            item = next(it)\n            heapq.heappush(heap, item)\n        except StopIteration:\n            pass\n    return heap\n\n\ndef heap_merge(iters):\n    \"\"\"Merge sorted iterators using heap queue algorithm.\"\"\"\n    heap = create_heap(iters)\n    heapq.heapify(heap)\n    while heap:\n        item = heapq.heappop(heap)\n        yield item\n        try:\n            item = next(it)\n            heapq.heappush(heap, item)\n        except StopIteration:\n            pass\n\n\ndef merge_sorted(iters):\n    \"\"\"Merge sorted iterators using heap queue algorithm.\"\"\"\n    return heap_merge(iters)"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef get_kth_smallest(arr, k):\n    h = []\n    for i in range(len(arr)):\n        if len(h) < k:\n            heappush(h, arr[i])\n        elif arr[i] > h[0]:\n            heappush(h, arr[i])\n            heappop(h)\n    return h[0]\n\n\ndef get_kth_smallest_2(arr, k):\n    return sorted(arr)[k-1]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    k = 5\n    print(get_kth_smallest(arr, k))\n    print(get_kth_smallest_2(arr, k))"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappop\n\n\ndef merge_sorted_iterators(iterators):\n    heap = []\n    for iterator in iterators:\n        if iterator:\n            heapq.heappush(heap, (next(iterator), iterator))\n\n    while heap:\n        _, iterator = heapq.heappop(heap)\n        try:\n            yield next(iterator)\n            heapq.heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            pass\n\n\nif __name__ == \"__main__\":\n    print(list(merge_sorted_iterators([\n        iter([1, 2, 3, 4]),\n        iter([5, 6, 7, 8]),\n        iter([9, 10, 11, 12]),\n        iter([13, 14, 15, 16]),\n    ])))"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge_sorted_iterators(*iterables):\n    \"\"\"\n    :param iterables:\n    :return:\n    \"\"\"\n    heap = []\n    heapify(heap)\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n    while heap:\n        yield heappop(heap)\n\n\ndef test_merge_sorted_iterators():\n    \"\"\"\n    >>> test_merge_sorted_iterators([1, 2, 3], [4, 5, 6], [7, 8, 9])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    >>> test_merge_sorted_iterators([1, 3, 5, 7], [2, 4, 6, 8], [9, 10, 11, 12])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    \"\"\"\n    return list(merge_sorted_iterators([1, 2, 3], [4, 5, 6], [7, 8, 9]))\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def merge(streams):\n    heap = []\n    for stream in streams:\n        heap.append((next(stream), stream))\n    heapq.heapify(heap)\n    while heap:\n        yield heapq.heappop(heap)[0]\n\n\ndef merge_iter(streams):\n    heap = []\n    for stream in streams:\n        heap.append((next(stream), stream))\n    heapq.heapify(heap)\n    while heap:\n        yield heapq.heappop(heap)[0]\n\n\ndef merge_iter2(streams):\n    return heapq.merge(*streams)"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "import heapq\nfrom typing import Iterable, Iterator\n\n\ndef heap_merge(*inputs: Iterable[int]) -> Iterator[int]:\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator using heap queue algorithm.\n\n    Examples:\n    >>> list(heap_merge())\n    []\n    >>> list(heap_merge([1, 3, 5]))\n    [1, 3, 5]\n    >>> list(heap_merge([1, 3, 5], [2, 4, 6]))\n    [1, 2, 3, 4, 5, 6]\n    >>> list(heap_merge([1, 3, 5], [2, 4, 6], [7, 8, 9]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    \"\"\"\n    heap: list[int] = []\n    for iterable in inputs:\n        for num in iterable:\n            heapq.heappush(heap, num)\n    while heap:\n        yield heapq.heappop(heap)\n\n\ndef main():\n    print(list(heap_merge([1, 3, 5], [2, 4, 6], [7, 8, 9])))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "import heapq\nfrom typing import List, Iterator\n\n\ndef merge_sorted_iter(iterables: List[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Return an iterator of the elements in the sorted order.\"\"\"\n    heap = []\n    for iterable in iterables:\n        try:\n            heapq.heappush(heap, (next(iterable), iterable))\n        except StopIteration:\n            continue\n\n    while heap:\n        _, iterable = heapq.heappop(heap)\n        try:\n            yield next(iterable)\n            heapq.heappush(heap, (next(iterable), iterable))\n        except StopIteration:\n            continue\n\n\ndef merge_sorted_iter_2(iterables: List[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Return an iterator of the elements in the sorted order.\"\"\"\n    heap = []\n    for iterable in iterables:\n        try:\n            heapq.heappush(heap, next(iterable))\n        except StopIteration:\n            continue\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\ndef merge_sorted_iter_3(iterables: List[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Return an iterator of the elements in the sorted order.\"\"\"\n    for iterable in iterables:\n        yield from iterable"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge(*inputs):\n    \"\"\"Merge sorted inputs into a single sorted iterator.\"\"\"\n    heap = []\n    for input in inputs:\n        for item in input:\n            heappush(heap, item)\n    return heap\n\n\ndef test_merge():\n    \"\"\"Test for merge.\"\"\"\n    assert list(merge([1, 3, 5, 7], [2, 4, 6, 8])) == [1, 2, 3, 4, 5, 6, 7, 8]"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "def merge(iterators):\n    heap = []\n    for it in iterators:\n        item = next(it, None)\n        if item is not None:\n            heap.append((item, it))\n    heapq.heapify(heap)\n    while heap:\n        item, it = heapq.heappop(heap)\n        yield item\n        item = next(it, None)\n        if item is not None:\n            heapq.heappush(heap, (item, it))\n\n\nclass Heap(list):\n    def __init__(self):\n        super(Heap, self).__init__()\n        self.length = 0\n\n    def add(self, item):\n        self.append(item)\n        i = self.length\n        while i > 0:\n            p = (i - 1) // 2\n            if self[p] < self[i]:\n                self[i], self[p] = self[p], self[i]\n                i = p\n            else:\n                break\n        self.length += 1\n\n    def pop(self):\n        item = super(Heap, self).pop()\n        self.length -= 1\n        if self:\n            self[0] = item\n            i = 0\n            while True:\n                left, right = 2 * i + 1, 2 * i + 2\n                if left >= self.length:\n                    break\n                elif right >= self.length:\n                    min_child = left\n                else:\n                    min_child = left if self[left] < self[right] else right\n                if self[i] <= self[min_child]:\n                    break\n                else:\n                    self[i], self[min_child] = self[min_child], self[i]\n                    i = min_child\n        return item\n\n    def __len__(self):\n        return self.length\n\n\ndef heap_merge(iterators):\n    heap = Heap()\n    for it in iterators:\n        item = next(it, None)\n        if item is not None:\n            heap.add(item)\n    while"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "import heapq\n\ndef merge_sorted_iterators(iterators):\n    \"\"\"\n    >>> list(merge_sorted_iterators([[1, 2, 3], [3, 4, 5], [5, 6, 7]]))\n    [1, 2, 3, 3, 4, 5, 5, 6, 7]\n    >>> list(merge_sorted_iterators([[1, 2, 3]]))\n    [1, 2, 3]\n    >>> list(merge_sorted_iterators([]))\n    []\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        try:\n            value = next(iterator)\n            heapq.heappush(heap, (value, iterator))\n        except StopIteration:\n            pass\n    while heap:\n        value, iterator = heapq.heappop(heap)\n        yield value\n        try:\n            value = next(iterator)\n            heapq.heappush(heap, (value, iterator))\n        except StopIteration:\n            pass\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_iterators(iters):\n    \"\"\"\n    >>> list(merge_iterators([]))\n    []\n    >>> list(merge_iterators([[1, 2, 3]]))\n    [1, 2, 3]\n    >>> list(merge_iterators([[1, 2, 3], [1, 2, 3]]))\n    [1, 1, 2, 2, 3, 3]\n    >>> list(merge_iterators([[1, 2, 3], [3, 4, 5]]))\n    [1, 3, 2, 4, 3, 5]\n    >>> list(merge_iterators([[1, 2, 3], [3, 4, 5], [5, 6, 7]]))\n    [1, 3, 5, 2, 5, 4, 3, 6, 5, 7]\n    \"\"\"\n    heap = []\n    for iter in iters:\n        for num in iter:\n            heapq.heappush(heap, num)\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(iterables):\n    \"\"\"Merge multiple sorted iterables into a single sorted iterator using heap queue algorithm.\"\"\"\n    h = []\n    for iterable in iterables:\n        try:\n            heappush(h, next(iterable))\n        except StopIteration:\n            continue\n\n    while h:\n        yield heappop(h)\n        try:\n            heappush(h, next(iterable))\n        except StopIteration:\n            continue"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\n\ndef merge_sorted_inputs(inputs):\n    \"\"\"\n    :type inputs: List[List[int]]\n    :rtype: Iterator[int]\n    \"\"\"\n    q = []\n    for lst in inputs:\n        heapify(lst)\n        heappush(q, lst[0])\n    while q:\n        top = heappop(q)\n        yield top\n        lst = q[0]\n        if lst[0] < top:\n            heappush(q, lst[0])\n\n\ndef test_merge_sorted_inputs():\n    inputs = [[1, 3, 5], [2, 4, 6]]\n    res = [1, 2, 3, 4, 5, 6]\n    assert list(merge_sorted_inputs(inputs)) == res\n\n\nif __name__ == '__main__':\n    test_merge_sorted_inputs()"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_iter(iterators):\n    \"\"\"Returns an iterator yielding the values from the iterators in order.\n    >>> list(merge_iter([[1, 3, 5], [2, 4, 6]]))\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    h = []\n    for it in iterators:\n        for x in it:\n            heappush(h, x)\n\n    while h:\n        yield heappop(h)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iter(inputs):\n    \"\"\"\n    :param inputs: list[iterable]\n    :return:\n    \"\"\"\n    heap = []\n    for it in inputs:\n        heappush(heap, next(it, None))\n    while heap:\n        yield heappop(heap)\n\n\nif __name__ == '__main__':\n    inputs = [iter([1, 2, 3, 5]), iter([2, 3, 4, 7])]\n    for i in merge_sorted_iter(inputs):\n        print(i)"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(*iterables):\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n\n    while heap:\n        yield heappop(heap)\n\n\nif __name__ == '__main__':\n    print(list(merge([1, 2, 3], [4, 5, 6], [7, 8])))"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted_iter(inputs):\n    \"\"\"\n    :type inputs: list[iter]\n    :rtype: iter\n    \"\"\"\n    heap = []\n    for iter_ in inputs:\n        if not iter_.peek(None) is None:\n            heapq.heappush(heap, (iter_.peek(), iter_))\n    while heap:\n        _, iter_ = heapq.heappop(heap)\n        yield iter_.next()\n        if not iter_.peek(None) is None:\n            heapq.heappush(heap, (iter_.peek(), iter_))"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted_inputs(inputs):\n    \"\"\"\n    :param inputs: list of iterators\n    :return: iterator\n    \"\"\"\n    return heapq.merge(*inputs)\n\n\ndef main():\n    inputs = [\n        iter([2, 3, 7, 9, 11]),\n        iter([1, 4, 5, 6, 10, 11, 15]),\n        iter([0, 2, 5, 10, 12, 13, 15, 16, 17]),\n    ]\n\n    result = merge_sorted_inputs(inputs)\n    for i in result:\n        print(i, end=\" \")\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef heap_merge(iterables):\n    h = []\n    for iterable in iterables:\n        for item in iterable:\n            heapq.heappush(h, item)\n    while h:\n        yield heapq.heappop(h)\n\n\ndef test_heap_merge():\n    \"\"\"\n    >>> list(heap_merge([[1, 2, 3], [4, 5, 6]]))\n    [1, 2, 3, 4, 5, 6]\n    \"\"\"\n    pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "class Node:\n    def __init__(self, value, next_node=None):\n        self.value = value\n        self.next_node = next_node\n\n\nclass HeapQueue:\n    def __init__(self, size=10):\n        self.size = size\n        self.data = [None] * size\n        self.length = 0\n        self.root = None\n        self.end = None\n\n    def insert(self, value):\n        self.data[self.length] = value\n        self.length += 1\n        if self.length == self.size:\n            self.length = self.size\n            self.size *= 2\n            new_data = [None] * self.size\n            for i in range(self.length):\n                new_data[i] = self.data[i]\n            self.data = new_data\n        self.bubble_up(self.length - 1)\n\n    def bubble_up(self, index):\n        if index == 0:\n            return\n        parent_index = (index - 1) // 2\n        if self.data[parent_index] < self.data[index]:\n            self.data[parent_index], self.data[index] = self.data[index], self.data[parent_index]\n            self.bubble_up(parent_index)\n\n    def pop(self):\n        if self.length == 0:\n            return None\n        if self.length == 1:\n            self.length = 0\n            return self.data[0]\n        self.data[0], self.data[self.length - 1] = self.data[self.length - 1], self.data[0]\n        value = self.data.pop()\n        self.length -= 1\n        self.bubble_down(0)\n        return value\n\n    def bubble_down(self, index):\n        left_index = (index + 1) * 2 - 1\n        right_index = (index + 1) * 2\n        if left_index < self.length and self.data[left_index] < self.data"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted_iterators(iterators):\n    \"\"\"\n    :param iterators: list of iterators\n    :return: iterator\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        try:\n            next_item = next(iterator)\n        except StopIteration:\n            continue\n        heapq.heappush(heap, (next_item, iterator))\n    while heap:\n        item, iterator = heapq.heappop(heap)\n        yield item\n        try:\n            next_item = next(iterator)\n        except StopIteration:\n            continue\n        heapq.heappush(heap, (next_item, iterator))\n\n\ndef main():\n    a = [1, 2, 3, 4, 5, 6]\n    b = [2, 3, 4, 5, 6, 7, 8, 9]\n    c = [3, 4, 5, 6, 7, 8, 9, 10]\n    for i in merge_sorted_iterators([a, b, c]):\n        print(i)\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\ndef merge(inputs):\n    \"\"\"\n    :type inputs: List[List[int]]\n    :rtype: Iterator[int]\n    \"\"\"\n    # 1. push all the first elements into the heap\n    heap = []\n    for input in inputs:\n        if input:\n            heappush(heap, input[0])\n    # 2. pop out the smallest element\n    while heap:\n        # 3. push the next element into the heap\n        smallest = heappop(heap)\n        yield smallest\n        if heap:\n            heappush(heap, inputs[heap[0]][1])\n\ninputs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nprint(list(merge(inputs)))\n\ninputs = [[1, 2, 3], [4, 5, 6], [7, 8, 9, 10, 11]]\nprint(list(merge(inputs)))\n\ninputs = [[1], [4], [7], [10], [11]]\nprint(list(merge(inputs)))"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\n\ndef merge(iterators):\n    \"\"\"\n    >>> iterators = [iter([1, 3, 5, 7]), iter([2, 4, 6, 8])]\n    >>> list(merge(iterators))\n    [1, 2, 3, 4, 5, 6, 7, 8]\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        try:\n            heappush(heap, next(iterator))\n        except StopIteration:\n            pass\n    heapify(heap)\n    while heap:\n        yield heappop(heap)\n        try:\n            heappush(heap, next(iterator))\n        except StopIteration:\n            pass\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge(iterables):\n    \"\"\"\n    >>> list(merge([[1, 2], [2, 3], [3, 4]]))\n    [1, 2, 2, 3, 3, 4]\n    \"\"\"\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heapq.heappush(heap, item)\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iterators(*iterators):\n    \"\"\"\n    >>> list(merge_sorted_iterators([1, 3, 5, 7], [2, 4, 6, 8]))\n    [1, 2, 3, 4, 5, 6, 7, 8]\n    >>> list(merge_sorted_iterators([]))\n    []\n    >>> list(merge_sorted_iterators([1, 3, 5, 7], [2, 4, 6, 8], [9, 10, 11]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    \"\"\"\n    heap = []\n\n    for iterator in iterators:\n        for item in iterator:\n            heappush(heap, item)\n\n    while heap:\n        yield heappop(heap)"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappush, heappop\nfrom itertools import islice\n\n\ndef heap_merge(iterables):\n    \"\"\"\n    :type iterables: list[list]\n    :rtype: list\n    \"\"\"\n    heap = []\n    heapify(heap)\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n    return heap\n\n\ndef heap_merge2(iterables):\n    \"\"\"\n    :type iterables: list[list]\n    :rtype: list\n    \"\"\"\n    heap = []\n    heapify(heap)\n    for iterable in iterables:\n        for item in islice(iterable, len(heap), len(iterable)):\n            heappush(heap, item)\n    return heap\n\n\ndef heap_merge3(iterables):\n    \"\"\"\n    :type iterables: list[list]\n    :rtype: list\n    \"\"\"\n    heap = []\n    heapify(heap)\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n        heappop(heap)\n    return heap"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "from typing import Iterator\n\n\ndef merge(iterators: list[Iterator[int]]) -> Iterator[int]:\n    heap = []\n    for iterator in iterators:\n        try:\n            heap.append((next(iterator), iterator))\n        except StopIteration:\n            continue\n    heap.sort(key=lambda x: x[0])\n    while heap:\n        _, iterator = heap.pop(0)\n        try:\n            yield next(iterator)\n            heap.append((next(iterator), iterator))\n        except StopIteration:\n            continue\n\n\nif __name__ == \"__main__\":\n    iter1 = iter([1, 3, 5, 7])\n    iter2 = iter([2, 4, 6, 8])\n    iter3 = iter([1, 2, 3, 4, 5, 6, 7, 8])\n    for num in merge([iter1, iter2, iter3]):\n        print(num)"
+    },
+    {
+      "rank": 72,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\nclass HeapQueue:\n    def __init__(self):\n        self.h = []\n\n    def push(self, item):\n        heappush(self.h, item)\n\n    def pop(self):\n        return heappop(self.h)\n\n\ndef merge_iterators(iterators):\n    \"\"\"\n    :param iterators: list of sorted iterators\n    :return: iterator\n    \"\"\"\n    heap = HeapQueue()\n    for it in iterators:\n        item = next(it)\n        heap.push(item)\n\n    while True:\n        item = heap.pop()\n        yield item\n        try:\n            item = next(it)\n            heap.push(item)\n        except StopIteration:\n            break\n\n\nif __name__ == \"__main__\":\n    a = [1, 3, 5, 7]\n    b = [0, 2, 4, 6, 8]\n\n    it = merge_iterators([a, b])\n    for i in it:\n        print(i)\n\n    print(list(merge_iterators([a, b])))"
+    },
+    {
+      "rank": 73,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef heap_merge(*args):\n    \"\"\"\n    >>> list(heap_merge([1, 2, 3], [4, 5, 6], [7, 8, 9]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    >>> list(heap_merge([1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    >>> list(heap_merge([1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]\n    >>> list(heap_merge([1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18]))\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]\n    >>> list(heap_merge([1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18], [19, 20, 21"
+    },
+    {
+      "rank": 74,
+      "score": 8.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted_iterators(iterators):\n    \"\"\"\n    :type iterators: List[Iterators]\n    :rtype: Iterator\n    \"\"\"\n    queue = []\n    for it in iterators:\n        try:\n            heapq.heappush(queue, (next(it), it))\n        except StopIteration:\n            continue\n\n    while queue:\n        _, it = heapq.heappop(queue)\n        try:\n            yield next(it)\n            heapq.heappush(queue, (next(it), it))\n        except StopIteration:\n            continue\n\n\nif __name__ == '__main__':\n    print(list(merge_sorted_iterators([iter([1, 2, 3]), iter([4, 5, 6]), iter([7, 8, 9])])))"
+    },
+    {
+      "rank": 75,
+      "score": 8.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_iterators(iterators):\n    # Create a priority queue\n    heap = []\n    for iterator in iterators:\n        value = iterator.__next__()\n        heappush(heap, (value, iterator))\n    while heap:\n        yield heappop(heap)[0]\n        iterator = heap[0][1]\n        value = iterator.__next__()\n        if value is not None:\n            heappush(heap, (value, iterator))\n\n\nif __name__ == \"__main__\":\n    import itertools\n\n    test_cases = [\n        itertools.chain(range(10), range(10, 20)),\n        itertools.chain(range(20, 30), range(10)),\n        itertools.chain(range(30, 40), range(20)),\n        itertools.chain(range(40, 50), range(30)),\n    ]\n    for case in test_cases:\n        print(list(merge_sorted_iterators([case])))"
+    },
+    {
+      "rank": 76,
+      "score": 8.0,
+      "candidate": "from heapq import heapify, heappop\n\n\ndef merge_sorted_lists(lists):\n    \"\"\"\n    :param lists: list of list of integers\n    :return: list of integers\n    \"\"\"\n    heap = []\n    for i in range(len(lists)):\n        heap.append([lists[i][0], i])\n        heapify(heap)\n\n    while heap:\n        top = heappop(heap)\n        yield top[0]\n        if lists[top[1]][1:] != []:\n            heap.append([lists[top[1]][1], top[1]])\n            heapify(heap)\n\n\nif __name__ == \"__main__\":\n    print([x for x in merge_sorted_lists([[1, 3, 5], [2, 4, 6]])])"
+    },
+    {
+      "rank": 77,
+      "score": 8.0,
+      "candidate": "def merge_sorted_arrays(arrays):\n    \"\"\"\n    :param arrays: list[list[int]]\n    :return: list[int]\n    \"\"\"\n    # TODO: implement it\n    pass"
+    },
+    {
+      "rank": 78,
+      "score": 2.0,
+      "candidate": "import heapq\n\n\ndef merge(iterators):\n    heap = []\n    for iterator in iterators:\n        try:\n            heapq.heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            continue\n    while heap:\n        yield heapq.heappop(heap)[0]\n        try:\n            heapq.heappush(heap, (next(iterator), iterator))\n        except StopIteration:\n            continue\n\n\ndef test(iterators, expected):\n    result = list(merge(iterators))\n    assert result == expected\n\n\nif __name__ == '__main__':\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test([], [])\n    test"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "import heapq\n\n\ndef merge(iterables):\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heapq.heappush(heap, item)\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == '__main__':\n    iter1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    iter2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    iter3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n    for item in merge([iter1, iter2, iter3]):\n        print(item)"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "from heapq import heappop, heappush\n\n\ndef merge(sorted_list):\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator using heap queue algorithm.\"\"\"\n    if not sorted_list:\n        return\n    heap = []\n    for item in sorted_list:\n        heappush(heap, item)\n    return heappop(heap)\n\n\ndef test_merge():\n    assert merge([]) is None\n    assert merge([[1]]) == 1\n    assert merge([[1, 2]]) == 1\n    assert merge([[1, 2], [3, 4]]) == 1\n    assert merge([[1, 2], [3, 4], [5, 6]]) == 1\n    assert merge([[1, 2], [3, 4], [5, 6], [7, 8]]) == 1\n    assert merge([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]) == 1"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "import heapq\n\n\ndef merge(inputs):\n    h = []\n    for i in inputs:\n        if i:\n            heapq.heappush(h, next(i))\n    while h:\n        yield heapq.heappop(h)\n\n\nif __name__ == '__main__':\n    inputs = (\n        (i for i in range(5)),\n        (i for i in range(5, 10)),\n        (i for i in range(10, 15)),\n    )\n    for i in merge(inputs):\n        print(i)"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "from typing import Iterable, Iterator\n\n\ndef merge(iterables: Iterable[Iterable]) -> Iterator:\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heapq.heappush(heap, item)\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == \"__main__\":\n    print(list(merge([[1, 3, 5], [2, 4, 6]])))\n    print(list(merge([[1, 2], [3, 4], [5, 6]])))\n    print(list(merge([[1, 3, 5], [2, 4, 6], [7, 8, 9]])))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\ndef merge(*args):\n    h = []\n    for i in args:\n        if i:\n            heappush(h, i[0])\n    while h:\n        v = heappop(h)\n        yield v\n        for i in args:\n            if i and i[0] == v:\n                heappush(h, i.pop(0))\n\n\nif __name__ == '__main__':\n    print list(merge([1, 2, 3], [4, 5, 6], [7, 8, 9]))"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted(iterables):\n    heap = []\n    for iterable in iterables:\n        for num in iterable:\n            heapq.heappush(heap, num)\n\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == '__main__':\n    for item in merge_sorted([[1, 2, 3], [10, 20, 30], [100, 200, 300]]):\n        print(item)"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "class MergeIterator:\n    def __init__(self, iterators):\n        self.iterators = iterators\n        self.heap = []\n\n        for iterator in iterators:\n            if iterator.has_next():\n                self.heap.append((iterator.peek(), iterator))\n\n        self.heap_size = len(self.heap)\n        self.build_heap()\n\n    def build_heap(self):\n        for i in range(self.heap_size // 2 - 1, -1, -1):\n            self.heapify(i)\n\n    def heapify(self, i):\n        smallest = i\n        left = 2 * i + 1\n        right = 2 * i + 2\n\n        if left < self.heap_size and self.heap[left][0] < self.heap[smallest][0]:\n            smallest = left\n\n        if right < self.heap_size and self.heap[right][0] < self.heap[smallest][0]:\n            smallest = right\n\n        if smallest != i:\n            self.heap[i], self.heap[smallest] = self.heap[smallest], self.heap[i]\n            self.heapify(smallest)\n\n    def get_next(self):\n        if self.has_next():\n            smallest = self.heap[0][1]\n            self.heap[0] = self.heap[self.heap_size - 1]\n            self.heap_size -= 1\n            self.heapify(0)\n            return smallest.get_next()\n\n    def has_next(self):\n        return self.heap_size > 0\n\n\ndef merge_iterators(iterators):\n    return MergeIterator(iterators).get_next\n\n\nimport heapq\n\n\nclass MergeIterator2:\n    def __init__(self, iterators):\n        self.iterators = iterators\n        self.heap = []\n        for iterator in iterators:\n            if iterator.has_next():\n                heapq.heappush(self"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\ndef merge(items):\n    h = []\n\n    for i in items:\n        heappush(h, i)\n\n    while h:\n        yield heappop(h)\n\n\nif __name__ == '__main__':\n    l = list(range(1, 10))\n    l2 = list(range(20, 30))\n    l3 = list(range(40, 50))\n\n    print(list(merge([l, l2, l3])))"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "import heapq\nfrom typing import List\n\n\ndef merge_sorted_iter(iterables: List[List[int]]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n    \"\"\"\n    heap = []\n    for iterable in iterables:\n        for element in iterable:\n            heapq.heappush(heap, element)\n\n    return [heapq.heappop(heap) for _ in range(len(heap))]\n\n\nif __name__ == \"__main__\":\n    assert merge_sorted_iter([[1, 2, 3], [1, 2, 3]]) == [1, 1, 2, 2, 3, 3]"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted(iters):\n    heap = []\n    for iter in iters:\n        try:\n            heappush(heap, next(iter))\n        except StopIteration:\n            pass\n    while heap:\n        yield heappop(heap)\n        try:\n            heappush(heap, next(iter))\n        except StopIteration:\n            pass\n\n\nif __name__ == '__main__':\n    print(list(merge_sorted([[1, 3, 5], [2, 4, 6]])))"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(iterables):\n    \"\"\"\n    :param iterables: list of iterables\n    :return: single iterator\n    \"\"\"\n    heap = []\n    for iterable in iterables:\n        for item in iterable:\n            heappush(heap, item)\n\n    while heap:\n        yield heappop(heap)\n\n\ndef merge2(iterables):\n    \"\"\"\n    :param iterables: list of iterables\n    :return: single iterator\n    \"\"\"\n    heap = []\n    for iterable in iterables:\n        heap.extend(iterable)\n\n    heap.sort()\n    return iter(heap)\n\n\nif __name__ == '__main__':\n    for i in merge([[1, 2, 3], [3, 4, 5], [5, 6, 7]]):\n        print(i)"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "import heapq\n\n\ndef merge(iterables):\n    return heapq.merge(*iterables)\n\n\nif __name__ == '__main__':\n    print list(merge([[1, 2, 3], [3, 4, 5]]))"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "def merge_iterators(iters):\n    \"\"\"\n    :param iters: list[iter]\n    :return: iterator\n    \"\"\"\n    import heapq\n    heap = []\n    for it in iters:\n        if it:\n            heapq.heappush(heap, next(it))\n\n    while heap:\n        yield heapq.heappop(heap)\n        for it in iters:\n            try:\n                heapq.heappush(heap, next(it))\n            except StopIteration:\n                pass\n\n\nif __name__ == '__main__':\n    iters = [iter([1, 2, 3, 5, 10, 11, 12]), iter([2, 5, 8, 11, 13, 15]), iter([1, 4, 5, 6, 8, 10, 11])]\n    for i in merge_iterators(iters):\n        print(i)"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_inputs(*inputs):\n    \"\"\"Merge sorted inputs into a single sorted iterator.\"\"\"\n    if not inputs:\n        return\n    pq = []\n    for i in inputs:\n        for v in i:\n            heappush(pq, v)\n\n    while pq:\n        yield heappop(pq)\n\n\ndef test_merge_sorted_inputs():\n    \"\"\"Test for merge_sorted_inputs.\"\"\"\n    inputs = [\n        [1, 3, 5, 7, 9],\n        [0, 2, 4, 6, 8],\n        [1, 3, 5, 7, 9, 11, 13, 15],\n    ]\n    assert [i for i in merge_sorted_inputs(*inputs)] == [\n        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15\n    ]\n\n    inputs = [\n        [1, 3, 5, 7, 9],\n        [1, 3, 5, 7, 9, 11, 13, 15],\n    ]\n    assert [i for i in merge_sorted_inputs(*inputs)] == [\n        1, 1, 3, 3, 5, 5, 7, 7, 9, 9, 11, 13, 15\n    ]\n\n    inputs = []\n    assert [i for i in merge_sorted_inputs(*inputs)] == []"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef create_heap(iterable, key=None):\n    \"\"\"Create a min-heap from iterable\"\"\"\n    heap = []\n    for item in iterable:\n        heappush(heap, item)\n    return heap\n\n\ndef merge(*iterables, key=None):\n    \"\"\"Merge multiple sorted iterables into a single sorted iterator.\n\n    :param iterables: the iterables to be merged\n    :param key: key function to sort the items\n    :return: the iterator that yields items from iterables in sorted order\n    \"\"\"\n    if len(iterables) < 1:\n        return iter([])\n    if len(iterables) == 1:\n        return iter(iterables[0])\n\n    if key is None:\n        key = lambda x: x\n\n    heap = create_heap(iterables, key=key)\n    while heap:\n        yield heappop(heap)\n\n\ndef test_merge():\n    assert list(merge()) == []\n    assert list(merge([1, 3, 5])) == [1, 3, 5]\n    assert list(merge([1, 3, 5], [2, 4, 6])) == [1, 2, 3, 4, 5, 6]\n    assert list(merge([1, 3, 5], [2, 4, 6], [7, 8, 9])) == [1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n    assert list(merge([1, 3, 5], [2, 4, 6], [7, 8, 9], key=lambda x: -x)) == [9, 8, 7, 5, 4, 3, 2, 1, 0]"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "import heapq\nfrom typing import Iterable, Iterator, List\n\n\ndef heap_queue_merge(iterables: List[Iterable[int]]) -> Iterator[int]:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(n)\n    \"\"\"\n    heap: List[int] = []\n    for iterable in iterables:\n        for item in iterable:\n            heapq.heappush(heap, item)\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == \"__main__\":\n    print(list(heap_queue_merge([[1, 2, 3], [2, 3, 4], [3, 4, 5]])))"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge(iterables):\n    h = []\n\n    for iterable in iterables:\n        for item in iterable:\n            heappush(h, item)\n\n    while h:\n        yield heappop(h)\n\n\nif __name__ == '__main__':\n    print(list(merge([[1, 2, 3], [3, 4, 5], [5, 6, 7]])))"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from typing import Iterator\n\n\ndef merge(iters: list[Iterator[int]]) -> Iterator[int]:\n    \"\"\"Merge multiple sorted inputs into a single sorted iterator.\n\n    Args:\n        iters (list[Iterator[int]]): list of iterators\n\n    Yields:\n        Iterator[int]: yielding merged iterator\n    \"\"\"\n    heap = []\n\n    for iter_ in iters:\n        try:\n            heap.append((next(iter_), iter_))\n        except StopIteration:\n            continue\n\n    heap.sort(key=lambda x: x[0])\n\n    while heap:\n        _, iter_ = heap.pop(0)\n        try:\n            yield next(iter_)\n            heap.append((next(iter_), iter_))\n        except StopIteration:\n            continue\n\n\nif __name__ == \"__main__\":\n    print([x for x in merge([iter([1, 3, 4, 6, 7, 9]), iter([2, 4, 5, 8, 10])])])"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from heapq import heappop, heappush\n\n\ndef create_heap(data):\n    h = []\n    for item in data:\n        heappush(h, item)\n    return h\n\n\ndef merge_sorted_iterators(iterators):\n    h = create_heap(iterators)\n\n    while h:\n        yield heappop(h)\n\n\ndef test_merge_sorted_iterators():\n    a = [1, 3, 5, 7]\n    b = [2, 4, 6, 8]\n    c = [1, 3, 5, 7, 9]\n    assert list(merge_sorted_iterators([a, b, c])) == [1, 2, 3, 4, 5, 6, 7, 8, 9]"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef merge_sorted_lists(iterators):\n    \"\"\"\n    :param iterators: List of iterators of sorted numbers\n    :return: iterator of sorted numbers\n    \"\"\"\n    heap = []\n    for iterator in iterators:\n        try:\n            heappush(heap, iterator.__next__())\n        except StopIteration:\n            continue\n    while heap:\n        yield heappop(heap)\n        try:\n            heappush(heap, iterator.__next__())\n        except StopIteration:\n            continue\n\n\nif __name__ == '__main__':\n    for number in merge_sorted_lists([iter([1, 2, 3]), iter([1, 5, 6]), iter([3, 4, 10, 20, 30, 40, 50, 60])]):\n        print(number)"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "import heapq\n\n\ndef merge_sorted_arrays(arr):\n    if not arr:\n        return\n    heap = []\n    for x in arr:\n        heapq.heappush(heap, x)\n    while heap:\n        yield heapq.heappop(heap)\n\n\nif __name__ == '__main__':\n    print([x for x in merge_sorted_arrays([[1, 2, 3], [3, 4, 5], [5, 6, 7]])])"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef create_heap(iterable):\n    \"\"\"\n    Create a heapq from an iterable\n    \"\"\"\n    heap = []\n    for item in iterable:\n        heappush(heap, item)\n    return heap\n\n\ndef merge_sorted_iter(iterables):\n    \"\"\"\n    Merge multiple sorted iterables into a single sorted iterator.\n    \"\"\"\n    heap = create_heap(iterables)\n    while heap:\n        yield heappop(heap)\n\n\ndef test_merge_sorted_iter():\n    \"\"\"Test for merge_sorted_iter function.\"\"\"\n    assert list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]])) == [1, 2, 3, 4, 5, 6]\n\n\nif __name__ == \"__main__\":\n    print(list(merge_sorted_iter([[1, 3, 5], [2, 4, 6]])))"
+    }
+  ]
+}

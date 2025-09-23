@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/64",
+    "prompt": "\nFIX = \"\"\"\nAdd more test cases.\n\"\"\"\n\ndef vowels_count(s):\n    \"\"\"Write a function vowels_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n",
+    "canonical_solution": "    vowels = \"aeiouAEIOU\"\n    n_vowels = sum(c in vowels for c in s)\n    if s[-1] == 'y' or s[-1] == 'Y':\n        n_vowels += 1\n    return n_vowels\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate(\"abcde\") == 2, \"Test 1\"\n    assert candidate(\"Alone\") == 3, \"Test 2\"\n    assert candidate(\"key\") == 2, \"Test 3\"\n    assert candidate(\"bye\") == 1, \"Test 4\"\n    assert candidate(\"keY\") == 2, \"Test 5\"\n    assert candidate(\"bYe\") == 1, \"Test 6\"\n    assert candidate(\"ACEDY\") == 3, \"Test 7\"\n\n    # Check some edge cases that are easy to work out by hand.\n    assert True, \"This prints if this assert fails 2 (also good for debugging!)\"\n\n",
+    "entry_point": "vowels_count",
+    "docstring": "",
+    "problem_id": 64
+  },
+  "model_name": "codegen-2b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# Check for the presence of vowels in the beginning of the word.\n    if s[0] in \"aeiou\":\n        return 1\n    # Check for the presence of vowels in the end of the word.\n    if s[-1] in \"aeiou\":\n        return 1\n    # Check for the presence of vowels in the middle of the word.\n    for i in range(1, len(s) - 1):\n        if s[i] in \"aeiou\":\n            return 1\n    return 0\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      2.498046875
+    ],
+    [
+      "return sum(1 for letter in s if letter in \"aeiouy\")\n\nif __name__ == \"__main__\":\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcdeY\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcdeY\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcdeY\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcdeY\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcdeY\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count",
+      2.19921875
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiou\")\n\ndef main():\n    \"\"\"Main function.\"\"\"\n    print(__doc__)\n    print(FIX)\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      1.4892578125
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\ndef main():\n    \"\"\"Write a program that prints the first names of the 100\n    most frequent names in the file words.txt. The file words.txt\n    should contain one word per line.\n    \"\"\"\n    with open(\"words.txt\") as f:\n        data = f.readlines()\n\n    # Get the most frequent words\n    frequent_words = []\n    for word in data:\n        word = word.strip()\n        if word not in frequent_words:\n            frequent_words.append(word)\n\n    # Get the number of vowels for each word\n    frequent_vowels = {}\n    for word in frequent_words:\n        frequent_vowels[word] = vowels_count(word)\n\n    # Sort the words by frequency\n    sorted_words = sorted(frequent_words, key=frequent_vowels.get, reverse=True)\n\n    # Print the first 10 most frequent words\n    for i in range(10):\n        print(sorted_words[i])\n\nif __name__ == \"__main__\":\n    main()",
+      0.560546875
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in \"aeiou\":\n            count += 1\n        elif c == \"y\":\n            if s[-1]!= \"e\":\n                count += 1\n    return count\n\n\nclass TestVowels_count(unittest.TestCase):\n    def test_vowels_count(self):\n        self.assertEqual(vowels_count(\"Hello\"), 1)\n        self.assertEqual(vowels_count(\"Hello World\"), 2)\n        self.assertEqual(vowels_count(\"Hello World!\"), 3)\n        self.assertEqual(vowels_count(\"Hello World! Bye!\"), 4)\n        self.assertEqual(vowels_count(\"\"), 0)\n        self.assertEqual(vowels_count(\"abcd\"), 0)\n        self.assertEqual(vowels_count(\"a\"), 0)\n        self.assertEqual(vowels_count(\"aa\"), 0)\n        self.assertEqual(vowels_count(\"a\"), 0)\n        self.assertEqual(vowels_count(\"a\"), 0)\n        self.assertEqual(vowels_count(\"a\"), 0)\n        self.assertEqual(vowels_count(\"a\"), 0)\n        self.assertEqual(vowels_count(\"\"), 0)\n\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      0.3974609375
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\ndef test_vowels_count():\n    assert vowels_count('abcde') == 2\n    assert vowels_count('ACEDY') == 3\n\ndef main():\n    print('Testing vowel count')\n    assert vowels_count('abcde') == 2\n    assert vowels_count('ACEDY') == 3\n    print('Testing vowels count')\n    assert vowels_count(FIX) == 4\n\nif __name__ == '__main__':\n    main()",
+      -0.05224609375
+    ],
+    [
+      "return sum(1 for char in s if char in \"aeiouy\")\n\ndef main():\n    \"\"\"Run the test cases.\"\"\"\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello world\") == 5\n    assert vowels_count(\"Hello world!\") == 7\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"Hello world!\") == 7\n    assert vowels_count(\"Hello world!\") == 7\n    assert vowels_count(\"Hello world!\") == 7\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels_count(\"Hello\") == 2\n    assert vowels",
+      -0.427978515625
+    ],
+    [
+      "return sum([1 for c in s if c in 'aeiouy'])\n\ndef words_count(s):\n    \"\"\"Write a function words_count which takes a string as input\n    and returns the number of words in the string. Words are separated\n    by space.\n\n    Example:\n    >>> words_count(\"abcde\")\n    2\n    >>> words_count(\"ACEDY\")\n    4\n    \"\"\"\n    return len(s.split())\n\ndef words_count_2(s):\n    \"\"\"Write a function words_count which takes a string as input\n    and returns the number of words in the string. Words are separated\n    by space.\n\n    Example:\n    >>> words_count_2(\"abcde\")\n    2\n    >>> words_count_2(\"ACEDY\")\n    4\n    \"\"\"\n    return len(s.split(' '))\n\ndef words_count_3(s):\n    \"\"\"Write a function words_count which takes a string as input\n    and returns the number of words in the string. Words are separated\n    by space.\n\n    Example:\n    >>> words_count_3(\"abcde\")\n    2\n    >>> words_count_3(\"ACEDY\")\n    4\n    \"\"\"\n    return len(s.split())\n\nif __name__ == \"__main__\":\n    print(__doc__)",
+      -0.495849609375
+    ],
+    [
+      "vowels = set(\"aeiou\")\n    return len(s.translate(None, 'aeiouy')) - len(s.translate(None, vowels))\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()\n    print('Test cases:', doctest.testmod().failed)",
+      -0.55712890625
+    ],
+    [
+      "# Count the vowels\n    vowels = 0\n    for c in s:\n        if c in 'aeiou':\n            vowels += 1\n    # Count the vowels at the end of the word\n    if 'y' in s:\n        vowels += 1\n    return vowels\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return sum(1 for char in s if char in \"aeiouy\")\n\ndef main():\n    \"\"\"Main function.\n    \"\"\"\n    print(__doc__)\n\n    if len(sys.argv) == 1:\n        print(FIX)\n        return\n\n    s = sys.argv[1]\n    print(vowels_count(s))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "count = 0\n    for i in s:\n        if i == 'a':\n            count += 1\n        elif i == 'e':\n            count += 1\n        elif i == 'i':\n            count += 1\n        elif i == 'o':\n            count += 1\n        elif i == 'u':\n            count += 1\n        elif i == 'y':\n            count += 1\n    return count\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return sum([1 for c in s if c.isalpha()])\n\ndef main():\n    \"\"\"The main function.\"\"\"\n    print(FIX)\n    print(vowels_count(\"Hello\"))\n    print(vowels_count(\"Hello\"))\n    print(vowels_count(\"Hello\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return len(filter(lambda x: x in 'aeiouy', s))\n\ndef main():\n    \"\"\"Run the vowel count function on the provided test case.\n    \"\"\"\n    print vowels_count(FIX)\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in 'aeiou':\n            count += 1\n    if s[-1] in 'aeiou':\n        count += 1\n    return count\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return sum(s.endswith(v) for v in 'aeiouy')\n\n\ndef main():\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"AaAaAaAaAaAa\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\ndef main():\n    print(vowels_count(input(\"> \")))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return sum(s.count(char) for char in vowels)\n\nif __name__ == \"__main__\":\n    print(vowels_count(\"abcde\"))",
+      -0.85693359375
+    ],
+    [
+      "count = 0\n    for i in s:\n        if i == 'a' or i == 'e' or i == 'i' or i == 'o' or i == 'u':\n            count += 1\n    return count\n\ndef main():\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in \"aeiou\":\n            count += 1\n        elif c == \"y\" and c == s[-1]:\n            count += 1\n    return count\n\ndef main():\n    print(vowels_count(\"a\"))\n    print(vowels_count(\"ab\"))\n    print(vowels_count(\"abc\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return sum([s.count(c) for c in 'aeiouy'])\n\ndef main():\n    print vowels_count(input())\n    print vowels_count(FIX)\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return sum(1 for c in s if c.isupper())\n\nif __name__ == \"__main__\":\n    print(vowels_count(sys.argv[1]))",
+      -0.85693359375
+    ],
+    [
+      "count = 0\n    for ch in s:\n        if ch in \"aeiou\":\n            count += 1\n        elif ch == \"y\":\n            if s[-1] == ch:\n                count += 1\n    return count\n\nif __name__ == '__main__':\n    print(vowels_count(FIX))",
+      -0.85693359375
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\ndef main():\n    print(__doc__)\n    print(FIX)\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "count = 0\n    for letter in s:\n        if letter in vowels:\n            count += 1\n    if s[-1] in vowels:\n        count += 1\n    return count\n\nif __name__ == \"__main__\":\n    print(vowels_count(input(\"Please enter a string: \")))",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiou\")\n\nif __name__ == \"__main__\":\n    print(vowels_count(input(\"Enter a word: \")))",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for char in s if char in 'aeiouy')\n\n\nif __name__ == '__main__':\n    print(__doc__)",
+      -0.85791015625
+    ],
+    [
+      "return sum([1 for c in s if c in 'aeiouy'])\n\ndef main():\n    \"\"\"Run the vowel count test cases.\"\"\"\n    print(\"Vowels count test cases:\")\n    for s in [\"abcde\", \"ACEDY\", \"AEDY\"]:\n        print(s, \"->\", vowels_count(s))\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\nif __name__ == '__main__':\n    for test_case in range(1, int(input()) + 1):\n        print(\"Case #{}: {}\".format(test_case, vowels_count(input())))",
+      -0.85791015625
+    ],
+    [
+      "vowels = 'aeiou'\n    count = 0\n    for i in range(len(s)):\n        if s[i] in vowels:\n            count += 1\n    if len(s) == len(vowels):\n        count -= 1\n    return count\n\ndef main():\n    \"\"\"Write a function, test_vowels, which takes a string as an argument\n    and returns a string where vowels have been replaced with 'x'.\n\n    Example:\n    >>> test_vowels(\"abcde\")\n    'axbcy'\n    >>> test_vowels(\"ACEDY\")\n    'ACxEDy'\n    \"\"\"\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "count = 0\n    for char in s:\n        if char in \"aeiou\":\n            count += 1\n    if s[-1] in \"aeiou\":\n        count += 1\n    return count\n\nif __name__ == '__main__':\n    print(FIX)\n    print(vowels_count(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"hello world\"))",
+      -0.85791015625
+    ],
+    [
+      "return sum(map(lambda x: x in 'aeiouy' and x not in 'aeiouy' + s[-1],\n                   range(1, len(s) + 1)))\n\ndef test_vowels_count():\n    \"\"\"Test vowels_count function.\n    \"\"\"\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n\nif __name__ == '__main__':\n    assert vowels_count(FIX) == 4\n    print \"Success\"",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiou\")\n\ndef main():\n    \"\"\"Main function.\n\n    Execute this function and it will be run as a unit test.\n    \"\"\"\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abcdey\"))\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for char in s if char in \"aeiouy\")\n\nif __name__ == \"__main__\":\n    print(vowels_count(\"A\"))",
+      -0.85791015625
+    ],
+    [
+      "return sum([s.endswith(c) for c in 'aeiouy'])\n\ndef main():\n    \"\"\"Write a program that prints the count of vowels in each word in\n    the file words.txt.\n    \"\"\"\n    with open(\"words.txt\", \"r\") as f:\n        for word in f:\n            print(vowels_count(word))\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "return sum([1 for c in s if c in \"aeiouy\"])\n\nif __name__ == \"__main__\":\n    print(FIX)\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\nif __name__ == '__main__':\n    s = input('Enter a string: ')\n    print(vowels_count(s))",
+      -0.85791015625
+    ],
+    [
+      "vowel_count = 0\n    for c in s:\n        if c in 'aeiou':\n            vowel_count += 1\n        elif c == 'y':\n            if s[-1] == c:\n                vowel_count += 1\n    return vowel_count\n\n\nif __name__ == \"__main__\":\n    print(__doc__)",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for c in s if c.lower() in VOWELS)\n\nVOWELS = ['a', 'e', 'i', 'o', 'u']\n\ndef main():\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"a\"))\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\nif __name__ == \"__main__\":\n    print(__doc__)\n    print(FIX)\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3",
+      -0.85791015625
+    ],
+    [
+      "vowels = 'aeiouy'\n    return sum(s.endswith(v) for v in vowels)\n\n\ndef main():\n    \"\"\"Run the main program.\"\"\"\n    print(FIX)\n    print(vowels_count(\"apple\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "return sum([1 for ch in s if ch in \"aeiouy\"])\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "vowels = [\"a\", \"e\", \"i\", \"o\", \"u\"]\n    count = 0\n    for letter in s:\n        if letter in vowels:\n            count += 1\n        elif letter == \"y\":\n            if s[-1] in vowels:\n                count += 1\n    return count\n\ndef main():\n    \"\"\"\n    Test your function using the test cases.\n    \"\"\"\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"acbde\") == 1\n    assert vowels_count(\"abcdey\") == 4\n    assert vowels_count(\"abcdey\") == 4\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "count = 0\n    for letter in s:\n        if letter in \"aeiou\":\n            count += 1\n        elif letter == \"y\":\n            if s[-1] in \"aeiou\":\n                count += 1\n    return count\n\ndef test_vowels_count():\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"abcdY\") == 2\n    assert vowels_count(\"abcdY\") == 3\n    assert vowels_count(\"abcdY\") == 3\n\ndef main():\n    print(__doc__)\n    print(FIX)\n    test_vowels_count()\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "count = 0\n    for char in s:\n        if char.lower() == char.upper():\n            count += 1\n    if s[-1] == \"y\":\n        count += 1\n    return count\n\n\ndef main():\n    print(vowels_count(\"hello\"))\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in 'aeiou':\n            count += 1\n        elif c == 'y':\n            if s[-1] == 'e':\n                count += 1\n        else:\n            raise ValueError(\"Invalid character: %s\" % c)\n    return count\n\ndef main():\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "# Count the number of vowels\n    count = 0\n    for i in range(len(s)):\n        if s[i] == 'a' or s[i] == 'e' or s[i] == 'i' or s[i] == 'o' or s[i] == 'u':\n            count += 1\n    # If there is a 'y' at the end of the string, add 1\n    if s[-1] == 'y':\n        count += 1\n    return count\n\nif __name__ == \"__main__\":\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))",
+      -0.8583984375
+    ],
+    [
+      "return sum(1 for x in s if x in \"aeiouy\")\n\n\ndef main():\n    \"\"\"Run the program using the test cases above.\n    \"\"\"\n    for test_case in test_cases:\n        print(vowels_count(test_case))\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "vowels = set('aeiouy')\n    return sum(1 for x in s if x in vowels)\n\ndef main():\n    \"\"\"Main function.\n\n    Input:\n    The first line of input is the string representing a word.\n    The second line of input is the number of vowels in the string.\n\n    Output:\n    Prints the number of vowels in the given word.\n    \"\"\"\n    test_cases = map(lambda x: x.split(' '), sys.stdin)\n    for test_case in test_cases:\n        s = test_case[0]\n        v = int(test_case[1])\n        print vowels_count(s)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "# I have no idea how to write this.\n    return 0\n\ndef main():\n    \"\"\"Call the vowels_count function and print its output.\"\"\"\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\ndef main():\n    \"\"\"Write a function to check whether a given string is a palindrome\n    or not.\n\n    Example:\n    >>> is_palindrome(\"abcd\")\n    True\n    >>> is_palindrome(\"abcde\")\n    False\n    >>> is_palindrome(\"abcd\")\n    False\n    \"\"\"\n    pass\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "count = 0\n    for i in range(len(s)):\n        if s[i] in \"aeiou\":\n            count += 1\n        elif s[i] == \"y\":\n            if i == len(s)-1:\n                count += 1\n    return count\n\ndef main():\n    print(__doc__)\n    print(FIX)\n    test_cases = [(\"abcde\", 2), (\"ACEDY\", 3)]\n    for tc in test_cases:\n        print(\"Vowels_count({}) = {}\".format(tc[0], vowels_count(tc[0])))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "count = 0\n    for ch in s:\n        if ch in \"aeiou\":\n            count += 1\n        elif ch == \"y\":\n            if s[-1] == \"y\":\n                count += 1\n    return count\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "return sum(1 for i in s if i in \"aeiouy\")\n\nif __name__ == \"__main__\":\n    print(vowels_count(\"abcd\"))\n    print(vowels_count(\"abcdxy\"))\n    print(vowels_count(\"acdey\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcdey\"))\n    print(vowels_count(\"a\"))\n    print(vowels_count(\"ab\"))\n    print(vowels_count(\"abc\"))\n    print(vowels_count(\"xy\"))\n    print(vowels_count(\"xyz\"))",
+      -0.85888671875
+    ],
+    [
+      "vowels = 'aeiouy'\n    s = s.lower()\n    count = 0\n    for c in s:\n        if c in vowels:\n            count += 1\n        elif c == 'y':\n            count += 1 if s[-1] in vowels else 0\n    return count\n\ndef main():\n    \"\"\"Execute the program.\n\n    The main function is a thin wrapper around the functions\n    in this module.\n    \"\"\"\n    print(__doc__)\n    print(FIX)\n    vowels_count(\"ACEDY\")\n    vowels_count(\"ABCDE\")\n    vowels_count(\"aabcdey\")\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "vowels = \"aeiouy\"\n    count = 0\n    for i in range(len(s)):\n        if s[i] in vowels:\n            count += 1\n    if s[-1] in vowels:\n        count += 1\n    return count\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "return sum(1 for c in s if c.lower() in VOWELS)\n\ndef main():\n    \"\"\"Main program function.\"\"\"\n    import sys\n    if len(sys.argv) == 1:\n        print(FIX)\n    else:\n        s = sys.argv[1]\n        print(vowels_count(s))\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\nif __name__ == '__main__':\n    print(FIX)\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))",
+      -0.85888671875
+    ],
+    [
+      "count = 0\n    for i in range(len(s)):\n        if s[i] == 'a' or s[i] == 'e' or s[i] == 'i' or s[i] == 'o' or s[i] == 'u':\n            count += 1\n        elif s[i] == 'y' and i!= len(s) - 1:\n            count += 1\n    return count\n\ndef main():\n    \"\"\"Write a program that prints the following output:\n    For every word in the file words.txt, print the number of vowels\n    in the word. If the word has no vowels, print '0'.\n    For example:\n    words.txt:\n    The word 'abc' has 3 vowels.\n    The word 'xyz' has 0 vowels.\n    The word 'pqrs' has 0 vowels.\n    \"\"\"\n    words_file = open('words.txt', 'r')\n    words_list = words_file.read().splitlines()\n    words_file.close()\n    for word in words_list:\n        print word, vowels_count(word)\n\nif __name__ == '__main__':\n    main()",
+      -1.1474609375
+    ],
+    [
+      "count = 0\n    for i in s:\n        if i == 'a' or i == 'e' or i == 'i' or i == 'o' or i == 'u':\n            count += 1\n    return count\n\n\ndef main():\n    \"\"\"\n    >>> vowels_count(\"\")\n    0\n    >>> vowels_count(\"a\")\n    1\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n    print(FIX)\n\n\nif __name__ == '__main__':\n    main()",
+      -1.3056640625
+    ],
+    [
+      "return sum(1 for c in s if c in vowels)\n\ndef main():\n    \"\"\"The main function of the program. It runs the tests\n    and prints the result.\n\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    >>> vowels_count(\"\")\n    0\n    >>> vowels_count(\"\")\n    0\n    \"\"\"\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"\") == 0\n\nif __name__ == \"__main__\":\n    main()",
+      -1.3388671875
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\ndef main():\n    \"\"\"\n    Check the test cases and run the function vowels_count.\n    \"\"\"\n    print \"Test case 1:\"\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"a\") == 1\n    assert vowels_count(\"aaa\") == 3\n    assert vowels_count(\"aaaac\") == 5\n    assert vowels_count(\"aaaacdd\") == 7\n    assert vowels_count(\"aaaacddee\") == 9\n    assert vowels_count(\"aaaacddeee\") == 11\n    assert vowels_count(\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      -1.373046875
+    ],
+    [
+      "return sum(1 for i in s if i in \"aeiouy\")\n\n\ndef main():\n    print(\"Vowels_count:\", vowels_count(input(\"Enter a word: \")))\n    print(\"Vowels_count_FIX:\", vowels_count_FIX(input(\"Enter a word: \")))\n\nif __name__ == \"__main__\":\n    main()",
+      -1.4169921875
+    ],
+    [
+      "vowel_count = 0\n    for char in s:\n        if char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u':\n            vowel_count += 1\n        elif char == 'y':\n            if s[-1] == 'y':\n                vowel_count += 1\n    return vowel_count\n\ndef vowel_count_test():\n    \"\"\"Use the function vowel_count to test the function.\n\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    >>> vowels_count(\"abcdezz\")\n    1\n    \"\"\"\n    print \"vowel_count:\", vowel_count(\"abcde\")\n    print \"vowel_count_test:\", vowel_count_test()\n\ndef main():\n    \"\"\"Run the tests.\"\"\"\n    print \"vowels_count:\", vowels_count(\"abcde\")\n    print \"vowel_count_test:\", vowel_count_test()\n    print \"FIX:\", FIX\n\nif __name__ == \"__main__\":\n    main()",
+      -1.4326171875
+    ],
+    [
+      "return sum([1 for x in s if x in \"aeiouy\"])\n\ndef is_palindrome(s):\n    \"\"\"Write a function is_palindrome which takes a string as input\n    and returns True if the string is a palindrome and False otherwise.\n\n    Example:\n    >>> is_palindrome(\"abcd\")\n    True\n    >>> is_palindrome(\"abcdef\")\n    False\n    \"\"\"\n    return s == s[::-1]\n\ndef is_palindrome_str(s):\n    \"\"\"Write a function is_palindrome_str which takes a string as input\n    and returns True if the string is a palindrome and False otherwise.\n\n    Example:\n    >>> is_palindrome_str(\"abcd\")\n    True\n    >>> is_palindrome_str(\"abcdef\")\n    False\n    \"\"\"\n    return s == s[::-1]\n\ndef is_palindrome_list(s):\n    \"\"\"Write a function is_palindrome_list which takes a list as input\n    and returns True if the list is a palindrome and False otherwise.\n\n    Example:\n    >>> is_palindrome_list([\"abcd\", \"abcde\"])\n    True\n    >>> is_palindrome_list([\"abcdef\"])\n    False\n    \"\"\"\n    return s[::-1] == s\n\ndef is_palindrome_list_str(s):\n    \"\"\"Write a function is_palindrome_list_str which takes a list as input\n    and returns True if the list is a palindrome and False otherwise.\n\n    Example:\n    >>> is_palindrome_list_str([\"abcd\", \"abcde\"])\n    True\n    >>> is_palindrome_list_str([\"abcdef\"])\n    False\n    \"\"\"\n    return s[::-1] == s\n\ndef is_palindrome_tuple(s):\n    \"\"\"Write a function is_palindrome_tuple which takes a tuple as input\n    and returns True if the tuple is a palindrome and False otherwise.\n\n    Example:\n    >>> is_palindrome_tuple((\"abcd\", \"abc",
+      -1.6591796875
+    ],
+    [
+      "count = 0\n    for char in s:\n        if char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u':\n            count += 1\n        elif char == 'y' and s[-1]!= 'e':\n            count += 1\n    return count\n\nif __name__ == \"__main__\":\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"abde\"))\n    print(vowels_count(\"abcd\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vow",
+      -1.6875
+    ],
+    [
+      "vowels = ['a', 'e', 'i', 'o', 'u']\n    return len([c for c in s if c in vowels])\n\ndef main():\n    print(vowels_count(\"abcd\"))\n    print(vowels_count(\"abce\"))\n    print(vowels_count(\"acde\"))\n    print(vowels_count(\"AaCcEeDdEe\"))\n    print(vowels_count(\"AaCcEeDdEeYy\"))\n    print(vowels_count(\"AaCcEeDdEeYyYy\"))\n    print(vowels_count(\"AaCcEeDdEeYyYyYy\"))\n    print(vowels_count(\"AaCcEeDdEeYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYyYy",
+      -1.7705078125
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c == 'a' or c == 'e' or c == 'i' or c == 'o' or c == 'u':\n            count += 1\n        elif c == 'y':\n            if s[-1] == 'e':\n                count += 1\n    return count\n\nif __name__ == '__main__':\n    assert vowels_count('abcde') == 2\n    assert vowels_count('ACEDY') == 3\n    assert vowels_count('ab') == 1\n    assert vowels_count('ac') == 1\n    assert vowels_count('abc') == 2\n    assert vowels_count('a') == 1\n    assert vowels_count('abcdefg') == 6\n    assert vowels_count('abcdef') == 2\n    assert vowels_count('a') == 1\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcd') == 0\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abcde') == 2\n    assert vowels_count('abc",
+      -1.8017578125
+    ],
+    [
+      "count = 0\n    for letter in s:\n        if letter in 'aeiouy':\n            count += 1\n    if len(s) > 0 and s[-1] == 'y':\n        count += 1\n    return count\n\ndef main():\n    \"\"\"Write a test function test_vowels_count that takes a string\n    as input and returns the number of vowels in the string.\n\n    For the purpose of this exercise, vowels are 'a', 'e', 'i', 'o', 'u'\n    and 'y'.\n\n    Example:\n    >>> test_vowels_count(\"abcde\")\n    2\n    >>> test_vowels_count(\"ACEDY\")\n    3\n    >>> test_vowels_count(\"abcde\")\n    2\n    >>> test_vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n    print \"FIX:\", vowels_count(FIX)\n    print \"TESTS:\", vowels_count(TESTS)\n\nif __name__ == '__main__':\n    main()",
+      -1.982421875
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\ndef main():\n    \"\"\"Main function.\n    \"\"\"\n    print(__doc__)\n\n    vowels_count(\"Hello\")\n    print(\"=========================\")\n    vowels_count(\"hello\")\n    print(\"=========================\")\n    vowels_count(\"Hello World\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"=========================\")\n    vowels_count(\"Hello World!\")\n    print(\"================",
+      -2.1015625
+    ],
+    [
+      "count = 0\n    for letter in s:\n        if letter == 'a' or letter == 'e' or letter == 'i' or letter == 'o' or letter == 'u':\n            count += 1\n    if s[-1] == 'y':\n        count += 1\n    return count\n\n\ndef main():\n    \"\"\"Main function.\"\"\"\n    print(__doc__)\n    test_cases = [\n        ('abcde', 2),\n        ('ACEDY', 3),\n        ('AaBCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz', 15),\n        ('', 0)\n    ]\n    for tc in test_cases:\n        print(vowels_count(tc[0]))\n\n\nif __name__ == '__main__':\n    main()",
+      -2.12890625
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\ndef main():\n    print(vowels_count(\"hello\"))\n    print(vowels_count(\"word\"))\n    print(vowels_count(\"word\"))\n    print(vowels_count(\"abcdxy\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"\"))\n    print(vowels_count(\"",
+      -2.30078125
+    ],
+    [
+      "return sum(1 for c in s if c in 'aeiouy')\n\ndef main():\n    \"\"\"Write a program that prints the string 'Add more test cases.'\n    \"\"\"\n    while True:\n        s = input(\"Enter a string: \")\n        if s:\n            print(s)\n            break\n\nif __name__ == '__main__':\n    main()",
+      -2.494140625
+    ],
+    [
+      "return sum(1 for c in s if c.lower() in 'aeiouy')\n\ndef vowel_count(s):\n    \"\"\"Write a function vowel_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'.\n\n    Example:\n    >>> vowel_count(\"abcde\")\n    3\n    >>> vowel_count(\"ACEDY\")\n    4\n    \"\"\"\n    return sum(1 for c in s if c.lower() in 'aeiouy')\n\ndef main():\n    \"\"\"Write a program that counts the vowels in a given string.\"\"\"\n    print(vowels_count(\"a\"))\n    print(vowels_count(\"ac\"))\n    print(vowels_count(\"ad\"))\n    print(vowels_count(\"ae\"))\n    print(vowels_count(\"b\"))\n    print(vowels_count(\"bc\"))\n    print(vowels_count(\"bd\"))\n    print(vowels_count(\"be\"))\n    print(vowels_count(\"c\"))\n    print(vowels_count(\"cd\"))\n    print(vowels_count(\"ce\"))\n    print(vowels_count(\"d\"))\n    print(vowels_count(\"de\"))\n    print(vowels_count(\"e\"))\n    print(vowels_count(\"f\"))\n    print(vowels_count(\"g\"))\n    print(vowels_count(\"h\"))\n    print(vowels_count(\"i\"))\n    print(vowels_count(\"j\"))\n    print(vowels_count(\"k\"))\n    print(vowels_count(\"l\"))\n    print(vowels_count(\"m\"))\n    print(vowels_count(\"n\"))\n    print(vowels_count(\"o\"))\n    print(vowels_count(\"p\"))\n    print(vowels_count(\"q\"))\n    print(vowels_count(\"r\"))\n    print(vowels_count(\"s\"))\n    print(vowels_count(\"t\"))",
+      -2.587890625
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c == \"a\":\n            count += 1\n        elif c == \"e\":\n            count += 1\n        elif c == \"i\":\n            count += 1\n        elif c == \"o\":\n            count += 1\n        elif c == \"u\":\n            count += 1\n        elif c == \"y\":\n            if s[-1]!= \"e\":\n                count += 1\n    return count\n\ndef test_vowels_count():\n    \"\"\"Test vowels_count using sample data.\n    >>> vowels_count(\"Hello\")\n    2\n    >>> vowels_count(\"Hello, World!\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World!\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are you?\")\n    5\n    >>> vowels_count(\"Hello, World! How are",
+      -2.646484375
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c.lower() in vowels:\n            count += 1\n    if len(s) > 1:\n        if s[-1] in vowels:\n            count += 1\n    return count\n\n\ndef main():\n    \"\"\"Run tests.\"\"\"\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"ABDY\") == 0\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"ABCD\") == 0\n    assert vowels_count(\"ABCDXY\") == 3\n    assert vowels_count(\"ABCDXYZ\") == 3\n    assert vowels_count(\"ABCDXYZW\") == 3\n    assert vowels_count(\"ABCDXYZWX\") == 3\n    assert vowels_count(\"ABCDXYZWXF\") == 3\n    assert vowels_count(\"ABCDXYZWXFGH\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKL\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNO\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQ\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQR\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQRST\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQRSTU\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQRSTUW\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQRSTUVWXYZ\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQRSTUVWXYZW\") == 3\n    assert vowels_count(\"ABCDXYZWXFGHJKLMNOPQRSTUVWXYZWX\") == 3",
+      -2.734375
+    ],
+    [
+      "vowels = \"aeiouy\"\n    count = 0\n    for letter in s:\n        if letter in vowels:\n            count += 1\n    if len(s) == 0 or s[-1] not in vowels:\n        return count\n    else:\n        return count + 1\n\ndef main():\n    print(vowels_count(\"Hello\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -2.76953125
+    ],
+    [
+      "count = 0\n    for letter in s:\n        if letter in 'aeiou':\n            count += 1\n    if len(s) == 0:\n        return 0\n    elif s[-1] in 'aeiou':\n        return count + 1\n    else:\n        return count\n\ndef main():\n    print('%s: %s' % (__file__, FIX))\n    print('-' * len(FIX))\n    print(vowels_count('abc'))\n    print(vowels_count('abcde'))\n    print(vowels_count('ACEDY'))\n    print(vowels_count('hello'))\n    print(vowels_count('Hello'))\n\nif __name__ == '__main__':\n    main()",
+      -2.787109375
+    ],
+    [
+      "return sum(1 for c in s if c in \"aeiouy\")\n\ndef consonants_count(s):\n    \"\"\"Write a function consonants_count which takes a string as input\n    and returns the number of consonants in the string. Consonants in this\n    case are 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k','m', 'n', 'p', 'q',\n    'r','s', 't', 'v', 'w', 'x', 'y', 'z'.\n\n    Example:\n    >>> consonants_count(\"abcde\")\n    1\n    >>> consonants_count(\"ACEDY\")\n    2\n    \"\"\"\n    return sum(1 for c in s if c not in \"aeiouy\")\n\ndef main():\n    print(__doc__)\n    print(FIX)\n    print(vowels_count(\"abcde\"))\n    print(vowels_count(\"ACEDY\"))\n    print(consonants_count(\"abcde\"))\n    print(consonants_count(\"ACEDY\"))\n\nif __name__ == \"__main__\":\n    main()",
+      -2.79296875
+    ],
+    [
+      "return sum([s.count(c) for c in vowels if c!= \"y\"])\n\n\ndef main():\n    \"\"\"Use the built-in print function to display the test cases.\n    When the input string is \"\", print \"0\".\n    \"\"\"\n    print(\"Test case 1:\")\n    assert vowels_count(\"\") == 0\n    print(vowels_count(\"abcde\"))\n\n    print(\"Test case 2:\")\n    assert vowels_count(\"abcde\") == 2\n    print(vowels_count(\"ACEDY\"))\n\n    print(\"Test case 3:\")\n    assert vowels_count(\"abcd\") == 1\n    print(vowels_count(\"abcdz\"))\n\n    print(\"Test case 4:\")\n    assert vowels_count(\"abce\") == 2\n    print(vowels_count(\"abcey\"))\n\n    print(\"Test case 5:\")\n    assert vowels_count(\"abcdz\") == 1\n    print(vowels_count(\"abcdzxy\"))\n\n    print(\"Test case 6:\")\n    assert vowels_count(\"abcdey\") == 3\n    print(vowels_count(\"abcdexyz\"))\n\n    print(\"Test case 7:\")\n    assert vowels_count(\"abcdezy\") == 2\n    print(vowels_count(\"abcdezyx\"))\n\n    print(\"Test case 8:\")\n    assert vowels_count(\"abcedy\") == 1\n    print(vowels_count(\"abcedyz\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -2.82421875
+    ],
+    [
+      "return sum(1 for c in s if c in vowels)\n\ndef main():\n    \"\"\"Write a function, main that takes a string as input and returns\n    a string that is the same string with a trailing 'e' if its length\n    is longer than one character.\n\n    Example:\n    >>> main(\"Hello\")\n    'Hello'\n    >>> main(\"Hello World\")\n    'Hello World'\n    >>> main(\"Hello World\")\n    'Hello World'\n    >>> main(\"Hello World!\")\n    'Hello World!'\n    >>> main(\"Hello World! How are you?\")\n    'Hello World!'\n    >>> main(\"Hello World! How are you?\")\n    'Hello World!'\n    >>> main(\"I'm feeling lucky.\")\n    'I\\'m feeling lucky.'\n    >>> main(\"I'm feeling lucky.\")\n    'I\\'m feeling lucky.'\n    >>> main(\"I'm feeling lucky.\")\n    'I\\'m feeling lucky.'\n    \"\"\"\n    print(FIX)\n\nif __name__ == \"__main__\":\n    main()",
+      -3.02734375
+    ],
+    [
+      "vowels = 'aeiouy'\n    if s[-1] in vowels:\n        return len(s) - 1\n    else:\n        return sum(1 for c in s if c in vowels)\n\ndef main():\n    \"\"\"\n    >>> vowels_count('abcde')\n    2\n    >>> vowels_count('ACEDY')\n    3\n    \"\"\"\n    print(FIX)\n\nif __name__ == '__main__':\n    main()",
+      -3.20703125
+    ],
+    [
+      "return sum(1 for char in s if char in \"aeiouy\")\n\n\ndef words_count(s):\n    \"\"\"Write a function words_count which takes a string representing\n    a word as input and returns the number of words in the string.\n    Here, a word is defined as a string of non-vowels.\n\n    Example:\n    >>> words_count(\"abcde\")\n    2\n    >>> words_count(\"ACEDY\")\n    2\n    >>> words_count(\"abcdeY\")\n    1\n    >>> words_count(\"ACEDYZ\")\n    1\n    \"\"\"\n    return sum(1 for char in s if char not in \"aeiouy\")\n\n\ndef main():\n    print(__doc__)\n\n    # Test cases\n    print(vowels_count(\"hello\"))\n    print(vowels_count(\"ACEDY\"))\n    print(vowels_count(\"helloACEDY\"))\n    print(vowels_count(\"ACEDYZ\"))\n    print(words_count(\"hello\"))\n    print(words_count(\"ACEDY\"))\n    print(words_count(\"helloACEDY\"))\n    print(words_count(\"ACEDYZ\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.3984375
+    ],
+    [
+      "vowels = 0\n    for i in range(len(s)):\n        if s[i] in 'aeiou':\n            vowels += 1\n        elif s[i] == 'y':\n            if i!= len(s) - 1 and s[i + 1] in 'aeiou':\n                vowels += 1\n    return vowels\n\ndef is_vowel(s):\n    \"\"\"Write a function is_vowel which takes a string representing\n    a word as input and returns true if the word contains only vowels\n    (case insensitive) and false otherwise.\n    >>> is_vowel(\"a\")\n    True\n    >>> is_vowel(\"b\")\n    False\n    >>> is_vowel(\"abcde\")\n    True\n    >>> is_vowel(\"ACEDY\")\n    False\n    >>> is_vowel(\"ac\")\n    False\n    \"\"\"\n    return vowels_count(s) == len(s)\n\ndef words_count(s):\n    \"\"\"Write a function words_count which takes a string representing\n    a word as input and returns the number of words in the string.\n    Words in this case are words that contain only vowels (case insensitive).\n\n    Example:\n    >>> words_count(\"a\")\n    1\n    >>> words_count(\"ab\")\n    2\n    >>> words_count(\"abcde\")\n    3\n    >>> words_count(\"ACEDY\")\n    2\n    >>> words_count(\"ac\")\n    0\n    \"\"\"\n    return len([w for w in s.split() if is_vowel(w)])\n\nif __name__ == '__main__':\n    print(FIX)\n    print(vowels_count(\"abcde\"))\n    print(words_count(\"a\"))\n    print(words_count(\"ab\"))\n    print(words_count(\"abcde\"))\n    print(words_count(\"ACEDY\"))\n    print(words_count(\"ac\"))",
+      -3.744140625
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in 'aeiou':\n            count += 1\n    if s[-1] in 'aeiou':\n        count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n    print(\"Testing vowels_count:\")\n    print(\"Vowels_count('') = \", vowels_count(''))\n    print(\"Vowels_count('abcd') = \", vowels_count('abcd'))\n    print(\"Vowels_count('abcde') = \", vowels_count('abcde'))\n    print(\"Vowels_count('ACEDY') = \", vowels_count('ACEDY'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_count('abcdey'))\n    print(\"Vowels_count('abcdey') = \", vowels_",
+      -3.93359375
+    ],
+    [
+      "count = 0\n    for char in s:\n        if char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u':\n            count += 1\n        elif char == 'y':\n            if s[-1] == 'y':\n                count += 1\n    return count\n\ndef main():\n    print(vowels_count('abcde'))\n    print(vowels_count('ACEDY'))\n    print(vowels_count('AaAa'))\n    print(vowels_count('AaBb'))\n    print(vowels_count('AaCc'))\n    print(vowels_count('AaDd'))\n    print(vowels_count('AaEe'))\n    print(vowels_count('AaFf'))\n    print(vowels_count('AaGg'))\n    print(vowels_count('AaHh'))\n    print(vowels_count('AaIi'))\n    print(vowels_count('AaJj'))\n    print(vowels_count('AaKk'))\n    print(vowels_count('AaLl'))\n    print(vowels_count('AaMm'))\n    print(vowels_count('AaNn'))\n    print(vowels_count('AaOo'))\n    print(vowels_count('AaPp'))\n    print(vowels_count('AaQq'))\n    print(vowels_count('AaRr'))\n    print(vowels_count('AaSs'))\n    print(vowels_count('AaTt'))\n    print(vowels_count('AaUu'))\n    print(vowels_count('AaVv'))\n    print(vowels_count('AaWw'))\n    print(vowels_count('AaXx'))\n    print(vowels_count('AaYy'))",
+      -4.48046875
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in 'aeiouy':\n            count += 1\n    if s[-1] in 'aeiouy':\n        count += 1\n    return count\n\ndef test_vowels_count(s):\n    assert vowels_count(s) == 2\n\nif __name__ == \"__main__\":\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"a\") == 1\n    assert vowels_count(\"aac\") == 2\n    assert vowels_count(\"abc\") == 2\n    assert vowels_count(\"aabb\") == 1\n    assert vowels_count(\"aa\") == 1\n    assert vowels_count(\"aaa\") == 2\n    assert vowels_count(\"aaaa\") == 3\n    assert vowels_count(\"aaaaa\") == 4\n    assert vowels_count(\"aaaaaa\") == 5\n    assert vowels_count(\"aaaaaaaaa\") == 6\n    assert vowels_count(\"aaaaaaaaaaa\") == 7\n    assert vowels_count(\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      -4.69921875
+    ],
+    [
+      "return sum(vowel_counter(s[i:]) for i in range(len(s)) if s[i] in vowels)\n\ndef vowel_counter(s):\n    \"\"\"Write a function vowel_counter which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowel_counter(\"abcde\")\n    2\n    >>> vowel_counter(\"ACEDY\")\n    3\n    \"\"\"\n    return sum(1 for i in range(len(s)) if s[i] in vowels)\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -4.83203125
+    ],
+    [
+      "return len(set(s)) - len(set(s).difference(set(\"aeiouy\")))\n\n\ndef main():\n    \"\"\"Write a function main that takes a string as input and returns\n    the sum of the numbers in the string.\n\n    Example:\n    >>> main(\"add\")\n    7\n    >>> main(\"subtract\")\n    -2\n    \"\"\"\n    return sum(map(lambda s: int(s), input().split()))\n\n\ndef test_vowels_count():\n    \"\"\"Test the vowels_count function using the test cases from the\n    README.\n\n    Run the test cases and compare your output to the fixed one.\n\n    Note:\n    You may assume that vowels_count will only be called with strings\n    that contain only lowercase letters.\n    \"\"\"\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"abcdefghijklmnopqrstuvwxyz\") == 26\n    assert vowels_count(\"a\") == 1\n    assert vowels_count(\"aa\") == 2\n    assert vowels_count(\"aaa\") == 3\n    assert vowels_count(\"aaaa\") == 4\n    assert vowels_count(\"aaaaa\") == 5\n    assert vowels_count(\"aaaaaa\") == 6\n    assert vowels_count(\"abcdefghijklmnopqrstuvwxyz\") == 26\n\n\ndef test_main():\n    assert main(\"add\") == 7\n    assert main(\"subtract\") == -2\n\n\nif __name__ == \"__main__\":\n    test_vowels_count()\n    test_main()",
+      -4.875
+    ],
+    [
+      "count = 0\n    for i in range(len(s)):\n        if s[i] == \"a\" or s[i] == \"e\" or s[i] == \"i\" or s[i] == \"o\" or s[i] == \"u\":\n            count += 1\n        elif s[i] == \"y\" and i!= len(s) - 1:\n            count += 1\n    return count\n\ndef vowel_count(s):\n    \"\"\"Write a function vowel_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'.\n\n    Example:\n    >>> vowel_count(\"abcde\")\n    2\n    >>> vowel_count(\"ACEDY\")\n    3\n    \"\"\"\n    count = 0\n    for i in range(len(s)):\n        if s[i] == \"a\" or s[i] == \"e\" or s[i] == \"i\" or s[i] == \"o\" or s[i] == \"u\":\n            count += 1\n    return count\n\ndef is_vowel(s):\n    \"\"\"Write a function is_vowel which takes a string representing\n    a word as input and returns true if the string contains only vowels\n    and false otherwise.\n\n    Example:\n    >>> is_vowel(\"abcde\")\n    True\n    >>> is_vowel(\"ACEDY\")\n    False\n    \"\"\"\n    for i in range(len(s)):\n        if s[i] not in \"aeiou\":\n            return False\n    return True\n\ndef vowel_count_2(s):\n    \"\"\"Write a function vowel_count_2 which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'.\n\n    Example:\n    >>> vowel_count_2(\"abcde\")\n    2\n    >>> vowel_count_2(\"ACEDY\")\n    3\n    \"\"\"\n    count = 0\n    for i in range(len(s",
+      -4.9921875
+    ],
+    [
+      "# Return the number of vowels in the given string.\n    # If the last character is a vowel, then return the number of vowels + 1.\n    # If the last character is not a vowel, then return the number of vowels.\n    # If the last character is not a vowel and the next character is a vowel,\n    # then return the number of vowels + 1.\n    # If the last character is not a vowel and the next character is not a vowel,\n    # then return the number of vowels.\n    # If the last character is not a vowel and the next character is not a vowel and the next character is not a vowel,\n    # then return the number of vowels.\n    # If the last character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel,\n    # then return the number of vowels.\n    # If the last character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel,\n    # then return the number of vowels.\n    # If the last character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next character is not a vowel and the next",
+      -6.1796875
+    ],
+    [
+      "# Create a list of vowels.\n    vowels = ['a', 'e', 'i', 'o', 'u']\n\n    # Return the number of vowels in the given string.\n    return sum(vowels.count(c) for c in s)\n\ndef main():\n    \"\"\"Run the tests.\"\"\"\n    # Run the tests.\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"abcd\") == 2\n    assert vowels_count(\"abcde\") == 3\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"AB\") == 2\n    assert vowels_count(\"ABA\") == 1\n    assert vowels_count(\"ABAB\") == 2\n    assert vowels_count(\"ABAC\") == 2\n    assert vowels_count(\"ABACD\") == 3\n    assert vowels_count(\"ABCDE\") == 4\n    assert vowels_count(\"ABCDEY\") == 5\n    assert vowels_count(\"ABCDY\") == 4\n    assert vowels_count(\"ABCDY\") == 4\n    assert vowels_count(\"ABD\") == 2\n    assert vowels_count(\"ABABDAB\") == 1\n    assert vowels_count(\"ABABDABDE\") == 6\n    assert vowels_count(\"ABABDABCD\") == 6\n    assert vowels_count(\"ABABDABCDED\") == 6\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels_count(\"ABABDABCDEDY\") == 7\n    assert vowels",
+      -6.20703125
+    ],
+    [
+      "vowels = 'aeiou'\n    return len(s.translate(str.maketrans(vowels,''*len(vowels))))\n\ndef fix_vowels_count(s):\n    \"\"\"Write a function fix_vowels_count which takes a string representing\n    a word as input and returns a string with the same number of vowels\n    as the input string. The vowels in this case are 'a', 'e', 'i', 'o',\n    'u'.\n\n    Example:\n    >>> fix_vowels_count(\"abcde\")\n    'abcde'\n    >>> fix_vowels_count(\"ACEDY\")\n    'ACEDY'\n    \"\"\"\n    vowels = 'aeiou'\n    return s.translate(str.maketrans(vowels,''*len(vowels)))\n\ndef main():\n    \"\"\"Run the test cases.\n    \"\"\"\n    # test cases:\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"a\") == 1\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert fix_vowels_count(\"\") == ''\n    assert fix_vowels_count(\"a\") == 'a'\n    assert fix_vowels_count(\"abcde\") == 'abcde'\n    assert fix_vowels_count(\"ACEDY\") == 'ACEDY'\n\n    # run the test cases:\n    print \"FIX =\", FIX\n    print \"vowels_count =\", vowels_count\n    print \"fix_vowels_count =\", fix_vowels_count\n    print \"vowels_count == fix_vowels_count =\", vowels_count == fix_vowels_count\n\nif __name__ == \"__main__\":\n    main()",
+      -6.6640625
+    ],
+    [
+      "return sum([1 for c in s if c.lower() in \"aeiouy\"])\n\ndef words_count(s):\n    \"\"\"Write a function words_count which takes a string representing\n    a word as input and returns the number of times the word appears\n    in the given string.\n    Here, 'a' is a word, 'c' is a capital letter, and 'z' is a small letter.\n\n    Example:\n    >>> words_count(\"abcde\")\n    2\n    >>> words_count(\"accedy\")\n    4\n    >>> words_count(\"abce\")\n    0\n    \"\"\"\n    return len(s.split())\n\ndef words_in_order(s):\n    \"\"\"Write a function words_in_order which takes a string representing\n    a word as input and returns the words in the given string in the\n    order they appear. Here, 'a' is a word, 'c' is a capital letter, and 'z' is a small letter.\n\n    Example:\n    >>> words_in_order(\"abcde\")\n    ['abcde']\n    >>> words_in_order(\"accedy\")\n    ['accedy', 'acce']\n    >>> words_in_order(\"abce\")\n    ['abce']\n    \"\"\"\n    return s.split()\n\ndef words_in_reversed_order(s):\n    \"\"\"Write a function words_in_reversed_order which takes a string\n    representing a word as input and returns the words in the given\n    string in the reverse order they appear. Here, 'a' is a word, 'c'\n    is a capital letter, and 'z' is a small letter.\n\n    Example:\n    >>> words_in_reversed_order(\"abcde\")\n    ['de', 'ce', 'bc']\n    >>> words_in_reversed_order(\"accedy\")\n    ['edy', 'ced', 'ace']\n    >>> words_in_reversed_order(\"abce\")\n    ['ce', 'bc', 'ae']\n    \"\"\"\n    return s.split()[::-1]\n\ndef words_in_random_order(s):\n    \"\"\"Write a function words_in_random",
+      -6.81640625
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in \"aeiou\":\n            count += 1\n    if s[-1] in \"aeiou\":\n        count += 1\n    return count\n\ndef main():\n    \"\"\"Run the tests and print the results\"\"\"\n    tests = [\n        (\"Hello\", 3),\n        (\"Hello World\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"Hello world\", 5),\n        (\"",
+      -6.87109375
+    ],
+    [
+      "return sum(1 for c in s if c.isalpha())\n\n\ndef consonants_count(s):\n    \"\"\"Write a function consonants_count which takes a string representing\n    a word as input and returns the number of consonants in the string.\n    Consonants in this case are 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k',\n   'm', 'n', 'p', 'q', 'r','s', 't', 'v', 'w', 'x', 'z'.\n\n    Example:\n    >>> consonants_count(\"abcde\")\n    2\n    >>> consonants_count(\"ACEDY\")\n    2\n    \"\"\"\n    return sum(1 for c in s if c.islower())\n\n\ndef main():\n    \"\"\"Run the main function.\"\"\"\n    print(__doc__)\n    print(FIX)\n    print(\"Testing vowels_count...\")\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"abcdefghijklmnopqrstuvwxyz\") == 26\n    assert vowels_count(\"abcdefghijklmnopqrstuvwxyz\") == 26\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"A\") == 1\n    assert vowels_count(\"ABCDE\") == 2\n    assert vowels_count(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\") == 26\n    assert vowels_count(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\") == 26\n    assert vowels_count(\"\") == 0\n    print(\"Passed vowel_count test.\")\n    print(\"Testing consonants_count...\")\n    assert consonants_count(\"abcde\") == 2\n    assert consonants_count(\"ACEDY\") == 2\n    assert consonants_count(\"abcdefghijklmnopqrstuvwxyz\") == 26\n    assert consonants_count(\"abcdefghijklmnopqrstuvwxyz\") == 26\n    assert consonants_count(\"\") == 0\n    assert consonants_count(\"A\") ==",
+      -7.29296875
+    ],
+    [
+      "vowels = 'aeiouy'\n    return len(s.strip(vowels))\n\nif __name__ == \"__main__\":\n    print(__doc__)\n    print(FIX)\n    print(vowels_count(\"Hello\"))\n    print(vowels_count(\"I'm fine\"))\n    print(vowels_count(\"He's fine\"))\n    print(vowels_count(\"He's fine, he's fine\"))\n    print(vowels_count(\"Hello, I'm fine\"))\n    print(vowels_count(\"I'm fine, he's fine\"))\n    print(vowels_count(\"I'm fine, he's fine, he's fine\"))\n    print(vowels_count(\"I'm fine, he's fine, he's fine, he's fine\"))",
+      -8.109375
+    ],
+    [
+      "count = 0\n    for c in s:\n        if c in vowels:\n            count += 1\n        elif c == 'y':\n            if len(s) > 2 and s[-2:] == 'y':\n                count += 1\n    return count\n\nif __name__ == '__main__':\n    print(vowels_count('abcde'))\n    print(vowels_count('ACEDY'))\n    print(vowels_count('abcd'))\n    print(vowels_count('xyz'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde'))\n    print(vowels_count('xyzabcde",
+      -10.828125
+    ],
+    [
+      "count = 0\n    for ch in s:\n        if ch in vowels:\n            count += 1\n    if s[-1] in vowels:\n        count += 1\n    return count\n\nif __name__ == '__main__':\n    # tests\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"hello\") == 0\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"\") == 0\n    assert vowels_count(\"abcd\") == 0\n    assert vowels_count(\"a\") == 1\n    assert vowels_count(\"ab\") == 1\n    assert vowels_count(\"aab\") == 1\n    assert vowels_count(\"aabc\") == 1\n    assert vowels_count(\"aabb\") == 1\n    assert vowels_count(\"aabbb\") == 1\n    assert vowels_count(\"aabbcc\") == 1\n    assert vowels_count(\"aabbcccc\") == 1\n    assert vowels_count(\"aabbccccc\") == 1\n    assert vowels_count(\"aabbcccccc\") == 1\n    assert vowels_count(\"aabbccccccc\") == 1\n    assert vowels_count(\"aabbcccccccc\") == 1\n    assert vowels_count(\"aabbccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccc\") == 1\n    assert vowels_count(\"aabbccccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccccc\") == 1\n    assert vowels_count(\"aabbccccccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccccccccccccc\") == 1\n    assert vowels_count(\"aabbcccccccccccccccccccccc\") == 1",
+      -13.015625
+    ],
+    [
+      "return sum(1 for c in s if c.lower() in vowels)\n\ndef test_vowels_count():\n    assert vowels_count(\"abcde\") == 2\n    assert vowels_count(\"ACEDY\") == 3\n    assert vowels_count(\"abcd\") == 0\n    assert vowels_count(\"xyz\") == 0\n    assert vowels_count(\"xyzq\") == 0\n    assert vowels_count(\"x\") == 0\n\ndef main():\n    print(__doc__)\n    if len(sys.argv) > 1:\n        f = open(sys.argv[1], \"r\")\n        s = f.read()\n        f.close()\n        print(s)\n        print(vowels_count(s))\n    else:\n        print(FIX)\n\nif __name__ == \"__main__\":\n    main()",
+      -13.8828125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

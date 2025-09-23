@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/137",
+    "prompt": "\ndef compare_one(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be . or ,\n\n    compare_one(1, 2.5) \u279e 2.5\n    compare_one(1, \"2,3\") \u279e \"2,3\"\n    compare_one(\"5,1\", \"6\") \u279e \"6\"\n    compare_one(\"1\", 1) \u279e None\n    \"\"\"\n",
+    "canonical_solution": "    temp_a, temp_b = a, b\n    if isinstance(temp_a, str): temp_a = temp_a.replace(',','.')\n    if isinstance(temp_b, str): temp_b = temp_b.replace(',','.')\n    if float(temp_a) == float(temp_b): return None\n    return a if float(temp_a) > float(temp_b) else b \n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate(1, 2) == 2\n    assert candidate(1, 2.5) == 2.5\n    assert candidate(2, 3) == 3\n    assert candidate(5, 6) == 6\n    assert candidate(1, \"2,3\") == \"2,3\"\n    assert candidate(\"5,1\", \"6\") == \"6\"\n    assert candidate(\"1\", \"2\") == \"2\"\n    assert candidate(\"1\", 1) == None\n\n    # Check some edge cases that are easy to work out by hand.\n    assert True\n\n",
+    "entry_point": "compare_one",
+    "docstring": "",
+    "problem_id": 137
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "return a if a > b else b\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      3.9296875
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      2.771484375
+    ],
+    [
+      "if a > b:\n        return a\n    elif b > a:\n        return b\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      1.4052734375
+    ],
+    [
+      "if isinstance(a, str):\n        a = float(a)\n\n    if isinstance(b, str):\n        b = float(b)\n\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None\n\n\nprint(compare_one(\"1\", \"2.5\"))",
+      0.78515625
+    ],
+    [
+      "if type(a) == int or type(a) == float:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == str:\n        if a == \",\":\n            return b\n        elif a == \".\":\n            return None\n        else:\n            return None\n    else:\n        return None\n\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int or type(a) == float:\n        if a < b:\n            return a\n        else:\n            return b\n    elif type(a) == str:\n        if a == \",\":\n            return b\n        elif a == \".\":\n            return None\n        else:\n            return None\n    else:\n        return None\n\n\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int or type(a) == float:\n        if a",
+      -0.1885986328125
+    ],
+    [
+      "if type(a) is not int and type(a) is not float and type(a) is not str:\n        return None\n    if type(b) is not int and type(b) is not float and type(b) is not str:\n        return None\n    if a > b:\n        return a\n    else:\n        return b\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is not int and type(a) is not float and type(a) is not str:\n        return None\n    if type(b) is not int and type(b) is not float and type(b) is not str:\n        return None\n    if a < b:\n        return a\n    else:\n        return b",
+      -0.2332763671875
+    ],
+    [
+      "return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    return None\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_four(1, 2.5) \u279e 2.5\n    compare_four(1, \"2,3\") \u279e \"2,3\"\n    compare_four(\"5,1\", \"6\") \u279e \"6\"\n    compare_four(\"1\", 1) \u279e None\n    \"\"\"\n    return None\n\n\ndef compare_five(a,",
+      -0.849609375
+    ],
+    [
+      "if type(a) == int or type(a) == float or type(a) == str:\n        return a\n    elif type(a) == str:\n        if a.find(',')!= -1:\n            return a.replace(',', '.')\n        else:\n            return None\n    elif type(a) == list:\n        if len(a) == 0:\n            return None\n        elif a[0] == b:\n            return a[1]\n        else:\n            return None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return b\n    elif type(a) == int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == float:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == str:\n        if a == b:\n            return a\n        else:\n            return b\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) is int:\n        return a if type(b) is float else None\n    elif type(a) is float:\n        return b if type(b) is int else None\n    elif type(a) is str:\n        return a if type(b) is float else None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) is int or type(b) is int or type(a) is float or type(b) is float:\n        return a if a > b else b\n    elif type(a) is str and type(b) is str:\n        return a if a in b else b\n    else:\n        return None",
+      -0.85693359375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return a\n        else:\n            return b\n    elif type(a) == type(b) == int:\n        return a\n    elif type(a) == type(b) == float:\n        return b\n    elif type(a) == type(b) == str:\n        if a == b:\n            return a\n        else:\n            return None\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) == int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == float:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == str:\n        if a.count(',') > 0:\n            a_list = a.split(',')\n            a_list = list(map(float, a_list))\n            if len(a_list) > 0:\n                if a_list[0] > b:\n                    return a_list[0]\n                else:\n                    return a_list[1]\n            else:\n                return None\n        else:\n            return None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if a > b:\n        return a\n    elif a == b:\n        return None\n    elif a < b:\n        return b\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) is int:\n        return a if a > b else b\n    elif type(a) is float:\n        return a if a > b else b\n    elif type(a) is str:\n        return a if a in b else None\n    else:\n        raise TypeError('input must be integer, float, or string')\n\n\nif __name__ == '__main__':\n    print(compare_one(1, 2.5))\n    print(compare_one(1, \"2,3\"))\n    print(compare_one(\"5,1\", \"6\"))\n    print(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) == int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == float:\n        if a > b:\n            return b\n        else:\n            return a\n    elif type(a) == str:\n        if a.count(',') > 0:\n            return b\n        else:\n            return None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    elif a == b:\n        return None\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if type(a) == type(b):\n        if type(a) == str:\n            if a.lower() == b.lower():\n                return None\n            else:\n                return a\n        else:\n            return a\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85693359375
+    ],
+    [
+      "if a == b:\n        return None\n    else:\n        return (a if a!= b else b)",
+      -0.85693359375
+    ],
+    [
+      "if a == b:\n        return None\n    elif a == \"2,3\":\n        return \"2,3\"\n    elif a == \"5,1\":\n        return \"6\"\n    else:\n        return a",
+      -0.85693359375
+    ],
+    [
+      "if a == b:\n        return a\n    else:\n        return b",
+      -0.85791015625
+    ],
+    [
+      "if type(a) is int:\n        return a if a > b else b\n    elif type(a) is float:\n        return a if a > b else b\n    elif type(a) is str:\n        return a if a == b else None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85791015625
+    ],
+    [
+      "if a > b:\n        return a\n    elif a == b:\n        return None\n    else:\n        return b\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85791015625
+    ],
+    [
+      "if type(a) == type(b):\n        if a.isnumeric() and b.isnumeric():\n            return float(a) / float(b)\n        elif a.isnumeric() and type(b) == type(str(\"\")):\n            return a.split(\",\")[0]\n        elif a.isnumeric() and type(b) == type(str(\"\")):\n            return a.split(\",\")[1]\n        elif a.isnumeric() and type(b) == type(str(\"\")):\n            return a.split(\",\")[2]\n        else:\n            return None\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85791015625
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return a\n        else:\n            return None\n    elif type(a) == str:\n        return a.replace(\",\", \".\")\n    elif type(b) == str:\n        return b.replace(\",\", \".\")\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.85791015625
+    ],
+    [
+      "if isinstance(a, (int, float)) and isinstance(b, (int, float)):\n        return a if a > b else b\n    elif isinstance(a, str) and isinstance(b, str):\n        a = a.replace(\",\", \".\")\n        b = b.replace(\",\", \".\")\n        return a if a > b else b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))  # \u279e 2.5\nprint(compare_one(1, \"2,3\"))  # \u279e \"2,3\"\nprint(compare_one(\"5,1\", \"6\"))  # \u279e \"6\"\nprint(compare_one(\"1\", 1))  # \u279e None",
+      -0.85791015625
+    ],
+    [
+      "if type(a) == str:\n        a = float(a)\n    if type(b) == str:\n        b = float(b)\n    if a < b:\n        return a\n    elif a > b:\n        return b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == int:\n        return a\n    if type(b) == int:\n        return b\n    if type(a) == float:\n        return a\n    if type(b) == float:\n        return b\n    if type(a) == str:\n        if type(b) == str:\n            return a\n        if type(b) == float:\n            return b\n        if type(b) == int:\n            return None\n    return None\n\n\n# test cases\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == str:\n        a = float(a)\n    if type(b) == str:\n        b = float(b)\n\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None",
+      -0.8583984375
+    ],
+    [
+      "if type(a) is int or type(a) is float:\n        return a if a > b else b\n    elif type(a) is str:\n        if a.isnumeric():\n            return float(a) if a!= \".\" else None\n        elif a.isalpha():\n            return None\n        else:\n            return None\n    else:\n        return None\n\n\n# Tests\nassert compare_one(1, 2.5) == 2.5, \"2.5\"\nassert compare_one(1, \"2,3\") == \"2,3\", \"2,3\"\nassert compare_one(\"5,1\", \"6\") == \"6\", \"6\"\nassert compare_one(\"1\", 1) == None, \"1\"",
+      -0.8583984375
+    ],
+    [
+      "if a == b:\n        return None\n    elif type(a) == int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == float:\n        if a > b:\n            return a\n        else:\n            return b\n    else:\n        return a",
+      -0.8583984375
+    ],
+    [
+      "if type(a) is int or type(b) is int:\n        return a\n    elif type(a) is float or type(b) is float:\n        return b\n    elif type(a) is str and type(b) is str:\n        a = a.replace(',', '.')\n        b = b.replace(',', '.')\n        return float(a) if a.endswith('.') else float(b)\n    elif a == b:\n        return None\n    else:\n        return \"The two values are not equal.\"",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == int:\n        return a\n    if type(b) == float:\n        return b\n    if type(a) == str:\n        return a.replace(\",\", \".\")\n    if type(b) == str:\n        return b.replace(\",\", \".\")\n\n    return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    elif type(a) == int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == float:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) == str:\n        if a.count(\",\") == b.count(\",\"):\n            return a\n        else:\n            return b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))  # \u279e 2.5\nprint(compare_one(1, \"2,3\"))  # \u279e \"2,3\"\nprint(compare_one(\"5,1\", \"6\"))  # \u279e \"6\"\nprint(compare_one(\"1\", 1))  # \u279e None",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == type(b):\n        return a\n    elif type(a) == str:\n        a = float(a)\n    elif type(a) == int:\n        a = float(a)\n    elif type(a) == float:\n        pass\n    else:\n        return None\n    if type(b) == str:\n        b = float(b)\n    elif type(b) == int:\n        b = float(b)\n    elif type(b) == float:\n        pass\n    else:\n        return None\n    return a if a > b else b",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        elif a > b:\n            return a\n        elif a < b:\n            return b\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.8583984375
+    ],
+    [
+      "return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    return None",
+      -0.8583984375
+    ],
+    [
+      "if a == b:\n        return None\n    if type(a) == str:\n        a = float(a)\n    if type(b) == str:\n        b = float(b)\n    return a if a > b else b\n\n\n# test 1\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))\n\n# test 2\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))\n\n# test 3\nprint(compare_one(\"1\", \"2.5\"))\nprint(compare_one(\"1\", \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == str:\n        a = float(a)\n    if type(b) == str:\n        b = float(b)\n\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None\n\n\nprint(compare_one(\"1\", 2.5))\nprint(compare_one(\"1\", \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.8583984375
+    ],
+    [
+      "if a == b:\n        return None\n    elif a == \"5\" or a == \"1\":\n        return \"2\"\n    elif a == \"2.5\" or a == \"2\":\n        return \"2.5\"\n    elif a == \"2,3\" or a == \"2.5\":\n        return \"2,3\"\n    elif a == \"2.5,3\" or a == \"2.5\":\n        return \"2.5,3\"\n    elif a == \"2,3,4\" or a == \"2.5,3,4\":\n        return \"2,3,4\"\n    else:\n        return a",
+      -0.8583984375
+    ],
+    [
+      "if a == b:\n        return None\n    elif a == \"2,3\" or a == \"5,1\":\n        return float(a)\n    elif a == \"1\":\n        return int(a)\n    else:\n        return a\n\n\nprint(compare_one(\"2,3\", \"5,1\"))\nprint(compare_one(\"2,3\", \"1\"))\nprint(compare_one(\"1\", \"1\"))\nprint(compare_one(\"1\", \"2\"))\nprint(compare_one(\"1\", \"3\"))\nprint(compare_one(\"1\", \"4\"))\nprint(compare_one(\"1\", \"5\"))\nprint(compare_one(\"1\", \"6\"))",
+      -0.8583984375
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return None",
+      -0.8583984375
+    ],
+    [
+      "if type(a) == int:\n        if a == b:\n            return None\n        else:\n            return a\n    elif type(a) == float:\n        if a == b:\n            return None\n        else:\n            return b\n    elif type(a) == str:\n        if a == b:\n            return None\n        else:\n            return a\n\n    else:\n        raise TypeError\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.86083984375
+    ],
+    [
+      "if a == b:\n        return None\n    elif type(a) == int:\n        return a\n    elif type(a) == float:\n        return a\n    elif type(a) == str:\n        try:\n            a = float(a)\n            return a\n        except:\n            return None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.86083984375
+    ],
+    [
+      "if type(a) == int:\n        if type(b) == int:\n            return a if a > b else b\n        elif type(b) == float:\n            return a if a > b else None\n        else:\n            return None\n    elif type(a) == float:\n        if type(b) == int:\n            return a if a > b else b\n        elif type(b) == float:\n            return a if a > b else None\n        else:\n            return None\n    elif type(a) == str:\n        if type(b) == str:\n            return a if a == b else b\n        elif type(b) == float:\n            return a if a == b else None\n        else:\n            return None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.90869140625
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    elif a == b:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -0.9560546875
+    ],
+    [
+      "if a > b:\n        return a\n    if a < b:\n        return b\n    return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return a\n    if a < b:\n        return b\n    return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return a\n    if a < b:\n        return b\n    return None\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_four(1, 2.5) \u279e 2.5\n    compare_four(1, \"2,3\")",
+      -1.0185546875
+    ],
+    [
+      "if type(a) == type(b):\n        if a > b:\n            return a\n        elif a < b:\n            return b\n    elif type(a) == str:\n        if a == ',':\n            return a\n        elif a == '.':\n            return a\n        else:\n            return None\n    else:\n        return None",
+      -1.02734375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        if a > b:\n            return a\n        else:\n            return b\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -1.33203125
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return b\n    else:\n        if a > b:\n            return a\n        elif b > a:\n            return b\n        else:\n            return a\n\n\nprint(compare_one(1, 2.5))  # \u279e 2.5\nprint(compare_one(1, \"2,3\"))  # \u279e \"2,3\"\nprint(compare_one(\"5,1\", \"6\"))  # \u279e \"6\"\nprint(compare_one(\"1\", 1))  # \u279e None",
+      -1.447265625
+    ],
+    [
+      "if isinstance(a, str):\n        if a.isdigit() and b.isdigit():\n            return float(a) / float(b)\n        else:\n            return None\n    elif isinstance(a, int):\n        if b.isdigit():\n            return a / int(b)\n        else:\n            return None\n    elif isinstance(a, float):\n        if b.isdigit():\n            return a / float(b)\n        else:\n            return None\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -1.587890625
+    ],
+    [
+      "if type(a) is int:\n        if type(b) is float:\n            return a if a > b else b\n        elif type(b) is str:\n            return a if a.replace(\",\", \".\") > b.replace(\",\", \".\") else b\n        elif type(b) is list:\n            return a if a in b else b\n    else:\n        if type(b) is float:\n            return b if b > a else a\n        elif type(b) is str:\n            return b if b.replace(\",\", \".\") > a.replace(\",\", \".\") else a\n        elif type(b) is list:\n            return b if b in a else a\n    return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -1.7041015625
+    ],
+    [
+      "if type(a) is int and type(b) is int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) is float and type(b) is float:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) is str and type(b) is str:\n        if a == b:\n            return a\n        else:\n            return b\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is int and type(b) is int:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) is float and type(b) is float:\n        if a > b:\n            return a\n        else:\n            return b\n    elif type(a) is str and type(b) is str:\n        if a == b:\n            return a\n        else:\n            return b\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"",
+      -2.056640625
+    ],
+    [
+      "if type(a) == str:\n        return a\n    if type(b) == str:\n        return b\n    if type(a) == int:\n        if type(b) == int:\n            return a\n        return b\n    if type(b) == int:\n        return a\n    if type(a) == float:\n        if type(b) == float:\n            return a\n        return b\n    if type(b) == float:\n        return a\n    return None",
+      -2.123046875
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return a\n        else:\n            return b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -2.15234375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    elif type(a) == str:\n        if a.find(',')!= -1:\n            return float(a)\n        else:\n            return int(a)\n    elif type(a) == int:\n        return a\n    elif type(a) == float:\n        return b\n\n# Tests\nprint(compare_one(1, 2.5))  #\u279e 2.5\nprint(compare_one(1, \"2,3\"))  #\u279e \"2,3\"\nprint(compare_one(\"5,1\", \"6\"))  #\u279e \"6\"\nprint(compare_one(\"1\", 1))  #\u279e None",
+      -2.181640625
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -2.24609375
+    ],
+    [
+      "if type(a) is int or type(b) is int:\n        return a\n    elif type(a) is float or type(b) is float:\n        return b\n    elif type(a) is str:\n        a = a.replace(',', '.')\n        return float(a)\n    elif type(b) is str:\n        b = b.replace(',', '.')\n        return float(b)\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -2.32421875
+    ],
+    [
+      "if type(a) == int:\n        if type(b) == float:\n            if a > b:\n                return a\n            else:\n                return b\n        elif type(b) == str:\n            a = float(a)\n            b = float(b)\n            if a > b:\n                return a\n            else:\n                return b\n    elif type(a) == float:\n        if type(b) == str:\n            a = float(a)\n            b = float(b)\n            if a > b:\n                return a\n            else:\n                return b\n        elif type(b) == int:\n            return a\n    elif type(a) == str:\n        a = float(a)\n        b = float(b)\n        if a > b:\n            return a\n        else:\n            return b\n\n    return None",
+      -2.388671875
+    ],
+    [
+      "if a == b:\n        return None\n    elif a == 0.0:\n        return 0\n    elif b == 0.0:\n        return 0\n    elif a == 1.0:\n        return 1\n    elif b == 1.0:\n        return 1\n    elif a == -1.0:\n        return -1\n    elif b == -1.0:\n        return -1\n    elif a == -2.0:\n        return -2\n    elif b == -2.0:\n        return -2\n    elif a == -3.0:\n        return -3\n    elif b == -3.0:\n        return -3\n    elif a == -4.0:\n        return -4\n    elif b == -4.0:\n        return -4\n    elif a == -5.0:\n        return -5\n    elif b == -5.0:\n        return -5\n    elif a == -6.0:\n        return -6\n    elif b == -6.0:\n        return -6\n    elif a == -7.0:\n        return -7\n    elif b == -7.0:\n        return -7\n    elif a == -8.0:\n        return -8\n    elif b == -8.0:\n        return -8\n    elif a == -9.0:\n        return -9\n    elif b == -9.0:\n        return -9\n    elif a == -10.0:\n        return -10\n    elif b == -10.0:\n        return -10\n    elif a == -11.0:\n        return -11\n    elif b == -11.0:\n        return -11\n    elif a == -12.0:\n        return -12\n    elif b == -12.0:\n        return -12\n    elif a == -13.0:\n        return -13\n    elif b == -13.0:\n        return -13\n    elif a == -14.0:\n        return -14\n    elif b == -14.0:\n        return -14\n    elif a == -15.0:\n        return -15\n    elif b == -15.0:\n        return",
+      -2.6015625
+    ],
+    [
+      "if type(a) == int:\n        if a == b:\n            return None\n        return a\n    elif type(a) == float:\n        return b\n    elif type(a) == str:\n        if a == b:\n            return None\n        return a\n    else:\n        raise TypeError(\"Invalid type for a\")\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -2.626953125
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    elif a == b:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e None\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e 2.5\n    \"\"\"\n    if a > b:\n        return b\n    elif a < b:\n        return a\n    elif a == b:\n        return None\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the tallest variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5, 3) \u279e None\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e 2.5\n    \"\"\"\n    if a > b and a > c:\n        return a\n    elif a < b and a < c:\n        return b\n    elif a == b and a == c:\n        return None\n\n\ndef compare_four(a, b, c, d):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the fifth variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string",
+      -2.654296875
+    ],
+    [
+      "if type(a) == str and type(b) == str:\n        return a if a.replace(',', '.') > b else b\n    elif type(a) == int and type(b) == int:\n        return a if a > b else b\n    elif type(a) == float and type(b) == float:\n        return a if a > b else b\n    return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == str and type(b) == str:\n        return a if a.replace(',', '.') > b else b\n    elif type(a) == int and type(b) == int:\n        return a if a > b else b\n    elif type(a) == float and type(b) == float:\n        return a if a > b else b\n    return None\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes three integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type",
+      -2.751953125
+    ],
+    [
+      "if type(a) == int or type(a) == float or type(a) == str:\n        if a > b:\n            return a\n        elif a < b:\n            return b\n        else:\n            return None\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int or type(a) == float or type(a) == str:\n        if a < b:\n            return a\n        elif a > b:\n            return b\n        else:\n            return None\n    else:\n        return None\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int or type(a) == float or type(a) == str:\n        if a < b and a < c:\n            return a\n        elif b < a and b < c:\n            return b\n        elif c < a and c < b:",
+      -2.779296875
+    ],
+    [
+      "if type(a) is not int or type(b) is not int:\n        return None\n    if a > b:\n        return a\n    else:\n        return b\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is not int or type(b) is not int:\n        return None\n    if a < b:\n        return a\n    else:\n        return b\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the ternary variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e True\n    compare_three(1, \"2,3\") \u279e False\n    compare_three(\"5,1\", \"6\") \u279e False\n    compare_three(\"1\", 1) \u279e True\n    \"\"\"\n    if type(a) is not int or type(b) is not int:\n        return None\n    if a >= b:\n        return True\n    else:\n        return False\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the fifth variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point",
+      -2.9453125
+    ],
+    [
+      "if a == b:\n        return None\n    elif a > b:\n        return a\n    else:\n        return b\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n\n    if a == b:\n        return None\n    elif a > b:\n        return b\n    else:\n        return a\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n\n    if a == b:\n        return None\n    elif a > b:\n        return b\n    else:\n        return a\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_four(1, 2.5) \u279e 2.5",
+      -2.97265625
+    ],
+    [
+      "if type(a) is int or type(a) is float:\n        return a if a > b else b\n    elif type(a) is str:\n        return a if a.replace(',', '.') > b else b\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -3.2890625
+    ],
+    [
+      "if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:\n        return a if a > b else b\n    elif type(a) == str:\n        try:\n            return float(a) if a.count(\",\") > 1 else a\n        except:\n            return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int:\n        return a if a < b else b\n    elif type(a) == float:\n        return a if a < b else b\n    elif type(a) == str:\n        try:\n            return float(a) if a.count(\",\") > 1 else a\n        except:\n            return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:",
+      -3.419921875
+    ],
+    [
+      "if type(a) == int:\n        if a == b:\n            return None\n        elif a > b:\n            return a\n    elif type(a) == float:\n        if a == b:\n            return None\n        elif a > b:\n            return b\n    elif type(a) == str:\n        if a == b:\n            return None\n        elif a > b:\n            return b\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -3.71484375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n\n    if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n\n    if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating",
+      -3.771484375
+    ],
+    [
+      "if type(a) == int:\n        if a > b:\n            return a\n    elif type(a) == float:\n        if a > b:\n            return a\n    elif type(a) == str:\n        if a.isdigit():\n            if a.isdigit():\n                if b.isdigit():\n                    if a.isdigit() and b.isdigit():\n                        if int(a) > int(b):\n                            return a\n                        else:\n                            return b\n                    else:\n                        return a\n                else:\n                    return a\n            else:\n                return a\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -3.8046875
+    ],
+    [
+      "if type(a) == type(b):\n        if type(a) == int:\n            return a if a > b else b\n        if type(a) == float:\n            return a if a > b else b\n        if type(a) == str:\n            return a if a.count(',') > 0 else None\n    else:\n        return None",
+      -4.01171875
+    ],
+    [
+      "if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:\n        return a if a > b else b\n    elif type(a) == str:\n        a = a.replace(',', '.')\n        return float(a) if a.isdigit() else None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 1\n    compare_two(1, \"2,3\") \u279e 2\n    compare_two(\"5,1\", \"6\") \u279e 1\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int:\n        return a if a < b else b\n    elif type(a) == float:\n        return a if a < b else b\n    elif type(a) == str:\n        a = a.replace(',', '.')\n        return float(a) if a.isdigit() else None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the largest variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2\n    compare_three(1, \"2,3\") \u279e 1\n    compare_three(\"5,1\", \"6\") \u279e 2\n    compare_three(\"1\", 1) \u279e 1\n    \"\"\"\n    if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:\n        return a if a > b else b\n    elif type(a) == str:",
+      -4.0390625
+    ],
+    [
+      "if type(a) == str:\n        a = float(a)\n    if type(b) == str:\n        b = float(b)\n\n    if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:\n        return a if a > b else b\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == str:\n        a = float(a)\n    if type(b) == str:\n        b = float(b)\n\n    if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:\n        return a if a > b else b\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes three integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == str:\n        a = float(a)",
+      -4.0546875
+    ],
+    [
+      "if isinstance(a, int) or isinstance(b, int):\n        if a > b:\n            return a\n        else:\n            return b\n    elif isinstance(a, float) or isinstance(b, float):\n        if a > b:\n            return a\n        else:\n            return b\n    elif isinstance(a, str) or isinstance(b, str):\n        if a > b:\n            return a\n        else:\n            return b\n    else:\n        return None\n\n\n# test\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -4.29296875
+    ],
+    [
+      "if type(a) is int:\n        return a if a > b else None\n    elif type(a) is float:\n        return a if a > b else b\n    elif type(a) is str:\n        try:\n            return float(a) if a!= \",\" else None\n        except ValueError:\n            return None\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is int:\n        return a if a < b else None\n    elif type(a) is float:\n        return a if a < b else b\n    elif type(a) is str:\n        try:\n            return float(a) if a!= \",\" else None\n        except ValueError:\n            return None\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the higher variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is int:\n        return b if b > a else None\n    elif type",
+      -4.296875
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    elif type(a) == float:\n        if b == a:\n            return None\n        else:\n            return b\n    elif type(a) == str:\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -4.3984375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return b\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be",
+      -4.44921875
+    ],
+    [
+      "if type(a) == type(b):\n        if type(a) == int:\n            return a if a > b else b\n        elif type(a) == float:\n            return a if a > b else None\n        elif type(a) == str:\n            return a if a.replace(',', '.') > b else b\n        else:\n            return None\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if type(a) == int:\n            return a if a < b else b\n        elif type(a) == float:\n            return a if a < b else None\n        elif type(a) == str:\n            return a if a.replace(',', '.') < b else None\n        else:\n            return None\n    else:\n        return None",
+      -4.54296875
+    ],
+    [
+      "if type(a) == type(b):\n        if type(a) == int:\n            if a > b:\n                return a\n        elif type(a) == float:\n            if a > b:\n                return b\n        elif type(a) == str:\n            if a == ',':\n                return None\n            if a == '.':\n                return None\n    return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if type(a) == int:\n            if a < b:\n                return a\n        elif type(a) == float:\n            if a < b:\n                return b\n        elif type(a) == str:\n            if a == ',':\n                return None\n            if a == '.':\n                return None\n    return None\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the taller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) ==",
+      -4.6796875
+    ],
+    [
+      "if type(a) is int:\n        return a\n    elif type(a) is float:\n        return a\n    elif type(a) is str:\n        if a.find(\",\")!= -1:\n            return a.replace(\",\", \".\")\n        else:\n            return a\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -4.703125
+    ],
+    [
+      "if type(a) == int or type(b) == int or type(a) == float or type(b) == float:\n        return a\n    elif type(a) == str or type(b) == str:\n        a = a.split(\",\")\n        b = b.split(\",\")\n        for i in a:\n            if float(i) > float(b[0]):\n                return i\n            elif float(i) < float(b[0]):\n                return b[0]\n        return None\n    else:\n        return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -4.70703125
+    ],
+    [
+      "if type(a) is int:\n        return a if a > b else b\n    elif type(a) is float:\n        return a if a > b else None\n    elif type(a) is str:\n        a = a.replace(\",\", \".\")\n        return a if a > b else None\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -4.7265625
+    ],
+    [
+      "if type(a) is int:\n        if type(b) is int:\n            if a > b:\n                return a\n            elif a < b:\n                return b\n        elif type(b) is float:\n            if a > b:\n                return a\n            elif a < b:\n                return b\n    elif type(a) is str:\n        if a.find(',')!= -1:\n            return a.replace(',', '.')\n        else:\n            return a\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))\n\n# \u6d4b\u8bd5\u7528\u4f8b\n\n# \u521b\u5efa\u4e00\u4e2a\u5b9e\u4f8b\na = 1\nb = 1.0\n\n# \u6267\u884c\u4e00\u4e2a\u64cd\u4f5c\nresult = compare_one(a, b)\n\n# \u6253\u5370\u51fa\u6765\nprint(result)\n\n# \u8f93\u51fa\u4e24\u4e2a\u5b9e\u4f8b\nprint(a, b)",
+      -4.9765625
+    ],
+    [
+      "if type(a) == int:\n        if type(b) == float:\n            return a if a > b else b\n        elif type(b) == str:\n            return a if a.split(',')[0] > b.split(',')[0] else b\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -5.4609375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    elif type(a) == int:\n        return a\n    elif type(a) == float:\n        return b\n    elif type(a) == str:\n        if \",\" in a:\n            return a.replace(',', '.')\n        else:\n            return a\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -5.4765625
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    elif a == b:\n        return None\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if a < b:\n        return b\n    elif a > b:\n        return a\n    elif a == b:\n        return None\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return b\n    elif a < b:\n        return a\n    elif a == b:\n        return None\n    else:\n        return None\n\n\ndef compare_four(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as",
+      -5.7109375
+    ],
+    [
+      "if a == b:\n        return None\n    elif a > b:\n        return a\n    elif a < b:\n        return b\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if a == b:\n        return None\n    elif a > b:\n        return b\n    elif a < b:\n        return a\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if a == b:\n        return None\n    elif a > b:\n        return b\n    elif a < b:\n        return a\n    elif a == c:\n        return c\n\ndef compare_four(a, b, c, d):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,",
+      -5.87109375
+    ],
+    [
+      "if type(a) is int and type(b) is int:\n        if a > b:\n            return a\n        elif a < b:\n            return b\n    elif type(a) is float and type(b) is float:\n        if a == b:\n            return None\n        elif a < b:\n            return a\n    elif type(a) is str and type(b) is str:\n        if a.find(\",\") > -1 or a.find(\".\") > -1:\n            return a\n        elif b.find(\",\") > -1 or b.find(\".\") > -1:\n            return b\n    return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -5.92578125
+    ],
+    [
+      "if a > b:\n        return a\n    elif a < b:\n        return b\n    elif a == b:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return b\n    elif a < b:\n        return a\n    elif a == b:\n        return None\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the tallest variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return b\n    elif a < b:\n        return a\n    elif a == b:\n        return None\n\n    elif a > c:\n        return c\n    elif a < c:\n        return b\n    elif a == c:\n        return None\n\n\ndef compare_four(a, b, c, d):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smallest variable in its given variable type.\n    Return None if",
+      -5.93359375
+    ],
+    [
+      "if type(a) == type(b):\n        if a == b:\n            return None\n        else:\n            return a\n    elif type(a) == float:\n        if a == b:\n            return None\n        else:\n            return b\n    elif type(a) == str:\n        if a == b:\n            return None\n        else:\n            return a\n    else:\n        return None\n\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -6.5234375
+    ],
+    [
+      "if type(a)!= type(b):\n        return None\n\n    if a == b:\n        return a\n\n    if a == \"0\":\n        return 0\n\n    if a == \"1\":\n        return 1\n\n    if a == \"2\":\n        return 2\n\n    if a == \"3\":\n        return 3\n\n    if a == \"4\":\n        return 4\n\n    if a == \"5\":\n        return 5\n\n    if a == \"6\":\n        return 6\n\n    if a == \"7\":\n        return 7\n\n    if a == \"8\":\n        return 8\n\n    if a == \"9\":\n        return 9\n\n    if a == \"10\":\n        return 10\n\n    if a == \"11\":\n        return 11\n\n    if a == \"12\":\n        return 12\n\n    if a == \"13\":\n        return 13\n\n    if a == \"14\":\n        return 14\n\n    if a == \"15\":\n        return 15\n\n    if a == \"16\":\n        return 16\n\n    if a == \"17\":\n        return 17\n\n    if a == \"18\":\n        return 18\n\n    if a == \"19\":\n        return 19\n\n    if a == \"20\":\n        return 20\n\n    if a == \"21\":\n        return 21\n\n    if a == \"22\":\n        return 22\n\n    if a == \"23\":\n        return 23\n\n    if a == \"24\":\n        return 24\n\n    if a == \"25\":\n        return 25\n\n    if a == \"26\":\n        return 26\n\n    if a == \"27\":\n        return 27\n\n    if a == \"28\":\n        return 28\n\n    if a == \"29\":\n        return 29\n\n    if a == \"30\":\n        return 30\n\n    if a == \"31\":\n        return 31\n\n    if a == \"32\":\n        return 32\n\n    if a == \"33\":\n        return 33\n\n    if a == \"34\":\n        return 34\n\n    if a == \"35\":\n        return 35\n\n    if a == \"36\":\n        return 36",
+      -6.81640625
+    ],
+    [
+      "if type(a) is float:\n        return a\n    if type(a) is int:\n        return b\n    if type(a) is str:\n        a = float(a)\n        b = float(b)\n    if a > b:\n        return a\n    elif a < b:\n        return b\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is float:\n        return a\n    if type(a) is int:\n        return b\n    if type(a) is str:\n        a = float(a)\n        b = float(b)\n    if a < b:\n        return b\n    elif a > b:\n        return a\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) is float:\n        return a\n    if type(a) is int:\n        return b\n    if type(a) is str:",
+      -6.9296875
+    ],
+    [
+      "if a == b:\n        return None\n    elif a == \"1\" and b == \"1\":\n        return 1\n    elif a == \"1\" and b == \"5\":\n        return 5\n    elif a == \"5\" and b == \"1\":\n        return 1\n    elif a == \"5\" and b == \"5\":\n        return 5\n    elif a == \"5\" and b == \"2\":\n        return 2\n    elif a == \"2\" and b == \"1\":\n        return 1\n    elif a == \"2\" and b == \"2\":\n        return 2\n    elif a == \"2\" and b == \"3\":\n        return 2\n    elif a == \"3\" and b == \"1\":\n        return 3\n    elif a == \"3\" and b == \"2\":\n        return 3\n    elif a == \"3\" and b == \"3\":\n        return 3\n    elif a == \"3\" and b == \"4\":\n        return 3\n    elif a == \"4\" and b == \"1\":\n        return 4\n    elif a == \"4\" and b == \"2\":\n        return 4\n    elif a == \"4\" and b == \"3\":\n        return 4\n    elif a == \"4\" and b == \"4\":\n        return 4\n    elif a == \"4\" and b == \"5\":\n        return 4\n    elif a == \"5\" and b == \"1\":\n        return 5\n    elif a == \"5\" and b == \"2\":\n        return 5\n    elif a == \"5\" and b == \"3\":\n        return 5\n    elif a == \"5\" and b == \"4\":\n        return 5\n    elif a == \"5\" and b == \"5\":\n        return 5\n    elif a == \"5\" and b == \"6\":\n        return 5\n    elif a == \"6\" and b == \"1\":\n        return 6\n    elif a == \"6\" and b == \"2\":\n        return 6\n    elif a == \"6\" and b == \"3\":\n        return 6\n    elif a == \"6\" and b == \"4\":\n        return 6\n    elif a == \"6\" and b == \"5\":",
+      -7.07421875
+    ],
+    [
+      "if type(a) == type(b):\n        if a > b:\n            return a\n        elif a < b:\n            return b\n        elif a == b:\n            return None\n    return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if a < b:\n            return a\n        elif a > b:\n            return b\n        elif a == b:\n            return None\n    return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if a == b:\n            return a\n        elif a < b:\n            return b\n        elif a > b:\n            return a\n        elif a == b:\n            return None\n    return None\n\n\ndef compare_four(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and",
+      -7.28515625
+    ],
+    [
+      "if type(a) == int:\n        return a if a > b else b\n    elif type(a) == float:\n        return a if a > b else b\n    elif type(a) == str:\n        return a if a.find(',') == -1 else b\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes two integers, floats, or strings representing\n    real numbers, and returns the smaller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int:\n        return a if a < b else b\n    elif type(a) == float:\n        return a if a < b else b\n    elif type(a) == str:\n        return a if a.find(',') == -1 else b\n    else:\n        return None\n\n\ndef compare_three(a, b):\n    \"\"\"\n    Create a function that takes three integers, floats, or strings representing\n    real numbers, and returns the taller variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == int:\n        return a if a < b else b\n    elif type(a) == float:\n        return a if a < b else b",
+      -7.89453125
+    ],
+    [
+      "if type(a) == str:\n        if a.find(',') > -1:\n            a = a.split(',')\n        else:\n            a = [float(a)]\n    if type(b) == str:\n        if b.find(',') > -1:\n            b = b.split(',')\n        else:\n            b = [float(b)]\n    for i in a:\n        if i > b[0]:\n            return b[0]\n    return None\n\nprint(compare_one(1, 2.5))\nprint(compare_one(1, \"2,3\"))\nprint(compare_one(\"5,1\", \"6\"))\nprint(compare_one(\"1\", 1))",
+      -8.1640625
+    ],
+    [
+      "if a > b:\n        return a\n    elif b > a:\n        return b\n    else:\n        return None\n\n\ndef compare_two(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_two(1, 2.5) \u279e 2.5\n    compare_two(1, \"2,3\") \u279e \"2,3\"\n    compare_two(\"5,1\", \"6\") \u279e \"6\"\n    compare_two(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b:\n        return b\n    elif b > a:\n        return a\n    else:\n        return None\n\n\ndef compare_three(a, b, c):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_three(1, 2.5) \u279e 2.5\n    compare_three(1, \"2,3\") \u279e \"2,3\"\n    compare_three(\"5,1\", \"6\") \u279e \"6\"\n    compare_three(\"1\", 1) \u279e None\n    \"\"\"\n    if a > b and b > c:\n        return b\n    elif b > a and a > c:\n        return a\n    elif a > b and b > c:\n        return b\n    elif a > b and a > c:\n        return a\n    elif a > b and a > c:\n        return b\n    elif a > b and a > c:\n        return a\n    elif a > b and a > c:\n        return b\n    elif a > b and a > c:\n        return a\n    elif a > b and a > c",
+      -10.4765625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

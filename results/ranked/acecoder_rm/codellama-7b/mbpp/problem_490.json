@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/501",
+    "prompt": "Write a python function to find common divisor between two numbers in a given pair.",
+    "canonical_solution": "def ngcd(x,y):\r\n    i=1\r\n    while(i<=x and i<=y):\r\n        if(x%i==0 and y%i == 0):\r\n            gcd=i;\r\n        i+=1\r\n    return gcd;\r\ndef num_comm_div(x,y):\r\n  n = ngcd(x,y)\r\n  result = 0\r\n  z = int(n**0.5)\r\n  i = 1\r\n  while(i <= z):\r\n    if(n % i == 0):\r\n      result += 2 \r\n      if(i == n/i):\r\n        result-=1\r\n    i+=1\r\n  return result",
+    "test_list": [
+      "assert num_comm_div(2,4) == 2",
+      "assert num_comm_div(2,8) == 2",
+      "assert num_comm_div(12,24) == 6"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 490
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def common_divisor(number_1: int, number_2: int) -> int:\n    \"\"\"\n    >>> common_divisor(12, 4)\n    6\n    >>> common_divisor(6, 12)\n    6\n    >>> common_divisor(10, 10)\n    10\n    >>> common_divisor(-10, 10)\n    10\n    >>> common_divisor(10, -10)\n    10\n    \"\"\"\n    if number_1 < 0:\n        number_1 *= -1\n    if number_2 < 0:\n        number_2 *= -1\n    if number_1 < number_2:\n        return common_divisor(number_2, number_1)\n    if number_2 == 0:\n        return number_1\n    return common_divisor(number_1 - number_2, number_2)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      10.015625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    \"\"\"\n    >>> common_divisor(10, 5)\n    5\n    >>> common_divisor(5, 10)\n    5\n    >>> common_divisor(4, 8)\n    4\n    \"\"\"\n    if num1 > num2:\n        return common_divisor(num2, num1)\n    if num1 == 0:\n        return num2\n    if num2 % num1 == 0:\n        return num1\n    return common_divisor(num1, num2 % num1)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      9.875
+    ],
+    [
+      "def common_divisor(x, y):\n    if x == 0 and y == 0:\n        return 0\n    if x == 0:\n        return y\n    if y == 0:\n        return x\n    if x < 0:\n        x = -x\n    if y < 0:\n        y = -y\n\n    if x < y:\n        return common_divisor(y, x)\n\n    if y == 0:\n        return x\n\n    if x % y == 0:\n        return y\n    return common_divisor(y, x % y)\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor(10, 15))\nprint(common_divisor(15, 10))\nprint(common_divisor(5, 10))\nprint(common_divisor(10, 5))\nprint(common_divisor(24, 30))\nprint(common_divisor(30, 24))",
+      7.39453125
+    ],
+    [
+      "def find_common_divisor(num1: int, num2: int) -> int:\n    \"\"\"\n    >>> find_common_divisor(6, 12)\n    6\n    \"\"\"\n    divisors = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return max(divisors)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      6.79296875
+    ],
+    [
+      "def gcd(x, y):\n    \"\"\"\n    This function takes two numbers as input and returns their common divisor\n    \"\"\"\n    if x < y:\n        x, y = y, x\n\n    if y == 0:\n        return x\n\n    rem = x % y\n    return gcd(y, rem)\n\n\ndef lcm(x, y):\n    \"\"\"\n    This function takes two numbers as input and returns their lowest common multiple\n    \"\"\"\n    return (x * y) / gcd(x, y)\n\n\ndef main():\n    x = int(input(\"Enter the first number: \"))\n    y = int(input(\"Enter the second number: \"))\n    print(\"The common divisor is: \", gcd(x, y))\n    print(\"The lowest common multiple is: \", lcm(x, y))\n\n\nif __name__ == \"__main__\":\n    main()",
+      6.23046875
+    ],
+    [
+      "def find_divisor(num1, num2):\n    divisor = 1\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor = i\n    return divisor\n\n\ndef main():\n    print(find_divisor(24, 36))\n    print(find_divisor(12, 18))\n\n\nif __name__ == \"__main__\":\n    main()",
+      6.1640625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisor = 1\n    if num1 > num2:\n        for i in range(num1, 0, -1):\n            if num1 % i == 0 and num2 % i == 0:\n                divisor = i\n                break\n    else:\n        for i in range(num2, 0, -1):\n            if num1 % i == 0 and num2 % i == 0:\n                divisor = i\n                break\n    return divisor\n\n\ndef main():\n    print(\"Max common divisor of 16 and 4 is \" +\n          str(common_divisor(16, 4)))\n    print(\"Max common divisor of 36 and 9 is \" +\n          str(common_divisor(36, 9)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      6.01953125
+    ],
+    [
+      "def common_divisor(x: int, y: int) -> int:\n    \"\"\"\n    This function takes two numbers and return their common divisor.\n\n    >>> common_divisor(6,9)\n    3\n    >>> common_divisor(2,3)\n    1\n    >>> common_divisor(12,16)\n    4\n    \"\"\"\n    if x > y:\n        return common_divisor(y, x)\n    if x < 1 or y < 1:\n        raise ValueError(\"Both numbers must be greater than 0\")\n    for i in range(1, x + 1):\n        if x % i == 0 and y % i == 0:\n            return i\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.42578125
+    ],
+    [
+      "def gcd(n1, n2):\n    if n1 == 0:\n        return n2\n    if n2 == 0:\n        return n1\n\n    if n1 > n2:\n        return gcd(n1 - n2, n2)\n    else:\n        return gcd(n1, n2 - n1)\n\n\ndef lcm(n1, n2):\n    return (n1 / gcd(n1, n2)) * n2\n\n\nn1 = int(input(\"Enter first number: \"))\nn2 = int(input(\"Enter second number: \"))\n\nprint(f\"Common divisor is {gcd(n1, n2)}\")\nprint(f\"LCM is {lcm(n1, n2)}\")",
+      4.17578125
+    ],
+    [
+      "def common_divisor(a, b):\n    # Find divisors of both numbers\n    divisors_a = []\n    for i in range(1, a + 1):\n        if a % i == 0:\n            divisors_a.append(i)\n\n    divisors_b = []\n    for i in range(1, b + 1):\n        if b % i == 0:\n            divisors_b.append(i)\n\n    # Find common divisors between the two lists\n    common_divisors = []\n    for i in divisors_a:\n        if i in divisors_b:\n            common_divisors.append(i)\n\n    return common_divisors\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor(5, 12))",
+      4.05078125
+    ],
+    [
+      "def common_divisor(a, b):\n    if a > b:\n        for i in range(b, a):\n            if a % i == 0 and b % i == 0:\n                return i\n    else:\n        for i in range(a, b):\n            if a % i == 0 and b % i == 0:\n                return i\n\n\nprint(common_divisor(12, 6))",
+      3.927734375
+    ],
+    [
+      "def common_divisor(x, y):\n    # Find the smaller number among the given pair\n    if x > y:\n        smaller = y\n    else:\n        smaller = x\n    # Find the common divisor\n    for i in range(1, smaller + 1):\n        if x % i == 0 and y % i == 0:\n            return i\n    return 0\n\n\n# Driver code\nx, y = 12, 24\nprint(common_divisor(x, y))",
+      3.873046875
+    ],
+    [
+      "def common_divisor(a, b):\n    if a < b:\n        a, b = b, a\n    for i in range(b, 0, -1):\n        if a % i == 0 and b % i == 0:\n            return i\n\n\ndef common_divisor2(a, b):\n    return [i for i in range(b, 0, -1) if a % i == 0 and b % i == 0][0]\n\n\ndef common_divisor3(a, b):\n    return [i for i in range(b, 0, -1) if a % i == 0 and b % i == 0][-1]\n\n\nif __name__ == \"__main__\":\n    print(common_divisor(12, 15))\n    print(common_divisor2(12, 15))\n    print(common_divisor3(12, 15))",
+      3.546875
+    ],
+    [
+      "def common_divisor(num1, num2):\n    \"\"\"\n    :param num1: int\n    :param num2: int\n    :return: int\n    \"\"\"\n    divisor = 0\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor = i\n    return divisor\n\n\nprint(common_divisor(6, 9))\nprint(common_divisor(10, 15))\nprint(common_divisor(10, 12))\nprint(common_divisor(15, 12))\nprint(common_divisor(4, 6))\nprint(common_divisor(2, 4))",
+      3.47265625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    if num1 > num2:\n        min_num = num2\n    else:\n        min_num = num1\n\n    common_div = []\n    for i in range(1, min_num+1):\n        if num1 % i == 0 and num2 % i == 0:\n            common_div.append(i)\n\n    return common_div\n\n\nprint(common_divisor(12, 20))\nprint(common_divisor(100, 50))\nprint(common_divisor(120, 100))",
+      3.080078125
+    ],
+    [
+      "def common_divisor(a, b):\n    if a == 0 or b == 0:\n        return 0\n    if a == b:\n        return a\n    if a > b:\n        return common_divisor(a - b, b)\n    return common_divisor(a, b - a)\n\n\ndef gcd(a, b):\n    if a == 0 or b == 0:\n        return 0\n    if a == b:\n        return a\n    if a > b:\n        return gcd(a - b, b)\n    return gcd(a, b - a)\n\n\nprint(common_divisor(4, 6))\nprint(gcd(4, 6))",
+      3.001953125
+    ],
+    [
+      "def common_divisor(x: int, y: int) -> int:\n    \"\"\"\n    :param x: first number\n    :param y: second number\n    :return: common divisor\n    \"\"\"\n    if x < 0 or y < 0:\n        raise ValueError(\"Only non-negative numbers are allowed\")\n    if x == 0:\n        return y\n    if y == 0:\n        return x\n    if x < y:\n        return common_divisor(y, x)\n    if x % y == 0:\n        return y\n    return common_divisor(y, x % y)\n\n\nif __name__ == \"__main__\":\n    assert common_divisor(12, 6) == 6\n    assert common_divisor(12, 10) == 2\n    assert common_divisor(12, 18) == 6\n    assert common_divisor(18, 12) == 6\n    assert common_divisor(18, 13) == 1\n    assert common_divisor(18, 0) == 0\n    assert common_divisor(18, 18) == 18\n    assert common_divisor(0, 18) == 0\n    assert common_divisor(0, 0) == 0\n    assert common_divisor(0, -10) == 0\n    assert common_divisor(-10, 0) == 0\n    assert common_divisor(-10, 10) == 10\n    assert common_divisor(-10, -10) == -10\n    assert common_divisor(10, -10) == 10",
+      2.6796875
+    ],
+    [
+      "def common_divisor(a, b):\n    divisors = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            divisors.append(i)\n    return divisors\n\n\nprint(common_divisor(12, 14))\nprint(common_divisor(5, 3))\nprint(common_divisor(6, 9))",
+      2.6796875
+    ],
+    [
+      "def gcd(x, y):\n    if x > y:\n        small = y\n    else:\n        small = x\n\n    for i in range(1, small+1):\n        if (x % i == 0) and (y % i == 0):\n            gcd = i\n    return gcd\n\n\nprint(\"GCD of 12 and 8 : \",gcd(12,8))\nprint(\"GCD of 32 and 48 : \",gcd(32,48))\nprint(\"GCD of 37 and 54 : \",gcd(37,54))",
+      1.998046875
+    ],
+    [
+      "def common_divisor(x, y):\n    divisors = []\n    for i in range(1, x+1):\n        if x % i == 0 and y % i == 0:\n            divisors.append(i)\n    return divisors\n\n\nprint(common_divisor(12, 24))",
+      1.8681640625
+    ],
+    [
+      "def common_divisor(a, b):\n    return [x for x in range(1, min(a, b) + 1) if a % x == 0 and b % x == 0]\n\n\ndef common_divisor_set(a, b):\n    return {x for x in range(1, min(a, b) + 1) if a % x == 0 and b % x == 0}\n\n\ndef common_divisor_tuple(a, b):\n    return tuple(x for x in range(1, min(a, b) + 1) if a % x == 0 and b % x == 0)\n\n\ndef common_divisor_list(a, b):\n    return list(x for x in range(1, min(a, b) + 1) if a % x == 0 and b % x == 0)",
+      1.8095703125
+    ],
+    [
+      "def gcd(n1, n2):\n    if n1 == 0:\n        return n2\n    return gcd(n2 % n1, n1)\n\n\na, b = map(int, input().split())\nprint(gcd(a, b))",
+      1.697265625
+    ],
+    [
+      "def common_divisor(a, b):\n    \"\"\"\n    Find common divisor between two numbers.\n\n    >>> common_divisor(4, 8)\n    4\n    >>> common_divisor(12, 16)\n    4\n    >>> common_divisor(24, 36)\n    12\n    \"\"\"\n    common_divisor = 1\n    if a > b:\n        for i in range(a, 0, -1):\n            if a % i == 0 and b % i == 0:\n                common_divisor = i\n                break\n    elif a < b:\n        for i in range(b, 0, -1):\n            if a % i == 0 and b % i == 0:\n                common_divisor = i\n                break\n    return common_divisor\n\n\ndef main():\n    \"\"\"\n    Driver code.\n    \"\"\"\n    a, b = 4, 8\n    print(common_divisor(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.5419921875
+    ],
+    [
+      "def gcd(x, y):\n    if x == 0:\n        return y\n    if y == 0:\n        return x\n\n    if x > y:\n        small = y\n    else:\n        small = x\n\n    for i in range(1, small+1):\n        if (x % i == 0) and (y % i == 0):\n            gcd = i\n\n    return gcd\n\n\nprint(gcd(12, 6))",
+      1.400390625
+    ],
+    [
+      "def find_common_divisor(num1, num2):\n    if num1 == 0 or num2 == 0:\n        return 0\n    elif num1 < 0:\n        num1 = -num1\n    elif num2 < 0:\n        num2 = -num2\n\n    while num1 != num2:\n        if num1 > num2:\n            num1 = num1 - num2\n        else:\n            num2 = num2 - num1\n    return num1",
+      1.333984375
+    ],
+    [
+      "from functools import reduce\n\n\ndef common_divisor(n1, n2):\n    \"\"\"\n    This function takes two numbers and return the common divisor\n    >>> common_divisor(6, 10)\n    2\n    >>> common_divisor(15, 10)\n    5\n    >>> common_divisor(12, 18)\n    6\n    >>> common_divisor(4, 5)\n    4\n    >>> common_divisor(5, 4)\n    4\n    >>> common_divisor(12, 12)\n    12\n    \"\"\"\n    return reduce(\n        (lambda x, y: x if x < y else y),\n        [i for i in range(1, min(n1, n2) + 1) if n1 % i == 0 and n2 % i == 0],\n    )\n\n\ndef main():\n    \"\"\"\n    This is the main function which we use to call the other functions and calculate the output\n    >>> main()\n    Enter two numbers:\n    6 10\n    2\n    >>> main()\n    Enter two numbers:\n    15 10\n    5\n    >>> main()\n    Enter two numbers:\n    12 18\n    6\n    >>> main()\n    Enter two numbers:\n    4 5\n    4\n    >>> main()\n    Enter two numbers:\n    5 4\n    4\n    >>> main()\n    Enter two numbers:\n    12 12\n    12\n    \"\"\"\n    print(\"Enter two numbers:\")\n    n1, n2 = map(int, input().split())\n    print(common_divisor(n1, n2))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()\n    main()",
+      1.3203125
+    ],
+    [
+      "def common_divisor(a, b):\n    if a < b:\n        a, b = b, a\n\n    for i in range(1, b + 1):\n        if a % i == 0 and b % i == 0:\n            return i\n\n\nprint(common_divisor(12, 6))",
+      1.279296875
+    ],
+    [
+      "def gcd(x, y):\n    if x == 0:\n        return y\n    if y == 0:\n        return x\n\n    if x > y:\n        return gcd(x % y, y)\n    else:\n        return gcd(x, y % x)\n\n\ndef common_divisor(x, y):\n    return x * y // gcd(x, y)\n\n\ndef main():\n    x = int(input(\"Enter the first number: \"))\n    y = int(input(\"Enter the second number: \"))\n    print(\"Common divisor: \", common_divisor(x, y))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.1650390625
+    ],
+    [
+      "def gcd(x, y): \n    if x > y: \n        small = y \n    else: \n        small = x \n    for i in range(1, small+1): \n        if((x % i == 0) and (y % i == 0)): \n            gcd = i \n              \n    return gcd \n\ndef lcm(x, y): \n    lcm = (x*y)//gcd(x,y) \n    return lcm \n\nprint(\"The G.C.D. is\", gcd(20, 40)) \nprint(\"The L.C.M. is\", lcm(20, 40))",
+      0.85009765625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisor = 1\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor = i\n    return divisor\n\n\ndef main():\n    num1 = int(input(\"Enter first number: \"))\n    num2 = int(input(\"Enter second number: \"))\n    print(f\"Common divisor between {num1} and {num2} is {common_divisor(num1, num2)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.62158203125
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    if b == 0:\n        return a\n    if a > b:\n        return gcd(a % b, b)\n    else:\n        return gcd(a, b % a)\n\n\na = int(input(\"Enter the first number: \"))\nb = int(input(\"Enter the second number: \"))\nprint(f\"The GCD of {a} and {b} is: {gcd(a, b)}\")",
+      0.60888671875
+    ],
+    [
+      "def find_divisor(number1, number2):\n    return [num for num in range(1, min(number1, number2) + 1) if number1 % num == 0 and number2 % num == 0]\n\n\nprint(find_divisor(12, 24))\nprint(find_divisor(120, 240))",
+      0.6083984375
+    ],
+    [
+      "def common_divisor(a: int, b: int) -> int:\n    \"\"\"\n    >>> common_divisor(10, 20)\n    10\n    >>> common_divisor(12, 20)\n    6\n    >>> common_divisor(5, 10)\n    5\n    >>> common_divisor(5, 12)\n    1\n    >>> common_divisor(12, 15)\n    3\n    >>> common_divisor(100, 200)\n    20\n    >>> common_divisor(2, 3)\n    2\n    \"\"\"\n    if a > b:\n        a, b = b, a\n    for i in range(a, 1, -1):\n        if a % i == 0 and b % i == 0:\n            return i\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.59423828125
+    ],
+    [
+      "def common_divisor(num1, num2):\n    return [x for x in range(1, min(num1, num2) + 1) if num1 % x == 0 and num2 % x == 0]\n\n\nnum1 = 10\nnum2 = 15\nprint(\"Common divisor between {} and {} is {}\".format(num1, num2, common_divisor(num1, num2)))",
+      0.415771484375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    if num1 == 0 and num2 == 0:\n        return 0\n    elif num1 == 0 or num2 == 0:\n        return max(num1, num2)\n    else:\n        min_num = min(num1, num2)\n        for i in range(1, min_num+1):\n            if num1 % i == 0 and num2 % i == 0:\n                return i\n\nnum1 = int(input(\"Enter 1st Number: \"))\nnum2 = int(input(\"Enter 2nd Number: \"))\nprint(\"Common Divisor: \", common_divisor(num1, num2))",
+      0.2469482421875
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef common_divisor(a, b):\n    return gcd(a, b)",
+      0.1468505859375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    for i in range(num1, 0, -1):\n        if num1 % i == 0 and num2 % i == 0:\n            return i\n    return 0",
+      0.130615234375
+    ],
+    [
+      "def common_divisor(x, y):\n    div = []\n    for i in range(1, x + 1):\n        if x % i == 0 and y % i == 0:\n            div.append(i)\n    return div\n\n\nx = 12\ny = 4\nprint(\"Common Divisor between {} and {} is {}\".format(x, y, common_divisor(x, y)))",
+      0.129150390625
+    ],
+    [
+      "def common_divisor(a, b):\n    if a == 0 or b == 0:\n        return 0\n\n    if a == b:\n        return a\n\n    if a > b:\n        return common_divisor(a - b, b)\n    else:\n        return common_divisor(a, b - a)\n\nif __name__ == \"__main__\":\n    a = int(input(\"Enter the first number: \"))\n    b = int(input(\"Enter the second number: \"))\n\n    print(common_divisor(a, b))",
+      0.06787109375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisor = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor.append(i)\n    return divisor\n\n\nprint(common_divisor(15, 20))\nprint(common_divisor(4, 8))",
+      -0.03680419921875
+    ],
+    [
+      "def common_divisor(a, b):\n    common_divisor = []\n    for i in range(1, min(a, b)+1):\n        if a % i == 0 and b % i == 0:\n            common_divisor.append(i)\n    return common_divisor\n\n\na = 10\nb = 15\nprint(\"Common divisor:\", common_divisor(a, b))",
+      -0.1357421875
+    ],
+    [
+      "def common_divisor(x, y):\n    return [divisor for divisor in range(1, min(x, y) + 1) if x % divisor == 0 and y % divisor == 0]\n\n\ndef main():\n    x, y = list(map(int, input(\"Enter two numbers: \").split()))\n    print(\"Common divisor of {0} and {1} is {2}\".format(x, y, common_divisor(x, y)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.164794921875
+    ],
+    [
+      "from functools import reduce\n\n\ndef gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef common_divisor(a, b):\n    return gcd(a, b)\n\n\ndef common_divisor_eff(a, b):\n    return reduce(gcd, [a, b])\n\n\ndef common_divisor_eff2(a, b):\n    while a != 0 and b != 0:\n        if a > b:\n            a %= b\n        else:\n            b %= a\n    return a + b\n\n\nif __name__ == \"__main__\":\n    a, b = 24, 36\n    print(common_divisor(a, b))\n    print(common_divisor_eff(a, b))\n    print(common_divisor_eff2(a, b))",
+      -0.259521484375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisors = []\n    for i in range(1, num1+1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return divisors\n\n\nnum1 = int(input(\"Enter first number: \"))\nnum2 = int(input(\"Enter second number: \"))\nprint(common_divisor(num1, num2))",
+      -0.2607421875
+    ],
+    [
+      "def common_divisor(x, y):\n    common_divisors = []\n    for i in range(1, x + 1):\n        if x % i == 0 and y % i == 0:\n            common_divisors.append(i)\n    return common_divisors\n\n\nprint(common_divisor(12, 24))",
+      -0.340087890625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    # Finding the smaller number\n    if num1 > num2:\n        smaller_number = num2\n    else:\n        smaller_number = num1\n\n    # Finding the common divisor\n    common_divisor_list = []\n    for i in range(1, smaller_number+1):\n        if num1 % i == 0 and num2 % i == 0:\n            common_divisor_list.append(i)\n\n    return common_divisor_list\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor(24, 36))\nprint(common_divisor(10, 5))",
+      -0.37451171875
+    ],
+    [
+      "def gcd(a, b):\n    if a == b:\n        return a\n    if a > b:\n        return gcd(a - b, b)\n    return gcd(a, b - a)\n\n\nprint(gcd(12, 15))",
+      -0.446533203125
+    ],
+    [
+      "def CommonDivisor(num1, num2):\n    l = []\n    for i in range(1, num1+1):\n        if num1%i==0 and num2%i==0:\n            l.append(i)\n    return l\n\nnum1 = int(input(\"Enter the first number: \"))\nnum2 = int(input(\"Enter the second number: \"))\nprint(CommonDivisor(num1, num2))\n\n\"\"\"\nTime complexity: O(n)\nSpace complexity: O(n)\n\"\"\"",
+      -0.61767578125
+    ],
+    [
+      "def find_common_divisor(num1, num2):\n    for i in range(min(num1, num2), 0, -1):\n        if num1 % i == 0 and num2 % i == 0:\n            return i\n\n\nif __name__ == \"__main__\":\n    assert find_common_divisor(12, 16) == 4",
+      -0.61962890625
+    ],
+    [
+      "def common_divisor(x, y):\n    return [i for i in range(1, min(x, y) + 1) if x % i == 0 and y % i == 0]\n\n\ndef common_divisor_2(x, y):\n    return [i for i in range(1, min(x, y) + 1) if x % i == 0 and y % i == 0]\n\n\nprint(common_divisor(12, 24))\nprint(common_divisor_2(12, 24))",
+      -0.65185546875
+    ],
+    [
+      "def common_divisor(a, b):\n    if a < b:\n        a, b = b, a\n    return [i for i in range(1, b + 1) if a % i == 0 and b % i == 0]\n\n\nprint(common_divisor(48, 18))\nprint(common_divisor(100, 20))",
+      -0.75146484375
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\nprint(gcd(6, 9))",
+      -0.85693359375
+    ],
+    [
+      "from math import gcd\n\n\ndef common_divisor(a: int, b: int) -> int:\n    return gcd(a, b)\n\n\ndef main():\n    a = 10\n    b = 20\n    print(common_divisor(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def common_divisor(a, b):\n    if a == b:\n        return a\n    elif a > b:\n        return common_divisor(a - b, b)\n    else:\n        return common_divisor(a, b - a)\n\n\nprint(common_divisor(12, 16))",
+      -0.85693359375
+    ],
+    [
+      "def common_divisor(a, b):\n    lst = []\n    for i in range(1, min(a, b)+1):\n        if a % i == 0 and b % i == 0:\n            lst.append(i)\n    return lst\n\n\nprint(common_divisor(20, 12))",
+      -0.85693359375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    result = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            result.append(i)\n    return result\n\n\nprint(common_divisor(12, 24))",
+      -0.85693359375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    for i in range(min(num1, num2), 0, -1):\n        if num1 % i == 0 and num2 % i == 0:\n            return i\n\n\nprint(common_divisor(12, 6))\nprint(common_divisor(12, 8))",
+      -0.85693359375
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\ndef common_divisor(a, b):\n    return a * b // gcd(a, b)\n\n\nprint(common_divisor(12, 6))",
+      -0.85693359375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisors = []\n    for i in range(1, min(num1, num2)+1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return divisors\n\n\nprint(common_divisor(15, 20))",
+      -0.85693359375
+    ],
+    [
+      "from math import gcd\n\n\ndef common_divisor(a, b):\n    return gcd(a, b)\n\n\nprint(common_divisor(3, 6))\nprint(common_divisor(3, 15))",
+      -0.85693359375
+    ],
+    [
+      "def common_divisor(a, b):\n    return [i for i in range(1, min(a, b)+1) if a % i == 0 and b % i == 0]\n\n\nprint(common_divisor(12, 16))",
+      -0.85693359375
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\na = 12\nb = 24\nprint(f\"GCD of {a} and {b} is {gcd(a, b)}\")",
+      -0.85693359375
+    ],
+    [
+      "def gcd(a, b):\n    if a == 0:\n        return b\n    return gcd(b % a, a)\n\n\na = int(input(\"Enter the first number: \"))\nb = int(input(\"Enter the second number: \"))\n\nprint(gcd(a, b))",
+      -0.85791015625
+    ],
+    [
+      "def common_divisor(a, b):\n    return [i for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0]\n\n\nprint(common_divisor(24, 36))",
+      -0.85791015625
+    ],
+    [
+      "def commonDivisor(num1, num2):\n    return [i for i in range(1, min(num1, num2) + 1) if num1 % i == 0 and num2 % i == 0]\n\ndef main():\n    print(commonDivisor(15, 20))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisor = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor.append(i)\n    return divisor\n\nprint(common_divisor(12, 16))\nprint(common_divisor(18, 22))",
+      -0.85791015625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    if num1 > num2:\n        num1, num2 = num2, num1\n\n    for i in range(num1, 0, -1):\n        if num1 % i == 0 and num2 % i == 0:\n            return i\n\n\nprint(common_divisor(12, 15))\nprint(common_divisor(10, 12))",
+      -0.85791015625
+    ],
+    [
+      "def gcd(a,b):\n    if(a==0):\n        return b\n    return gcd(b%a,a)\n\nprint(gcd(18,27))",
+      -0.85791015625
+    ],
+    [
+      "def common_divisor(a, b):\n    \"\"\"\n    Find common divisor between two numbers in a given pair.\n\n    >>> common_divisor(12, 6)\n    6\n    >>> common_divisor(12, 12)\n    12\n    >>> common_divisor(12, 3)\n    3\n    >>> common_divisor(12, 13)\n    1\n    \"\"\"\n    return a if a < b else b\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def find_common_divisor(number_1, number_2):\n    \"\"\"Find the common divisor in a given pair of numbers.\n\n    Parameters\n    ----------\n    number_1 : int\n        The first number\n    number_2 : int\n        The second number\n\n    Returns\n    -------\n    int\n        The common divisor\n    \"\"\"\n    divisors = []\n    for i in range(1, min(number_1, number_2) + 1):\n        if number_1 % i == 0 and number_2 % i == 0:\n            divisors.append(i)\n    return divisors\n\n\nprint(find_common_divisor(8, 12))\nprint(find_common_divisor(6, 12))",
+      -0.85791015625
+    ],
+    [
+      "def gcd(x, y):\n    if x > y:\n        small = y\n    else:\n        small = x\n    for i in range(1, small+1):\n        if((x % i == 0) and (y % i == 0)):\n            gcd = i\n    return gcd\n\n\nnum1 = int(input(\"Enter a number: \"))\nnum2 = int(input(\"Enter a number: \"))\n\nprint(\"GCD of {} and {} is {}\".format(num1, num2, gcd(num1, num2)))",
+      -0.85791015625
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return gcd(b, a % b)\n\n\na = 10\nb = 15\nprint(gcd(a, b))",
+      -0.8583984375
+    ],
+    [
+      "def find_common_divisor(x, y):\n    for i in range(x, 0, -1):\n        if x % i == 0 and y % i == 0:\n            return i\n\n\ndef main():\n    x = int(input(\"Enter the first number: \"))\n    y = int(input(\"Enter the second number: \"))\n    print(f\"The common divisor is: {find_common_divisor(x, y)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    return [divisor for divisor in range(1, min(num1, num2) + 1) if num1 % divisor == 0 and num2 % divisor == 0]\n\n\ndef common_divisor_eff(num1, num2):\n    return [divisor for divisor in range(1, min(num1, num2) + 1) if (num1 % divisor == 0 and num2 % divisor == 0)]\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor_eff(12, 16))",
+      -0.8583984375
+    ],
+    [
+      "def find_common_divisor(num1, num2):\n    divisor = 1\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor = i\n    return divisor\n\nprint(find_common_divisor(12, 14))\nprint(find_common_divisor(10, 12))\nprint(find_common_divisor(20, 24))",
+      -0.89013671875
+    ],
+    [
+      "def common_divisor(number1, number2):\n    common = []\n    for i in range(1, min(number1, number2) + 1):\n        if number1 % i == 0 and number2 % i == 0:\n            common.append(i)\n\n    return common\n\n\ndef main():\n    print(common_divisor(4, 12))\n    print(common_divisor(12, 4))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.96875
+    ],
+    [
+      "def common_divisor(num1, num2):\n    return [i for i in range(1, min(num1, num2) + 1) if num1 % i == 0 and num2 % i == 0]\n\n\nprint(common_divisor(10, 20))\nprint(common_divisor(12, 15))",
+      -1.228515625
+    ],
+    [
+      "def common_divisor(a, b):\n    return [i for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0]\n\n\ndef main():\n    a, b = map(int, input(\"Enter two numbers: \").split())\n    print(\"Common divisors are:\", common_divisor(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.3310546875
+    ],
+    [
+      "def common_divisor(a, b):\n    divisor = 0\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            divisor = i\n    return divisor\n\na, b = map(int, input().split())\nprint(common_divisor(a, b))",
+      -1.4296875
+    ],
+    [
+      "def common_divisor(a, b):\n    result = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            result.append(i)\n\n    return result\n\n\na = int(input())\nb = int(input())\nprint(common_divisor(a, b))",
+      -1.451171875
+    ],
+    [
+      "def common_divisor(x, y):\n    if x > y:\n        return common_divisor(y, x)\n    for i in range(1, x + 1):\n        if x % i == 0 and y % i == 0:\n            return i\n\nprint(common_divisor(12, 16))\nprint(common_divisor(12, 17))",
+      -1.4765625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    \"\"\"\n    Function to find the common divisor\n    between a given pair of numbers.\n\n    Parameters\n    ----------\n    num1 : int\n        First number\n    num2 : int\n        Second number\n\n    Returns\n    -------\n    int\n        Common divisor\n    \"\"\"\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            return i\n\n\nprint(common_divisor(20, 8))\nprint(common_divisor(15, 12))",
+      -1.4921875
+    ],
+    [
+      "def find_common_divisor(x: int, y: int) -> int:\n    \"\"\"\n    This function takes two numbers and return their common divisor\n    >>> find_common_divisor(15, 10)\n    5\n    >>> find_common_divisor(10, 15)\n    5\n    >>> find_common_divisor(10, 10)\n    10\n    >>> find_common_divisor(15, 20)\n    5\n    >>> find_common_divisor(20, 15)\n    5\n    >>> find_common_divisor(20, 20)\n    20\n    \"\"\"\n    if x < y:\n        return find_common_divisor(y, x)\n    return find_common_divisor(x - y, y) if x % y == 0 else find_common_divisor(x, y - (x % y))\n\n\ndef main():\n    assert isinstance(find_common_divisor(15, 10), int)\n    print(\n        f\"The common divisor of 15 and 10 is {find_common_divisor(15, 10)}\"\n    )\n    assert isinstance(find_common_divisor(10, 15), int)\n    print(\n        f\"The common divisor of 10 and 15 is {find_common_divisor(10, 15)}\"\n    )\n    assert isinstance(find_common_divisor(10, 10), int)\n    print(\n        f\"The common divisor of 10 and 10 is {find_common_divisor(10, 10)}\"\n    )\n    assert isinstance(find_common_divisor(15, 20), int)\n    print(\n        f\"The common divisor of 15 and 20 is {find_common_divisor(15, 20)}\"\n    )\n    assert isinstance(find_common_divisor(20,",
+      -1.6337890625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    num_list = []\n    for i in range(1, num1+1):\n        if num1 % i == 0 and num2 % i == 0:\n            num_list.append(i)\n    return num_list\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor(4, 12))\nprint(common_divisor(6, 9))",
+      -1.671875
+    ],
+    [
+      "def common_divisor(x, y):\n    return [i for i in range(1, min(x, y) + 1) if x % i == 0 and y % i == 0]\n\n\nprint(common_divisor(24, 40))",
+      -1.7568359375
+    ],
+    [
+      "def CommonDivisor(num1, num2):\n    divisor = 0\n    for i in range(1, min(num1, num2)+1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor = i\n    return divisor\n\nprint(CommonDivisor(12, 15))",
+      -1.767578125
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisors = []\n    for i in range(1, num1 + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return divisors\n\n\nprint(common_divisor(12, 24))",
+      -1.9990234375
+    ],
+    [
+      "def gcd(a, b):\n    \"\"\"\n    Returns the greatest common divisor of a and b.\n    \"\"\"\n    if a < b:\n        a, b = b, a\n\n    while b != 0:\n        a, b = b, a % b\n\n    return a\n\n\ndef find_common_divisor(a, b):\n    return gcd(a, b)",
+      -2.265625
+    ],
+    [
+      "def common_divisor(a: int, b: int) -> int:\n    \"\"\"\n    >>> common_divisor(12, 3)\n    3\n    >>> common_divisor(12, 6)\n    6\n    \"\"\"\n    return a if a <= b else b\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.283203125
+    ],
+    [
+      "def gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a % b)\n\n\ndef common_divisor(a, b):\n    return (a * b) // gcd(a, b)\n\n\ndef main():\n    a, b = [int(x) for x in input(\"Enter two numbers: \").split()]\n    print(common_divisor(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.287109375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    # Create a list of numbers from 1 to the smaller number\n    num_list = list(range(1, min(num1, num2) + 1))\n\n    # Create a list of common divisors\n    common_divisors = [i for i in num_list if num1 % i == 0 and num2 % i == 0]\n\n    # Return the list of common divisors\n    return common_divisors\n\n\n# print(common_divisor(12, 16))",
+      -2.650390625
+    ],
+    [
+      "def common_divisor(num1, num2):\n    list1 = []\n    for i in range(1, num1 + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            list1.append(i)\n    return list1\n\n\ndef main():\n    a = int(input(\"Enter first number: \"))\n    b = int(input(\"Enter second number: \"))\n    print(common_divisor(a, b))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.83984375
+    ],
+    [
+      "def common_divisor(num1, num2):\n    for i in range(1, min(num1, num2)+1):\n        if num1 % i == 0 and num2 % i == 0:\n            return i\n\n\nprint(common_divisor(12, 16))",
+      -2.857421875
+    ],
+    [
+      "def common_divisor(num1, num2):\n    divisor = 0\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisor = i\n    return divisor\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor(12, 17))\nprint(common_divisor(10, 15))",
+      -2.984375
+    ],
+    [
+      "def common_divisor(x, y):\n    if x > y:\n        x, y = y, x\n    return [i for i in range(x, y + 1) if x % i == 0 and y % i == 0]\n\nprint(common_divisor(12, 6))\nprint(common_divisor(12, 12))\nprint(common_divisor(12, 18))\nprint(common_divisor(12, 24))",
+      -3.064453125
+    ],
+    [
+      "def find_common_divisor(a, b):\n    if a > b:\n        return [i for i in range(1, a+1) if a % i == 0 and b % i == 0]\n    else:\n        return [i for i in range(1, b+1) if a % i == 0 and b % i == 0]\n\n\nprint(find_common_divisor(12, 15))",
+      -3.568359375
+    ],
+    [
+      "def common_divisor(a, b):\n    return [i for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0]\n\n\ndef common_divisor_set(a, b):\n    return set(i for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0)\n\n\nprint(common_divisor(12, 16))\nprint(common_divisor_set(12, 16))",
+      -3.685546875
+    ],
+    [
+      "def common_divisor(a, b):\n    \"\"\"\n    >>> common_divisor(10, 15)\n    5\n    >>> common_divisor(15, 20)\n    5\n    >>> common_divisor(30, 36)\n    6\n    >>> common_divisor(40, 54)\n    2\n    >>> common_divisor(100, 110)\n    10\n    >>> common_divisor(100, 120)\n    20\n    >>> common_divisor(100, 130)\n    30\n    >>> common_divisor(100, 140)\n    40\n    >>> common_divisor(100, 150)\n    50\n    \"\"\"\n    if a > b:\n        return common_divisor(b, a)\n\n    divisor = 1\n    while a % b != 0:\n        a, b = b, a % b\n    divisor *= a\n    return divisor\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -4.4921875
+    ],
+    [
+      "def gcd(x, y):\n    if x == 0:\n        return y\n    if y == 0:\n        return x\n    if x > y:\n        return gcd(x - y, y)\n    return gcd(x, y - x)\n\n\ndef common_divisor(x, y):\n    gcd_value = gcd(x, y)\n    if x < y:\n        return [gcd_value, y // gcd_value, x]\n    return [gcd_value, x // gcd_value, y]\n\n\nprint(common_divisor(12, 24))\nprint(common_divisor(12, 36))\nprint(common_divisor(12, 6))\nprint(common_divisor(12, 18))\nprint(common_divisor(12, 6))\nprint(common_divisor(6, 18))\nprint(common_divisor(6, 12))\nprint(common_divisor(12, 12))\nprint(common_divisor(18, 18))",
+      -6.328125
+    ],
+    [
+      "def common_divisor(a: int, b: int) -> int:\n    \"\"\"\n    This function takes two numbers and returns their common divisor.\n    >>> common_divisor(10, 20)\n    10\n    >>> common_divisor(20, 10)\n    10\n    \"\"\"\n    return a if a < b else b\n\n\ndef common_divisor_list(a: int, b: int) -> list:\n    \"\"\"\n    This function takes two numbers and returns a list of their common divisors.\n    >>> common_divisor_list(10, 20)\n    [2, 5]\n    >>> common_divisor_list(20, 10)\n    [2, 5]\n    \"\"\"\n    return [i for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0]\n\n\ndef common_divisor_dict(a: int, b: int) -> dict:\n    \"\"\"\n    This function takes two numbers and returns a dictionary of their common divisors.\n    >>> common_divisor_dict(10, 20)\n    {2: 1, 5: 1}\n    >>> common_divisor_dict(20, 10)\n    {2: 1, 5: 1}\n    \"\"\"\n    return {i: 0 for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0}\n\n\ndef common_divisor_dict_with_count(a: int, b: int) -> dict:\n    \"\"\"\n    This function takes two numbers and returns a dictionary of their common divisors with their count.\n    >>> common_divisor_dict_with_count(10, 20)\n    {2: 1, 5: 1}\n    >>> common_divisor_dict_with_count(20, 10)\n    {2: 1, 5: 1}\n    \"\"\"\n    return {i: 0 for i in range",
+      -7.05859375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

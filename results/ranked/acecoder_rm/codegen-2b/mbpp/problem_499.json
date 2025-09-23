@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/510",
+    "prompt": "Write a function to find the number of subsequences having product smaller than k for the given non negative array.",
+    "canonical_solution": "def no_of_subsequences(arr, k): \r\n\tn = len(arr) \r\n\tdp = [[0 for i in range(n + 1)] \r\n\t\t\tfor j in range(k + 1)] \r\n\tfor i in range(1, k + 1): \r\n\t\tfor j in range(1, n + 1): \r\n\t\t\tdp[i][j] = dp[i][j - 1] \r\n\t\t\tif arr[j - 1] <= i and arr[j - 1] > 0: \r\n\t\t\t\tdp[i][j] += dp[i // arr[j - 1]][j - 1] + 1\r\n\treturn dp[k][n]",
+    "test_list": [
+      "assert no_of_subsequences([1,2,3,4], 10) == 11",
+      "assert no_of_subsequences([4,8,7,2], 50) == 9",
+      "assert no_of_subsequences([5,6,7,8], 15) == 4"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 499
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        res = 0\n        for i in range(len(A) - 1):\n            for j in range(i + 1, len(A)):\n                if A[j] * A[i] < k:\n                    break\n                if A[j] * A[i] == k:\n                    res += 1\n        return res",
+      2.005859375
+    ],
+    [
+      "def count_subsequence_with_product(arr, k):\n    count = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] * arr[j] < k:\n                count += 1\n    return count\n\nprint(count_subsequence_with_product([1, 2, 3, 4, 5, 6, 7], 6))",
+      1.84765625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        dp = [0] * n\n        dp[0] = 1\n        for i in xrange(1, n):\n            dp[i] = dp[i - 1]\n            for j in xrange(i):\n                if nums[j] * nums[i] <= k:\n                    dp[i] += dp[j]\n        return dp[-1]",
+      1.57421875
+    ],
+    [
+      "# Definition for a subsequence.\nclass Sequence(object):\n    def __init__(self, s):\n        self.s = s\n\nclass Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A or not k:\n            return 0\n        n = len(A)\n        dp = [[0 for _ in range(k + 1)] for _ in range(n)]\n        for i in range(n):\n            for j in range(k + 1):\n                if A[i] >= j:\n                    dp[i][j] = dp[i][j - A[i]] + 1\n        return dp[n - 1][k]",
+      1.158203125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/array-product-smaller-than-k/problem\n\nimport sys\n\ndef product_smaller_than_k(array, k):\n    if len(array) == 0:\n        return 0\n    \n    # return the number of sub-arrays having product smaller than k\n    return len(sub_arrays_with_product_smaller_than_k(array, k))\n\ndef sub_arrays_with_product_smaller_than_k(array, k):\n    sub_arrays = []\n    \n    for i in range(len(array)):\n        if array[i] < k:\n            sub_arrays.append(array[:i + 1])\n    \n    return sub_arrays\n\nif __name__ == '__main__':\n    array = [int(x) for x in input().split()]\n    k = int(input())\n    \n    print(product_smaller_than_k(array, k))",
+      1.0634765625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        res = 0\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if nums[i] * nums[j] < k:\n                    res += 1\n        return res",
+      0.94140625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n\n        # find the first element in nums which is bigger than k\n        for i in range(len(nums) - 1, -1, -1):\n            if nums[i] >= k:\n                return self.numSubsequenceProductLessThanK(nums[i + 1:], k)\n\n        return 1",
+      0.9052734375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A or len(A) == 0:\n            return 0\n\n        # n^2\n        num = 1\n        for i in xrange(len(A)):\n            # n^2\n            for j in xrange(i+1, len(A)):\n                if A[i] * A[j] < k:\n                    num += 1\n        return num",
+      0.900390625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        res = 0\n        for i in range(len(nums) - 1):\n            for j in range(i + 1, len(nums)):\n                if nums[i] * nums[j] <= k:\n                    res += 1\n        return res",
+      0.794921875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def countSubseq(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        if not A[0]:\n            return 0\n        if len(A) == 1:\n            return 1\n        ans = 0\n        for i in range(1, len(A)):\n            if A[i-1] <= k and A[i] >= k:\n                ans += 1\n        return ans",
+      0.7734375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(A) == 0:\n            return 0\n        if len(A) == 1:\n            return 1\n        ans = 0\n        for i in range(len(A)):\n            for j in range(i, len(A)):\n                if A[i] * A[j] > k:\n                    break\n                ans += 1\n        return ans\n\n\nif __name__ == \"__main__\":\n    A = [1,2,3,4,5,6,7,8,9]\n    k = 3\n    s = Solution()\n    print(s.numSubsequenceProductLessThanK(A, k))",
+      0.0338134765625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        product = 1\n        for i in range(len(A)):\n            product *= A[i]\n        product = int(product)\n        return sum([1 for i in range(1, k + 1) if product % i == 0])",
+      -0.0399169921875
+    ],
+    [
+      "class Solution(object):\n    def numberOfSubsequences(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        n = len(nums)\n        ans = 0\n        for i in range(n):\n            for j in range(i+1, n):\n                if nums[i] * nums[j] > k:\n                    break\n                else:\n                    ans += 1\n        return ans\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.numberOfSubsequences([1, 2, 3, 4, 5, 6, 7, 8, 9], 9))",
+      -0.06890869140625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in range(len(A)):\n            for j in range(i+1, len(A)):\n                if A[i] * A[j] < k:\n                    result += 1\n        return result",
+      -0.2071533203125
+    ],
+    [
+      "class Solution:\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        count = 0\n        for i in range(len(A)):\n            for j in range(i+1, len(A)):\n                if A[i] * A[j] < k:\n                    count += 1\n        return count",
+      -0.61962890625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        ans = 0\n        for i in xrange(len(nums)):\n            for j in xrange(i):\n                if nums[j] * nums[i] < k:\n                    ans += 1\n        return ans\n\ns = Solution()\nprint s.numSubsequenceProductLessThanK([1, 2, 3, 4, 5], 3)",
+      -0.63427734375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.numSubsequenceProductLessThanKRecur(A, k, 1)\n\n    def numSubsequenceProductLessThanKRecur(self, A, k, product):\n        if len(A) == 0:\n            return 0\n        if A[0] < k:\n            return 1\n        if A[0] == k:\n            return product\n        return sum(self.numSubsequenceProductLessThanKRecur(A[1:], k, product * A[0]))",
+      -0.70361328125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n\n        res = 0\n        for i in range(len(A) - 1):\n            for j in range(i + 1, len(A)):\n                res += self.numSubsequenceProductLessThanK(A[j:], k)\n        return res",
+      -0.85595703125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        n = len(A)\n        product = 1\n        for i in xrange(n):\n            product *= A[i]\n        subseq_num = 0\n        for i in xrange(n):\n            if product <= k:\n                subseq_num += 1\n            if product * A[i] < k:\n                product *= A[i]\n        return subseq_num",
+      -0.85693359375
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def countSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        n = len(A)\n        dp = [[0] * (k + 1) for _ in range(n + 1)]\n        for i in range(1, n + 1):\n            for j in range(i):\n                for p in range(1, k + 1):\n                    if p <= A[j]:\n                        dp[i][p] = max(dp[i][p], dp[j][p])\n        return sum(dp[n][k])",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        nums.sort()\n        res = 0\n        for i in range(len(nums) - 1):\n            if nums[i] * nums[i+1] < k:\n                res += 1\n            elif nums[i] * nums[i+1] == k:\n                res += 2\n            elif nums[i] * nums[i+1] > k:\n                break\n        return res",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    def countSubsequences(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A or A[0] <= 0:\n            return 0\n        n = len(A)\n        res = 0\n        for i in range(n):\n            for j in range(i+1, n):\n                if A[i] * A[j] <= k:\n                    res += 1\n        return res",
+      -0.85791015625
+    ],
+    [
+      "def subsequence_product(arr, k):\n    return sum(arr[i] * arr[i+1] for i in range(len(arr) - 1) if arr[i] * arr[i+1] <= k)\n\nprint(subsequence_product([1,2,3,4,5], 3))",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @param {integer} k\n    # @return {integer}\n    def numSubseqProductLessThanK(self, nums, k):\n        if not nums:\n            return 0\n        return self.helper(nums, k)\n\n    def helper(self, nums, k):\n        if not nums:\n            return 0\n        if nums[0] < k:\n            return 0\n        if nums[0] == k:\n            return 1\n        count = 0\n        for i in range(len(nums)):\n            if nums[i] < k:\n                count += self.helper(nums[i+1:], k)\n            else:\n                count += self.helper(nums[i+1:], k-nums[i])\n        return count\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [1,2,3]\n    k = 4\n    print sol.numSubseqProductLessThanK(nums, k)",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def numSubseqWithProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(A) == 0:\n            return 0\n        n = len(A)\n        ans = 0\n        for i in range(n):\n            for j in range(i+1, n):\n                if A[i] * A[j] < k:\n                    ans += 1\n        return ans\n\na = Solution()\nprint(a.numSubseqWithProduct([1,2,3,4,5], 6))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(A)\n        if n == 0:\n            return 0\n        dp = [0] * (k + 1)\n        dp[0] = 1\n        for i in xrange(1, k + 1):\n            dp[i] = 0\n            for j in xrange(i):\n                if A[j] * A[i] < k:\n                    dp[i] += dp[j]\n        return dp[k]",
+      -0.85791015625
+    ],
+    [
+      "import math\n\ndef countSubsequences(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    # TODO\n\n    return 0\n\nif __name__ == '__main__':\n    print(countSubsequences([1,2,3,4,5], 2))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def countSmaller(self, arr, k):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # BFS\n        ans = 0\n        if len(arr) == 0:\n            return 0\n        else:\n            q = Queue()\n            q.put(arr[0])\n            ans += 1\n            while not q.empty():\n                curr = q.get()\n                if curr * curr < k:\n                    q.put(arr[1])\n                    ans += 1\n                else:\n                    break\n            return ans",
+      -0.85888671875
+    ],
+    [
+      "# Definition for an interval.\nclass Interval:\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution:\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ret = 0\n        if not A or A[0] < A[1]:\n            return ret\n        for i in range(len(A)):\n            if i == 0:\n                ret += 1\n            else:\n                ret += self.numSubsequenceProductLessThanK(A[i:], k)\n        return ret",
+      -0.85888671875
+    ],
+    [
+      "def numSubsequences(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    return len(subsequenceProduct(arr, k))\n\ndef subsequenceProduct(arr, k):\n    if len(arr) == 0:\n        return 1\n    if len(arr) == 1:\n        return arr[0]\n    if k <= arr[0]:\n        return 1\n    if k == arr[0]:\n        return arr[0]\n    return arr[0] * subsequenceProduct(arr[1:], k - arr[0])",
+      -0.85888671875
+    ],
+    [
+      "#!/bin/python\n\n\"\"\"\nThe input is a non-negative integer array.\nThe output is the number of subsequences having product less than k.\n\"\"\"\n\ndef num_subs_with_prod(arr, k):\n    res = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i]*arr[j] < k:\n                res += 1\n    return res\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4]\n    k = 2\n    print(num_subs_with_prod(arr, k))",
+      -0.85888671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/counting-subsequences/problem\n\nimport unittest\n\ndef counting_subsequences(arr, k):\n    # Complete this function\n    total_num = 0\n    for i in range(len(arr)):\n        for j in range(i):\n            if arr[i] * arr[j] < k:\n                total_num += 1\n    return total_num\n\nclass TestCode(unittest.TestCase):\n    def test_counting_subsequences(self):\n        self.assertEqual(counting_subsequences([1, 2, 3, 4, 5], 5), 0)\n        self.assertEqual(counting_subsequences([2, 3, 4, 5, 6, 7, 8], 7), 2)\n        self.assertEqual(counting_subsequences([1, 2, 3, 4, 5, 6, 7, 8], 8), 4)\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85888671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/smaller-product-of-array\n# https://www.hackerrank.com/challenges/smaller-product-of-array/problem\n# https://www.hackerrank.com/challenges/smaller-product-of-array/submissions/code/10572425\n\n#!/bin/python\n\nimport sys\n\n# Complete the smallerProduct function below.\ndef smallerProduct(arr, k):\n    res = 0\n    for i in range(len(arr)):\n        res = res + arr[i] * arr[i+1]\n    return res\n\nif __name__ == '__main__':\n    arr = []\n    arr = map(int, raw_input().strip().split(' '))\n    k = int(raw_input().strip())\n    print smallerProduct(arr, k)",
+      -0.85888671875
+    ],
+    [
+      "def count_subsequence_product(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n\n    subsequence_product = 0\n    for i in range(len(arr)):\n        if arr[i] == 1:\n            subsequence_product = subsequence_product * arr[i]\n        else:\n            if subsequence_product < k:\n                subsequence_product = subsequence_product * arr[i]\n            else:\n                subsequence_product = 0\n    return subsequence_product\n\n# Your code here\n\nprint(count_subsequence_product([1,1,1,1,2,2,2,2], 2))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integer\n    # @param k, an integer\n    # @return an integer\n    def numSubseqWithProductLessThanK(self, num, k):\n        # write your code here\n        n = len(num)\n        res = 0\n        for i in xrange(n):\n            for j in xrange(i+1, n):\n                if num[i] * num[j] < k:\n                    break\n                if j - i >= 2:\n                    res += 1\n        return res\n\n# test\ns = Solution()\nprint s.numSubseqWithProductLessThanK([1,2,3,4,5,6], 5)",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @param {integer} k\n    # @return {integer}\n    def numSubsequenceProductLessThanK(self, nums, k):\n        res = 0\n        for i in range(len(nums)):\n            if i == 0:\n                if nums[i] <= k:\n                    res += 1\n            else:\n                if nums[i] <= k:\n                    res += self.numSubsequenceProductLessThanK(nums[i:], k)\n        return res",
+      -0.888671875
+    ],
+    [
+      "from collections import Counter\n\nclass Solution:\n    \"\"\"\n    @param: n: A list of integers\n    @param: k: An integer\n    @return: An integer\n    \"\"\"\n    def numSubsequenceProductLessThanK(self, n, k):\n        return len(Counter(n).get(k, 0))\n\n    def numSubsequenceProductLessThanK_dp(self, n, k):\n        # write your code here\n        res = 0\n        for i in range(len(n)):\n            for j in range(i, len(n)):\n                if n[i] * n[j] < k:\n                    res += 1\n        return res\n\nif __name__ == '__main__':\n    print(Solution().numSubsequenceProductLessThanK(n=[2,3,5,6], k=10))\n    print(Solution().numSubsequenceProductLessThanK(n=[2,3,5,6], k=2))\n    print(Solution().numSubsequenceProductLessThanK(n=[2,3,5,6], k=6))",
+      -0.90966796875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        nums.sort()\n        ans = 0\n        for i in range(len(nums)):\n            if nums[i] > k:\n                break\n            for j in range(i, len(nums)):\n                if nums[j] < k:\n                    break\n                ans += 1\n                k *= nums[j]\n        return ans",
+      -1.0341796875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in range(len(A)):\n            for j in range(i, len(A)):\n                if A[j] == 0:\n                    continue\n                if A[i] * A[j] > k:\n                    break\n                result += 1\n        return result",
+      -1.212890625
+    ],
+    [
+      "import math\n\ndef count_subsequences_smaller_than(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    result = 0\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] * arr[j] < k:\n                break\n            else:\n                result += 1\n    return result\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7]\n    k = 10\n    print(count_subsequences_smaller_than(arr, k))",
+      -1.224609375
+    ],
+    [
+      "class Solution:\n    # @param nums, a list of integers\n    # @param k, an integer\n    # @return an integer\n    def numSubsequenceProductLessThanK(self, nums, k):\n        # write your code here\n        res = 0\n        if not nums:\n            return 0\n        n = len(nums)\n        for i in range(1, n):\n            for j in range(i+1, n):\n                if nums[i] * nums[j] < k:\n                    res += 1\n        return res\n\nif __name__ == \"__main__\":\n    print Solution().numSubsequenceProductLessThanK([1, 2, 3, 4], 5)",
+      -1.2802734375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, K):\n        \"\"\"\n        :type A: List[int]\n        :type K: int\n        :rtype: int\n        \"\"\"\n        \n        if not A:\n            return 0\n        \n        # write your code here\n        \n        # dp[i][j] = dp[i-1][j] + dp[i][j-1]\n        # if a[i] * a[j] < k, then we can find dp[i][j]\n        # if a[i] * a[j] > k, then no subsequence can be formed\n        # if a[i] * a[j] = k, then we can find dp[i][j]\n        # if a[i] * a[j] < k, then we can find dp[i][j]\n        # if a[i] * a[j] > k, then we can find dp[i][j]\n        # if a[i] * a[j] = k, then we can find dp[i][j]\n        # if a[i] * a[j] < k, then we can find dp[i][j]\n        # if a[i] * a[j] > k, then we can find dp[i][j]\n        # if a[i] * a[j] = k, then we can find dp[i][j]\n        # if a[i] * a[j] < k, then we can find dp[i][j]\n        # if a[i] * a[j] > k, then we can find dp[i][j]\n        # if a[i] * a[j] = k, then we can find dp[i][j]\n        # if a[i] * a[j] < k, then we can find dp[i][j]\n        # if a[i] * a[j] > k, then we can find dp[i][j]\n        # if a[i] * a[j] = k, then we can find dp[i][j]\n        # if",
+      -1.365234375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in range(len(A)):\n            for j in range(i+1, len(A)):\n                if A[i] * A[j] < k:\n                    result += 1\n        return result",
+      -1.431640625
+    ],
+    [
+      "import math\n\ndef findSubsequenceProduct(array, k):\n    # write your code here\n    n = len(array)\n    # number of subsequence\n    result = 0\n    for i in range(n):\n        # find the product of all subsequence\n        product = 1\n        for j in range(i):\n            product *= array[j]\n        # if product < k\n        if product < k:\n            result += 1\n    return result\n\n# test cases\n\narray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nk = 6\n\nprint(findSubsequenceProduct(array, k))",
+      -1.5537109375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        n = len(A)\n        dp = [0 for _ in range(n+1)]\n        for i in range(n):\n            for j in range(i+1, n+1):\n                if dp[j]!= 0:\n                    if A[i]*A[j] < k:\n                        dp[j] = dp[j] + 1\n                else:\n                    dp[j] = 1\n        return dp[n]",
+      -1.6279296875
+    ],
+    [
+      "#!/usr/bin/env python\n# coding=utf-8\nimport sys\n\nclass Solution:\n    def countSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in xrange(len(A)):\n            for j in xrange(i+1, len(A)):\n                if A[i] * A[j] > k:\n                    break\n                else:\n                    result += 1\n        return result\n\nif __name__ == '__main__':\n    s = Solution()\n    A = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    k = 10\n    print s.countSubsequenceProduct(A, k)",
+      -1.8740234375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(A)\n        dp = [0] * (k+1)\n        for i in range(1, k+1):\n            dp[i] = dp[i-1] + A[i-1] * A[i]\n        for i in range(n, 0, -1):\n            dp[1] += A[i-1] * A[i]\n        return dp[k]\n\n\nif __name__ == \"__main__\":\n    assert Solution().numSubsequenceProduct([1, 2, 3], 3) == 6",
+      -1.9365234375
+    ],
+    [
+      "import math\nimport time\n\n# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def countSubsequences(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        ans = 1\n        n = len(nums)\n        for i in xrange(n-1):\n            if nums[i] > k:\n                break\n            ans *= (nums[i+1] - nums[i])\n        return ans\n\nif __name__ == '__main__':\n    start_time = time.time()\n    print Solution().countSubsequences([1,2,3,4,5,6,7,8,9], 10)\n    print time.time() - start_time",
+      -2.119140625
+    ],
+    [
+      "import time\nstart_time = time.time()\n\nclass Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        res = 0\n        for i in range(len(nums)):\n            for j in range(i, len(nums)):\n                if nums[i] * nums[j] < k:\n                    res += 1\n        return res\n\n\nif __name__ == \"__main__\":\n    start_time = time.time()\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 10\n    print \"Time elapsed: %fs\" % (time.time() - start_time)\n    Solution().numSubsequenceProductLessThanK(nums, k)",
+      -2.267578125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in range(len(A)):\n            for j in range(i+1, len(A)):\n                if A[i]*A[j] < k:\n                    break\n                if A[i]*A[j] == k:\n                    result += 1\n        return result",
+      -2.55859375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n\n        n = len(A)\n        nums = [1] * n\n        res = 0\n\n        for i in range(n):\n            for j in range(i + 1, n):\n                nums[i] *= A[j]\n                nums[j] *= A[i]\n                res += nums[j] / k\n\n        return res\n\n    def numSubsequenceProductLessThanK2(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n\n        n = len(A)\n        res = 0\n        for i in range(n):\n            res += A[i] ** k / k\n\n        return res",
+      -2.701171875
+    ],
+    [
+      "from collections import Counter\n\ndef count_subsequences_smaller_than(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    # Count the number of subsequences\n    return sum(1 for _ in range(1, len(arr) + 1) if arr[i] * arr[i - 1] <= k)\n\n\ndef count_subsequences_smaller_than_recursive(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    # Count the number of subsequences\n    return sum(1 for _ in range(1, len(arr) + 1) if arr[i] * arr[i - 1] <= k)\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6]\n    k = 6\n    print(count_subsequences_smaller_than(arr, k))\n    print(count_subsequences_smaller_than_recursive(arr, k))\n    arr = [1, 2, 3, 4, 5, 6, 7, 8]\n    k = 6\n    print(count_subsequences_smaller_than(arr, k))\n    print(count_subsequences_smaller_than_recursive(arr, k))\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 6\n    print(count_subsequences_smaller_than(arr, k))\n    print(count_subsequences_smaller_than_recursive(arr, k))\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    k = 6\n    print(count_subsequences_smaller_than(arr, k))\n    print(count_subsequences_smaller_than_recursive(arr, k))",
+      -3.166015625
+    ],
+    [
+      "class Solution:\n    # @return an integer\n    def numSubsequenceProductLessThanK(self, A, k):\n        # write your code here\n        if not A: return 0\n        if k == 0: return 1\n        ans = 1\n        for i in range(1, len(A)):\n            for j in range(i):\n                if A[j] * A[i] <= k:\n                    ans += 1\n        return ans\n\nif __name__ == '__main__':\n    A = [1, 2, 3, 4, 5]\n    k = 3\n    sol = Solution()\n    print sol.numSubsequenceProductLessThanK(A, k)",
+      -3.509765625
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @param {integer} k\n    # @return {integer}\n    def numSubsequenceProductLessThanK(self, nums, k):\n        if not nums or not k:\n            return 0\n        dp = [0] * (k + 1)\n        for i in range(1, k + 1):\n            dp[i] = dp[i - 1] + 1\n        for i in range(1, len(nums) + 1):\n            for j in range(1, k + 1):\n                if j > i:\n                    dp[j] = dp[j - 1]\n                else:\n                    dp[j] = dp[j] + (nums[i - j] * dp[j - 1])\n        return dp[k]",
+      -4.46484375
+    ],
+    [
+      "class Solution(object):\n    def countSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # a[i] * a[j] > k for i < j\n        res = 0\n        for i in range(len(A)):\n            for j in range(i+1, len(A)):\n                if A[i] * A[j] > k:\n                    break\n                else:\n                    res += 1\n        return res\n\nif __name__ == \"__main__\":\n    print Solution().countSubsequenceProduct([1, 2, 3], 5)",
+      -4.53125
+    ],
+    [
+      "# Definition for a subsequence.\nclass Subsequence:\n    def __init__(self, s: str, t: str):\n        self.start = 0\n        self.end = len(s)\n        self.str = s\n        self.subsequence = t\n\n# Complete the function below.\ndef count_subsequences(array: List[int], k: int) -> int:\n    subseq_count = 0\n    for i in range(len(array)):\n        for j in range(i, len(array)):\n            if (array[i] * array[j]) < k:\n                subseq = array[i] + array[j] + array[i] + array[j]\n                subseq_count += 1\n                if subseq_count % 1000000 == 0:\n                    print(subseq_count)\n    return subseq_count\n\n\nif __name__ == '__main__':\n    assert count_subsequences([1, 2, 3, 4, 5, 6], 7) == 10",
+      -4.59765625
+    ],
+    [
+      "from collections import Counter\n\ndef subsequence_product(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n\n    if arr[0] > k:\n        return 0\n\n    n = len(arr)\n    cnt = Counter(arr).most_common()\n    return sum([cnt[i][0] for i in range(0, n) if cnt[i][0] <= k])\n\nif __name__ == '__main__':\n    print(subsequence_product([2, 3, 2, 3, 2, 2, 1, 1, 1], 3))",
+      -4.65625
+    ],
+    [
+      "class Solution:\n\t\n\t# @param num, a list of integer\n\t# @param k, an integer\n\t# @return an integer\n\tdef numSubsequenceProductLessThanK(self, num, k):\n\t\tres = 0\n\t\t\n\t\tfor i in range(len(num)):\n\t\t\tif num[i] == 1:\n\t\t\t\tcontinue\n\t\t\t\n\t\t\tif num[i] > k:\n\t\t\t\treturn res\n\t\t\t\n\t\t\tif num[i] % k == 0:\n\t\t\t\tres += 1\n\t\t\t\t\n\t\t\tif num[i] > k:\n\t\t\t\treturn res\n\t\t\t\n\t\t\tif num[i] % k!= 0:\n\t\t\t\tcontinue\n\t\t\t\n\t\t\tres += self.numSubsequenceProductLessThanK(num, k / num[i])\n\t\t\n\t\treturn res\n\t\n\t# @param num, a list of integer\n\t# @param k, an integer\n\t# @return an integer\n\tdef numSubsequenceProductLessThanK2(self, num, k):\n\t\tres = 0\n\t\t\n\t\tfor i in range(len(num)):\n\t\t\tif num[i] == 1:\n\t\t\t\tcontinue\n\t\t\t\n\t\t\tif num[i] > k:\n\t\t\t\treturn res\n\t\t\t\n\t\t\tif num[i] % k == 0:\n\t\t\t\tres += 1\n\t\t\t\t\n\t\t\tif num[i] > k:\n\t\t\t\treturn res\n\t\t\t\n\t\t\tif num[i] % k!= 0:\n\t\t\t\tcontinue\n\t\t\t\n\t\t\tres += self.numSubsequenceProductLessThanK2(num, k / num[i])\n\t\t\n\t\treturn res\n\t\n\t# @param num, a list of integer\n\t# @param k, an integer\n\t# @return an integer\n\tdef numSubsequenceProductLessThanK3(self, num, k):\n\t\tres = 0\n\t\t\n\t\tfor i in range(len(num)):\n\t\t\tif num[i] == 1:\n\t\t\t\tcontinue\n\t\t\t\n\t\t\tif num[i] > k:\n\t\t\t\treturn res\n\t\t\t\n\t\t\tif num[i] % k == 0:\n\t\t\t\tres += 1\n\t\t\t\t\n\t\t\tif num[i] > k:\n\t\t\t\treturn res\n\t\t\t\n\t\t\tif num[i] % k!= 0:\n\t\t\t\tcontinue",
+      -5.0546875
+    ],
+    [
+      "class Solution(object):\n    def numSubseqWithProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # dp[i][j] is the number of subsequences with product less than k[i][j]\n        # dp[i][0] is the number of subsequences with product less than k[i][0]\n        dp = [[0 for x in xrange(len(A)+1)] for y in xrange(len(A)+1)]\n        \n        for i in xrange(1, len(A)+1):\n            for j in xrange(1, len(A)+1):\n                if A[i-1] == A[j-1] and A[i-1] < k:\n                    dp[i][j] = dp[i-1][j-1] + 1\n                elif A[i-1]!= A[j-1] and A[i-1] < k and A[j-1] < k:\n                    dp[i][j] = min(dp[i-1][j], dp[i][j-1])\n        return dp[-1][-1]",
+      -5.296875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProduct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        dp = [0 for i in xrange(n)]\n        for i in xrange(n):\n            dp[i] = 1\n            for j in xrange(i + 1, n):\n                dp[j] = dp[j - 1] + nums[i] * nums[j]\n        return sum(dp[n - 1:])\n\nclass Solution(object):\n    def numSubsequenceProduct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        dp = [0] * (n + 1)\n        dp[0] = 1\n        for i in xrange(1, n + 1):\n            for j in xrange(i):\n                dp[i] += nums[j] * dp[j]\n        return dp[n]\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 4]\n    k = 4\n    print Solution().numSubsequenceProduct(nums, k)\n    print Solution().numSubsequenceProduct2(nums, k)",
+      -5.3046875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A: return 0\n        dp = [0] * len(A)\n        dp[0] = 1\n        for i in range(1, len(A)):\n            dp[i] = dp[i-1]\n            for j in range(i):\n                if A[i] < A[j]:\n                    dp[i] = dp[i] + dp[j]\n        return dp[-1]\n\nif __name__ == \"__main__\":\n    print Solution().numSubsequenceProductLessThanK([1,2,3], 4)",
+      -5.3671875
+    ],
+    [
+      "# https://oj.leetcode.com/problems/subsequence-product/\n\n\nclass Solution:\n    # @param num, a list of integers\n    # @param k, an integer\n    # @return an integer\n    def numSubseqWithProductLessThanK(self, num, k):\n        if not num:\n            return 0\n        if num[0] > k:\n            return 0\n        res = 0\n        for i in range(1, len(num)):\n            if num[i] > num[i-1]:\n                res += self.numSubseqWithProductLessThanK(num[i-1:], k)\n        return res",
+      -5.44140625
+    ],
+    [
+      "import collections\n\n# https://leetcode.com/problems/smallest-product-of-three-in-a-vector/discuss/133864/Python-DP-solution-O(n^2)\ndef three_prod(arr, k):\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return arr[0] * arr[0] * arr[0]\n    if arr[0] * arr[0] < k:\n        return three_prod(arr[1:], k)\n    if arr[0] * arr[1] < k:\n        return three_prod(arr[2:], k)\n    return three_prod(arr[1:], k) * arr[0] * arr[2]\n\ndef three_prod_iter(arr, k):\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return arr[0] * arr[0] * arr[0]\n    if arr[0] * arr[0] < k:\n        return three_prod_iter(arr[1:], k)\n    if arr[0] * arr[1] < k:\n        return three_prod_iter(arr[2:], k)\n    return three_prod_iter(arr[1:], k) * arr[0] * arr[2]\n\ndef three_prod_dp(arr, k):\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return arr[0] * arr[0] * arr[0]\n    if arr[0] * arr[0] < k:\n        return three_prod_dp(arr[1:], k)\n    if arr[0] * arr[1] < k:\n        return three_prod_dp(arr[2:], k)\n    return three_prod_dp(arr[1:], k) * arr[0] * arr[2]\n\n# Time:  O(n^2)\n# Space: O(n)\nclass Solution(object):\n    def threeSum",
+      -5.484375
+    ],
+    [
+      "import math\n\ndef find_num_subseq(arr, k):\n    if not arr:\n        return 0\n    if k == 0:\n        return 0\n    if k == 1:\n        return len(arr)\n    if arr[0] == 1:\n        return 1\n    if arr[0] == 2:\n        return 2\n    if arr[0] == 3:\n        return 3\n    if arr[0] % 2 == 0:\n        return find_num_subseq(arr[1:], k / arr[0]) + find_num_subseq(arr[1:], k % arr[0])\n    if arr[0] % 2 == 1:\n        return find_num_subseq(arr[1:], k / arr[0])\n    return find_num_subseq(arr[1:], k)\n\ndef main():\n    arr = [1,2,3,4,5]\n    k = 4\n    print(find_num_subseq(arr, k))\n    \nif __name__ == '__main__':\n    main()",
+      -5.578125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(A)\n        if n == 0:\n            return 0\n        if n == 1:\n            return A[0] < k and A[0] == k and 1 == A[0]\n        dp = [0] * (k + 1)\n        dp[0] = 1\n        for i in range(1, k + 1):\n            dp[i] = 0\n            for j in range(n):\n                if A[j] < i:\n                    dp[i] += dp[i - A[j]]\n        return dp[k]",
+      -5.7421875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A: return 0\n        return sum(self.numSubsequenceProduct(sub, k) for sub in self.subsequences(A, k))\n\n    def subsequences(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        if not A: return []\n        if k == 1: return [[]]\n        return [[A[i] * A[i+1] for i in range(len(A)-1)] for i in range(len(A)-2, -1, -1)]",
+      -5.796875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if not nums[0]:\n            return 0\n        ans = 0\n        for i in range(len(nums)):\n            if nums[i] < k:\n                ans += 1\n            if nums[i] > k:\n                break\n        for j in range(i+1, len(nums)):\n            if nums[j] > k:\n                break\n            if nums[j] < k:\n                ans += 1\n        return ans",
+      -5.96484375
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.numSubsequenceProductLessThanK_dp(nums, k, 0, len(nums), 1)\n\n    def numSubsequenceProductLessThanK_dp(self, nums, k, start, end, prod):\n        if prod > k:\n            return 0\n        if prod == k:\n            return 1\n        if prod < k:\n            return 0\n        if start == end:\n            return 0\n        return self.numSubsequenceProductLessThanK_dp(nums, k, start, end, prod * nums[start]) + self.numSubsequenceProductLessThanK_dp(nums, k, start + 1, end, prod * nums[start])",
+      -5.97265625
+    ],
+    [
+      "# https://leetcode.com/problems/subsequence-product/\n\nclass Solution(object):\n    def subsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using-Binary-Search-with-Python-Sorting-Solutions\n        # https://leetcode.com/problems/subsequence-product/discuss/222837/C++-and-Python-Solution-using",
+      -6.19140625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/subsequence-product/\n\n# Definition for a subsequence.\n# class Subsequence(object):\n#     def __init__(self, s, k):\n#         self.s = s\n#         self.k = k\n\n# http://www.youtube.com/watch?v=xHXfqz7sQQw\nclass Solution(object):\n    def countSubseqProduct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        nums = sorted(nums)\n        dp = [0] * len(nums)\n        for i in range(len(nums)):\n            dp[i] = 1\n            for j in range(i, len(nums)):\n                if nums[i] * nums[j] > k:\n                    break\n                dp[j] += dp[j-1]\n        return dp[-1]",
+      -6.19140625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    def countSubseq(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0:\n            return 0\n        if k == 1:\n            return len(A)\n        if k == 2:\n            return sum(1 for i in A if i > 0)\n        ans = 0\n        for i in range(len(A)):\n            if i > 0 and A[i] * A[i-1] > k:\n                ans += 1\n            elif i > 0 and A[i] * A[i-1] < k:\n                ans += 1\n                while i < len(A) - 1 and A[i] * A[i+1] < k:\n                    ans += 1\n                    i += 1\n        return ans\n\nif __name__ == '__main__':\n    A = [1, 2, 3, 4]\n    k = 4\n    print(Solution().countSubseq(A, k))",
+      -6.90234375
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n\tdef __init__(self, val=0, left=None, right=None):\n\t\tself.val = val\n\t\tself.left = left\n\t\tself.right = right\n\nclass Solution:\n\t# @param root, a tree node\n\t# @param k, an integer\n\t# @return an integer\n\tdef numSub(self, root, k):\n\t\tif not root:\n\t\t\treturn 0\n\t\tsub = self.numSub(root.left, k)\n\t\tif k == 1:\n\t\t\treturn 1 if root.val == 1 else 0\n\t\telif k == 2:\n\t\t\treturn 1 if root.val * root.val < 2 else 0\n\t\telif k == 3:\n\t\t\treturn sub\n\t\telse:\n\t\t\treturn sub + self.numSub(root.right, k - 1)",
+      -7.0078125
+    ],
+    [
+      "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\n# #############################################################################\n#\n# Author: Yann LeCun\n#\n#         email: yann.lecun@gmail.com\n#\n#         Copyright (c) 2006\n#\n#         All rights reserved.\n#\n# #############################################################################\n\nimport numpy as np\n\nclass Solution(object):\n    \"\"\"\n    @param nums: A list of integers\n    @param k: An integer\n    @return: A integer\n    \"\"\"\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        n = len(nums)\n        return self.numSubsequenceProductLessThanK_1(nums, k, 0, n)\n\n    def numSubsequenceProductLessThanK_1(self, nums, k, start, end):\n        \"\"\"\n        @param nums: A list of integers\n        @param k: An integer\n        @param start: An integer\n        @param end: An integer\n        @return: A integer\n        \"\"\"\n        if start == end:\n            return 0\n\n        if k == 1:\n            return 1\n\n        if nums[start] >= k:\n            return 0\n\n        # for i in range(start, end):\n        #     if nums[i] == k:\n        #         return 0\n        #     if nums[i] < k:\n        #         continue\n        #     return self.numSubsequenceProductLessThanK_1(nums, k, start, i - 1) + self.numSubsequenceProductLessThanK_1(nums, k, i + 1, end)\n\n        # return 0\n\n        # for i in range(start, end):\n        #     if nums[i] == k:\n        #         return 0\n        #     if nums[i] < k:\n        #         continue\n        #     return self.numSubsequenceProductLessTh",
+      -7.32421875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        n = len(A)\n        res = 0\n        for i in range(n):\n            for j in range(i, n):\n                res += self.find(A[i:j], k)\n        return res\n        \n    def find(self, A, k):\n        if not A:\n            return 0\n        if len(A) == 1:\n            return A[0] <= k\n        if len(A) == 2:\n            if A[0] < k and A[1] < k:\n                return True\n            return A[0] <= k and A[1] <= k\n        if A[0] < k:\n            return True\n        if A[-1] < k:\n            return True\n        if A[-1] < k:\n            return True\n        return self.find(A[1:-1], k)\n        \n        \nif __name__ == \"__main__\":\n    s = Solution()\n    print s.numSubsequenceProductLessThanK([2, 3, 5, 3], 4)\n    print s.numSubsequenceProductLessThanK([2, 3, 5, 3], 5)",
+      -7.6875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def numSubseqProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        def dfs(A, k, ans):\n            if k == 0:\n                return ans\n            for i in range(len(A)):\n                if A[i] * A[i + 1] > k:\n                    continue\n                else:\n                    ans += 1\n                    dfs(A[i + 1:], k - A[i] * A[i + 1], ans)\n        ans = 0\n        dfs(A, k, ans)\n        return ans",
+      -8.015625
+    ],
+    [
+      "# https://leetcode.com/problems/subsequence-with-product-smaller-than-k/discuss/115889/Python-solution-with-explanation\n# https://leetcode.com/problems/subsequence-with-product-smaller-than-k/discuss/115939/C++-solution\nclass Solution(object):\n    def numSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # base case\n        if k == 0:\n            return 0\n        \n        # if sum of A is greater than k, return 0\n        if sum(A) >= k:\n            return 0\n        \n        # initialize result to 0\n        result = 0\n        \n        # iterate through A, find the first index\n        # where sum of A is greater than k\n        for i in range(len(A)):\n            # if sum of A is greater than k,\n            # then add the result to result\n            if sum(A[i:]) >= k:\n                result += 1\n        \n        # return result\n        return result\n        \n    def numSubsequenceProduct1(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # base case\n        if k == 0:\n            return 0\n        \n        # if sum of A is greater than k, return 0\n        if sum(A) >= k:\n            return 0\n        \n        # initialize result to 0\n        result = 0\n        \n        # iterate through A, find the first index\n        # where sum of A is greater than k\n        for i in range(len(A)):\n            # if sum of A is greater than k,\n            # then add the result to result\n            if sum(A[i:]) >= k:\n                result += 1\n        \n        # return result\n        return result\n        \n    def numSubsequenceProduct2(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int",
+      -8.1171875
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def numSubArrayProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A or len(A) == 0:\n            return 0\n        if len(A) == 1:\n            return 1 if A[0] < k else 0\n        if len(A) == 2:\n            return 1 if A[0] * A[1] < k else 0\n        if len(A) == 3:\n            return 1 if A[0] * A[1] * A[2] < k else 0\n        if len(A) == 4:\n            return 1 if A[0] * A[1] * A[2] * A[3] < k else 0\n        if len(A) == 5:\n            return 1 if A[0] * A[1] * A[2] * A[3] * A[4] < k else 0\n        if len(A) == 6:\n            return 1 if A[0] * A[1] * A[2] * A[3] * A[4] * A[5] < k else 0\n        if len(A) == 7:\n            return 1 if A[0] * A[1] * A[2] * A[3] * A[4] * A[5] * A[6] < k else 0\n        if len(A) == 8:\n            return 1 if A[0] * A[1] * A[2] * A[3] * A[4] * A[5] * A[6] * A[7] < k else 0\n        if len(A) == 9:\n            return 1 if A[0] * A[1] * A[2] * A[3] * A[4] * A[5] * A[6] * A[7] * A[8] < k else 0\n        if len(A",
+      -8.15625
+    ],
+    [
+      "from __future__ import print_function\n\ndef subsequence_product_smaller_than_k(nums, k):\n\tif len(nums) == 0:\n\t\treturn 0\n\n\tif nums[0] > k:\n\t\treturn 0\n\n\tif nums[0] == k:\n\t\treturn 1\n\n\ttotal_count = 0\n\tfor i in range(1, len(nums)):\n\t\tif nums[i] < k:\n\t\t\ttotal_count += subsequence_product_smaller_than_k(nums[:i], k)\n\t\telse:\n\t\t\ttotal_count += subsequence_product_smaller_than_k(nums[i:], k)\n\n\treturn total_count\n\nif __name__ == '__main__':\n\tnums = [1, 2, 3, 4, 5]\n\tk = 3\n\n\tprint(subsequence_product_smaller_than_k(nums, k))",
+      -8.640625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(A) == 0:\n            return 0\n        ans = 0\n        for i in xrange(len(A)):\n            for j in xrange(i+1, len(A)):\n                if A[i]*A[j] < k:\n                    ans += 1\n        return ans\n\nif __name__ == \"__main__\":\n    assert Solution().numSubsequenceProductLessThanK([1,2,3,4,5,6,7], 1) == 6\n    assert Solution().numSubsequenceProductLessThanK([1,2,3,4,5,6,7], 3) == 5\n    assert Solution().numSubsequenceProductLessThanK([1,2,3,4,5,6,7], 7) == 0\n    assert Solution().numSubsequenceProductLessThanK([1,2,3,4,5,6,7], 6) == 6",
+      -9.1640625
+    ],
+    [
+      "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def numSubarrayProductLessThanK(self, num, k):\n        \"\"\"\n        :type num: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(num) == 0:\n            return 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[0] < k else 0\n\n        # base case\n        if k == 1:\n            return 1 if num[",
+      -9.28125
+    ],
+    [
+      "# https://leetcode.com/problems/product-of-subsequences-smaller-than-k/discuss/56900/Python-with-O(n^2)-and-O(n^3)-Time-and-Space-Solution\n\nclass Solution(object):\n    def numSubsequenceProductLessThanK(self, A, K):\n        \"\"\"\n        :type A: List[int]\n        :type K: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        n = len(A)\n        dp = [1] * n\n        for i in xrange(1, n):\n            for j in xrange(i):\n                dp[i] += min(A[j], A[i]) * dp[j]\n        return dp[-1]\n\n    def numSubsequenceProductLessThanK2(self, A, K):\n        \"\"\"\n        :type A: List[int]\n        :type K: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n        n = len(A)\n        dp = [1] * n\n        for i in xrange(1, n):\n            for j in xrange(i):\n                dp[i] += min(A[j], A[i]) * dp[j]\n        return dp[-1]\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print sol.numSubsequenceProductLessThanK([1, 2, 3, 4], 4)\n    print sol.numSubsequenceProductLessThanK2([1, 2, 3, 4], 4)",
+      -9.3203125
+    ],
+    [
+      "class Solution(object):\n    def numSubarrayProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if k == 1:\n            return 1\n        if k == 2:\n            return n\n        if k == 3:\n            return 2*n*(n-1)/2\n        if k == 4:\n            return 3*n*(n-1)*(n-2)/6\n        if k == 5:\n            return 4*n*(n-1)*(n-2)*(n-3)/20\n        if k == 6:\n            return 5*n*(n-1)*(n-2)*(n-3)*(n-4)/40\n        if k == 7:\n            return 6*n*(n-1)*(n-2)*(n-3)*(n-4)*(n-5)/56\n        if k == 8:\n            return 7*n*(n-1)*(n-2)*(n-3)*(n-4)*(n-5)*(n-6)/120\n        if k == 9:\n            return 8*n*(n-1)*(n-2)*(n-3)*(n-4)*(n-5)*(n-6)*(n-7)/140\n        if k == 10:\n            return 9*n*(n-1)*(n-2)*(n-3)*(n-4)*(n-5)*(n-6)*(n-7)*(n-8)/280\n        if k == 11:\n            return 10*n*(n-1)*(n-2)*(n-3)*(n-4)*(n-5)*(n-6)*(n-7)*(n-8)*(n-9)/420\n        if k == 12:\n            return 11*n*(n-1)*(n-2)*(n-3)*(n-4)*(n-5)*(n-6)*(n-7)*(n-8)*(n-9)*(n-10)/840",
+      -9.421875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k <= 0:\n            return 0\n        if len(A) == 0:\n            return 0\n        sz = len(A)\n        cnt = 0\n        dp = [[0] * sz for _ in range(sz)]\n        for i in range(sz):\n            dp[i][i] = 1\n            for j in range(i + 1):\n                dp[i][j] = dp[i][j - 1] + dp[j][i]\n        for j in range(sz):\n            for i in range(sz):\n                if i == j:\n                    continue\n                if A[i] * A[j] < k:\n                    cnt += dp[i][j]\n        return cnt",
+      -9.890625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProduct(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(A)\n        m = 1\n        for i in range(n):\n            m = m * A[i]\n        m = m / k\n        dp = [[0] * (k+1) for _ in range(n+1)]\n        dp[0][0] = 1\n        for i in range(1, n+1):\n            dp[i][0] = 1\n        for i in range(1, n+1):\n            dp[i][1] = A[i-1]\n        for j in range(2, k+1):\n            for i in range(1, n+1):\n                dp[i][j] = dp[i][j-1] + dp[i-1][j-1]\n        return dp[n][k]",
+      -10.1328125
+    ],
+    [
+      "# Definition for a  subsequence.\n# class Subsequence(object):\n#     def __init__(self, s, idx):\n#         self.s = s\n#         self.idx = idx\n\nclass Solution(object):\n    def numSubseqWithProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # dp[i]\u8868\u793aA[0..i]\u7684\u6709\u6548\u5b50\u5e8f\u5217\u7684\u6570\u91cf\n        dp = [0] * len(A)\n        for i in range(len(A)):\n            # \u5982\u679cA[i] > k \u5219\u6bcf\u4e2a\u5b50\u5e8f\u5217\u7684\u6570\u91cf\u90fd\u4e3a0\n            if A[i] > k:\n                dp[i] = 0\n            # \u5982\u679cA[i] <= k \u5219\u6bcf\u4e2a\u5b50\u5e8f\u5217\u7684\u6570\u91cf\u90fd\u4e3a1\n            elif A[i] <= k:\n                dp[i] = 1\n            # \u5982\u679cA[i] > k \u5219\u6bcf\u4e2a\u5b50\u5e8f\u5217\u7684\u6570\u91cf\u90fd\u4e3adp[i-1]+1\n            else:\n                dp[i] = dp[i-1] + 1\n        return dp[-1]\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print sol.numSubseqWithProductLessThanK([1,2,3], 3)",
+      -10.1328125
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integers\n    # @param k, an integer\n    # @return an integer\n    def numSubseqWithProductLessThanK(self, num, k):\n        if not num or len(num) == 0:\n            return 0\n        \n        n = len(num)\n        dp = [[0 for j in xrange(n+1)] for i in xrange(k+1)]\n        \n        for i in xrange(1, k+1):\n            for j in xrange(1, n+1):\n                if num[j-1] < k:\n                    dp[i][j] = dp[i-1][j] + 1\n                elif num[j-1] == k:\n                    dp[i][j] = dp[i-1][j-1]\n                else:\n                    dp[i][j] = 0\n        \n        return dp[k][n]",
+      -10.265625
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # https://leetcode.com/problems/subsequence-product-less-than-k/discuss/381872/C++-Solution-with-a-lot-of-comments\n        # This algorithm is not efficient.\n        # The problem is: the time complexity is O(n*logk), where n is the length of A.\n        # The space complexity is O(k).\n        # The solution is:\n        # 1. We count the number of subsequence with product less than k in the range [1, k].\n        # 2. We count the number of subsequence with product greater than k in the range [k + 1, k*k].\n        # 3. We count the number of subsequence with product greater than k in the range [k*k + 1, k*k*k].\n        # 4. We can use the sum of the two numbers.\n        # 5. We can use the product of the two numbers.\n        # 6. We can use the product of the sum of the two numbers.\n        # 7. We can use the product of the product of the two numbers.\n        # 8. We can use the product of the product of the sum of the two numbers.\n        # 9. We can use the product of the product of the product of the two numbers.\n        # 10. We can use the sum of the product of the sum of the two numbers.\n        # 11. We can use the product of the sum of the product of the two numbers.\n        # 12. We can use the sum of the product of the product of the sum of the two numbers.\n        # 13. We can use the sum of the product of the product of the product of the two numbers.\n        # 14. We can use the sum of the product of the product of the product of the sum of the two numbers.\n        # 15. We can use the sum of the product of the product of the product of the product of the two numbers.\n        # 16. We can use the sum of the product of the product of the product of",
+      -10.3125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A:\n            return 0\n\n        # sort A\n        A = sorted(A)\n\n        # find the largest product of subsequences\n        max_product = 1\n        for i in range(1, len(A)):\n            max_product = max(max_product, A[i - 1] * A[i])\n\n        # find the number of subsequences with product less than k\n        return sum(1 for i in range(1, len(A)) if A[i - 1] * A[i] < k and A[i - 1] * A[i] > 1)\n\n\nif __name__ == \"__main__\":\n    print Solution().numSubsequenceProductLessThanK([2, 3, 5, 6, 8, 10], 10)\n    print Solution().numSubsequenceProductLessThanK([1, 1, 1], 1)",
+      -10.421875
+    ],
+    [
+      "# Definition for a subsequence.\nclass Subsequence(object):\n    def __init__(self, s):\n        self.s = s\n\nclass Solution(object):\n    def numSubseqWithProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0:\n            return 0\n        n = len(A)\n        ans = 0\n        for i in range(n):\n            for j in range(i, n):\n                s = Subsequence(A[i:j])\n                if s.s[0] * s.s[1] <= k:\n                    ans += 1\n        return ans\n\n# Note:\n# 1. This solution is not really good.\n# 2. I'm not sure if it's the right solution.\n\n# Note:\n# 1. It's very easy to understand, but it's not good solution.\n# 2. The solution below is not good, because it's not very good.\n# 3. The solution below is not good, because it's not very good.\n# 4. The solution below is not good, because it's not very good.\n# 5. The solution below is not good, because it's not very good.\n# 6. The solution below is not good, because it's not very good.\n# 7. The solution below is not good, because it's not very good.\n# 8. The solution below is not good, because it's not very good.\n# 9. The solution below is not good, because it's not very good.\n# 10. The solution below is not good, because it's not very good.\n# 11. The solution below is not good, because it's not very good.\n# 12. The solution below is not good, because it's not very good.\n# 13. The solution below is not good, because it's not very good.\n# 14. The solution below is not good, because it's not very good.\n# 15. The solution below is not good, because it's not very good.\n# 16. The solution below is not good, because it's not very good.\n# 17. The solution below is not good, because it's",
+      -10.796875
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.count(A, k)\n\n    def count(self, A, k):\n        return sum(self.count_product(A, k))\n\n    def count_product(self, A, k):\n        if len(A) == 0:\n            return 0\n\n        count = 1\n        for i in xrange(len(A) - 1):\n            count *= A[i]\n            if count < k:\n                count = 1\n            else:\n                count += 1\n\n        return count\n\nif __name__ == '__main__':\n    print Solution().numSubsequenceProductLessThanK([2,3,4,5,6,7], 7)\n    print Solution().numSubsequenceProductLessThanK([1,2,3,4,5,6,7], 7)\n    print Solution().numSubsequenceProductLessThanK([1,2,3,4,5,6,7], 8)",
+      -11.84375
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def numSubseqWithProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        if len(nums) == 1:\n            return 1\n        \n        def traverse(nums, k, index):\n            if index == len(nums):\n                return 0\n            \n            # if product of the first element is less than k\n            if nums[index] < k:\n                return traverse(nums, k, index+1)\n            \n            # if product of the first element is greater than k\n            elif nums[index] > k:\n                return traverse(nums, k, index+1)\n            \n            # if product of the first element is equal to k\n            else:\n                # if product of the first element is less than k\n                if nums[index] < k:\n                    return traverse(nums, k, index+1)\n                \n                # if product of the first element is greater than k\n                elif nums[index] > k:\n                    return traverse(nums, k, index+1)\n                \n                # if product of the first element is equal to k\n                else:\n                    return traverse(nums, k, index+1)\n        \n        return traverse(nums, k, 0)\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.numSubseqWithProductLessThanK([1,2,3,4], 4))",
+      -11.8671875
+    ],
+    [
+      "#!/usr/bin/env python\n\nimport math\n\ndef find_product(arr, k):\n    \"\"\"\n    :type arr: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    # sort the list\n    arr = sorted(arr)\n    # count the number of subsequences having product smaller than k\n    result = 0\n    for i in range(len(arr) - 1):\n        # skip the first element\n        if arr[i] >= k:\n            continue\n        # calculate the product of the current element and the next element\n        product = arr[i] * arr[i + 1]\n        # skip if the product is greater than k\n        if product >= k:\n            continue\n        # count the number of subsequences having product smaller than k\n        result += int(math.sqrt(product))\n    return result\n\nif __name__ == '__main__':\n    arr = [2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 5\n    print(find_product(arr, k))",
+      -12.140625
+    ],
+    [
+      "# https://leetcode.com/problems/subsequence-product/discuss/3324/Java-O(n2)-Space-O(n)-Time-Solution-using-recursion\n\n# This is a basic implementation of a recursive solution.\n# But you can also use a stack to keep track of the subsequence.\n# If you want to understand this implementation,\n# you can read the comments in the code.\n# If you want to understand the solution,\n# you can read the comments in the code.\n\n# Note that this solution is not perfect.\n# If the number of subsequences is small,\n# then the time complexity is O(n).\n# But if the number of subsequences is large,\n# then the time complexity is O(n^2).\n# This is because the number of subsequences is proportional to the product of the subsequences.\n\n# Time complexity: O(n^2)\n# Space complexity: O(n)\n\n# The solution is not perfect.\n# If the number of subsequences is small,\n# then the time complexity is O(n).\n# But if the number of subsequences is large,\n# then the time complexity is O(n^2).\n# This is because the number of subsequences is proportional to the product of the subsequences.\n\nclass Solution:\n    # @param num, a list of integer\n    # @param k, an integer\n    # @return an integer\n    def numSubseqWithProductLessThanK(self, num, k):\n        if not num or not k:\n            return 0\n\n        # To keep track of the product of the subsequences.\n        # We use a stack to keep track of the product of the subsequences.\n        # The stack is used to keep track of the product of the subsequences.\n        # So if we are currently tracking the product of the subsequences of num[i] and num[j],\n        # and the product of the subsequences of num[i] and num[j] is smaller than k,\n        # then the product of the subsequences of num[i] and num[j] is smaller than k.\n        # Otherwise, the product of the subsequences of num[i] and num[j] is larger than k.\n        stack = []",
+      -12.53125
+    ],
+    [
+      "from collections import defaultdict\nfrom math import ceil\n\n\ndef subsequence_product_smaller_than_k(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    # dp[i][j] is the number of subsequences with product smaller than k for the first i numbers and the last j numbers\n    dp = [[0 for _ in range(ceil(k / i))] for _ in range(ceil(k / i))]\n    for i in range(len(nums)):\n        for j in range(ceil(k / i), 0, -1):\n            # i = 0, j = 0\n            dp[0][0] += 1\n            # i = 0, j = 1\n            dp[0][1] += nums[i] * dp[0][0]\n            # i = 1, j = 1\n            dp[1][1] += nums[i] * dp[1][0]\n            # i = 1, j = 2\n            dp[1][2] += nums[i] * dp[1][1]\n            # i = 2, j = 1\n            dp[2][1] += nums[i] * dp[2][0]\n            # i = 2, j = 2\n            dp[2][2] += nums[i] * dp[2][1]\n            # i = 3, j = 1\n            dp[3][1] += nums[i] * dp[3][0]\n            # i = 3, j = 2\n            dp[3][2] += nums[i] * dp[3][1]\n            # i = 3, j = 3\n            dp[3][3] += nums[i] * dp[3][2]\n            # i = 4, j = 1\n            dp[4][1] += nums[i] * dp[4][0]\n            # i = 4, j = 2\n            dp[4][2] += nums[i] * dp[4][1]\n            # i = 4, j = 3\n            dp[",
+      -13.2578125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.numSubsequenceProduct(nums, k, 0, len(nums) - 1)\n        \n    def numSubsequenceProduct(self, nums, k, l, r):\n        if l == r:\n            if nums[l] <= k:\n                return 1\n            else:\n                return 0\n        else:\n            return self.numSubsequenceProduct(nums, k, l + 1, r) + self.numSubsequenceProduct(nums, k, l + 1, r - 1)\n\nif __name__ == \"__main__\":\n    Solution().numSubsequenceProduct([3,2,1,4,5,6], 3)",
+      -13.375
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @param {integer} k\n    # @return {integer}\n    def numSubsequenceProductLessThanK(self, nums, k):\n        if len(nums) == 0:\n            return 0\n        nums.sort()\n        nums.append(0)\n        ans = 0\n        for i in range(len(nums) - 1):\n            if nums[i] >= k:\n                break\n            ans += sum(nums[i:])\n        return ans\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.numSubsequenceProductLessThanK([1,2,3,4,5], 3))",
+      -13.4453125
+    ],
+    [
+      "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    def numSubseqProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # the answer is just the number of non-empty intervals.\n        ans = 0\n        for i in range(len(A)):\n            if A[i] == 0:\n                continue\n            ans += len(self.findInterval(A[:i], A[i], k))\n        return ans\n    \n    def findInterval(self, a, b, k):\n        if a == b:\n            return [a]\n        if a > b:\n            return []\n        mid = (a + b) / 2\n        if a == mid:\n            return self.findInterval(a, b, k)\n        elif b == mid:\n            return self.findInterval(a, b, k)\n        else:\n            left = self.findInterval(a, mid, k)\n            right = self.findInterval(mid, b, k)\n            return [i for i in left if i in right]",
+      -14.8359375
+    ],
+    [
+      "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\n\"\"\"\nGiven an integer array, return the number of subsequences having product less than k.\n\nExample\nGiven [1,2,3], k = 3, return 3.\n\nChallenge\nO(n log k) time and O(n) space.\n\"\"\"\n\n# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\nclass Solution(object):\n    def numSubseq(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # dp[i][j] means the number of subsequences having product less than k\n        # dp[i][j] = dp[i][j - 1] + dp[i - 1][j]\n        dp = [[0 for x in range(k + 1)] for x in range(len(A) + 1)]\n        for i in range(1, len(A) + 1):\n            for j in range(i):\n                dp[i][j] = dp[i - 1][j] + dp[i - 1][j - 1]\n        return dp[-1][-1]\n\n\nif __name__ == \"__main__\":\n    A = [1, 2, 3]\n    k = 3\n    print Solution().numSubseq(A, k)\n    print Solution().numSubseq([1, 2], k)",
+      -15.03125
+    ],
+    [
+      "class Solution(object):\n    def numSubsequenceProductLessThanK(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.numSubsequenceProductLessThanK1(A, k)\n\n    def numSubsequenceProductLessThanK1(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not A or A[0] < 1:\n            return 0\n\n        # the number of subsequence having product less than k\n        n = len(A)\n        ret = 0\n\n        # the possible subsequences\n        possible = [[] for i in xrange(n)]\n\n        for i in xrange(n):\n            for j in xrange(i):\n                possible[i].append(A[j])\n\n        for i in xrange(1, n):\n            for j in xrange(i):\n                if A[i] < k and A[j] * A[i] < k:\n                    ret += self.numSubsequenceProductLessThanK1(possible[i], k)\n                    possible[i] = []\n\n        return ret",
+      -15.921875
+    ],
+    [
+      "# Definition for a subsequence.\n# class Subsequence:\n#     def __init__(self, s: str, k: int):\n#         self.s = s\n#         self.k = k\n\nclass Solution(object):\n    def numSubseq(self, A, k):\n        \"\"\"\n        :type A: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(A) == 0:\n            return 0\n        n = len(A)\n        dp = [0] * (k + 1)\n        for i in range(n):\n            for j in range(i, n):\n                if A[i] * A[j] < k:\n                    dp[k] += 1\n        return dp[k]",
+      -16.046875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

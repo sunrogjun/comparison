@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/119",
+    "prompt": "\ndef match_parens(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n\n    Examples:\n    match_parens(['()(', ')']) == 'Yes'\n    match_parens([')', ')']) == 'No'\n    '''\n",
+    "canonical_solution": "    def check(s):\n        val = 0\n        for i in s:\n            if i == '(':\n                val = val + 1\n            else:\n                val = val - 1\n            if val < 0:\n                return False\n        return True if val == 0 else False\n\n    S1 = lst[0] + lst[1]\n    S2 = lst[1] + lst[0]\n    return 'Yes' if check(S1) or check(S2) else 'No'\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate(['()(', ')']) == 'Yes'\n    assert candidate([')', ')']) == 'No'\n    assert candidate(['(()(())', '())())']) == 'No'\n    assert candidate([')())', '(()()(']) == 'Yes'\n    assert candidate(['(())))', '(()())((']) == 'Yes'\n    assert candidate(['()', '())']) == 'No'\n    assert candidate(['(()(', '()))()']) == 'Yes'\n    assert candidate(['((((', '((())']) == 'No'\n    assert candidate([')(()', '(()(']) == 'No'\n    assert candidate([')(', ')(']) == 'No'\n    \n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate(['(', ')']) == 'Yes'\n    assert candidate([')', '(']) == 'Yes' \n\n",
+    "entry_point": "match_parens",
+    "docstring": "",
+    "problem_id": 119
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def is_balanced(parens):\n        stack = []\n        for paren in parens:\n            if paren == '(':\n                stack.append(paren)\n            else:\n                if len(stack) > 0:\n                    stack.pop()\n                else:\n                    return False\n        return len(stack) == 0\n\n    return 'Yes' if is_balanced(lst[0] + lst[1]) else 'No'",
+      6.55859375
+    ],
+    [
+      "return 'Yes' if check_match(lst[0] + lst[1]) else 'No'\n\ndef check_match(s):\n    stack = []\n    for i in s:\n        if i == '(':\n            stack.append(i)\n        elif i == ')':\n            if not stack:\n                return False\n            stack.pop()\n    return not stack\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))\nprint(match_parens(['(()', ')']))\nprint(match_parens(['(())', '(()'])",
+      6.4765625
+    ],
+    [
+      "def paren_balanced(string):\n        balanced = 0\n        for char in string:\n            if char == '(':\n                balanced += 1\n            else:\n                balanced -= 1\n            if balanced < 0:\n                return False\n        return balanced == 0\n\n    lst = [s for s in lst if s != '']\n    if len(lst) == 0:\n        return 'Yes'\n\n    if len(lst) == 1:\n        if paren_balanced(lst[0]):\n            return 'Yes'\n        else:\n            return 'No'\n\n    for i in range(len(lst)):\n        for j in range(len(lst)):\n            if i != j:\n                if paren_balanced(lst[i] + lst[j]):\n                    return 'Yes'\n\n    return 'No'\n\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']) == 'Yes')\n    print(match_parens([')', ')']) == 'No')",
+      5.1015625
+    ],
+    [
+      "# Your code here\n    return 'Yes' if check_parens(lst[0] + lst[1]) else 'No'\n\ndef check_parens(parens):\n    stack = []\n    for p in parens:\n        if p == '(':\n            stack.append(p)\n        elif p == ')':\n            if not stack:\n                return False\n            stack.pop()\n    return stack == []",
+      5.08203125
+    ],
+    [
+      "if len(lst) == 2:\n        return lst[0] + lst[1]\n    elif len(lst) == 1:\n        return lst[0]\n\n    if lst[0] == '(':\n        return match_parens(lst[1:])\n    elif lst[0] == ')':\n        return match_parens(lst[1:])\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))",
+      3.958984375
+    ],
+    [
+      "def check_balanced(s):\n        count = 0\n        for c in s:\n            if c == '(':\n                count += 1\n            else:\n                count -= 1\n            if count < 0:\n                return False\n        return count == 0\n    s1 = lst[0]\n    s2 = lst[1]\n    if check_balanced(s1) and check_balanced(s2):\n        return 'Yes'\n    elif check_balanced(s1 + s2):\n        return 'Yes'\n    elif check_balanced(s2 + s1):\n        return 'Yes'\n    else:\n        return 'No'\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))\nprint(match_parens(['(())', '()']))\nprint(match_parens(['(())()', '()']))\nprint(match_parens(['(())', '(()']), 'No')",
+      3.626953125
+    ],
+    [
+      "def is_balanced(str_):\n        stack = []\n        for paren in str_:\n            if paren == '(':\n                stack.append(paren)\n            elif len(stack) > 0:\n                stack.pop()\n            else:\n                return False\n        return len(stack) == 0\n\n    if lst[0] == '()':\n        return 'Yes'\n    if lst[1] == '()':\n        return 'Yes'\n\n    if is_balanced(lst[0] + lst[1]):\n        return 'Yes'\n    if is_balanced(lst[1] + lst[0]):\n        return 'Yes'\n    return 'No'",
+      3.12890625
+    ],
+    [
+      "# your code here\n    stack = []\n    for char in lst[0] + lst[1]:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                return 'No'\n\n    if stack:\n        return 'No'\n\n    return 'Yes'\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))",
+      2.880859375
+    ],
+    [
+      "lst = [i for i in lst]\n    for i in lst:\n        if '(' in i:\n            lst.append(i.replace('(', ')', 1))\n    lst = [i for i in lst if i != '']\n    if len(lst) == 1 and lst[0] == '':\n        return 'Yes'\n    elif len(lst) == 1 and lst[0] != '':\n        return 'No'\n    elif len(lst) > 1:\n        return 'No'\n    else:\n        return 'Yes'",
+      2.548828125
+    ],
+    [
+      "# your code here\n    cnt = 0\n    for i in lst[0]:\n        if i == '(':\n            cnt += 1\n        else:\n            cnt -= 1\n    for j in lst[1]:\n        if j == '(':\n            cnt += 1\n        else:\n            cnt -= 1\n    return 'Yes' if cnt == 0 else 'No'",
+      2.54296875
+    ],
+    [
+      "if lst[0][-1] == '(':\n        lst[0] += ')'\n    elif lst[0][0] == ')':\n        lst[0] = '(' + lst[0]\n    if lst[1][-1] == ')':\n        lst[1] += '('\n    elif lst[1][0] == '(':\n        lst[1] = ')' + lst[1]\n    return 'Yes' if ''.join(lst) in [')()', '()'] else 'No'",
+      2.5234375
+    ],
+    [
+      "return 'Yes' if check_balanced(lst[0] + lst[1]) else 'No'\n\n\ndef check_balanced(string):\n    '''\n    Checks if string is balanced.\n    '''\n    if len(string) % 2 != 0:\n        return False\n    open_parens = 0\n    for char in string:\n        if char == '(':\n            open_parens += 1\n        elif char == ')':\n            open_parens -= 1\n        if open_parens < 0:\n            return False\n    return open_parens == 0",
+      2.458984375
+    ],
+    [
+      "return 'Yes' if is_good(lst[0]+lst[1]) else 'No'\n\ndef is_good(lst):\n    stack = []\n    for x in lst:\n        if x == '(':\n            stack.append(x)\n        else:\n            if len(stack) == 0:\n                return False\n            stack.pop()\n    return len(stack) == 0\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))",
+      2.400390625
+    ],
+    [
+      "count = 0\n    for i in lst:\n        if i == '(':\n            count += 1\n        elif i == ')':\n            count -= 1\n        if count < 0:\n            return 'No'\n    return 'Yes' if count == 0 else 'No'\n\n\ndef test_match_parens():\n    assert match_parens(['()(', ')']) == 'Yes'\n    assert match_parens([')', ')']) == 'No'",
+      2.107421875
+    ],
+    [
+      "def is_balanced(lst):\n        opening = lst.count('(')\n        closing = lst.count(')')\n        return opening == closing\n    lst = ''.join(lst)\n    if is_balanced(lst):\n        return 'Yes'\n    else:\n        return 'No'",
+      2.087890625
+    ],
+    [
+      "# your code here\n    lst = ''.join(lst)\n    return 'Yes' if lst.count('(') == lst.count(')') else 'No'\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for\n    # auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', '1st example'\n    assert match_parens([')(', ')']) == 'No', '2nd example'\n    assert match_parens(['((', ')']) == 'No', '3rd example'\n    assert match_parens(['(', '))']) == 'No', '4th example'\n    assert match_parens(['(', ')']) == 'Yes', '5th example'",
+      1.96484375
+    ],
+    [
+      "# your code here\n    return 'Yes' if is_good(lst[0] + lst[1]) else 'No'\n\ndef is_good(lst):\n    '''\n    Check if a list of parentheses is good\n    '''\n    s = ''\n    for c in lst:\n        s += c\n    stack = []\n    for c in s:\n        if c == '(':\n            stack.append(c)\n        elif c == ')':\n            if not stack or stack.pop() != '(':\n                return False\n    return not stack\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for\n    # auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', \"1st example\"\n    assert match_parens([')', ')']) == 'No', \"2nd example\"\n    assert match_parens([')(', '()']) == 'No', \"3rd example\"\n    assert match_parens(['(())', '()()']) == 'Yes', \"4th example\"",
+      1.8115234375
+    ],
+    [
+      "#open_parens = 0\n    #close_parens = 0\n\n    #for i in lst[0]:\n    #    if i == '(':\n    #        open_parens += 1\n    #    elif i == ')':\n    #        close_parens += 1\n    #    else:\n    #        return 'No'\n    #if open_parens == close_parens:\n    #    return 'Yes'\n    #else:\n    #    return 'No'\n\n    return 'Yes' if len(lst[0]) == len(lst[1]) else 'No'",
+      1.669921875
+    ],
+    [
+      "stack = []\n    for char in lst[0] + lst[1]:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
+      1.4443359375
+    ],
+    [
+      "stack = []\n    for i in lst:\n        for j in i:\n            if j == '(':\n                stack.append(j)\n            else:\n                if len(stack) == 0:\n                    return 'No'\n                stack.pop()\n    if len(stack) == 0:\n        return 'Yes'\n    return 'No'",
+      1.4375
+    ],
+    [
+      "# your code here\n    if not lst:\n        return 'Yes'\n\n    stack = []\n    for item in lst:\n        if item == '(':\n            stack.append(item)\n        elif not stack:\n            return 'No'\n        else:\n            stack.pop()\n\n    return 'Yes' if not stack else 'No'\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(match_parens(['()(', ')']))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert match_parens(['()(', ')']) == 'Yes'\n    assert match_parens([')', ')']) == 'No'\n    assert match_parens(['(((()', '))(()))']) == 'No'\n    assert match_parens(['(((()', ')))(()))']) == 'Yes'\n    assert match_parens(['(((()', '))))(()))']) == 'No'\n    assert match_parens(['((((', ')))(()))']) == 'Yes'\n    assert match_parens(['((((', '(((())))))(()))']) == 'Yes'\n    assert match_parens(['((((', '(((())))))(())))']) == 'No'\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      1.04296875
+    ],
+    [
+      "paren_count = 0\n    for paren in lst:\n        if paren == '(':\n            paren_count += 1\n        elif paren == ')':\n            paren_count -= 1\n        if paren_count < 0:\n            return 'No'\n    return 'Yes' if paren_count == 0 else 'No'",
+      1.013671875
+    ],
+    [
+      "if not lst:\n        return 'No'\n    s = lst[0] + lst[1]\n    if s.count('(') == s.count(')'):\n        return 'Yes'\n    return 'No'\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', \"1st example\"\n    assert match_parens(['((', ')']) == 'No', \"2nd example\"\n    assert match_parens([')(', ')']) == 'No', \"3rd example\"\n    assert match_parens(['(', ')']) == 'Yes', \"4th example\"\n    assert match_parens(['(', '(()']) == 'No', \"5th example\"\n    print(\"Coding complete? Click 'Check' to review your tests and earn cool rewards!\")",
+      0.92822265625
+    ],
+    [
+      "if lst[0] == ')' and lst[1] == ')':\n        return 'No'\n    if lst[0] == '(' and lst[1] == ')':\n        return 'Yes'\n    if lst[0] == ')' and lst[1] == '(':\n        return 'No'\n    if lst[0] == '(' and lst[1] == '(':\n        return 'Yes'\n    return match_parens(lst[1:])\n\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      0.91064453125
+    ],
+    [
+      "def is_balanced(lst):\n        stack = []\n        for char in lst:\n            if char == '(':\n                stack.append(char)\n            elif char == ')':\n                if stack:\n                    stack.pop()\n                else:\n                    return False\n        return True\n\n    if is_balanced(lst[0]) and is_balanced(lst[1]):\n        return 'Yes'\n    else:\n        return 'No'\n\nprint(match_parens(['()(', ')']) == 'Yes')\nprint(match_parens([')', ')']) == 'No')",
+      0.90625
+    ],
+    [
+      "def is_balanced(string):\n        '''\n        Check if the string is balanced\n        '''\n        open_paren_count = 0\n        for paren in string:\n            if paren == '(':\n                open_paren_count += 1\n            else:\n                open_paren_count -= 1\n                if open_paren_count < 0:\n                    return False\n        return open_paren_count == 0\n\n    def merge(string1, string2):\n        '''\n        Merge two strings\n        '''\n        string = string1 + string2\n        return string\n\n    string1 = lst[0]\n    string2 = lst[1]\n    string = merge(string1, string2)\n    return is_balanced(string)\n\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      0.84130859375
+    ],
+    [
+      "stack = []\n    for char in lst[0] + lst[1]:\n        if char == '(':\n            stack.append('(')\n        elif char == ')':\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
+      0.79248046875
+    ],
+    [
+      "# open_par = []\n    # for item in lst:\n    #     if item == '(':\n    #         open_par.append(item)\n    #     elif item == ')':\n    #         if open_par:\n    #             open_par.pop()\n    #         else:\n    #             return 'No'\n    # return 'Yes' if open_par == [] else 'No'\n\n    # open_par = []\n    # for item in lst:\n    #     if item == '(':\n    #         open_par.append(item)\n    #     elif item == ')':\n    #         if open_par:\n    #             open_par.pop()\n    #         else:\n    #             return 'No'\n    # return 'Yes' if open_par == [] else 'No'\n\n    open_par = []\n    for item in lst:\n        if item == '(':\n            open_par.append(item)\n        elif item == ')':\n            if open_par:\n                open_par.pop()\n            else:\n                return 'No'\n    return 'Yes' if open_par == [] else 'No'\n\nprint(match_parens(['()(', ')']) == 'Yes')\nprint(match_parens([')', ')']) == 'No')",
+      0.646484375
+    ],
+    [
+      "# your code here\n    stack = []\n    for i in lst:\n        for j in i:\n            if j == '(':\n                stack.append(j)\n            else:\n                if stack:\n                    stack.pop()\n                else:\n                    return 'No'\n    if stack:\n        return 'No'\n    else:\n        return 'Yes'",
+      0.50390625
+    ],
+    [
+      "# your code here\n    if not lst:\n        return \"No\"\n\n    stack = []\n    for i in lst:\n        if i == '(':\n            stack.append(i)\n        elif not stack:\n            return \"No\"\n        else:\n            stack.pop()\n    return \"Yes\" if not stack else \"No\"",
+      0.41015625
+    ],
+    [
+      "return 'Yes' if ''.join(lst).count('(') == ''.join(lst).count(')') else 'No'",
+      0.3271484375
+    ],
+    [
+      "return 'Yes' if (lst[0].count('(') == lst[0].count(')') and\n                     lst[1].count('(') == lst[1].count(')')) else 'No'\n\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      0.260498046875
+    ],
+    [
+      "stack = []\n    for char in lst[0] + lst[1]:\n        if char == '(':\n            stack.append(char)\n        else:\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
+      0.256591796875
+    ],
+    [
+      "if len(lst) != 2:\n        return 'No'\n    stack = []\n    for i in lst[0]:\n        if i == '(':\n            stack.append(i)\n        elif i == ')':\n            if len(stack) == 0:\n                return 'No'\n            stack.pop()\n    if len(stack) == 0:\n        return 'Yes'\n    else:\n        return 'No'\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      0.07403564453125
+    ],
+    [
+      "# Your code here\n    pass\n\n\nif __name__ == '__main__':\n    # Use the main function here to test your implementation\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      0.0132598876953125
+    ],
+    [
+      "# Add your code here\n    stack = []\n    for char in lst[0] + lst[1]:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                return \"No\"\n    if stack:\n        return \"No\"\n    return \"Yes\"",
+      -0.094970703125
+    ],
+    [
+      "def check_parens(lst):\n        '''\n        check if the list of parentheses is balanced\n        '''\n        if not lst:\n            return True\n        if lst[0] == '(':\n            return check_parens(lst[1:])\n        if lst[0] == ')':\n            if not check_parens(lst[1:]):\n                return False\n            else:\n                return check_parens(lst[1:])\n    def check_good(lst):\n        '''\n        check if the list of parentheses is good\n        '''\n        if not lst:\n            return True\n        if lst[0] == '(':\n            return check_good(lst[1:])\n        if lst[0] == ')':\n            return check_parens(lst[1:])\n    if check_parens(lst[0]) and check_good(lst[1]):\n        return 'Yes'\n    else:\n        return 'No'",
+      -0.263427734375
+    ],
+    [
+      "stack = []\n    for char in lst[0]:\n        if char == '(':\n            stack.append(char)\n        else:\n            if not stack:\n                return 'No'\n            stack.pop()\n    if stack:\n        return 'No'\n\n    stack = []\n    for char in lst[1]:\n        if char == ')':\n            stack.append(char)\n        else:\n            if not stack:\n                return 'No'\n            stack.pop()\n    if stack:\n        return 'No'\n\n    return 'Yes'\n\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      -0.408447265625
+    ],
+    [
+      "if len(lst) != 2:\n        raise ValueError('The input must be a list of two strings')\n    if not (lst[0] or lst[1]):\n        raise ValueError('The input must be a list of two strings')\n    #check if there is a match between the two strings\n    if lst[0][-1] == lst[1][0]:\n        return 'Yes'\n    #check if the first string is already good\n    if is_good(lst[0]):\n        return 'Yes'\n    #check if the second string is already good\n    if is_good(lst[1]):\n        return 'Yes'\n    #if there is no match and neither string is good, return No\n    return 'No'\n\n\ndef is_good(string):\n    '''\n    Checks if a string is good\n    '''\n    if not string:\n        raise ValueError('The input must be a non-empty string')\n    #count the number of open parentheses\n    open_par = string.count('(')\n    #count the number of close parentheses\n    close_par = string.count(')')\n    #check if the number of open parentheses and close parentheses are equal\n    if open_par == close_par:\n        return True\n    return False",
+      -0.42626953125
+    ],
+    [
+      "if not lst:\n        return 'Yes'\n\n    s = lst[0] + lst[1]\n    if s.count('(') == s.count(')'):\n        return 'Yes'\n\n    return 'No'\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))\nprint(match_parens(['(())()']))\nprint(match_parens([')(', ')']))\nprint(match_parens(['(())()', ')']))",
+      -0.6962890625
+    ],
+    [
+      "# TODO: Write your code here\n    return 'Yes'",
+      -0.77001953125
+    ],
+    [
+      "count = 0\n    for c in lst[0] + lst[1]:\n        if c == '(':\n            count += 1\n        else:\n            count -= 1\n        if count < 0:\n            return 'No'\n    return 'Yes' if count == 0 else 'No'",
+      -0.85791015625
+    ],
+    [
+      "pass",
+      -0.85791015625
+    ],
+    [
+      "stack = []\n    for i in lst:\n        for j in i:\n            if j == '(':\n                stack.append(j)\n            else:\n                if stack:\n                    stack.pop()\n                else:\n                    return 'No'\n    if stack:\n        return 'No'\n    else:\n        return 'Yes'",
+      -0.8583984375
+    ],
+    [
+      "# check if parentheses are balanced\n    # if not, return False\n    # if so, return True\n    def check(lst):\n        count = 0\n        for char in lst:\n            if char == '(':\n                count += 1\n            else:\n                count -= 1\n            if count < 0:\n                return False\n        return count == 0\n\n    if check(lst[0]) and check(lst[1]):\n        return 'Yes'\n    return 'No'",
+      -0.8583984375
+    ],
+    [
+      "def parens_check(s):\n        return sum(s.count(x) for x in \"()\") % 2 == 0\n\n    if parens_check(lst[0]) and parens_check(lst[1]):\n        return 'Yes'\n    else:\n        return 'No'",
+      -0.8583984375
+    ],
+    [
+      "def is_balanced(s):\n        count = 0\n        for c in s:\n            if c == '(':\n                count += 1\n            elif c == ')':\n                count -= 1\n                if count < 0:\n                    return False\n        return count == 0\n\n    return 'Yes' if is_balanced(lst[0] + lst[1]) else 'No'",
+      -0.8583984375
+    ],
+    [
+      "if lst[0] == '(':\n        lst.insert(0, ')')\n    if lst[-1] == ')':\n        lst.append('(')\n\n    for i in range(0, len(lst)):\n        if lst[i] == ')':\n            lst[i] = '('\n        if lst[i] == '(':\n            lst[i] = ')'\n\n    if ')' in lst:\n        return 'No'\n    else:\n        return 'Yes'",
+      -0.8583984375
+    ],
+    [
+      "if len(lst) == 1:\n        return 'Yes'\n    elif len(lst) == 2:\n        return 'No'\n    else:\n        open_count = 0\n        close_count = 0\n        for i in range(len(lst)):\n            if lst[i] == '(':\n                open_count += 1\n            else:\n                close_count += 1\n            if open_count == close_count:\n                return 'Yes'\n        return 'No'",
+      -0.8583984375
+    ],
+    [
+      "count = 0\n    for i in lst:\n        if i == '(':\n            count += 1\n        if i == ')':\n            count -= 1\n        if count < 0:\n            return 'No'\n    if count == 0:\n        return 'Yes'\n    return 'No'",
+      -0.8583984375
+    ],
+    [
+      "# Open = '('\n    # Close = ')'\n    Open = '('\n    Close = ')'\n\n    def is_balanced(string):\n        stack = []\n        for char in string:\n            if char == Open:\n                stack.append(char)\n            elif char == Close:\n                if stack == []:\n                    return False\n                stack.pop()\n        return stack == []\n\n    return 'Yes' if is_balanced(lst[0] + lst[1]) else 'No'\n\n\nif __name__ == '__main__':\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))",
+      -0.8583984375
+    ],
+    [
+      "def is_balanced(lst):\n        counter = 0\n        for i in lst:\n            if i == '(':\n                counter += 1\n            if i == ')':\n                counter -= 1\n            if counter < 0:\n                return False\n        return counter == 0\n\n    lst = lst[0] + lst[1]\n    return 'Yes' if is_balanced(lst) else 'No'",
+      -0.8583984375
+    ],
+    [
+      "return 'Yes' if check_parens(lst[0] + lst[1]) else 'No'\n\n\ndef check_parens(lst):\n    count = 0\n    for paren in lst:\n        if paren == '(':\n            count += 1\n        else:\n            count -= 1\n        if count < 0:\n            return False\n    return count == 0",
+      -0.8583984375
+    ],
+    [
+      "# My first solution\n    # return 'No' if ')' in lst or '(' in lst else 'Yes'\n\n    # My second solution\n    return 'Yes' if lst[0][-1] == '(' else 'No'",
+      -0.8583984375
+    ],
+    [
+      "pass",
+      -0.8583984375
+    ],
+    [
+      "pass",
+      -0.85888671875
+    ],
+    [
+      "# check if the strings are empty\n    if not lst[0] and not lst[1]:\n        return 'Yes'\n\n    # create a new list with only the parens\n    parens = lst[0] + lst[1]\n\n    # count the number of open parens\n    open_parens = parens.count('(')\n\n    # count the number of close parens\n    close_parens = parens.count(')')\n\n    # check if the number of open and close parens are equal\n    if open_parens == close_parens:\n        return 'Yes'\n\n    # check if the number of open and close parens are different\n    if open_parens != close_parens:\n        return 'No'\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))",
+      -0.9453125
+    ],
+    [
+      "count = 0\n    for i in lst:\n        for j in i:\n            if j == '(':\n                count += 1\n            else:\n                count -= 1\n            if count < 0:\n                return \"No\"\n    if count == 0:\n        return \"Yes\"\n    else:\n        return \"No\"",
+      -1.04296875
+    ],
+    [
+      "# your code here\n    if not lst or len(lst) != 2:\n        return 'No'\n    if '(' in lst[0] and ')' in lst[1]:\n        return 'Yes'\n    if ')' in lst[0] and '(' in lst[1]:\n        return 'Yes'\n    return 'No'\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for\n    # auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', \"1st example\"\n    assert match_parens([')', ')']) == 'No', \"2nd example\"\n    assert match_parens([(')', ')()(', ')', '()', ')')]) == 'No', \"3rd example\"\n    assert match_parens(['()', '()']) == 'Yes', \"4th example\"\n    assert match_parens(['(())', '()']) == 'Yes', \"5th example\"\n    assert match_parens(['()()(()', ')']) == 'No', \"6th example\"\n    assert match_parens(['()(', ')', ')']) == 'Yes', \"7th example\"\n    assert match_parens(['(())', '(()', ')']) == 'No', \"8th example\"",
+      -1.0576171875
+    ],
+    [
+      "if len(lst) == 0:\n        return 'No'\n    if len(lst) == 1:\n        return 'Yes'\n\n    # if all the strings are ')' then it's a good string\n    if lst.count('(') == 0:\n        return 'Yes'\n\n    # if all the strings are '(' then it's not a good string\n    if lst.count(')') == 0:\n        return 'No'\n\n    stack = []\n    for i in lst:\n        if i == '(':\n            stack.append(i)\n        else:\n            if len(stack) == 0:\n                return 'No'\n            else:\n                stack.pop()\n\n    if len(stack) == 0:\n        return 'Yes'\n    else:\n        return 'No'",
+      -1.080078125
+    ],
+    [
+      "# your code here\n    return 'Yes'\n\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', \"1st example\"\n    assert match_parens(['(())', ')']) == 'No', \"2nd example\"\n    assert match_parens([')(', ')']) == 'No', \"3rd example\"\n    assert match_parens(['(', '())']) == 'Yes', \"4th example\"\n    assert match_parens(['abcd', '']) == 'No', \"5th example\"\n    assert match_parens(['((((', ')'])) == 'No', \"6th example\"\n    assert match_parens(['((((', '))))']) == 'Yes', \"7th example\"\n    print(\"Coding complete? Click 'Check' to review your tests and earn cool rewards!\")",
+      -1.4345703125
+    ],
+    [
+      "# open = list(map(int, lst[0].count('(')))\n    # close = list(map(int, lst[1].count(')')))\n    open = lst[0].count('(')\n    close = lst[1].count(')')\n    if open == close:\n        return 'Yes'\n    return 'No'\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens(['(())', '()']))\nprint(match_parens(['()', '()()']))\nprint(match_parens(['(()', ')()']))\nprint(match_parens([')', ')']))\nprint(match_parens(['()(', ')']))\nprint(match_parens(['()', '()']))",
+      -1.4423828125
+    ],
+    [
+      "stack = []\n    for elem in lst:\n        for ch in elem:\n            if ch == '(':\n                stack.append(ch)\n            elif ch == ')':\n                if stack:\n                    stack.pop()\n                else:\n                    return 'No'\n    return 'Yes' if not stack else 'No'",
+      -1.8291015625
+    ],
+    [
+      "# your code here\n    # Open: +1\n    # Close: -1\n\n    open_counter = 0\n    for i in lst:\n        if i == '(':\n            open_counter += 1\n        else:\n            open_counter -= 1\n        if open_counter < 0:\n            return 'No'\n    return 'Yes' if open_counter == 0 else 'No'",
+      -1.8408203125
+    ],
+    [
+      "if not lst:\n        return 'No'\n    if len(lst) == 1:\n        return 'Yes'\n    if len(lst) == 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return 'Yes'\n        elif lst[0] == '(' and lst[1] == ')':\n            return 'Yes'\n        else:\n            return 'No'\n    if len(lst) > 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return match_parens(lst[1:])\n        elif lst[0] == '(' and lst[1] == ')':\n            return match_parens(lst[1:])\n        elif lst[0] == '(' and lst[1] == '(':\n            return match_parens(lst[1:])\n        elif lst[0] == ')' and lst[1] == ')':\n            return match_parens(lst[1:])\n        else:\n            return 'No'\n\ndef match_parens2(lst):\n    if not lst:\n        return 'No'\n    if len(lst) == 1:\n        return 'Yes'\n    if len(lst) == 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return 'Yes'\n        elif lst[0] == '(' and lst[1] == ')':\n            return 'Yes'\n        else:\n            return 'No'\n    if len(lst) > 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return match_parens2(lst[1:])\n        elif lst[0] == '(' and lst[1] == ')':\n            return match_parens2(lst[1:])\n        elif lst[0] == '(' and lst[1] == '(':\n            return match_parens2(lst[1:])\n        elif lst[0] == ')' and lst[1] == ')':\n            return match_parens2(lst[1:])\n        else:\n            return 'No'\n\n\ndef match_",
+      -1.880859375
+    ],
+    [
+      "if len(lst) != 2:\n        return 'Wrong argument'\n    s1 = lst[0]\n    s2 = lst[1]\n    if len(s1) != len(s2):\n        return 'Wrong argument'\n    par_stack = []\n    for c in s1:\n        if c == '(':\n            par_stack.append(c)\n        elif c == ')':\n            if not par_stack:\n                return 'No'\n            par_stack.pop()\n    if not par_stack:\n        return 'Yes'\n    par_stack = []\n    for c in s2:\n        if c == '(':\n            par_stack.append(c)\n        elif c == ')':\n            if not par_stack:\n                return 'No'\n            par_stack.pop()\n    if not par_stack:\n        return 'Yes'\n    return 'No'",
+      -1.9423828125
+    ],
+    [
+      "if not lst or len(lst) == 0:\n        return 'No'\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    if len(lst) == 2:\n        return 'Yes' if lst[0] == '()' and lst[1] == '()' else 'No'\n\n    # check if there are any matches\n    for i in range(len(lst) - 1):\n        if lst[i] == '(' and lst[i + 1] == ')':\n            return 'Yes'\n\n    return 'No'\n\n\ndef match_parens_solution(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n\n    Examples:\n    match_parens(['()(', ')']) == 'Yes'\n    match_parens([')', ')']) == 'No'\n    '''\n    if not lst or len(lst) == 0:\n        return 'No'\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    if len(lst) == 2:\n        return 'Yes' if lst[0] == '()' and lst[1] == '()' else 'No'\n\n    # check if there are any matches\n    for i in range(len(lst) - 1):\n        if lst[i] == '(' and lst[i + 1] == ')':\n            return 'Yes'\n\n    return 'No'",
+      -2.02734375
+    ],
+    [
+      "# open_parens = 0\n    # close_parens = 0\n    # for ch in lst[0]:\n    #     if ch == '(':\n    #         open_parens += 1\n    #     elif ch == ')':\n    #         close_parens += 1\n    # if open_parens == close_parens:\n    #     return 'Yes'\n    # else:\n    #     return 'No'\n    return 'Yes' if lst[0].count('(') == lst[1].count(')') else 'No'",
+      -2.10546875
+    ],
+    [
+      "pass\n\n\ndef check_brackets(lst):\n    '''\n    You are given a string S consisting of N characters, where each of them is\n    either '(' or ')'. Your task is to check if S is a valid bracket sequence.\n    S is considered valid when the number of times the symbol '(' occurs is equal to the number of times\n    the symbol ')' occurs.\n\n    Examples:\n    check_brackets(\"(()())\") == True\n    check_brackets(\"())\") == False\n    '''\n    pass\n\n\ndef balanced_parens(s):\n    '''\n    You are given a string S consisting of N characters, where each of them is either '(' or ')'. Your task is to\n    check if S is a valid bracket sequence. S is considered valid when the number of times the symbol '(' occurs is\n    equal to the number of times the symbol ')' occurs.\n\n    Examples:\n    balanced_parens(\"(()())\") == True\n    balanced_parens(\"())\") == False\n    '''\n    pass\n\n\ndef check_parentheses(s):\n    '''\n    You are given a string S consisting of N characters, where each of them is either '(' or ')'. Your task is to check\n    if S is a valid bracket sequence. S is considered valid when the number of times the symbol '(' occurs is equal to\n    the number of times the symbol ')' occurs.\n\n    Examples:\n    check_parentheses(\"(()())\") == True\n    check_parentheses(\"())\") == False\n    '''\n    pass\n\n\ndef check_parens(s):\n    '''\n    You are given a string S consisting of N characters, where each of them is either '(' or ')'. Your task is to check\n    if S is a valid bracket sequence. S is considered valid when the number of times the symbol '(' occurs is equal to\n    the number of times the symbol ')' occurs.\n\n    Examples:\n    check_parens(\"(()())\") == True\n    check_parens(\"())\") == False\n    '''\n    pass\n\n\ndef balanced_parentheses(s):\n    '''\n    You are given a string S consisting of N characters, where",
+      -2.1171875
+    ],
+    [
+      "# open_parens = 0\n    # close_parens = 0\n\n    # for elem in lst:\n    #     if elem == '(':\n    #         open_parens += 1\n    #     else:\n    #         close_parens += 1\n\n    # if open_parens == close_parens:\n    #     return 'Yes'\n    # return 'No'\n\n    open_parens = 0\n    for elem in lst:\n        if elem == '(':\n            open_parens += 1\n        else:\n            open_parens -= 1\n    return 'Yes' if open_parens == 0 else 'No'",
+      -2.765625
+    ],
+    [
+      "if not lst:\n        return 'No'\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    if len(lst) == 2:\n        return 'Yes' if lst[0] == '(' and lst[1] == ')' else 'No'\n    if len(lst) % 2 == 1:\n        return 'No'\n    # now len(lst) % 2 == 0\n    if ''.join(lst) == '()':\n        return 'Yes'\n    if ''.join(lst) == '(())':\n        return 'Yes'\n    return 'No'",
+      -2.91015625
+    ],
+    [
+      "def is_balanced(lst):\n        '''\n        This function check if a string is balanced\n        '''\n        stack = []\n        for i in lst:\n            if i == '(':\n                stack.append(i)\n            elif i == ')':\n                if stack == []:\n                    return False\n                else:\n                    stack.pop()\n        return stack == []\n\n    if len(lst) == 1:\n        if lst[0] == '(':\n            return 'No'\n        else:\n            return 'Yes'\n\n    if lst[0] == '(':\n        lst.pop(0)\n        if is_balanced(lst):\n            return 'Yes'\n        else:\n            return 'No'\n    else:\n        lst.pop(0)\n        if is_balanced(lst):\n            return 'Yes'\n        else:\n            return 'No'\n\n\nprint(match_parens(['()(', ')']) == 'Yes')\nprint(match_parens([')', ')']) == 'No')",
+      -3.19921875
+    ],
+    [
+      "# open_parens, close_parens = lst\n    # stack = []\n    # for paren in open_parens + close_parens:\n    #     if paren == '(':\n    #         stack.append('(')\n    #     else:\n    #         if not stack:\n    #             return 'No'\n    #         stack.pop()\n    # return 'Yes' if not stack else 'No'\n    open_parens, close_parens = lst\n    stack = []\n    for paren in open_parens + close_parens:\n        if paren == '(':\n            stack.append('(')\n        else:\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
+      -3.203125
+    ],
+    [
+      "# open_parens = 0\n    # close_parens = 0\n\n    # for paren in lst:\n    #     if paren == '(':\n    #         open_parens += 1\n    #     else:\n    #         close_parens += 1\n\n    # if open_parens == close_parens:\n    #     return 'Yes'\n    # return 'No'\n\n    # open_parens = 0\n    # for paren in lst:\n    #     if paren == '(':\n    #         open_parens += 1\n    #     else:\n    #         open_parens -= 1\n\n    #     if open_parens < 0:\n    #         return 'No'\n\n    # return 'Yes'\n\n    open_parens = 0\n    for paren in lst:\n        if paren == '(':\n            open_parens += 1\n        else:\n            open_parens -= 1\n\n        if open_parens < 0:\n            return 'No'\n\n    return 'Yes'",
+      -3.265625
+    ],
+    [
+      "# 1. \u521d\u59cb\u5316\u4e00\u4e2a\u6570\u7ec4\uff0c\u8bb0\u5f55\u5de6\u53f3\u62ec\u53f7\u7684\u4e2a\u6570\n    left_count = lst[0].count('(')\n    right_count = lst[1].count(')')\n    # 2. \u5982\u679c\u5de6\u62ec\u53f7\u7684\u4e2a\u6570\u5927\u4e8e\u53f3\u62ec\u53f7\u7684\u4e2a\u6570\uff0c\u5219\u8fd4\u56de'No'\n    if left_count > right_count:\n        return 'No'\n    # 3. \u5982\u679c\u5de6\u62ec\u53f7\u7684\u4e2a\u6570\u7b49\u4e8e\u53f3\u62ec\u53f7\u7684\u4e2a\u6570\uff0c\u5219\u8fd4\u56de'Yes'\n    elif left_count == right_count:\n        return 'Yes'\n    # 4. \u5982\u679c\u5de6\u62ec\u53f7\u7684\u4e2a\u6570\u5c0f\u4e8e\u53f3\u62ec\u53f7\u7684\u4e2a\u6570\uff0c\u5219\u5faa\u73af\u5bf9\u6bd4\n    else:\n        while left_count < right_count:\n            # \u5982\u679c\u5de6\u62ec\u53f7\u4e2a\u6570\u7b49\u4e8e0\uff0c\u5219\u8fd4\u56de'No'\n            if left_count == 0:\n                return 'No'\n            # \u5982\u679c\u5de6\u62ec\u53f7\u4e2a\u6570\u5927\u4e8e0\uff0c\u5219\u5c06\u5de6\u62ec\u53f7\u4e2a\u6570\u51cf\u53bb1\n            else:\n                left_count -= 1\n            # \u5982\u679c\u53f3\u62ec\u53f7\u4e2a\u6570\u7b49\u4e8e0\uff0c\u5219\u8fd4\u56de'No'\n            if right_count == 0:\n                return 'No'\n            # \u5982\u679c\u53f3\u62ec\u53f7\u4e2a\u6570\u5927\u4e8e0\uff0c\u5219\u5c06\u53f3\u62ec\u53f7\u4e2a\u6570\u51cf\u53bb1\n            else:\n                right_count -= 1\n        return 'Yes'\n\n\nif __name__ == '__main__':\n    lst = ['()(', ')']\n    print(match_parens(lst))",
+      -3.375
+    ],
+    [
+      "if len(lst) == 1:\n        return 'Yes'\n    if len(lst) == 2:\n        if len(lst[0]) == 0:\n            return 'Yes'\n        if len(lst[1]) == 0:\n            return 'Yes'\n        if len(lst[0]) == len(lst[1]):\n            return 'Yes'\n        if lst[0][0] == ')' and lst[1][-1] == '(':\n            return 'Yes'\n        if lst[0][-1] == '(' and lst[1][0] == ')':\n            return 'Yes'\n        return 'No'\n    else:\n        if len(lst[0]) == 0 and len(lst[1]) == 0:\n            return 'Yes'\n        if len(lst[0]) == len(lst[1]):\n            return 'Yes'\n        if len(lst[0]) == 0 and len(lst[1]) == 0:\n            return 'Yes'\n        if len(lst[0]) == 0 and len(lst[1]) != 0:\n            return 'No'\n        if len(lst[0]) != 0 and len(lst[1]) == 0:\n            return 'No'\n        if len(lst[0]) == len(lst[1]):\n            return 'Yes'\n        if len(lst[0]) == 0:\n            return 'No'\n        if len(lst[1]) == 0:\n            return 'No'\n        if len(lst[0]) > len(lst[1]):\n            return 'No'\n        if len(lst[0]) < len(lst[1]):\n            return 'No'\n        if lst[0][0] == ')' and lst[1][-1] == '(':\n            return 'Yes'\n        if lst[0][-1] == '(' and lst[1][0] == ')':\n            return 'Yes'\n        return 'No'\n\n\nprint(match_parens(['()(', ')']) == 'Yes')\nprint(match_parens([')', ')']) == 'No')\nprint(match_parens(['(())",
+      -3.40625
+    ],
+    [
+      "open_parens = 0\n    for char in lst[0]:\n        if char == '(':\n            open_parens += 1\n        elif char == ')':\n            open_parens -= 1\n            if open_parens < 0:\n                return 'No'\n    open_parens = 0\n    for char in lst[1]:\n        if char == '(':\n            open_parens += 1\n        elif char == ')':\n            open_parens -= 1\n            if open_parens < 0:\n                return 'No'\n    return 'Yes'",
+      -3.412109375
+    ],
+    [
+      "# open_cnt = 0\n    # close_cnt = 0\n    # for char in lst[0]:\n    #     if char == '(':\n    #         open_cnt += 1\n    #     else:\n    #         close_cnt += 1\n    # for char in lst[1]:\n    #     if char == '(':\n    #         open_cnt += 1\n    #     else:\n    #         close_cnt += 1\n    # if open_cnt == close_cnt:\n    #     return 'Yes'\n    # else:\n    #     return 'No'\n    return 'Yes' if sum(lst[0].count(c) - lst[1].count(c) for c in '()') == 0 else 'No'",
+      -3.5859375
+    ],
+    [
+      "# This is my first attempt at a solution\n    # It works, but it's not very readable.\n    # It has to do with the fact that I'm using a stack\n    # to keep track of the parentheses that are already open.\n    # The stack is used to determine if the next opening\n    # parenthesis in the string should be closed or not.\n    # I'm using the following format for the parentheses:\n    #\n    # (())()\n    #  ^\n    #\n    # 1. When the first string ends, the stack is empty.\n    # 2. When the second string starts, the stack is empty.\n    # 3. When the second string ends, the stack has one element.\n    # 4. When the first string starts, the stack has one element.\n    # 5. When the first string ends, the stack is empty.\n    #\n    # So if the stack is empty, then it's always safe to\n    # open the next parenthesis.\n    #\n    # The code below works for the following cases:\n    #\n    # (())()\n    # )(\n    # (()\n    # )()\n    #\n    # I don't know if there is a better way to solve this problem.\n    # I'm going to leave the code below for now.\n    stack = []\n    for string in lst:\n        for char in string:\n            if char == '(':\n                stack.append(char)\n            else:\n                if stack:\n                    stack.pop()\n                else:\n                    return 'No'\n    if stack:\n        return 'No'\n    return 'Yes'\n\n\ndef match_parens2(lst):\n    # This is my second attempt at a solution.\n    # It doesn't use a stack, but instead\n    # keeps track of the number of open\n    # parentheses in the string.\n    # If the number of parentheses is ever\n    # more than one, then the string is not\n    # good.\n    #\n    # The code below works for the following cases:\n    #\n    # (())()\n    # )(\n    # (()\n    # )()\n    #",
+      -3.79296875
+    ],
+    [
+      "# Open brackets (\n    open_brackets = '('\n    # Closed brackets )\n    closed_brackets = ')'\n    # Open to closed brackets dictionary\n    open_to_closed = {\n        '(': ')',\n        ')': '('\n    }\n    # Check if there's a way to match the brackets\n    return is_match(lst, open_brackets, closed_brackets, open_to_closed)\n\n\ndef is_match(lst, open_brackets, closed_brackets, open_to_closed):\n    '''\n    Check if there's a way to match the brackets\n    '''\n    # Check if the list is empty\n    if not lst:\n        # If the list is empty, return True\n        return True\n    # Check if the first element in the list is an open bracket\n    if lst[0] in open_brackets:\n        # If the first element is an open bracket, then we need to match it with\n        # a closed bracket\n        # Check if the list is empty\n        if not lst[1:]:\n            # If the list is empty, return False\n            return False\n        # Check if the second element in the list is a closed bracket\n        if lst[1] in closed_brackets:\n            # If the second element is a closed bracket, then we need to match it\n            # with an open bracket\n            # Check if the list is empty\n            if not lst[2:]:\n                # If the list is empty, return False\n                return False\n            # Check if the third element in the list is an open bracket\n            if lst[2] in open_brackets:\n                # If the third element is an open bracket, then we need to match\n                # it with a closed bracket\n                # Check if the list is empty\n                if not lst[3:]:\n                    # If the list is empty, return False\n                    return False\n                # Check if the fourth element in the list is a closed bracket\n                if lst[3] in closed_brackets:\n                    # If the fourth element is a closed bracket, then we need to\n                    # match it with an open bracket\n                    # Check if the list",
+      -3.818359375
+    ],
+    [
+      "if lst[0][0] == ')':\n        return 'No'\n    if lst[0][-1] == ')':\n        return 'No'\n    if lst[1][0] == ')':\n        return 'No'\n    if lst[1][-1] == ')':\n        return 'No'\n    if lst[0].count('(') == lst[0].count(')'):\n        return 'Yes'\n    if lst[1].count('(') == lst[1].count(')'):\n        return 'Yes'\n    if lst[0].count('(') < lst[0].count(')'):\n        return 'No'\n    if lst[1].count('(') < lst[1].count(')'):\n        return 'No'\n    if lst[0].count('(') > lst[0].count(')'):\n        return 'No'\n    if lst[1].count('(') > lst[1].count(')'):\n        return 'No'\n    return 'Yes'\n\n\ndef main():\n    print(match_parens(['()(', ')']))\n    print(match_parens([')', ')']))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.0703125
+    ],
+    [
+      "opening_parens = '('\n    closing_parens = ')'\n    if lst[0][0] == opening_parens:\n        lst[0] = lst[0][1:]\n        lst[1] = closing_parens + lst[1]\n    else:\n        lst[0] = opening_parens + lst[0]\n        lst[1] = lst[1][1:]\n    if len(lst[0]) == 0 and len(lst[1]) == 0:\n        return \"Yes\"\n    elif len(lst[0]) == 0 or len(lst[1]) == 0:\n        return \"No\"\n    else:\n        return match_parens(lst)\n\n\nprint(match_parens(['()(', ')']) == 'Yes')\nprint(match_parens([')', ')']) == 'No')",
+      -4.15625
+    ],
+    [
+      "def is_balanced(string):\n        open_parens = 0\n        for c in string:\n            if c == '(':\n                open_parens += 1\n            else:\n                open_parens -= 1\n            if open_parens < 0:\n                return False\n        return open_parens == 0\n\n    def concat(string1, string2):\n        if string1[-1] == '(':\n            return string1 + string2\n        else:\n            return string2 + string1\n\n    def find_good(lst, index):\n        if index == len(lst):\n            return is_balanced(lst[0])\n\n        if is_balanced(lst[index]):\n            return find_good(concat(lst[index], lst[index+1]), index+2)\n        else:\n            return find_good(concat(lst[index], lst[index+1]), index+1)\n\n    if len(lst) < 2:\n        return 'Yes'\n\n    if is_balanced(lst[0]):\n        return find_good(lst[0], 1)\n    else:\n        return 'No'",
+      -4.16015625
+    ],
+    [
+      "if not lst:\n        return 'Yes'\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == ')' else 'No'\n\n    stack = []\n    for i in range(len(lst)):\n        if lst[i] == ')':\n            if not stack:\n                return 'No'\n            if stack[-1] == '(':\n                stack.pop()\n            else:\n                return 'No'\n        else:\n            stack.append(')')\n    return 'Yes' if not stack else 'No'",
+      -4.45703125
+    ],
+    [
+      "# your code here\n    # check the input\n    if len(lst) == 2 and len(lst[0]) == len(lst[1]):\n        # check the first string\n        open_parens = 0\n        for i in range(len(lst[0])):\n            if lst[0][i] == '(':\n                open_parens += 1\n            elif lst[0][i] == ')':\n                open_parens -= 1\n            if open_parens < 0:\n                return 'No'\n        # check the second string\n        open_parens = 0\n        for i in range(len(lst[1])):\n            if lst[1][i] == '(':\n                open_parens += 1\n            elif lst[1][i] == ')':\n                open_parens -= 1\n            if open_parens < 0:\n                return 'No'\n        return 'Yes'\n    else:\n        return 'No'\n\n\ndef match_parens2(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n\n    Examples:\n    match_parens2(['()(', ')']) == 'Yes'\n    match_parens2([')', ')']) == 'No'\n    '''\n    # your code here\n    # check the input\n    if len(lst) == 2 and len(lst[0]) == len(lst[1]):\n        # check the first string\n        open_parens = 0\n        for i in range(len(lst[0])):\n            if lst[0][i] == '(':\n                open_parens += 1\n            elif",
+      -4.6953125
+    ],
+    [
+      "if not lst:\n        return 'Yes'\n    elif len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    else:\n        if len(lst) == 2:\n            return 'Yes' if lst[0] == '(' and lst[1] == ')' else 'No'\n        else:\n            return 'Yes' if lst[0] == '(' and match_parens(lst[1:]) == 'Yes' or lst[0] == ')' and match_parens(lst[1:]) == 'Yes' else 'No'\n\ndef match_parens_sol(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n\n    Examples:\n    match_parens_sol(['()(', ')']) == 'Yes'\n    match_parens_sol([')', ')']) == 'No'\n    '''\n    if not lst:\n        return 'Yes'\n    elif len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    else:\n        if len(lst) == 2:\n            return 'Yes' if lst[0] == '(' and lst[1] == ')' else 'No'\n        else:\n            return 'Yes' if lst[0] == '(' and match_parens_sol(lst[1:]) == 'Yes' or lst[0] == ')' and match_parens_sol(lst[1:]) == 'Yes' else 'No'\n\n\n\nprint(match_parens(['()(', ')']))\nprint(match_parens(['()']))\nprint(match_parens(['",
+      -4.95703125
+    ],
+    [
+      "if not lst:\n        return 'Yes'\n    if len(lst) == 1:\n        return 'No'\n    if len(lst) == 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return 'Yes'\n        else:\n            return 'No'\n    if len(lst) > 2:\n        for i in range(len(lst)-1):\n            if lst[i] == '(' and lst[i+1] == ')':\n                lst[i] = ''\n                lst[i+1] = ''\n                return 'Yes'\n        return 'No'\n\nprint(match_parens(['()(', ')']))\nprint(match_parens([')', ')']))\nprint(match_parens(['()()']))\nprint(match_parens(['()']))\nprint(match_parens(['(', ')']))\nprint(match_parens(['((((()))))']))\nprint(match_parens(['((((()))))', '()']))\nprint(match_parens(['((((()))))', '(()'])",
+      -5.015625
+    ],
+    [
+      "lst = [i for i in lst if i != '']\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    lst.sort(key=len)\n    if lst[0] == '()':\n        return match_parens(lst[1:])\n    return match_parens(lst[1:]) if lst[0][-1] == ')' else 'No'",
+      -5.09765625
+    ],
+    [
+      "open_parens, close_parens = lst\n\n    open_counter = 0\n    close_counter = 0\n\n    for i in open_parens:\n        if i == '(':\n            open_counter += 1\n        else:\n            return 'No'\n\n    for i in close_parens:\n        if i == ')':\n            close_counter += 1\n        else:\n            return 'No'\n\n    if open_counter == close_counter:\n        return 'Yes'\n    else:\n        return 'No'",
+      -5.55078125
+    ],
+    [
+      "# check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if it can be made good by concatenating\n    # the two strings\n\n    # check if the string is good\n    # check if the string is bad\n    # if the string is good, check if",
+      -5.63671875
+    ],
+    [
+      "if len(lst) == 0:\n        return 'Yes'\n    if len(lst) == 1:\n        return 'No'\n    if len(lst) == 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return 'No'\n        if lst[0] == '(' and lst[1] == ')':\n            return 'Yes'\n    if len(lst) > 2:\n        if lst[0] == ')' and lst[1] == '(':\n            return match_parens(lst[2:])\n        if lst[0] == '(' and lst[1] == ')':\n            return match_parens(lst[2:])\n        if lst[0] == ')' and lst[1] == ')':\n            return 'No'\n        if lst[0] == '(' and lst[1] == '(':\n            return 'No'\n    return 'Yes'",
+      -5.91796875
+    ],
+    [
+      "if lst[0][-1] != '(':\n        return 'No'\n    if lst[1][0] != ')':\n        return 'No'\n    return 'Yes'\n\n\ndef match_parens2(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n\n    Examples:\n    match_parens(['()(', ')']) == 'Yes'\n    match_parens([')', ')']) == 'No'\n    '''\n    if lst[0][-1] != '(':\n        return 'No'\n    if lst[1][0] != ')':\n        return 'No'\n    return 'Yes'\n\n\ndef match_parens3(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n\n    Examples:\n    match_parens(['()(', ')']) == 'Yes'\n    match_parens([')', ')']) == 'No'\n    '''\n    if lst[0][-1] != '(':\n        return 'No'\n    if lst[1][0] != ')':\n        return 'No'\n    return 'Yes'\n\n\ndef match_parens4",
+      -5.984375
+    ],
+    [
+      "def check_balanced(string):\n        '''\n        Check if parentheses in the given string are balanced.\n        '''\n        balanced = True\n        for i in range(len(string)):\n            if string[i] == '(':\n                balanced = False\n            if string[i] == ')' and balanced:\n                balanced = True\n            if string[i] == ')' and not balanced:\n                balanced = False\n        return balanced\n\n    lst = [str(x) for x in lst]\n    lst = ''.join(lst)\n    if check_balanced(lst):\n        return 'Yes'\n    else:\n        return 'No'\n\n\ndef main():\n    print('Are the parentheses balanced in the string:', match_parens(['()(', ')']))\n    print('Are the parentheses balanced in the string:', match_parens([')', ')']))\n\n\nif __name__ == '__main__':\n    main()",
+      -6.05859375
+    ],
+    [
+      "# open = 0\n    # close = 0\n    # for i in lst:\n    #     if i == '(':\n    #         open += 1\n    #     elif i == ')':\n    #         if open > 0:\n    #             open -= 1\n    #         else:\n    #             return 'No'\n    # if open == 0:\n    #     return 'Yes'\n    # else:\n    #     return 'No'\n    #\n    # # 2nd solution\n    #\n    # for i in lst:\n    #     if i == '(':\n    #         lst.append(')')\n    #     elif i == ')':\n    #         if lst[-1] == '(':\n    #             lst.pop()\n    #         else:\n    #             return 'No'\n    # if lst:\n    #     return 'No'\n    # else:\n    #     return 'Yes'\n\n    # 3rd solution\n\n    open = 0\n    for i in lst:\n        if i == '(':\n            open += 1\n        elif i == ')':\n            if open > 0:\n                open -= 1\n            else:\n                return 'No'\n    if open == 0:\n        return 'Yes'\n    else:\n        return 'No'\n\n\nprint(match_parens(['()(', ')']) == 'Yes')\nprint(match_parens([')', ')']) == 'No')",
+      -7.375
+    ],
+    [
+      "#print(lst)\n    if len(lst) == 0:\n        return \"Yes\"\n    elif len(lst) == 1:\n        if lst[0] == \"(\":\n            return \"No\"\n        else:\n            return \"Yes\"\n    else:\n        for i in range(len(lst)-1):\n            if lst[i] == \"(\" and lst[i+1] == \")\":\n                lst.pop(i)\n                lst.pop(i)\n                break\n            elif lst[i] == \")\" and lst[i+1] == \"(\":\n                lst.pop(i)\n                lst.pop(i)\n                break\n        #print(lst)\n        if len(lst) == 0:\n            return \"Yes\"\n        elif len(lst) == 1:\n            if lst[0] == \"(\":\n                return \"No\"\n            else:\n                return \"Yes\"\n        else:\n            return match_parens(lst)\n\nprint(match_parens([\"()(\", \")\"]))\nprint(match_parens([\"())\"]))\nprint(match_parens([\"(\", \")\"]))\nprint(match_parens([\"(\", \"(\", \")\"]))\nprint(match_parens([\"(\", \")\", \"(\"]))\nprint(match_parens([\"(\", \")\"]))\nprint(match_parens([\"(\", \"()\"]))\nprint(match_parens([\"(())()\"]))\nprint(match_parens([\"(\", \"((\", \"))\"]))\nprint(match_parens([\"(\", \")\", \"()\"]))\nprint(match_parens([\"(\", \"()\", \"(\"]))\nprint(match_parens([\"(\", \"()\", \"()\"]))\nprint(match_parens([\"(\", \"()\", \"())\"]))\nprint(match_parens([\"(\", \"()\", \"()\", \"()\"]))\nprint(match_parens([\"(\", \"()\", \"()\", \"()\", \"()\"]))\nprint(match_parens([\"(\", \"()\", \"()\", \"()\", \"()\", \"()\"]))\nprint(match_parens([\"(\", \"()\", \"()\",",
+      -8.4921875
+    ],
+    [
+      "# your code here\n    return 'Yes' if lst == sorted(lst) else 'No'\n\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', \"First\"\n    assert match_parens(['(())', '()']) == 'Yes', \"Second\"\n    assert match_parens(['(()', ')']) == 'No', \"Third\"\n    assert match_parens(['(())((()())())', '()']) == 'Yes', \"Forth\"\n    assert match_parens(['()()(()', ')']) == 'No', \"Fifth\"\n    print('Done')",
+      -8.6953125
+    ],
+    [
+      "# your code here\n    if len(lst) == 0:\n        return \"No\"\n    if len(lst) == 1:\n        return \"Yes\"\n    if len(lst) == 2:\n        if lst[0] == ')' and lst[1] == ')':\n            return \"Yes\"\n        if lst[0] == '(' and lst[1] == '(':\n            return \"Yes\"\n        else:\n            return \"No\"\n    if len(lst) > 2:\n        lst1 = lst[:int(len(lst)/2)]\n        lst2 = lst[int(len(lst)/2):]\n        if match_parens(lst1) == \"No\" or match_parens(lst2) == \"No\":\n            return \"No\"\n        if lst1[-1] == ')' and lst2[0] == ')' or lst1[-1] == '(' and lst2[0] == '(':\n            return \"Yes\"\n        else:\n            return \"No\"",
+      -8.8046875
+    ],
+    [
+      "if lst[0] == ')' or lst[1] == '(':\n        return 'No'\n    elif len(lst[0]) == len(lst[1]):\n        return 'Yes'\n    else:\n        return 'No'\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert match_parens(['()(', ')']) == 'Yes', \"1st example\"\n    assert match_parens(['(())', '()']) == 'Yes', \"2nd example\"\n    assert match_parens([')(', ')']) == 'No', \"3rd example\"\n    assert match_parens(['(', ')']) == 'Yes', \"4th example\"\n    assert match_parens(['(()', ')']) == 'No', \"5th example\"\n    assert match_parens(['(', '(()']) == 'No', \"6th example\"\n    print(\"Coding complete? Click 'Check' to review your tests and earn cool rewards!\")",
+      -8.8671875
+    ],
+    [
+      "if not lst:\n        return 'Yes'\n    if len(lst) == 1:\n        return 'No'\n\n    if lst[0] == ')' or lst[1] == '(':\n        return 'No'\n    if lst[0] == '(':\n        lst.pop(0)\n    elif lst[0] == ')':\n        lst.pop(0)\n        return match_parens(lst)\n\n    if lst[1] == ')':\n        lst.pop(1)\n    elif lst[1] == '(':\n        lst.pop(1)\n        return match_parens(lst)\n\n    return match_parens(lst)\n\n\ndef test_match_parens():\n    assert match_parens(['()(', ')']) == 'Yes'\n    assert match_parens(['()', '()']) == 'Yes'\n    assert match_parens(['()', '(', ')']) == 'Yes'\n    assert match_parens(['(', ')']) == 'Yes'\n    assert match_parens(['(', ')', '(', ')']) == 'Yes'\n    assert match_parens(['(', ')', ')']) == 'Yes'\n    assert match_parens(['(', '(', ')']) == 'Yes'\n    assert match_parens([')', ')']) == 'No'\n    assert match_parens(['(', ')', '(', '(', ')']) == 'No'\n    assert match_parens(['(', '(', ')', ')']) == 'No'",
+      -10.5859375
+    ],
+    [
+      "# open_paren_count = 0\n    # for c in lst[0]:\n    #     if c == '(':\n    #         open_paren_count += 1\n    # for c in lst[1]:\n    #     if c == '(':\n    #         open_paren_count -= 1\n    # if open_paren_count == 0:\n    #     return 'Yes'\n    # else:\n    #     return 'No'\n\n    # lst = list(map(str, lst))\n    # print(lst)\n    # lst = ''.join(lst)\n    # print(lst)\n    # return lst\n\n    lst = list(map(str, lst))\n    print(lst)\n    lst = ''.join(lst)\n    print(lst)\n    return lst\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(match_parens(['()(', ')']))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert match_parens(['()(', ')']) == 'Yes'\n    assert match_parens(['(((', ')'))']) == 'No'\n    assert match_parens(['(()', '())']) == 'Yes'\n    assert match_parens(['(()', '))(']) == 'No'\n    assert match_parens(['(())', '(()']) == 'No'\n    assert match_parens(['()())(']) == 'No'\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      -12.90625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

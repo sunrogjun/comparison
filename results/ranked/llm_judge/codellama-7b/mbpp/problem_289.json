@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T00:29:22.874449",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 289,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "def count_sequences(n):\n    if n == 1:\n        return 2\n    if n == 2:\n        return 4\n\n    prev = 0\n    curr = 0\n    for i in range(1, n + 1):\n        prev, curr = curr, (curr + 2 * prev)\n\n    return curr"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def count(self, n):\n        # code here\n        return self.helper(n, n, 0, 0)\n\n    def helper(self, n, x, sum1, sum2):\n        if x == 0:\n            if sum1 == sum2:\n                return 1\n            else:\n                return 0\n        if sum1 == sum2:\n            return self.helper(n, x - 1, 1, 1) + self.helper(n, x - 1, 0, 0)\n        else:\n            return self.helper(n, x - 1, 1, 0) + self.helper(n, x - 1, 0, 1)"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef count_of_binary_seq(n):\n    \"\"\"\n    >>> count_of_binary_seq(2)\n    2\n    >>> count_of_binary_seq(3)\n    11\n    >>> count_of_binary_seq(4)\n    34\n    \"\"\"\n    count = 0\n    for i in range(1, 2 ** n):\n        if sum(list(map(int, bin(i)[2:].zfill(n)))) == sum(list(map(int, bin(i)[2:].zfill(n)[::-1]))):\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "def binary_seq(n):\n    return 2**n\n\n\ndef main():\n    n = int(input(\"Enter a number: \"))\n    print(binary_seq(n))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "def count_of_binary_seq(n):\n    count = 0\n    for i in range(0, 2**n):\n        s = str(bin(i)).replace(\"0b\", \"\")\n        if len(s) < n:\n            s = \"0\" * (n - len(s)) + s\n        if s[:n] == s[n:]:\n            count += 1\n    return count\n\n\nprint(count_of_binary_seq(3))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def count_binary_sequences(n):\n    \"\"\"\n    Returns the count of binary sequences of length 2n such that sum of first n bits is same as sum of last n bits.\n    \"\"\"\n    if n == 0:\n        return 1\n\n    # The number of binary sequences of length 2n such that sum of first n bits is same as sum of last n bits is\n    # equal to the number of binary sequences of length n-1 such that sum of first n-1 bits is same as sum of last n-1 bits\n    # and the last bit is 0\n    return count_binary_sequences(n - 1) * 2 + count_binary_sequences(n - 1)\n\nprint(count_binary_sequences(3))\nprint(count_binary_sequences(5))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def count_sequences(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 2\n\n    dp = [0] * (1 << n)\n    dp[0] = 1\n    dp[1] = 2\n    for i in range(2, 1 << n):\n        if ((i >> 1) & i) == 0:\n            dp[i] = dp[i >> 1] + dp[(i - 1) ^ (i >> 1)]\n        else:\n            dp[i] = dp[(i - 1) ^ (i >> 1)]\n    return dp[(1 << n) - 1]\n\nif __name__ == \"__main__\":\n    print(count_sequences(0))\n    print(count_sequences(1))\n    print(count_sequences(2))\n    print(count_sequences(3))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "def count(n: int) -> int:\n    \"\"\"\n    The number of such binary sequences is the same as the number of binary sequences of length 2n where the sum of the first n bits is equal to the sum of the last n bits.\n    We can find the number of such sequences using the formula:\n        (2^n)*C(2^n, n)\n    where C(2^n, n) is the number of combinations of 2^n elements of length n.\n    >>> count(2)\n    5\n    >>> count(3)\n    25\n    >>> count(4)\n    125\n    \"\"\"\n    return 2 ** n * comb(2 ** n, n)\n\n\ndef comb(n: int, k: int) -> int:\n    \"\"\"\n    >>> comb(4, 2)\n    6\n    >>> comb(6, 3)\n    20\n    >>> comb(8, 4)\n    70\n    \"\"\"\n    if k == 0 or n == k:\n        return 1\n    return comb(n - 1, k) + comb(n - 1, k - 1)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "def count_of_binary_sequences(n):\n    \"\"\"\n    :param n: length of sequence\n    :return: count of all binary sequences of length 2n such that sum of first n bits is same as sum of last n bits\n    \"\"\"\n    count = 0\n    for i in range(1, 2**n):\n        binary_sequence = bin(i)[2:]\n        if len(binary_sequence) < n:\n            continue\n        if sum(list(map(int, binary_sequence[:n]))) == sum(list(map(int, binary_sequence[-n:]))):\n            count += 1\n    return count\n\n\nprint(count_of_binary_sequences(3))"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def count_binary_sequences(n):\n    \"\"\"\n    Returns the count of all binary sequences of length 2n such that sum of first n bits is same as sum of last n bits.\n    >>> count_binary_sequences(2)\n    2\n    >>> count_binary_sequences(3)\n    3\n    >>> count_binary_sequences(4)\n    5\n    >>> count_binary_sequences(5)\n    8\n    >>> count_binary_sequences(10)\n    58211\n    \"\"\"\n    def count_binary_sequences_rec(n, first, last):\n        if n == 1:\n            return 2\n\n        count = 0\n        for i in range(first, last+1):\n            count += count_binary_sequences_rec(n-1, i, first)\n\n        return count\n\n    return count_binary_sequences_rec(n, 0, 2**n - 1)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "def count_binary_sequences(n):\n    if n == 1:\n        return 2\n\n    count = 0\n\n    for i in range(2 ** n):\n        sum_left = sum([int(i) for i in bin(i)[2:n + 1]])\n        sum_right = sum([int(i) for i in bin(i)[2:][::-1][:n]])\n        if sum_left == sum_right:\n            count += 1\n\n    return count"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "def count_binary_sequences(n):\n    \"\"\"Return the number of binary sequences of length 2n such that sum of first n bits is same as sum of last n bits.\n\n    >>> count_binary_sequences(1)\n    2\n    >>> count_binary_sequences(2)\n    2\n    >>> count_binary_sequences(3)\n    2\n    >>> count_binary_sequences(4)\n    2\n    >>> count_binary_sequences(5)\n    4\n    >>> count_binary_sequences(6)\n    8\n    \"\"\"\n    if n == 1:\n        return 2\n    return count_binary_sequences(n - 1) + count_binary_sequences(n - 1)\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "def count_binary_sequences(n):\n    if n == 1:\n        return 2\n\n    count = 0\n\n    for i in range(1, n+1):\n        count += (2**(2*n)) // (2**i)\n\n    return count\n\n\nif __name__ == \"__main__\":\n    n = int(input(\"Enter n: \"))\n    print(\"Number of binary sequences with sum of first n bits equal to sum of last n bits:\")\n    print(count_binary_sequences(n))"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "def count(n):\n    dp = [0 for i in range(1 << n)]\n    for i in range(1 << n):\n        if sum(i & 1 << j for j in range(n)) == sum(i & 1 << j for j in range(n, 2 * n)):\n            dp[i] = 1\n\n    ans = 0\n    for i in range(1 << n):\n        ans += dp[i]\n    return ans\n\n\ndef main():\n    n = int(input(\"Enter n: \"))\n    print(f\"Count is {count(n)}\")\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "from itertools import permutations\nfrom math import factorial\n\ndef count_sequences(n):\n    \"\"\"\n    >>> count_sequences(2)\n    2\n    >>> count_sequences(3)\n    8\n    >>> count_sequences(5)\n    1664\n    \"\"\"\n    count = 0\n\n    for seq in permutations([1] * n + [0] * n):\n        if sum(seq[:n]) == sum(seq[n:]):\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "def count(n):\n    def helper(i, j, s, count):\n        if i == n and j == n:\n            count[s] += 1\n            return\n        if i < n:\n            helper(i + 1, j, s + 1 << i, count)\n        if j < n:\n            helper(i, j + 1, s + 1 << (n + j), count)\n    count = [0] * (1 << n)\n    helper(0, 0, 0, count)\n    return sum(count)\n\n\nprint(count(2))"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "def count_of_binary_sequence(n):\n    if n == 0:\n        return 2\n    return count_of_binary_sequence(n - 1) * 2\n\n\ndef main():\n    n = int(input(\"Enter n: \"))\n    print(count_of_binary_sequence(n))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "def count_sequences(n):\n    if n == 0:\n        return 1\n\n    return count_sequences(n - 1) * 2\n\n\ndef main():\n    n = int(input(\"Enter n: \"))\n    print(count_sequences(n))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n cannot be less than 0\")\n\n    if n == 0:\n        return 0\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return 1\n\n    if n == 3:\n        return 2\n\n    first_n_sum: int = 2 ** n - 1\n    last_n_sum: int = 2 ** n - 1\n\n    for i in range(1, n):\n        first_n_sum -= 2 ** i\n        last_n_sum += 2 ** i\n\n    result: int = 0\n\n    for i in range(first_n_sum + 1):\n        if i <= last_n_sum:\n            result += 2\n        else:\n            result += 1\n\n    return result\n\n\ndef count_binary_sequences_dp(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n cannot be less than 0\")\n\n    if n == 0:\n        return 0\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return 1\n\n    if n == 3:\n        return 2\n\n    first_n_sum: int = 2 ** n - 1\n    last_n_sum: int = 2 ** n - 1\n\n    for i in range(1, n):\n        first_n_sum -= 2 ** i\n        last_n_sum += 2 ** i\n\n    memo: List[int] = [0] * (first_n_sum + 1)\n    memo[0] = 1\n\n    for i in range(1, first_n_sum + 1):\n        memo[i] ="
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "def count_binary_sequences(n):\n    count = 0\n    for i in range(2**n):\n        if sum(int(x) for x in bin(i)[2:].zfill(n)) == sum(int(x) for x in bin(i)[2:].zfill(n)[-n:]):\n            count += 1\n    return count\n\n\nprint(count_binary_sequences(2))\nprint(count_binary_sequences(3))\nprint(count_binary_sequences(4))\nprint(count_binary_sequences(5))"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "def count_sequences(n):\n    if n == 1:\n        return 2\n\n    return count_sequences(n-1)*2\n\ndef count_sequences_dp(n):\n    dp = [0 for _ in range(n+1)]\n\n    dp[1] = 2\n    for i in range(2, n+1):\n        dp[i] = dp[i-1]*2\n\n    return dp[n]\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(2))\n    print(count_sequences_dp(2))"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "def count_sequences(n):\n    if n == 1:\n        return 2\n    elif n == 2:\n        return 4\n    elif n == 3:\n        return 7\n\n    return count_sequences(n-1) + count_sequences(n-2)\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(2))"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef count_sequences(n):\n    count = Counter()\n    count[0] = 1\n    for i in range(1, n+1):\n        for j in range(n):\n            count[i] += count[j]\n    return count[n]\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(2))"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "def count_of_sequences(n):\n    # Create a dictionary to store the count of sequences\n    count_of_sequences = dict()\n\n    # Create a function to count the number of sequences\n    def count_sequences(n, sum_first_half, sum_last_half):\n        if (sum_first_half, sum_last_half) not in count_of_sequences:\n            count_of_sequences[(sum_first_half, sum_last_half)] = 0\n        # Base condition\n        if n == 0:\n            count_of_sequences[(sum_first_half, sum_last_half)] += 1\n            return\n\n        # If first half sum is same as last half sum, then add the count to dictionary\n        if sum_first_half == sum_last_half:\n            count_sequences(n - 1, sum_first_half + 1, sum_last_half)\n        # Else add the count to dictionary\n        else:\n            count_sequences(n - 1, sum_first_half, sum_last_half + 1)\n\n    count_sequences(n, 0, 0)\n\n    # Calculate the total count\n    total_count = 0\n    for count in count_of_sequences.values():\n        total_count += count\n\n    return total_count\n\n\nif __name__ == '__main__':\n    n = int(input())\n    print(count_of_sequences(n))"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 2\n    count = 0\n    for i in range(2**n):\n        s = bin(i)[2:]\n        if s.count('1') == n:\n            count += 1\n    return count\n\nprint(count_sequences(2))\nprint(count_sequences(3))\nprint(count_sequences(4))\nprint(count_sequences(5))\nprint(count_sequences(6))"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    count = 0\n    for i in range(2**n):\n        s = str(bin(i))[2:]\n        if s.startswith(\"0\"):\n            s = s[1:]\n        if s.endswith(\"0\"):\n            s = s[:-1]\n        if len(s) == n:\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(3))"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "from itertools import product\n\n\ndef get_count(n):\n    count = 0\n    for binary_seq in product(['0', '1'], repeat=2*n):\n        if sum(int(x) for x in binary_seq[:n]) == sum(int(x) for x in binary_seq[n:]):\n            count += 1\n    return count\n\n\ndef main():\n    n = int(input(\"Enter n: \"))\n    print(get_count(n))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def count(n):\n    dp = [[0 for i in range(n)] for i in range(2)]\n    dp[0][0] = 1\n    dp[1][0] = 1\n    for i in range(1, n):\n        dp[0][i] = dp[0][i-1] + dp[1][i-1]\n        dp[1][i] = dp[0][i-1]\n    return dp[0][n-1] + dp[1][n-1]\n\nn = int(input())\nprint(count(n))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def count(n):\n    if n == 1:\n        return 2\n\n    return (1 << n) * (1 << n)\n\n\nif __name__ == \"__main__\":\n    for i in range(1, 5):\n        print(count(i))"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "def count_binary(n):\n    count = 0\n    for i in range(0, 2**n):\n        binary = bin(i)[2:]\n        if binary[:len(binary)//2] == binary[len(binary)//2:]:\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    n = int(input(\"Enter n: \"))\n    print(\"Count of binary sequences is:\", count_binary(n))"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n\n    first_half_sum = 2**(n-1)\n    second_half_sum = 2**(n-1) - 1\n    count = 0\n    for i in range(first_half_sum + 1):\n        if i == second_half_sum:\n            count += 1\n        elif i < second_half_sum:\n            count += count_sequences(n-1)\n    return count\n\n\nif __name__ == \"__main__\":\n    n = int(input(\"Enter number of bits: \"))\n    print(count_sequences(n))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "from math import pow\n\n\ndef count(n):\n    total = 0\n    for i in range(int(pow(2, n))):\n        if sum(int(i) for i in bin(i)[2:].zfill(n)) == sum(int(i) for i in bin(i)[-2:].zfill(n)):\n            total += 1\n    return total\n\n\nif __name__ == \"__main__\":\n    print(count(3))\n    print(count(5))\n    print(count(7))"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def count_seq(n):\n    if n == 1:\n        return 2\n\n    count = 0\n\n    for i in range(n):\n        if i % 2 == 0:\n            count += 2 ** n\n        else:\n            count += 2 ** n - 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    n = int(input())\n    print(count_seq(n))"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef count_sequences(n):\n    count = Counter()\n    count[0] = 1\n    for i in range(1, n+1):\n        for j in range(i+1):\n            count[j] += count[j-1]\n    return count[n]\n\n\nif __name__ == '__main__':\n    print(count_sequences(2))"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def count_binary_sequences(n):\n    if n == 1:\n        return 2\n\n    return count_binary_sequences(n-1) * 2\n\n\ndef main():\n    n = int(input(\"Enter number: \"))\n    print(f\"Binary sequence count: {count_binary_sequences(n)}\")\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "from itertools import product\n\n\ndef count_binary_sequences(n):\n    count = 0\n\n    for sequence in product([0, 1], repeat=2*n):\n        if sum(sequence[:n]) == sum(sequence[n:]):\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    n = int(input())\n    print(count_binary_sequences(n))"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def count_binary_sequences(n):\n    \"\"\"\n    O(2^2n)\n    \"\"\"\n    if n == 0:\n        return 1\n    if n == 1:\n        return 2\n\n    result = 0\n\n    for i in range(2**n):\n        if sum(map(int, list(bin(i)[:1:-1]))) == sum(map(int, list(bin(i)[2::]))):\n            result += 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(count_binary_sequences(0))\n    print(count_binary_sequences(1))\n    print(count_binary_sequences(2))\n    print(count_binary_sequences(3))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef binary_sequence(n):\n    count = Counter()\n    for i in range(2 ** n):\n        binary = bin(i)[2:].zfill(n)\n        sum1 = sum([int(x) for x in binary[:n]])\n        sum2 = sum([int(x) for x in binary[n:]])\n        if sum1 == sum2:\n            count[binary] += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    n = 3\n    result = binary_sequence(n)\n    print(result)"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "def binary_seq(n):\n    result = []\n    for i in range(2 ** n):\n        binary = str(bin(i))[2:]\n        if binary[0] == \"0\":\n            if binary[-1] == \"0\":\n                result.append(binary)\n        else:\n            if binary[-1] == \"1\":\n                result.append(binary)\n    return len(result)\n\n\nif __name__ == \"__main__\":\n    n = int(input())\n    print(binary_seq(n))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef count_of_binary_seq(n):\n    count = Counter()\n\n    for i in range(1 << n):\n        count[(i >> n) & ((1 << n) - 1)] += 1\n\n    return sum(count.values())\n\n\nif __name__ == \"__main__\":\n    print(count_of_binary_seq(2))"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def find_count(n):\n    count = 0\n    for i in range(n+1):\n        count += find_count_helper(i, n)\n    return count\n\n\ndef find_count_helper(n, n_half):\n    if n == n_half:\n        return 1\n    elif n > n_half:\n        return 0\n    else:\n        return sum([find_count_helper(i, n_half) for i in range(n, n_half+1)])\n\n\nprint(find_count(1))\nprint(find_count(2))\nprint(find_count(3))\nprint(find_count(4))"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "from itertools import combinations\n\n\ndef count_sum_equal_seq(n):\n    count = 0\n    for seq in combinations('10' * n, n):\n        if sum(map(int, ''.join(seq))) == sum(map(int, ''.join(seq[n:]))):\n            count += 1\n    return count\n\n\nif __name__ == '__main__':\n    assert count_sum_equal_seq(3) == 21"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "def count_binary_sequences(n):\n    count = 0\n    for i in range(2**n):\n        for j in range(2**n):\n            if sum(map(int, bin(i)[2:])) == sum(map(int, bin(j)[2:])):\n                count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_binary_sequences(1))"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    def count(n, last_sum, count, total_sum):\n        if n == 0:\n            if total_sum == last_sum:\n                return count\n            else:\n                return 0\n        else:\n            if n % 2 == 0:\n                count = count + count_sequences(n // 2)\n            else:\n                count = count + count_sequences(n // 2) + count_sequences(n // 2 + 1)\n            return count\n    return count(n, n, 0, n)\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(4))"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 0:\n        return 0\n\n    count = 0\n    for i in range(n+1):\n        count += count_sequences(n-1)\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(3))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 0:\n        return 1\n\n    return 2 * count_sequences(n-1)\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(3))"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "from itertools import product\n\n\ndef binary_sequence(n):\n    count = 0\n    for i in product([0, 1], repeat=2 * n):\n        if sum(i[:n]) == sum(i[n:]):\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    assert binary_sequence(2) == 12"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "def count_binary(n):\n    ans = 0\n    for i in range(1 << n):\n        for j in range(1 << n):\n            if (i ^ j) == j:\n                ans += 1\n\n    return ans\n\n\nif __name__ == \"__main__\":\n    n = 2\n    print(count_binary(n))"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 1:\n        return 2\n    elif n == 2:\n        return 4\n    elif n == 3:\n        return 8\n\n    count = 0\n\n    for i in range(n):\n        count += count_sequences(n - 1)\n\n    return 2 * count\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(3))"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "from itertools import product\n\n\ndef count_seq(n):\n    count = 0\n    for seq in product([0, 1], repeat=n * 2):\n        if sum(seq[:n]) == sum(seq[n:]):\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_seq(4) == 4"
+    },
+    {
+      "rank": 51,
+      "score": 8.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef count(n):\n    \"\"\"Count binary sequences of length 2n such that sum of first n bits is same as sum of last n bits.\"\"\"\n    if n == 0:\n        return 1\n    else:\n        return count(n - 1) * 2\n\n\nif __name__ == \"__main__\":\n    print(count(3))"
+    },
+    {
+      "rank": 52,
+      "score": 8.0,
+      "candidate": "def count_binary_sequences(n):\n    count = 0\n    for i in range(0, 2**n):\n        binary = format(i, \"0\" + str(n) + \"b\")\n        if sum(list(map(int, binary[:n]))) == sum(list(map(int, binary[n:]))):\n            count += 1\n    return count"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "def count_binary_seq(n):\n    if n == 0:\n        return 1\n\n    # count all possible binary sequences of length 2n\n    total = 2**(2*n)\n    # count all possible binary sequences of length 2n such that sum of first n bits is same as sum of last n bits\n    count = 0\n\n    for i in range(total):\n        num = list(bin(i)[2:])\n        if len(num) != 2*n:\n            continue\n        if num[:n] == num[n:]:\n            count += 1\n\n    return count\n\nprint(count_binary_seq(2))"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef count_sequences(n):\n    if n == 1:\n        return 2\n\n    count = 0\n    for i in range(n):\n        count += count_sequences(i) * count_sequences(n - i - 1)\n\n    return count\n\n\ndef count_sequences_optimized(n):\n    if n == 1:\n        return 2\n\n    count = 0\n    for i in range(n):\n        count += count_sequences_optimized(i) * count_sequences_optimized(n - i - 1)\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(4))\n    print(count_sequences_optimized(4))"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 1:\n        return 2\n    if n == 2:\n        return 4\n    return 4 * count_sequences(n-1) + 4 * count_sequences(n-2)\n\n\nprint(count_sequences(4))"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "def binary_sequences(n):\n    if n == 1:\n        return 2\n\n    return binary_sequences(n-1) + 2*binary_sequences(n-1)\n\n\nif __name__ == \"__main__\":\n    print binary_sequences(2)"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "def count_sequences(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 2\n    return count_sequences(n-1)*2 + count_sequences(n-2)\n\nprint(count_sequences(2))"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "def count_of_binary_sequences(n):\n    count = 0\n    if n == 1:\n        return 2\n    elif n == 2:\n        return 4\n\n    for i in range(n):\n        count += 2 * 2**i\n\n    for i in range(n, 2*n):\n        count += 2**i\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_of_binary_sequences(2))\n    print(count_of_binary_sequences(3))\n    print(count_of_binary_sequences(4))\n    print(count_of_binary_sequences(5))"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "def get_count(n):\n    return get_count_helper(n, 2**n, 2**n)\n\ndef get_count_helper(n, mod, total):\n    if n == 0:\n        return 1\n\n    if n == 1:\n        return 2\n\n    if n == 2:\n        return 4\n\n    count = 0\n\n    for i in range(2**(n-1)):\n        count += get_count_helper(n-1, mod, total)\n\n    return count\n\nif __name__ == \"__main__\":\n    print get_count(2)\n    print get_count(3)\n    print get_count(4)\n    print get_count(5)\n    print get_count(6)\n    print get_count(7)\n    print get_count(8)"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef count_binary_sequences(n):\n    count = Counter()\n    for i in range(0, 2 ** (n * 2)):\n        binary_str = bin(i)[2:]\n        if binary_str.startswith('0'):\n            count[binary_str] += 1\n    return count\n\n\nif __name__ == '__main__':\n    n = int(input())\n    print(count_binary_sequences(n))"
+    },
+    {
+      "rank": 61,
+      "score": 2.0,
+      "candidate": "from typing import List\n\n\ndef count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n < 0:\n        return 0\n\n    if n == 0:\n        return 1\n\n    return count_binary_sequences(n - 1) * 2 + count_binary_sequences(n - 1)\n\n\ndef count_binary_sequences_recursive(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def helper(n: int, count: int, sum_first_half: int, sum_second_half: int) -> int:\n        if n == 0:\n            return count if sum_first_half == sum_second_half else 0\n\n        if sum_first_half == sum_second_half:\n            count += 1\n\n        return (\n            helper(n - 1, count, sum_first_half + 1, sum_second_half - 1)\n            + helper(n - 1, count, sum_first_half, sum_second_half)\n            + helper(n - 1, count, sum_first_half - 1, sum_second_half + 1)\n        )\n\n    return helper(n, 0, 0, 0)\n\n\ndef count_binary_sequences_iterative(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n < 0:\n        return 0\n\n    if n == 0:\n        return 1\n\n    count = 0\n    for i in range(2 ** n):\n        binary_sequence = bin(i)[2:].zfill(n * 2)\n        if sum(int(binary_sequence[i]) for i in range(n)) == sum(\n            int(binary_sequence[i]) for i in range(n, 2 * n)\n        ):"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n):\n    return sum(\n        [\n            count_binary_sequences_helper(2 * n - 1, 1, 0, 1)\n            for _ in range(2 ** (2 * n - 2))\n        ]\n    )\n\n\ndef count_binary_sequences_helper(n, sum_first, sum_last, count):\n    if n < 0:\n        return 1 if sum_first == sum_last else 0\n\n    return (\n        count_binary_sequences_helper(n - 1, sum_first + 1, sum_last, count)\n        + count_binary_sequences_helper(n - 1, sum_first, sum_last + 1, count)\n    )\n\n\nif __name__ == \"__main__\":\n    assert count_binary_sequences(1) == 2\n    assert count_binary_sequences(2) == 10\n    assert count_binary_sequences(3) == 42"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n):\n    result = 0\n\n    for i in range(1 << n):\n        if sum(int(i) for i in bin(i)[2:].zfill(n)) == sum(int(i) for i in bin(i << n)[2:].zfill(n)):\n            result += 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    n = 1\n    assert count_binary_sequences(n) == 2\n\n    n = 2\n    assert count_binary_sequences(n) == 4\n\n    n = 3\n    assert count_binary_sequences(n) == 7"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "def count(n):\n    # Your code goes here\n    if n == 0:\n        return 1\n    return 2 * count(n-1)"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "def count_of_binary_sequence(n: int) -> int:\n    \"\"\"\n    This solution is based on the idea that the last n bits can only be 0 and the first n bits can only be 1.\n    This is because the sum of the first n bits must be equal to the sum of the last n bits.\n    So the last n bits must be 0 and the first n bits must be 1.\n    :param n: length of the binary sequence\n    :return: number of binary sequences of length 2n such that sum of first n bits is same as sum of last n bits.\n    >>> count_of_binary_sequence(1)\n    2\n    >>> count_of_binary_sequence(2)\n    8\n    \"\"\"\n    if n == 0:\n        return 1\n    if n == 1:\n        return 2\n    return 2 * count_of_binary_sequence(n - 1)\n\n\nif __name__ == \"__main__\":\n    from doctest import testmod\n\n    testmod()"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n):\n    return count_binary_sequences_helper(n, n)\n\n\ndef count_binary_sequences_helper(n, length):\n    if length == 0:\n        return 1\n\n    count = 0\n    for i in range(n+1):\n        count += count_binary_sequences_helper(n, length-1)\n\n    return count\n\n\nprint(count_binary_sequences(4))"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(2^n)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    def helper(n: int, sum_first: int, sum_last: int) -> int:\n        if n == 1:\n            if sum_first == sum_last:\n                return 2\n            return 1\n\n        if sum_first == sum_last:\n            return helper(n - 1, sum_first + 1, sum_last + 1) + helper(n - 1, sum_first - 1, sum_last - 1)\n        return helper(n - 1, sum_first + 1, sum_last - 1) + helper(n - 1, sum_first - 1, sum_last + 1)\n\n    return helper(n, 0, 0)\n\n\nif __name__ == \"__main__\":\n    assert count_binary_sequences(0) == 1\n    assert count_binary_sequences(1) == 2\n    assert count_binary_sequences(2) == 2\n    assert count_binary_sequences(3) == 2\n    assert count_binary_sequences(4) == 4\n    assert count_binary_sequences(5) == 4\n    assert count_binary_sequences(6) == 8"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef sum_of_n_bits(n: int, i: int) -> int:\n    if i == 0:\n        return n\n    return (1 << i) + sum_of_n_bits(n, i - 1)\n\n\ndef count_sequences(n: int) -> int:\n    count = 0\n    for i in range(n):\n        first_sum = sum_of_n_bits(n, i)\n        second_sum = sum_of_n_bits(n, n - i - 1)\n        if first_sum == second_sum:\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(1) == 2\n    assert count_sequences(2) == 3\n    assert count_sequences(3) == 4\n    assert count_sequences(4) == 7\n    assert count_sequences(5) == 11"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(2^n)\n    \"\"\"\n    def helper(n: int, sum_first: int, sum_last: int) -> int:\n        if n == 0:\n            return 1 if sum_first == sum_last else 0\n        return helper(n - 1, sum_first + 1, sum_last - 1) + helper(n - 1, sum_first, sum_last)\n\n    return helper(n, 0, 0)\n\n\nif __name__ == \"__main__\":\n    assert count_binary_sequences(3) == 4"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_binary_sequences(n):\n    # This solution works only for n <= 3\n    # Because we are counting the number of ways to distribute n ones in 2n slots\n    # For n > 3, this approach will not work\n    if n == 1:\n        return 2\n    if n == 2:\n        return 3\n    if n == 3:\n        return 4\n\n    return 2 ** n\n\n\ndef count_binary_sequences_dp(n):\n    \"\"\"\n    Time Complexity O(n)\n    Space Complexity O(n)\n    \"\"\"\n    dp = [[0 for _ in range(n + 1)] for _ in range(2 * n + 1)]\n\n    for i in range(n + 1):\n        dp[i][0] = 1\n\n    for i in range(1, 2 * n + 1):\n        for j in range(1, n + 1):\n            dp[i][j] += dp[i - 1][j - 1]\n            dp[i][j] += dp[i - 1][j]\n\n    return dp[2 * n][n]\n\n\ndef count_binary_sequences_dp_2(n):\n    \"\"\"\n    Time Complexity O(n)\n    Space Complexity O(n)\n    \"\"\"\n    dp = [0 for _ in range(n + 1)]\n    dp[0] = 1\n\n    for i in range(1, n + 1):\n        for j in range(i, n + 1):\n            dp[j] += dp[j - i]\n\n    return dp[n]\n\n\ndef count_binary_sequences_dp_3(n):\n    \"\"\"\n    Time Complexity O(n)\n    Space Complexity O(n)\n    \"\"\"\n    dp = [0 for _ in range(n + 1)]\n    dp[0] = 1\n\n    for i in range(1, n + 1):\n        dp[i] += dp[i -"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2n) = O(n)\n    Space Complexity: O(2n) = O(n)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    if n == 1:\n        return 2\n\n    d = defaultdict(int)\n\n    for i in range(n):\n        for j in range(2 ** n):\n            if j & (1 << i) == 0:\n                d[j] += 1\n\n    count = 0\n\n    for key, value in d.items():\n        if value == d[key ^ (2 ** n - 1)]:\n            count += value\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(0) == 1\n    assert count_sequences(1) == 2\n    assert count_sequences(2) == 2\n    assert count_sequences(3) == 4\n    assert count_sequences(4) == 6"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n*2^n)\n    Space Complexity: O(2^n)\n    \"\"\"\n    if n == 1:\n        return 2\n\n    res = 0\n\n    for i in range(n):\n        res += count_sequences(n - 1)\n\n    return res * 2\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(1) == 2\n    assert count_sequences(2) == 4\n    assert count_sequences(3) == 10\n    assert count_sequences(4) == 40"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "def count_of_binary_sequences(n):\n    \"\"\"\n    :param n: int - length of binary sequence\n    :return: int - count of binary sequences\n    \"\"\"\n    if n < 0:\n        return 0\n\n    # if n == 0\n    # then the sum of first n bits and last n bits are both 0\n    # there are 2^n sequences with all 0s\n    if n == 0:\n        return 2 ** n\n\n    # if n == 1\n    # then the sum of first n bits and last n bits are both 1\n    # there are 2^n sequences with all 1s\n    if n == 1:\n        return 2 ** n\n\n    # if n >= 2\n    # then the sum of first n bits and last n bits are both 1 or 0\n    # there are 2^(2n-1) sequences with all 1s and 2^(2n-1) sequences with all 0s\n    return 2 * (2 ** (2 * n - 2))\n\n\nprint(count_of_binary_sequences(0))\nprint(count_of_binary_sequences(1))\nprint(count_of_binary_sequences(2))\nprint(count_of_binary_sequences(3))\nprint(count_of_binary_sequences(4))"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "def count_sequences(n: int) -> int:\n    \"\"\"\n    There are n! possible combinations of n elements.\n    For each combination, we have 2 options for each element:\n    include it in the first half or not.\n    So the total number of sequences is 2^(n!)\n    \"\"\"\n    return 2 ** (n * n)\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(3) == 12"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(1)\n    \"\"\"\n    if n == 0:\n        return 0\n\n    if n == 1:\n        return 1\n\n    return count_binary_sequences(n - 1) * 2 + count_binary_sequences(n - 2)\n\n\nif __name__ == \"__main__\":\n    assert count_binary_sequences(2) == 2\n    assert count_binary_sequences(3) == 6"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def helper(n: int, idx: int, arr: List[int]) -> int:\n        if idx == 2 * n:\n            return 1\n\n        count = 0\n        if idx < n:\n            count += helper(n, idx + 1, arr)\n\n        if idx >= n:\n            if idx == 2 * n - 1:\n                arr[idx] = 0\n            else:\n                arr[idx] = 1\n            count += helper(n, idx + 1, arr)\n\n        return count\n\n    count = 0\n    arr = [0] * (2 * n)\n    count += helper(n, 0, arr)\n    return count\n\n\nif __name__ == \"__main__\":\n    assert binary_sequences(2) == 2\n    assert binary_sequences(3) == 5"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return 2\n\n    return count_sequences(n - 1) * 2 + count_sequences(n - 2)\n\n\ndef count_sequences_dp(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    if n == 1:\n        return 1\n\n    if n == 2:\n        return 2\n\n    if n == 3:\n        return 4\n\n    count = [1, 1, 2, 4]\n\n    for i in range(4, n + 1):\n        count.append(count[i - 1] * 2 + count[i - 2])\n\n    return count[n]\n\n\nif __name__ == \"__main__\":\n    assert count_sequences(0) == 1\n    assert count_sequences(1) == 1\n    assert count_sequences(2) == 2\n    assert count_sequences(3) == 4\n    assert count_sequences(4) == 10\n    assert count_sequences(5) == 22\n    assert count_sequences(6) == 46\n    assert count_sequences(7) == 92\n    assert count_sequences(8) == 184\n\n    assert count_sequences_dp(0) == 1\n    assert count_sequences_dp(1) == 1\n    assert count_sequences_dp(2) == 2\n    assert count_sequences_dp(3) == 4\n    assert count_sequences_dp(4) == 10\n    assert count_sequences_dp(5) == 22\n    assert count_"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_sequences(n):\n    total_count = 0\n    for i in range(1, n + 1):\n        total_count += count_sequences_helper(i, i, 0, 0, Counter())\n\n    return total_count\n\n\ndef count_sequences_helper(first_n, last_n, first_sum, last_sum, memo):\n    if first_n == 0 and last_n == 0:\n        return 1\n    if (first_n, last_n) in memo:\n        return memo[(first_n, last_n)]\n\n    count = 0\n\n    for i in range(first_sum, first_sum + first_n):\n        for j in range(last_sum, last_sum + last_n):\n            if i == j:\n                count += count_sequences_helper(first_n - 1, last_n - 1, i, j, memo)\n\n    memo[(first_n, last_n)] = count\n    return count\n\n\nprint(count_sequences(2))\nprint(count_sequences(3))"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    There are 2^n ways of choosing the bits of the sequence.\n    There are 2^n ways of choosing the bits of the first half of the sequence.\n    There are 2^n ways of choosing the bits of the second half of the sequence.\n    If the sum of the first half is equal to the sum of the second half,\n    then there are 2^(n - 1) ways of choosing the bits of the first half,\n    and 2^(n - 1) ways of choosing the bits of the second half.\n    The sum of the first half is equal to the sum of the second half if and only if\n    the sum of the first n bits is equal to the sum of the last n bits.\n    Hence, the total number of sequences is 2^n * 2^n * 2^(n - 1) * 2^(n - 1) = 2^(2n).\n    \"\"\"\n    return 2 ** (2 * n)\n\n\ndef count_sequences_using_dp(n: int) -> int:\n    \"\"\"\n    There are 2^n ways of choosing the bits of the sequence.\n    There are 2^n ways of choosing the bits of the first half of the sequence.\n    There are 2^n ways of choosing the bits of the second half of the sequence.\n    If the sum of the first half is equal to the sum of the second half,\n    then there are 2^(n - 1) ways of choosing the bits of the first half,\n    and 2^(n - 1) ways of choosing the bits of the second half.\n    The sum of the first half is equal to the sum of the second half if and only if\n    the sum of the first n bits is equal to the sum of the last n bits.\n    Hence, the total number of sequences is 2^n * 2^n * 2^(n - 1) * 2^(n - 1) = 2^(2n).\n    \"\"\"\n    dp: List[int] = [0] * (n + 1)\n    dp[0] = 1\n    for i in"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef count_binary_sequences(n):\n    dp = defaultdict(int)\n    dp[0] = 1\n    for i in range(1, n + 1):\n        for j in range(i, n + 1):\n            dp[j] += dp[j - i]\n    return dp[n]\n\n\ndef main():\n    n = 2\n    print(count_binary_sequences(n))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_binary_sequences(n: int) -> int:\n    \"\"\"\n    O(2^n)\n    O(n)\n    \"\"\"\n    result: List[int] = [0] * (2 * n + 1)\n    result[0] = 1\n    for i in range(n):\n        for j in range(i, 2 * n + 1):\n            result[j] += result[i]\n\n    return result[-1]\n\n\nif __name__ == \"__main__\":\n    assert count_binary_sequences(2) == 2\n    assert count_binary_sequences(3) == 4"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_binary_sequences(n):\n    \"\"\"\n    :param: - n - length of binary sequence\n    return - count of binary sequences\n    \"\"\"\n    # Write your code here\n    count = 0\n    for i in range(2**n):\n        if sum(int(i) for i in bin(i)[2:]) == sum(int(i) for i in bin(i)[-2:]):\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    n = 3\n    print(count_binary_sequences(n))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "def count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    return count_binary_sequences(n - 1) * 2\n\n\nif __name__ == \"__main__\":\n    for i in range(1, 4):\n        print(count_binary_sequences(i))"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "from functools import lru_cache\n\n\n@lru_cache(maxsize=None)\ndef count_sequences(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n\n    return count_sequences(n - 1) + count_sequences(n - 2)\n\n\n@lru_cache(maxsize=None)\ndef count_sequences_dp(n):\n    dp = [0] * (n + 1)\n    dp[0] = 1\n    dp[1] = 1\n    dp[2] = 1\n    dp[3] = 2\n\n    for i in range(4, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2]\n\n    return dp[n]\n\n\n@lru_cache(maxsize=None)\ndef count_sequences_recursive_memoize(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n\n    return count_sequences_recursive_memoize(n - 1) + count_sequences_recursive_memoize(n - 2)\n\n\ndef count_sequences_recursive(n, memoize):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n\n    if memoize is not None:\n        memoize[n] = count_sequences_recursive(n - 1, memoize) + count_sequences_recursive(n - 2, memoize)\n        return memoize[n]\n    return count_sequences_recursive(n - 1, memoize"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "from itertools import product\n\n\ndef binary_seq(n):\n    res = []\n    for x in product([0, 1], repeat=n):\n        if sum(x[:n]) == sum(x[n:]):\n            res.append(x)\n    return res\n\n\ndef test_binary_seq():\n    assert binary_seq(2) == [\n        (0, 0),\n        (0, 1),\n        (1, 0),\n        (1, 1)\n    ]\n    assert binary_seq(3) == [\n        (0, 0, 0),\n        (0, 0, 1),\n        (0, 1, 0),\n        (0, 1, 1),\n        (1, 0, 0),\n        (1, 0, 1),\n        (1, 1, 0),\n        (1, 1, 1)\n    ]\n\n\nif __name__ == '__main__':\n    test_binary_seq()"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "from itertools import combinations\n\n\ndef count_of_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n == 0:\n        return 1\n\n    total = 0\n\n    for bit_1 in combinations([0, 1], n):\n        for bit_2 in combinations([0, 1], n):\n            if sum(bit_1) == sum(bit_2):\n                total += 1\n\n    return total\n\n\nif __name__ == \"__main__\":\n    assert count_of_binary_sequences(2) == 2\n    assert count_of_binary_sequences(3) == 4"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(1)\n    \"\"\"\n    if n == 0:\n        return 0\n\n    if n == 1:\n        return 2\n\n    return count_sequences(n - 1) * 2 + 1\n\n\ndef count_sequences_dp(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n == 0:\n        return 0\n\n    if n == 1:\n        return 2\n\n    count = [0] * (2 * n + 1)\n    count[0] = 1\n    count[1] = 1\n\n    for i in range(2, 2 * n + 1):\n        for j in range(1, i // 2 + 1):\n            count[i] += count[j] * count[i - j]\n\n    return count[2 * n]\n\n\ndef count_sequences_dp2(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n^2)\n    Space Complexity: O(n)\n    \"\"\"\n    if n == 0:\n        return 0\n\n    if n == 1:\n        return 2\n\n    count = [0] * (2 * n + 1)\n    count[0] = 1\n    count[1] = 1\n\n    for i in range(2, 2 * n + 1):\n        for j in range(1, i // 2 + 1):\n            count[i] += count[j] * count[i - j]\n\n    return count[2 * n]\n\n\ndef main():\n    result = count_sequences(3)\n    print(result)\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "def count_binary_seq(n: int) -> int:\n    \"\"\"\n    First we count the number of sequences of length 2n with sum of first n bits and sum of last n bits are the same\n    We do this by considering all sequences of length 2n with sum of first n bits is 0 and sum of last n bits is 0.\n    We can then add the number of sequences with sum of first n bits is 1 and sum of last n bits is 0.\n    This will give us the number of sequences with sum of first n bits is 0 and sum of last n bits is 0.\n    \"\"\"\n\n    def count(n: int, sum1: int, sum2: int) -> int:\n        if n == 0:\n            if sum1 == sum2:\n                return 1\n            else:\n                return 0\n\n        return count(n - 1, sum1 + 1, sum2) + count(n - 1, sum1, sum2 + 1)\n\n    return count(n, 0, 0)\n\n\nif __name__ == \"__main__\":\n    assert count_binary_seq(2) == 3\n    assert count_binary_seq(3) == 7\n    assert count_binary_seq(4) == 15"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "class Solution:\n    def count(self, n):\n        if n == 0:\n            return 1\n        elif n == 1:\n            return 2\n        elif n == 2:\n            return 4\n\n        if n % 2 != 0:\n            return 0\n\n        return 4 * self.count(n - 2)\n\n\nif __name__ == \"__main__\":\n    n = 3\n    s = Solution()\n    print(s.count(n))"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "from itertools import combinations\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    n is the length of the sequences\n    \"\"\"\n    # we can have two numbers with n bits each, and their sum is n * (n+1)\n    # we can have n numbers with 2 bits each, and their sum is n * (n-1)\n    # so, if we have two numbers, we can have (n * (n+1)) / 2\n    # if we have one number, we can have (n * (n-1)) / 2\n    # if we have no numbers, we can have 1\n    # so, the total number of combinations is\n    # (n * (n+1)) / 2 + (n * (n-1)) / 2 + 1\n    # (n * 2n + n - 1) / 2 + 1\n    # (n * 2n + 2n - 1) / 2\n    # (n * 3n - n) / 2\n    # n * 3n - n\n    # n * 3n\n    # O(1)\n    return n * 3 * n\n\n\nif __name__ == \"__main__\":\n    print(count_sequences(2))\n    print(count_sequences(3))\n    print(count_sequences(4))"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "def count_sequences(n):\n    # Initialize dp[i][j] = number of sequences of length i and sum j\n    dp = [[0 for _ in range(n+1)] for _ in range(2*n+1)]\n\n    # Base case: sum of all bits is 0\n    for i in range(n+1):\n        dp[i][0] = 1\n\n    # Loop through all possible lengths\n    for length in range(1, 2*n+1):\n        # Loop through all possible sums\n        for sum in range(n+1):\n            # If length is less than sum, there are no valid sequences\n            if length < sum:\n                dp[length][sum] = 0\n            # Otherwise, there are two possibilities\n            else:\n                # First possibility: last bit is 0\n                dp[length][sum] += dp[length-1][sum]\n                # Second possibility: last bit is 1\n                dp[length][sum] += dp[length-1][sum-1]\n\n    # Return the sum of all possible sums at the end\n    return sum(dp[2*n][i] for i in range(n+1))\n\n\n\"\"\"\nTime complexity: O(2^n). For each length, we loop through all possible sums.\nSpace complexity: O(2^n). We use a dp array of size (2n+1)x(n+1)\n\"\"\""
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    if n <= 0:\n        return 0\n\n    if n == 1:\n        return 2\n\n    dp = [0] * (n + 1)\n    dp[0] = 1\n    dp[1] = 2\n\n    for i in range(2, n + 1):\n        dp[i] = (dp[i - 1] + dp[i - 2]) * 2\n\n    return dp[n]\n\n\ndef main():\n    assert count_sequences(1) == 2\n    assert count_sequences(2) == 4\n    assert count_sequences(3) == 8\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "def binary_sequence_counter(n):\n    \"\"\"\n    The idea is to count the number of binary sequences with the same sum of the first and last n bits.\n    To count this, we can use the binomial coefficient formula (n+1 choose n) = (n+1)Cn\n    \"\"\"\n\n    # We'll use a list to keep track of the number of sequences that have the same sum of the first and last n bits\n    counter = [0] * (2*n+1)\n    counter[0] = 1\n\n    # We'll use the binomial coefficient formula to count the number of sequences with the same sum of the first and last n bits\n    for i in range(1, 2*n+1):\n        for j in range(i+1):\n            counter[i] += counter[j] * counter[i-j]\n\n    return counter[2*n]\n\n\nif __name__ == \"__main__\":\n    n = 3\n    print(binary_sequence_counter(n))"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_binary_sequences(n):\n    \"\"\"\n    :param: - n - length of the binary sequence\n    return: - number of binary sequences of length 2n with same sum of first n bits as last n bits\n    \"\"\"\n    return count_sequences(n) - count_sequences(n - 1)\n\n\ndef count_sequences(n):\n    \"\"\"\n    :param: - n - length of the binary sequence\n    return: - number of binary sequences of length 2n\n    \"\"\"\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 2\n    elif n == 2:\n        return 4\n    elif n == 3:\n        return 8\n    elif n == 4:\n        return 16\n    elif n == 5:\n        return 32\n    elif n == 6:\n        return 64\n    elif n == 7:\n        return 128\n    elif n == 8:\n        return 256\n\n    def helper(n, seq, count):\n        \"\"\"\n        :param: - n - length of the binary sequence\n        :param: - seq - the binary sequence so far\n        :param: - count - the count of the binary sequence so far\n        return: - number of binary sequences of length 2n\n        \"\"\"\n        if n == 0:\n            count.append(seq)\n            return\n        elif n == 1:\n            count.append(seq + '0')\n            count.append(seq + '1')\n            return\n        elif n == 2:\n            count.append(seq + '00')\n            count.append(seq + '01')\n            count.append(seq + '11')\n            count.append(seq + '10')\n            return\n        elif n == 3:\n            count.append(seq + '000')\n            count.append(seq + '001')\n            count.append(seq + '011')\n            count.append(seq + '010')\n            count.append(seq + '110')\n            count"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "def count_of_binary_sequences(n):\n    return sum(count_of_binary_sequences_helper(n, i) for i in range(1, n+1))\n\n\ndef count_of_binary_sequences_helper(n, i):\n    if i == 1:\n        return 2\n\n    return sum(count_of_binary_sequences_helper(n, i-1) for _ in range(2))\n\n\nif __name__ == \"__main__\":\n    print(count_of_binary_sequences(2))"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\ndef count_binary_sequences(n):\n    \"\"\"\n    :param: n - number of bits\n    return: count of binary sequences\n    \"\"\"\n    if n < 0:\n        return 0\n\n    count = Counter()\n\n    for i in range(2**n):\n        binary_str = bin(i)[2:].zfill(n)\n        if sum(map(int, binary_str[:n])) == sum(map(int, binary_str[-n:])):\n            count[binary_str] += 1\n\n    return sum(count.values())\n\n\ndef test_function(test_case):\n    n = test_case[0]\n    solution = test_case[1]\n    output = count_binary_sequences(n)\n\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\nn = 3\nsolution = 2\ntest_case = [n, solution]\ntest_function(test_case)\n\nn = 5\nsolution = 1024\ntest_case = [n, solution]\ntest_function(test_case)\n\nn = 7\nsolution = 131072\ntest_case = [n, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\ndef count_binary_sequences(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2n)\n    Space Complexity: O(n)\n    \"\"\"\n    if n < 0:\n        return 0\n\n    if n == 0:\n        return 2\n\n    result: List[int] = [0] * n\n    result[0] = 2\n    result[1] = 2\n\n    for i in range(2, n):\n        result[i] = result[i - 1] * 2 + result[i - 2]\n\n    return result[-1] * 2 + result[-2]\n\n\nif __name__ == \"__main__\":\n    assert count_binary_sequences(0) == 2\n    assert count_binary_sequences(1) == 2\n    assert count_binary_sequences(2) == 4\n    assert count_binary_sequences(3) == 8\n    assert count_binary_sequences(4) == 16"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "from itertools import combinations\n\n\ndef binary_sequence(n: int) -> int:\n    \"\"\"\n    Time Complexity: O(2^n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    count = 0\n\n    for bits in combinations([0, 1], n):\n        if sum(bits) == sum(bits[::-1]):\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert binary_sequence(1) == 2\n    assert binary_sequence(2) == 2\n    assert binary_sequence(3) == 4"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "from itertools import combinations\n\n\ndef count_binary_sequences(n):\n    total = 0\n\n    for seq in combinations(range(n), n):\n        first_half = 0\n        second_half = 0\n\n        for i in range(n):\n            if i in seq:\n                first_half += 1 << i\n            else:\n                second_half += 1 << i\n\n        if first_half == second_half:\n            total += 1 << (n * 2)\n\n    return total\n\n\nif __name__ == \"__main__\":\n    print(count_binary_sequences(2))"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "from itertools import product\nfrom math import factorial\n\n\ndef number_of_sequences(n: int) -> int:\n    \"\"\"\n    Returns the number of sequences.\n    >>> number_of_sequences(2)\n    6\n    >>> number_of_sequences(3)\n    50\n    >>> number_of_sequences(4)\n    425\n    \"\"\"\n    # There can be 2^n number of sequences\n    # For each sequence, first n bits can be either 0 or 1\n    # So, number of sequences = 2^n\n    # For each sequence, number of possible combinations of first n bits is 2^n\n    # The number of combinations is binomial coefficient\n    # For each sequence, sum of first n bits = sum of last n bits\n    # So, we need to find the number of ways in which we can place n 1s and n 0s in 2n slots\n    # So, we need to find the number of ways in which we can place n 1s in 2n slots\n    # We can use the binomial coefficient to solve this problem\n    # The number of ways = C(2n, n)\n    return 2 ** (2 * n) * factorial(2 * n) // (factorial(n) ** 2)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    }
+  ]
+}

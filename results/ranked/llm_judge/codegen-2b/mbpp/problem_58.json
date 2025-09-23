@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T17:47:35.872777",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "mbpp",
+  "problem_number": 58,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def hasSublist(self, head, m, n):\n        if not head:\n            return False\n        \n        # Check whether m and n are in the same list.\n        if head.val!= m.val or head.val!= n.val:\n            return False\n\n        # If m and n are in the same list, check whether the sublist is in the list.\n        return self.hasSublist(head.next, m, n) or self.hasSublist(head.next.next, m, n)"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def hasSubtree(self, root, s):\n        \"\"\"\n        :type root: TreeNode\n        :type s: List[int]\n        :rtype: bool\n        \"\"\"\n        if not root:\n            return False\n        return self.helper(root, s)\n\n    def helper(self, root, s):\n        if root == None:\n            return False\n        if root.val in s:\n            return True\n        if root.val not in s and self.helper(root.left, s) or \\\n                self.helper(root.right, s) and not self.helper(root.right, s):\n            return True\n        return False"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "# Definition for a sublist.\nclass Sublist:\n    def __init__(self, head, newlist):\n        self.head = head\n        self.newlist = newlist\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: Sublist\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n\n        slow = head\n        fast = head\n        while fast and fast.next:\n            fast = fast.next.next\n            slow = slow.next\n\n        slow = head\n        while slow.next:\n            slow = slow.next\n            fast = fast.next\n\n        if not fast or not sublist.newlist or sublist.newlist.next:\n            return False\n\n        if not sublist.newlist.next:\n            return False\n\n        slow = head\n        fast = sublist.newlist.next\n        while slow.next and fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n            if slow.next == fast:\n                slow = slow.next\n\n        return slow.next == fast"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n\nclass Solution:\n    # @param head, a ListNode\n    # @param val, an integer\n    # @return a boolean\n    def checkSubList(self, head, val):\n        if not head:\n            return False\n        slow = head\n        fast = head\n        while fast.next:\n            if fast.val == val:\n                return True\n            slow = slow.next\n            fast = fast.next.next\n        return slow.val == val\n\n# Note:\n# The head is guaranteed to be not None, so head.next is not null."
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if not sublist:\n            return True\n        slow = head\n        fast = head\n        while fast:\n            slow = slow.next\n            fast = fast.next\n            if fast and fast.val not in sublist:\n                return False\n        return True"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def checkSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        if len(sublist) == 0:\n            return False\n        elif len(sublist) == 1:\n            return head == sublist[0]\n        else:\n            curr = head\n            for i in sublist:\n                while curr.next is not None and curr.val!= i:\n                    curr = curr.next\n                if curr.val == i:\n                    return True\n                else:\n                    return False\n\nif __name__ == '__main__':\n    #head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, None)))))\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = None\n    print Solution().checkSublist(head, [1, 2])\n    print Solution().checkSublist(head, [1, 2, 3])\n    print Solution().checkSublist(head, [1, 2, 3, 4])\n    print Solution().checkSublist(head, [1, 2, 3, 4, 5])\n    print Solution().checkSublist(head, [1, 2, 3, 4, 5, 6])\n    print Solution().checkSublist(head, [1, 2, 3, 4, 5, 6, 7])\n    print Solution().checkSublist(head, [1, 2, 3, 4, 5, 6, 7, 8])"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        sublist.val = sublist.val - 1\n        while head:\n            if head == sublist:\n                return True\n            head = head.next\n        return False"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def contains1(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        if not nums:\n            return False\n        start, end = 0, len(nums) - 1\n        while start <= end:\n            mid = (start + end) // 2\n            if nums[mid] < target:\n                start = mid + 1\n            elif nums[mid] > target:\n                end = mid - 1\n            else:\n                return True\n        return False\n\n\nif __name__ == \"__main__\":\n    assert Solution().contains1([1, 2], 1)\n    assert Solution().contains1([1, 2], 2)\n    assert not Solution().contains1([1, 2], 3)"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "def sublist_in_list(list_, sublist):\n    \"\"\"\n    Returns true if list contains sublist\n    Input: list_: list to be checked\n            sublist: list to be checked against\n    Output: True if list contains sublist\n    \"\"\"\n    return any(sublist == sub for sub in list_)\n\n# https://www.hackerrank.com/challenges/sublist-in-list/problem\n# Sublist in List\ndef sublist_in_list(list_, sublist):\n    return any(sublist == sub for sub in list_)\n\n# https://www.hackerrank.com/challenges/sublist-in-list/problem\ndef sublist_in_list(list_, sublist):\n    return any(sublist == sub for sub in list_)"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.next = None\n\nclass Solution:\n\t# @param head, a list node\n\t# @param val, an integer\n\t# @return a boolean\n\tdef containsNearbyAlmostDuplicate(self, head, val, k):\n\t\tcur = head\n\t\twhile cur:\n\t\t\tif cur.val == val:\n\t\t\t\treturn True\n\t\t\tcur = cur.next\n\t\t\tif cur and cur.val == val:\n\t\t\t\tif abs(cur.val - val) <= k:\n\t\t\t\t\treturn True\n\t\treturn False\n\nif __name__ == \"__main__\":\n\thead = ListNode(1)\n\thead.next = ListNode(1)\n\thead.next.next = ListNode(1)\n\thead.next.next.next = ListNode(1)\n\thead.next.next.next.next = ListNode(1)\n\thead.next.next.next.next.next = ListNode(1)\n\thead.next.next.next.next.next.next = ListNode(1)\n\tprint Solution().containsNearbyAlmostDuplicate(head, 1, 0.5)"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def isSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        while head is not None:\n            if head.val not in sublist:\n                return False\n            head = head.next\n        return True\n\nif __name__ == '__main__':\n    solution = Solution()\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    print solution.isSublist(head, [4,5])"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: float\n        :rtype: bool\n        \"\"\"\n        nums.sort()\n        for i in xrange(len(nums)):\n            if i > 0 and nums[i] - nums[i-1] < t:\n                return True\n        return False\n\n\nif __name__ == \"__main__\":\n    print Solution().containsNearbyAlmostDuplicate([1, 1, 1, 2, 3], 2, 0.5)"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        sublist.sort()\n        cur = head\n        for val in sublist:\n            while cur and cur.val!= val:\n                cur = cur.next\n            if cur and cur.val == val:\n                return True\n        return False"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a ListNode\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist(self, head, val):\n        if not head:\n            return False\n        if head.val == val:\n            return True\n        else:\n            curr = head\n            while curr:\n                if curr.val == val:\n                    return True\n                curr = curr.next\n            return False\n\nif __name__ == \"__main__\":\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    head.next.next.next.next.next.next = ListNode(7)\n    print Solution().hasSublist(head, 3)"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/contains-sublist/problem\n# https://www.hackerrank.com/challenges/contains-sublist/submissions/code/18380094\n\n\ndef contains_sublist(arr, sublist):\n    for i in range(len(arr)):\n        if arr[i] in sublist:\n            return True\n    return False\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5]\n    sublist = [3, 4]\n    print(contains_sublist(arr, sublist))\n    sublist = [2, 3]\n    print(contains_sublist(arr, sublist))"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "def contains(L, sublist):\n    for i in L:\n        if i in sublist:\n            return True\n    return False\n\nL = [1, 2, 3, 4]\nsublist = [3, 4]\n\nprint(contains(L, sublist))"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def isSubList(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head or not sublist:\n            return False\n        slow = head\n        fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        if slow!= sublist:\n            return False\n        fast = head\n        while fast and fast.val!= sublist.val:\n            slow = slow.next\n            fast = fast.next\n        return fast == sublist.next\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    head = ListNode(1)\n    sublist = ListNode(2)\n    head.next = sublist\n    sublist.next = ListNode(3)\n    print(sol.isSubList(head, sublist))"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if not sublist:\n            return False\n        if head == sublist:\n            return True\n        if not head.next:\n            return False\n        #print head, sublist\n        if head.val == sublist.val:\n            return True\n        if head.val > sublist.val:\n            return self.hasSublist(head.next, sublist)\n        else:\n            return self.hasSublist(head.next, sublist)\n\n    def hasSublist1(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if not sublist:\n            return False\n        if head == sublist:\n            return True\n        if not head.next:\n            return False\n        #print head, sublist\n        if head.val == sublist.val:\n            return True\n        if head.val > sublist.val:\n            return self.hasSublist1(head.next, sublist)\n        else:\n            return self.hasSublist1(head.next, sublist)\n\n\nif __name__ == \"__main__\":\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    head.next.next.next.next.next.next = ListNode(7)\n    head.next.next.next.next.next.next.next = ListNode(8)"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "\"\"\"\nExample:\n    Input:\n        [1,2,3]\n        [1,2,3,2]\n        [1,2,3,4,5]\n    Output: True\n    Explanation:\n        [1,2,3] is contained in [1,2,3,2]\n        [1,2,3,4,5] is contained in [1,2,3,4,5]\n        [1,2,3] is contained in [1,2,3,2]\n        [1,2,3] is contained in [1,2,3,2]\n\"\"\"\n\n# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, head, k, t):\n        \"\"\"\n        :type head: ListNode\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        slow, fast = head, head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n            if fast and fast.next:\n                fast = fast.next\n                slow = slow.next\n            if fast and fast.next and fast.next.val - fast.val < t:\n                fast = fast.next\n            if fast and fast.next and fast.next.val - fast.val > t:\n                break\n        if fast and fast.val - slow.val < k:\n            return True\n        if fast and fast.val - slow.val > k:\n            return False\n        slow, fast = head, head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n            if fast and fast.val - slow.val < k:\n                return True\n            slow, fast = slow.next, fast.next\n        return False"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if head is None or sublist is None:\n            return False\n\n        p1 = head\n        p2 = sublist\n        while p1 is not None:\n            if p2.val == p1.val:\n                p2 = p2.next\n                p1 = p1.next\n            else:\n                p1 = p1.next\n                if p1 is None:\n                    return False\n                else:\n                    p2 = p2.next\n        return True"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.left = None\n\t\tself.right = None\n\nclass Solution:\n\t\n\t# @param root, a tree node\n\t# @param target, a list of integer\n\t# @return a boolean\n\tdef checkSubtree(self, root, target):\n\t\tif not root:\n\t\t\treturn False\n\t\tif root.val not in target:\n\t\t\treturn False\n\t\tif target.index(root.val) == len(target) - 1:\n\t\t\treturn True\n\t\treturn self.checkSubtree(root.left, target) or self.checkSubtree(root.right, target)\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution()\n# param_1 = obj.checkSubtree(root,target)"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/contains-sublist/\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        # O(N) time and space\n        lookup = [False] * len(nums)\n        for i, n in enumerate(nums):\n            while i - k >= 0 and lookup[i - k]:\n                i -= 1\n            lookup[i] = True\n            while i + k < len(nums) and lookup[i + k]:\n                i += 1\n            if i + k - i >= t:\n                return True\n        return False\n\nif __name__ == '__main__':\n    print Solution().containsNearbyAlmostDuplicate([1, 2, 3], 3, 1)\n    print Solution().containsNearbyAlmostDuplicate([1, 2, 3, 1], 2, 1)\n    print Solution().containsNearbyAlmostDuplicate([1, 2, 3, 4, 5, 6, 7], 2, 2)"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "def contains(A, B):\n\tif A[0] == B[0]:\n\t\treturn contains(A[1:], B[1:])\n\telse:\n\t\treturn A[0] < B[0]\n\nif __name__ == '__main__':\n\tA = [2, 5, 4, 6, 7]\n\tB = [3, 1, 3, 5]\n\tprint contains(A, B)"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "def contains(sublist, list_to_check):\n    \"\"\"\n    :type sublist: List[int]\n    :type list_to_check: List[int]\n    :rtype: bool\n    \"\"\"\n    i = 0\n    j = 0\n    while i < len(sublist) and j < len(list_to_check):\n        if sublist[i] == list_to_check[j]:\n            i += 1\n            j += 1\n        elif sublist[i] < list_to_check[j]:\n            j += 1\n        else:\n            i += 1\n    if j == len(list_to_check):\n        return True\n    return False\n\nif __name__ == '__main__':\n    assert(contains([1, 2, 3], [1, 2]))\n    assert(not contains([1, 2, 3], [1, 2, 4]))\n    assert(contains([1, 2, 3], [2, 3]))\n    assert(not contains([1, 2, 3], [4, 5]))\n    assert(contains([1, 2, 3], [1, 2, 3]))"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "# https://www.hackerrank.com/challenges/contains-sublist/problem\n\ndef contains(list, sublist):\n    return any(list[i] == sublist[0] and i < len(sublist) - 1 and list[i] == sublist[i+1] for i in range(len(list) - len(sublist) + 1))\n\nif __name__ == \"__main__\":\n    list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    sublist = [2, 3, 4]\n\n    print(contains(list, sublist))"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "# Definition for a sublist.\nclass SubList:\n    def __init__(self, head, m, n):\n        self.head = head\n        self.m = m\n        self.n = n\n\nclass Solution:\n    # @param head, a list node\n    # @param m, an integer\n    # @param n, an integer\n    # @return a boolean\n    def checkSublist(self, head, m, n):\n        if not head:\n            return False\n        elif m == 0 and n == 0:\n            return True\n        elif m == 0:\n            return head.n == n\n        elif n == 0:\n            return head.m == m\n        elif head.n < m:\n            return False\n        elif head.n == m and head.m < n:\n            return False\n        elif head.n == m and head.m == n and head.next == None:\n            return True\n        else:\n            return self.checkSublist(head.next, m, n - head.m)"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def containsSubList(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: bool\n        \"\"\"\n        return any(target in nums for nums in nums)"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "def contains(sublist, list):\n    \"\"\"\n    :type sublist: List[int]\n    :type list: List[int]\n    :rtype: bool\n    \"\"\"\n    return any(x in list for x in sublist)"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "def sublist_present(list, sublist):\n    \"\"\"\n    Input: list is a list of integers, sublist is a list of integers\n    Output: True if list contains sublist, otherwise False\n    \"\"\"\n    if not list or not sublist:\n        return False\n\n    for item in sublist:\n        if item not in list:\n            return False\n    return True\n\n\ndef main():\n    \"\"\"\n    Main function\n    \"\"\"\n    test_cases = [([1, 2, 3], [1, 2]),\n                  ([1, 2, 3, 4], [1, 2]),\n                  ([1, 2, 3, 4], [1, 2, 3]),\n                  ([1, 2, 3, 4], [1, 2, 4]),\n                  ([1, 2, 3, 4], [2, 3, 4])]\n    for test in test_cases:\n        print(\"Sublist present in list:\", sublist_present(test[0], test[1]))\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "def contains_sublist(alist, sublist):\n    for i in range(len(alist)):\n        if sublist in alist[i:]:\n            return True\n    return False\n\nif __name__ == '__main__':\n    alist = [1, 2, 3, 4, 5, 6, 7, 8]\n    sublist = [1, 3, 5, 7]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 2, 3, 5, 7]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 2, 3]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 3]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 2, 3, 4, 5, 6, 7, 8]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 3, 5, 7, 8]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 2, 3, 5]\n    print contains_sublist(alist, sublist)\n    \n    sublist = [1, 2, 3, 4, 5, 6, 7, 8]\n    print contains_sublist(alist, sublist)"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def contains1(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: bool\n        \"\"\"\n        \n        return any(n in target for n in nums)"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def containsSubList(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        if len(nums) == 0:\n            return False\n        start = 0\n        end = len(nums) - 1\n        while start <= end:\n            mid = start + (end - start) / 2\n            if mid == 0 or nums[mid - 1] < k:\n                start = mid + 1\n            elif nums[mid] > k:\n                end = mid - 1\n            elif nums[mid] == k:\n                return True\n        return False\n\nif __name__ == '__main__':\n    print Solution().containsSubList([1, 2, 3, 4], 1)\n    print Solution().containsSubList([1, 2, 3, 4, 5, 6, 7], 1)\n    print Solution().containsSubList([1, 2, 3, 4, 5, 6, 7], 4)\n    print Solution().containsSubList([1, 2, 3, 4, 5, 6, 7], 3)\n    print Solution().containsSubList([1, 2, 3, 4, 5, 6, 7], 7)"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "def contains(list_, sublist_):\n    \"\"\"\n    :type list_: List[int]\n    :type sublist_: List[int]\n    :rtype: bool\n    \"\"\"\n    if len(sublist_) == 0:\n        return True\n    \n    if len(list_) == 0:\n        return False\n    \n    for i in range(len(list_)):\n        if list_[i] == sublist_[0]:\n            if contains(list_[i+1:], sublist_[1:]):\n                return True\n    \n    return False"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "# Definition for a sublist.\nclass SubList:\n    def __init__(self, head, m, n):\n        self.head = head\n        self.m = m\n        self.n = n\n        self.count = 0\n\n    def __len__(self):\n        return self.m + self.n\n\n    def __iter__(self):\n        return iter([self.head])\n\n    def __eq__(self, other):\n        return (self.head == other.head and self.m == other.m and self.n == other.n)\n\n    def __str__(self):\n        return str(self.head) + \" \" + str(self.m) + \" \" + str(self.n)\n\ndef check_sublist(head, m, n):\n    if m == 0 or n == 0:\n        return False\n    else:\n        sublist = SubList(head, m, n)\n        sublist.count = 0\n        while head!= None:\n            if head.next == None:\n                return False\n            if head.next.next == None:\n                return False\n            if sublist.__eq__(head.next):\n                sublist.count += 1\n                head = head.next\n            else:\n                head = head.next.next\n        return sublist.count == m\n\n# Your Sublist object will be instantiated and called as such:\n# obj = Sublist(head, m, n)\n# param_1 = obj.head\n# param_2 = obj.m\n# param_3 = obj.n\n# param_4 = obj.count\n# param_5 = obj.__str__()"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def contains(list, sublist):\n    for i in list:\n        if i in sublist:\n            return True\n    return False\n\ndef test_contains():\n    assert contains([1,2,3,4], [1,2,3]) == True\n    assert contains([1,2,3], [1,2,3]) == False\n    assert contains([1,2,3], [1,2,3,4]) == False\n    assert contains([1,2,3,4], [1,2,3,4]) == True"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def hasSublist(self, head, m, n):\n        if not head or not m or not n:\n            return False\n        \n        while head and head.next:\n            if m.val == head.val and n.val == head.next.val:\n                return True\n            head = head.next\n        \n        return False"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def contains(sublist, list):\n    for item in sublist:\n        if item not in list:\n            return False\n    return True\n\n\nprint(contains([1, 2, 3], [1, 2]))\nprint(contains([1, 2, 3], [2, 3]))\nprint(contains([1, 2, 3], [3, 4]))\nprint(contains([1, 2, 3], [4, 5]))\nprint(contains([1, 2, 3], [1, 2, 3]))\nprint(contains([1, 2, 3], [4, 5, 6]))\nprint(contains([1, 2, 3], [2, 3, 4]))\nprint(contains([1, 2, 3], [3, 4, 5]))\nprint(contains([1, 2, 3], [4, 5, 6]))\nprint(contains([1, 2, 3], [4, 5, 6, 7]))\nprint(contains([1, 2, 3], [1, 2, 3]))\nprint(contains([1, 2, 3], [4, 5, 6, 7, 8]))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        slow = head\n        fast = head\n        while fast.next and fast.next.val < sublist.val:\n            fast = fast.next\n        while slow.next and slow.next.val < sublist.val:\n            slow = slow.next\n        if fast is None:\n            return False\n        while fast is not None and slow is not None:\n            if fast is sublist:\n                return True\n            fast = fast.next\n            slow = slow.next\n        return False\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, None))))).next\n    sublist = ListNode(2, ListNode(3, ListNode(4, ListNode(5, None))))\n    print(sol.hasSublist(head, sublist))"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "def contains(a, b):\n    \"\"\"\n    Check whether a list contains the given sublist or not.\n\n    :type a: List[int]\n    :type b: List[int]\n    :rtype: bool\n    \"\"\"\n    for x in a:\n        if x in b:\n            return True\n    return False\n\nif __name__ == '__main__':\n    print(contains([1,2,3,4], [2,3]))\n    print(contains([1,2,3,4], [2,3,4]))\n    print(contains([1,2,3,4], [2,3,4,5]))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "def contains(a, b):\n\tfor i in range(len(a)):\n\t\tif b in a[i:]:\n\t\t\treturn True\n\treturn False\n\ndef sublist(a, b):\n\tfor i in range(len(a)):\n\t\tif b in a[i:]:\n\t\t\treturn a[i:b]\n\treturn []\n\ndef main():\n\ta = [1, 2, 3]\n\tb = [1, 2]\n\tprint \"a: \" + str(a)\n\tprint \"b: \" + str(b)\n\tprint \"contains(a, b): \" + str(contains(a, b))\n\tprint \"sublist(a, b): \" + str(sublist(a, b))\n\nif __name__ == '__main__':\n\tmain()"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "import unittest\nfrom list_util import *\n\nclass TestList(unittest.TestCase):\n    def test_contains_sublist(self):\n        self.assertTrue(contains_sublist([1, 2, 3], [1, 2]))\n        self.assertTrue(contains_sublist([1, 2, 3], [2, 3]))\n        self.assertTrue(contains_sublist([1, 2, 3], [1, 3]))\n        self.assertTrue(contains_sublist([1, 2, 3], [1, 2, 3]))\n        self.assertFalse(contains_sublist([1, 2, 3], [4, 5]))\n        self.assertFalse(contains_sublist([1, 2, 3], [1, 2, 4]))\n        self.assertFalse(contains_sublist([1, 2, 3], [4, 5, 6]))\n        self.assertFalse(contains_sublist([1, 2, 3], [1, 2, 3, 4]))\n        self.assertFalse(contains_sublist([1, 2, 3], [1, 2, 3, 4, 5]))\n\n\nif __name__ == '__main__':\n    unittest.main()"
+    },
+    {
+      "rank": 42,
+      "score": 3.0,
+      "candidate": "import unittest\n\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        # Two pointers.\n        # for each i, we find the index of the next element.\n        # if the next element is the same as the current element,\n        # then we increase the index by one.\n        # if the next element is not the same as the current element,\n        # then we return false.\n        # if the next element is the last element, then we return true.\n        # if the next element is not the last element, then we increase\n        # the index of the current element by one.\n        # if the next element is the first element, then we decrease\n        # the index of the current element by one.\n        # if the next element is not the first element, then we return\n        # false.\n        if not nums:\n            return False\n        start = 0\n        end = len(nums) - 1\n        while start < end:\n            if nums[start] == nums[end]:\n                end -= 1\n            elif nums[start]!= nums[end]:\n                return False\n            else:\n                start += 1\n                end -= 1\n        return True\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought:\n\n# 7ms 99.63%\nclass Solution {\n    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {\n        if (nums.length == 0) return false;\n        int n = nums.length;\n        int l = 0, r = n - 1;\n        while (l < r) {\n            int m = l + (r - l) / 2;\n            if (nums[m] == nums[r]) {\n                r--;\n            } else"
+    },
+    {
+      "rank": 43,
+      "score": 3.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    \"\"\"\n    @param head: The first node of linked list.\n    @param m: An integer\n    @param n: An integer\n    @return: True if the second list is subsquent of the first, False if not\n    \"\"\"\n    def isSubList(self, head, m, n):\n        \"\"\"\n        :type head: ListNode\n        :type m: int\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n\n        if m == 0 and n == 0:\n            return True\n\n        if m == 0:\n            return head.val < n\n        if n == 0:\n            return m < head.val\n        if head.val < m or head.val > n:\n            return False\n\n        if head.next:\n            return self.isSubList(head.next, m - head.val, n - head.val)\n\n        return False"
+    },
+    {
+      "rank": 44,
+      "score": 2.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def hasSublist(self, head: ListNode, sublist: ListNode) -> bool:\n        \"\"\"\n        Time: O(n)\n        Space: O(n)\n        \"\"\"\n        if not head or not sublist:\n            return False\n        if head.val!= sublist.val:\n            return False\n        cur = head\n        while cur and cur.next:\n            if cur.val == sublist.val:\n                cur = cur.next\n            else:\n                break\n        if cur.val == sublist.val:\n            return True\n        return False"
+    },
+    {
+      "rank": 45,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        # TODO: check whether the list has the given sublist or not.\n        # O(n) time, O(m) space\n        if not head or not sublist:\n            return False\n        elif sublist[0] == head.val:\n            return True\n        else:\n            current = head\n            while current and current.val!= sublist[0]:\n                current = current.next\n            if current:\n                return self.hasSublist(current.next, sublist[1:])\n            else:\n                return False\n\nif __name__ == \"__main__\":\n    head = ListNode(1, ListNode(2, ListNode(3, None)))\n    head.next.next.next = ListNode(5, ListNode(6, ListNode(7, ListNode(8, None))))\n    head.next.next.next.next = ListNode(9, ListNode(10, ListNode(11, ListNode(12, None))))\n    head.next.next.next.next.next = ListNode(13, ListNode(14, ListNode(15, ListNode(16, None))))\n    head.next.next.next.next.next.next = ListNode(17, ListNode(18, ListNode(19, ListNode(20, None))))\n    head.next.next.next.next.next.next.next = ListNode(21, ListNode(22, ListNode(23, ListNode(24, None))))\n    head.next.next.next.next.next.next.next.next = ListNode(25, ListNode(26, ListNode(27, ListNode(28, None))))\n    head.next.next.next.next.next.next.next.next.next = ListNode(29"
+    },
+    {
+      "rank": 46,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def hasSublist(self, head: ListNode, sublist: ListNode) -> bool:\n        if not head or not sublist:\n            return False\n        slow = head\n        fast = head\n        while fast and fast.next:\n            fast = fast.next.next\n            slow = slow.next\n            if not slow or not sublist:\n                break\n            if sublist.val < slow.val:\n                slow = slow.next\n            else:\n                fast = fast.next\n        return slow and slow.val == sublist.val"
+    },
+    {
+      "rank": 47,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def checkSublist(self, head, m, n):\n        if not head or not m or not n:\n            return False\n        if head == m or head == n or m == n:\n            return False\n        if m.val == n.val:\n            return False\n        if head.val > m.val and head.val < n.val:\n            return False\n        if m.val > n.val and m.val < head.val:\n            return False\n        return self.checkSublist(head.next, m.next, n.next)"
+    },
+    {
+      "rank": 48,
+      "score": 1.0,
+      "candidate": "\"\"\"\nExample 1:\n\nInput: nums = [1,2,3], target = [1,2]\nOutput: true\nExplanation: [1,2] is in target\n\nExample 2:\n\nInput: nums = [1,2,3], target = [1]\nOutput: true\nExplanation: [1] is in target\n\nExample 3:\n\nInput: nums = [1,2,3], target = [3,3]\nOutput: false\nExplanation: [1,2,3] is not in target\n\nExample 4:\n\nInput: nums = [1], target = [1]\nOutput: true\nExplanation: [1] is in target\n\nExample 5:\n\nInput: nums = [1,2,3,4], target = [1,3]\nOutput: true\nExplanation: [1,3] is in target\n\nExample 6:\n\nInput: nums = [1,2,3,4], target = [1,2,4]\nOutput: false\nExplanation: [1,2,3,4] is not in target\n\nExample 7:\n\nInput: nums = [1], target = [1]\nOutput: true\nExplanation: [1] is in target\n\nExample 8:\n\nInput: nums = [1,2,3], target = [1,3]\nOutput: false\nExplanation: [1,3] is not in target\n\"\"\"\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        n = len(nums)\n        if n < k:\n            return False\n\n        l = 0\n        r = n - 1\n        while l < r:\n            m = (l + r) / 2\n            if nums[m] < t:\n                l = m + 1\n            else:\n                r = m\n\n        if l == r:\n            return nums[l] <= t\n        return False"
+    },
+    {
+      "rank": 49,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        # TODO\n        return False\n\nif __name__ == '__main__':\n    sol = Solution()\n    print sol.containsNearbyAlmostDuplicate([1, 2, 3, 1, 2, 3], 2, 2)"
+    },
+    {
+      "rank": 50,
+      "score": 1.0,
+      "candidate": "import unittest\n\n\nclass Solution(unittest.TestCase):\n    def test(self):\n        self.assertTrue(contains([1, 2, 3, 4], [1, 3]))\n        self.assertTrue(contains([1, 2, 3, 4], [3]))\n        self.assertTrue(contains([1, 2, 3, 4], [1, 2]))\n        self.assertTrue(contains([1, 2, 3, 4], []))\n        self.assertFalse(contains([1, 2, 3, 4], [5, 6, 7]))\n\n\nif __name__ == '__main__':\n    unittest.main()"
+    },
+    {
+      "rank": 51,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        if k <= 0:\n            return False\n        nums.sort()\n        for i in range(len(nums) - k + 1):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                for j in range(i + k, len(nums)):\n                    if j == i or nums[j]!= nums[j - 1]:\n                        if abs(nums[j] - nums[i]) <= t:\n                            return True\n        return False"
+    },
+    {
+      "rank": 52,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def isSubsequence(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return True\n        if not sublist:\n            return False\n        p = head\n        for i in sublist:\n            while p and p.val!= i:\n                p = p.next\n            if p:\n                p = p.next\n            else:\n                return False\n        return True"
+    },
+    {
+      "rank": 53,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def isSublist(self, head, m, n):\n        if head == None or m == None or n == None:\n            return False\n        \n        dummy = ListNode(0)\n        dummy.next = head\n        \n        cur = dummy\n        while cur.next!= None:\n            if cur.next.val < m.val:\n                cur = cur.next\n            else:\n                cur = cur.next\n            if cur.val < n.val:\n                cur = cur.next\n            else:\n                break\n        \n        if cur.val >= n.val:\n            return False\n        \n        cur = dummy\n        while cur.next!= None and cur.next.val < m.val:\n            cur = cur.next\n        \n        if cur.val < n.val:\n            return False\n        \n        while cur.next!= None and cur.next.val < n.val:\n            cur = cur.next\n            if cur.next == None:\n                return False\n        \n        if cur.val >= n.val:\n            return False\n        \n        return True"
+    },
+    {
+      "rank": 54,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n\n        curr = head\n        while curr:\n            if curr.val in sublist:\n                return True\n            curr = curr.next\n        return False\n\nif __name__ == \"__main__\":\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n\n    sublist = ListNode(2)\n    sublist.next = ListNode(3)\n    sublist.next.next = ListNode(4)\n    print Solution().hasSublist(head, sublist)"
+    },
+    {
+      "rank": 55,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n\n        pre = head\n        while pre:\n            if pre == sublist:\n                return True\n            pre = pre.next\n\n        sublist.next = head\n        sublist.prev = None\n        pre = sublist\n        while pre:\n            if pre == sublist:\n                return True\n            pre = pre.prev\n\n        return False\n\nif __name__ == '__main__':\n    s = Solution()\n    head = ListNode(1)\n    sublist = ListNode(2)\n    sublist.next = ListNode(3)\n    head.next = sublist\n    print(s.hasSublist(head, sublist))\n    print(s.hasSublist(head, ListNode(3)))"
+    },
+    {
+      "rank": 56,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} mHead\n    # @param {ListNode} nHead\n    # @return {boolean}\n    def isSubList(self, head, mHead, nHead):\n        if not head or not mHead or not nHead:\n            return False\n        while head and mHead and nHead:\n            if head == mHead or head == nHead:\n                return True\n            head = head.next\n            mHead = mHead.next\n            nHead = nHead.next\n        return False\n\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None, None, None)\n    print solution.isSubList(None,"
+    },
+    {
+      "rank": 57,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def checkSublist(self, head, m, n):\n        \"\"\"\n        :type head: ListNode\n        :type m: int\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        while head and m <= head.val <= n:\n            head = head.next\n        return head == None\n\nif __name__ == '__main__':\n    l1 = ListNode(1)\n    l1.next = ListNode(2)\n    l1.next.next = ListNode(3)\n    l1.next.next.next = ListNode(4)\n    l2 = ListNode(5)\n    l2.next = ListNode(6)\n    l2.next.next = ListNode(7)\n    l2.next.next.next = ListNode(8)\n    l3 = ListNode(9)\n    l3.next = ListNode(10)\n    l3.next.next = ListNode(11)\n    l3.next.next.next = ListNode(12)\n    print Solution().checkSublist(l1, 2, 4)"
+    },
+    {
+      "rank": 58,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if not head or not sublist:\n            return False\n        \n        # 1. check if the sublist is in the list, if yes, return false\n        if head.val in sublist:\n            return False\n        \n        # 2. check if there is any sublist in the list\n        cur = head\n        while cur:\n            if cur.val in sublist:\n                return True\n            cur = cur.next\n        return False"
+    },
+    {
+      "rank": 59,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} sublist\n    # @return {boolean}\n    def isSublist(self, head, sublist):\n        if head is None or sublist is None:\n            return False\n        if head.val!= sublist.val:\n            return False\n        p = head\n        while p is not None:\n            if p == sublist:\n                return True\n            p = p.next\n        return False\n\nclass Solution2:\n    # @param {ListNode} head\n    # @param {ListNode} sublist\n    # @return {boolean}\n    def isSublist(self, head, sublist):\n        if head is None or sublist is None:\n            return False\n        if head.val!= sublist.val:\n            return False\n        p = head\n        while p is not None:\n            if p == sublist:\n                return True\n            p = p.next\n        return False\n\nif __name__ == '__main__':\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    sublist = ListNode(1)\n    sublist.next = ListNode(2)\n    sublist.next.next = ListNode(3)\n    sublist.next.next.next = ListNode(4)\n    sublist.next.next.next.next = ListNode(5)\n    print(Solution().isSublist(head, sublist))\n    print(Solution2().isSublist(head, sublist))"
+    },
+    {
+      "rank": 60,
+      "score": 1.0,
+      "candidate": "\"\"\"\nExample\nGiven [1, 2, 2, 1], sublist = [2] return true, because [1, 2, 2, 1] contains sublist [2].\n\nGiven [1, 2, 2, 1], sublist = [1, 2] return false, because [1, 2, 2, 1] does not contain sublist [1, 2].\n\"\"\"\n\n\n# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        curr = head\n        while curr is not None:\n            if curr.val in sublist:\n                sublist.remove(curr.val)\n            curr = curr.next\n        return not sublist\n\nif __name__ == '__main__':\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(2)\n    head.next.next.next = ListNode(1)\n    head.next.next.next.next = ListNode(3)\n    head.next.next.next.next.next = ListNode(3)\n    head.next.next.next.next.next.next = ListNode(4)\n    head.next.next.next.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next.next.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next.next.next.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next.next.next.next.next.next.next."
+    },
+    {
+      "rank": 61,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def checkSublist(self, head, m, n):\n        if head is None or m is None or n is None:\n            return False\n        if head.val == m.val:\n            return self.checkSublist(head.next, m.next, n)\n        if head.val == n.val:\n            return self.checkSublist(head.next, m, n.next)\n        if head.val > m.val and head.val < n.val:\n            return self.checkSublist(head.next, m, n)\n        if head.val < m.val and head.val > n.val:\n            return self.checkSublist(head.next, m, n)\n        if m.val > head.val and m.val < n.val:\n            return self.checkSublist(head, m.next, n)\n        if m.val < head.val and m.val > n.val:\n            return self.checkSublist(head, m.next, n.next)\n        if n.val > head.val and n.val < m.val:\n            return self.checkSublist(head, m, n.next)\n        if n.val < head.val and n.val > m.val:\n            return self.checkSublist(head, m, n.next)\n        return False\n\nif __name__ == '__main__':\n    sol = Solution()\n    m = ListNode(1)\n    n = ListNode(2)\n    m.next = n\n    print(sol.checkSublist(m, m, n))\n    m = ListNode(1)\n    n = ListNode(2)\n    m.next = n\n    n.next = ListNode(3)\n    print(sol.checkSublist(m, m, n))\n    m = ListNode(1)\n    n = ListNode(2)\n    n.next = ListNode(3)\n    n.next.next = ListNode(4)"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a ListNode\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist(self, head, val):\n        if not head:\n            return False\n\n        slow = head\n        fast = head\n        while fast and fast.next:\n            if fast.val == val:\n                slow = slow.next\n            fast = fast.next.next\n\n        if slow == head:\n            return True\n        slow = head\n        while slow.next:\n            if slow.next.val == val:\n                fast = fast.next\n                slow = slow.next\n            else:\n                slow = slow.next\n\n        if fast == head:\n            return True\n        return False\n\n    def hasSublist_1(self, head, val):\n        if not head:\n            return False\n\n        slow = head\n        fast = head\n        while fast and fast.next:\n            if fast.val == val:\n                slow = slow.next\n            fast = fast.next.next\n\n        if slow == head:\n            return True\n        slow = head\n        while slow.next:\n            if slow.next.val == val:\n                fast = fast.next\n                slow = slow.next\n            else:\n                slow = slow.next\n\n        if fast == head:\n            return True\n        return False\n\n    def hasSublist_2(self, head, val):\n        if not head:\n            return False\n\n        slow = head\n        fast = head\n        while fast and fast.next:\n            if fast.val == val:\n                slow = slow.next\n                fast = fast.next\n            else:\n                slow = slow.next\n\n        if slow == head:\n            return True\n        slow = head\n        while slow.next:\n            if slow.next.val == val:\n                fast = fast.next\n                slow = slow.next\n            else:\n                slow = slow.next\n\n        if fast == head:\n            return True\n        return False\n\nif __name"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param: head: The first node of linked list\n    @param: sublist: The sublist to be checked\n    @return: True if the given list contains the sublist, otherwise False\n    \"\"\"\n    def checkSublist(self, head, sublist):\n        if not head:\n            return False\n        if head.val == sublist[0]:\n            return self.checkSublist(head.next, sublist[1:])\n        else:\n            return False"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "# Your Solution here\n\n# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head or not sublist:\n            return False\n        if head.val == sublist.val:\n            return True\n        if not head.next:\n            return False\n        if head.val < sublist.val:\n            return self.hasSublist(head.next, sublist)\n        if head.val > sublist.val:\n            return self.hasSublist(head.next.next, sublist)\n        return self.hasSublist(head.next.next, sublist)"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n\n        if head.next is None:\n            return False\n\n        if sublist is None:\n            return False\n\n        if sublist.val >= head.val:\n            return False\n\n        prev = head\n        curr = head.next\n        while curr is not None:\n            if curr.val == sublist.val:\n                return True\n            elif curr.val > sublist.val:\n                return False\n            prev = curr\n            curr = curr.next\n\n        return False\n\n    # @param head, a list node\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist1(self, head, val):\n        \"\"\"\n        :type head: ListNode\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n\n        if head.next is None:\n            return False\n\n        if head.next.val == val:\n            return True\n\n        if head.val >= val:\n            return False\n\n        prev = head\n        curr = head.next\n        while curr is not None:\n            if curr.val == val:\n                return True\n            elif curr.val > val:\n                return False\n            prev = curr\n            curr = curr.next\n\n        return False\n\n    # @param head, a list node\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist2(self, head, val):\n        \"\"\"\n        :type head: ListNode\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n\n        if head.next is None:\n            return False\n\n        if"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def hasSublist(self, head, m, n):\n        if not head:\n            return False\n        if m and n and head.val == m.val:\n            return True\n        if not m and not n and head.val!= n.val:\n            return True\n        if not m and not n:\n            return False\n        if m and n and head.val == m.val and head.next and n.val == head.next.val:\n            return True\n        if m and head.val == m.val and head.next and n.val == head.next.val:\n            return True\n        if m and n and head.val == m.val and head.next and n.val == head.next.val and head.next.next:\n            return True\n        if m and n and head.val == m.val and head.next and n.val == head.next.val and head.next.next and head.next.next.next:\n            return True\n        if m and n and head.val == m.val and head.next and n.val == head.next.val and head.next.next and head.next.next.next and head.next.next.next.next:\n            return True\n        if m and n and head.val == m.val and head.next and n.val == head.next.val and head.next.next and head.next.next.next and head.next.next.next.next and head.next.next.next.next.next:\n            return True\n        if m and n and head.val == m.val and head.next and n.val == head.next.val and head.next.next and head.next.next.next and head.next.next.next.next and head.next.next.next.next.next:\n            return True\n        if m and n and head.val == m.val and head.next and n.val == head.next.val and head.next.next and head.next.next.next and head.next"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "# Definition for a sublist.\nclass SubList:\n    def __init__(self, head, new_list):\n        self.head = head\n        self.new_list = new_list\n\n    def __repr__(self):\n        return str(self.head) + '->' + str(self.new_list)\n\n\nclass Solution:\n    # @param head, a list node\n    # @param new_list, a list node\n    # @return a boolean\n    def hasSubList(self, head, new_list):\n        # write your code here\n        if head is None:\n            return False\n        if new_list is None:\n            return False\n        curr = head\n        while curr is not None:\n            if curr.next is not None:\n                curr = curr.next\n            else:\n                break\n        while curr is not None:\n            if new_list.head is not None:\n                if curr.val!= new_list.head.val:\n                    break\n                new_list = new_list.new_list\n            if curr.next is None:\n                break\n            curr = curr.next\n        return curr is not None and curr.val == new_list.head.val\n\n\nif __name__ == '__main__':\n    head = SubList(None, None)\n    print Solution().hasSubList(head, SubList(1, None))\n    print Solution().hasSubList(head, SubList(1, SubList(1, None)))\n    print Solution().hasSubList(head, SubList(1, SubList(1, SubList(1, None))))"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int) -> bool:\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        n = len(nums)\n        if k > n:\n            return False\n\n        # find the k-th element\n        idx = 0\n        while idx < n and nums[idx]!= nums[k]:\n            idx += 1\n        if idx == n:\n            return False\n\n        # find all k-1 elements\n        for i in range(k - 1):\n            while idx < n and nums[idx]!= nums[i]:\n                idx += 1\n            if idx == n:\n                return False\n\n        # find all k elements\n        for j in range(k):\n            while idx < n and nums[idx]!= nums[j]:\n                idx += 1\n            if idx == n:\n                return False\n\n        return True"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "import unittest\n\n\ndef sublist_in_list(sublist, list_to_check):\n    return all([sublist.start <= i < sublist.end for i in list_to_check])\n\n\nclass TestFunctions(unittest.TestCase):\n    def test_sublist_in_list(self):\n        self.assertTrue(sublist_in_list([2, 3, 4], [1, 2, 3]))\n        self.assertFalse(sublist_in_list([2, 3, 4], [1, 2, 3, 4]))\n        self.assertTrue(sublist_in_list([2, 3], [1, 2, 3]))\n        self.assertFalse(sublist_in_list([2, 3], [1, 2, 3, 4]))\n\n\nif __name__ == '__main__':\n    unittest.main()"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, head, k, t):\n        \"\"\"\n        :type head: ListNode\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        curr = head\n        while curr:\n            curr = curr.next\n            if curr:\n                while curr.next and curr.val == curr.next.val:\n                    curr = curr.next\n                if curr.val == curr.next.val:\n                    curr = curr.next\n                else:\n                    break\n            else:\n                break\n        while curr and curr.val!= curr.next.val:\n            curr = curr.next\n        if curr and curr.val == curr.next.val:\n            curr = curr.next\n        while curr and curr.val == curr.next.val:\n            curr = curr.next\n        if curr and curr.val == curr.next.val:\n            return True\n        else:\n            return False"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def checkSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if not sublist:\n            return False\n        if head.val < sublist.val:\n            return self.checkSublist(head.next, sublist)\n        if head.val > sublist.val:\n            return self.checkSublist(head.next, sublist)\n        return True"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    # @param head, a ListNode\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist(self, head, val):\n        \"\"\"\n        :type head: ListNode\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        slow = head\n        fast = head\n        while fast:\n            if fast.val == val:\n                return True\n            if fast.val > val:\n                break\n            slow = slow.next\n            fast = fast.next\n\n        fast = head\n        while fast:\n            if fast.val == val:\n                return True\n            if fast.val < val:\n                break\n            slow = slow.next\n            fast = fast.next\n\n        return False\n\n\nif __name__ == \"__main__\":\n    assert Solution().hasSublist(ListNode(1, ListNode(2, ListNode(3))), 3) == False\n    assert Solution().hasSublist(ListNode(1, ListNode(2, ListNode(3))), 2) == True\n    assert Solution().hasSublist(ListNode(1, ListNode(2, ListNode(3))), 4) == False\n    assert Solution().hasSublist(ListNode(1, ListNode(2, ListNode(3))), 1) == False\n    assert Solution().hasSublist(ListNode(1, ListNode(2, ListNode(3))), 0) == False\n    assert Solution().hasSublist(ListNode(1, ListNode(2, ListNode(3))), 5) == False"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def hasSublist(self, head: ListNode, sublist: ListNode) -> bool:\n        \"\"\"\n        https://leetcode.com/problems/check-if-a-linked-list-contains-a-sublist/discuss/253370/Python-Solution-in-O(n)\n        \"\"\"\n        while head:\n            if head == sublist:\n                return True\n            head = head.next\n        return False"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "# TLE\ndef sub_list_contains_sublist(A, B):\n    \"\"\"\n    :type A: List[int]\n    :type B: List[int]\n    :rtype: bool\n    \"\"\"\n    # check if the first sublist is empty\n    if len(A) == 0:\n        return False\n\n    # check if the first sublist is equal to the second sublist\n    if A[0] == B[0]:\n        return sub_list_contains_sublist(A[1:], B[1:])\n\n    # check if the first sublist is greater than the second sublist\n    if A[0] > B[0]:\n        return sub_list_contains_sublist(A[1:], B)\n\n    # check if the first sublist is less than the second sublist\n    if A[0] < B[0]:\n        return sub_list_contains_sublist(A, B[1:])\n\n    return False\n\n\n\nif __name__ == \"__main__\":\n    print(sub_list_contains_sublist([1, 2, 3], [2, 3]))\n    print(sub_list_contains_sublist([1, 2, 3], [1, 2]))\n    print(sub_list_contains_sublist([1, 2, 3], [2, 4]))\n    print(sub_list_contains_sublist([1, 2, 3], [2, 3, 4]))\n    print(sub_list_contains_sublist([1, 2, 3], [2, 3, 4, 5]))"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "\"\"\"\nExample:\n\nInput: [1,2,3,4,5], [1,2]\nOutput: true\nExplanation: [1,2] is in [1,2,3,4,5].\n\nInput: [1,2,3,4,5], [4,5]\nOutput: false\nExplanation: [4,5] is not in [1,2,3,4,5].\n\"\"\"\n\nclass Solution:\n    # @param {ListNode} head\n    # @param {ListNode} val\n    # @return {boolean}\n    def isSubList(self, head, val):\n        if not head or not val:\n            return False\n        slow = head\n        fast = head\n        while fast and fast.next:\n            fast = fast.next.next\n            slow = slow.next\n            if slow == val:\n                return True\n        return False"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if not sublist:\n            return False\n        if sublist[0] < head.val:\n            return False\n        if sublist[-1] > head.val:\n            return False\n        slow = head\n        fast = head\n        while fast.next and fast.val < sublist[0]:\n            fast = fast.next\n        while fast.next and fast.val > sublist[-1]:\n            slow = slow.next\n            fast = fast.next\n        while fast and fast.val in sublist:\n            slow = slow.next\n            fast = fast.next\n        return slow == head"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        slow = head\n        fast = head\n        while fast.next is not None:\n            if slow.val == sublist.val:\n                slow = slow.next\n                fast = fast.next.next\n            else:\n                slow = slow.next\n            if fast == sublist:\n                return True\n        return False\n\n    def hasSublist1(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        fast = head\n        slow = head\n        while fast.next is not None:\n            if slow.val == fast.val:\n                slow = slow.next\n                fast = fast.next.next\n            else:\n                slow = slow.next\n            if fast == head:\n                return True\n        return False\n\n    def hasSublist2(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        fast = head\n        slow = head\n        while fast.next is not None:\n            if slow.val == fast.val:\n                slow = slow.next\n                fast = fast.next.next\n            else:\n                slow = slow.next\n                fast = fast.next.next\n            if fast is None:\n                return False\n            if slow.val == fast.val:\n                return True\n        return False"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def checkSublist(self,nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        if len(nums) == 0:\n            return False\n        \n        if target < nums[0]:\n            return False\n        \n        if target > nums[-1]:\n            return False\n        \n        for i in range(len(nums)):\n            if target > nums[i]:\n                return False\n            \n            if target < nums[i]:\n                break\n            \n        return True"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param A : An integer\n    @param subList : A list of integers\n    @return : A boolean\n    \"\"\"\n    def checkSubList(self, A, subList):\n        # write your code here\n        if not A or not subList:\n            return False\n        \n        p = 0\n        q = 0\n        while p < len(A) and q < len(subList):\n            if A[p] == subList[q]:\n                q += 1\n            else:\n                q = 0\n                p += 1\n            \n        return q == len(subList)"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/contains-sublist/\n\n# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    # @param head, a ListNode\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist(self, head, val):\n        # write your code here\n        curr = head\n        while curr:\n            if curr.val == val:\n                return True\n            curr = curr.next\n        return False\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution()\n# param_1 = []\n# param_2 = 4\n# param_3 = 5\n# param_4 = []\n# param_5 = []\n# obj.hasSublist(param_1, param_2)\n# param_6 = param_1\n# obj.hasSublist(param_6, param_3)"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\nclass Solution(object):\n    def checkSublist(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: bool\n        \"\"\"\n        if len(nums) == 0:\n            return False\n        if len(nums) < len(target):\n            return False\n        if len(target) == 0:\n            return True\n        if len(nums) == 1:\n            return nums[0] == target[0]\n        if nums[0] == target[0]:\n            return self.checkSublist(nums[1:], target[1:])\n        if nums[-1] == target[-1]:\n            return self.checkSublist(nums[:-1], target[:-1])\n        if target[0] == nums[0]:\n            return self.checkSublist(nums[1:], target[1:])\n        if target[-1] == nums[-1]:\n            return self.checkSublist(nums[:-1], target[:-1])\n        if target[0] > nums[0]:\n            return self.checkSublist(nums[1:], target[1:])\n        if target[-1] < nums[-1]:\n            return self.checkSublist(nums[:-1], target[:-1])\n        return False\n\n\ndef main():\n    sol = Solution()\n    print(sol.checkSublist([1, 2, 3, 4], [1, 2]))\n    print(sol.checkSublist([1, 2, 3, 4], [1, 2, 3]))\n    print(sol.checkSublist([1, 2, 3, 4], [1, 2, 3, 4]))\n    print(sol.checkSublist([1, 2, 3, 4], [1, 2, 3, 5]))\n    print(sol.checkSublist([1, 2, 3, 4], [1, 2, 3, 4, 5]))\n    print(sol.checkSublist([1, 2, 3, 4], [4, 5]))\n    print"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "def contains(list1, list2):\n    for item in list2:\n        if item not in list1:\n            return False\n    return True\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert contains([1, 2, 3], [2]) == True, \"Test 1\"\n    assert contains([1, 2, 3], [1]) == True, \"Test 2\"\n    assert contains([1, 2, 3], [3]) == True, \"Test 3\"\n    assert contains([1, 2, 3], [3, 1]) == True, \"Test 4\"\n    assert contains([1, 2, 3], [3, 2]) == False, \"Test 5\"\n    assert contains([1, 2, 3], [2, 3]) == False, \"Test 6\"\n    assert contains([1, 2, 3], [4]) == False, \"Test 7\"\n    assert contains([1, 2, 3], [1, 2, 3]) == True, \"Test 8\"\n    assert contains([1, 2, 3], [1, 2, 4]) == False, \"Test 9\"\n    assert contains([1, 2, 3], [1, 3, 3]) == False, \"Test 10\"\n    assert contains([1, 2, 3], [1, 2, 3, 3]) == True, \"Test 11\""
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        sublist.sort()\n        while head:\n            if head.val == sublist[0]:\n                if head.val == sublist[-1]:\n                    return True\n                elif head.next is None:\n                    break\n                head = head.next\n            else:\n                if head.val >= sublist[0] and head.val <= sublist[-1]:\n                    break\n                else:\n                    head = head.next\n        return False\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    print(sol.hasSublist(head, [1, 2, 3]))\n    print(sol.hasSublist(head, [2, 3, 4]))\n    print(sol.hasSublist(head, [1, 2, 3, 4]))\n    print(sol.hasSublist(head, [1, 2, 3, 4, 5]))\n    print(sol.hasSublist(head, [1, 2, 3, 4, 5, 6]))"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\n\nclass Solution:\n    def containsNearbyAlmostDuplicate(self, head, k, x):\n        \"\"\"\n        :type head: ListNode\n        :type k: int\n        :type x: float\n        :rtype: bool\n        \"\"\"\n        if head is None or head.next is None:\n            return False\n\n        slow = head\n        fast = head\n        while fast.next and fast.next.next:\n            fast = fast.next.next\n            slow = slow.next\n\n        if fast is None:\n            return False\n\n        slow = slow.next\n        fast = fast.next\n\n        while fast:\n            if fast.val == x:\n                return True\n\n            if fast.val > x:\n                break\n\n            fast = fast.next\n\n        while slow:\n            if slow.val == x:\n                return True\n\n            if slow.val < x:\n                break\n\n            slow = slow.next\n\n        slow = head\n\n        while slow:\n            if slow.val == x:\n                return True\n\n            if slow.val < x:\n                break\n\n            slow = slow.next\n\n        return False"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def hasSublist(self, head: ListNode, sublist: ListNode) -> bool:\n        \"\"\"\n        O(n)\n        \"\"\"\n        # Note:\n        # sublist.val!= head.val\n        # sublist.next!= head\n        # head.val!= sublist.val\n        # head.next!= sublist\n\n        # O(n)\n        curr = head\n        while curr:\n            curr = curr.next\n            if curr == sublist:\n                return True\n            curr = curr.next\n\n        return False\n\n    # O(n)\n    def hasSublist2(self, head: ListNode, sublist: ListNode) -> bool:\n        # Note:\n        # sublist.val!= head.val\n        # sublist.next!= head\n        # head.val!= sublist.val\n        # head.next!= sublist\n\n        # O(n)\n        curr = head\n        while curr:\n            curr = curr.next\n            if curr == sublist:\n                return True\n            curr = curr.next\n\n        return False\n\ns = Solution()\nhead = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, None))))))\nsublist = ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, None))))))\nprint(s.hasSublist(head, sublist))"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/check-if-a-list-contains-a-sublist/discuss/155043/Python-3-2-O(N)\n# https://leetcode.com/problems/check-if-a-list-contains-a-sublist/discuss/162094/O(N)-Time-O(N)-Space-1-MS\n\nclass Solution:\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        if len(nums) <= 1:\n            return False\n        nums.sort()\n        for i in range(len(nums)):\n            if i - k >= 0:\n                if nums[i] == nums[i - k]:\n                    return True\n        for i in range(len(nums)):\n            if i + k < len(nums) and nums[i] == nums[i + k]:\n                return True\n        return False\n\n\nif __name__ == '__main__':\n    assert Solution().containsNearbyAlmostDuplicate([1, 1, 1, 2, 3, 4, 5, 6, 7], 3, 3) == True\n    assert Solution().containsNearbyAlmostDuplicate([1, 1, 2, 2, 3, 4, 5, 6], 3, 3) == False\n    assert Solution().containsNearbyAlmostDuplicate([1, 1, 2, 3, 3, 3, 4, 5], 3, 3) == True\n    assert Solution().containsNearbyAlmostDuplicate([1, 1, 2, 3, 4, 5], 3, 3) == False"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n    def __repr__(self):\n        if self:\n            return \"{} -> {}\".format(self.val, repr(self.next))\n\nclass Solution:\n    def __init__(self):\n        self.map = {}\n\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head or not sublist:\n            return False\n\n        if head.val == sublist.val:\n            return True\n\n        if head.val < sublist.val:\n            return self.hasSublist(head.next, sublist)\n\n        if head.val > sublist.val:\n            return self.hasSublist(head.next, sublist)\n\n        return False\n\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head or not sublist:\n            return False\n\n        if head.val == sublist.val:\n            return True\n\n        if head.val < sublist.val:\n            return self.hasSublist(head.next, sublist)\n\n        if head.val > sublist.val:\n            return self.hasSublist(head.next, sublist)\n\n        return False\n\nif __name__ == '__main__':\n    s = Solution()\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    print(s.hasSublist(head, ListNode(3)))"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} m\n    # @param {ListNode} n\n    # @return {boolean}\n    def isSublist(self, head, m, n):\n        if not head:\n            return False\n        while m:\n            if m.next is None:\n                return False\n            if m.val == n.val:\n                m = m.next\n                n = n.next\n            else:\n                return False\n        while n:\n            if n.next is None:\n                return False\n            if head.val == n.val:\n                head = head.next\n                n = n.next\n            else:\n                return False\n        return True"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {ListNode} head\n    # @param {ListNode} sublist\n    # @return {boolean}\n    def isSubList(self, head, sublist):\n        if not head or not sublist:\n            return False\n\n        slow, fast = head, head\n        while fast and fast.next:\n            if fast.next == sublist:\n                return True\n            fast = fast.next.next\n            slow = slow.next\n\n        return False\n\n    # @param {ListNode} head\n    # @param {ListNode} sublist\n    # @return {boolean}\n    def isSubList1(self, head, sublist):\n        if not head or not sublist:\n            return False\n\n        slow, fast = head, head\n        while fast and fast.next:\n            if fast.next == sublist:\n                return True\n            slow = slow.next\n            fast = fast.next.next\n\n        return False"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "class Solution:\n    \"\"\"\n    @param head: The first node of linked list.\n    @param m:    An integer.\n    @param n:    An integer.\n    @return: True if the sublist of head is not empty, otherwise false.\n    \"\"\"\n    def checkSublist(self, head, m, n):\n        \"\"\"\n        :type head: ListNode\n        :type m: int\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        if not head or not head.next:\n            return False\n        cur = head\n        while cur and cur.next:\n            if cur.next.val < m or cur.next.val > n:\n                cur = cur.next\n            else:\n                cur = cur.next.next\n        if cur and cur.val < m or cur.val > n:\n            return False\n        else:\n            return True\n\n# Note:\n# 1. Time Limit Exceeded\n# 2. O(n) space"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def isSubList(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        while head and sublist:\n            if head.val!= sublist.val:\n                return False\n            head = head.next\n            sublist = sublist.next\n        return head is None"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def __init__(self):\n        self.map = {}\n\n    def isSubList(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        curr = head\n        while curr:\n            if curr.val not in self.map:\n                self.map[curr.val] = [sublist]\n            else:\n                self.map[curr.val].append(sublist)\n            curr = curr.next\n        return False\n\n    def isSubList1(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if head.val not in self.map:\n            return False\n        for i in range(len(sublist)):\n            if sublist[i] not in self.map[head.val]:\n                return False\n        return True\n\n    def isSubList2(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if head.val not in self.map:\n            return False\n        if sublist.val not in self.map[head.val]:\n            return False\n        return True\n\n    def isSubList3(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        if not head:\n            return False\n        if head.val not in self.map:\n            return False\n        if sublist.val not in self.map[head.val]:\n            return False\n        if head.val == sublist.val:\n            return True\n        return False"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def hasSublist(self, head, subList):\n        \"\"\"\n        :type head: ListNode\n        :type subList: ListNode\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        if head.next is None:\n            return False\n        pre = head\n        cur = head.next\n        while cur is not None:\n            if cur.val == subList.val:\n                break\n            if cur.val == subList.val:\n                pre = cur\n            cur = cur.next\n        if cur is None:\n            return False\n        if cur.val!= subList.val:\n            return False\n        return self.hasSublist(cur.next, subList)\n\n\na = ListNode(1)\na.next = ListNode(2)\na.next.next = ListNode(3)\na.next.next.next = ListNode(4)\na.next.next.next.next = ListNode(5)\n\ns = Solution()\nprint s.hasSublist(a, ListNode(2))"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/contains-sublist/\n\n\nclass Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, k, t):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        if not nums:\n            return False\n        if k < 0:\n            return False\n        if k == 0:\n            return True\n        if len(nums) <= k:\n            return False\n        # sort the list\n        nums.sort()\n        # calculate the diff\n        diff = nums[k] - nums[0]\n        # calculate the diff between the last two\n        diff2 = nums[-1] - nums[-2]\n        # if the diff is too small\n        if diff2 < t:\n            return True\n        # otherwise, check the next k-1 items\n        for i in range(k-1, len(nums)):\n            # if the diff is too small\n            if diff2 < t:\n                return True\n            # otherwise, check the next two items\n            if diff < diff2:\n                return True\n            # otherwise, check the next k-1 items\n            if diff > diff2:\n                return False\n            # otherwise, check the next two items\n            diff2 = nums[i] - nums[i-1]\n        return False\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.containsNearbyAlmostDuplicate([3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5], 1, 1)\n    print s.containsNearbyAlmostDuplicate([3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5], 1, 2)\n    print s.containsNearbyAlmostDuplicate([3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5], 1, 3)\n    print s.containsNearbyAlmostDuplicate([3, 3, 3, 3, 3, 4, 4, 4, 5"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    # @param head, a list node\n    # @param val, an integer\n    # @return a boolean\n    def hasSublist(self, head, val):\n        slow = head\n        fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        while slow:\n            if slow.val == val:\n                return True\n            slow = slow.next\n            if fast and fast.val == val:\n                return True\n            fast = fast.next\n        return False"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "def contains_sublist(list1, list2):\n    \"\"\"\n    :type list1: List[int]\n    :type list2: List[int]\n    :rtype: bool\n    \"\"\"\n    if not list1 or not list2:\n        return False\n\n    if not list1 or not list2:\n        return False\n\n    if list1[0] == list2[0]:\n        return list1[0] in list2\n\n    return False\n\nprint contains_sublist([1, 2, 3], [2, 3])"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: List[int]\n        :rtype: bool\n        \"\"\"\n        if head is None:\n            return False\n        if not head.next:\n            return False\n        # \u5148\u628a\u8282\u70b9\u653e\u5230\u4e00\u4e2a\u5217\u8868\u91cc\u9762\n        l = []\n        while head.next:\n            l.append(head.val)\n            head = head.next\n        l.reverse()\n        if sublist == l:\n            return True\n        return False\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    print solution.hasSublist(head, [1,2,3])\n    print solution.hasSublist(head, [1,2])\n    print solution.hasSublist(head, [2,3])\n    print solution.hasSublist(head, [3,4])\n    print solution.hasSublist(head, [4,5])\n    print solution.hasSublist(head, [5,6])\n    print solution.hasSublist(head, [6,7])\n    print solution.hasSublist(head, [7,8])\n    print solution.hasSublist(head, [8,9])\n    print solution.hasSublist(head, [9,10])\n    print solution.hasSublist(head, [10,11])"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def hasSublist(self, head, sublist):\n        \"\"\"\n        :type head: ListNode\n        :type sublist: ListNode\n        :rtype: bool\n        \"\"\"\n        # Check whether the first node of the sublist is the same as the\n        # first node of the list.\n        if head.val!= sublist.val:\n            return False\n\n        # Check whether the last node of the sublist is the same as the\n        # last node of the list.\n        if head.next!= sublist.next:\n            return False\n\n        # Check whether the next node of the sublist is the same as the\n        # next node of the list.\n        if head.next!= sublist.next.next:\n            return False\n\n        # Check whether the next node of the sublist is the same as the\n        # next node of the list.\n        while head.next!= sublist.next:\n            head = head.next\n            sublist = sublist.next\n\n        return True\n\nif __name__ == \"__main__\":\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n\n    sublist = ListNode(2)\n    sublist.next = ListNode(3)\n    sublist.next.next = ListNode(4)\n\n    s = Solution()\n    print s.hasSublist(head, sublist)"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "import unittest\n\n\nclass Solution:\n    def checkSubList(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: bool\n        \"\"\"\n        if len(nums) == 0:\n            return False\n\n        if len(target) == 0:\n            return True\n\n        n = len(nums)\n        m = len(target)\n        i, j = 0, 0\n        while i < n and j < m:\n            if nums[i] == target[j]:\n                j += 1\n            elif nums[i] < target[j]:\n                i += 1\n            else:\n                return False\n\n        return j == m\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        self._test([1, 3, 4, 5, 6], [1, 3, 4])\n        self._test([1, 3, 4, 5, 6], [1, 3, 4, 5])\n        self._test([1, 3, 4, 5, 6], [1, 3, 4, 5, 6, 7])\n        self._test([1, 3, 4, 5, 6], [1, 2, 3])\n        self._test([1, 3, 4, 5, 6], [1, 2, 3, 4])\n        self._test([1, 3, 4, 5, 6], [1, 2, 3, 4, 5])\n        self._test([1, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6])\n        self._test([1, 3, 4, 5, 6], [1, 3, 4, 5, 6, 7])\n        self._test([1, 3, 4, 5, 6], [1, 3, 4, 5, 6, 7, 8])\n        self._test([1, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7])\n        self._test([1, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7, 8])\n\n    def _test(self, nums, target):"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n    def __repr__(self):\n        if self:\n            return \"{} -> {}\".format(self.val, repr(self.next))\n        else:\n            return \"nil\"\n\nclass Solution:\n    # @param head, a ListNode\n    # @param m, an integer\n    # @param n, an integer\n    # @return a boolean\n    def checkSublist(self, head, m, n):\n        p = head\n        while p:\n            if p.val <= m:\n                p = p.next\n            else:\n                break\n        if p == None:\n            return False\n        q = head\n        while q:\n            if q.val >= n:\n                q = q.next\n            else:\n                break\n        if q == None:\n            return False\n        while p!= q:\n            p = p.next\n            q = q.next\n        return True\n\nif __name__ == '__main__':\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    head.next.next.next.next = ListNode(5)\n    head.next.next.next.next.next = ListNode(6)\n    head.next.next.next.next.next.next = ListNode(7)\n    head.next.next.next.next.next.next.next = ListNode(8)\n    s = Solution()\n    print(s.checkSublist(head, 0, 0))\n    print(s.checkSublist(head, 0, 4))\n    print(s.checkSublist(head, 1, 2))\n    print(s.checkSublist(head, 3, 4))"
+    }
+  ]
+}

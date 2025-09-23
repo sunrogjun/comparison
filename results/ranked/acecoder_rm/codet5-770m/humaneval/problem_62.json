@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/62",
+    "prompt": "\n\ndef derivative(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 + ....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n",
+    "canonical_solution": "    return [(i * x) for i, x in enumerate(xs)][1:]\n",
+    "test": "\n\nMETADATA = {}\n\n\ndef check(candidate):\n    assert candidate([3, 1, 2, 4, 5]) == [1, 4, 12, 20]\n    assert candidate([1, 2, 3]) == [2, 6]\n    assert candidate([3, 2, 1]) == [2, 2]\n    assert candidate([3, 2, 1, 0, 4]) == [2, 2, 0, 16]\n    assert candidate([1]) == []\n\n",
+    "entry_point": "derivative",
+    "docstring": "",
+    "problem_id": 62
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "return [x * (x + 1) for x in xs]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.326416015625
+    ],
+    [
+      "output = []\n    for x in xs:\n        output.append(x)\n        for i in range(1, len(output)):\n            output[i] += output[i-1] * x\n    return output",
+      0.03662109375
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [x * derivative(xs[1:])[0] for x in xs[1:]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.31494140625
+    ],
+    [
+      "derivatives = []\n    for i in range(1, len(xs)):\n        derivatives.append(xs[i] - xs[i - 1])\n    return derivatives",
+      -0.38232421875
+    ],
+    [
+      "result = []\n    for i in range(len(xs)):\n        result.append(xs[i] * xs[i + 1])\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.7412109375
+    ],
+    [
+      "# TODO: Implement derivative\n    raise NotImplementedError",
+      -0.85595703125
+    ],
+    [
+      "n = len(xs)\n    xs.reverse()\n    if n == 1:\n        return [1]\n    else:\n        return [xs[0]] + derivative(xs[1:])\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "return [(xs[i] - xs[i - 1]) / xs[i] for i in range(1, len(xs))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "n = len(xs)\n    d = []\n    for i in range(n):\n        d.append(xs[i]**2)\n    for i in range(n-1, -1, -1):\n        d[i] += d[i+1]\n    return d\n\n\nprint(derivative([3, 1, 2, 4, 5]))\nprint(derivative([1, 2, 3]))",
+      -0.85693359375
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n    result = []\n    result.append(xs[0])\n    for i in range(1, len(xs)):\n        result.append(xs[i] * result[-1])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "derivative = []\n    if len(xs) == 1:\n        return [1]\n    for i in range(1, len(xs)):\n        derivative.append(xs[i] - xs[i - 1])\n    return derivative\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return [\n        (1 - xs[i]) * xs[i + 1] if i < len(xs) - 1 else 0\n        for i in range(len(xs))\n    ]\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "if xs == []:\n        return []\n    if len(xs) == 1:\n        return [xs[0]]\n    if len(xs) == 2:\n        return [xs[0], xs[1]]\n    # TODO: implement this method\n    return None\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in range(len(xs) - 1, -1, -1):\n        result.append(xs[i] * (xs[i + 1] + xs[i]))\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [x**2 for x in xs]",
+      -0.85693359375
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    if len(xs) == 2:\n        return [xs[0], xs[1]]\n    result = [0] * (len(xs) - 1)\n    result[0] = xs[0] * derivative(xs[1:])[0]\n    for i in range(1, len(xs) - 1):\n        result[i] = result[i - 1] * xs[i]\n    return result\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "x = 0\n    result = []\n    while x < len(xs):\n        result.append(xs[x])\n        x += 1\n    return result\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "d = []\n    for i in range(len(xs)):\n        d.append(xs[i] - xs[i - 1] ** 2)\n    return d",
+      -0.85693359375
+    ],
+    [
+      "if xs[0] == 0:\n        return [1]\n    else:\n        return [x * derivative([x - 1 for x in xs[1:]])[0] for x in xs[1:]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return [x ** 2 for x in xs]\n\n\ndef main():\n    x = int(input(\"Enter x: \"))\n    print(derivative(xs=[x]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return [x * (x + 1) / 2 for x in xs]",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in range(len(xs)):\n        result.append(xs[i] * xs[i + 1])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in range(len(xs) - 1):\n        result.append(xs[i] * xs[i + 1])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "derivative_list = []\n\n    for i in range(len(xs) - 1, -1, -1):\n        derivative_list.append(xs[i] * xs[i + 1])\n\n    return derivative_list\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "x = 0\n    result = []\n    for i in range(len(xs)):\n        x = xs[i]\n        result.append(x)\n        for j in range(i+1, len(xs)):\n            result.append(xs[j] - xs[j-1])\n    return result\n\n\ndef main():\n    print(derivative([3, 1, 2, 4, 5]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "return [(x - 1) / x for x in xs]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.857421875
+    ],
+    [
+      "return [(i + 1) * x for i, x in enumerate(xs)]",
+      -0.857421875
+    ],
+    [
+      "n = len(xs)\n    if n == 0:\n        return []\n    if n == 1:\n        return [xs[0]]\n\n    d = derivative(xs[1:])\n    d.append(xs[0])\n    return d",
+      -0.85791015625
+    ],
+    [
+      "return [x * (x + 1) / 2 for x in xs]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [xs[i] * derivative(xs[1:])[i] for i in range(len(xs) - 1)]",
+      -0.85791015625
+    ],
+    [
+      "result = [1]\n    for i in range(len(xs) - 1):\n        result.append(result[i] + xs[i] * result[i + 1])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "return [(x ** 2) for x in xs]\n\n\ndef derivative_2(xs: list):\n    \"\"\"\n    Return derivative of a polynomial in the same form.\n    >>> derivative_2([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_2([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [(x ** 2) for x in xs]",
+      -0.85791015625
+    ],
+    [
+      "result = [0] * len(xs)\n    result[0] = xs[0]\n    for i in range(1, len(xs)):\n        result[i] = xs[i] * result[i - 1]\n    return result",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 1:\n        return [xs[0]]\n    else:\n        return [\n            derivative([xs[0] + x * x for x in xs[1:]])[0] +\n            derivative([x * x for x in xs[1:]])[0]\n        ]",
+      -0.85791015625
+    ],
+    [
+      "if not xs:\n        return []\n    d = [0] * (len(xs) + 1)\n    d[0] = xs[0]\n    d[1] = xs[1]\n    for i in range(2, len(xs)):\n        d[i] = xs[i] * d[i - 1]\n    return d\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n    elif len(xs) == 1:\n        return [1]\n    else:\n        return [xs[i] * derivative(xs[i+1:])[0] for i in range(len(xs)-1)] + [xs[-1]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n    if len(xs) == 1:\n        return [xs[0]]\n\n    derivative_list = []\n    for i in range(1, len(xs)):\n        derivative_list.append(xs[i] * derivative(xs[:i]))\n    return derivative_list\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [x + derivative([x**2 for x in xs[1:]])[0] for x in xs]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [x + xs[i] * (x + xs[i + 1]) for i, x in enumerate(xs[:-1])]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    elif len(xs) == 2:\n        return [xs[0] * xs[1]]\n    elif len(xs) == 3:\n        return [xs[0] * xs[1] * xs[2]]\n    else:\n        return [\n            derivative(xs[:2])[0] + derivative(xs[2:]),\n            derivative(xs[:2])[1] + derivative(xs[2:]),\n        ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "result = [0] * (len(xs) + 1)\n    result[0] = 1\n    for i in range(1, len(xs)):\n        result[i] = result[i - 1] * xs[i - 1]\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "n = len(xs)\n    d = [0 for i in range(n + 1)]\n    for i in range(1, n + 1):\n        d[i] = xs[i - 1]\n    for i in range(n, 0, -1):\n        d[i] = xs[i - 1] * d[i - 1]\n    return d\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85791015625
+    ],
+    [
+      "result = [0] * (len(xs) + 1)\n    result[0] = xs[0]\n    for i in range(1, len(xs)):\n        result[i] = result[i - 1] * xs[i]\n    return result",
+      -0.85791015625
+    ],
+    [
+      "n = len(xs)\n\n    # Initialize result list\n    result = [0] * n\n\n    # Initialize current value\n    current = 0\n\n    # Iterate through all coefficients\n    for i in range(n):\n\n        # Check if the current value is zero\n        if xs[i] == 0:\n            # Add the current value to the result\n            result[i] = current\n\n        # Otherwise add the current value to the current value\n        else:\n            # Calculate the current value\n            current = current + xs[i]\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "y = [0] * len(xs)\n    for i in range(1, len(xs)):\n        y[i] = xs[i] * xs[i - 1]\n    return y\n\n\ndef get_derivative_array(n: int):\n    \"\"\"\n    n represent the number of terms in the derivative.\n    >>> get_derivative_array(3)\n    [1, 4, 12, 20]\n    >>> get_derivative_array(5)\n    [2, 6]\n    \"\"\"\n    return derivative(range(1, n + 1))\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "if len(xs) < 2:\n        return []\n    return [\n        xs[0] + xs[1] * derivative(xs[2:]),\n        xs[1] * derivative(xs[:-1]),\n    ]\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for i in range(len(xs)):\n        result.append(xs[i] * xs[i + 1])\n    return result\n\n\ndef test_derivative():\n    assert derivative([3, 1, 2, 4, 5]) == [1, 4, 12, 20]\n    assert derivative([1, 2, 3]) == [2, 6]\n    assert derivative([]) == []\n    assert derivative([1]) == [1]\n    assert derivative([-1]) == [-1]\n    assert derivative([1, -2, 3, 4, -5]) == [2, 6, 12, 20]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for x in xs:\n        result.append(x**2)\n    return result",
+      -0.85888671875
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n    if len(xs) == 1:\n        return [1]\n\n    d = []\n    for i in range(len(xs)):\n        d.append(xs[i] * derivative([x for x in xs[i:]]))\n\n    return d[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for i in range(len(xs)):\n        if i == 0:\n            result.append(0)\n        else:\n            result.append(xs[i] * result[i - 1])\n    return result\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "output = [1]\n    for x in xs:\n        output.append(output[-1] * x)\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for i in range(len(xs)):\n        result.append(xs[i] * (i + 1))\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if len(xs) == 1:\n        return [xs[0]]\n    else:\n        return [xs[i] + derivative(xs[i + 1:])[0] for i in range(len(xs) - 1)]\n\n\ndef main():\n    import doctest\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "n = len(xs)\n    derivative = [0] * n\n    derivative[0] = xs[0]\n    for i in range(1, n):\n        derivative[i] = derivative[i - 1] * xs[i]\n    return derivative\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "if len(xs) < 1:\n        return []\n    if len(xs) == 1:\n        return [xs[0]]\n    return [x + x * derivative(xs[1:])[0] for x in xs]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "derivative_list = []\n    for i in range(1, len(xs)):\n        derivative_list.append(xs[i] - xs[i - 1])\n    return derivative_list",
+      -0.85888671875
+    ],
+    [
+      "result = [0]\n    for i in range(len(xs)):\n        result.append(xs[i] ** 2)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "# Initialize output list\n    d = []\n\n    # Add all coefficients together\n    for i in range(len(xs)):\n        d.append(xs[i] + xs[i] * xs[i])\n\n    # Return output list\n    return d\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "result = [0] * len(xs)\n    for i in range(len(xs) - 1, -1, -1):\n        result[i] = xs[i] * (xs[i + 1] - xs[i])\n    return result\n\n\ndef main():\n    print(derivative([3, 1, 2, 4, 5]))\n    print(derivative([1, 2, 3]))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.86083984375
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n\n    result = []\n\n    for i in range(1, len(xs)):\n        result.append(xs[i] * (xs[i - 1] + xs[i - 2]))\n\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.99658203125
+    ],
+    [
+      "return [xs[0]] + [x * x for x in xs[1:]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.3310546875
+    ],
+    [
+      "return [x*y for x, y in zip(xs[1:], xs[1:]+xs[0:-1])]\n\n\nprint(derivative([3, 1, 2, 4, 5]))\nprint(derivative([1, 2, 3]))",
+      -1.396484375
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [x * x for x in derivative(xs[1:])]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -1.43359375
+    ],
+    [
+      "return [(x - 1) * x for x in xs]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -1.53515625
+    ],
+    [
+      "return [i * x for i, x in enumerate(xs[1:])]",
+      -1.5556640625
+    ],
+    [
+      "if not xs:\n        return []\n    elif len(xs) == 1:\n        return [1]\n    else:\n        return [x * derivative(xs[1:])[0] for x in xs]\n\n\ndef derivative_list(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if not xs:\n        return []\n    elif len(xs) == 1:\n        return [1]\n    else:\n        return [x * derivative_list(xs[1:])[0] for x in xs]\n\n\ndef derivative_sum(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_sum([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_sum([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if not xs:\n        return []\n    elif len(xs) == 1:\n        return [xs[0]]\n    else:\n        return [x * derivative_sum(xs[1:])[0] for x in xs]\n\n\ndef derivative_prod(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_prod([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_prod([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if not xs:\n        return []\n    elif len(xs) == 1:",
+      -1.583984375
+    ],
+    [
+      "if len(xs) == 1:\n        return [xs[0]]\n\n    result = []\n    for i in range(len(xs) - 1, -1, -1):\n        result.append(xs[i] * derivative(xs[:i + 1]))\n\n    return result\n\n\ndef derivative_list(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 1:\n        return [xs[0]]\n\n    result = []\n    for i in range(len(xs) - 1, -1, -1):\n        result.append(xs[i] * derivative_list(xs[:i + 1]))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.6513671875
+    ],
+    [
+      "# the following is the correct solution\n    return [x * (x - 1) / 2 for x in xs]\n\n\ndef derivative_1(xs: list):\n    \"\"\"\n    xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    # the following is the correct solution\n    return [x * (x - 1) / 2 for x in xs]\n\n\ndef derivative_2(xs: list):\n    \"\"\"\n    xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    # the following is the correct solution\n    return [x * (x - 1) / 2 for x in xs]",
+      -2.5234375
+    ],
+    [
+      "return [x**2 for x in xs]\n\n\ndef derivative_of_function(f, x):\n    \"\"\" f is a function that takes x as an argument.\n    Return derivative of f(x).\n    >>> derivative_of_function(lambda x: x**2, 2)\n    [1, 2]\n    >>> derivative_of_function(lambda x: x**2, 3)\n    [2, 6]\n    \"\"\"\n    return [f(x) for x in range(x+1)]\n\n\ndef derivative_of_function_list(f, xs):\n    \"\"\" f is a function that takes a list of x as an argument.\n    Return derivative of f(xs).\n    >>> derivative_of_function_list(lambda x: x**2, [2, 3])\n    [1, 2, 6]\n    >>> derivative_of_function_list(lambda x: x**2, [1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [f(x) for x in xs]\n\n\ndef derivative_of_function_tuple(f, xs):\n    \"\"\" f is a function that takes a tuple of x as an argument.\n    Return derivative of f(xs).\n    >>> derivative_of_function_tuple(lambda x: x**2, (2, 3))\n    (1, 2, 6)\n    >>> derivative_of_function_tuple(lambda x: x**2, (1, 2, 3))\n    (2, 6)\n    \"\"\"\n    return (f(x) for x in xs)",
+      -2.908203125
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n    else:\n        return [x**2 for x in xs]\n\n\ndef derivative_2(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 0:\n        return []\n    else:\n        return [x**2 for x in xs]\n\n\ndef derivative_3(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 0:\n        return []\n    else:\n        return [x**2 for x in xs]\n\n\ndef derivative_4(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 0:\n        return []\n    else:\n        return [x**2 for x in xs]",
+      -3.501953125
+    ],
+    [
+      "res = []\n    for i in range(len(xs)):\n        res.append(xs[i] * (xs[i + 1] if i!= len(xs) - 1 else 1))\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -3.630859375
+    ],
+    [
+      "derivative = [1]\n    for i in range(1, len(xs)):\n        derivative.append(xs[i] * derivative[-1])\n    return derivative\n\n\ndef test_derivative():\n    assert derivative([3, 1, 2, 4, 5]) == [1, 4, 12, 20]\n    assert derivative([1, 2, 3]) == [2, 6]\n    assert derivative([1, 2, 3, 4]) == [2, 6]\n    assert derivative([1, 2, 3, 4, 5]) == [2, 6]\n    assert derivative([1, 2, 3, 4, 5, 6]) == [1, 4, 12, 20, 6]\n\n\nif __name__ == \"__main__\":\n    test_derivative()",
+      -3.873046875
+    ],
+    [
+      "n = len(xs)\n    result = [1]\n    for i in range(1, n):\n        result.append(result[i - 1] * xs[i])\n    return result\n\n\ndef derivative_2(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    n = len(xs)\n    result = [1]\n    for i in range(1, n):\n        result.append(result[i - 1] * xs[i])\n    return result\n\n\ndef derivative_3(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    n = len(xs)\n    result = [1]\n    for i in range(1, n):\n        result.append(result[i - 1] * xs[i])\n    return result\n\n\ndef derivative_4(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    n = len(xs)\n    result = [1]\n    for i in range(1, n):\n        result.append(result[i - 1] * xs[i])\n    return result\n\n\ndef derivative",
+      -5.74609375
+    ],
+    [
+      "result = [0] * len(xs)\n    for i in range(len(xs) - 1, -1, -1):\n        result[i] = xs[i] * (i + 1)\n    return result\n\n\ndef is_prime(n: int):\n    \"\"\"Return true if n is a prime number.\n    >>> is_prime(0)\n    True\n    >>> is_prime(1)\n    False\n    >>> is_prime(2)\n    False\n    >>> is_prime(3)\n    True\n    >>> is_prime(4)\n    False\n    >>> is_prime(5)\n    True\n    >>> is_prime(6)\n    False\n    \"\"\"\n    if n <= 1:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_power(n: int, p: int):\n    \"\"\"Return true if n is a power of p.\n    >>> is_power(2, 3)\n    True\n    >>> is_power(2, 4)\n    False\n    >>> is_power(2, 5)\n    False\n    >>> is_power(3, 3)\n    False\n    >>> is_power(3, 4)\n    True\n    >>> is_power(3, 5)\n    False\n    >>> is_power(3, 6)\n    False\n    >>> is_power(4, 3)\n    True\n    >>> is_power(4, 4)\n    False\n    >>> is_power(4, 5)\n    False\n    >>> is_power(4, 6)\n    False\n    >>> is_power(4, 7)\n    False\n    >>> is_power(4, 8)\n    True\n    >>> is_power(4, 9)\n    False\n    >>> is_power(5, 3)\n    False\n    >>> is_power(5, 4)\n    False\n    >>> is_power(5, 5)\n    False\n    >>> is_power(5, 6)\n    False\n    >>> is_power(5, 7)\n    False\n    >>> is_power(5, 8)",
+      -6.14453125
+    ],
+    [
+      "return [xs[i] * xs[i + 1] for i in range(len(xs) - 1)]\n\n\ndef derivative_rec(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_rec([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_rec([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 1:\n        return [xs[0]]\n    else:\n        return [x + derivative_rec(xs[1:])[0] for x in xs]\n\n\ndef derivative_rec_2(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_rec_2([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_rec_2([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 1:\n        return [xs[0]]\n    else:\n        return [x + derivative_rec_2(xs[1:])[0] for x in xs]\n\n\ndef derivative_rec_3(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_rec_3([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_rec_3([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 1:\n        return [xs[0]]\n    else:\n        return [x + derivative_rec_3(xs[1:])[0] for x in xs]",
+      -6.421875
+    ],
+    [
+      "return [x - xs[0] for x in xs]\n\n\ndef derivative2(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [(x - xs[0]) / (xs[1] * x) for x in xs]\n\n\ndef derivative3(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [(x - xs[0]) / (xs[1] * x) * (x - xs[2]) / (xs[3] * x) for x in xs]\n\n\ndef derivative4(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [(x - xs[0]) / (xs[1] * x) * (x - xs[2]) * (x - xs[3]) / (xs[4] * x) for x in xs]\n\n\ndef derivative5(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3",
+      -6.79296875
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    else:\n        return [x + y for x, y in zip(xs, derivative(xs[1:]))]\n\n\ndef test_derivative():\n    assert derivative([3, 1, 2, 4, 5]) == [1, 4, 12, 20]\n    assert derivative([1, 2, 3]) == [2, 6]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -7.0703125
+    ],
+    [
+      "return [x**2 for x in xs]\n\n\ndef derivative_rev(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_rev([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_rev([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [x**2 for x in reversed(xs)]\n\n\ndef derivative_rev_list(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_rev_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_rev_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [x**2 for x in reversed(xs)]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -7.4453125
+    ],
+    [
+      "deriv = [0] * len(xs)\n\n    for i in range(1, len(xs)):\n        deriv[i] = xs[i] * deriv[i - 1]\n\n    return deriv\n\n\ndef derivative_of_polynomial(xs: list):\n    \"\"\" Return the derivative of a polynomial in the same form.\n    >>> derivative_of_polynomial([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_of_polynomial([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    deriv = [0] * len(xs)\n\n    for i in range(1, len(xs)):\n        deriv[i] = derivative(xs[i:])[i]\n\n    return deriv\n\n\ndef derivative_of_polynomial_list(xs: list):\n    \"\"\" Return the derivative of a polynomial in the same form.\n    >>> derivative_of_polynomial_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_of_polynomial_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    deriv = [0] * len(xs)\n\n    for i in range(1, len(xs)):\n        deriv[i] = derivative(xs[:i])[i]\n\n    return deriv\n\n\ndef derivative_of_polynomial_list_1(xs: list):\n    \"\"\" Return the derivative of a polynomial in the same form.\n    >>> derivative_of_polynomial_list_1([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_of_polynomial_list_1([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    deriv = [0] * len(xs)\n\n    for i in range(1, len(xs)):\n        deriv[i] = derivative(xs[:i])[i]\n\n    return deriv\n\n\ndef derivative_of_polynomial_list_2(xs: list):\n    \"\"\" Return the derivative of a polynomial in the same form.\n    >>> derivative_of_",
+      -7.5859375
+    ],
+    [
+      "return [x * (x + 1) / 2 for x in xs]\n\n\ndef integral(f: list, x0: float, x1: float):\n    \"\"\" f is a list of coefficients of a polynomial.\n    Return integral of this polynomial in the same form.\n    >>> integral([3, 1, 2, 4, 5], 0.0, 1.0)\n    5.0\n    >>> integral([3, 1, 2, 4, 5], 1.0, 2.0)\n    10.0\n    \"\"\"\n    i = 0\n    while i < len(f):\n        if f[i] == 0:\n            i += 1\n            continue\n        if f[i] < 0:\n            return None\n        i += 1\n        f[i] = f[i] - x0\n    return f[0]\n\n\ndef f(x: float):\n    \"\"\" x is a number.\n    Return f(x) = x^2 + x + 1.\n    >>> f(0)\n    0\n    >>> f(1)\n    1\n    \"\"\"\n    return x ** 2 + x + 1\n\n\ndef f_derivative(f: list):\n    \"\"\" f is a list of coefficients of a polynomial.\n    Return derivative of this polynomial in the same form.\n    >>> f_derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> f_derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [f[i] * (f[i + 1] - f[i]) / 2 for i in range(len(f) - 1)]\n\n\ndef f_integral(f: list, x0: float, x1: float):\n    \"\"\" f is a list of coefficients of a polynomial.\n    Return integral of this polynomial in the same form.\n    >>> f_integral([3, 1, 2, 4, 5], 0.0, 1.0)\n    5.0\n    >>> f_integral([3, 1, 2, 4, 5], 1.0, 2.0)\n    10.0\n    \"\"\"\n    i = 0\n    while i < len",
+      -7.6953125
+    ],
+    [
+      "if xs == []:\n        return []\n    elif len(xs) == 1:\n        return [1]\n    else:\n        return [x + derivative(xs[1:])[0] for x in xs[1:]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -8.5859375
+    ],
+    [
+      "n = len(xs)\n    return [(x - xs[i]) / (n - i) for i, x in enumerate(xs)]\n\n\ndef derivative_list(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    n = len(xs)\n    return [(x - xs[i]) / (n - i) for i, x in enumerate(xs)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -8.8203125
+    ],
+    [
+      "n = len(xs)\n    if n == 1:\n        return [1]\n    else:\n        return [x * derivative(xs[1:])[0] for x in xs[1:]]\n\n\ndef derivative_from_list(xs: list):\n    \"\"\" Returns the derivative of a list.\n    >>> derivative_from_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_from_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    n = len(xs)\n    if n == 1:\n        return [1]\n    else:\n        return [x * derivative_from_list(xs[1:])[0] for x in xs[1:]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -9.109375
+    ],
+    [
+      "derivatives = [0] * len(xs)\n    for i in range(1, len(xs)):\n        derivatives[i] = xs[i] * derivatives[i - 1]\n    return derivatives\n\n\ndef solve(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return the maximum number of derivative of this polynomial.\n    >>> solve([3, 1, 2, 4, 5])\n    12\n    >>> solve([1, 2, 3])\n    6\n    \"\"\"\n    max_derivative = 0\n    for i in range(len(xs)):\n        max_derivative = max(max_derivative, derivative(xs)[i])\n    return max_derivative\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -9.3125
+    ],
+    [
+      "derivative = []\n    for i in range(len(xs)):\n        derivative.append(xs[i] * xs[i] - xs[i] * xs[i] * xs[i])\n    return derivative\n\n\ndef derivative_list(xs: list):\n    \"\"\"\n    >>> derivative_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    derivative = []\n    for i in range(len(xs)):\n        derivative.append(xs[i] * xs[i] - xs[i] * xs[i] * xs[i])\n    return derivative\n\n\ndef derivative_dict(xs: list):\n    \"\"\"\n    >>> derivative_dict([3, 1, 2, 4, 5])\n    {1: 4, 12: 20}\n    >>> derivative_dict([1, 2, 3])\n    {2: 6}\n    \"\"\"\n    derivative = {}\n    for i in range(len(xs)):\n        derivative[xs[i]] = xs[i] * xs[i] - xs[i] * xs[i] * xs[i]\n    return derivative\n\n\ndef derivative_dict_reverse(xs: list):\n    \"\"\"\n    >>> derivative_dict_reverse({1: 4, 12: 20})\n    {4: 1, 12: 2}\n    >>> derivative_dict_reverse({2: 6})\n    {2: 6}\n    \"\"\"\n    derivative = {}\n    for i in range(len(xs)):\n        derivative[xs[i]] = xs[i] * xs[i] - xs[i] * xs[i] * xs[i]\n    return derivative\n\n\ndef derivative_dict_reverse_reverse(xs: list):\n    \"\"\"\n    >>> derivative_dict_reverse_reverse({1: 4, 12: 20})\n    {4: 1, 12: 2}\n    >>> derivative_dict_reverse_reverse({2: 6})\n    {2: 6}\n    \"\"\"\n    derivative = {}\n    for i in range(len(xs)):\n        derivative[xs[i]] = xs",
+      -9.6875
+    ],
+    [
+      "res = [0] * len(xs)\n    res[0] = xs[0]\n    for i in range(1, len(xs)):\n        res[i] = res[i-1] + xs[i]\n    return res\n\n\ndef derivative_list(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_list([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_list([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    res = [0] * len(xs)\n    res[0] = xs[0]\n    for i in range(1, len(xs)):\n        res[i] = res[i-1] + xs[i]\n    return res\n\n\ndef derivative_dict(xs: dict):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_dict({'a': 3, 'b': 1, 'c': 2, 'd': 4, 'e': 5})\n    {'a': 1, 'b': 4, 'c': 12, 'd': 20}\n    >>> derivative_dict({'a': 2, 'b': 3})\n    {'a': 2, 'b': 6}\n    \"\"\"\n    res = dict()\n    res['a'] = xs['a']\n    res['b'] = xs['b']\n    for i in range(len(xs)):\n        if i == 0:\n            res[i] = res[i-1] + xs[i]\n        else:\n            res[i] = res[i-1] + xs[i] * res[i-1]\n    return res\n\n\ndef derivative_dict_reversible(xs: dict):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x +",
+      -10.453125
+    ],
+    [
+      "if len(xs) == 0:\n        return []\n    elif len(xs) == 1:\n        return [1]\n    else:\n        return [xs[i] * derivative(xs[i+1:])[0] for i in range(len(xs)-1)]\n\n\nprint(derivative([3, 1, 2, 4, 5]))",
+      -10.4921875
+    ],
+    [
+      "if len(xs) == 1:\n        return [1]\n    elif len(xs) == 2:\n        return [xs[0] + xs[1] * x for x in range(2, len(xs))]\n    else:\n        return [xs[0] + derivative(xs[1:])[i] * xs[i + 1] for i in range(len(xs) - 1)]\n\n\ndef test_derivative():\n    assert derivative([3, 1, 2, 4, 5]) == [1, 4, 12, 20]\n    assert derivative([1, 2, 3]) == [2, 6]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -10.8828125
+    ],
+    [
+      "result = [0] * len(xs)\n    for i in range(len(xs)):\n        result[i] = xs[i] * xs[i + 1]\n    return result\n\n\ndef derivative_sum(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_sum([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_sum([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    result = [0] * len(xs)\n    for i in range(len(xs)):\n        result[i] = xs[i] * xs[i + 1]\n        result[i] += xs[i] * xs[i + 2]\n    return result\n\n\ndef derivative_product(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_product([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_product([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    result = [0] * len(xs)\n    for i in range(len(xs)):\n        result[i] = xs[i] * xs[i + 1] * xs[i + 2]\n    return result\n\n\ndef derivative_derivative(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    Return derivative of this polynomial in the same form.\n    >>> derivative_derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    result = [0] * len(xs)\n    for",
+      -11.46875
+    ],
+    [
+      "n = len(xs)\n    if n == 0:\n        return [1]\n    if n == 1:\n        return [xs[0]]\n    return [xs[i] + derivative(xs[1:])[i] for i in range(n)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -11.5859375
+    ],
+    [
+      "return [a * b for a, b in zip(xs[1::2], xs[2::2])]\n\n\ndef derivative_iterative(xs: list):\n    \"\"\" Return derivative of this polynomial in the same form.\n    >>> derivative_iterative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_iterative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [a * b for a, b in zip(xs[1::2], xs[2::2])]\n\n\ndef derivative_recursive(xs: list, x: float):\n    \"\"\" Return derivative of this polynomial in the same form.\n    >>> derivative_recursive([3, 1, 2, 4, 5], 0)\n    [1, 4, 12, 20]\n    >>> derivative_recursive([1, 2, 3], 1)\n    [2, 6]\n    \"\"\"\n    if x == 0:\n        return [0]\n    if x == 1:\n        return [1]\n    return [a * b for a, b in zip(xs[1::2], xs[2::2])] + [x]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -11.640625
+    ],
+    [
+      "d = []\n    for i in range(len(xs)):\n        d.append(xs[i] * xs[i] * xs[i] * xs[i])\n    return d\n\n\ndef derivative_recursive(xs: list, d: list):\n    \"\"\" Recursive function to calculate derivative of a polynomial.\n    xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n    d represent the derivative of this polynomial in the same form.\n    >>> derivative_recursive([3, 1, 2, 4, 5], [1, 4, 12, 20])\n    [1, 4, 12, 20]\n    >>> derivative_recursive([1, 2, 3], [2, 6])\n    [2, 6]\n    \"\"\"\n    if len(xs) == 1:\n        return d\n    else:\n        return derivative_recursive(xs[1:], derivative_recursive(xs[1:], d))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.7578125
+    ],
+    [
+      "if len(xs) < 2:\n        return [1]\n    return [x * y for x, y in zip(xs[:-1], xs[1:])]\n\n\ndef derivative_recursive(xs: list, x: float):\n    \"\"\"\n    Return derivative of a polynomial with recursion.\n    >>> derivative_recursive([3, 1, 2, 4, 5], 1)\n    [1, 4, 12, 20]\n    >>> derivative_recursive([1, 2, 3], 1)\n    [2, 6]\n    \"\"\"\n    if len(xs) < 2:\n        return [1]\n    return [x * y for x, y in zip(xs[:-1], xs[1:])] + [x * x for x in xs]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -13.328125
+    ],
+    [
+      "xs.reverse()\n    if len(xs) == 1:\n        return xs\n    else:\n        return [x * derivative(xs[:-1]) for x in xs] + [xs[-1]]\n\n\ndef main():\n    x = int(input())\n    ys = list(map(int, input().split()))\n    print(*derivative(ys), sep=\"\\n\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()\n    main()",
+      -13.359375
+    ],
+    [
+      "if xs[0] == 0:\n        return [0]\n    return [xs[1] * x + xs[2] * x**2 for x in range(1, len(xs))]\n\n\ndef derivative_recursive(xs: list, last_derivative: int):\n    \"\"\"\n    xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_recursive([3, 1, 2, 4, 5], 1)\n    [1, 4, 12, 20]\n    >>> derivative_recursive([1, 2, 3], 1)\n    [2, 6]\n    \"\"\"\n    if xs[0] == 0:\n        return [0]\n    if last_derivative == 0:\n        return [xs[1]]\n    return [last_derivative + x for x in derivative_recursive(xs[1:], last_derivative)]\n\n\ndef derivative_iterative(xs: list):\n    \"\"\"\n    xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative_iterative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative_iterative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    if xs[0] == 0:\n        return [0]\n    if xs[0] == 1:\n        return [0, xs[1]]\n    return [xs[0] + x * x for x in derivative_iterative(xs[1:])]",
+      -13.671875
+    ],
+    [
+      "n = len(xs)\n    if n < 2:\n        return xs\n    if n == 2:\n        return [1, xs[1]]\n    if n == 3:\n        return [xs[0], xs[1] * xs[2]]\n    if n == 4:\n        return [xs[0] + xs[1] * xs[2], xs[2] * xs[3]]\n\n    return [derivative(xs[i:])[0] + derivative(xs[i + 1:])[1] for i in range(n - 1)]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -13.703125
+    ],
+    [
+      "# if xs is empty, return []\n    if len(xs) == 0:\n        return []\n\n    # if xs[0] is not zero, then return [0].\n    if xs[0] == 0:\n        return [0]\n\n    # if xs[1] is not zero, then return [xs[0] + xs[1] * x, xs[0] + xs[1] * x^2].\n    # if xs[2] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x].\n    # if xs[3] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x].\n    # if xs[4] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x].\n    # if xs[5] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x^2].\n    # if xs[6] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x].\n    # if xs[7] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x].\n    # if xs[8] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x^2].\n    # if xs[9] is not zero, then return [xs[0] + xs[1] * x^2, xs[0] + xs[1] * x^2].\n\n    # if xs[0] is not zero, then return [0, 0, 0, 0, 0, 0, 0, 0, 0].\n    # if xs[1] is not zero, then return [0, 0, 0, 0, 0, 0, 0, 0, 0].\n    # if xs[2] is",
+      -13.84375
+    ],
+    [
+      "if len(xs) <= 1:\n        return [1]\n    else:\n        derivative_list = []\n        for i in range(1, len(xs)):\n            derivative_list.append(xs[i] * derivative(xs[i - 1:]))\n        return derivative_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -14.1171875
+    ],
+    [
+      "if len(xs) == 0:\n        return [0]\n    if len(xs) == 1:\n        return [xs[0]]\n    if len(xs) == 2:\n        return [xs[0], xs[1]]\n\n    # calculate the derivative of the polynomial with respect to x\n    # using the formula\n    # derivative[0] + derivative[1] * x + derivative[2] * x^2 +...\n    derivative_1 = derivative([xs[1]])\n    derivative_2 = derivative([xs[0]])\n\n    # calculate the derivative of the polynomial with respect to y\n    # using the formula\n    # derivative[0] + derivative[1] * y + derivative[2] * y^2 +...\n    derivative_3 = derivative([xs[1], xs[0]])\n\n    return [derivative_1[0] + derivative_2[0] * xs[0],\n            derivative_1[0] + derivative_2[1] * xs[0],\n            derivative_1[0] + derivative_2[2] * xs[0]] + derivative_3[0]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -15.1484375
+    ],
+    [
+      "n = len(xs)\n    if n == 0:\n        return []\n    if n == 1:\n        return [1]\n    if n == 2:\n        return [xs[0], xs[1]]\n    return [derivative(xs[:i] + xs[i + 1:]) for i in range(n - 1)]\n\n\ndef polynomial(a: list, b: list):\n    \"\"\"\n    a, b represent coefficients of a polynomial.\n    a[0] + a[1] * x + a[2] * x^2 +....\n    Return a polynomial in the same form.\n    >>> polynomial([3, 1, 2, 4, 5], [1, 2, 3])\n    [1, 4, 12, 20]\n    >>> polynomial([1, 2, 3], [2, 4])\n    [6]\n    \"\"\"\n    n = len(a)\n    if n == 0:\n        return []\n    if n == 1:\n        return [a[0]]\n    if n == 2:\n        return [a[0] + b[0], a[1] + b[1]]\n    return [a[0] + b[0] * a[i] + a[1] + b[1] * a[i + 1] for i in range(n - 1)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -15.953125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

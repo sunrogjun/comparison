@@ -1,0 +1,429 @@
+{
+  "problem": {
+    "task_id": "HumanEval/6",
+    "prompt": "from typing import List\n\n\ndef parse_nested_parens(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n",
+    "canonical_solution": "    def parse_paren_group(s):\n        depth = 0\n        max_depth = 0\n        for c in s:\n            if c == '(':\n                depth += 1\n                max_depth = max(depth, max_depth)\n            else:\n                depth -= 1\n\n        return max_depth\n\n    return [parse_paren_group(x) for x in paren_string.split(' ') if x]\n",
+    "test": "\n\nMETADATA = {\n    'author': 'jt',\n    'dataset': 'test'\n}\n\n\ndef check(candidate):\n    assert candidate('(()()) ((())) () ((())()())') == [2, 3, 1, 3]\n    assert candidate('() (()) ((())) (((())))') == [1, 2, 3, 4]\n    assert candidate('(()(())((())))') == [4]\n",
+    "entry_point": "parse_nested_parens",
+    "docstring": "",
+    "problem_id": 6
+  },
+  "model_name": "codet5-770m",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(0)\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      3.208984375
+    ],
+    [
+      "return [1 if c == '(' else 2 if c == ')' else 3 for c in paren_string]\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()())) ((())) () ((())()())'))",
+      1.8271484375
+    ],
+    [
+      "result = []\n\n    for char in paren_string:\n        if char == '(':\n            result.append(1)\n        else:\n            result.pop()\n\n    return result\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()())) ((())) () ((())()())'))",
+      1.1044921875
+    ],
+    [
+      "nested_parens = []\n    for char in paren_string:\n        if char == '(':\n            nested_parens.append(1)\n        elif char == ')':\n            nested_parens.pop()\n        else:\n            continue\n    return nested_parens\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.73193359375
+    ],
+    [
+      "return [max(parse_nested_parens(paren_string=paren_string[:i]), key=len) + 1 for i in range(len(paren_string))]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.71240234375
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                return [-1]\n    return stack",
+      0.20751953125
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                return [1]\n    return stack\n\n\nif __name__ == \"__main__\":\n    print(parse_nested_parens(\"(()()) ((())) ((())()())\"))",
+      0.08428955078125
+    ],
+    [
+      "return [max(parse_nested_parens(paren_string=paren_string[:i]),\n                parse_nested_parens(paren_string=paren_string[i + 1:]))\n            for i in range(len(paren_string) - 1)]\n\n\nif __name__ == '__main__':\n    with open('input.txt') as f:\n        print(parse_nested_parens(paren_string=f.readline().strip()))",
+      -0.546875
+    ],
+    [
+      "stack = []\n    nesting_level = 0\n    for paren in paren_string:\n        if paren == ')':\n            nesting_level -= 1\n            if nesting_level < 0:\n                stack.pop()\n        else:\n            nesting_level += 1\n            stack.append(nesting_level)\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -0.65380859375
+    ],
+    [
+      "stack = []\n    for c in paren_string:\n        if c == '(':\n            stack.append(1)\n        elif c == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                return [1]\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.7001953125
+    ],
+    [
+      "return [max(parse_nested_parens(child) + [child]) for child in paren_string.split()]\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -0.85693359375
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                return [1]\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "stack: List[int] = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if not stack:\n                stack.append(1)\n            else:\n                stack.pop()\n        else:\n            stack.pop()\n    return stack",
+      -0.85693359375
+    ],
+    [
+      "nested_parens = []\n    for paren in paren_string:\n        if paren == '(':\n            nested_parens.append(0)\n        elif paren == ')':\n            nested_parens.pop()\n        else:\n            nested_parens[-1] += 1\n    return nested_parens",
+      -0.85693359375
+    ],
+    [
+      "stack: List[int] = []\n    for i, c in enumerate(paren_string):\n        if c == '(':\n            stack.append(i)\n        elif c == ')':\n            stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -0.85693359375
+    ],
+    [
+      "nesting_list = []\n    for char in paren_string:\n        if char == '(':\n            nesting_list.append(1)\n        elif char == ')':\n            nesting_list.pop()\n    return nesting_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for i in paren_string:\n        if i == \"(\":\n            result.append(1)\n        elif i == \")\":\n            result.pop()\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "return [1] + [max(parse_nested_parens(paren_string), key=lambda x: x if x > 1 else 0) for paren_string in paren_string.split()]",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for paren in paren_string:\n        if paren == '(':\n            result.append(1)\n        elif paren == ')':\n            result.pop()\n            if len(result) > 0:\n                result[-1] += 1\n    return result\n\n\nif __name__ == '__main__':\n    from doctest import testmod\n    testmod()",
+      -0.85791015625
+    ],
+    [
+      "nesting_levels = [0]\n    for paren in paren_string:\n        if paren == '(':\n            nesting_levels.append(nesting_levels[-1] + 1)\n        elif paren == ')':\n            nesting_levels.pop()\n    return nesting_levels\n\n\nif __name__ == \"__main__\":\n    from doctest import testmod\n\n    testmod()",
+      -0.85791015625
+    ],
+    [
+      "stack = []\n    depth = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(depth)\n            depth += 1\n        elif char == ')':\n            if len(stack) == 0:\n                return []\n            else:\n                stack.pop()\n                depth -= 1\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) ((())()())'))",
+      -0.85791015625
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n        else:\n            stack.append(max(stack))\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "stack = []\n    level = 0\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(level)\n        elif paren == ')':\n            level = stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -0.85791015625
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                return []\n    return stack\n\n\nif __name__ == '__main__':\n    paren_string = input()\n    print(parse_nested_parens(paren_string))",
+      -0.8583984375
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        else:\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(1)\n    if len(stack) > 0:\n        stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        else:\n            stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    from doctest import testmod\n\n    testmod()",
+      -0.85888671875
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        else:\n            if not stack:\n                stack.append(char)\n            else:\n                previous_char = stack.pop()\n                if char == ')':\n                    max_level = max(max_level, len(stack) - 1)\n                else:\n                    stack.append(previous_char)\n    return stack\n\n\nif __name__ == '__main__':\n    with open('../input/day5.txt', 'r') as f:\n        paren_string = f.read().strip()\n\n    print(parse_nested_parens(paren_string))",
+      -0.85888671875
+    ],
+    [
+      "# TODO: Implement this\n    return [0]\n\n\nif __name__ == \"__main__\":\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -0.85888671875
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(3)\n    return stack",
+      -0.87646484375
+    ],
+    [
+      "nesting_level = 0\n    bracket_stack = []\n    for c in paren_string:\n        if c == '(':\n            bracket_stack.append(nesting_level)\n            nesting_level += 1\n        elif c == ')':\n            nesting_level -= 1\n            if nesting_level < 0:\n                bracket_stack.pop()\n    return bracket_stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -0.88525390625
+    ],
+    [
+      "max_level = 0\n    stack = []\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                max_level += 1\n\n    return stack[::-1]\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      -0.9013671875
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(3)\n    return stack",
+      -1.05078125
+    ],
+    [
+      "nesting_level = 0\n    stack = []\n    for c in paren_string:\n        if c == '(':\n            stack.append(nesting_level)\n            nesting_level += 1\n        elif c == ')':\n            nesting_level -= 1\n            if nesting_level == 0:\n                stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -1.2529296875
+    ],
+    [
+      "stack = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(0)\n        elif paren == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(1)\n    return stack",
+      -1.4697265625
+    ],
+    [
+      "level = []\n    for char in paren_string:\n        if char == '(':\n            level.append(1)\n        elif char == ')':\n            level.pop()\n            if not level:\n                level.append(0)\n        else:\n            level[-1] += 1\n    return level",
+      -1.5107421875
+    ],
+    [
+      "result = []\n    current_level = 0\n    for char in paren_string:\n        if char == '(':\n            current_level += 1\n        elif char == ')':\n            current_level -= 1\n        else:\n            result.append(current_level)\n            current_level = 0\n    result.append(current_level)\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -1.6015625
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n            if stack:\n                stack.append(stack.pop() + 1)\n        else:\n            pass\n    return stack",
+      -1.6767578125
+    ],
+    [
+      "stack = []\n    max_level = 0\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if stack:\n                max_level = max(max_level, len(stack) - 1)\n            stack.pop()\n\n    return [max_level]\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()())) ((())) () ((())()())'))",
+      -1.732421875
+    ],
+    [
+      "stack: List[int] = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n        else:\n            stack.append(stack[-1] + 1)\n    return stack\n\n\nif __name__ == \"__main__\":\n    print(parse_nested_parens('(()())'))",
+      -1.7529296875
+    ],
+    [
+      "stack: List[int] = []\n    for char in paren_string:\n        if char == \"(\":\n            stack.append(1)\n        elif char == \")\":\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(3)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.9580078125
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(3)\n        else:\n            stack.append(char)\n    return stack",
+      -1.9658203125
+    ],
+    [
+      "stack = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(1)\n        elif paren == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(3)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -1.9794921875
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(0)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -2.005859375
+    ],
+    [
+      "stack: List[int] = []\n    max_depth: int = 0\n\n    for char in paren_string:\n        if char == \"(\":\n            stack.append(1)\n        elif char == \")\":\n            if stack:\n                stack.pop()\n            else:\n                max_depth = max(max_depth, 1)\n        else:\n            stack.pop()\n\n    return stack\n\n\nif __name__ == \"__main__\":\n    with open(\"input.txt\") as file:\n        paren_string = file.read()\n    print(parse_nested_parens(paren_string))",
+      -2.01171875
+    ],
+    [
+      "stack = []\n    for i in paren_string:\n        if i == '(':\n            stack.append(1)\n        elif i == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(0)\n    return stack",
+      -2.138671875
+    ],
+    [
+      "stack = []\n    for i in paren_string:\n        if i == '(':\n            stack.append(1)\n        elif i == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(3)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -2.171875
+    ],
+    [
+      "stack = []\n    level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(level)\n        elif char == ')':\n            if len(stack) > 0:\n                level = stack.pop()\n            else:\n                level = 0\n    return stack",
+      -2.177734375
+    ],
+    [
+      "stack = []\n    for c in paren_string:\n        if c == '(':\n            stack.append(1)\n        elif c == ')':\n            if not stack:\n                return stack\n            else:\n                stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -2.34375
+    ],
+    [
+      "if not paren_string:\n        return []\n    current_level = 0\n    nesting_list = []\n    for char in paren_string:\n        if char == '(':\n            current_level += 1\n        elif char == ')':\n            current_level -= 1\n            if current_level < 0:\n                nesting_list.append(current_level)\n    return nesting_list\n\n\nif __name__ == '__main__':\n    with open('input.txt') as f:\n        print(parse_nested_parens(f.read()))",
+      -2.427734375
+    ],
+    [
+      "stack = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(0)\n        elif paren == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(0)\n        else:\n            if stack:\n                stack.pop()\n            else:\n                stack.append(0)\n    return stack\n\n\ndef parse_nested_parens_recursive(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_recursive('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    stack = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(0)\n        elif paren == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(0)\n        else:\n            if stack:\n                stack.pop()\n            else:\n                stack.append(0)\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.568359375
+    ],
+    [
+      "stack = []\n    nesting = 0\n    for char in paren_string:\n        if char == \"(\":\n            stack.append(nesting)\n            nesting += 1\n        elif char == \")\":\n            nesting -= 1\n            if nesting < 0:\n                stack.pop()\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.6171875
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(1)\n        else:\n            if stack:\n                stack.pop()\n            else:\n                stack.append(1)\n    return stack\n\n\nif __name__ == \"__main__\":\n    with open(\"input.txt\", \"r\") as file:\n        paren_string = file.read()\n        print(parse_nested_parens(paren_string))",
+      -2.8671875
+    ],
+    [
+      "stack = []\n    depth = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(depth)\n        elif char == ')':\n            depth = max(depth, stack.pop())\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -2.916015625
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        else:\n            if stack:\n                max_level = max(max_level, len(stack))\n            stack.pop()\n    return [max_level] + stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.947265625
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n            max_level = max(max_level, len(stack))\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                max_level = max(max_level, len(stack))\n    return [max_level] + stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -2.958984375
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if not stack:\n                stack.pop()\n            else:\n                max_level = max(max_level, len(stack))\n                stack.pop()\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -3.083984375
+    ],
+    [
+      "stack = []\n    level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(level)\n        elif char == ')':\n            level = stack.pop()\n        else:\n            level += 1\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -3.197265625
+    ],
+    [
+      "stack: List[int] = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        else:\n            if not stack:\n                stack.append(1)\n            else:\n                stack.pop()\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.435546875
+    ],
+    [
+      "stack = []\n    nesting = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(nesting)\n            nesting = 0\n        elif char == ')':\n            nesting = max(nesting - 1, stack.pop())\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.46875
+    ],
+    [
+      "stack = []\n    nesting = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(nesting)\n            nesting = 0\n        else:\n            nesting += 1\n    stack.append(nesting)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -3.513671875
+    ],
+    [
+      "depth = 0\n    stack = []\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(depth)\n        elif char == ')':\n            stack.pop()\n        else:\n            depth = max(depth, stack.pop())\n\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -3.7265625
+    ],
+    [
+      "max_level = 0\n    levels = []\n    for char in paren_string:\n        if char == '(':\n            levels.append(max_level)\n            max_level += 1\n        elif char == ')':\n            levels.pop()\n            if not levels:\n                max_level -= 1\n    return levels\n\n\nif __name__ == '__main__':\n    with open('input.txt') as f:\n        print(parse_nested_parens(f.read()))",
+      -3.953125
+    ],
+    [
+      "nesting_stack: List[int] = []\n    for c in paren_string:\n        if c == '(':\n            nesting_stack.append(1)\n        elif c == ')':\n            nesting_stack.pop()\n            if nesting_stack:\n                nesting_stack[-1] += 1\n    return nesting_stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -4.3359375
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                max_level = max(max_level, len(stack))\n        else:\n            continue\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.4140625
+    ],
+    [
+      "stack: List[int] = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(1)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.78515625
+    ],
+    [
+      "stack = []\n    max_level = 0\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n            max_level = 0\n        elif char == ')':\n            if len(stack) > 0:\n                max_level = max(max_level, stack.pop())\n            else:\n                max_level = 0\n    return [max_level] + stack\n\n\nif __name__ == \"__main__\":\n    assert parse_nested_parens('(()())') == [2, 3, 1, 3]\n    assert parse_nested_parens('((())) ((())) ((())()())') == [2, 3, 1, 3]\n    assert parse_nested_parens('(()()(()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((()))((",
+      -4.79296875
+    ],
+    [
+      "stack = []\n    max_level = 0\n\n    for c in paren_string:\n        if c == '(':\n            stack.append(c)\n        elif c == ')':\n            if len(stack) > 0:\n                max_level = max(max_level, len(stack) - 1)\n            else:\n                stack.pop()\n        else:\n            pass\n    return max_level\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -4.83984375
+    ],
+    [
+      "stack: List[int] = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(1)\n    return stack",
+      -4.96875
+    ],
+    [
+      "nesting_levels = []\n    for char in paren_string:\n        if char == '(':\n            nesting_levels.append(1)\n        elif char == ')':\n            nesting_levels.pop()\n        elif nesting_levels:\n            nesting_levels.append(max(nesting_levels[-1], 1))\n        else:\n            nesting_levels.append(1)\n    return nesting_levels\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()())) ((())) ((())()())'))",
+      -5.1328125
+    ],
+    [
+      "level = 0\n    depth = 0\n\n    for char in paren_string:\n        if char == '(':\n            level += 1\n        elif char == ')':\n            level -= 1\n        if level < 0:\n            depth += 1\n        else:\n            depth -= 1\n\n    return [level, depth]",
+      -5.13671875
+    ],
+    [
+      "nesting = []\n    for paren in paren_string:\n        if paren == '(':\n            nesting.append(1)\n        elif paren == ')':\n            nesting.pop()\n    return nesting\n\n\ndef parse_nested_parens_fast(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_fast('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    nesting = []\n    for paren in paren_string:\n        if paren == '(':\n            nesting.append(1)\n        elif paren == ')':\n            nesting.pop()\n        elif paren == '(':\n            nesting.append(2)\n        elif paren == ')':\n            nesting.pop()\n    return nesting",
+      -5.6953125
+    ],
+    [
+      "stack = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(0)\n        elif paren == ')':\n            if len(stack) == 0:\n                stack.append(0)\n            else:\n                stack.pop()\n        else:\n            if len(stack) > 0:\n                stack.pop()\n    return stack",
+      -5.80859375
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        elif char == ')':\n            top = stack.pop()\n            stack.append(top + 1)\n        elif char == ')':\n            top = stack.pop()\n            stack.append(top - 1)\n    return stack",
+      -5.9375
+    ],
+    [
+      "result = []\n\n    for paren in paren_string.split(' '):\n        if paren == '(':\n            result.append(1)\n        elif paren == ')':\n            result.pop()\n            if not result:\n                result.append(2)\n        else:\n            result.append(len(result) - 1)\n\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -6.03515625
+    ],
+    [
+      "stack = []\n    for c in paren_string:\n        if c == '(':\n            stack.append(0)\n        elif c == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                break\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -6.20703125
+    ],
+    [
+      "if len(paren_string) == 0:\n        return []\n    if len(paren_string) == 1:\n        return [len(paren_string)]\n\n    stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            stack.pop()\n            if stack:\n                stack.append(stack[-1] + 1)\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) ((())()())'))",
+      -6.515625
+    ],
+    [
+      "nesting = [0] * len(paren_string)\n    for i, paren in enumerate(paren_string):\n        if paren == '(':\n            nesting[i] = nesting[i - 1] + 1\n        elif paren == ')':\n            nesting[i] = max(nesting[i - 1], nesting[i])\n    return nesting\n\n\nif __name__ == '__main__':\n    with open('input.txt') as f:\n        print(parse_nested_parens(f.read()))",
+      -6.66015625
+    ],
+    [
+      "stack = []\n    depth = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(depth)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                depth -= 1\n        else:\n            depth += 1\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n    print(parse_nested_parens('(()())) ((())) () ((())()())'))",
+      -6.890625
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(1)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                stack.append(1)\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -7.04296875
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                stack.append(1)\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.69140625
+    ],
+    [
+      "nested_parens = []\n\n    for paren_group in paren_string.split():\n        if paren_group == '(':\n            nested_parens.append(1)\n        elif paren_group == ')':\n            nested_parens.pop()\n        else:\n            nested_parens.append(len(nested_parens))\n    return nested_parens\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))",
+      -8.1484375
+    ],
+    [
+      "nesting_list = [0] * len(paren_string)\n    current_level = 0\n    for paren in paren_string:\n        if paren == \"(\":\n            current_level += 1\n        else:\n            nesting_list[current_level] = current_level\n            current_level = 0\n    nesting_list[current_level] = current_level\n    return nesting_list\n\n\ndef test_parse_nested_parens():\n    assert parse_nested_parens(\"(()())\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"(()(())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested_parens(\"((()))((()))((()()())))\") == [2, 3, 1, 3]\n    assert parse_nested",
+      -8.375
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for c in paren_string:\n        if c == '(':\n            stack.append(c)\n        elif c == ')':\n            if stack:\n                max_level = max(max_level, len(stack))\n                stack.pop()\n            else:\n                break\n    return stack + [max_level]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -10.8359375
+    ],
+    [
+      "stack = []\n    for c in paren_string:\n        if c == '(':\n            stack.append(1)\n        elif c == ')':\n            if len(stack) == 0:\n                return [1]\n            else:\n                last_level = stack.pop()\n                if last_level == 1:\n                    return [2, 3, 1, 3]\n                else:\n                    return [last_level + 1, 3, 1, 3]\n\n\nif __name__ == \"__main__\":\n    print(parse_nested_parens(\"(()())\"))",
+      -11.0390625
+    ],
+    [
+      "if not paren_string:\n        return []\n\n    stack = []\n    max_level = 0\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                max_level = max(max_level, len(stack))\n        else:\n            continue\n\n    return stack\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()())'))",
+      -11.4921875
+    ],
+    [
+      "def parse_nested_parens_helper(paren_string, depth, stack):\n        if len(paren_string) == 0:\n            return [depth]\n        if paren_string[0] == '(':\n            stack.append(paren_string[0])\n            depth += 1\n            return parse_nested_parens_helper(paren_string[1:], depth, stack)\n        if paren_string[0] == ')':\n            depth -= 1\n            if not stack:\n                return parse_nested_parens_helper(paren_string[1:], depth, stack)\n            return [stack.pop()]\n\n    return [parse_nested_parens_helper(paren_string, 0, [])[0]]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.53125
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(max_level)\n            max_level = 0\n        else:\n            max_level = max(max_level, stack.pop())\n    return stack\n\n\nif __name__ == \"__main__\":\n    with open(\"input.txt\", \"r\") as file:\n        paren_string = file.read()\n    print(parse_nested_parens(paren_string))",
+      -12.359375
+    ],
+    [
+      "stack = []\n    depth = 0\n    for c in paren_string:\n        if c == '(':\n            stack.append(depth)\n            depth += 1\n        elif c == ')':\n            stack.pop()\n            depth -= 1\n    return stack\n\n\ndef parse_nested_parens_recursive(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_recursive('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    stack = []\n    depth = 0\n    for c in paren_string:\n        if c == '(':\n            stack.append(depth)\n            depth += 1\n        elif c == ')':\n            stack.pop()\n            depth -= 1\n    return stack",
+      -12.6328125
+    ],
+    [
+      "max_level = 0\n    current_level = 0\n    nesting_stack = []\n    for char in paren_string:\n        if char == '(':\n            current_level += 1\n        elif char == ')':\n            current_level -= 1\n        elif current_level == 0:\n            nesting_stack.append(current_level)\n            current_level = 0\n    return nesting_stack\n\n\nif __name__ == '__main__':\n    with open('input.txt') as f:\n        input_string = f.read()\n    print(parse_nested_parens(input_string))",
+      -12.6484375
+    ],
+    [
+      "stack = []\n    max_level = 0\n\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if len(stack) > 0:\n                max_level = max(max_level, len(stack) - 1)\n            else:\n                stack.pop()\n        else:\n            pass\n\n    return stack\n\n\nif __name__ == '__main__':\n    with open('./input/day4.txt', 'r') as f:\n        paren_string = f.read().strip()\n\n    print(parse_nested_parens(paren_string))",
+      -13.6875
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n        elif char == ')':\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                max_level = max_level + 1\n        else:\n            pass\n    return stack + [max_level]\n\n\nif __name__ == '__main__':\n    print(parse_nested_parens('(()()) ((())) () ((())()())'))\n    print(parse_nested_parens('(())) ((())) ((())()())'))\n    print(parse_nested_parens('(())) ((())) ((())()())'))\n    print(parse_nested_parens('(())) ((())) ((())()())'))\n    print(parse_nested_parens('(())) ((())) ((())()())'))\n    print(parse_nested_parens('(())) ((())) ((())()())'))",
+      -13.7578125
+    ],
+    [
+      "stack: List[int] = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(1)\n        elif paren == ')':\n            stack.pop()\n        else:\n            stack.append(max(stack[-1], 1))\n    return stack\n\n\ndef parse_nested_parens_2(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_2('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    stack: List[int] = []\n    for paren in paren_string:\n        if paren == '(':\n            stack.append(1)\n        elif paren == ')':\n            stack.pop()\n        else:\n            if not stack:\n                stack.append(1)\n            else:\n                stack.pop()\n                stack.append(max(stack[-1], 1))\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -13.875
+    ],
+    [
+      "max_level = 0\n    last_level = 0\n    level_stack = []\n    for char in paren_string:\n        if char == '(':\n            level_stack.append(last_level)\n        elif char == ')':\n            last_level = max(level_stack.pop(), last_level)\n        else:\n            last_level = 0\n        max_level = max(last_level, max_level)\n\n    return level_stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -14.0234375
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        elif char == ')':\n            if stack:\n                stack.pop()\n            else:\n                max_level = max(max_level, len(stack))\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -14.3359375
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(char)\n            max_level = max(max_level, len(stack))\n        elif char == ')':\n            if len(stack) == 0:\n                stack.pop()\n                max_level = max(max_level, len(stack))\n            else:\n                stack.pop()\n        else:\n            if len(stack) > 0:\n                stack.pop()\n            else:\n                max_level = max(max_level, len(stack))\n    return stack[::-1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -14.5390625
+    ],
+    [
+      "stack = []\n    max_level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        elif char == ')':\n            current_level = stack.pop()\n            if current_level > max_level:\n                max_level = current_level\n        else:\n            current_level += 1\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      -14.71875
+    ],
+    [
+      "stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        else:\n            stack.pop()\n    return stack\n\n\ndef parse_nested_parens_2(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(0)\n        else:\n            if len(stack) > 0:\n                stack.append(1 + max(stack[-1], stack[-2]))\n            else:\n                stack.append(1)\n    return stack\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -15.078125
+    ],
+    [
+      "stack = []\n    level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(level)\n        elif char == ')':\n            level = max(stack.pop(), level)\n    return stack\n\n\ndef parse_nested_parens_faster(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_faster('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    stack = []\n    level = 0\n    for char in paren_string:\n        if char == '(':\n            stack.append(level)\n            level += 1\n        elif char == ')':\n            level -= 1\n        else:\n            stack.pop()\n    return stack\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -15.328125
+    ],
+    [
+      "return [max(parse_nested_parens_iter(paren_string_part), default=0) for paren_string_part in paren_string.split(' ')]\n\n\ndef parse_nested_parens_iter(paren_string_part: str) -> List[int]:\n    \"\"\" Given a string representing multiple groups for nested parentheses separated by spaces,\n    return the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens_iter('(()()) ((())) ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    stack = []\n    for paren_string_part_part in paren_string_part.split(' '):\n        if paren_string_part_part == '(':\n            stack.append(0)\n        else:\n            paren_string_part_part = paren_string_part_part[::-1]\n            if len(stack) == 0:\n                return []\n            else:\n                top = stack.pop()\n                if top == 0:\n                    return [top] + parse_nested_parens_iter(paren_string_part_part)\n                else:\n                    return [top] + parse_nested_parens_iter(paren_string_part_part)",
+      -17.03125
+    ],
+    [
+      "result = [0] * len(paren_string)\n    stack = []\n    for c in paren_string:\n        if c == '(':\n            stack.append(c)\n        else:\n            if not stack:\n                result[len(stack)] = int(c)\n                stack = []\n            else:\n                top = stack.pop()\n                result[len(stack)] = int(c) + top\n                stack.append(c)\n    return result\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -18.140625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

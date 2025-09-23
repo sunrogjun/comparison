@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/123",
+    "prompt": "Write a function to sum all amicable numbers from 1 to a specified number.",
+    "canonical_solution": "def amicable_numbers_sum(limit):\r\n    if not isinstance(limit, int):\r\n        return \"Input is not an integer!\"\r\n    if limit < 1:\r\n        return \"Input must be bigger than 0!\"\r\n    amicables = set()\r\n    for num in range(2, limit+1):\r\n        if num in amicables:\r\n            continue\r\n        sum_fact = sum([fact for fact in range(1, num) if num % fact == 0])\r\n        sum_fact2 = sum([fact for fact in range(1, sum_fact) if sum_fact % fact == 0])\r\n        if num == sum_fact2 and num != sum_fact:\r\n            amicables.add(num)\r\n            amicables.add(sum_fact2)\r\n    return sum(amicables)",
+    "test_list": [
+      "assert amicable_numbers_sum(999)==504",
+      "assert amicable_numbers_sum(9999)==31626",
+      "assert amicable_numbers_sum(99)==0"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 112
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = 0\n    for i in range(1, n):\n        if (n % i == 0) and (i!= n):\n            amicable_numbers += (math.sqrt(n) + 1) * i\n    return amicable_numbers\n\nif __name__ == \"__main__\":\n    amicable_numbers = sum_amicable_numbers(10000)\n    print amicable_numbers",
+      3.072265625
+    ],
+    [
+      "import math\n\ndef is_amicable(num):\n    for i in range(1, num):\n        if i%num == 0:\n            return False\n    return True\n\ndef sum_amicable(num):\n    amicable_numbers = []\n    for i in range(1, num):\n        if is_amicable(i):\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    num = int(input())\n    print(sum_amicable(num))",
+      1.68359375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i == sum_amicable_numbers(i):\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(15))",
+      1.09375
+    ],
+    [
+      "def sum_amicable(n):\n    amicable_numbers = [1]\n    amicable_numbers.append(1)\n    for i in range(2, n):\n        for j in range(i):\n            if i*j == n:\n                amicable_numbers.append(i*j)\n    return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n    print(sum_amicable(1))\n    print(sum_amicable(5))\n    print(sum_amicable(20))",
+      0.7021484375
+    ],
+    [
+      "def sum_amicable(num):\n    amicable = []\n    for i in range(1, num+1):\n        if i in amicable:\n            amicable.append(i)\n    return sum(amicable)\n\nif __name__ == \"__main__\":\n    amicable = sum_amicable(1000)\n    print amicable",
+      0.18701171875
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_sum = 0\n    for i in range(1, num+1):\n        if i % num == 0:\n            amicable_sum += i\n    return amicable_sum\n\nprint(sum_amicable_numbers(7))",
+      0.1307373046875
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n\n    for i in range(1, n):\n        if (i % 2 == 0) and (i**2 == n):\n            amicable_numbers.append(i)\n\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(200))",
+      -0.25830078125
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, int(math.sqrt(n))+1):\n        if n % i == 0:\n            amicable_numbers.append(i)\n            amicable_numbers.append(n/i)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    amicable_numbers = sum_amicable_numbers(10**7)\n    print(amicable_numbers)",
+      -0.263916015625
+    ],
+    [
+      "# https://leetcode.com/problems/sum-of-amicable-numbers/\n\nimport math\n\n\nclass Solution:\n    \"\"\"\n    @param: num: an integer\n    @return: an integer\n    \"\"\"\n    def sumOfAmicableNumbers(self, num):\n        amicable_numbers = [i for i in range(1, num+1) if is_amicable(i)]\n        return sum(amicable_numbers)\n\n\ndef is_amicable(n):\n    if n % 2 == 0:\n        return False\n    amicable_numbers = [i for i in range(1, n+1) if n % i == 0]\n    return len(amicable_numbers) > 0\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.sumOfAmicableNumbers(100))",
+      -0.369873046875
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    \"\"\"\n    :type num: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = 0\n    for x in range(1, num):\n        if sum([x**i for i in range(1, x+1)]) == x:\n            amicable_numbers += x\n    return amicable_numbers\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(1000))",
+      -0.42529296875
+    ],
+    [
+      "from math import sqrt\n\ndef is_amicable(n):\n    if n < 2:\n        return False\n    amicable = 0\n    for i in range(2, sqrt(n)):\n        if n % i == 0:\n            amicable += i\n            if amicable % n == 0:\n                return True\n    return False\n\nif __name__ == '__main__':\n    amicable = 0\n    for i in range(1, int(input())):\n        if is_amicable(i):\n            amicable += i\n    print(amicable)",
+      -0.85693359375
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(num):\n    amicable_list = []\n    for i in range(1, num):\n        if is_amicable(i, num):\n            amicable_list.append(i)\n    return sum(amicable_list)\n\ndef is_amicable(i, num):\n    return math.sqrt(i**2) == math.sqrt(num**2)\n\nif __name__ == \"__main__\":\n    print sum_amicable_numbers(1)",
+      -0.85693359375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = 0\n    for i in range(2, n+1):\n        for j in range(i+1, n+1):\n            if i % j == 0:\n                amicable_numbers += i + j\n    return amicable_numbers\n\ndef main():\n    print(sum_amicable_numbers(100))\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i > 1 and i % i == 0:\n            amicable_numbers.append(i)\n            amicable_numbers.append(i**2)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print sum_amicable_numbers(10)",
+      -0.85693359375
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_numbers = [i for i in range(1, num + 1) if i % i == 0]\n    return sum(amicable_numbers)\n\nprint sum_amicable_numbers(200)",
+      -0.85791015625
+    ],
+    [
+      "# https://leetcode.com/problems/sum-of-amicable-numbers/\n\nclass Solution:\n    # @return an integer\n    def sumAmicableNumbers(self, n):\n        amicable_numbers = []\n        amicable_numbers.append(1)\n        amicable_numbers.append(2)\n        amicable_numbers.append(3)\n        for i in range(4, n+1):\n            if i in amicable_numbers:\n                continue\n            for j in range(i, n+1):\n                if i % j == 0 and i!= j:\n                    amicable_numbers.append(i)\n                    amicable_numbers.append(j)\n        return sum(amicable_numbers)",
+      -0.85791015625
+    ],
+    [
+      "import sys\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = 0\n    for i in range(1, n):\n        if i % 2 == 0:\n            if i == sum(amicable_numbers):\n                amicable_numbers += i\n        else:\n            if i == sum(amicable_numbers):\n                amicable_numbers += i\n    return amicable_numbers\n\nif __name__ == '__main__':\n    amicable_numbers = sum_amicable_numbers(int(sys.argv[1]))\n    print(amicable_numbers)",
+      -0.85791015625
+    ],
+    [
+      "import math\n\n\ndef sum_amicable_numbers(n):\n    \"\"\"\n    Write a function sum_amicable_numbers(n) that returns the sum of all\n    amicable numbers from 1 to n.\n    \"\"\"\n    amicable_numbers = 0\n    for i in range(1, n):\n        if math.sqrt(i**2 + n**2) == int(math.sqrt(i**2 + n**2)):\n            amicable_numbers += i\n    return amicable_numbers\n\n\ndef main():\n    \"\"\"\n    Command line interface.\n    \"\"\"\n    try:\n        n = int(input('Enter number to sum up amicable numbers from 1 to: '))\n    except ValueError:\n        print('Invalid input')\n        return\n\n    print('The sum of all amicable numbers from 1 to', n, 'is', sum_amicable_numbers(n))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_numbers = []\n    for i in range(1, num):\n        for j in range(i+1, num):\n            if i % j == 0:\n                amicable_numbers.append(i*j)\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(100))",
+      -0.85791015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sum-amicable-numbers/problem\n\nimport sys\n\n\n# Complete the sumamicableNumber function below.\ndef sumamicableNumber(n):\n    amicable = 0\n    amicable_list = []\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            amicable += i\n        else:\n            if i % 3 == 0:\n                amicable += i\n            else:\n                if i % 5 == 0:\n                    amicable += i\n                else:\n                    if i % 7 == 0:\n                        amicable += i\n    return amicable\n\nif __name__ == '__main__':\n    n = int(input().strip())\n    amicable_number = sumamicableNumber(n)\n    print(amicable_number)",
+      -0.85791015625
+    ],
+    [
+      "import math\n\ndef is_amicable(number):\n    \"\"\"\n    :type number: int\n    :rtype: bool\n    \"\"\"\n    amicable_number = 0\n    for i in range(1, number):\n        if is_amicable(i):\n            amicable_number += i\n    return amicable_number == number\n\ndef sum_amicable(number):\n    \"\"\"\n    :type number: int\n    :rtype: int\n    \"\"\"\n    amicable_number = 0\n    for i in range(1, number):\n        if is_amicable(i):\n            amicable_number += i\n    return amicable_number\n\nif __name__ == '__main__':\n    amicable_number = sum_amicable(100)\n    print amicable_number",
+      -0.85791015625
+    ],
+    [
+      "def sum_amicable_numbers(N):\n    amicable_numbers = []\n    for i in range(1, N+1):\n        for j in range(1, i):\n            if i % j == 0:\n                amicable_numbers.append(i*j)\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(200))",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_list = []\n    amicable_numbers = 0\n    for i in range(num):\n        for j in range(num):\n            if i == j:\n                continue\n            if i % j == 0:\n                amicable_numbers += i\n                amicable_list.append(i)\n                amicable_numbers += j\n                amicable_list.append(j)\n    return amicable_numbers\n\nif __name__ == '__main__':\n    num = int(raw_input())\n    amicable_numbers = sum_amicable_numbers(num)\n    print amicable_numbers",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_numbers = 0\n    for i in range(1, num + 1):\n        if i % num == 0:\n            amicable_numbers += i\n    return amicable_numbers\n\n\nif __name__ == \"__main__\":\n    print(sum_amicable_numbers(2))\n    print(sum_amicable_numbers(20))\n    print(sum_amicable_numbers(100))",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n + 1):\n        if is_amicable(i, n):\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\ndef is_amicable(num1, num2):\n    if num1 % num2 == 0 and num1!= num2:\n        return True\n    return False\n\nif __name__ == '__main__':\n    n = int(input())\n    amicable_numbers = sum_amicable_numbers(n)\n    print(amicable_numbers)",
+      -0.8583984375
+    ],
+    [
+      "import math\n\ndef is_amicable(n):\n    \"\"\"\n    Check if n is amicable\n    \"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef sum_amicable(n):\n    \"\"\"\n    Sum all amicable numbers from 1 to n\n    \"\"\"\n    amicable = 0\n    for i in range(1, n + 1):\n        if is_amicable(i):\n            amicable += i\n    return amicable\n\nif __name__ == \"__main__\":\n    print(sum_amicable(3))",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    for i in range(2, n+1):\n        if i in amicable_numbers:\n            amicable_numbers.append(i)\n        else:\n            for j in range(i, n+1):\n                if i % j == 0 and i % j!= j:\n                    amicable_numbers.append(i)\n                    amicable_numbers.append(j)\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(100))",
+      -0.8583984375
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(number):\n    amicable_numbers = []\n    for i in range(1, number+1):\n        amicable_numbers.append(sum(amicable_numbers))\n    return amicable_numbers\n\nif __name__ == \"__main__\":\n    amicable_numbers = sum_amicable_numbers(100)\n    print amicable_numbers",
+      -0.8583984375
+    ],
+    [
+      "import math\nfrom math import sqrt\n\n\ndef sum_amicable_numbers(num):\n    amicable_numbers = []\n    for i in range(1, int(math.sqrt(num))+1):\n        if num % i == 0 and i * i == num:\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(2000))",
+      -0.8583984375
+    ],
+    [
+      "import math\nimport time\n\nstart = time.time()\n\ndef sum_amicable_numbers(N):\n    amicable_numbers = []\n    for i in range(1, N):\n        if i % 2 == 0:\n            amicable_numbers.append(i)\n        elif i % 3 == 0:\n            amicable_numbers.append(i)\n        elif i % 5 == 0:\n            amicable_numbers.append(i)\n        elif i % 7 == 0:\n            amicable_numbers.append(i)\n        elif i % 11 == 0:\n            amicable_numbers.append(i)\n        elif i % 13 == 0:\n            amicable_numbers.append(i)\n        elif i % 17 == 0:\n            amicable_numbers.append(i)\n        elif i % 19 == 0:\n            amicable_numbers.append(i)\n        elif i % 23 == 0:\n            amicable_numbers.append(i)\n        elif i % 29 == 0:\n            amicable_numbers.append(i)\n        elif i % 31 == 0:\n            amicable_numbers.append(i)\n        elif i % 37 == 0:\n            amicable_numbers.append(i)\n        elif i % 41 == 0:\n            amicable_numbers.append(i)\n        elif i % 43 == 0:\n            amicable_numbers.append(i)\n        elif i % 47 == 0:\n            amicable_numbers.append(i)\n        elif i % 53 == 0:\n            amicable_numbers.append(i)\n        elif i % 59 == 0:\n            amicable_numbers.append(i)\n        elif i % 61 == 0:\n            amicable_numbers.append(i)\n        elif i % 67 == 0:\n            amicable_numbers.append(i)\n        elif i % 71 == 0:\n            amicable_numbers.append(i)\n        elif i % 73 == 0:\n            amicable_numbers.append(i)\n        elif",
+      -0.8583984375
+    ],
+    [
+      "from __future__ import print_function\n\nclass Solution(object):\n    def sumOfAmicableNumbers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 1:\n            return 1\n        if n == 2:\n            return 2\n        \n        def is_amicable(num):\n            sum = 0\n            for i in range(num, 0, -1):\n                if i % num == 0:\n                    return False\n                sum += i\n            return True\n        \n        amicable_numbers = [i for i in range(3, n+1) if is_amicable(i)]\n        return sum(amicable_numbers)\n\n\nif __name__ == \"__main__\":\n    print(Solution().sumOfAmicableNumbers(20))",
+      -0.8583984375
+    ],
+    [
+      "import math\nfrom functools import reduce\nfrom itertools import islice\n\n\ndef is_amicable(n):\n    \"\"\"\n    Check whether n is amicable.\n    \"\"\"\n    if n < 2:\n        return False\n    return all(\n        amicable(i) == amicable(j) for i, j in zip(range(1, n+1), range(2, n+1)))\n\n\ndef amicable(n):\n    \"\"\"\n    Get all amicable numbers from 1 to n.\n    \"\"\"\n    amicable = []\n    for i in range(1, n+1):\n        for j in range(1, i):\n            if i*j == n:\n                amicable.append(i*j)\n    return sorted(amicable)\n\n\ndef sum_amicable(n):\n    \"\"\"\n    Sum all amicable numbers from 1 to n.\n    \"\"\"\n    return reduce(lambda x, y: x+y, amicable(n))\n\n\ndef main():\n    print(sum_amicable(200))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    amicable_numbers_sum = 0\n    for i in range(1, n+1):\n        if i in amicable_numbers:\n            amicable_numbers_sum += i\n        else:\n            if (i**2)%(i+1) == 0:\n                amicable_numbers.append(i)\n                amicable_numbers_sum += i\n    return amicable_numbers_sum\n\nif __name__ == \"__main__\":\n    print sum_amicable_numbers(100)",
+      -0.8583984375
+    ],
+    [
+      "from utils import sum_amicable_numbers\n\n\ndef main():\n    n = int(input())\n    print(sum_amicable_numbers(n))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(num):\n    sum = 0\n    for i in range(1, num):\n        if sum % i == 0 and i % i == 0:\n            sum += i\n    return sum\n\ndef sum_amicable_numbers2(num):\n    sum = 0\n    for i in range(1, num):\n        if (math.sqrt(i) + math.sqrt(i) % 1 == 0) and (i % i == 0):\n            sum += i\n    return sum\n\nif __name__ == \"__main__\":\n    print sum_amicable_numbers(100)\n    print sum_amicable_numbers2(100)",
+      -0.8583984375
+    ],
+    [
+      "# @include\ndef sum_amicable_numbers(n):\n    amicable_numbers = 0\n    for i in range(1, n + 1):\n        if i % 2 == 0 and i % 5 == 0 and i % 10!= 0:\n            amicable_numbers += i\n    return amicable_numbers\n# @exclude\n\n\ndef main():\n    n = 10\n    print(sum_amicable_numbers(n))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "import math\n\n\ndef sum_amicable(n):\n    amicable_sum = 0\n    for i in range(1, n+1):\n        amicable_sum += math.sqrt(i)\n        for j in range(i, n+1):\n            if i*j == math.sqrt(j):\n                amicable_sum += i*j\n    return amicable_sum\n\n\nif __name__ == \"__main__\":\n    n = int(input(\"Enter the number to sum amicable numbers from 1 to: \"))\n    print(\"The sum of amicable numbers from 1 to\", n, \"is:\", sum_amicable(n))",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable(n):\n    amicable = 0\n    for i in range(1, n):\n        if i == n or i % (n - i) == 0:\n            amicable += i\n    return amicable\n\nif __name__ == \"__main__\":\n    n = int(input(\"Enter a number: \"))\n    print(sum_amicable(n))",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable(n):\n    amicable = []\n    for i in range(1, n):\n        for j in range(i, n):\n            if i * j == 0:\n                continue\n            if i * j > n:\n                break\n            if i * j in amicable:\n                continue\n            if n % i == 0 and n % j == 0:\n                amicable.append(i * j)\n    return sum(amicable)\n\nif __name__ == \"__main__\":\n    print(sum_amicable(100))",
+      -0.8583984375
+    ],
+    [
+      "import math\n\n# return sum of amicable numbers from 1 to n\n#\n# https://www.youtube.com/watch?v=9Xj1Jk-pT2I\n#\n# https://www.youtube.com/watch?v=9Xj1Jk-pT2I&t=5m11s\ndef sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i == n or i % n == 0:\n            continue\n        for j in range(i+1, n+1):\n            if i * j % n == 0:\n                amicable_numbers.append(i * j)\n    return sum(amicable_numbers)\n\nprint sum_amicable_numbers(200)",
+      -0.8583984375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = [1]\n    amicable_numbers.extend(amicable_numbers)\n    for i in range(2, n):\n        if i not in amicable_numbers:\n            for j in range(i, n):\n                if i + j in amicable_numbers:\n                    amicable_numbers.append(i + j)\n    return sum(amicable_numbers)\n\nprint sum_amicable_numbers(100)",
+      -0.86083984375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = [1]\n    for i in range(2, n + 1):\n        if sum(amicable_numbers) % i == 0:\n            amicable_numbers.append(amicable_numbers[i - 1] + amicable_numbers[amicable_numbers.index(i - 1) + 1])\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(100))",
+      -0.86083984375
+    ],
+    [
+      "# https://en.wikipedia.org/wiki/Amicable_numbers\n# https://en.wikipedia.org/wiki/Lattice_path_sum\n# https://en.wikipedia.org/wiki/Permutation_on_the_line\n\ndef sum_amicable_numbers(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = [1]\n    amicable_numbers.extend(amicable_numbers)\n    amicable_numbers.append(1)\n    amicable_numbers.append(2)\n\n    for i in range(3, n+1):\n        amicable_numbers.extend(amicable_numbers)\n        amicable_numbers.append(i)\n        amicable_numbers.append(i + 1)\n\n    return sum(amicable_numbers)\n\n\n# Your code here.\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(15))",
+      -0.92333984375
+    ],
+    [
+      "class Solution(object):\n    def get_amicable_numbers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        amicable_numbers = []\n        amicable_numbers_set = set()\n        amicable_numbers_set.add(1)\n        for i in range(2, n + 1):\n            if i not in amicable_numbers_set:\n                for j in range(i, n + 1, i):\n                    if i * j % n == 0 and i * j not in amicable_numbers_set:\n                        amicable_numbers.append(i * j)\n                        amicable_numbers_set.add(i * j)\n        return amicable_numbers\n\ndef main():\n    n = int(input())\n    solution = Solution()\n    amicable_numbers = solution.get_amicable_numbers(n)\n    print(amicable_numbers)\n\nif __name__ == \"__main__\":\n    main()",
+      -1.123046875
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = defaultdict(int)\n    amicable_numbers[1] = 1\n    amicable_numbers[2] = 2\n    for i in range(3, n + 1):\n        for j in range(i * 2, n + 1, i):\n            amicable_numbers[i] += amicable_numbers[j]\n    return sum(amicable_numbers.values())\n\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(1000000))",
+      -1.556640625
+    ],
+    [
+      "import timeit\n\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n):\n        for j in range(i + 1, n):\n            if i % j == 0:\n                amicable_numbers.append(i * j)\n    return sum(amicable_numbers)\n\n\nif __name__ == '__main__':\n    setup = 'from __main__ import sum_amicable_numbers'\n    print(timeit.timeit(setup, number=1, setup=setup))",
+      -1.626953125
+    ],
+    [
+      "def sum_of_amicable_numbers(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i%2 == 0:\n            continue\n        if i == sum_of_amicable_numbers(i-1):\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(sum_of_amicable_numbers(10000))",
+      -1.68359375
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n    sum = 0\n    for i in range(1, n + 1):\n        if (i % 2 == 0) and (i % 5 == 0) and (i % 7 == 0) and (i % 11 == 0) and (i % 13 == 0) and (i % 17 == 0) and (i % 19 == 0) and (i % 23 == 0) and (i % 29 == 0) and (i % 31 == 0) and (i % 37 == 0) and (i % 41 == 0):\n            sum += i\n    return sum\n\nif __name__ == \"__main__\":\n    n = int(input())\n    print(sum_amicable_numbers(n))",
+      -2.0078125
+    ],
+    [
+      "import math\n\n\ndef sum_amicable_numbers(num):\n    amicable_sum = 0\n    for i in range(num + 1):\n        if i % 2 == 0:\n            continue\n        if math.sqrt(i) == int(math.sqrt(i)):\n            amicable_sum += i\n    return amicable_sum\n\n\nif __name__ == \"__main__\":\n    print(sum_amicable_numbers(100))",
+      -2.015625
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n  amicable_numbers = []\n  for i in range(1, n+1):\n    amicable_numbers.append(i)\n    for j in range(i+1, n+1):\n      if i*j == math.sqrt(i*j):\n        amicable_numbers.append(i*j)\n  return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n  print sum_amicable_numbers(100)",
+      -2.27734375
+    ],
+    [
+      "import math\n\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = [1]\n    amicable_numbers.append(2)\n    amicable_numbers.append(3)\n\n    amicable_numbers = set(amicable_numbers)\n    sum = 0\n\n    for i in range(2, n + 1):\n        if i in amicable_numbers:\n            sum += i\n    return sum\n\n\ndef main():\n    print(sum_amicable_numbers(1000000))\n\n\nif __name__ == '__main__':\n    main()",
+      -2.869140625
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_numbers = []\n\n    for i in range(1, num+1):\n        amicable_numbers.append(i)\n\n        for j in range(1, i):\n            if i % j == 0:\n                amicable_numbers.remove(i)\n                amicable_numbers.remove(j)\n\n    return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n    print sum_amicable_numbers(100)",
+      -3.349609375
+    ],
+    [
+      "def sum_amicable_numbers(N):\n    \"\"\"\n    :type N: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = [1]\n    for i in range(2, N + 1):\n        amicable_numbers.append(amicable_numbers[i-1] + amicable_numbers[i-2])\n    return sum(amicable_numbers)",
+      -4.0546875
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = [0] * (n + 1)\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            amicable_numbers[i] = amicable_numbers[i - 1] + amicable_numbers[i - 2]\n        else:\n            amicable_numbers[i] = amicable_numbers[i - 1]\n    return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n    print(sum_amicable_numbers(10000))",
+      -4.2421875
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = [0] * n\n    amicable_numbers[0] = 1\n\n    for i in range(1, n):\n        for j in range(1, i):\n            if i % j == 0:\n                amicable_numbers[i] += amicable_numbers[j] + amicable_numbers[i/j]\n    return sum(amicable_numbers)\n\n\nif __name__ == '__main__':\n    assert(sum_amicable_numbers(20) == 385)",
+      -4.24609375
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_numbers = 0\n    for i in range(1, num):\n        if i % (i + 1) == 0:\n            amicable_numbers += i\n    return amicable_numbers\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(1))\n    print(sum_amicable_numbers(100))",
+      -4.6171875
+    ],
+    [
+      "def sum_amicable_numbers(N):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n\n    for i in range(2, N):\n        for j in range(i, N):\n            if i*j == N:\n                amicable_numbers.append(i*j)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(10))",
+      -4.65234375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/summation-of-amicable-numbers/problem\n\ndef sum_amicable_numbers(a):\n    sum = 0\n    for i in range(1, a):\n        for j in range(1, i):\n            if (i + j == a):\n                sum += i * j\n    return sum\n\n\nif __name__ == '__main__':\n    a = int(input())\n    print(sum_amicable_numbers(a))",
+      -5.19921875
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = [1]\n    for i in range(2, n + 1):\n        for j in range(2, i):\n            if i % j == 0:\n                amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n    print(sum_amicable_numbers(100))",
+      -6.06640625
+    ],
+    [
+      "# https://en.wikipedia.org/wiki/Amicable_numbers\n\nimport math\n\n\ndef sum_amicable_numbers(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = 0\n    for i in range(1, n + 1):\n        if i == math.sqrt(i):\n            amicable_numbers += i\n            amicable_numbers += i * i\n    return amicable_numbers\n\n\nif __name__ == \"__main__\":\n    print(sum_amicable_numbers(100))",
+      -6.453125
+    ],
+    [
+      "def sum_amicable_numbers(N):\n    amicable_numbers = [x for x in range(1, N) if is_amicable(x, N)]\n    return sum(amicable_numbers)\n\ndef is_amicable(n, N):\n    if n == 1:\n        return False\n    for i in range(1, N):\n        if n % i == 0 and is_amicable(n/i, N):\n            return True\n    return False\n\nif __name__ == \"__main__\":\n    amicable_numbers = sum_amicable_numbers(10)\n    print amicable_numbers",
+      -6.9765625
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = [1]\n    for i in range(2, n+1):\n        if sum(amicable_numbers) % i == 0:\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(200))",
+      -6.99609375
+    ],
+    [
+      "from itertools import groupby\nfrom operator import add\n\ndef sum_amicable_numbers(limit):\n    \"\"\"\n    :type limit: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    for i in range(2, limit):\n        if i % i == 0:\n            for amicable_number in amicable_numbers:\n                amicable_numbers.append(amicable_number * i)\n    return sum(amicable_numbers)\n\ndef main():\n    \"\"\"\n    main function\n    \"\"\"\n    limit = int(input())\n    sum_amicable_numbers(limit)\n\nif __name__ == \"__main__\":\n    main()",
+      -7.15234375
+    ],
+    [
+      "import math\nfrom collections import defaultdict\n\ndef sum_amicable_numbers(limit):\n    \"\"\"\n    :type limit: int\n    :rtype: int\n    \"\"\"\n    amicable_numbers = defaultdict(int)\n    for i in range(2, limit+1):\n        for j in range(i, limit+1):\n            if (i*j)%(limit*2) == 0:\n                amicable_numbers[i*j] += 1\n    amicable_numbers = [amicable_numbers[i] for i in amicable_numbers]\n    return sum(amicable_numbers)\n\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(100))",
+      -7.24609375
+    ],
+    [
+      "def sum_amicable(n):\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i % 10 == 0:\n            continue\n        for j in range(i+1, n+1):\n            if j % 10 == 0:\n                continue\n            if i * j == j * i:\n                amicable_numbers.append(i * j)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(sum_amicable(20))",
+      -7.30078125
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(n, 1, -1):\n        if i % 2 == 0:\n            for j in range(i, n, i):\n                amicable_numbers.append(i * j)\n    return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n    print(sum_amicable_numbers(100))",
+      -7.3828125
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_list = []\n    for i in range(1, n):\n        if i % 10 == 0:\n            amicable_list.append(i)\n        else:\n            for j in range(1, i):\n                if i % j == 0 and i % (j + 1) == 0:\n                    amicable_list.append(i)\n                    amicable_list.append(j)\n                    break\n    return sum(amicable_list)\n\nprint(sum_amicable_numbers(10))",
+      -7.640625
+    ],
+    [
+      "# https://leetcode.com/problems/sum-of-amicable-numbers/discuss/382464/Python-Solution-with-O(n)-Time-and-Space\n\nclass Solution:\n    # @param {integer} n\n    # @return {integer}\n    def sumOfAmicableNumbers(self, n):\n        amicable_numbers = [0] * (n + 1)\n        for i in range(2, n + 1):\n            if amicable_numbers[i] == 0:\n                for j in range(i, n + 1):\n                    if i % j == 0:\n                        amicable_numbers[i] = j\n                        break\n        return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(Solution().sumOfAmicableNumbers(100))",
+      -7.71484375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    amicable_numbers.append(2)\n    for i in range(3, n+1):\n        for j in range(i-1, 0, -1):\n            if (i % j == 0) and (i!= j):\n                amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(20))",
+      -8.109375
+    ],
+    [
+      "# Definition for an amicable number.\n# class AmicableNumber:\n#     def __init__(self, number):\n#         self.number = number\n#         self.sum = 0\n#         self.amicable = False\n#\n#\n# class Solution:\n#     \"\"\"\n#     @param: n: an integer\n#     @return: a list of AmicableNumber\n#     \"\"\"\n#     def sumOfAmicable(self, n):\n#         amicable = []\n#         # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198",
+      -8.3125
+    ],
+    [
+      "def sum_amicable(n):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    for i in range(2, n+1):\n        if i in amicable_numbers:\n            amicable_numbers.append(amicable_numbers[i-1]+amicable_numbers[i-2])\n        else:\n            amicable_numbers.append(amicable_numbers[i-1])\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print sum_amicable(5)\n    print sum_amicable(10)",
+      -8.5703125
+    ],
+    [
+      "from math import ceil\n\ndef sum_amicable(N):\n    \"\"\"\n    :type N: int\n    :rtype: int\n    \"\"\"\n    amicable_sum = 0\n    for i in range(1, N):\n        for j in range(i, N):\n            if i*j == j*i:\n                amicable_sum += i + j\n    return amicable_sum\n\nif __name__ == \"__main__\":\n    print sum_amicable(10)\n    print sum_amicable(100)\n    print sum_amicable(1000)",
+      -10.203125
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_sum = 0\n    for i in range(2,n):\n        if i % 2 == 0:\n            if i < n:\n                amicable_sum += i\n        else:\n            amicable_sum += i\n    return amicable_sum\n\nprint(sum_amicable_numbers(10000))",
+      -10.4453125
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n):\n        if i in amicable_numbers:\n            continue\n        for j in range(i, n):\n            if i + j == n:\n                continue\n            if i + j in amicable_numbers:\n                continue\n            if sum(amicable_numbers) == i + j:\n                amicable_numbers.append(i + j)\n                amicable_numbers.append(j + i)\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(100))",
+      -10.625
+    ],
+    [
+      "import math\nfrom collections import defaultdict\nfrom functools import reduce\n\ndef amicable(n):\n    \"\"\"\n    Amicable numbers are numbers whose sum is an exact divisor of the sum of their\n    square roots.\n    \"\"\"\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i == sum([math.sqrt(i) for i in range(1, i+1)]):\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\ndef main():\n    \"\"\"\n    Amicable numbers are numbers whose sum is an exact divisor of the sum of their\n    square roots.\n    \"\"\"\n    amicable_numbers = []\n    for i in range(1, 100):\n        if i == sum([math.sqrt(i) for i in range(1, i+1)]):\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    print(main())",
+      -10.921875
+    ],
+    [
+      "# Definition for an amicable number.\n# class Amicable(object):\n#     def __init__(self, num):\n#         \"\"\"\n#         :type num: int\n#         \"\"\"\n#         self.num = num\n#         self.sum = 0\n#         self.sum_sq = 0\n#         self.sqrt = 0\n#         self.is_sum_square = False\n#         self.is_sum_square_sqrt = False\n#         self.is_sum_square_sqrt_sqrt = False\n\nclass Solution(object):\n    def sumOfAmicableNumbers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 1:\n            return 1\n\n        amicable = [0] * n\n        for i in xrange(2, n):\n            for j in xrange(i, n):\n                if i * j == n:\n                    amicable[i] = amicable[j] = amicable[i] + amicable[j]\n                    break\n\n        sum = 0\n        for i in xrange(1, n):\n            sum += amicable[i]\n        return sum",
+      -11.4140625
+    ],
+    [
+      "# @include\ndef sum_amicable_numbers(n):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    amicable_numbers.append(n)\n    for i in range(2, n):\n        if i % amicable_numbers[-1] == 0:\n            amicable_numbers.append(amicable_numbers[-1] * amicable_numbers[-1] / i)\n    return sum(amicable_numbers)\n# @exclude\n\n\ndef main():\n    tests = [\n        [1],\n        [2, 3, 5],\n        [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181,",
+      -11.5859375
+    ],
+    [
+      "def sum_amicable_numbers(num):\n    amicable_numbers = 0\n    for i in range(1, num + 1):\n        if i % i == 0:\n            amicable_numbers += i\n    return amicable_numbers\n\n\nif __name__ == \"__main__\":\n    num = int(input())\n    print(sum_amicable_numbers(num))",
+      -11.671875
+    ],
+    [
+      "#!/usr/bin/env python\n\nimport sys\n\ndef sum_amicable_numbers(num):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    i = 2\n    while i < num:\n        if i % (i+1) == 0:\n            amicable_numbers.append(i)\n        i += 1\n    return sum(amicable_numbers)\n\ndef main():\n    num = int(sys.argv[1])\n    amicable_numbers = sum_amicable_numbers(num)\n    print amicable_numbers\n\nif __name__ == '__main__':\n    main()",
+      -11.90625
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = 0\n    for x in range(1, n):\n        if is_amicable(x, n):\n            amicable_numbers += x\n    return amicable_numbers\n\ndef is_amicable(x, n):\n    if x % 2 == 0:\n        return False\n    if x < n:\n        return False\n    if x < 1:\n        return False\n    if x == n:\n        return True\n    return is_amicable(x/2, n)\n\nif __name__ == '__main__':\n    amicable_numbers = sum_amicable_numbers(1000000)\n    print amicable_numbers",
+      -11.9140625
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_sum = 0\n    amicable_numbers = []\n\n    for i in range(1, n):\n        if i % 2 == 0:\n            continue\n\n        for j in range(1, i):\n            if i % j == 0 and i!= j:\n                amicable_sum += i\n                amicable_numbers.append(i)\n\n    return amicable_sum + sum(amicable_numbers)\n\nprint(sum_amicable_numbers(10**6))",
+      -12.03125
+    ],
+    [
+      "from math import sqrt\n\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = [1]\n    amicable_numbers.append(1)\n    amicable_numbers.append(2)\n    amicable_numbers.append(3)\n    amicable_numbers.append(4)\n    amicable_numbers.append(5)\n    amicable_numbers.append(6)\n    amicable_numbers.append(7)\n    amicable_numbers.append(8)\n    amicable_numbers.append(9)\n    amicable_numbers.append(10)\n    amicable_numbers.append(11)\n    amicable_numbers.append(12)\n    amicable_numbers.append(13)\n    amicable_numbers.append(14)\n    amicable_numbers.append(15)\n    amicable_numbers.append(16)\n    amicable_numbers.append(17)\n    amicable_numbers.append(18)\n    amicable_numbers.append(19)\n    amicable_numbers.append(20)\n    amicable_numbers.append(21)\n    amicable_numbers.append(22)\n    amicable_numbers.append(23)\n    amicable_numbers.append(24)\n    amicable_numbers.append(25)\n    amicable_numbers.append(26)\n    amicable_numbers.append(27)\n    amicable_numbers.append(28)\n    amicable_numbers.append(29)\n    amicable_numbers.append(30)\n    amicable_numbers.append(31)\n    amicable_numbers.append(32)\n    amicable_numbers.append(33)\n    amicable_numbers.append(34)\n    amicable_numbers.append(35)\n    amicable_numbers.append(36)\n    amicable_numbers.append(37)\n    amicable_numbers.append(38)\n    amicable_numbers.append(39)\n    amicable_numbers.append(40)",
+      -12.21875
+    ],
+    [
+      "class Solution(object):\n    def sumOfAmicableNumbers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        dp = [0 for i in range(n + 1)]\n        for i in range(2, n + 1):\n            for j in range(i + 1, n + 1):\n                if i == j:\n                    dp[i] += 1\n                else:\n                    if dp[i] + dp[j] > i + j:\n                        dp[i] += dp[j]\n                    elif dp[i] + dp[j] < i + j:\n                        dp[j] += dp[i]\n        return sum(dp)",
+      -12.296875
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(num):\n    amicable = 0\n    for i in range(1, num):\n        if is_amicable(i):\n            amicable += i\n    return amicable\n\ndef is_amicable(num):\n    n = math.floor(math.sqrt(num))\n    if n * n == num:\n        return True\n    else:\n        return False\n\nif __name__ == \"__main__\":\n    print sum_amicable_numbers(1)\n    print sum_amicable_numbers(2)\n    print sum_amicable_numbers(3)\n    print sum_amicable_numbers(4)\n    print sum_amicable_numbers(5)\n    print sum_amicable_numbers(6)\n    print sum_amicable_numbers(7)\n    print sum_amicable_numbers(8)\n    print sum_amicable_numbers(9)\n    print sum_amicable_numbers(10)\n    print sum_amicable_numbers(11)\n    print sum_amicable_numbers(12)\n    print sum_amicable_numbers(13)\n    print sum_amicable_numbers(14)\n    print sum_amicable_numbers(15)\n    print sum_amicable_numbers(16)\n    print sum_amicable_numbers(17)\n    print sum_amicable_numbers(18)\n    print sum_amicable_numbers(19)\n    print sum_amicable_numbers(20)\n    print sum_amicable_numbers(21)\n    print sum_amicable_numbers(22)\n    print sum_amicable_numbers(23)\n    print sum_amicable_numbers(24)\n    print sum_amicable_numbers(25)\n    print sum_amicable_numbers(26)\n    print sum_amicable_numbers(27)\n    print sum_amicable_numbers(28)\n    print sum_amicable_numbers(29)\n    print sum_amicable_numbers(30)\n    print sum_amicable_numbers",
+      -12.3203125
+    ],
+    [
+      "from math import sqrt\n\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n+1):\n        if i % 10 == 0 and i % 100!= 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100 == 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0 and i % 100!= 0 and i % 1000 == 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0 and i % 100!= 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100 == 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100 == 0 and i % 1000 == 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0 and i % 100!= 0 and i % 1000 == 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0 and i % 100!= 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100 == 0 and i % 1000 == 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100 == 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0 and i % 100!= 0 and i % 1000 == 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0 and i % 100!= 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100 == 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10!= 0 and i % 100!= 0 and i % 1000 == 0:\n            amicable_numbers.append(i)",
+      -12.375
+    ],
+    [
+      "from math import sqrt\n\ndef sum_amicable_numbers(a):\n    amicable_numbers = []\n    for i in range(a, 1000000, 1):\n        if i % 10 == 0 and i % 100!= 0 and i % 1000!= 0:\n            amicable_numbers.append(i)\n        elif i % 10 == 0:\n            amicable_numbers.append(i)\n        elif i % 100 == 0:\n            amicable_numbers.append(i)\n        elif i % 1000 == 0:\n            amicable_numbers.append(i)\n    return sum(amicable_numbers)\n\nprint(sum_amicable_numbers(1))\nprint(sum_amicable_numbers(100))\nprint(sum_amicable_numbers(1000))\nprint(sum_amicable_numbers(10000))",
+      -12.609375
+    ],
+    [
+      "def sum_amicable_numbers(number):\n    amicable_numbers = [number]\n    for i in range(1, number):\n        if number % i == 0:\n            amicable_numbers.append(i)\n            if i!= number:\n                amicable_numbers.append(number/i)\n    return sum(amicable_numbers)\n\ndef test_sum_amicable_numbers():\n    assert sum_amicable_numbers(1) == 2\n    assert sum_amicable_numbers(2) == 4\n    assert sum_amicable_numbers(3) == 6\n    assert sum_amicable_numbers(4) == 8\n    assert sum_amicable_numbers(5) == 11\n    assert sum_amicable_numbers(6) == 14\n    assert sum_amicable_numbers(7) == 19\n    assert sum_amicable_numbers(8) == 22\n    assert sum_amicable_numbers(9) == 26\n    assert sum_amicable_numbers(10) == 30\n    assert sum_amicable_numbers(11) == 34\n    assert sum_amicable_numbers(12) == 38\n    assert sum_amicable_numbers(13) == 42\n    assert sum_amicable_numbers(14) == 46\n    assert sum_amicable_numbers(15) == 50\n    assert sum_amicable_numbers(16) == 54\n    assert sum_amicable_numbers(17) == 58\n    assert sum_amicable_numbers(18) == 62\n    assert sum_amicable_numbers(19) == 66\n    assert sum_amicable_numbers(20) == 70\n    assert sum_amicable_numbers(21) == 74\n    assert sum_amicable_numbers(22) == 78\n    assert sum_amicable_numbers(23) == 82\n    assert sum_amicable_numbers(24) == 86\n    assert sum_amicable_numbers(25) == 90\n    assert sum_amicable_numbers(26) == 94\n    assert sum_amicable_numbers(27) == 98\n    assert sum_amicable",
+      -12.640625
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    for i in range(2, n+1):\n        for j in range(i, n+1):\n            if (i**2 + j**2 == n**2):\n                amicable_numbers.append(i + j)\n    return sum(amicable_numbers)\n\n# Testing\n\nprint(sum_amicable_numbers(100))\nprint(sum_amicable_numbers(1))\nprint(sum_amicable_numbers(2))\nprint(sum_amicable_numbers(3))\nprint(sum_amicable_numbers(4))\nprint(sum_amicable_numbers(5))\nprint(sum_amicable_numbers(6))\nprint(sum_amicable_numbers(7))\nprint(sum_amicable_numbers(8))\nprint(sum_amicable_numbers(9))\nprint(sum_amicable_numbers(10))\nprint(sum_amicable_numbers(11))\nprint(sum_amicable_numbers(12))\nprint(sum_amicable_numbers(13))\nprint(sum_amicable_numbers(14))\nprint(sum_amicable_numbers(15))\nprint(sum_amicable_numbers(16))\nprint(sum_amicable_numbers(17))\nprint(sum_amicable_numbers(18))\nprint(sum_amicable_numbers(19))\nprint(sum_amicable_numbers(20))\nprint(sum_amicable_numbers(21))\nprint(sum_amicable_numbers(22))\nprint(sum_amicable_numbers(23))\nprint(sum_amicable_numbers(24))\nprint(sum_amicable_numbers(25))\nprint(sum_amicable_numbers(26))\nprint(sum_amicable_numbers(27))\nprint(sum_amicable_numbers(28))\nprint(sum_amicable_numbers(29))\nprint(sum_amicable_numbers(30))\nprint(sum",
+      -12.671875
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(number):\n    amicable_numbers = []\n    n = number\n\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            amicable_numbers.append(i)\n\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0 and i * i!= n:\n            amicable_numbers.append(i)\n\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0 and i * i!= n:\n            amicable_numbers.append(i)\n\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0 and i * i!= n:\n            amicable_numbers.append(i)\n\n    return sum(amicable_numbers)\n\n\nif __name__ == '__main__':\n    print(sum_amicable_numbers(10))",
+      -13.2890625
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = 0\n    for i in range(1, n + 1):\n        if is_amicable(i):\n            amicable_numbers += i\n    return amicable_numbers\n\ndef is_amicable(n):\n    amicable_numbers = 0\n    for i in range(1, n + 1):\n        if is_amicable(i) and is_amicable(n - i):\n            amicable_numbers += i + n - i\n    return amicable_numbers\n\n# Test Cases\nprint(sum_amicable_numbers(1))\nprint(sum_amicable_numbers(2))\nprint(sum_amicable_numbers(3))\nprint(sum_amicable_numbers(4))\nprint(sum_amicable_numbers(5))\nprint(sum_amicable_numbers(6))\nprint(sum_amicable_numbers(7))\nprint(sum_amicable_numbers(8))\nprint(sum_amicable_numbers(9))\nprint(sum_amicable_numbers(10))\nprint(sum_amicable_numbers(11))\nprint(sum_amicable_numbers(12))\nprint(sum_amicable_numbers(13))\nprint(sum_amicable_numbers(14))\nprint(sum_amicable_numbers(15))\nprint(sum_amicable_numbers(16))\nprint(sum_amicable_numbers(17))\nprint(sum_amicable_numbers(18))\nprint(sum_amicable_numbers(19))\nprint(sum_amicable_numbers(20))\nprint(sum_amicable_numbers(21))\nprint(sum_amicable_numbers(22))\nprint(sum_amicable_numbers(23))\nprint(sum_amicable_numbers(24))\nprint(sum_amicable_numbers(25))\nprint(sum_amicable_numbers(26))\nprint(sum_amicable_numbers(27))\nprint(sum_amicable_numbers(28))\nprint(sum_amicable_n",
+      -13.859375
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_numbers = []\n    for i in range(1, n):\n        for j in range(i + 1, n):\n            if (i % j) == 0 and i!= j:\n                amicable_numbers.append(i * j)\n    return sum(amicable_numbers)\n\nif __name__ == '__main__':\n    amicable_numbers = sum_amicable_numbers(100)\n    print(amicable_numbers)",
+      -15.046875
+    ],
+    [
+      "def sum_amicable(n):\n    amicable = [0] * (n + 1)\n    amicable[0] = 1\n    amicable[1] = 1\n    for i in range(2, n):\n        amicable[i] = sum(amicable[2*k - i] for k in range(i, 0, -1)) + amicable[i]\n    return amicable[n]\n\ndef test_sum_amicable():\n    assert sum_amicable(1) == 1\n    assert sum_amicable(2) == 3\n    assert sum_amicable(3) == 15\n    assert sum_amicable(4) == 42\n    assert sum_amicable(5) == 630\n    assert sum_amicable(6) == 1714\n\nif __name__ == \"__main__\":\n    test_sum_amicable()",
+      -15.234375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/amicable-numbers/problem\n\nimport sys\n\n\ndef sum_amicable_numbers(num):\n    amicable_numbers = 0\n    for i in range(1, num):\n        if i == num or i == 1 or i % 2!= 0:\n            continue\n        sum_amicable_numbers += i\n    return sum_amicable_numbers\n\n\nif __name__ == \"__main__\":\n    num = int(sys.stdin.readline())\n    print sum_amicable_numbers(num)",
+      -15.2890625
+    ],
+    [
+      "import math\n\ndef sum_amicable_numbers(n):\n    amicable_numbers = []\n    amicable_numbers.append(1)\n    for i in range(2,n):\n        for j in range(i,n):\n            if i*j == n:\n                amicable_numbers.append(i*j)\n            else:\n                for k in range(1,j):\n                    if i*j + k*k == n:\n                        amicable_numbers.append(i*j+k*k)\n    return sum(amicable_numbers)\n\nif __name__ == \"__main__\":\n    print sum_amicable_numbers(100)",
+      -15.46875
+    ],
+    [
+      "from math import sqrt\n\n\ndef sum_amicable_numbers(limit):\n    \"\"\"\n    >>> sum_amicable_numbers(100)\n    945\n    >>> sum_amicable_numbers(200)\n    1721\n    >>> sum_amicable_numbers(200) - sum_amicable_numbers(1000)\n    0\n    \"\"\"\n    amicable_sum = 0\n    for n in range(1, limit):\n        if n == sum(amicable_sum_sums(n)):\n            amicable_sum += n\n    return amicable_sum\n\n\ndef amicable_sum_sums(n):\n    \"\"\"\n    >>> amicable_sum_sums(200)\n    [1, 6, 30, 120, 210, 210, 210]\n    >>> amicable_sum_sums(100)\n    [1, 6, 30, 120, 210, 210]\n    \"\"\"\n    amicable_sum_sums = []\n    for i in range(1, n + 1):\n        if i == sum(amicable_sum_sums(i)):\n            amicable_sum_sums.append(i)\n    return amicable_sum_sums\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -16.375
+    ],
+    [
+      "class Solution:\n    # @param {integer} n\n    # @return {integer}\n    def sumOfAmicable(self, n):\n        amicable = []\n        for i in xrange(1, n):\n            if i in amicable:\n                continue\n            amicable.append(i)\n            for j in xrange(i + 1, n):\n                if i * j in amicable:\n                    amicable.append(i * j)\n                    break\n            if i * i in amicable:\n                amicable.append(i * i)\n        return sum(amicable)\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.sumOfAmicable(10)",
+      -16.765625
+    ],
+    [
+      "# Definition for an amicable number.\nclass Amicable(object):\n    def __init__(self, number):\n        \"\"\"\n        :type number: int\n        \"\"\"\n        self.sum = 0\n        self.amicable = 0\n        self.divisors = []\n        self.amicable_divisors = []\n        self.divisor_sum = 0\n        self.amicable_divisor_sum = 0\n\n        for i in range(1, number+1):\n            self.divisors.append(i)\n            self.divisor_sum += i\n            self.amicable_divisors.append(i)\n            self.amicable_divisor_sum += i\n\n        for i in range(1, number+1):\n            if i!= self.divisor_sum:\n                self.divisors.append(i)\n                self.divisor_sum += i\n                self.amicable_divisors.append(i)\n                self.amicable_divisor_sum += i\n        self.divisor_sum = self.divisor_sum - self.divisors[0]\n\n        for i in range(1, number+1):\n            if self.divisor_sum == self.amicable_divisor_sum:\n                self.sum += i\n                self.amicable += i\n\ndef amicable_numbers(number):\n    amicable = []\n    amicable_divisors = []\n    for i in range(1, number+1):\n        amicable_divisors.append(i)\n        amicable_divisors.append(i*i)\n        for j in range(2, i):\n            amicable_divisors.append(i*j)\n            amicable_divisors.append(j*j)\n            amicable_divisors.append(i*j*j)\n            amicable_divisors.append(j*j*j)\n    amicable_divisors = [i for i in amicable_divisors if i not in amicable]\n    amicable_divisors = [i for i in amicable_divisors if i",
+      -17.140625
+    ],
+    [
+      "import math\nfrom itertools import islice\n\n\ndef sum_amicable(n):\n    \"\"\"\n    sum_amicable(n) -> sum of amicable numbers from 1 to n.\n    :param n: int\n    :return: sum of all amicable numbers from 1 to n.\n    \"\"\"\n    amicable_numbers = []\n\n    amicable_numbers.append(1)\n    for i in range(2, n + 1):\n        for j in range(2, int(math.sqrt(i)) + 1):\n            if i % j == 0:\n                amicable_numbers.append(i)\n\n    return sum(amicable_numbers)\n\n\ndef main():\n    \"\"\"\n    main() -> None\n    \"\"\"\n    print(sum_amicable(10))\n\n\nif __name__ == '__main__':\n    main()",
+      -18.5
+    ],
+    [
+      "def sum_amicable_numbers(n):\n    amicable_list = []\n    amicable_list.append(1)\n\n    while True:\n        amicable_list.append(sum(amicable_list))\n\n        if amicable_list[-1] > n:\n            return sum(amicable_list)\n\n        for i in range(len(amicable_list) - 1):\n            if amicable_list[i] + amicable_list[i + 1] > n:\n                amicable_list[i] += amicable_list[i + 1]\n                amicable_list[i + 1] = amicable_list[i] - amicable_list[i + 1]\n\n\n\nprint(sum_amicable_numbers(100))",
+      -19.59375
+    ],
+    [
+      "# Definition for an amicable number.\nclass Amicable:\n    def __init__(self, n):\n        self.n = n\n        self.num_amicable = 0\n        self.amicable = []\n        self.sum_amicable = 0\n\n    def add_amicable(self, number):\n        if number not in self.amicable:\n            self.amicable.append(number)\n            self.sum_amicable += number\n            if self.sum_amicable >= self.n:\n                self.num_amicable += 1\n            return True\n\n    def is_amicable(self, number):\n        if number not in self.amicable:\n            return False\n        return True\n\n# Your Amicable object will be instantiated and called as such:\n# obj = Amicable(n)\n# param_1 = obj.add_amicable(number)\n# param_2 = obj.is_amicable(number)\n\nclass Solution(object):\n    def sumOfDivisors(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        # base case\n        if n < 2:\n            return 0\n        amicable = []\n        amicable_sum = 0\n        for i in range(2, n):\n            amicable_sum += i\n            amicable.append(i)\n            for j in range(i, n, i):\n                amicable_sum += j\n                amicable.append(j)\n                amicable_sum += i*j\n                amicable.append(i*j)\n        for i in range(2, n):\n            amicable_sum += i\n            amicable.append(i)\n            for j in range(i, n, i):\n                amicable_sum += j\n                amicable.append(j)\n                amicable_sum += i*j\n                amicable.append(i*j)\n        amicable_sum += n\n        for i in range(2, n):\n            amicable_sum += i\n            amicable.append(i)\n            for j in range(i, n, i):\n                amicable_sum += j\n                amicable.append(j)",
+      -19.609375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

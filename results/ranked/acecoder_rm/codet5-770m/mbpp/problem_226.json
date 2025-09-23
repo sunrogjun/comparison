@@ -1,0 +1,432 @@
+{
+  "problem": {
+    "task_id": "MBPP/237",
+    "prompt": "Write a function to check the occurrences of records which occur similar times in the given tuples.",
+    "canonical_solution": "from collections import Counter \r\ndef check_occurences(test_list):\r\n  res = dict(Counter(tuple(ele) for ele in map(sorted, test_list)))\r\n  return  (res) ",
+    "test_list": [
+      "assert check_occurences([(3, 1), (1, 3), (2, 5), (5, 2), (6, 3)] ) == {(1, 3): 2, (2, 5): 2, (3, 6): 1}",
+      "assert check_occurences([(4, 2), (2, 4), (3, 6), (6, 3), (7, 4)] ) == {(2, 4): 2, (3, 6): 2, (4, 7): 1}",
+      "assert check_occurences([(13, 2), (11, 23), (12, 25), (25, 12), (16, 23)] ) == {(2, 13): 1, (11, 23): 1, (12, 25): 2, (16, 23): 1}"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 226
+  },
+  "model_name": "codet5-770m",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def count_occurrences(tuples):\n    # Write your code here\n    return \"YES\"\n\n\nprint(count_occurrences([(1,2), (2,3), (2,4)]))\nprint(count_occurrences([(1,2), (2,3), (2,4)]))",
+      3.208984375
+    ],
+    [
+      "def similar_times(tuple1, tuple2):\n    # create a dictionary\n    dict1 = {}\n    for tup in tuple1:\n        if tup in dict1:\n            dict1[tup] += 1\n        else:\n            dict1[tup] = 1\n\n    dict2 = {}\n    for tup in tuple2:\n        if tup in dict2:\n            dict2[tup] += 1\n        else:\n            dict2[tup] = 1\n\n    # iterate through the dictionary\n    for key in dict1:\n        if key in dict2:\n            print(key, dict1[key], dict2[key])\n\n\nif __name__ == \"__main__\":\n    similar_times((1, 2, 2), (1, 2, 2))\n    similar_times((1, 2, 2), (1, 1, 2))",
+      2.8046875
+    ],
+    [
+      "def check_records(tuples):\n    count = {}\n    for i in range(len(tuples)):\n        if tuples[i][0] in count:\n            count[tuples[i][0]].append(tuples[i])\n        else:\n            count[tuples[i][0]] = [tuples[i]]\n\n    for i in count:\n        if len(count[i]) > 1:\n            return True\n    return False\n\n\nprint(check_records([('a', 'b', 'c'), ('a', 'b', 'c'), ('a', 'b', 'd'), ('a', 'b', 'e'), ('a', 'b', 'f'), ('a', 'c', 'd'), ('a', 'c', 'e'), ('a', 'c', 'f')]))",
+      2.796875
+    ],
+    [
+      "def count_occurrences(tuples):\n    counter = {}\n    for tuple in tuples:\n        if tuple not in counter:\n            counter[tuple] = 1\n        else:\n            counter[tuple] += 1\n    return [tuple for tuple, count in counter.items() if count == 1]\n\n\nprint(count_occurrences([(1, 4), (2, 3), (3, 5), (3, 6), (4, 6), (3, 6), (1, 4)]))",
+      1.025390625
+    ],
+    [
+      "def count_occurrences(tuples, value):\n    occurrences = {}\n    for tuple in tuples:\n        if tuple[value] in occurrences:\n            occurrences[tuple[value]].append(tuple)\n        else:\n            occurrences[tuple[value]] = [tuple]\n\n    return occurrences\n\n\n\nprint(count_occurrences([(1,2),(1,3),(1,4),(2,3),(2,4)],1))\nprint(count_occurrences([(1,2),(1,3),(1,4),(2,3),(2,4)],2))\nprint(count_occurrences([(1,2),(1,3),(1,4),(2,3),(2,4)],3))\nprint(count_occurrences([(1,2),(1,3),(1,4),(2,3),(2,4)],4))",
+      0.8095703125
+    ],
+    [
+      "def count_occurrences(tuples):\n    # Write your code here\n    count = 0\n    for i in range(len(tuples)):\n        for j in range(len(tuples)):\n            if i!= j:\n                if tuples[i] == tuples[j]:\n                    count += 1\n    return count",
+      0.796875
+    ],
+    [
+      "def records_occurrences_similar_times(records, times):\n    # write your code here\n    return [record for record in records if record in times]\n\n\nprint(records_occurrences_similar_times([\"a\", \"a\", \"a\", \"b\", \"b\", \"a\"], [\"a\", \"b\"]))\nprint(records_occurrences_similar_times([\"a\", \"a\", \"a\", \"b\", \"b\", \"b\"], [\"a\", \"b\"]))\nprint(records_occurrences_similar_times([\"a\", \"b\", \"b\", \"b\", \"b\", \"b\"], [\"a\", \"b\"]))\nprint(records_occurrences_similar_times([\"a\", \"b\", \"b\", \"b\", \"b\", \"b\"], [\"a\", \"b\", \"b\", \"b\", \"b\", \"b\"]))\nprint(records_occurrences_similar_times([\"a\", \"a\", \"a\", \"a\", \"a\", \"a\"], [\"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]))\nprint(records_occurrences_similar_times([\"a\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\"], [\"a\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\"]))\nprint(records_occurrences_similar_times([\"a\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\"], [\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]))\nprint(records_occurrences_similar_times([\"a\", \"a\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\"], [\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"a\"]))",
+      0.55859375
+    ],
+    [
+      "def check_occurrences(tuples):\n    count = 0\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            if tuples[i] == tuples[j]:\n                count += 1\n    return count\n\n\nprint(check_occurrences([(2, 3), (3, 4), (2, 4), (2, 4)]))",
+      0.259765625
+    ],
+    [
+      "def records_occurrences(tuples):\n    records = set()\n    for record in tuples:\n        if record in records:\n            return True\n        else:\n            records.add(record)\n    return False\n\n\nif __name__ == '__main__':\n    print(records_occurrences((\"a\", \"b\", \"b\", \"b\", \"c\", \"c\", \"c\", \"b\")))\n    print(records_occurrences((\"a\", \"b\", \"b\", \"b\", \"c\", \"c\", \"c\", \"b\")))\n    print(records_occurrences((\"a\", \"b\", \"b\", \"b\", \"c\", \"c\", \"c\", \"b\")))\n    print(records_occurrences((\"a\", \"b\", \"b\", \"b\", \"c\", \"c\", \"c\", \"b\")))\n    print(records_occurrences((\"a\", \"b\", \"b\", \"b\", \"c\", \"c\", \"c\", \"b\")))\n    print(records_occurrences((\"a\", \"b\", \"b\", \"b\", \"c\", \"c\", \"c\", \"b\")))",
+      0.190185546875
+    ],
+    [
+      "def count_similar(a,b):\n    d={}\n    for i in b:\n        if i in a:\n            d[i]=d.get(i,0)+1\n    return d\n\n\na = [(1,2),(3,4),(1,3),(2,1)]\nb = [(1,2),(1,3),(2,4)]\n\nprint(count_similar(a,b))",
+      0.09698486328125
+    ],
+    [
+      "def count_occurrences(tuples):\n    records = []\n    for record in tuples:\n        if record not in records:\n            records.append(record)\n    return len(records)",
+      0.036468505859375
+    ],
+    [
+      "def count_occurrences(tuples):\n    dict = {}\n    for tup in tuples:\n        if tup not in dict:\n            dict[tup] = 1\n        else:\n            dict[tup] += 1\n    return dict\n\n\nif __name__ == \"__main__\":\n    print(count_occurrences([(\"a\", 1), (\"a\", 2), (\"b\", 1), (\"b\", 2), (\"b\", 3), (\"c\", 1), (\"c\", 2)]))",
+      -0.031524658203125
+    ],
+    [
+      "def count_occurrences(tuples):\n    record_dict = {}\n    for record in tuples:\n        if record in record_dict:\n            record_dict[record] += 1\n        else:\n            record_dict[record] = 1\n    return record_dict.items()",
+      -0.041259765625
+    ],
+    [
+      "def compare_tuples(x,y):\n    x_set = set(x)\n    y_set = set(y)\n\n    return len(x_set.intersection(y_set))\n\nprint(compare_tuples([1,2,3,4,5], [2,3,4,5]))\nprint(compare_tuples([1,2,3,4,5], [3,4,5,6]))\nprint(compare_tuples([1,2,3,4,5], [6,7,8,9,10]))",
+      -0.370361328125
+    ],
+    [
+      "def check_occurrences(tuple1, tuple2):\n    return tuple(tuple1) in tuple2\n\n\ntuple1 = (1, 2, 2, 2, 4, 5, 5)\ntuple2 = (4, 5, 5, 5, 5, 5, 5)\nprint(check_occurrences(tuple1, tuple2))",
+      -0.5048828125
+    ],
+    [
+      "def record_occurrences(tuples):\n    record_occurrences = {}\n    for tup in tuples:\n        if tup[0] in record_occurrences:\n            record_occurrences[tup[0]].append(tup[1])\n        else:\n            record_occurrences[tup[0]] = [tup[1]]\n    return record_occurrences",
+      -0.85693359375
+    ],
+    [
+      "def check_occurrences(tuples):\n    # Write your code here\n    return [record for record in tuples if tuples.count(record) > 1]",
+      -0.85693359375
+    ],
+    [
+      "import re\n\n\ndef matches_tuple(tuple_a, tuple_b):\n    return re.match(tuple_a, tuple_b, re.IGNORECASE) is not None\n\n\ndef main():\n    print(matches_tuple((\"a\", \"b\"), (\"a\", \"b\")))\n    print(matches_tuple((\"a\", \"b\"), (\"b\", \"a\")))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def record_occurrences(t):\n    d = {}\n    for x in t:\n        if x not in d:\n            d[x] = 1\n        else:\n            d[x] += 1\n    return d.values()\n\nprint(record_occurrences((1, 2, 3, 4, 4, 5, 6, 8, 8)))\nprint(record_occurrences((1, 2, 3, 4, 4, 5, 6, 8, 8)))\nprint(record_occurrences((1, 2, 3, 4, 4, 5, 6, 8, 8)))",
+      -0.85693359375
+    ],
+    [
+      "def occurrence_of_same_times(tuple_a, tuple_b):\n    return tuple_a == tuple_b\n\n\nif __name__ == \"__main__\":\n    print(occurrence_of_same_times((1, 2, 3, 4), (2, 3, 4, 5)))\n    print(occurrence_of_same_times((1, 2, 3, 4), (5, 4, 3, 2)))\n    print(occurrence_of_same_times((1, 2, 3, 4), (3, 4, 2, 1)))",
+      -0.85693359375
+    ],
+    [
+      "def count_occurrences(tuples):\n    count = {}\n\n    for tup in tuples:\n        count[tup[0]] = count.get(tup[0], 0) + 1\n\n    return count\n\nprint(count_occurrences((('a', 1), ('a', 2), ('b', 1), ('b', 2), ('c', 1), ('c', 2))))",
+      -0.85693359375
+    ],
+    [
+      "def check_duplicates(tuples):\n    unique_tuple = {}\n    for tup in tuples:\n        if tup[0] not in unique_tuple:\n            unique_tuple[tup[0]] = 1\n        else:\n            unique_tuple[tup[0]] += 1\n    return [x for x in unique_tuple if unique_tuple[x] > 1]",
+      -0.85693359375
+    ],
+    [
+      "def find_records_with_similar_times(tuples):\n    records_with_same_times = []\n    for i in range(len(tuples)):\n        for j in range(len(tuples)):\n            if i!= j:\n                if tuples[i][0] == tuples[j][0] and tuples[i][1] == tuples[j][1]:\n                    records_with_same_times.append(tuples[i])\n                    break\n    return records_with_same_times\n\n\nprint(find_records_with_similar_times([(1, 1), (1, 2), (1, 3), (2, 3), (3, 3), (3, 2), (3, 2), (2, 1)]))",
+      -0.85693359375
+    ],
+    [
+      "def similar_tuples(tuples):\n  record = {}\n  for t in tuples:\n    if t[0] not in record:\n      record[t[0]] = 1\n    else:\n      record[t[0]] += 1\n  return list(record.keys())\n\n\nprint(similar_tuples([(\"a\", 1), (\"b\", 2), (\"a\", 3), (\"c\", 1)]))",
+      -0.85693359375
+    ],
+    [
+      "def find_similar_times(t1, t2):\n    a = []\n    for i in range(len(t1)):\n        if t1[i] in a:\n            a.remove(t1[i])\n        else:\n            a.append(t1[i])\n    for i in range(len(t2)):\n        if t2[i] in a:\n            a.remove(t2[i])\n        else:\n            a.append(t2[i])\n    return a\n\n\n\n\n\nprint(find_similar_times((1, 2, 3), (1, 2, 3)))",
+      -0.85693359375
+    ],
+    [
+      "def duplicate_occurrences(tup):\n    return [record for record in tup if tup.count(record)>1]\n\nif __name__==\"__main__\":\n    print(duplicate_occurrences((1,2,3,4,5)))",
+      -0.85791015625
+    ],
+    [
+      "def count_occurrences(tuples):\n    result = {}\n    for i in tuples:\n        if i in result:\n            result[i] += 1\n        else:\n            result[i] = 1\n    return result",
+      -0.85791015625
+    ],
+    [
+      "def count_records(tuples):\n    # write your code here\n    counter = {}\n    for t in tuples:\n        if t[0] in counter:\n            counter[t[0]].append(t[1])\n        else:\n            counter[t[0]] = [t[1]]\n\n    return counter",
+      -0.85791015625
+    ],
+    [
+      "def find_duplicates(tuple1, tuple2):\n    return [tuple1[i] for i in range(len(tuple1)) if tuple1[i] in tuple2]\n\n\nif __name__ == \"__main__\":\n    print(find_duplicates((1, 1, 1, 1, 2, 2, 2), (1, 2, 2, 3, 3, 3)))",
+      -0.85791015625
+    ],
+    [
+      "def check_occurrences(tuple_a, tuple_b):\n    return tuple_a == tuple_b",
+      -0.85791015625
+    ],
+    [
+      "def records_occurrences(tuples):\n    for i in range(len(tuples)):\n        if tuples[i][0] == tuples[i][1]:\n            return True\n    return False",
+      -0.85791015625
+    ],
+    [
+      "def check_occurrences(tuples):\n    # Write your code here.\n    counter = {}\n    for tup in tuples:\n        if tup not in counter:\n            counter[tup] = 1\n        else:\n            counter[tup] += 1\n    return [key for key, value in counter.items() if value > 1]",
+      -0.85791015625
+    ],
+    [
+      "def record_occurrences(tuples):\n    record_occurrences = {}\n    for tup in tuples:\n        if tup in record_occurrences:\n            record_occurrences[tup] += 1\n        else:\n            record_occurrences[tup] = 1\n    return record_occurrences\n\n\nif __name__ == \"__main__\":\n    print(record_occurrences([(1, 1), (2, 3), (2, 4), (3, 4)]))",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\ndef matches(tuple1, tuple2):\n    return Counter(tuple1) == Counter(tuple2)\n\nif __name__ == '__main__':\n    assert matches(('a', 'b', 'c'), ('b', 'c'))\n    assert matches(('a', 'b', 'c'), ('b', 'a', 'c'))\n    assert matches(('a', 'b', 'c'), ('a', 'b', 'b'))\n    assert not matches(('a', 'b', 'c'), ('a', 'b', 'd'))",
+      -0.8583984375
+    ],
+    [
+      "def check_occurrences(tuples):\n    # Write your code here\n    d = {}\n    for item in tuples:\n        if item in d:\n            d[item] += 1\n        else:\n            d[item] = 1\n    for item in d:\n        print(f\"{item} occurs {d[item]} times\")",
+      -0.8583984375
+    ],
+    [
+      "def similar_times(tuples):\n    # your code here\n    counter = {}\n    for i in range(len(tuples)):\n        if tuples[i][0] in counter:\n            counter[tuples[i][0]].append(tuples[i][1])\n        else:\n            counter[tuples[i][0]] = [tuples[i][1]]\n    for key in counter:\n        print(key, len(counter[key]))\n\n\n\n\nif __name__ == '__main__':\n    tuples = [(2,1),(1,2),(1,3),(2,3)]\n    similar_times(tuples)",
+      -0.8583984375
+    ],
+    [
+      "def check_duplicates(tuples):\n    # Write your code here\n    dic = {}\n    for i in tuples:\n        dic[i[0]] = dic.get(i[0], 0) + 1\n    return list(dic.values())\n\n\ndef check_duplicates_2(tuples):\n    # Write your code here\n    dic = {}\n    for i in tuples:\n        if i[0] in dic:\n            dic[i[0]]+=1\n        else:\n            dic[i[0]] = 1\n    return list(dic.values())\n\n\n\n\n\n\n\n\nif __name__ == '__main__':\n    print(check_duplicates([(1, 2), (2, 1), (3, 4), (4, 3), (5, 2), (5, 4)]))\n    print(check_duplicates([(1, 2), (2, 1), (3, 4), (4, 3), (5, 2), (5, 4)]))\n    print(check_duplicates_2([(1, 2), (2, 1), (3, 4), (4, 3), (5, 2), (5, 4)]))\n    print(check_duplicates_2([(1, 2), (2, 1), (3, 4), (4, 3), (5, 2), (5, 4)]))",
+      -0.8583984375
+    ],
+    [
+      "def compare_tuples(a, b):\n    a_set = set(a)\n    b_set = set(b)\n    return len(a_set.intersection(b_set))",
+      -0.8583984375
+    ],
+    [
+      "def check_occurrences(tuples):\n    if not tuples:\n        return False\n    dict_of_records = {}\n    for tup in tuples:\n        if tup not in dict_of_records:\n            dict_of_records[tup] = 1\n        else:\n            dict_of_records[tup] += 1\n    return len(dict_of_records) == len(tuples)\n\n\nif __name__ == \"__main__\":\n    assert check_occurrences([(\"a\", 2), (\"a\", 3), (\"b\", 2), (\"b\", 3)]) == True\n    assert check_occurrences([(\"a\", 2), (\"a\", 3), (\"b\", 2), (\"b\", 3), (\"c\", 2), (\"c\", 3)]) == False",
+      -0.8583984375
+    ],
+    [
+      "def occurrence(record, tuples):\n    counter = 0\n    for tup in tuples:\n        if record == tup:\n            counter += 1\n    return counter\n\n\nif __name__ == \"__main__\":\n    print(occurrence(1, [(1, 1), (2, 2), (3, 3), (4, 4)]))",
+      -0.85888671875
+    ],
+    [
+      "def compare_records(tup1, tup2):\n    cnt1 = 0\n    cnt2 = 0\n    for x in tup1:\n        if x in tup2:\n            cnt1 += 1\n    for x in tup2:\n        if x in tup1:\n            cnt2 += 1\n    return cnt1 == cnt2\n\ntup1 = (1, 2, 3, 4, 5, 5, 5)\ntup2 = (1, 3, 5, 4, 6, 7, 7)\nprint(compare_records(tup1, tup2))",
+      -0.85888671875
+    ],
+    [
+      "def find_occurrences(tuples):\n    occurrences = {}\n    for tup in tuples:\n        if tup not in occurrences:\n            occurrences[tup] = 1\n        else:\n            occurrences[tup] += 1\n    return occurrences\n\ndef main():\n    print(find_occurrences([('a', 3), ('a', 5), ('b', 5), ('b', 6)]))\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def similar_times(tup1, tup2):\n    for i in tup1:\n        if i in tup2:\n            return True\n    return False\n\n\nprint(similar_times([(\"a\", 1), (\"a\", 2), (\"a\", 3), (\"b\", 1), (\"b\", 2), (\"b\", 3)],\n                   [(\"a\", 1), (\"b\", 1), (\"b\", 2), (\"b\", 3)]))",
+      -0.85888671875
+    ],
+    [
+      "def check_occurrences(tuples):\n    for t in tuples:\n        if t[0] in t[1] and t[1] in t[2]:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    print(check_occurrences(((1, 2), (2, 3), (2, 4), (3, 4))))\n    print(check_occurrences(((1, 2), (2, 3), (2, 4), (3, 4), (2, 5))))\n    print(check_occurrences(((1, 2), (2, 3), (2, 4), (3, 4), (2, 5), (2, 6))))",
+      -0.85888671875
+    ],
+    [
+      "def similar_times(t1, t2):\n    return sorted([(i, t1.count(i)) for i in set(t1) & set(t2)], key=lambda x: x[1])\n\nprint(similar_times([1, 1, 2, 3, 3, 4, 4], [1, 2, 3, 4, 4, 5, 6]))\nprint(similar_times([1, 1, 2, 3, 3, 4, 4], [1, 2, 3, 4, 5, 6, 7]))\nprint(similar_times([1, 1, 2, 3, 3, 4, 4], [1, 2, 3, 4, 5, 6, 7]))",
+      -0.85888671875
+    ],
+    [
+      "def find_similar_times(tuples):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    :param tuples: a list of tuples\n    :return: a list of tuples with the same values\n    \"\"\"\n    if len(tuples) < 2:\n        return []\n\n    results = []\n    for i, tuple in enumerate(tuples):\n        if tuple not in results:\n            results.append(tuple)\n\n    return results\n\n\ndef main():\n    print(find_similar_times([(1, 1), (1, 2), (1, 3), (2, 1), (3, 1), (3, 2), (3, 3)]))\n    print(find_similar_times([(1, 1), (1, 2), (1, 3), (2, 1), (3, 1), (3, 2), (3, 3)]))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def similar_times(a,b):\n    a_set = set(a)\n    b_set = set(b)\n    return len(a_set.intersection(b_set))\n\n\n\nif __name__ == '__main__':\n    print(similar_times([(1, 2), (2, 3), (2, 4), (3, 4)], [(1, 2), (2, 4), (3, 4), (3, 2)]))",
+      -0.85888671875
+    ],
+    [
+      "def check_tuple_occurrences(tup):\n    for i in range(len(tup)):\n        if tup[i] == tup[i+1]:\n            return True\n    return False\n\n\ntup = (1, 2, 2, 3, 4, 3, 4, 4, 4, 5, 6)\nprint(check_tuple_occurrences(tup))",
+      -0.85888671875
+    ],
+    [
+      "def occurrences(tuples):\n    # Write your code here\n    count_dict = {}\n    for x in tuples:\n        if x[0] not in count_dict:\n            count_dict[x[0]] = 1\n        else:\n            count_dict[x[0]] += 1\n    for key in count_dict:\n        if count_dict[key] > 1:\n            print(key, count_dict[key])\n\n\nif __name__ == '__main__':\n    tuples = [\n        ('A', 2),\n        ('B', 3),\n        ('A', 2),\n        ('B', 2),\n        ('A', 3),\n        ('B', 3),\n        ('A', 2),\n        ('B', 2),\n        ('A', 2),\n        ('B', 3),\n        ('A', 2),\n        ('B', 2),\n    ]\n    occurrences(tuples)",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_occurrences(tuples):\n    return Counter(tuples).most_common()\n\n\nprint(count_occurrences([('a', 1), ('a', 2), ('b', 1), ('b', 2), ('b', 3), ('c', 1), ('c', 2), ('c', 3)]))",
+      -0.85888671875
+    ],
+    [
+      "def check_occurrences(tuples):\n    records = set()\n    for tup in tuples:\n        if tup in records:\n            return True\n        records.add(tup)\n    return False\n\n\nprint(check_occurrences([('A', 1), ('B', 1), ('C', 2), ('B', 2), ('C', 2)]))",
+      -0.85888671875
+    ],
+    [
+      "def check_tuple(tuples):\n    count = {}\n    for tup in tuples:\n        if tup not in count:\n            count[tup] = 1\n        else:\n            count[tup] += 1\n    return count.keys()\n\nprint(check_tuple([('a', 'b'), ('a', 'b'), ('b', 'c'), ('c', 'd')]))\nprint(check_tuple([('a', 'b'), ('a', 'b'), ('b', 'c'), ('c', 'd')]))\nprint(check_tuple([('a', 'b'), ('a', 'b'), ('b', 'c'), ('c', 'd')]))\nprint(check_tuple([('a', 'b'), ('a', 'b'), ('b', 'c'), ('c', 'd')]))\nprint(check_tuple([('a', 'b'), ('a', 'b'), ('b', 'c'), ('c', 'd')]))",
+      -0.85888671875
+    ],
+    [
+      "def check_occurrences(tuples):\n    return len(set(tuple(t) for t in tuples)) == len(tuples)\n\n\nprint(check_occurrences([(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]))\nprint(check_occurrences([(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]))",
+      -0.85888671875
+    ],
+    [
+      "def occurence_tuple(a):\n    seen = set()\n    for i in a:\n        if i not in seen:\n            seen.add(i)\n            print(i, \"occurred in\", seen)\n\nif __name__ == '__main__':\n    occurence_tuple([('a', 1), ('a', 2), ('b', 1), ('b', 2)])",
+      -0.86083984375
+    ],
+    [
+      "def count_occurrences(tuples):\n    count = {}\n    for i in tuples:\n        if i[0] not in count:\n            count[i[0]] = 1\n        else:\n            count[i[0]] += 1\n    return count",
+      -0.86865234375
+    ],
+    [
+      "def find_record_times(tuple_of_tuples):\n    # Write your code here\n    dict_of_times = {}\n    for i in tuple_of_tuples:\n        if i in dict_of_times:\n            dict_of_times[i] += 1\n        else:\n            dict_of_times[i] = 1\n    return dict_of_times\n\n\ndef main():\n    print(find_record_times([(2, 5), (2, 5), (3, 5), (3, 7), (4, 5)]))\n\nif __name__ == '__main__':\n    main()",
+      -0.939453125
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_common_occurrences(tuple_1, tuple_2):\n    return Counter(tuple_1).intersection(Counter(tuple_2))\n\n\nif __name__ == '__main__':\n    print(find_common_occurrences((1, 1, 1, 2, 2), (1, 1, 1, 2, 2)))",
+      -0.96142578125
+    ],
+    [
+      "def count_records_similar_times(tuples):\n    result = {}\n    for tup in tuples:\n        if tup not in result:\n            result[tup] = 1\n        else:\n            result[tup] += 1\n    return result\n\n\n\nprint(count_records_similar_times([(2, 5, 10), (3, 2, 2), (3, 2, 5), (1, 1, 3), (1, 1, 5), (1, 2, 3)]))",
+      -0.962890625
+    ],
+    [
+      "def check_occurrences(tuples):\n    seen = set()\n\n    for record in tuples:\n        if record in seen:\n            return True\n        seen.add(record)\n    return False\n\n\nif __name__ == '__main__':\n    print(check_occurrences([('a', 1), ('a', 2), ('a', 3), ('b', 2), ('b', 3)]))\n    print(check_occurrences([('a', 1), ('a', 2), ('a', 3), ('b', 2), ('b', 3)]))\n    print(check_occurrences([('a', 1), ('a', 2), ('a', 3), ('b', 2), ('b', 3)]))",
+      -0.99658203125
+    ],
+    [
+      "def compare_times(times):\n    return len(set(times)) == len(times)\n\nprint(compare_times([(1, 2), (2, 3), (3, 4)]))\nprint(compare_times([(1, 2), (1, 2), (2, 3)]))\nprint(compare_times([(1, 2), (2, 3), (3, 4), (3, 5), (3, 6), (3, 7), (4, 5), (4, 5)]))",
+      -1.103515625
+    ],
+    [
+      "def find_occurrences(tuples):\n    count = {}\n\n    for item in tuples:\n        if item not in count:\n            count[item] = 1\n        else:\n            count[item] += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(find_occurrences([(\"a\", 1), (\"b\", 2), (\"c\", 2), (\"b\", 3), (\"a\", 3)]))",
+      -1.21484375
+    ],
+    [
+      "def similar_times(tuples):\n    dic = {}\n    for tup in tuples:\n        if tup[0] in dic:\n            if tup[1] in dic[tup[0]]:\n                dic[tup[0]].append(tup[1])\n            else:\n                dic[tup[0]].append(tup[1])\n        else:\n            dic[tup[0]] = [tup[1]]\n    return dic\n\n\nprint(similar_times([('A', 'B'), ('B', 'C'), ('C', 'A'), ('A', 'B'), ('B', 'C')]))\nprint(similar_times([('A', 'B'), ('B', 'C'), ('C', 'A'), ('A', 'B'), ('B', 'C')]))\nprint(similar_times([('A', 'B'), ('B', 'C'), ('C', 'A'), ('A', 'B'), ('B', 'C')]))\nprint(similar_times([('A', 'B'), ('B', 'C'), ('C', 'A'), ('A', 'B'), ('B', 'C')]))\nprint(similar_times([('A', 'B'), ('B', 'C'), ('C', 'A'), ('A', 'C'), ('A', 'B'), ('B', 'C')]))",
+      -1.39453125
+    ],
+    [
+      "def count_occurrences(record_tuples):\n    record_tuples = sorted(record_tuples)\n    record_dict = {}\n    for item in record_tuples:\n        if item[0] not in record_dict:\n            record_dict[item[0]] = 1\n        else:\n            record_dict[item[0]] += 1\n    return record_dict.values()\n\nif __name__ == '__main__':\n    record_tuples = [('bob', 2), ('bob', 3), ('bob', 4), ('bob', 4), ('bob', 5), ('bob', 6), ('bob', 7)]\n    print(count_occurrences(record_tuples))\n    print(count_occurrences([('bob', 2), ('bob', 3), ('bob', 4), ('bob', 5), ('bob', 6), ('bob', 7)]))",
+      -1.5322265625
+    ],
+    [
+      "def similar(tuple1, tuple2):\n    return len(set(tuple1).intersection(set(tuple2))) == len(set(tuple1).union(set(tuple2)))\n\n\nprint(similar((1, 2, 3, 4), (2, 4, 6, 8)))\nprint(similar((1, 2, 3, 4), (1, 2, 3, 4)))\nprint(similar((1, 2, 3, 4), (1, 2, 3, 4)))\nprint(similar((1, 2, 3, 4), (1, 2, 3, 4)))\nprint(similar((1, 2, 3, 4), (1, 2, 3, 4)))\nprint(similar((1, 2, 3, 4), (1, 2, 3, 4)))",
+      -2.048828125
+    ],
+    [
+      "def count_occurrences(tuples):\n    dic = {}\n    for t in tuples:\n        if t[0] not in dic:\n            dic[t[0]] = 1\n        else:\n            dic[t[0]] += 1\n    print(dic)\n\n\nif __name__ == \"__main__\":\n    count_occurrences([('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)])",
+      -2.06640625
+    ],
+    [
+      "def similar_times(tuple1, tuple2):\n    return len(set(tuple1) & set(tuple2)) == 0\n\n\nprint(similar_times([1, 1, 2, 3, 3, 4, 4, 5], [1, 3, 5]))\nprint(similar_times([1, 1, 2, 3, 3, 4, 4, 5], [1, 2, 3, 4]))\nprint(similar_times([1, 1, 2, 3, 3, 4, 4, 5], [1, 2, 3, 4, 5]))\nprint(similar_times([1, 1, 2, 3, 3, 4, 4, 5], [1, 2, 3, 4, 5]))\nprint(similar_times([1, 1, 2, 3, 3, 4, 4, 5], [1, 2, 3, 4, 5]))",
+      -2.1328125
+    ],
+    [
+      "def check_occurrences(tuple_a, tuple_b):\n    # write your code here\n    return len(set(tuple_a) & set(tuple_b)) == len(set(tuple_a) | set(tuple_b))\n\n\nif __name__ == \"__main__\":\n    assert check_occurrences((1, 2), (1, 2)) == True\n    assert check_occurrences((1, 2), (1, 1)) == False\n    assert check_occurrences((1, 2), (2, 2)) == False\n    assert check_occurrences((1, 2), (2, 3)) == True",
+      -2.224609375
+    ],
+    [
+      "def record_occurrences(tuples, records):\n    result = []\n    for i in records:\n        if i in tuples:\n            result.append(i)\n    return result\n\nif __name__ == '__main__':\n    print(record_occurrences((1, 2, 3), (1, 2, 3)))\n    print(record_occurrences((1, 2, 3), (2, 3, 4)))\n    print(record_occurrences((1, 2, 3), (2, 3, 5)))\n    print(record_occurrences((1, 2, 3), (3, 4, 5)))\n    print(record_occurrences((1, 2, 3), (1, 2, 4)))\n    print(record_occurrences((1, 2, 3), (2, 3, 5)))\n    print(record_occurrences((1, 2, 3), (3, 4, 5)))\n    print(record_occurrences((1, 2, 3), (3, 4, 6)))\n    print(record_occurrences((1, 2, 3), (3, 4, 7)))\n    print(record_occurrences((1, 2, 3), (3, 4, 8)))\n    print(record_occurrences((1, 2, 3), (3, 4, 9)))\n    print(record_occurrences((1, 2, 3), (3, 4, 10)))\n    print(record_occurrences((1, 2, 3), (3, 4, 11)))",
+      -2.265625
+    ],
+    [
+      "def find_occurrences(tuples):\n    return [tuple for tuple in tuples if tuples.count(tuple) == 1]\n\nif __name__ == '__main__':\n    print(find_occurrences((1, 2, 3, 4, 5)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7, 8)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)))\n    print(find_occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100)))",
+      -2.3046875
+    ],
+    [
+      "def count_occurrences(tup1, tup2):\n    if tup1 == tup2:\n        return True\n    else:\n        return False\n\n\nprint(count_occurrences((0, 1, 2, 2, 2, 2, 3, 3), (3, 3, 3, 3, 3, 3, 3)))",
+      -2.341796875
+    ],
+    [
+      "def similar_times(tuples):\n    times = {}\n    for i in tuples:\n        if i not in times:\n            times[i] = 0\n        times[i] += 1\n    for k, v in times.items():\n        if v > 1:\n            print(k, v)\n\n\nif __name__ == '__main__':\n    tuples = [\n        (0,1,2),\n        (0,1,2),\n        (0,2,2),\n        (0,1,3),\n        (0,1,3),\n        (1,2,2),\n        (2,3,3),\n        (3,4,4),\n        (3,4,4),\n        (3,5,5),\n        (4,5,5),\n        (5,5,5),\n        (5,6,6),\n        (6,6,6),\n        (6,6,6),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),\n        (7,7,7),",
+      -2.349609375
+    ],
+    [
+      "def compare_tuples(a, b):\n    print(a == b)\n\n\nif __name__ == \"__main__\":\n    compare_tuples((0, 0), (0, 1))\n    compare_tuples((0, 0), (1, 0))\n    compare_tuples((0, 0), (1, 1))\n    compare_tuples((0, 0), (1, 2))\n    compare_tuples((0, 1), (0, 2))\n    compare_tuples((0, 1), (1, 3))\n    compare_tuples((0, 1), (2, 0))\n    compare_tuples((0, 1), (2, 1))\n    compare_tuples((0, 1), (2, 2))",
+      -2.501953125
+    ],
+    [
+      "def count_occurrences(tuples):\n    return len(set(tuple(x) for x in tuples))\n\nif __name__ == '__main__':\n    assert count_occurrences([(1, 2), (2, 1), (3, 1), (1, 3)]) == 2\n    assert count_occurrences([(1, 2), (2, 1), (3, 1), (3, 2)]) == 1\n    assert count_occurrences([(1, 2), (3, 1), (2, 2), (3, 2)]) == 0\n    assert count_occurrences([(1, 2), (2, 2), (3, 2), (1, 3)]) == 2\n    assert count_occurrences([(1, 2), (2, 1), (3, 2)]) == 1",
+      -2.53125
+    ],
+    [
+      "def occurrences(tuples):\n    for tup in tuples:\n        if tup in tuples:\n            tuples.remove(tup)\n        else:\n            tuples.append(tup)\n    return tuples\n\n\nprint(occurrences([(1, 1), (1, 2), (1, 3), (2, 1), (3, 2), (3, 3)]))",
+      -2.791015625
+    ],
+    [
+      "def record_occurrence(tuples):\n    records = {}\n    for tup in tuples:\n        if tup not in records:\n            records[tup] = 1\n        else:\n            records[tup] += 1\n    return records\n\nif __name__ == \"__main__\":\n    print(record_occurrence((('a', 1), ('b', 1), ('b', 2), ('a', 2), ('b', 3), ('a', 3), ('a', 4), ('b', 4), ('b', 5), ('b', 6), ('a', 6), ('a', 7), ('b', 8), ('b', 9), ('c', 1), ('c', 2), ('c', 3), ('c', 4), ('c', 5), ('c', 6), ('c', 7), ('b', 8), ('b', 9), ('c', 10), ('c', 11), ('c', 12), ('c', 13), ('c', 14), ('c', 15), ('c', 16), ('c', 17), ('c', 18), ('c', 19), ('c', 20), ('c', 21), ('c', 22), ('c', 23), ('c', 24), ('c', 25), ('c', 26), ('c', 27), ('c', 28), ('c', 29), ('c', 30), ('c', 31), ('c', 32), ('c', 33), ('c', 34), ('c', 35), ('c', 36), ('c', 37), ('c', 38), ('c', 39), ('c', 40), ('c', 41), ('c', 42), ('c', 43), ('c', 44), ('c', 45), ('c', 46), ('c', 47), ('c', 48), ('c', 49), ('c', 50), ('c', 51), ('c', 52), ('c', 53), ('c', 54), ('c', 55), ('c', 56), ('c', 57), ('c', 58), ('c', 59), ('c', 60), ('c', 61), ('c', 62), ('c', 63), ('c', 64), ('c', 65), ('c', 66), ('c', 67), ('c', 68), ('c', 69), ('c', 70), ('c', 71), ('c', 72), ('c', 73), ('c",
+      -2.81640625
+    ],
+    [
+      "def occurrences(tuple):\n    count = {}\n    for item in tuple:\n        if item not in count:\n            count[item] = 0\n        count[item] += 1\n    return count\n\n\nif __name__ == '__main__':\n    print(occurrences((1, 2, 3, 4, 5)))\n    print(occurrences((1, 2, 3, 4, 5, 6)))\n    print(occurrences((1, 2, 3, 4, 5, 6, 7)))\n    print(occurrences((1, 2, 3, 4, 5, 6, 7, 8)))\n    print(occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9)))\n    print(occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))\n    print(occurrences((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)))",
+      -2.86328125
+    ],
+    [
+      "def occurrences(tuples):\n    dict_occurrences = {}\n    for i in range(len(tuples)):\n        if tuples[i][0] not in dict_occurrences:\n            dict_occurrences[tuples[i][0]] = 1\n        else:\n            dict_occurrences[tuples[i][0]] += 1\n    return list(dict_occurrences.items())\n\ndef main():\n    print(occurrences([(\"a\", 1), (\"a\", 2), (\"a\", 3), (\"b\", 1), (\"b\", 2), (\"b\", 3)]))\n    print(occurrences([(\"a\", 1), (\"a\", 2), (\"a\", 3), (\"b\", 1), (\"b\", 2), (\"b\", 3)]))\n\nif __name__ == '__main__':\n    main()",
+      -2.970703125
+    ],
+    [
+      "def check_record_occurrences(tuples):\n    for i in range(0, len(tuples)):\n        for j in range(0, len(tuples)):\n            if tuples[i] == tuples[j]:\n                return True\n    return False\n\ndef main():\n    print(check_record_occurrences((1, 2, 3, 3, 5, 6, 5, 5)))\n    print(check_record_occurrences((1, 2, 3, 4, 5, 6, 7)))\n    print(check_record_occurrences((1, 2, 3, 4, 5, 6, 7, 8)))\n    print(check_record_occurrences((1, 2, 3, 4, 5, 6, 8, 9, 9)))\n    print(check_record_occurrences((1, 2, 3, 4, 5, 6, 8, 9, 10)))\n    print(check_record_occurrences((1, 2, 3, 4, 5, 6, 8, 9, 10, 11)))\n\nif __name__ == \"__main__\":\n    main()",
+      -3.00390625
+    ],
+    [
+      "from collections import Counter\n\ndef check_occurrences(tup):\n    \"\"\"\n    :type tup: tuple\n    :rtype: bool\n    \"\"\"\n    res = Counter()\n    for i in tup:\n        res[i] += 1\n    return all(res.values())\n\ntup = (1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8)\nprint(check_occurrences(tup))",
+      -3.140625
+    ],
+    [
+      "def check_occurrences(records, times):\n    return [record for record in records if record in times]\n\n\ndef main():\n    print(check_occurrences([1, 1, 1, 1, 2, 2, 2, 3, 3, 3], [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.162109375
+    ],
+    [
+      "def find_records(tuples):\n    records = []\n    for i in range(len(tuples)):\n        record = {}\n        record['name'] = tuples[i][0]\n        record['age'] = tuples[i][1]\n        records.append(record)\n    return records\n\nprint(find_records([(\"Roman\", 31), (\"Roman\", 31), (\"Roman\", 28), (\"Roman\", 27), (\"Roman\", 30), (\"Roman\", 31)]))",
+      -3.357421875
+    ],
+    [
+      "import collections\n\ndef check_occurrences(tuples, key):\n    for record in tuples:\n        if key in record:\n            print(record)\n\nt = (('cat', 'dog', 'dog', 'cat'), ('cat', 'dog', 'cat', 'dog'))\ncheck_occurrences(t, 'cat')\ncheck_occurrences(t, 'dog')\ncheck_occurrences(t, 'dog')\ncheck_occurrences(t, 'cat')",
+      -3.541015625
+    ],
+    [
+      "def check_occurrences(tuple):\n    return list(set(tuple)) == list(set(tuple))\n\nprint(check_occurrences((1,2,2,3,4,3)))\nprint(check_occurrences((1,2,3,3,4,4,2)))\nprint(check_occurrences((1,2,3,3,4,4,2)))\nprint(check_occurrences((1,2,3,4,3,4,3,3)))",
+      -3.7109375
+    ],
+    [
+      "def check_records(tuples):\n    unique_times = {}\n    for record in tuples:\n        if record in unique_times.keys():\n            unique_times[record] += 1\n        else:\n            unique_times[record] = 1\n    return list(unique_times.values())\n\n\nprint(check_records([('a', 1), ('a', 2), ('b', 1), ('b', 2)]))\nprint(check_records([('a', 1), ('a', 2), ('c', 1), ('c', 2)]))\nprint(check_records([('a', 1), ('a', 2), ('b', 1), ('b', 2)]))\nprint(check_records([('a', 1), ('a', 2), ('b', 1), ('b', 2)]))\nprint(check_records([('a', 1), ('a', 2), ('b', 1), ('b', 2)]))",
+      -3.8984375
+    ],
+    [
+      "def count_occurrences(t):\n    counts = {}\n    for i in range(len(t)):\n        if t[i] in counts:\n            counts[t[i]].append(i)\n        else:\n            counts[t[i]] = [i]\n    for key in counts:\n        if len(counts[key]) == 1:\n            return counts[key][0]\n    return None\n\n\nif __name__ == \"__main__\":\n    assert count_occurrences((1,1,1,1)) == 1\n    assert count_occurrences((1,1,1,2)) == 1\n    assert count_occurrences((1,2,1,1)) == 2\n    assert count_occurrences((1,1,1,2,2,2)) == None",
+      -3.9609375
+    ],
+    [
+      "def similar_records(records):\n    count_dict = {}\n    for record in records:\n        if record in count_dict:\n            count_dict[record] += 1\n        else:\n            count_dict[record] = 1\n    return count_dict\n\n\nprint(similar_records([('coffee', 1), ('coffee', 2), ('coffee', 3), ('coffee', 4)]))\nprint(similar_records([('coffee', 1), ('coffee', 2), ('coffee', 3), ('coffee', 4), ('coffee', 5), ('coffee', 6), ('coffee', 7), ('coffee', 8), ('coffee', 9), ('coffee', 10), ('coffee', 11), ('coffee', 12), ('coffee', 13), ('coffee', 14), ('coffee', 15), ('coffee', 16), ('coffee', 17), ('coffee', 18), ('coffee', 19), ('coffee', 20), ('coffee', 21), ('coffee', 22), ('coffee', 23), ('coffee', 24), ('coffee', 25), ('coffee', 26), ('coffee', 27), ('coffee', 28), ('coffee', 29), ('coffee', 30), ('coffee', 31), ('coffee', 32), ('coffee', 33), ('coffee', 34), ('coffee', 35), ('coffee', 36), ('coffee', 37), ('coffee', 38), ('coffee', 39), ('coffee', 40), ('coffee', 41), ('coffee', 42), ('coffee', 43), ('coffee', 44), ('coffee', 45), ('coffee', 46), ('coffee', 47), ('coffee', 48), ('coffee', 49), ('coffee', 50), ('coffee', 51), ('coffee', 52), ('coffee', 53), ('coffee', 54), ('coffee', 55), ('coffee', 56), ('coffee', 57), ('coffee",
+      -3.990234375
+    ],
+    [
+      "def compare_times(t1, t2):\n    t1_set = set(t1)\n    t2_set = set(t2)\n    return t1_set == t2_set\n\n\nprint(compare_times((1, 1, 1), (1, 1, 2)))\nprint(compare_times((1, 1, 1), (1, 1, 3)))\nprint(compare_times((1, 1, 1), (2, 1, 2)))\nprint(compare_times((1, 1, 1), (1, 1, 2, 3)))\nprint(compare_times((1, 1, 1), (1, 1, 2, 3, 4)))\nprint(compare_times((1, 1, 1), (1, 1, 2, 3, 4, 5)))",
+      -4.265625
+    ],
+    [
+      "def occurrences(tuples):\n    # Write your code here\n    for i in range(len(tuples)):\n        if tuples[i][0] in tuples[i+1]:\n            print(\"True\")\n        else:\n            print(\"False\")\n    return\n\n\nif __name__ == \"__main__\":\n    tuples = [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1)]\n    occurrences(tuples)",
+      -4.484375
+    ],
+    [
+      "def compare_times(a,b):\n    d={}\n    for i in a:\n        if i in d:\n            d[i]+=1\n        else:\n            d[i]=1\n    for i in b:\n        if i in d:\n            d[i]+=1\n        else:\n            d[i]=1\n    return d\n\nprint(compare_times(['a','b','a','c','d'],['b','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['b','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['b','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['b','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['b','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(compare_times(['a','b','a','c','d'],['a','b','c','c','d']))\nprint(",
+      -4.55078125
+    ],
+    [
+      "def occurrences(tuples):\n    unique_tuples = set(tuple(t) for t in tuples)\n    return len(unique_tuples) == len(tuples)\n\n\nif __name__ == \"__main__\":\n    assert occurrences([(1, 2), (2, 2), (3, 3), (2, 1), (2, 2)]) == 1\n    assert occurrences([(1, 2), (2, 1), (2, 2)]) == 2",
+      -4.69140625
+    ],
+    [
+      "def check_occurrences(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: bool\n    \"\"\"\n    for i in range(len(tuples)):\n        for j in range(len(tuples)):\n            if tuples[i][0] == tuples[j][0] and tuples[i][1] == tuples[j][1]:\n                return True\n    return False\n\n\nif __name__ == '__main__':\n    assert check_occurrences([(1, 2), (1, 3), (2, 4), (3, 4)]) is True\n    assert check_occurrences([(1, 2), (1, 3), (2, 4), (3, 4)]) is False",
+      -4.90234375
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_occurrences(records):\n    count = Counter(records)\n    return [count[key] for key in count if count[key] > 1]\n\n\nif __name__ == \"__main__\":\n    records = [\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"),\n        (\"Bob\", \"Bob\", \"Bob\"",
+      -5.0859375
+    ],
+    [
+      "def find_occurrences(tuples):\n    dict = {}\n    for tup in tuples:\n        if tup in dict:\n            dict[tup] += 1\n        else:\n            dict[tup] = 1\n    return dict.values()\n\nprint(find_occurrences([(1, 2, 3), (1, 2, 4), (3, 3, 3), (3, 3, 4), (4, 4, 4), (4, 4, 4)]))",
+      -5.1328125
+    ],
+    [
+      "def check_occurrences(t):\n    t = list(set(t))\n    if len(t) == 1:\n        return True\n    else:\n        for i in range(len(t)-1):\n            if t[i]!= t[i+1]:\n                return False\n        return True\n\n\nprint(check_occurrences((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5)))\nprint(check_occurrences((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5)))\nprint(check_occurrences((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5)))\nprint(check_occurrences((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5)))\nprint(check_occurrences((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5)))",
+      -5.5859375
+    ],
+    [
+      "import collections\n\n\ndef count_occurrences(tuples, target):\n    return len(collections.Counter(target).intersection(collections.Counter(tuples)))\n\n\nif __name__ == \"__main__\":\n    print(count_occurrences([(1, 1), (2, 1), (2, 2)], [1, 1, 2]))\n    print(count_occurrences([(1, 1), (2, 1), (2, 2)], [2, 2, 3]))",
+      -5.69921875
+    ],
+    [
+      "def count_occurrences(tuple1, tuple2):\n    return tuple(tuple1) in tuple(tuple2)\n\n\nprint(count_occurrences((1, 2, 3, 4, 5), (1, 2, 3, 4, 5)))\nprint(count_occurrences((1, 2, 3, 4, 5), (1, 2, 3, 4, 5)))\nprint(count_occurrences((1, 2, 3, 4, 5), (1, 2, 3, 5)))\nprint(count_occurrences((1, 2, 3, 4, 5), (1, 2, 4, 5)))\nprint(count_occurrences((1, 2, 3, 4, 5), (1, 2, 4, 5)))",
+      -7.2109375
+    ],
+    [
+      "def get_record_occurrences(tuples):\n    record_occurrences = {}\n    for t in tuples:\n        if t not in record_occurrences:\n            record_occurrences[t] = 1\n        else:\n            record_occurrences[t] += 1\n    return record_occurrences\n\n\ndef test_function():\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"b\", 1), (\"a\", 1), (\"a\", 1), (\"a\", 2), (\"a\", 2)]\n    assert get_record_occurrences(tuples) == {(\"a\", 1): 2, (\"b\", 2): 2, (\"c\", 3): 1}\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"a\", 1), (\"b\", 1), (\"c\", 2), (\"a\", 2)]\n    assert get_record_occurrences(tuples) == {(\"b\", 2): 1, (\"c\", 3): 1}\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"a\", 1), (\"b\", 1), (\"c\", 2)]\n    assert get_record_occurrences(tuples) == {(\"a\", 1): 1, (\"b\", 2): 1, (\"c\", 3): 1}\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"a\", 1), (\"a\", 1), (\"a\", 1), (\"a\", 2), (\"a\", 2), (\"a\", 2)]\n    assert get_record_occurrences(tuples) == {(\"a\", 1): 2, (\"b\", 2): 2, (\"c\", 3): 1}\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"a\", 1), (\"a\", 1), (\"a\", 1), (\"a\", 2), (\"a\", 2)]\n    assert get_record_occurrences(tuples) == {(\"b\", 2): 2, (\"c\", 3): 1}\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"a\", 1), (\"a\", 1), (\"a\", 1), (\"a\", 2), (\"a\", 2)]\n    assert get_",
+      -7.21484375
+    ],
+    [
+      "def count_occurrences(record_a, record_b):\n    if len(record_a)!= len(record_b):\n        return False\n\n    if len(record_a) == 0:\n        return False\n\n    result = {}\n\n    for i, x in enumerate(record_a):\n        if x in result:\n            result[x] += 1\n        else:\n            result[x] = 1\n\n    for x in record_b:\n        if x in result:\n            result[x] -= 1\n        else:\n            result[x] = 1\n\n    return result\n\n\ndef test():\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1, 1, 1), (1, 2, 3)) == {(1, 1): 1, (2, 1): 1, (3, 1): 1}\n    assert count_occurrences((1,",
+      -7.265625
+    ],
+    [
+      "def compare_records(records, times):\n    # Write your code here.\n    # Create a dictionary where the keys are the records and the values are the times.\n    times_dict = {}\n    for record in records:\n        if record not in times_dict:\n            times_dict[record] = 0\n        times_dict[record] += 1\n    return [key for key in times_dict.keys() if times_dict[key] > 1]\n\ndef compare_records_2(records, times):\n    # Write your code here.\n    # Create a dictionary where the keys are the records and the values are the times.\n    times_dict = {}\n    for record in records:\n        if record not in times_dict:\n            times_dict[record] = 0\n        times_dict[record] += 1\n    return [key for key in times_dict.keys() if times_dict[key] > 1]\n\ndef compare_records_3(records, times):\n    # Write your code here.\n    # Create a dictionary where the keys are the records and the values are the times.\n    times_dict = {}\n    for record in records:\n        if record not in times_dict:\n            times_dict[record] = 0\n        if times[record] not in times_dict:\n            times_dict[times[record]] = 0\n        times_dict[record] += 1\n    return [key for key in times_dict.keys() if times_dict[key] > 1]\n\ndef compare_records_4(records, times):\n    # Write your code here.\n    # Create a dictionary where the keys are the records and the values are the times.\n    times_dict = {}\n    for record in records:\n        if record not in times_dict:\n            times_dict[record] = 0\n        if times[record] not in times_dict:\n            times_dict[times[record]] = 0\n        if times[record] == record:\n            times_dict[record] += 1\n    return [key for key in times_dict.keys() if times_dict[key] > 1]\n\ndef compare_records_5(records, times):\n    # Write your code here.",
+      -8.296875
+    ],
+    [
+      "def same_occurrences(tuples):\n    record_dict = {}\n    for i in tuples:\n        if i not in record_dict:\n            record_dict[i] = 1\n        else:\n            record_dict[i] += 1\n    return record_dict\n\ndef test_same_occurrences():\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",3),(\"ba\",3)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",3),(\"ba\",3)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",3),(\"ba\",3)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",4),(\"ba\",4)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",4),(\"ba\",4)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",5)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",4)}\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)]) == {(\"ab\",4),(\"ba\",4)}\n\n    assert same_occurrences([(\"ab\",3),(\"ab\",4),(\"ab\",5),(\"ba\",3),(\"ba\",4),(\"ba\",5)",
+      -9.1953125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

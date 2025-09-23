@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T22:58:51.550477",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 90,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    def quick_sort(arr: List[int], k: int) -> None:\n        if len(arr) <= 1:\n            return\n\n        pivot = arr[-1]\n        pivot_idx = -1\n        for i in range(len(arr) - 1):\n            if arr[i] > pivot:\n                arr[i], arr[pivot_idx + 1] = arr[pivot_idx + 1], arr[i]\n                pivot_idx += 1\n\n        arr[pivot_idx + 1], arr[-1] = arr[-1], arr[pivot_idx + 1]\n        if pivot_idx < k - 1:\n            quick_sort(arr[:pivot_idx + 1], k)\n        elif pivot_idx == k - 1:\n            return arr[pivot_idx]\n        else:\n            quick_sort(arr[pivot_idx + 1:], k - pivot_idx - 1)\n\n    quick_sort(arr, k)\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    print(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 3))"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    O(nlogn)\n    \"\"\"\n    nums.sort()\n    return nums[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([3, 2, 1, 5, 6, 4], 2) == 2"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if k < 0 or k >= len(arr):\n        raise IndexError(\"k is out of range\")\n\n    def partition(arr: List[int], left: int, right: int) -> int:\n        pivot = arr[right]\n        i = left - 1\n        for j in range(left, right):\n            if arr[j] <= pivot:\n                i += 1\n                arr[i], arr[j] = arr[j], arr[i]\n        arr[i + 1], arr[right] = arr[right], arr[i + 1]\n        return i + 1\n\n    def find_kth_element_helper(arr: List[int], left: int, right: int, k: int) -> int:\n        if left > right:\n            return -1\n\n        pos = partition(arr, left, right)\n        if pos == k:\n            return arr[pos]\n        if pos > k:\n            return find_kth_element_helper(arr, left, pos - 1, k)\n        return find_kth_element_helper(arr, pos + 1, right, k)\n\n    return find_kth_element_helper(arr, 0, len(arr) - 1, k)\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7], 0) == 1\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7], 1) == 2\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7], 2) == 3\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7], 3) == 4\n    assert find"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from typing import List\nimport heapq\n\n\ndef kth_element(k: int, arr: List[int]) -> int:\n    \"\"\"\n    Using heapq to find kth element.\n    \"\"\"\n    heapq.heapify(arr)\n\n    for _ in range(len(arr) - k):\n        heapq.heappop(arr)\n\n    return heapq.heappop(arr)\n\n\nif __name__ == \"__main__\":\n    assert kth_element(3, [1, 2, 3, 4, 5]) == 3"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "def find_kth(arr, k):\n    n = len(arr)\n    if n == 0 or k > n:\n        return None\n    return find_kth_rec(arr, 0, n - 1, k - 1)\n\ndef find_kth_rec(arr, start, end, k):\n    if start > end:\n        return None\n    if start == end:\n        return arr[start]\n\n    mid = (start + end) // 2\n    if k == mid:\n        return arr[k]\n    elif k < mid:\n        return find_kth_rec(arr, start, mid - 1, k)\n    else:\n        return find_kth_rec(arr, mid + 1, end, k)\n\nprint(find_kth([10, 20, 30, 40, 50, 60, 70], 3))\nprint(find_kth([10, 20, 30, 40, 50, 60, 70], 6))\nprint(find_kth([10, 20, 30, 40, 50, 60, 70], 0))\nprint(find_kth([10, 20, 30, 40, 50, 60, 70], 7))\nprint(find_kth([10, 20, 30, 40, 50, 60, 70], 9))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "def find_kth_element(nums, k):\n    \"\"\"\n    :param nums: list[int]\n    :param k: int\n    :return: int\n    \"\"\"\n    # Your code here\n    return sorted(nums)[k-1]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Testing Code\n\nnums = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]\n\nprint(find_kth_element(nums, 0))\nprint(find_kth_element(nums, 1))\nprint(find_kth_element(nums, 2))\nprint(find_kth_element(nums, 3))\nprint(find_kth_element(nums, 4))\nprint(find_kth_element(nums, 5))\nprint(find_kth_element(nums, 6))\nprint(find_kth_element(nums, 7))\nprint(find_kth_element(nums, 8))\nprint(find_kth_element(nums, 9))\nprint(find_kth_element(nums, 10))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef find_kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    :param array: list of integers\n    :param k: integer\n    :return: kth element of the given array\n    \"\"\"\n    if len(array) < k:\n        return -1\n\n    return find_kth_element_helper(array, k, 0, len(array) - 1)\n\n\ndef find_kth_element_helper(array: List[int], k: int, start: int, end: int) -> int:\n    \"\"\"\n    :param array: list of integers\n    :param k: integer\n    :param start: start index of array\n    :param end: end index of array\n    :return: kth element of the given array\n    \"\"\"\n    if start > end:\n        return -1\n\n    pivot = start + (end - start) // 2\n    if array[pivot] == k:\n        return k\n    elif array[pivot] > k:\n        return find_kth_element_helper(array, k, start, pivot - 1)\n    else:\n        return find_kth_element_helper(array, k, pivot + 1, end)\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([1, 3, 5, 7, 9, 11], 4))\n    print(find_kth_element([1, 3, 5, 7, 9, 11], 6))\n    print(find_kth_element([1, 3, 5, 7, 9, 11], 1))\n    print(find_kth_element([1, 3, 5, 7, 9, 11], 10))\n    print(find_kth_element([1, 3, 5, 7, 9, 11], 0))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from typing import List\nimport heapq\n\n\ndef kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    O(nlogk)\n    \"\"\"\n    heap = []\n    for i, num in enumerate(nums):\n        if i < k:\n            heapq.heappush(heap, (-num, i))\n        elif i == k:\n            return -heapq.heappop(heap)[0]\n        elif -heap[0][0] < num:\n            heapq.heapreplace(heap, (-num, i))\n\n    return -heap[0][0]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == 4"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def find_kth_element(self, arr, k):\n        # Write your code here.\n        if k > len(arr):\n            return -1\n        return self.find_kth_element_recursive(arr, 0, len(arr) - 1, k)\n\n    def find_kth_element_recursive(self, arr, left, right, k):\n        if left == right:\n            return arr[left]\n\n        pivot = left + (right - left) // 2\n        left_part_count = self.partition(arr, left, right, pivot)\n        if left_part_count == k:\n            return arr[k - 1]\n        elif left_part_count > k:\n            return self.find_kth_element_recursive(arr, left, right, k)\n        else:\n            return self.find_kth_element_recursive(arr, left, right, k - left_part_count)\n\n    def partition(self, arr, left, right, pivot):\n        pivot_value = arr[pivot]\n        j = left\n        for i in range(left, right + 1):\n            if arr[i] < pivot_value:\n                arr[i], arr[j] = arr[j], arr[i]\n                j += 1\n\n        arr[j], arr[right] = arr[right], arr[j]\n        return j\n\n\n\"\"\"\nRuntime: O(n)\nSpace: O(n)\n\nRuntime: 200 ms, faster than 96.02% of Python3 online submissions for Kth Smallest Element in a Sorted Matrix.\nMemory Usage: 15.9 MB, less than 5.00% of Python3 online submissions for Kth Smallest Element in a Sorted Matrix.\n\"\"\""
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def find_kth_element(arr, k):\n    return sorted(arr)[k-1]\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([3, 1, 2, 4, 5], 2))\n    print(find_kth_element([3, 1, 2, 4, 5], 4))\n    print(find_kth_element([3, 1, 2, 4, 5], 1))"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "from heapq import heappop, heappush\n\n\ndef find_kth_element(arr, k):\n    # Time complexity: O(nlogk).\n    # Space complexity: O(k).\n    min_heap = []\n\n    for i in range(k):\n        heappush(min_heap, arr[i])\n\n    for i in range(k, len(arr)):\n        if arr[i] > min_heap[0]:\n            heappop(min_heap)\n            heappush(min_heap, arr[i])\n\n    return min_heap[0]\n\n\ndef main():\n    arr = [3, 4, 6, 2, 8, 10, 9, 5, 7, 1]\n    print(find_kth_element(arr, 3))\n    print(find_kth_element(arr, 5))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n    kth_element = 0\n\n    def find_kth_element_helper(arr: List[int], k: int, start: int, end: int) -> int:\n        nonlocal kth_element\n        if start == end:\n            return arr[start]\n        mid = start + (end - start) // 2\n        if mid + 1 == k:\n            return arr[mid]\n        if mid + 1 < k:\n            return find_kth_element_helper(arr, k, mid + 1, end)\n        return find_kth_element_helper(arr, k, start, mid)\n\n    return find_kth_element_helper(arr, k, 0, len(arr) - 1)\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([1, 2, 3, 4, 5, 6, 7], 3))"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_kth(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(k)\n    Space Complexity: O(1)\n    \"\"\"\n    if not array:\n        raise ValueError(\"array is empty\")\n\n    return find_kth_recursive(array, k, 0, len(array) - 1)\n\n\ndef find_kth_recursive(array: List[int], k: int, start: int, end: int) -> int:\n    if start > end:\n        raise ValueError(\"k is greater than array size\")\n\n    mid = (start + end) // 2\n    if k == mid + 1:\n        return array[mid + 1]\n    elif k < mid + 1:\n        return find_kth_recursive(array, k, start, mid)\n    else:\n        return find_kth_recursive(array, k, mid + 1, end)\n\n\nif __name__ == \"__main__\":\n    assert find_kth([1, 3, 5, 7, 9], 3) == 5"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    >>> kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 6)\n    6\n    \"\"\"\n    if k < 0:\n        raise ValueError(\"Kth element is not possible\")\n\n    def partition(array, start, end, pivot):\n        left, right = start, end\n        while True:\n            while array[left] < pivot:\n                left += 1\n            while array[right] > pivot:\n                right -= 1\n            if left >= right:\n                break\n            array[left], array[right] = array[right], array[left]\n\n        array[right], array[pivot] = array[pivot], array[right]\n        return right\n\n    def select(array, start, end, k):\n        if start == end:\n            return array[start]\n\n        pivot = start + (end - start) // 2\n        pivot_pos = partition(array, start, end, pivot)\n        if k == pivot_pos:\n            return array[k]\n        elif k < pivot_pos:\n            return select(array, start, pivot_pos - 1, k)\n        else:\n            return select(array, pivot_pos + 1, end, k)\n\n    return select(array, 0, len(array) - 1, k - 1)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "def kth_smallest(A, k):\n    # TODO: Write your code here\n    return A[k-1]\n\n\nif __name__ == \"__main__\":\n    A = [1, 2, 4, 3, 5, 6]\n    k = 3\n    print(kth_smallest(A, k))"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "class Solution:\n    def find_kth_element(self, arr, k):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not arr:\n            return\n\n        def find_kth_element_helper(arr, k, left, right):\n            if left > right:\n                return -1\n\n            pivot_index = self.partition(arr, left, right)\n\n            if pivot_index == k - 1:\n                return arr[pivot_index]\n            elif pivot_index > k - 1:\n                return find_kth_element_helper(arr, k, left, pivot_index - 1)\n            else:\n                return find_kth_element_helper(arr, k, pivot_index + 1, right)\n\n        return find_kth_element_helper(arr, k, 0, len(arr) - 1)\n\n    def partition(self, arr, left, right):\n        pivot = arr[right]\n        i = left - 1\n\n        for j in range(left, right):\n            if arr[j] <= pivot:\n                i += 1\n                arr[i], arr[j] = arr[j], arr[i]\n\n        arr[i + 1], arr[right] = arr[right], arr[i + 1]\n\n        return i + 1\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == 4\n    assert s.find_kth_element([3, 1, 2, 4, 5], 2) == 3\n    assert s.find_kth_element([3, 1, 2, 4, 5], 4) == 5"
+    },
+    {
+      "rank": 17,
+      "score": 8.981605117952036,
+      "candidate": "from random import randint\n\n\ndef kth_element(arr, k):\n    \"\"\"\n    :param arr: array to be sorted\n    :param k: the kth element to return\n    :return: the kth element\n    \"\"\"\n    if len(arr) == 0:\n        return None\n\n    return _kth_element(arr, 0, len(arr) - 1, k)\n\n\ndef _kth_element(arr, start, end, k):\n    if start > end:\n        return None\n\n    pivot = randint(start, end)\n    arr[pivot], arr[end] = arr[end], arr[pivot]\n\n    # find the pivot\n    pivot_index = start\n    for i in range(start, end):\n        if arr[i] <= arr[end]:\n            arr[i], arr[pivot_index] = arr[pivot_index], arr[i]\n            pivot_index += 1\n\n    arr[pivot_index], arr[end] = arr[end], arr[pivot_index]\n\n    if pivot_index == k:\n        return arr[pivot_index]\n\n    if pivot_index < k:\n        return _kth_element(arr, pivot_index + 1, end, k)\n\n    return _kth_element(arr, start, pivot_index - 1, k)"
+    },
+    {
+      "rank": 18,
+      "score": 8.898191104630506,
+      "candidate": "def kth_element(array, k):\n    if len(array) < k:\n        return None\n    return quick_select(array, k, 0, len(array) - 1)\n\ndef quick_select(array, k, start, end):\n    while True:\n        if start == end:\n            return array[start]\n        pivot_index = partition(array, start, end)\n        if pivot_index == k - 1:\n            return array[pivot_index]\n        elif pivot_index > k - 1:\n            end = pivot_index - 1\n        else:\n            start = pivot_index + 1\n\ndef partition(array, start, end):\n    pivot = array[start]\n    left = start\n    right = end\n    while left < right:\n        while left < right and array[right] >= pivot:\n            right -= 1\n        array[left] = array[right]\n        while left < right and array[left] <= pivot:\n            left += 1\n        array[right] = array[left]\n    array[left] = pivot\n    return left\n\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5))\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7))\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1))\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10))\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9))\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 11))"
+    },
+    {
+      "rank": 19,
+      "score": 8.873033717419485,
+      "candidate": "def find_kth(arr, k):\n    return sorted(arr)[k-1]\n\n\ndef main():\n    print(find_kth([1, 2, 3, 4, 5], 3))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 20,
+      "score": 8.869482587431696,
+      "candidate": "def find_kth_element(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - rank\n    return: kth smallest element\n    \"\"\"\n    k = k - 1\n\n    def partition(arr, low, high):\n        pivot = arr[low]\n        i = low\n        j = high\n\n        while True:\n            i += 1\n            while i <= j and arr[i] < pivot:\n                i += 1\n            j -= 1\n            while j >= i and arr[j] > pivot:\n                j -= 1\n            if i >= j:\n                break\n            arr[i], arr[j] = arr[j], arr[i]\n\n        arr[low], arr[j] = arr[j], arr[low]\n        return j\n\n    def helper(arr, low, high, k):\n        if low == high:\n            return arr[low]\n        j = partition(arr, low, high)\n        if j == k:\n            return arr[k]\n        if j > k:\n            return helper(arr, low, j - 1, k)\n        return helper(arr, j + 1, high, k)\n\n    return helper(arr, 0, len(arr) - 1, k)"
+    },
+    {
+      "rank": 21,
+      "score": 8.75100989004793,
+      "candidate": "def find_kth_element(arr, k):\n    \"\"\"\n    :param arr: list of integers\n    :param k: position of the element to find\n    :return: kth element in the given array\n    \"\"\"\n    return sorted(arr)[k - 1]\n\n\nif __name__ == \"__main__\":\n    arr = [5, 6, 1, 2, 3, 4]\n    k = 3\n    assert find_kth_element(arr, k) == 3"
+    },
+    {
+      "rank": 22,
+      "score": 8.74343430596827,
+      "candidate": "def find_kth_element(arr, k):\n    \"\"\"\n    :param arr: list - an array of numbers of length n\n    :param k: int - a value with range (0, n)\n    :return: int - the kth number in the list\n    \"\"\"\n    return sorted(arr)[k-1]\n\n\ndef test_find_kth_element():\n    assert find_kth_element([1, 2, 3, 4, 5], 3) == 3\n    assert find_kth_element([1, 1, 2, 2], 2) == 2\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4) == 5\n    assert find_kth_element([5, 12, 11, 12], 2) == 11\n\n\nif __name__ == '__main__':\n    test_find_kth_element()"
+    },
+    {
+      "rank": 23,
+      "score": 8.735468984833132,
+      "candidate": "from math import ceil\n\n\ndef find_kth(arr, k):\n    \"\"\"\n    :param arr: list of int\n    :param k: int\n    :return: int\n    \"\"\"\n    return sorted(arr)[k-1]\n\n\ndef find_kth_recursive(arr, k):\n    \"\"\"\n    :param arr: list of int\n    :param k: int\n    :return: int\n    \"\"\"\n    if len(arr) == 1:\n        return arr[0]\n    if len(arr) == k:\n        return arr[-1]\n    if k > len(arr):\n        raise ValueError(\"k is greater than len(arr)\")\n    if k <= 0:\n        raise ValueError(\"k is less than or equal to 0\")\n    pivot = ceil(len(arr) / 2)\n    if k <= pivot:\n        return find_kth_recursive(arr[:pivot], k)\n    else:\n        return find_kth_recursive(arr[pivot:], k-pivot)\n\n\nif __name__ == '__main__':\n    print(find_kth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5))\n    print(find_kth_recursive([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5))"
+    },
+    {
+      "rank": 24,
+      "score": 8.68298246895437,
+      "candidate": "def find_kth(arr, k):\n    return sorted(arr)[k-1]\n\n\nif __name__ == \"__main__\":\n    print(find_kth([1, 5, 12, 2, 11, 5], 3))"
+    },
+    {
+      "rank": 25,
+      "score": 8.549318891708259,
+      "candidate": "def kth_element(arr, k):\n    return sorted(arr)[k-1]\n\n\nprint(kth_element([1, 3, 5, 7, 9], 3))"
+    },
+    {
+      "rank": 26,
+      "score": 8.548007090182852,
+      "candidate": "def kth_element(arr, k):\n    return sorted(arr)[k-1]\n\n\nif __name__ == \"__main__\":\n    print(kth_element([1, 2, 3, 4, 5], 2))"
+    },
+    {
+      "rank": 27,
+      "score": 8.540510839551478,
+      "candidate": "def find_kth_element(nums, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k < 0 or k > len(nums):\n        return None\n    return quick_select(nums, 0, len(nums) - 1, k)\n\n\ndef quick_select(nums, start, end, k):\n    if start == end:\n        return nums[start]\n    left, right = start, end\n    pivot = nums[(start + end) // 2]\n    while left <= right:\n        while left <= right and nums[left] < pivot:\n            left += 1\n        while left <= right and nums[right] > pivot:\n            right -= 1\n        if left <= right:\n            nums[left], nums[right] = nums[right], nums[left]\n            left += 1\n            right -= 1\n    if k <= right:\n        return quick_select(nums, start, right, k)\n    if k >= left:\n        return quick_select(nums, left, end, k)\n    return nums[right + 1]\n\n\ndef main():\n    nums = [2, 5, 6, 7, 9, 12, 2, 1, 0, 1]\n    k = 3\n    print(find_kth_element(nums, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 28,
+      "score": 8.535576170897073,
+      "candidate": "def kth_smallest_element(arr, k):\n    \"\"\"\n    :param arr: list of elements\n    :param k: rank\n    :return: kth smallest element\n    \"\"\"\n    # base case\n    if k > len(arr):\n        return None\n\n    # k = len(arr)\n    # if k == 1:\n    #     return arr[-1]\n\n    # pivot = arr[0]\n    # left = [x for x in arr[1:] if x <= pivot]\n    # right = [x for x in arr[1:] if x > pivot]\n    # return kth_smallest_element(left, k) or kth_smallest_element(right, k)\n\n    return kth_smallest_element_helper(arr, 0, len(arr) - 1, k)\n\n\ndef kth_smallest_element_helper(arr, left, right, k):\n    \"\"\"\n    :param arr: list of elements\n    :param left: left index\n    :param right: right index\n    :param k: rank\n    :return: kth smallest element\n    \"\"\"\n\n    # base case\n    if left == right:\n        return arr[left]\n\n    # recursive case\n    pivot = arr[left]\n    left_part = [x for x in arr[left + 1:] if x <= pivot]\n    right_part = [x for x in arr[left + 1:] if x > pivot]\n    left_count = len(left_part)\n    if k <= left_count:\n        return kth_smallest_element_helper(left_part, 0, len(left_part) - 1, k)\n    elif k > left_count + 1:\n        return kth_smallest_element_helper(right_part, 0, len(right_part) - 1, k - left_count - 1)\n    else:\n        return pivot\n\n\nif __name__ == \"__main__\":\n    assert kth_smallest_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
+    },
+    {
+      "rank": 29,
+      "score": 8.47105506963974,
+      "candidate": "def kth_element(arr, k):\n    if not arr:\n        return None\n    return sorted(arr)[k-1]\n\nprint(kth_element([1, 2, 3, 4, 5], 2))"
+    },
+    {
+      "rank": 30,
+      "score": 8.423561509186149,
+      "candidate": "def kth_element(array, k):\n    # return sorted(array)[k-1]\n    return nth_element(array, k, 0, len(array) - 1)\n\n\ndef nth_element(array, k, start, end):\n    if start == end:\n        return array[start]\n\n    pivot = partition(array, start, end)\n    if k == pivot:\n        return array[k]\n    if k < pivot:\n        return nth_element(array, k, start, pivot - 1)\n    else:\n        return nth_element(array, k, pivot + 1, end)\n\n\ndef partition(array, start, end):\n    pivot = array[end]\n    i = start\n    for j in range(start, end):\n        if array[j] < pivot:\n            array[i], array[j] = array[j], array[i]\n            i += 1\n    array[i], array[end] = array[end], array[i]\n    return i\n\n\nif __name__ == '__main__':\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == 3"
+    },
+    {
+      "rank": 31,
+      "score": 8.410906442551855,
+      "candidate": "from random import randint\n\n\ndef kth_element(array, k):\n    \"\"\"\n    Use quick sort algorithm to find the kth element.\n    \"\"\"\n    return quick_sort_kth(array, k, 0, len(array) - 1)\n\n\ndef quick_sort_kth(array, k, start, end):\n    if start >= end:\n        return array[start]\n\n    pivot = partition(array, start, end)\n\n    if pivot == k - 1:\n        return array[pivot]\n    elif pivot > k - 1:\n        return quick_sort_kth(array, k, start, pivot - 1)\n    else:\n        return quick_sort_kth(array, k, pivot + 1, end)\n\n\ndef partition(array, start, end):\n    pivot = array[end]\n    i = start - 1\n\n    for j in range(start, end):\n        if array[j] <= pivot:\n            i += 1\n            array[i], array[j] = array[j], array[i]\n\n    array[i + 1], array[end] = array[end], array[i + 1]\n    return i + 1\n\n\nif __name__ == \"__main__\":\n    array = [randint(1, 100) for _ in range(10)]\n    k = 4\n    print(array)\n    print(kth_element(array, k))"
+    },
+    {
+      "rank": 32,
+      "score": 8.390603341211937,
+      "candidate": "def find_kth_element(arr, k):\n    arr.sort()\n    return arr[k-1]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    k = 3\n    assert find_kth_element(arr, k) == 3"
+    },
+    {
+      "rank": 33,
+      "score": 8.376544726929183,
+      "candidate": "from heapq import heappush, heappop\n\n\ndef find_kth_element(arr, k):\n    min_heap = []\n    for i in range(k):\n        heappush(min_heap, arr[i])\n\n    for i in range(k, len(arr)):\n        if arr[i] > min_heap[0]:\n            heappop(min_heap)\n            heappush(min_heap, arr[i])\n\n    return min_heap[0]\n\n\nif __name__ == \"__main__\":\n    print find_kth_element([3, 2, 1, 5, 6, 4], 2)\n    print find_kth_element([3, 2, 3, 1, 2, 4, 5, 5, 6], 4)"
+    },
+    {
+      "rank": 34,
+      "score": 8.376539965774677,
+      "candidate": "def kth_element(arr, k):\n    if k > len(arr):\n        return None\n    if k < 0:\n        return None\n\n    pivot = arr[len(arr) // 2]\n    left = []\n    right = []\n\n    for num in arr:\n        if num < pivot:\n            left.append(num)\n        elif num > pivot:\n            right.append(num)\n        else:\n            continue\n\n    if len(left) == k:\n        return pivot\n    elif len(left) > k:\n        return kth_element(left, k)\n    else:\n        return kth_element(right, k - len(left))\n\n\nprint(kth_element([1, 2, 3, 4, 5, 6, 7, 8], 3))"
+    },
+    {
+      "rank": 35,
+      "score": 8.354772855447592,
+      "candidate": "def find_kth_element(array, k):\n    if len(array) < k:\n        return -1\n    return find_kth_element_recursive(array, 0, len(array) - 1, k)\n\n\ndef find_kth_element_recursive(array, left, right, k):\n    if left == right:\n        return array[left]\n\n    pivot_index = partition(array, left, right)\n    if pivot_index == k - 1:\n        return array[pivot_index]\n    elif pivot_index < k - 1:\n        return find_kth_element_recursive(array, pivot_index + 1, right, k)\n    else:\n        return find_kth_element_recursive(array, left, pivot_index - 1, k)\n\n\ndef partition(array, left, right):\n    pivot = array[right]\n    i = left - 1\n    for j in range(left, right):\n        if array[j] < pivot:\n            i += 1\n            array[i], array[j] = array[j], array[i]\n    array[i + 1], array[right] = array[right], array[i + 1]\n    return i + 1\n\n\ndef test_find_kth_element():\n    assert find_kth_element([1, 2, 3, 4, 5], 3) == 3\n    assert find_kth_element([1, 2, 3, 4, 5], 1) == 1\n    assert find_kth_element([1, 2, 3, 4, 5], 5) == 5\n    assert find_kth_element([1, 2, 3, 4, 5], 6) == -1"
+    },
+    {
+      "rank": 36,
+      "score": 8.310859200866107,
+      "candidate": "from heapq import nsmallest\n\n\ndef find_kth_element(arr, k):\n    return nsmallest(k, arr)[-1]\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    k = 4\n    print(find_kth_element(arr, k))"
+    },
+    {
+      "rank": 37,
+      "score": 8.308296872523309,
+      "candidate": "def find_kth_element(array, k):\n    left, right = 0, len(array) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if array[mid] < k:\n            left = mid + 1\n        elif array[mid] > k:\n            right = mid - 1\n        else:\n            return array[mid]\n    return None\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([1, 2, 3, 4, 5], 2),\n        ([1, 2, 3, 4, 5], 3),\n        ([1, 2, 3, 4, 5], 4),\n        ([1, 2, 3, 4, 5], 5),\n        ([1, 2, 3, 4, 5], 6),\n        ([1, 2, 3, 4, 5], 0),\n        ([1, 2, 3, 4, 5], -1),\n        ([1, 2, 3, 4, 5], 1),\n        ([1, 2, 3, 4, 5], 1.5),\n        ([1, 2, 3, 4, 5], -1.5),\n        ([1, 2, 3, 4, 5], 1.0),\n        ([1, 2, 3, 4, 5], 1.2),\n        ([1, 2, 3, 4, 5], 1.01),\n        ([1, 2, 3, 4, 5], 1.001),\n        ([1, 2, 3, 4, 5], 1.21),\n        ([1, 2, 3, 4, 5], 1.201),\n        ([1, 2, 3, 4, 5], 1.01),\n        ([1, 2, 3, 4, 5], 1.001),\n        (["
+    },
+    {
+      "rank": 38,
+      "score": 8.281381060964563,
+      "candidate": "from typing import List\n\n\n# O(n)\ndef find_kth_element_naive(array: List[int], k: int) -> int:\n    \"\"\"\n    Naive approach.\n    \"\"\"\n    return sorted(array)[k - 1]\n\n\n# O(n)\ndef find_kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Using the quick select algorithm.\n    \"\"\"\n    def partition(array, low, high):\n        pivot = array[low]\n        i = low - 1\n        j = high + 1\n\n        while True:\n            i += 1\n            while array[i] < pivot:\n                i += 1\n\n            j -= 1\n            while array[j] > pivot:\n                j -= 1\n\n            if i >= j:\n                return j\n\n            array[i], array[j] = array[j], array[i]\n\n    def select(array, low, high, k):\n        if low == high:\n            return array[low]\n\n        pivot = partition(array, low, high)\n        if k == pivot + 1:\n            return array[k]\n        elif k < pivot + 1:\n            return select(array, low, pivot, k)\n        else:\n            return select(array, pivot + 1, high, k)\n\n    return select(array, 0, len(array) - 1, k)\n\n\nif __name__ == \"__main__\":\n    array = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(find_kth_element(array, 5))"
+    },
+    {
+      "rank": 39,
+      "score": 8.257359715608958,
+      "candidate": "def find_kth_element(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: int\n    \"\"\"\n    if len(nums) < k:\n        return -1\n\n    return find_kth_element_helper(nums, k, 0, len(nums)-1)\n\n\ndef find_kth_element_helper(nums, k, start, end):\n    if start > end:\n        return -1\n\n    if start == end:\n        return nums[start]\n\n    pivot = start + (end - start) // 2\n    left = find_kth_element_helper(nums, k, start, pivot-1)\n    right = find_kth_element_helper(nums, k, pivot+1, end)\n\n    if left != -1:\n        return left\n    if right != -1:\n        return right\n\n    if k <= pivot - start + 1:\n        return nums[pivot]\n    return nums[pivot+1+k-pivot-start-1]\n\n\nprint(find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 3))"
+    },
+    {
+      "rank": 40,
+      "score": 8.235689624009979,
+      "candidate": "def kth_element(arr, k):\n    arr.sort()\n    return arr[k-1]\n\nif __name__ == '__main__':\n    arr = [1,2,3,4,5,6]\n    print(kth_element(arr, 3))"
+    },
+    {
+      "rank": 41,
+      "score": 8.201071362709879,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n\n    k -= 1\n\n    if not array or k >= len(array):\n        return -1\n\n    return find_kth_element_helper(array, k, 0, len(array) - 1)\n\n\ndef find_kth_element_helper(array: List[int], k: int, left: int, right: int) -> int:\n    if left > right:\n        return -1\n\n    pivot = partition(array, left, right)\n\n    if pivot == k:\n        return array[pivot]\n    elif pivot < k:\n        return find_kth_element_helper(array, k, pivot + 1, right)\n    else:\n        return find_kth_element_helper(array, k, left, pivot - 1)\n\n\ndef partition(array: List[int], left: int, right: int) -> int:\n    pivot = array[right]\n    i = left - 1\n\n    for j in range(left, right):\n        if array[j] <= pivot:\n            i += 1\n            array[i], array[j] = array[j], array[i]\n\n    array[i + 1], array[right] = array[right], array[i + 1]\n    return i + 1\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 1) == 1\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 5) == 5\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 9) == 9\n    assert find_kth_element([1, 2, 3, 4, 5,"
+    },
+    {
+      "rank": 42,
+      "score": 8.181117462543293,
+      "candidate": "from typing import List\n\n\ndef kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(n)\n\n    :param nums: array of numbers\n    :param k: kth element\n    :return: kth element\n    \"\"\"\n\n    def partition(start: int, end: int) -> int:\n        \"\"\"\n        :param start: start of the partition\n        :param end: end of the partition\n        :return: pivot index\n        \"\"\"\n        pivot = nums[end]\n        pivot_index = start\n        for i in range(start, end):\n            if nums[i] < pivot:\n                nums[i], nums[pivot_index] = nums[pivot_index], nums[i]\n                pivot_index += 1\n        nums[pivot_index], nums[end] = nums[end], nums[pivot_index]\n        return pivot_index\n\n    def find_kth_element(start: int, end: int, k: int) -> int:\n        \"\"\"\n        :param start: start of the partition\n        :param end: end of the partition\n        :param k: kth element\n        :return: kth element\n        \"\"\"\n        if start == end:\n            return nums[start]\n        if start < end:\n            pivot_index = partition(start, end)\n            if pivot_index == k:\n                return nums[k]\n            elif pivot_index > k:\n                return find_kth_element(start, pivot_index - 1, k)\n            else:\n                return find_kth_element(pivot_index + 1, end, k)\n        else:\n            return -1\n\n    return find_kth_element(0, len(nums) - 1, k - 1)\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8], 3) == 3"
+    },
+    {
+      "rank": 43,
+      "score": 8.110656306991977,
+      "candidate": "def kth_element(arr, k):\n    # base case\n    if len(arr) < k:\n        return -1\n    return quick_select(arr, 0, len(arr) - 1, k)\n\n\ndef quick_select(arr, low, high, k):\n    if low == high:\n        return arr[low]\n    mid = partition(arr, low, high)\n    if mid == k - 1:\n        return arr[mid]\n    elif mid > k - 1:\n        return quick_select(arr, low, mid - 1, k)\n    else:\n        return quick_select(arr, mid + 1, high, k)\n\n\ndef partition(arr, low, high):\n    pivot = arr[high]\n    i = low - 1\n    for j in range(low, high):\n        if arr[j] <= pivot:\n            i += 1\n            arr[i], arr[j] = arr[j], arr[i]\n    arr[i + 1], arr[high] = arr[high], arr[i + 1]\n    return i + 1\n\n\ndef test_kth_element():\n    assert kth_element([10, 7, 8, 9, 1, 5], 3) == 8\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 1) == 1\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 5) == 5\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 8) == 9\n    assert kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 9) == 9\n\n\nif __name__ == '__main__':\n    test_kth_element()"
+    },
+    {
+      "rank": 44,
+      "score": 8.015673067237891,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    >>> find_kth_element([1, 2, 3, 4, 5], 4)\n    4\n    >>> find_kth_element([1, 2, 3, 4, 5], 3)\n    3\n    >>> find_kth_element([1, 2, 3, 4, 5], 5)\n    5\n    >>> find_kth_element([1, 2, 3, 4, 5], 6)\n    Traceback (most recent call last):\n    ...\n    ValueError: kth element not found\n    \"\"\"\n    if k <= 0:\n        raise ValueError(\"kth element not found\")\n    return find_kth_element_helper(nums, k, 0, len(nums) - 1)\n\n\ndef find_kth_element_helper(\n    nums: List[int], k: int, start: int, end: int\n) -> int:\n    \"\"\"\n    >>> find_kth_element_helper([1, 2, 3, 4, 5], 4, 0, 4)\n    4\n    >>> find_kth_element_helper([1, 2, 3, 4, 5], 3, 0, 4)\n    3\n    >>> find_kth_element_helper([1, 2, 3, 4, 5], 5, 0, 4)\n    5\n    >>> find_kth_element_helper([1, 2, 3, 4, 5], 6, 0, 4)\n    Traceback (most recent call last):\n    ...\n    ValueError: kth element not found\n    \"\"\"\n    if start > end:\n        raise ValueError(\"kth element not found\")\n\n    pivot_idx = partition(nums, start, end)\n    if pivot_idx == k - 1:\n        return nums[pivot_idx]\n    elif pivot_idx < k - 1:\n        return find"
+    },
+    {
+      "rank": 45,
+      "score": 7.933162799389252,
+      "candidate": "def find_kth_element(arr, k):\n    if k > len(arr):\n        return None\n\n    return sorted(arr)[k - 1]\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([1, 2, 3, 4, 5], 2))"
+    },
+    {
+      "rank": 46,
+      "score": 3.7896064077536957,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    arr.sort()\n\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([2, 3, 4, 5, 6, 7], 3) == 4"
+    },
+    {
+      "rank": 47,
+      "score": 3.7690182832329846,
+      "candidate": "def find_kth(arr, k):\n    # base case\n    if len(arr) == 1:\n        return arr[0]\n    # divide the problem\n    mid = len(arr) // 2\n    # find the pivot\n    pivot = find_pivot(arr, 0, len(arr))\n    # if the pivot is greater than the kth element, find the kth element in the left side\n    if pivot > k:\n        return find_kth(arr[:mid], k)\n    # if the pivot is less than the kth element, find the kth element in the right side\n    if pivot < k:\n        return find_kth(arr[mid + 1:], k - mid - 1)\n    return arr[k]\n\ndef find_pivot(arr, start, end):\n    if start > end:\n        return -1\n    if start == end:\n        return start\n    # divide the problem\n    mid = start + (end - start) // 2\n    # find the pivot\n    if mid < end and arr[mid] > arr[mid + 1]:\n        return mid\n    if mid > start and arr[mid] < arr[mid - 1]:\n        return mid - 1\n    if arr[mid] > arr[end]:\n        return find_pivot(arr, start, mid - 1)\n    return find_pivot(arr, mid + 1, end)\n\nprint(find_kth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,"
+    },
+    {
+      "rank": 48,
+      "score": 3.761514928204013,
+      "candidate": "def find_kth_element(arr, k):\n    if len(arr) < k:\n        return None\n    return sorted(arr)[k-1]\n\n\nprint(find_kth_element([1, 2, 3, 4, 5], 3))\nprint(find_kth_element([1, 2, 3, 4, 5], 6))\nprint(find_kth_element([1, 2, 3, 4, 5], 0))"
+    },
+    {
+      "rank": 49,
+      "score": 3.6781200142854114,
+      "candidate": "def kth_element(arr, k):\n    # TODO: Write your code here\n    return sorted(arr)[k - 1]\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(kth_element([1, 5, 3, 2, 4, 5], 4))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert kth_element([1, 2, 3, 4, 5], 2) == 3\n    assert kth_element([1, 1, 2, 2], 2) == 2\n    assert kth_element([1, 1, 1, 2, 2, 2], 2) == 2\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")"
+    },
+    {
+      "rank": 50,
+      "score": 3.4877725635611796,
+      "candidate": "from typing import List\n\n\ndef kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    k -= 1\n\n    for i in range(len(array) - 1):\n        min_index = i\n        for j in range(i + 1, len(array)):\n            if array[min_index] > array[j]:\n                min_index = j\n        array[i], array[min_index] = array[min_index], array[i]\n\n        if k == i:\n            return array[k]\n\n    return array[k]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5], 2) == 3"
+    },
+    {
+      "rank": 51,
+      "score": 3.4656400595580994,
+      "candidate": "def find_kth(arr, k):\n    return sorted(arr)[k - 1]\n\n\ndef find_kth_using_partition(arr, k):\n    \"\"\"\n    Time complexity: O(n)\n    Space complexity: O(n)\n    \"\"\"\n    return find_kth_recursive(arr, k, 0, len(arr) - 1)\n\n\ndef find_kth_recursive(arr, k, start, end):\n    if start > end:\n        return None\n\n    pivot = partition(arr, start, end)\n    if pivot == k - 1:\n        return arr[pivot]\n    elif pivot < k - 1:\n        return find_kth_recursive(arr, k, pivot + 1, end)\n    else:\n        return find_kth_recursive(arr, k, start, pivot - 1)\n\n\ndef partition(arr, start, end):\n    pivot = arr[start]\n\n    left = start + 1\n    right = end\n\n    while left <= right:\n        while left <= right and arr[left] <= pivot:\n            left += 1\n\n        while left <= right and arr[right] >= pivot:\n            right -= 1\n\n        if left <= right:\n            arr[left], arr[right] = arr[right], arr[left]\n\n    arr[start], arr[right] = arr[right], arr[start]\n\n    return right\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7, 8]\n    k = 5\n    assert find_kth(arr, k) == 5\n    assert find_kth_using_partition(arr, k) == 5"
+    },
+    {
+      "rank": 52,
+      "score": 3.410951252187612,
+      "candidate": "def kth_element(arr, k):\n    return sorted(arr)[k - 1]\n\nprint(kth_element([1, 3, 5, 7, 9], 3))"
+    },
+    {
+      "rank": 53,
+      "score": 3.406262911197099,
+      "candidate": "def find_kth_element(a, k):\n    \"\"\"\n    :param a: list of integers\n    :param k: kth index\n    :return: kth element\n    \"\"\"\n    if not a or k < 0:\n        return None\n\n    return quick_select(a, k, 0, len(a) - 1)\n\n\ndef partition(a, lo, hi):\n    \"\"\"\n    Partition array so that all elements less than pivot are on the left\n    and all elements greater than pivot are on the right\n    :param a: list of integers\n    :param lo: starting index of the array\n    :param hi: ending index of the array\n    :return: index of the pivot\n    \"\"\"\n    if lo >= hi:\n        return lo\n\n    left = lo\n    right = hi\n    pivot = a[(lo + hi) // 2]\n\n    while left <= right:\n        while a[left] < pivot:\n            left += 1\n        while a[right] > pivot:\n            right -= 1\n\n        if left <= right:\n            a[left], a[right] = a[right], a[left]\n            left += 1\n            right -= 1\n\n    return left\n\n\ndef quick_select(a, k, lo, hi):\n    \"\"\"\n    :param a: list of integers\n    :param k: kth index\n    :param lo: starting index of the array\n    :param hi: ending index of the array\n    :return: kth element\n    \"\"\"\n    if lo >= hi:\n        return a[lo]\n\n    pivot_index = partition(a, lo, hi)\n\n    if pivot_index == k:\n        return a[k]\n    elif pivot_index < k:\n        return quick_select(a, k, pivot_index + 1, hi)\n    else:\n        return quick_select(a, k, lo, pivot_index - 1)\n\n\ndef main():\n    a = [1, 3, 5, 2, 4, 6]\n    print(find_kth_element(a, 2))\n\n\nif __name__ == \""
+    },
+    {
+      "rank": 54,
+      "score": 3.3837173645764542,
+      "candidate": "def kth_element(arr, k):\n    return sorted(arr)[k - 1]\n\nprint(kth_element([3, 1, 2, 4, 5], 3))"
+    },
+    {
+      "rank": 55,
+      "score": 3.3692332899977053,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if k > len(arr):\n        raise ValueError(\"K is greater than length of array\")\n\n    return sorted(arr)[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 3, 5, 7, 9], 3) == 5"
+    },
+    {
+      "rank": 56,
+      "score": 3.3238442690503462,
+      "candidate": "def find_kth_element(arr, k):\n    return sorted(arr)[k-1]\n\n\nprint(find_kth_element([10, 4, 1, 3, 6], 3))"
+    },
+    {
+      "rank": 57,
+      "score": 3.305838144420434,
+      "candidate": "def kth_element(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - integer\n    return: kth element from the array\n    \"\"\"\n    if k < 1:\n        return None\n\n    if len(arr) < k:\n        return None\n\n    return quick_select(arr, 0, len(arr) - 1, k - 1)\n\n\ndef partition(arr, l, r, pivot_index):\n    pivot = arr[pivot_index]\n    arr[pivot_index], arr[r] = arr[r], arr[pivot_index]\n\n    i = l\n    for j in range(l, r):\n        if arr[j] < pivot:\n            arr[i], arr[j] = arr[j], arr[i]\n            i += 1\n\n    arr[i], arr[r] = arr[r], arr[i]\n    return i\n\n\ndef quick_select(arr, l, r, k):\n    if l == r:\n        return arr[l]\n\n    pivot_index = l + (r - l) // 2\n    p = partition(arr, l, r, pivot_index)\n\n    if p == k:\n        return arr[p]\n    if p < k:\n        return quick_select(arr, p + 1, r, k)\n    else:\n        return quick_select(arr, l, p - 1, k)\n\n\na = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(kth_element(a, 10))"
+    },
+    {
+      "rank": 58,
+      "score": 3.2712800217929825,
+      "candidate": "import heapq\n\ndef find_kth_smallest(arr, k):\n    min_heap = []\n    for i in range(k):\n        heapq.heappush(min_heap, arr[i])\n\n    for i in range(k, len(arr)):\n        if arr[i] < min_heap[0]:\n            heapq.heappop(min_heap)\n            heapq.heappush(min_heap, arr[i])\n\n    return min_heap[0]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 4) == 4\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 5) == 5\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 9) == 9\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 10) == None\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 0) == None\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 1) == 1\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 2) == 2\n    assert find_kth_smallest([1, 2, 3, 4, 5, 6, 7, 8, 9], 3) == 3"
+    },
+    {
+      "rank": 59,
+      "score": 3.2483570765056164,
+      "candidate": "from typing import List\nimport heapq\n\n\ndef kth_largest(nums: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(k*log(k))\n    Space Complexity: O(k)\n    \"\"\"\n    return heapq.nlargest(k, nums)[-1]\n\n\nif __name__ == \"__main__\":\n    assert kth_largest([3, 7, 8, 6, 2], 3) == 7\n    assert kth_largest([3, 7, 8, 6, 2], 4) == 8"
+    },
+    {
+      "rank": 60,
+      "score": 3.1878490091728358,
+      "candidate": "from typing import List\n\n\ndef kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Find the kth element in the given array.\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if k < 0:\n        raise ValueError(\"K must be a positive number\")\n\n    i = 0\n\n    while i < k:\n        i += 1\n\n        if i == k:\n            return arr[i]\n\n        if i < len(arr):\n            continue\n\n        raise IndexError(\"K must be less than the size of the array\")\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5], 3) == 4"
+    },
+    {
+      "rank": 61,
+      "score": 3.180697802754207,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    arr_len = len(arr)\n\n    if arr_len < k:\n        raise IndexError(\"k should be less than the length of array\")\n\n    left = 0\n    right = arr_len - 1\n\n    while left < right:\n        mid = (left + right) // 2\n\n        if arr[mid] < k:\n            left = mid + 1\n        elif arr[mid] > k:\n            right = mid\n        else:\n            return arr[mid]\n\n    return arr[left]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 5) == 5"
+    },
+    {
+      "rank": 62,
+      "score": 3.1718091447842305,
+      "candidate": "def kth_element(array, k):\n    # TODO: Write your code here\n    return sorted(array)[k-1]\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(kth_element([1, 5, 3, 2, 4, 6], 4))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert kth_element([1, 2, 3, 4, 5], 2) == 3\n    assert kth_element([1, 1, 2, 2], 2) == 2\n    assert kth_element([1, 1, 1, 2, 2, 2], 2) == 2\n    assert kth_element([1, 1, 1, 5, 2, 2], 4) == 5\n    assert kth_element([1, 1, 1, 5, 2, 2], 5) == 2\n    assert kth_element([1, 1, 1, 5, 2, 2], 6) == 2\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")"
+    },
+    {
+      "rank": 63,
+      "score": 3.1620419846973977,
+      "candidate": "def find_kth_element(nums: list, k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    if k < 1 or k > len(nums):\n        raise Exception(\"Invalid k\")\n\n    def partition(start: int, end: int) -> int:\n        pivot_index = (start + end) // 2\n        pivot_element = nums[pivot_index]\n\n        pivot_index -= 1\n\n        while start < end:\n            while start < end and nums[start] < pivot_element:\n                start += 1\n            while start < end and nums[end] > pivot_element:\n                end -= 1\n\n            if start == end:\n                break\n\n            nums[start], nums[end] = nums[end], nums[start]\n\n        nums[start], nums[pivot_index] = nums[pivot_index], nums[start]\n\n        return start\n\n    def quick_select(start: int, end: int, k: int) -> None:\n        if start >= end:\n            return\n\n        pivot_index = partition(start, end)\n\n        if k == pivot_index + 1:\n            return\n        elif k < pivot_index + 1:\n            quick_select(start, pivot_index, k)\n        else:\n            quick_select(pivot_index + 1, end, k)\n\n    quick_select(0, len(nums) - 1, k)\n\n    return nums[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5, 6], 3) == 3\n    assert find_kth_element([1, 2, 3, 4, 5, 6], 6) == 6\n    assert find_kth_element([1, 2, 3, 4, 5, 6], 5) == 5\n    assert find_kth_"
+    },
+    {
+      "rank": 64,
+      "score": 3.1209811357830173,
+      "candidate": "from typing import List\n\n\ndef kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    k -= 1\n\n    def partition(left: int, right: int, pivot: int) -> int:\n        i = left\n        j = right\n        while True:\n            while array[i] < pivot:\n                i += 1\n            while array[j] > pivot:\n                j -= 1\n            if i >= j:\n                return j\n            array[i], array[j] = array[j], array[i]\n\n    def kth_smallest(left: int, right: int) -> int:\n        nonlocal k\n        if left == right:\n            return array[left]\n        pivot = array[right]\n        p = partition(left, right, pivot)\n        if p == k:\n            return pivot\n        elif p > k:\n            return kth_smallest(left, p - 1)\n        else:\n            return kth_smallest(p + 1, right)\n\n    return kth_smallest(0, len(array) - 1)\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 3, 5, 7, 9], 1) == 1\n    assert kth_element([1, 3, 5, 7, 9], 5) == 9\n    assert kth_element([1, 3, 5, 7, 9], 4) == 7"
+    },
+    {
+      "rank": 65,
+      "score": 3.104431797502378,
+      "candidate": "def find_kth_element(array, k):\n    # O(n)\n    if not array or k < 0:\n        return None\n    return find_kth_element_rec(array, 0, len(array) - 1, k)\n\ndef find_kth_element_rec(array, left, right, k):\n    if left > right:\n        return None\n    # find the pivot\n    pivot_idx = partition(array, left, right)\n    if pivot_idx == k:\n        return array[pivot_idx]\n    elif pivot_idx > k:\n        return find_kth_element_rec(array, left, pivot_idx - 1, k)\n    else:\n        return find_kth_element_rec(array, pivot_idx + 1, right, k)\n\ndef partition(array, left, right):\n    pivot = array[right]\n    i = left - 1\n    for j in range(left, right):\n        if array[j] <= pivot:\n            i += 1\n            array[i], array[j] = array[j], array[i]\n    array[i + 1], array[right] = array[right], array[i + 1]\n    return i + 1\n\n\nimport unittest\nclass TestKthElement(unittest.TestCase):\n    def test_kth_element(self):\n        self.assertEqual(find_kth_element([10, 11, 12, 13, 14], 2), 11)\n        self.assertEqual(find_kth_element([10, 11, 12, 13, 14], 3), 12)\n        self.assertEqual(find_kth_element([10, 11, 12, 13, 14], 4), 13)\n        self.assertEqual(find_kth_element([10, 11, 12, 13, 14], 5), 14)\n        self.assertEqual(find_kth_element([10, 11,"
+    },
+    {
+      "rank": 66,
+      "score": 3.0984306179345618,
+      "candidate": "def kth_element(nums: list[int], k: int) -> int:\n    \"\"\"\n    time: O(nlogn)\n    space: O(n)\n    \"\"\"\n    nums.sort()\n    return nums[k - 1]\n\n\nif __name__ == \"__main__\":\n    print(kth_element([1, 3, 5, 7, 9], 3))"
+    },
+    {
+      "rank": 67,
+      "score": 3.085684140594985,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    return sorted(array)[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 3, 4, 5], 3) == 3"
+    },
+    {
+      "rank": 68,
+      "score": 3.055461294854933,
+      "candidate": "from typing import List\n\n\ndef kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if k >= len(arr):\n        raise ValueError(\"K should be less than the length of the array\")\n\n    def partition(arr: List[int], left: int, right: int) -> int:\n        pivot = right - 1\n        index = left\n\n        while index < pivot:\n            if arr[index] > arr[pivot]:\n                arr[index], arr[pivot] = arr[pivot], arr[index]\n                pivot -= 1\n            else:\n                index += 1\n\n        return pivot\n\n    def find_kth_element(arr: List[int], left: int, right: int, k: int) -> int:\n        if right == left:\n            return arr[left]\n\n        pivot = partition(arr, left, right)\n        if k == pivot:\n            return arr[k]\n        elif k < pivot:\n            return find_kth_element(arr, left, pivot, k)\n        else:\n            return find_kth_element(arr, pivot + 1, right, k)\n\n    return find_kth_element(arr, 0, len(arr), k)\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 3, 5, 7, 9, 11], 3) == 7\n    assert kth_element([1, 3, 5, 7, 9, 11], 0) == 1\n    assert kth_element([1, 3, 5, 7, 9, 11], 6) == 11"
+    },
+    {
+      "rank": 69,
+      "score": 3.043523534119086,
+      "candidate": "from typing import List\n\n\ndef kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    def quick_sort(arr: List[int], start: int, end: int) -> None:\n        if start >= end:\n            return\n\n        pivot = arr[end]\n        partition_index = start\n\n        for i in range(start, end):\n            if arr[i] < pivot:\n                arr[i], arr[partition_index] = arr[partition_index], arr[i]\n                partition_index += 1\n\n        arr[partition_index], arr[end] = pivot, arr[partition_index]\n\n        quick_sort(arr, start, partition_index - 1)\n        quick_sort(arr, partition_index + 1, end)\n\n    quick_sort(arr, 0, len(arr) - 1)\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5], 3) == 3"
+    },
+    {
+      "rank": 70,
+      "score": 3.033764102343962,
+      "candidate": "from typing import List\n\n\ndef kth_smallest_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(1)\n    \"\"\"\n    arr.sort()\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_smallest_element([1, 3, 5, 7, 9], 1) == 1\n    assert kth_smallest_element([1, 3, 5, 7, 9], 3) == 5\n    assert kth_smallest_element([1, 3, 5, 7, 9], 5) == 9"
+    },
+    {
+      "rank": 71,
+      "score": 2.993251387631033,
+      "candidate": "from typing import List\n\n\ndef kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    nums.sort()\n    return nums[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 3, 4, 5], 2) == 3"
+    },
+    {
+      "rank": 72,
+      "score": 2.982086980445024,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    if k < 0 or k >= len(arr):\n        raise ValueError(\"Invalid k\")\n\n    return sorted(arr)[k]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5], 2) == 3"
+    },
+    {
+      "rank": 73,
+      "score": 2.930867849414408,
+      "candidate": "from typing import List\n\n\n# O(n) time | O(1) space\ndef findKthLargestNumberInArray(nums: List[int], k: int) -> int:\n    # the idea is to sort the array and then return the kth element\n    nums.sort()\n    return nums[-k]\n\n\n# O(n) time | O(1) space\ndef findKthLargestNumberInArraySort(nums: List[int], k: int) -> int:\n    # the idea is to use the quick sort algorithm\n    # find the kth element in the left side of the array\n    return findKthLargestNumberInArraySortHelper(nums, 0, len(nums) - 1, k)\n\n\ndef findKthLargestNumberInArraySortHelper(nums: List[int], start: int, end: int, k: int) -> int:\n    # the base case\n    if start > end:\n        return None\n\n    # the recursive case\n    # we need to find the pivot element\n    pivot = findPivotElement(nums, start, end)\n    # find the pivot element\n    if pivot == k - 1:\n        return nums[pivot]\n    elif pivot > k - 1:\n        # go to the left\n        return findKthLargestNumberInArraySortHelper(nums, start, pivot - 1, k)\n    else:\n        # go to the right\n        return findKthLargestNumberInArraySortHelper(nums, pivot + 1, end, k)\n\n\ndef findPivotElement(nums: List[int], start: int, end: int) -> int:\n    # the idea is to go to the middle and then do the partition\n    # and find the pivot element\n    # the pivot element is the element that is at the same position\n    # as the start of the array\n    middle = (start + end) // 2\n    partitionArray(nums, start, end, middle)\n    return middle\n\n\ndef partitionArray(nums: List[int], start: int, end: int, pivot: int) -> int:\n    # the"
+    },
+    {
+      "rank": 74,
+      "score": 2.890164056081244,
+      "candidate": "from typing import List\n\n\ndef kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    array.sort()\n    return array[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5, 6], 4) == 4"
+    },
+    {
+      "rank": 75,
+      "score": 2.887111849756732,
+      "candidate": "import heapq\n\n\ndef find_kth_element(arr, k):\n    \"\"\"\n    :param arr: list[int]\n    :param k: int\n    :return: int\n    \"\"\"\n    if not arr:\n        return\n    heapq.heapify(arr)\n    for _ in range(len(arr) - k):\n        heapq.heappop(arr)\n    return heapq.heappop(arr)\n\n\nif __name__ == \"__main__\":\n    test_case = [\n        ([], 0, None),\n        ([1], 0, 1),\n        ([1, 2, 3], 0, 1),\n        ([1, 2, 3], 1, 2),\n        ([1, 2, 3], 2, 3),\n        ([1, 2, 3], 3, None),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0, 1),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1, 2),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2, 3),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, 4),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4, 5),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5, 6),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 6, 7),\n        ([1, 2, 3, 4, 5, 6, 7, 8, 9"
+    },
+    {
+      "rank": 76,
+      "score": 2.8541531251033616,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(log(n))\n    \"\"\"\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if k > arr[mid]:\n            low = mid + 1\n        elif k < arr[mid]:\n            high = mid - 1\n        else:\n            return arr[mid]\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5, 6], 2) == 3\n    assert find_kth_element([1, 2, 3, 4, 5, 6], 3) == 4\n    assert find_kth_element([1, 2, 3, 4, 5, 6], 5) == 6"
+    },
+    {
+      "rank": 77,
+      "score": 2.8504963247670663,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    arr.sort()\n\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5], 3) == 3\n    assert find_kth_element([1, 3, 5, 7], 2) == 5"
+    },
+    {
+      "rank": 78,
+      "score": 2.8494481522053556,
+      "candidate": "import unittest\n\n\ndef find_kth_element(arr, k):\n    \"\"\"\n    :param arr: array of integers\n    :param k: index of element\n    :return: element at index k\n    \"\"\"\n    return sorted(arr)[k - 1]\n\n\nclass TestSuite(unittest.TestCase):\n\n    def test_find_kth_element(self):\n\n        self.assertEqual(find_kth_element([1, 2, 3, 4, 5], 3), 3)\n\n\nif __name__ == '__main__':\n\n    unittest.main()"
+    },
+    {
+      "rank": 79,
+      "score": 2.8074588597918417,
+      "candidate": "from typing import List\n\n\ndef kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    O(nlogn)\n    \"\"\"\n    array = sorted(array)\n    return array[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5], 4) == 4"
+    },
+    {
+      "rank": 80,
+      "score": 2.768291153593769,
+      "candidate": "class Solution:\n    def kth_element(self, arr, k):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if arr is None or k <= 0:\n            return 0\n        return self.kth_element_recursive(arr, 0, len(arr) - 1, k)\n\n    def kth_element_recursive(self, arr, left, right, k):\n        if left == right:\n            return arr[left]\n        pivot = self.partition(arr, left, right)\n        if k == pivot:\n            return arr[k]\n        elif k < pivot:\n            return self.kth_element_recursive(arr, left, pivot - 1, k)\n        else:\n            return self.kth_element_recursive(arr, pivot + 1, right, k)\n\n    def partition(self, arr, left, right):\n        pivot = left\n        while left < right:\n            while left < right and arr[right] >= arr[pivot]:\n                right -= 1\n            while left < right and arr[left] <= arr[pivot]:\n                left += 1\n            arr[left], arr[right] = arr[right], arr[left]\n        arr[right], arr[pivot] = arr[pivot], arr[right]\n        return right\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    k = 5\n    print(Solution().kth_element(arr, k))"
+    },
+    {
+      "rank": 81,
+      "score": 2.7671351232148718,
+      "candidate": "import sys\n\n\ndef kth_element(arr, k):\n    return arr[k-1]\n\n\nif __name__ == \"__main__\":\n    if sys.argv[1] == 'test':\n        print(kth_element([1, 2, 3, 4, 5, 6], 2))\n        print(kth_element([1, 2, 3, 4, 5, 6], 1))\n        print(kth_element([1, 2, 3, 4, 5, 6], 6))\n        print(kth_element([1, 2, 3, 4, 5, 6], 10))\n    else:\n        arr = list(map(int, input().split()))\n        k = int(input())\n        print(kth_element(arr, k))"
+    },
+    {
+      "rank": 82,
+      "score": 2.760412881077355,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    \"\"\"\n    arr.sort()\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5], 3) == 3"
+    },
+    {
+      "rank": 83,
+      "score": 2.7408648908631763,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    arr_len: int = len(arr)\n    if arr_len == 0:\n        return -1\n\n    if k > arr_len:\n        return -1\n\n    k -= 1\n\n    start: int = 0\n    end: int = arr_len - 1\n\n    while start <= end:\n        mid: int = (start + end) // 2\n\n        if mid > k:\n            end = mid - 1\n        elif mid < k:\n            start = mid + 1\n        else:\n            return arr[mid]\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 2, 3, 4, 5, 6, 7], 3) == 3"
+    },
+    {
+      "rank": 84,
+      "score": 2.7278086377374087,
+      "candidate": "from typing import List\n\n\ndef kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(n)\n    \"\"\"\n    arr.sort()\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([3, 5, 2, 4, 1], 2) == 2"
+    },
+    {
+      "rank": 85,
+      "score": 2.6996806550405976,
+      "candidate": "import unittest\n\n\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef find_kth_element(nums, k):\n    if not nums:\n        return None\n\n    # Move left and right pointers to find the kth element.\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        # Get the middle element.\n        middle = (left + right) // 2\n\n        # If the middle element is the kth element.\n        if nums[middle] == k:\n            return k\n\n        # If the kth element is less than the middle element.\n        if k < nums[middle]:\n            right = middle - 1\n\n        # If the kth element is greater than the middle element.\n        elif k > nums[middle]:\n            left = middle + 1\n\n    # Return the element if it exists.\n    return nums[left] if left < len(nums) else None\n\n\nclass TestSuite(unittest.TestCase):\n\n    def setUp(self):\n        self.test_cases = [\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 5),\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 10, None),\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 1, 1),\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 9, 9),\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 0, None),\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 6, 6),\n            ([1, 2, 3, 4, 5, 6, 7, 8, 9], 8, 8),"
+    },
+    {
+      "rank": 86,
+      "score": 2.6991466938853015,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(1)\n    \"\"\"\n    nums.sort()\n    return nums[k - 1]\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([1, 3, 4, 5, 6], 3))"
+    },
+    {
+      "rank": 87,
+      "score": 2.6615389998470205,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(k: int, arr: List[int]) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n\n    for i in range(len(arr)):\n        if arr[i] <= k:\n            k -= arr[i]\n        else:\n            return arr[i]\n\n    return arr[-1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element(3, [2, 3, 6, 7]) == 7"
+    },
+    {
+      "rank": 88,
+      "score": 2.493584439832788,
+      "candidate": "def find_kth(arr, k):\n    return sorted(arr)[k-1]\n\n\nif __name__ == \"__main__\":\n    print(find_kth([1, 2, 3, 4, 5], 3))"
+    },
+    {
+      "rank": 89,
+      "score": 2.4711445355220496,
+      "candidate": "def find_kth_element(arr, k):\n    # sort the array\n    arr.sort()\n\n    # return the kth element\n    return arr[k - 1]\n\n\nprint(find_kth_element([10, 4, 6, 8, 3, 5, 7, 9, 2, 1], 4))"
+    },
+    {
+      "rank": 90,
+      "score": 2.446832512996986,
+      "candidate": "class Solution:\n    def find_kth_element(self, array, k):\n        \"\"\"\n        :type array: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if not array or k > len(array):\n            return None\n\n        return self.find_kth_element_rec(array, 0, len(array) - 1, k)\n\n    def find_kth_element_rec(self, array, start, end, k):\n        if start > end:\n            return None\n        if start == end:\n            return array[start]\n\n        pivot = self.get_pivot(array, start, end)\n        if pivot == k - 1:\n            return array[pivot]\n        elif pivot > k - 1:\n            return self.find_kth_element_rec(array, start, pivot - 1, k)\n        else:\n            return self.find_kth_element_rec(array, pivot + 1, end, k - pivot - 1)\n\n    def get_pivot(self, array, start, end):\n        pivot_index = self.get_median_index(array, start, end)\n        pivot_value = array[pivot_index]\n\n        # move pivot to the end\n        array[pivot_index], array[end] = array[end], array[pivot_index]\n        pivot_index = end\n\n        # move all elements smaller than pivot to the left\n        store_index = start\n        for i in range(start, end):\n            if array[i] < pivot_value:\n                array[store_index], array[i] = array[i], array[store_index]\n                store_index += 1\n\n        # move pivot to its correct position\n        array[store_index], array[pivot_index] = array[pivot_index], array[store_index]\n\n        return store_index\n\n    def get_median_index(self, array, start, end):\n        mid = (start + end) // 2\n\n        if mid % 2 == 0:\n            return mid\n        else"
+    },
+    {
+      "rank": 91,
+      "score": 2.4018966879596646,
+      "candidate": "from heapq import heapify, heappop, heappush\n\n\ndef kth_element(array, k):\n    heap = []\n    for element in array:\n        if len(heap) < k:\n            heappush(heap, element)\n        else:\n            if element > heap[0]:\n                heappop(heap)\n                heappush(heap, element)\n    return heap[0]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        [[1, 2, 3, 4, 5], 3],\n        [[1, 2, 3, 4, 5], 2],\n        [[1, 2, 3, 4, 5], 1],\n        [[1, 2, 3, 4, 5], 5],\n        [[1, 2, 3, 4, 5], 6],\n        [[1, 2, 3, 4, 5], 0],\n        [[1, 2, 3, 4, 5], -1],\n    ]\n    for test_case in test_cases:\n        print(kth_element(*test_case))"
+    },
+    {
+      "rank": 92,
+      "score": 2.389578175014489,
+      "candidate": "from typing import List\n\n\ndef find_kth_element(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    for idx in range(k):\n        arr = sorted(arr)\n\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth_element([1, 3, 5, 7, 9], 3) == 5"
+    },
+    {
+      "rank": 93,
+      "score": 2.3359069755507846,
+      "candidate": "from typing import List\n\n\ndef find_kth(arr: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not arr:\n        raise ValueError(\"Array is empty\")\n\n    if k > len(arr):\n        raise ValueError(\"K is greater than length of array\")\n\n    return arr[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert find_kth([1, 2, 3, 4, 5, 6, 7], 4) == 4"
+    },
+    {
+      "rank": 94,
+      "score": 2.293848149332354,
+      "candidate": "def find_kth_element(arr, k):\n    return sorted(arr)[k - 1]\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 5))\n    print(find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 6))\n    print(find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 7))\n    print(find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 8))\n    print(find_kth_element([1, 2, 3, 4, 5, 6, 7, 8, 9], 9))"
+    },
+    {
+      "rank": 95,
+      "score": 2.287625906893272,
+      "candidate": "def find_kth_element(arr, k):\n    \"\"\"\n    :param arr: given array\n    :param k: kth index\n    :return: kth element\n    \"\"\"\n    start = 0\n    end = len(arr) - 1\n\n    while start <= end:\n        mid = (start + end) // 2\n\n        if arr[mid] == k:\n            return k\n        elif arr[mid] < k:\n            start = mid + 1\n        else:\n            end = mid - 1\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(find_kth_element([2, 3, 4, 5, 6, 7], 4))\n    print(find_kth_element([2, 3, 4, 5, 6, 7], 5))\n    print(find_kth_element([2, 3, 4, 5, 6, 7], 6))\n    print(find_kth_element([2, 3, 4, 5, 6, 7], 7))\n    print(find_kth_element([2, 3, 4, 5, 6, 7], 8))"
+    },
+    {
+      "rank": 96,
+      "score": 2.137541083743484,
+      "candidate": "from typing import List\n\n\ndef kth_element(array: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n*log(n))\n    Space Complexity: O(1)\n    \"\"\"\n    if not array:\n        return 0\n\n    return sorted(array)[k - 1]\n\n\nif __name__ == \"__main__\":\n    assert kth_element([1, 2, 3, 4, 5], 3) == 3"
+    },
+    {
+      "rank": 97,
+      "score": 2.043359877671101,
+      "candidate": "def kth_element(arr, k):\n    return sorted(arr)[k-1]\n\nprint(kth_element([1, 3, 4, 5, 6, 7, 8], 3))"
+    },
+    {
+      "rank": 98,
+      "score": 2.020164938060112,
+      "candidate": "def find_kth_element(array, k):\n    \"\"\"\n    :param array: list\n    :param k: int\n    :return: int\n    \"\"\"\n    return sorted(array)[k-1]\n\n\ndef test_find_kth_element():\n    assert find_kth_element([1, 2, 3, 4, 5], 3) == 3\n\n\nif __name__ == '__main__':\n    test_find_kth_element()"
+    },
+    {
+      "rank": 99,
+      "score": 2.006215542699554,
+      "candidate": "from typing import List\n\n\ndef kth_element(nums: List[int], k: int) -> int:\n    \"\"\"\n    Time complexity: O(n)\n    Space complexity: O(1)\n    \"\"\"\n    if not nums:\n        return None\n    \n    left = 0\n    right = len(nums) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if k == nums[mid]:\n            return nums[mid]\n        elif k > nums[mid]:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return None\n\n\nif __name__ == \"__main__\":\n    print(kth_element([1, 2, 3, 4, 5], 2))\n    print(kth_element([1, 2, 3, 4, 5], 6))\n    print(kth_element([1, 2, 3, 4, 5], 5))\n    print(kth_element([1, 2, 3, 4, 5], 1))"
+    },
+    {
+      "rank": 100,
+      "score": 1.6901274479551278,
+      "candidate": "def kth_element(arr, k):\n    \"\"\"\n    :param: arr - input array\n    :param: k - find kth element in the array\n    TODO: complete this function and return element present at kth position\n    \"\"\"\n    if not arr or k < 0 or k >= len(arr):\n        return None\n\n    return quickselect(arr, k)\n\ndef partition(arr, left, right):\n    pivot = arr[right]\n    i = left - 1\n    for j in range(left, right):\n        if arr[j] <= pivot:\n            i += 1\n            arr[i], arr[j] = arr[j], arr[i]\n\n    arr[i+1], arr[right] = arr[right], arr[i+1]\n    return i + 1\n\ndef quickselect(arr, k):\n    n = len(arr)\n    left, right = 0, n - 1\n    while left < right:\n        pivot = partition(arr, left, right)\n        if pivot == k:\n            return arr[pivot]\n        elif pivot > k:\n            right = pivot - 1\n        else:\n            left = pivot + 1\n\n    return None\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    k = test_case[1]\n    solution = test_case[2]\n    output = kth_element(arr, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\narr = [3, 4, 2, 1, 6, 5]\nk = 3\nsolution = 2\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [3, 2, 1]\nk = 1\nsolution = 1\ntest_case = [arr, k, solution]\ntest_function(test_case)\n\narr = [1, 2, 3, 4, 5, 6]\nk = 3\nsolution = 3\ntest_case = [arr, k, solution]\ntest"
+    }
+  ]
+}

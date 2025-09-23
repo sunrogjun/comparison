@@ -1,0 +1,432 @@
+{
+  "problem": {
+    "task_id": "MBPP/223",
+    "prompt": "Write a function to check for majority element in the given sorted array.",
+    "canonical_solution": "def is_majority(arr, n, x):\r\n\ti = binary_search(arr, 0, n-1, x)\r\n\tif i == -1:\r\n\t\treturn False\r\n\tif ((i + n//2) <= (n -1)) and arr[i + n//2] == x:\r\n\t\treturn True\r\n\telse:\r\n\t\treturn False\r\ndef binary_search(arr, low, high, x):\r\n\tif high >= low:\r\n\t\tmid = (low + high)//2 \r\n\t\tif (mid == 0 or x > arr[mid-1]) and (arr[mid] == x):\r\n\t\t\treturn mid\r\n\t\telif x > arr[mid]:\r\n\t\t\treturn binary_search(arr, (mid + 1), high, x)\r\n\t\telse:\r\n\t\t\treturn binary_search(arr, low, (mid -1), x)\r\n\treturn -1",
+    "test_list": [
+      "assert is_majority([1, 2, 3, 3, 3, 3, 10], 7, 3) == True",
+      "assert is_majority([1, 1, 2, 4, 4, 4, 6, 6], 8, 4) == False",
+      "assert is_majority([1, 1, 1, 2, 2], 5, 1) == True"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 212
+  },
+  "model_name": "codet5-770m",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "class Solution:\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return None\n\n        count = {}\n        for i in nums:\n            if i not in count:\n                count[i] = 1\n            else:\n                count[i] += 1\n\n        for key in count:\n            if count[key] > len(nums) / 2:\n                return key\n\n        return None\n\n\nif __name__ == '__main__':\n    s = Solution()\n    assert s.majorityElement([1, 1, 2, 2, 2]) == 1\n    assert s.majorityElement([1, 1, 2, 2, 2]) == 2\n    assert s.majorityElement([1, 1, 2, 3, 3, 3, 3, 3]) == 3\n    assert s.majorityElement([1, 1, 2, 2, 2]) == None",
+      3.708984375
+    ],
+    [
+      "def majority_element(arr):\n    if len(arr) == 1:\n        return arr[0]\n    else:\n        count = {}\n        for i in arr:\n            if i in count:\n                count[i] += 1\n            else:\n                count[i] = 1\n        for key in count.keys():\n            if count[key] > len(arr) // 2:\n                return key\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]\n    print(majority_element(arr))",
+      3.240234375
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for x in arr:\n        if count == 0:\n            majority = x\n            count += 1\n        elif majority == x:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nprint(majority([1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4]))",
+      3.2109375
+    ],
+    [
+      "def majority_element(arr):\n    n = len(arr)\n    count = 0\n    count_dict = {}\n    for i in arr:\n        if i not in count_dict:\n            count_dict[i] = 1\n        else:\n            count_dict[i] += 1\n    for i in count_dict.items():\n        if i[1] > n//2:\n            return i[0]\n\n\narr = [1, 2, 3, 3, 2, 2, 3, 2, 2, 2, 3, 2, 2, 3]\nprint(majority_element(arr))",
+      2.0234375
+    ],
+    [
+      "def majority_element(nums):\n    count = {}\n    for num in nums:\n        if num in count:\n            count[num] += 1\n        else:\n            count[num] = 1\n    for key, value in count.items():\n        if value > len(nums) // 3:\n            return key\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5]\n    print(majority_element(nums))",
+      1.7763671875
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        count = {}\n        for num in nums:\n            if num not in count:\n                count[num] = 1\n            else:\n                count[num] += 1\n        for key, value in count.items():\n            if value > len(nums) / 2:\n                return key",
+      1.099609375
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    majority_element = None\n    for i in arr:\n        if count == 0:\n            majority_element = i\n            count += 1\n        elif i == majority_element:\n            count += 1\n        else:\n            count -= 1\n    return majority_element\n\n\nif __name__ == \"__main__\":\n    print(majority([1, 2, 3, 4, 5]))",
+      1.06640625
+    ],
+    [
+      "def majority(arr):\n    n = len(arr)\n    count = {}\n    for x in arr:\n        if x in count:\n            count[x] += 1\n        else:\n            count[x] = 1\n    for x in count.keys():\n        if count[x] > n / 2:\n            return x\n\n\narr = [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,",
+      0.70458984375
+    ],
+    [
+      "def majority(arr):\n    return sorted(arr)[len(arr)//2]\n\nprint(majority([1,2,3,3,3,4,5,5,5,5,5,5]))",
+      0.0194244384765625
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) <= 1:\n            return nums[0]\n        count = 0\n        for i in range(len(nums)):\n            if nums[i] == nums[count]:\n                count += 1\n            else:\n                count = 0\n        return nums[count]",
+      -0.12005615234375
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = {}\n        for num in nums:\n            if num not in count:\n                count[num] = 1\n            else:\n                count[num] += 1\n        for num in count:\n            if count[num] > len(nums)/2:\n                return num",
+      -0.1217041015625
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = arr[0]\n    for i in arr:\n        if i == majority:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                majority = i\n    return majority\n\narr = [1, 2, 3, 3, 3, 3, 4, 4, 4]\nprint(majority_element(arr))",
+      -0.352294921875
+    ],
+    [
+      "def majority_element(nums):\n    count = 0\n    majority = nums[0]\n    for num in nums:\n        if num == majority:\n            count += 1\n        else:\n            if count == 0:\n                majority = num\n                count = 1\n            else:\n                count -= 1\n    return majority\n\n\nprint(majority_element([2, 2, 3, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5]))",
+      -0.5908203125
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority_element = None\n    for i in arr:\n        if count == 0:\n            majority_element = i\n        count += 1 if i == majority_element else -1\n    return majority_element\n\n\nif __name__ == \"__main__\":\n    arr = [2, 2, 3, 3, 4, 4, 4, 4, 4, 4]\n    print(majority_element(arr))",
+      -0.85791015625
+    ],
+    [
+      "def majority(arr):\n    num = 0\n    for i in arr:\n        if i == num:\n            return num\n        else:\n            num += 1\n    return num\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9]\n    print(majority(arr))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = {}\n        for num in nums:\n            if num not in count:\n                count[num] = 1\n            else:\n                count[num] += 1\n\n        return max(count, key=count.get)",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    def majorityElement(self, nums: List[int]) -> int:\n        cnt = 0\n        for num in nums:\n            if cnt == 0:\n                cnt = num\n            elif num == cnt:\n                cnt += 1\n            else:\n                cnt -= 1\n        return cnt\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 3, 2, 2]\n    print(Solution().majorityElement(nums))",
+      -0.85791015625
+    ],
+    [
+      "def majority_element(arr):\n    n = len(arr)\n    if n == 0:\n        return -1\n    if n == 1:\n        return arr[0]\n    if n == 2:\n        return arr[0] if arr[0] == arr[1] else arr[1]\n    if n == 3:\n        return arr[0] if arr[0] == arr[1] == arr[2] else arr[2]\n    if n > 2:\n        for i in range(0, n - 1):\n            if arr[i] == arr[i + 1]:\n                return arr[i]\n\n\narr = [2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4]\nprint(majority_element(arr))",
+      -0.8583984375
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    count_arr = {}\n    for i in arr:\n        if i not in count_arr:\n            count_arr[i] = 1\n        else:\n            count_arr[i] += 1\n    for i in count_arr:\n        if count_arr[i] > len(arr) // 3:\n            return i\n    return None",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 1:\n            return nums[0]\n\n        # find the mid point of the array\n        mid = len(nums)//2\n\n        # find the majority element\n        majority = nums[0]\n\n        for num in nums:\n            if num == majority:\n                continue\n            if num > majority:\n                majority = num\n            elif num < majority:\n                return majority\n\n        return majority\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.majorityElement([1,2,3,4,5])",
+      -0.8583984375
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    max_count = 0\n    for i in arr:\n        if i == max_count:\n            count += 1\n        else:\n            count = 0\n        if count > max_count:\n            max_count = count\n    return max_count\n\n\nprint(majority_element([2, 2, 2, 3, 4, 4, 4, 4, 4, 4, 4]))\nprint(majority_element([1, 2, 3, 4, 5]))\nprint(majority_element([1, 2, 3, 4, 5, 6, 7]))\nprint(majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))",
+      -0.8583984375
+    ],
+    [
+      "def majority(nums):\n    cnt = 0\n    for num in nums:\n        if cnt == 0:\n            cnt = num\n        elif num == cnt:\n            cnt += 1\n        else:\n            cnt -= 1\n    return cnt\n\n\nif __name__ == \"__main__\":\n    assert majority([1, 2, 3, 4, 5, 5]) == 4\n    assert majority([2, 2, 2, 2, 2]) == 2",
+      -0.8583984375
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = None\n    for i in arr:\n        if count == 0:\n            majority = i\n        if i == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\narr = [3, 1, 1, 2, 2, 3]\nprint(majority_element(arr))",
+      -0.8583984375
+    ],
+    [
+      "def majority_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) == 1:\n        return nums[0]\n    if len(nums) == 2:\n        return max(nums)\n    counts = {}\n    for num in nums:\n        if num not in counts:\n            counts[num] = 1\n        else:\n            counts[num] += 1\n    max_count = max(counts.values())\n    for num in counts:\n        if counts[num] == max_count:\n            return num\n    return -1\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 2, 2, 2, 3, 3]) == 3\n    assert majority_element([1, 2, 2, 2, 3, 3, 3]) == 2",
+      -0.8583984375
+    ],
+    [
+      "def majority_element(nums):\n    n = len(nums)\n    count = 0\n    majority = None\n\n    for i in range(n):\n        if nums[i] == nums[count]:\n            count += 1\n        else:\n            count = 0\n\n        if count > (n-1)//2:\n            majority = nums[i]\n\n    return majority\n\n\nprint(majority_element([1, 2, 2, 2, 3, 3, 3]))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for x in arr:\n        if x == arr[count]:\n            count += 1\n        else:\n            count -= 1\n    return arr[count]\n\n\narr = [2, 2, 2, 3, 3, 3, 4, 4, 4]\nprint(majority_element(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority(nums):\n    if not nums:\n        return None\n    count = {}\n    for i in nums:\n        if i not in count:\n            count[i] = 1\n        else:\n            count[i] += 1\n    for k, v in count.items():\n        if v > len(nums) // 3:\n            return k\n    return None",
+      -0.85888671875
+    ],
+    [
+      "def majorityElement(nums):\n    if len(nums) < 2:\n        return nums[0]\n    count = 0\n    for i in range(len(nums)):\n        if nums[i] == nums[count]:\n            count += 1\n        else:\n            count = 0\n    return nums[count]\n\nnums = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 6]\nprint(majorityElement(nums))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param A : list of integers\n    # @return an integer\n    def majorityElement(self, A):\n        count = 0\n        for i in A:\n            if count == 0:\n                majority = i\n            elif A[count] == i:\n                count += 1\n            else:\n                count -= 1\n        return majority\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.majorityElement([1, 2, 3, 3, 3, 3]) == 3",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    if len(arr) < 2:\n        return arr[0]\n    elif len(arr) == 2:\n        if arr[0] == arr[1]:\n            return arr[0]\n        else:\n            return arr[1]\n    else:\n        count = 0\n        for i in arr:\n            if i == arr[count]:\n                count += 1\n            else:\n                count -= 1\n        return arr[count]\n\n\narr = [4, 4, 4, 4, 4, 4, 4, 4]\nprint(majority_element(arr))\n\n\narr = [1, 2, 2, 2, 2, 2, 2, 2, 2, 2]\nprint(majority_element(arr))\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(majority_element(arr))",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n\n        count = 0\n        for num in nums:\n            if count == 0:\n                majority = num\n                count += 1\n            elif majority == num:\n                count += 1\n            else:\n                count -= 1\n        return majority",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    if len(arr)<2:\n        return arr[0]\n    \n    majority = 0\n    for i in range(0,len(arr)):\n        if arr[i] == arr[majority]:\n            majority += 1\n        else:\n            majority -= 1\n            if majority == 0:\n                majority = i\n    return majority\n\n\nif __name__ == '__main__':\n    print(majority_element([1,2,3,3,3,4,4,4,4,4,4,4,4]))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(nums):\n    count = 0\n    num = None\n    for i in range(len(nums)):\n        if nums[i] == num:\n            count += 1\n        else:\n            if count > 0:\n                num = nums[i]\n                count = 1\n            else:\n                num = nums[i]\n    return num\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5]))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = None\n    for i in arr:\n        if count == 0:\n            majority = i\n            count += 1\n        elif i == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\narr = [1, 2, 3, 3, 2, 1, 1, 1, 2, 2, 2, 2]\nprint(majority_element(arr))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 2:\n            return nums[0]\n        counts = {}\n        for num in nums:\n            if num in counts:\n                counts[num] += 1\n            else:\n                counts[num] = 1\n        for k, v in counts.items():\n            if v > len(nums) / 2:\n                return k\n\n\nif __name__ == \"__main__\":\n    nums = [1, 1, 2, 2, 3, 4, 4, 4, 4, 5]\n    sol = Solution()\n    print(sol.majorityElement(nums))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return None\n        c = 0\n        for i in range(len(nums)):\n            if nums[i] == nums[c]:\n                c += 1\n            else:\n                c -= 1\n        return nums[c]",
+      -0.85888671875
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in arr:\n        if count == 0:\n            majority_element = i\n        if i == majority_element:\n            count += 1\n        else:\n            count -= 1\n    return majority_element\n\n\narr = [1, 2, 2, 2, 3, 3, 3, 3]\nprint(majority(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    n = len(arr)\n    count = 0\n    for i in range(n):\n        if count == 0:\n            majority = arr[i]\n        elif arr[i] == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nif __name__ == '__main__':\n    assert majority_element([1, 1, 1, 2, 2]) == 1\n    assert majority_element([1, 2, 2, 2, 2, 2]) == 2\n    assert majority_element([1, 2, 2, 2, 2, 2]) == 2",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 0:\n        return None\n    if len(arr) == 1:\n        return arr[0]\n    major = arr[0]\n    count = 1\n    for i in range(1, len(arr)):\n        if arr[i] == major:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                major = arr[i]\n                count = 1\n    return major\n\n\nif __name__ == \"__main__\":\n    arr = [2, 3, 3, 3, 2, 2, 2]\n    print(majority_element(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for i in arr:\n        if count == 0:\n            majority = i\n            count += 1\n        elif majority == i:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\nprint(majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))",
+      -0.85888671875
+    ],
+    [
+      "def majority(nums):\n    return sorted(nums)[len(nums)//2]\n\n\nif __name__ == \"__main__\":\n    nums = [2, 3, 4, 5, 7, 9, 9, 10, 9]\n    print(majority(nums))",
+      -0.85888671875
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in arr:\n        if arr.count(i) > count:\n            count = arr.count(i)\n            majority_element = i\n    return majority_element\n\n\narr = [1, 1, 2, 2, 3, 3, 3, 4, 4]\nprint(majority(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[count]:\n            count += 1\n        else:\n            count = 0\n    return arr[count]\n\n\narr = [1, 2, 2, 3, 3, 3, 4, 4, 4, 5]\nprint(majority(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    cnt = 0\n    for i in range(len(nums)):\n        if nums[i] == nums[cnt]:\n            cnt += 1\n        else:\n            cnt = 0\n    return nums[cnt]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 2, 3, 1, 2, 3]) == 2\n    assert majority_element([1, 2, 2, 3, 1, 2, 3]) == 3",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    # Your code here\n    count = 0\n    majority = -1\n    for i in arr:\n        if count == 0:\n            majority = i\n            count += 1\n        else:\n            if i == majority:\n                count += 1\n            else:\n                count -= 1\n    return majority\n\nprint(majority_element([4,5,7,8,9]))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(nums):\n    count = 0\n    for i in nums:\n        if count == 0:\n            major = i\n            count += 1\n        elif i == major:\n            count += 1\n        else:\n            count -= 1\n    return major\n\n\nif __name__ == '__main__':\n    nums = [1, 2, 2, 3, 3, 4, 4, 5, 5, 5]\n    print(majority_element(nums))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    max_count = 0\n    for num in arr:\n        if count == 0:\n            max_count = num\n        elif num == max_count:\n            count += 1\n        else:\n            count -= 1\n    return max_count\n\n\narr = [1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3]\nprint(majority_element(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(nums):\n    count = {}\n    for num in nums:\n        if num in count:\n            count[num] += 1\n        else:\n            count[num] = 1\n    for key in count:\n        if count[key] > len(nums) / 2:\n            return key\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 4]) == 4\n    assert majority_element([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]) == 5",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return max(set(nums), key=nums.count)",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return arr[0]\n    else:\n        mid = int(len(arr) / 2)\n        if arr[mid] == arr[mid - 1]:\n            return arr[mid]\n        else:\n            return majority_element(arr[:mid])\n\narr = [1,1,2,2,2,3,3,4,4,4,4,5,5,5,5,5]\nprint(majority_element(arr))",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(arr):\n    n = len(arr)\n    if n <= 1:\n        return arr[0]\n    for i in range(n):\n        if arr[i] == arr[n - 1]:\n            arr[i] += 1\n        else:\n            arr[i] = 1\n    for i in range(n):\n        if arr[i] > n / 2:\n            return arr[i]\n    return -1\n\n\ndef test_function(test_case):\n    arr = test_case[0]\n    solution = test_case[1]\n    output = majority_element(arr)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr = [1, 2, 2, 3, 3, 4, 4, 4, 5]\nsolution = 3\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 2, 2, 3, 3, 4, 4, 4, 5]\nsolution = 4\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 2, 2, 3, 4, 4, 4, 5]\nsolution = 5\ntest_case = [arr, solution]\ntest_function(test_case)\n\narr = [1, 2, 2, 3, 3, 4, 4, 4, 5]\nsolution = 6\ntest_case = [arr, solution]\ntest_function(test_case)",
+      -0.85888671875
+    ],
+    [
+      "def majority_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for num in nums:\n        if num == nums[0]:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                return num\n\n\nprint(majority_element([1, 2, 3, 2, 1, 1, 2, 3, 2, 1, 2, 3, 2, 2, 1, 1, 2, 3]))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def majorityElement(self, nums: List[int]) -> int:\n        count = 0\n        majority = nums[0]\n        for i in range(len(nums)):\n            if count == 0:\n                majority = nums[i]\n                count += 1\n            elif nums[i] == majority:\n                count += 1\n            else:\n                count -= 1\n        return majority\n\n\nif __name__ == \"__main__\":\n    nums = [1,1,2,2,2,3,3,3,3,3,3,4]\n    sol = Solution()\n    print(sol.majorityElement(nums))",
+      -0.876953125
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = None\n    for i in range(len(arr)):\n        if majority == None or arr[i] == majority:\n            count += 1\n        else:\n            count -= 1\n        if count == 0:\n            majority = arr[i]\n    return majority\n\n\narr = [1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4]\nprint(majority_element(arr))",
+      -0.91796875
+    ],
+    [
+      "def majority(arr):\n    count = {}\n    for i in arr:\n        if i in count:\n            count[i] += 1\n        else:\n            count[i] = 1\n\n    for key in count:\n        if count[key] > len(arr) // 2:\n            return key",
+      -1.025390625
+    ],
+    [
+      "def majority_element(nums):\n    count = {}\n    for num in nums:\n        if num in count:\n            count[num] += 1\n        else:\n            count[num] = 1\n\n    for key, value in count.items():\n        if value > len(nums) / 2:\n            return key\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5",
+      -1.056640625
+    ],
+    [
+      "def majority(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    count = {}\n    for val in arr:\n        if val not in count:\n            count[val] = 1\n        else:\n            count[val] += 1\n\n    for key in count:\n        if count[key] > len(arr) / 2:\n            return key\n\n    return -1\n\n\nif __name__ == '__main__':\n    assert majority([1, 1, 2, 2, 3]) == 2\n    assert majority([1, 1, 2, 2, 3, 3, 3]) == 3\n    assert majority([1, 1, 2, 2, 3, 3, 3]) == 3",
+      -1.103515625
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i] == majority:\n            count += 1\n        else:\n            count -= 1\n        if count == 0:\n            majority = arr[i]\n    return majority\n\n\narr = [1, 1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5]\nprint(majority_element(arr))",
+      -1.26953125
+    ],
+    [
+      "def majority_element(arr):\n    # Your code here\n    dic = {}\n    for i in range(len(arr)):\n        if arr[i] in dic.keys():\n            dic[arr[i]] += 1\n        else:\n            dic[arr[i]] = 1\n    for k in dic.keys():\n        if dic[k] > len(arr) / 2:\n            return k\n    return None\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 1, 2, 3, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 8, 8, 9, 10]))",
+      -1.81640625
+    ],
+    [
+      "def majority(nums):\n    count = 0\n    for i in nums:\n        if count == 0:\n            majority = i\n            count += 1\n        elif i == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nprint(majority([1, 2, 3, 4, 5, 6, 7, 8, 9]))",
+      -1.8505859375
+    ],
+    [
+      "def majorityElement(arr):\n    # Fill this in.\n    c = 0\n    m = 0\n    for i in range(len(arr)):\n        if c == 0:\n            m = arr[i]\n            c += 1\n        elif arr[i] == m:\n            c += 1\n        else:\n            c -= 1\n    return m\n\nprint(majorityElement([4, 2, 4, 1, 2, 1, 1, 2, 3, 3, 2, 2, 3, 2, 2, 3, 2, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3",
+      -2.033203125
+    ],
+    [
+      "def majority_element(nums):\n    count = 0\n    for i in nums:\n        if count == 0:\n            majority = i\n            count += 1\n        elif majority == i:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nif __name__ == '__main__':\n    nums = [3, 2, 2, 1, 3, 4, 3, 2, 2, 3, 4, 4, 4, 3, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,",
+      -2.37109375
+    ],
+    [
+      "def majority_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for i in arr:\n        if count == 0:\n            majority = i\n            count += 1\n        elif majority == i:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\narr = [1,1,2,3,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,",
+      -2.501953125
+    ],
+    [
+      "def majority(nums):\n    return max(set(nums), key=nums.count)\n\n\nif __name__ == '__main__':\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5]) == 5\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5]) == 5\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5\n    assert majority([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]) == 5",
+      -2.86328125
+    ],
+    [
+      "def majority(arr):\n    cnt = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[cnt]:\n            cnt += 1\n        else:\n            cnt -= 1\n    if cnt > len(arr) // 2:\n        return arr[cnt]\n    else:\n        return -1\n\n\nprint(majority([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))",
+      -2.869140625
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    count_dict = {}\n\n    for i in arr:\n        if i not in count_dict:\n            count_dict[i] = 1\n        else:\n            count_dict[i] += 1\n\n    for i in count_dict.keys():\n        if count_dict[i] > len(arr)//3:\n            return i\n\n\nprint(majority_element([3, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]))",
+      -3.138671875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for i in arr:\n        if count == 0:\n            majority = i\n            count += 1\n        elif majority == i:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\nprint(majority_element([1, 2, 2, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3",
+      -3.263671875
+    ],
+    [
+      "def majority_element(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for num in nums:\n        if count == 0:\n            majority = num\n            count += 1\n        elif num == majority:\n            count += 1\n        else:\n            count -= 1\n\n    return majority\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4",
+      -3.361328125
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    majority = 0\n    for x in arr:\n        if count == 0:\n            majority = x\n            count += 1\n        elif x == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,",
+      -3.44140625
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            majority_element = arr[i]\n            count += 1\n        elif arr[i] == majority_element:\n            count += 1\n        else:\n            count -= 1\n    return majority_element\n\n\nprint(majority([1, 2, 3, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5",
+      -3.498046875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            majority = arr[i]\n            count += 1\n        elif arr[i] == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nprint(majority_element([1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,",
+      -3.50390625
+    ],
+    [
+      "def majority(nums):\n    majority_num = nums[0]\n    count = 0\n    for num in nums:\n        if num == majority_num:\n            count += 1\n        else:\n            count -= 1\n        if count == 0:\n            majority_num = num\n    return majority_num\n\n\nif __name__ == '__main__':\n    print(majority([1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5",
+      -3.517578125
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = arr[0]\n    for x in arr:\n        if count == 0:\n            majority = x\n        elif x == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\narr = [1, 2, 3, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7",
+      -3.5625
+    ],
+    [
+      "def majority_element(nums):\n    count = 0\n    for i in nums:\n        if count == 0:\n            major = i\n        elif i == major:\n            count += 1\n        else:\n            count -= 1\n    return major\n\n\n\nprint(majority_element([1, 2, 3, 2, 4, 4, 2, 3, 2, 4, 2, 3, 2, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 2, 4, 4, 2, 3",
+      -3.611328125
+    ],
+    [
+      "def majority(arr):\n    cnt = 0\n    for i in range(len(arr)):\n        if i == 0:\n            cnt += 1\n            continue\n        if arr[i] == arr[i-1]:\n            cnt += 1\n        else:\n            cnt -= 1\n            if cnt == 0:\n                return arr[i]\n\n\narr = [1, 1, 2, 2, 2, 3, 3, 4, 4, 4]\nprint(majority(arr))",
+      -3.638671875
+    ],
+    [
+      "def majority(nums):\n  # Write your code here\n  c=nums.count(nums[0])\n  for i in nums:\n    if nums.count(i)==c:\n      return i\n  return None\n\n\nprint(majority([2, 2, 2, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4",
+      -3.734375
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[count]:\n            count += 1\n        else:\n            count -= 1\n    if count > len(arr) // 3:\n        return arr[count]\n    else:\n        return None\n\n\narr = [1, 1, 2, 2, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,",
+      -3.767578125
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for i in arr:\n        if count == 0:\n            majority = i\n        elif i == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7",
+      -3.982421875
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if count == 0:\n            majority_element = arr[i]\n            count += 1\n        elif arr[i] == majority_element:\n            count += 1\n        else:\n            count -= 1\n    return majority_element\n\n\narr = [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,",
+      -4.0625
+    ],
+    [
+      "def majority(arr):\n    n = len(arr)\n    count = 0\n    for i in range(n):\n        if arr[i] == arr[count]:\n            count += 1\n        else:\n            count = 0\n    return arr[count]\n\n\nif __name__ == \"__main__\":\n    assert majority([1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]) == 3",
+      -4.0703125
+    ],
+    [
+      "def majority(arr):\n    for i in range(len(arr)):\n        if arr.count(arr[i]) > len(arr)//2:\n            return arr[i]\n\n\ndef majority_2(arr):\n    count = 0\n    for i in arr:\n        if arr.count(i) > count:\n            count = arr.count(i)\n            majority = i\n    return majority\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,",
+      -4.171875
+    ],
+    [
+      "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # Solution 1\n        # use a hashmap to store the number of times the element appears\n        # in the array\n        # and the number of times it appears in the sorted array\n        hashmap = {}\n        # use a counter to track the number of times the element appears\n        # in the array\n        count = 0\n        # for each element in the array\n        for i in nums:\n            # if the element in the hashmap is the same as the current element,\n            # increment the counter\n            if i in hashmap:\n                hashmap[i] += 1\n            else:\n                # if the element is not the current element, add the counter to the hashmap\n                hashmap[i] = 1\n            # if the number of times the element appears in the hashmap is greater than\n            # the current counter, then we have found the majority element\n            if hashmap[i] > count:\n                count = hashmap[i]\n        return nums[count]\n\n        # Solution 2\n        # use a hashmap to store the number of times the element appears\n        # in the array\n        # and the number of times it appears in the sorted array\n        # and use a counter to track the number of times the element appears\n        # in the sorted array\n        # for each element in the sorted array\n        hashmap = {}\n        # for each element in the sorted array\n        for i in nums:\n            # if the element in the hashmap is the same as the current element,\n            # increment the counter\n            if i in hashmap:\n                hashmap[i] += 1\n            else:\n                # if the element is not the current element, add the counter to the hashmap\n                hashmap[i] = 1\n            # if the number of times the element appears in the hashmap is greater than\n            # the current counter, then we have found the majority element\n            if hashmap[i] > len(nums) // 2:\n                return i\n        return None",
+      -4.27734375
+    ],
+    [
+      "def majority(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if not nums:\n        return -1\n    count = 0\n    for num in nums:\n        if count == 0:\n            majority = num\n        elif num == majority:\n            count += 1\n        else:\n            count -= 1\n    return majority\n\n\nif __name__ == \"__main__\":\n    assert majority([1, 2, 3, 3, 4, 4, 5, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9]) == 3",
+      -4.48046875
+    ],
+    [
+      "def majority_element(arr):\n    # write your code here\n    count = 0\n    major = None\n    for i in range(len(arr)):\n        if major == None or arr[i] == major:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                major = arr[i]\n    return major\n\n\narr = [2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3",
+      -4.6015625
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[count]:\n            count += 1\n        else:\n            count = 0\n    return arr[count]\n\nprint(majority_element([1,1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,",
+      -4.83203125
+    ],
+    [
+      "def majority_element(arr):\n    if len(arr) == 1:\n        return arr[0]\n    i = 0\n    j = len(arr) - 1\n    while i < j:\n        if arr[i] == arr[j]:\n            i += 1\n            j -= 1\n        elif arr[i] > arr[j]:\n            return arr[i]\n        elif arr[i] < arr[j]:\n            j -= 1\n    return None\n\n\narr = [1, 2, 3, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,",
+      -4.83203125
+    ],
+    [
+      "def majority_element(nums):\n    if len(nums) < 2:\n        return None\n\n    count = 0\n    for i in range(len(nums)):\n        if nums[i] == nums[count]:\n            count += 1\n        else:\n            count -= 1\n\n    return nums[count]\n\n\nif __name__ == \"__main__\":\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6, 6]) == 6\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 6\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 3\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 3\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 2\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 4\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 5\n    assert majority_element([1, 2, 3, 2, 3, 2, 4, 5, 5, 6]) == 2",
+      -4.875
+    ],
+    [
+      "def majority_element(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n\n    # create a counter\n    count = 0\n    # for every element in the given array\n    for i in arr:\n        # increment the count by 1\n        count += 1\n        # if the count is greater than the number of times we have seen this element\n        if count > len(arr) // 2:\n            return i\n    return None\n\n\nif __name__ == \"__main__\":\n    print(majority_element([1, 2, 3, 4, 5, 6, 7, 8, 9]))",
+      -5.15625
+    ],
+    [
+      "def majority(nums):\n    n = len(nums)\n    count = 0\n    for i in range(n):\n        if nums[i] == nums[count]:\n            count += 1\n        else:\n            count -= 1\n    if count == n:\n        return nums[0]\n    else:\n        return -1\n\nif __name__ == \"__main__\":\n    print(majority([1,1,2,2,3,3,3,3,4,5,5,5,5,5,5,5,5,5,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,",
+      -5.6015625
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    majority = 0\n    for i in range(len(arr)):\n        if arr[i] == majority:\n            count += 1\n        else:\n            if count == 0:\n                majority = arr[i]\n            count -= 1\n    return majority\n\n\narr = [1, 2, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1",
+      -5.78125
+    ],
+    [
+      "def majority_element(arr):\n    # write your code here\n    majority_element = 0\n    for i in arr:\n        if majority_element == 0:\n            majority_element = i\n        elif majority_element < i:\n            majority_element = i\n    return majority_element\n\n\narr = [1, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 5, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,",
+      -6.078125
+    ],
+    [
+      "def majority(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: bool\n    \"\"\"\n\n    if len(nums) < 2:\n        return False\n\n    count = 0\n\n    for num in nums:\n        if count == 0:\n            majority_num = num\n            count += 1\n        elif num == majority_num:\n            count += 1\n        else:\n            count -= 1\n\n    return majority_num\n\n\ndef main():\n    assert majority([1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4])\n    assert majority([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3,",
+      -6.6875
+    ],
+    [
+      "def majority_element(arr):\n    count = 0\n    for i in arr:\n        if count == 0:\n            majority = i\n        elif arr.count(i) > count:\n            majority = i\n        count += 1\n    return majority\n\narr = [2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4",
+      -6.76953125
+    ],
+    [
+      "def majority_element(arr):\n    if len(arr) == 1:\n        return arr[0]\n    if len(arr) == 2:\n        if arr[0] == arr[1]:\n            return arr[0]\n        else:\n            return arr[1]\n\n    count = 1\n    cnt = 0\n    i = 0\n    while i < len(arr):\n        if arr[i] == arr[i + 1]:\n            cnt += 1\n        else:\n            if cnt > count:\n                return arr[i]\n            else:\n                cnt = 0\n\n        i += 1\n\n    return arr[i]\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 131, 137, 130, 138, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 16",
+      -7.1875
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[count]:\n            count += 1\n        else:\n            count = 0\n    return arr[count]\n\n\nif __name__ == \"__main__\":\n    arr = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,",
+      -7.3515625
+    ],
+    [
+      "def majority(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            count -= 1\n            if count == 0:\n                return arr[i]\n\n\narr = [1, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4",
+      -7.96875
+    ],
+    [
+      "def majority_element(nums):\n    count = 0\n    num = None\n    for num in nums:\n        if num == num:\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            num = num\n\n    return num\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 2, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3",
+      -8.828125
+    ],
+    [
+      "def majorityElement(arr):\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[count]:\n            count += 1\n        else:\n            count = 0\n    return count\n\nif __name__ == \"__main__\":\n    arr = [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4]\n    print(majorityElement(arr))",
+      -9.546875
+    ],
+    [
+      "class Solution:\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        c = 0\n        for num in nums:\n            if num == nums[c]:\n                c += 1\n            else:\n                c -= 1\n        return nums[c]\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    assert s.majorityElement([3, 2, 2, 3, 3, 2, 2, 3]) == 2\n    assert s.majorityElement([1, 2, 3, 3, 3, 3]) == 3\n    assert s.majorityElement([1, 2, 3, 3, 3, 3]) == 3\n    assert s.majorityElement([1, 2, 3, 3, 3, 3]) == 2\n    assert s.majorityElement([]) == 1",
+      -9.75
+    ],
+    [
+      "def majority(arr):\n    n = len(arr)\n    if n == 0:\n        return None\n    if n == 1:\n        return arr[0]\n    if n == 2:\n        return arr[0] if arr[0] == arr[1] else arr[1]\n    if n == 3:\n        return arr[0] if arr[0] == arr[2] else arr[2]\n    if n == 4:\n        return arr[0] if arr[0] == arr[3] else arr[3]\n\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(majority(arr))",
+      -11.7578125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

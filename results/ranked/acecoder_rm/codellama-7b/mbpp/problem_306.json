@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/317",
+    "prompt": "Write a function to reflect the modified run-length encoding from a list.",
+    "canonical_solution": "from itertools import groupby\r\ndef modified_encode(alist):\r\n        def ctr_ele(el):\r\n            if len(el)>1: return [len(el), el[0]]\r\n            else: return el[0]\r\n        return [ctr_ele(list(group)) for key, group in groupby(alist)]",
+    "test_list": [
+      "assert modified_encode([1,1,2,3,4,4,5,1])==[[2, 1], 2, 3, [2, 4], 5, 1]",
+      "assert modified_encode('automatically')==['a', 'u', 't', 'o', 'm', 'a', 't', 'i', 'c', 'a', [2, 'l'], 'y']",
+      "assert modified_encode('python')==['p', 'y', 't', 'h', 'o', 'n']"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 306
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def run_length_encoding(l):\n    \"\"\"\n    >>> run_length_encoding([])\n    []\n    >>> run_length_encoding([1])\n    [[1, 1]]\n    >>> run_length_encoding([1, 1, 1, 1, 2, 2, 2, 2])\n    [[1, 4], [2, 4]]\n    \"\"\"\n    rle = []\n    current = []\n    for n in l:\n        if current and current[-1][0] == n:\n            current[-1][1] += 1\n        else:\n            current.append([n, 1])\n    return current\n\n\ndef run_length_decoding(rle):\n    \"\"\"\n    >>> run_length_decoding([])\n    []\n    >>> run_length_decoding([[1, 1]])\n    [1, 1]\n    >>> run_length_decoding([[1, 4], [2, 4]])\n    [1, 1, 1, 1, 2, 2, 2, 2]\n    \"\"\"\n    l = []\n    for n, count in rle:\n        l.extend([n] * count)\n    return l",
+      11.6171875
+    ],
+    [
+      "def modified_run_length_encoding(input_list):\n    \"\"\"\n    >>> modified_run_length_encoding([])\n    []\n    >>> modified_run_length_encoding([1])\n    [[1, 1]]\n    >>> modified_run_length_encoding([1, 1])\n    [[1, 2]]\n    >>> modified_run_length_encoding([1, 2])\n    [[1, 1], [2, 1]]\n    >>> modified_run_length_encoding([1, 2, 3, 4, 5])\n    [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1]]\n    >>> modified_run_length_encoding([1, 2, 2, 3, 3, 3, 4, 4, 4, 4])\n    [[1, 1], [2, 2], [3, 3], [4, 4]]\n    >>> modified_run_length_encoding([1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4])\n    [[1, 4], [2, 4], [3, 4], [4, 4]]\n    \"\"\"\n    if not input_list:\n        return []\n\n    result = []\n    current_list = [input_list[0], 1]\n    for i in range(1, len(input_list)):\n        if input_list[i - 1] == input_list[i]:\n            current_list[1] += 1\n        else:\n            result.append(current_list)\n            current_list = [input_list[i], 1]\n    result.append(current_list)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      10.328125
+    ],
+    [
+      "# pylint: disable=invalid-name\ndef encode(list_to_encode):\n    \"\"\"\n    >>> encode([1, 1, 2, 3, 4, 4, 5])\n    [[2, 1], 2, [2, 3], 4, [2, 4], 5]\n    \"\"\"\n    encoded_list = []\n    for item in list_to_encode:\n        count = 1\n        for i in range(1, len(list_to_encode)):\n            if list_to_encode[i] == item:\n                count += 1\n            else:\n                break\n        if count == 1:\n            encoded_list.append(item)\n        else:\n            encoded_list.append([count, item])\n    return encoded_list\n\n\ndef decode(list_to_decode):\n    \"\"\"\n    >>> decode([[2, 1], 2, [2, 3], 4, [2, 4], 5])\n    [1, 1, 2, 3, 4, 4, 5]\n    \"\"\"\n    decoded_list = []\n    for item in list_to_decode:\n        if isinstance(item, list):\n            for i in range(item[0]):\n                decoded_list.append(item[1])\n        else:\n            decoded_list.append(item)\n    return decoded_list\n\n\ndef encode_decode(list_to_encode_decode):\n    \"\"\"\n    >>> encode_decode([1, 1, 2, 3, 4, 4, 5])\n    [1, 1, 2, 3, 4, 4, 5]\n    \"\"\"\n    return decode(encode(list_to_encode_decode))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      5.7265625
+    ],
+    [
+      "def get_encoding(source):\n    encoding = []\n    for index, char in enumerate(source):\n        if index == 0:\n            encoding.append(1)\n            encoding.append(char)\n            continue\n        if source[index - 1] != char:\n            encoding.append(1)\n            encoding.append(char)\n            continue\n        encoding[-2] += 1\n    return encoding\n\n\ndef main():\n    print(get_encoding([1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9, 9, 9, 9, 10]))\n\n\nif __name__ == '__main__':\n    main()",
+      4.43359375
+    ],
+    [
+      "def run_length_encoding(lst):\n    # Time complexity: O(n)\n    # Space complexity: O(n)\n    if not lst:\n        return lst\n\n    prev = lst[0]\n    count = 1\n    res = []\n\n    for elem in lst[1:]:\n        if elem == prev:\n            count += 1\n        else:\n            res.append((prev, count))\n            prev = elem\n            count = 1\n\n    res.append((prev, count))\n    return res\n\n\ndef main():\n    print(run_length_encoding([1, 1, 2, 2, 3, 3, 3]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      4.1953125
+    ],
+    [
+      "def encode(list):\n    encoded = []\n    for i in list:\n        if encoded and encoded[-1][0] == i:\n            encoded[-1][1] += 1\n        else:\n            encoded.append([i, 1])\n    return encoded\n\ndef decode(encoded):\n    decoded = []\n    for i in encoded:\n        decoded.extend([i[0]] * i[1])\n    return decoded\n\n\ndef main():\n    print(encode([1, 1, 2, 3, 4, 4, 5, 5, 5, 6, 7, 7, 8, 9]))\n    print(decode(encode([1, 1, 2, 3, 4, 4, 5, 5, 5, 6, 7, 7, 8, 9])))\n\n\nif __name__ == '__main__':\n    main()",
+      3.98046875
+    ],
+    [
+      "from typing import List\n\n\ndef run_length_encode(chars: List[str]) -> List[str]:\n    \"\"\"Encodes a list of characters into a list of run-length encoding.\n\n    Args:\n        chars (List[str]): List of characters to be encoded.\n\n    Returns:\n        List[str]: List of run-length encoding.\n    \"\"\"\n    encoded = []\n    current_run = 1\n\n    for i in range(len(chars) - 1):\n        if chars[i] == chars[i + 1]:\n            current_run += 1\n        else:\n            encoded.append(f\"{current_run}{chars[i]}\")\n            current_run = 1\n\n    encoded.append(f\"{current_run}{chars[-1]}\")\n\n    return encoded\n\n\ndef run_length_decode(encoded: List[str]) -> List[str]:\n    \"\"\"Decodes a list of run-length encoding into a list of characters.\n\n    Args:\n        encoded (List[str]): List of run-length encoding to be decoded.\n\n    Returns:\n        List[str]: List of characters.\n    \"\"\"\n    decoded = []\n    current_run = 0\n\n    for i in range(len(encoded) - 1):\n        if encoded[i].isnumeric():\n            current_run = int(encoded[i])\n        else:\n            decoded += current_run * [encoded[i]]\n\n    decoded += current_run * [encoded[-1]]\n\n    return decoded\n\n\nif __name__ == \"__main__\":\n    chars = \"WWWWWWWWWWWWBWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB\"\n    encoded = run_length_encode(chars)\n    decoded = run_length_decode(encoded)\n\n    assert chars == \"\".join(decoded)",
+      3.109375
+    ],
+    [
+      "def encode_list(lst: list) -> list:\n    \"\"\"Encodes a list by replacing repeated elements with their number of\n    repetitions.\n\n    Args:\n        lst (list): The list to encode.\n\n    Returns:\n        list: The encoded list.\n    \"\"\"\n    if len(lst) == 0:\n        return []\n\n    # Keep track of the previous element\n    prev = lst[0]\n    # Keep track of the number of repetitions\n    count = 1\n\n    result = []\n    for i in range(1, len(lst)):\n        # If the element is different, append the previous element\n        # and the number of repetitions.\n        if prev != lst[i]:\n            result.append(count)\n            result.append(prev)\n            prev = lst[i]\n            count = 1\n        else:\n            count += 1\n\n    # Add the last element and its number of repetitions\n    result.append(count)\n    result.append(prev)\n\n    return result\n\n\ndef decode_list(lst: list) -> list:\n    \"\"\"Decodes a list by replacing numbers with repeated elements.\n\n    Args:\n        lst (list): The list to decode.\n\n    Returns:\n        list: The decoded list.\n    \"\"\"\n    if len(lst) == 0:\n        return []\n\n    # Keep track of the previous element\n    prev = lst[0]\n    # Keep track of the number of repetitions\n    count = 1\n    result = []\n\n    for i in range(1, len(lst)):\n        # If the element is different, append the previous element\n        # and the number of repetitions.\n        if prev != lst[i]:\n            result += [prev] * count\n            prev = lst[i]\n            count = 1\n        else:\n            count += 1\n\n    # Add the last element and its number of repetitions\n    result += [prev] * count\n    return result\n\n\nif __name__ == \"__main__\":\n    lst = [1, 1, 2, 3, 4, 4, 5, 2, 2,",
+      2.830078125
+    ],
+    [
+      "def reflect_modified_run_length_encoding(lst):\n    \"\"\"\n    >>> reflect_modified_run_length_encoding([1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4])\n    [1, 2, 1, 3, 2, 3, 1, 4, 4, 2, 1]\n    \"\"\"\n    output = []\n    for num in lst:\n        output.extend([num] * num)\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.83984375
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encoding(input_list: List[int]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not input_list:\n        return input_list\n\n    encoded_list = []\n    current_start_index = 0\n\n    while current_start_index < len(input_list):\n        current_end_index = current_start_index + 1\n\n        while current_end_index < len(input_list) and input_list[current_start_index] == input_list[current_end_index]:\n            current_end_index += 1\n\n        encoded_list.append(current_end_index - current_start_index)\n        encoded_list.append(input_list[current_start_index])\n\n        current_start_index = current_end_index\n\n    return encoded_list\n\n\nif __name__ == \"__main__\":\n    assert modified_run_length_encoding([1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6]) == [3, 1, 2, 3, 2, 3, 4, 5, 3, 4, 5, 6, 6, 6, 1, 4, 5, 6, 6, 6, 6, 1, 2, 6, 6, 6, 6, 6, 6]",
+      1.728515625
+    ],
+    [
+      "def reflect_run_length(run_length: list) -> list:\n    \"\"\"Reflect run-length encoding.\n\n    Args:\n        run_length (list): run-length encoding.\n\n    Returns:\n        list: reflect run-length encoding.\n    \"\"\"\n    run_length_reflect = []\n    for i in range(len(run_length)):\n        if i % 2 == 0:\n            run_length_reflect.append(run_length[i])\n    return run_length_reflect\n\n\nif __name__ == \"__main__\":\n    assert reflect_run_length([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]\n    assert reflect_run_length([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]) == [1, 2, 1, 2, 3, 4, 3, 4, 5, 6]",
+      1.5361328125
+    ],
+    [
+      "def reflect_run_length_encoding(run_length_encoding):\n    \"\"\"Reflect the modified run-length encoding from a list.\n\n    Args:\n        run_length_encoding (list): list with run-length encoding of a string\n\n    Returns:\n        str: original string\n    \"\"\"\n    output = ''\n    for pair in run_length_encoding:\n        output += pair[1] * int(pair[0])\n    return output\n\n\nif __name__ == '__main__':\n    print(reflect_run_length_encoding([['4', 'a'], ['1', 'b']]))",
+      1.4423828125
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encoding(input_list: List[int]) -> List[List[int]]:\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 2, 3, 1, 1])\n    [[2, 1], [1, 2], [1, 3], [2, 1]]\n    \"\"\"\n    output_list = []\n    for value in input_list:\n        if not output_list or output_list[-1][0] != value:\n            output_list.append([1, value])\n        else:\n            output_list[-1][0] += 1\n    return output_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.0654296875
+    ],
+    [
+      "from itertools import groupby\n\n\ndef run_length_encode(items):\n    \"\"\"Encode a list into a list of run-length tuples.\"\"\"\n    return [(len(list(group)), key) for key, group in groupby(items)]\n\n\ndef reflect(encoded):\n    \"\"\"Reflect a run-length encoded list.\"\"\"\n    return [item for count, item in encoded for _ in range(count)]\n\n\ndef test_run_length_encode():\n    \"\"\"Test run-length encode.\"\"\"\n    assert run_length_encode([]) == []\n    assert run_length_encode([1]) == [(1, 1)]\n    assert run_length_encode([1, 1]) == [(2, 1)]\n    assert run_length_encode([1, 1, 1]) == [(3, 1)]\n    assert run_length_encode([1, 1, 1, 1]) == [(4, 1)]\n    assert run_length_encode([1, 2, 1]) == [(1, 1), (1, 2), (1, 1)]\n    assert run_length_encode([1, 2, 1, 1]) == [(1, 1), (1, 2), (2, 1)]\n    assert run_length_encode([1, 2, 1, 1, 1]) == [(1, 1), (1, 2), (3, 1)]\n\n\ndef test_reflect():\n    \"\"\"Test reflect.\"\"\"\n    assert reflect([]) == []\n    assert reflect([1]) == [1]\n    assert reflect([1, 1]) == [1, 1]\n    assert reflect([1, 1, 1]) == [1, 1, 1]\n    assert reflect([1, 2, 1]) == [1, 1, 2, 1]\n    assert reflect([1, 2, 1, 1]) == [1, 1, 2, 1, 1]\n    assert reflect([1, 2, 1, 1, 1]) == [1, 1, 2, 1, 1, 1]",
+      0.6123046875
+    ],
+    [
+      "def reflect(encoded):\n    decoded = []\n    for i in range(0, len(encoded), 2):\n        decoded.append(encoded[i] * encoded[i + 1])\n    return decoded\n\n\ndef test_reflect():\n    assert reflect([1, 2, 3, 4, 5, 6, 7, 8, 9]) == [1, 2, 2, 3, 4, 4, 6, 8, 9]",
+      0.61181640625
+    ],
+    [
+      "from typing import List\n\n\ndef reflect_run_length_encoding(lst: List) -> List:\n    \"\"\"Reflects the modified run-length encoding from a list.\n\n    Args:\n        lst: list to reflect its modified run-length encoding.\n\n    Returns:\n        reflected modified run-length encoding of lst.\n    \"\"\"\n    encoded = []\n    for i in range(len(lst)):\n        if i == 0 or lst[i] != lst[i - 1]:\n            if i != 0:\n                encoded.append(lst[i - 1])\n            encoded.append(1)\n            continue\n        encoded[-1] += 1\n    return encoded\n\n\nif __name__ == \"__main__\":\n    print(reflect_run_length_encoding([1, 1, 2, 3, 1]))\n    print(reflect_run_length_encoding([1, 1, 1, 1, 1]))\n    print(reflect_run_length_encoding([1, 1, 1, 1, 2]))\n    print(reflect_run_length_encoding([1, 1, 1, 1, 2, 2]))\n    print(reflect_run_length_encoding([1, 1, 1, 1, 2, 2, 3]))\n    print(reflect_run_length_encoding([1, 1, 1, 1, 2, 2, 2]))",
+      0.49853515625
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encoding(input_list: List) -> List:\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 1, 2, 3, 1])\n    [3, 1, 1, 1, 1, 2, 1]\n    >>> modified_run_length_encoding([1, 1, 1, 2, 3, 1, 2, 2, 2, 2])\n    [3, 1, 1, 1, 1, 2, 1, 4, 2]\n    \"\"\"\n    result = []\n\n    for i in range(len(input_list)):\n        if i == 0:\n            result.append(1)\n            result.append(input_list[i])\n        else:\n            if input_list[i] == input_list[i - 1]:\n                result[-1] += 1\n            else:\n                result.append(1)\n                result.append(input_list[i])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.43798828125
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef modified_run_length_encoding(input_list: List[int]) -> List[Tuple[int, int]]:\n    \"\"\"\n    Modified run-length encoding.\n    :param input_list: list to encode.\n    :return: encoded list.\n    >>> modified_run_length_encoding([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4])\n    [(1, 4), (2, 4), (3, 4), (4, 4)]\n    >>> modified_run_length_encoding([1, 2, 3, 4, 5, 6, 7, 8, 9])\n    [(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1)]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 1, 1, 1, 1])\n    [(1, 9)]\n    >>> modified_run_length_encoding([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\n    [(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1)]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4])",
+      0.36474609375
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encode(lst: List[int]) -> List[int]:\n    \"\"\"Encodes a list using modified run-length encoding.\n\n    Args:\n        lst (List[int]): A list of integers.\n\n    Returns:\n        List[int]: A list of integers in modified run-length encoding.\n    \"\"\"\n    if not lst:\n        return lst\n\n    encoded: List[int] = []\n\n    i = 0\n    while i < len(lst):\n        current = lst[i]\n        count = 1\n\n        while i + 1 < len(lst) and lst[i + 1] == current:\n            i += 1\n            count += 1\n\n        encoded.append(count)\n        encoded.append(current)\n        i += 1\n\n    return encoded\n\n\nif __name__ == \"__main__\":\n    lst = [1, 1, 2, 3, 4, 4, 5, 5, 5, 5, 6, 7]\n    assert modified_run_length_encode(lst) == [3, 1, 2, 3, 1, 4, 5, 5, 4]",
+      -0.09454345703125
+    ],
+    [
+      "def reflect_modified_run_length_encoding(run_length_encoding):\n    \"\"\"Reflect the modified run-length encoding from a list.\n\n    Args:\n        run_length_encoding (list): A modified run-length encoding.\n\n    Returns:\n        list: The reflected list.\n    \"\"\"\n    result = []\n    for element in run_length_encoding:\n        result.extend([element] * element)\n    return result\n\n\ndef main():\n    print(reflect_modified_run_length_encoding([3, 1, 2, 3, 1, 1]))\n    print(reflect_modified_run_length_encoding([2, 3, 1, 2]))\n    print(reflect_modified_run_length_encoding([1, 2, 3]))\n    print(reflect_modified_run_length_encoding([1, 1, 1, 1]))\n    print(reflect_modified_run_length_encoding([1, 1, 2, 2, 3, 3]))\n    print(reflect_modified_run_length_encoding([1, 1, 2, 2, 2, 3, 3, 3]))\n    print(reflect_modified_run_length_encoding([2, 3, 2, 1, 2, 2, 3]))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.10760498046875
+    ],
+    [
+      "def rle(lst):\n    res = []\n    if len(lst) == 1:\n        res.append(lst[0])\n        return res\n\n    i = 0\n    while i < len(lst):\n        cnt = 1\n        while i < len(lst) - 1 and lst[i] == lst[i + 1]:\n            cnt += 1\n            i += 1\n        res.append([lst[i], cnt])\n        i += 1\n\n    return res\n\n\nprint(rle([1, 1, 1, 1, 2, 3, 3, 4, 3, 3, 2, 2, 1, 2, 3, 3, 4]))",
+      -0.17626953125
+    ],
+    [
+      "def decode_modified_run_length_encoding(lst):\n    \"\"\"\n    :param lst: list\n    :return: list\n    \"\"\"\n    decoded = []\n    i = 0\n    while i < len(lst):\n        if lst[i] == 0:\n            decoded.append(0)\n            i += 1\n        else:\n            decoded += [lst[i]] * lst[i]\n            i += 1\n    return decoded\n\n\nprint(decode_modified_run_length_encoding([0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 0, 5, 5, 5, 5, 5, 0]))",
+      -0.278564453125
+    ],
+    [
+      "def run_length_encoding(lst):\n    \"\"\"\n    >>> run_length_encoding([1, 1, 2, 2, 1, 3, 1, 2])\n    [2, 1, 3, 2, 1]\n    >>> run_length_encoding([1, 1, 2, 2, 2, 3, 3, 1, 2])\n    [2, 3, 2, 1, 2]\n    \"\"\"\n    return [2 * x for x in lst]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.59814453125
+    ],
+    [
+      "from typing import List\n\n\ndef run_length_encoding(items: List[int]) -> List[int]:\n    \"\"\"Return run-length encoding of the given list.\n\n    Examples:\n        >>> run_length_encoding([])\n        []\n        >>> run_length_encoding([1])\n        [1]\n        >>> run_length_encoding([1, 1, 1, 1, 1])\n        [5, 1]\n        >>> run_length_encoding([1, 2, 3, 3, 3, 2, 1])\n        [1, 2, 1, 3, 3, 2, 1]\n    \"\"\"\n    if not items:\n        return []\n\n    result = []\n    count = 1\n\n    for i in range(1, len(items)):\n        if items[i] == items[i - 1]:\n            count += 1\n        else:\n            result.append(count)\n            count = 1\n\n    result.append(count)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(run_length_encoding([]))\n    print(run_length_encoding([1]))\n    print(run_length_encoding([1, 1, 1, 1, 1]))\n    print(run_length_encoding([1, 2, 3, 3, 3, 2, 1]))",
+      -0.6435546875
+    ],
+    [
+      "# Time Complexity: O(n)\n# Space Complexity: O(n)\ndef modified_run_length_encoding(input_list: list):\n    if len(input_list) == 0:\n        return []\n\n    result = []\n\n    # Initial values\n    count = 1\n    prev = input_list[0]\n\n    for i in range(1, len(input_list)):\n        if input_list[i] == prev:\n            count += 1\n        else:\n            result.append(count)\n            result.append(prev)\n            count = 1\n            prev = input_list[i]\n\n    # Last values\n    result.append(count)\n    result.append(prev)\n\n    return result",
+      -0.7060546875
+    ],
+    [
+      "def reflect_encoding(lst):\n    if len(lst) == 0:\n        return []\n    if len(lst) == 1:\n        return [lst[0]]\n    if lst[0] == lst[1]:\n        return [lst[0], 1] + reflect_encoding(lst[2:])\n    return [lst[0]] + [1] + reflect_encoding(lst[1:])\n\n\ndef test_reflect_encoding():\n    \"\"\"Test for reflect_encoding function.\"\"\"\n    print(\"Test: Empty list\")\n    assert reflect_encoding([]) == []\n\n    print(\"Test: Single element list\")\n    assert reflect_encoding([1]) == [1]\n\n    print(\"Test: List with two identical elements\")\n    assert reflect_encoding([1, 1]) == [1, 1]\n\n    print(\"Test: General case\")\n    assert reflect_encoding([1, 1, 2, 3, 4, 4, 5, 5]) == [1, 1, 2, 1, 3, 1, 4, 2, 5, 1, 5]",
+      -0.82177734375
+    ],
+    [
+      "def decode(lst):\n    decoded_list = []\n    for i in range(0, len(lst), 2):\n        decoded_list.append(lst[i + 1] * lst[i])\n    return decoded_list\n\n\ndef main():\n    print(\"List:\")\n    print(decode([1, 2, 3, 4, 5, 5, 5, 5, 6, 7, 8, 9]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8369140625
+    ],
+    [
+      "from itertools import groupby\n\n\ndef run_length_encoding(lst):\n    return [str(len(list(group))) + key for key, group in groupby(lst)]\n\n\nif __name__ == \"__main__\":\n    lst = [1, 1, 1, 2, 2, 3, 3, 3]\n    print(run_length_encoding(lst))",
+      -0.85693359375
+    ],
+    [
+      "# pylint: disable=invalid-name\ndef decode_modified_run_length_encoding(lst):\n    \"\"\"\n    Write a function to reflect the modified run-length encoding from a list.\n    \"\"\"\n    if not lst:\n        return lst\n    result = []\n    for num in lst:\n        if num < 0:\n            result.append(abs(num))\n        else:\n            result.extend([num] * num)\n    return result",
+      -0.85693359375
+    ],
+    [
+      "def run_length_encoding(lst):\n    encoding = []\n    for item in lst:\n        if item in encoding:\n            encoding.remove(item)\n        else:\n            encoding.append(item)\n    return encoding\n\nif __name__ == '__main__':\n    lst = [1, 2, 2, 3, 4, 4, 4, 5]\n    print(run_length_encoding(lst))",
+      -0.85693359375
+    ],
+    [
+      "def reflect_modified_run_length_encoding(lst):\n    return [x for x in lst if x != \"|\"]\n\n\nif __name__ == \"__main__\":\n    lst = [\"a\", \"a\", \"a\", \"a\", \"a\", \"a\", \"b\", \"c\", \"c\", \"a\", \"a\", \"d\", \"e\", \"e\", \"e\", \"e\"]\n    print(reflect_modified_run_length_encoding(lst))",
+      -0.85693359375
+    ],
+    [
+      "def run_length_encoding(run_list):\n    \"\"\"\n    :param run_list: list of integers\n    :return: list of integers\n    \"\"\"\n    encoded_list = []\n    for index in range(len(run_list)):\n        if run_list[index] != run_list[index-1]:\n            encoded_list.append(run_list[index])\n        else:\n            encoded_list[-1] += run_list[index]\n    return encoded_list\n\n\nrun_list = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3]\nprint(run_length_encoding(run_list))",
+      -0.85693359375
+    ],
+    [
+      "def run_length_encoding(lst):\n    # type: (List[int]) -> List[int]\n    \"\"\"Returns run-length encoding of a list.\n\n    Args:\n        lst: list of ints\n\n    Returns:\n        a new list of ints\n    \"\"\"\n    return [1] + [x[1] - x[0] + 1 for x in zip(lst[:-1], lst[1:])]\n\n\ndef run_length_decoding(lst):\n    # type: (List[int]) -> List[int]\n    \"\"\"Returns decoding of run-length encoding.\n\n    Args:\n        lst: list of ints\n\n    Returns:\n        a new list of ints\n    \"\"\"\n    return [lst[0]] + [lst[i] + lst[i - 1] - 1 for i in range(1, len(lst))]",
+      -0.85693359375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef modified_run_length_encoding(a):\n    return [\n        str(len(list(group))) + key\n        for key, group in groupby(a)\n    ]",
+      -0.85693359375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef modified_run_length_encoding(l):\n    return [str(len(list(g))) + k for k, g in groupby(l)]",
+      -0.85693359375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef reflect_encoding(string):\n    \"\"\"Reflect the modified run-length encoding from a list.\n\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    return [\n        f\"{len(list(g))}{k}\"\n        for k, g in groupby(string)\n    ]\n\n\nif __name__ == \"__main__\":\n    assert reflect_encoding([1, 1, 1, 2, 3, 4, 4, 4, 4]) == [\"31\", \"12\", \"13\", \"44\"]",
+      -0.85693359375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef reflect_encoding(data):\n    \"\"\"\n    >>> reflect_encoding([1, 2, 2, 3, 3, 3, 4, 5])\n    [1, 1, 2, 1, 3, 1, 4, 1, 5]\n    \"\"\"\n    return [len(list(group)) for key, group in groupby(data)]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef reflect_encoding(lst):\n    return [len(list(group)) * [key] for key, group in groupby(lst)]\n\n\nif __name__ == \"__main__\":\n    print(reflect_encoding([1, 1, 2, 3, 4, 4, 5]))",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef reflect_modified_run_length_encoding(encoded: List[List[int]]) -> List[int]:\n    \"\"\"\n    >>> reflect_modified_run_length_encoding([[2, 2], [3, 1], [1, 4], [1, 1], [2, 2]])\n    [2, 2, 3, 1, 1, 4, 1, 1, 2, 2]\n    \"\"\"\n    return [\n        item for sublist in encoded for item in [sublist[0]] * sublist[1]\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "def reflect_encoding(lst):\n    \"\"\"Reflect encoding.\"\"\"\n    if len(lst) == 0:\n        return []\n    if len(lst) == 1:\n        return [lst[0]]\n    if len(lst) == 2:\n        return [lst[0], 1, lst[1]]\n    if lst[1] == 1:\n        return [lst[0], 1, lst[2]]\n    return [lst[0], 1] + reflect_encoding(lst[2:])\n\n\ndef test_reflect_encoding():\n    \"\"\"Test reflect_encoding.\"\"\"\n    assert reflect_encoding([1, 2, 2, 3, 3, 3, 4, 4, 4, 4]) == \\\n        [1, 2, 2, 1, 3, 3, 1, 4, 4, 1]",
+      -0.8583984375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef modified_run_length_encoding(l):\n    \"\"\"Modified run-length encoding.\"\"\"\n    return [str(len(list(c))) + v for v, c in groupby(l)]\n\n\ndef test_modified_run_length_encoding():\n    \"\"\"Test modified_run_length_encoding.\"\"\"\n    assert modified_run_length_encoding([1, 1, 2, 2, 3, 3, 3, 3]) == ['21', '22', '43', '43', '43']",
+      -0.85888671875
+    ],
+    [
+      "def reflect(lst):\n    \"\"\"\n    >>> reflect([1, 1, 2, 3, 4, 5, 6, 6, 7, 8, 9])\n    [1, 2, 3, 4, 5, 6, 6, 7, 8, 9]\n    \"\"\"\n    result = []\n    for i in range(len(lst)):\n        if i > 0:\n            if lst[i] != lst[i - 1]:\n                result.append(lst[i])\n            else:\n                result[-1] += lst[i]\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from itertools import chain\n\n\ndef modified_run_length_encoding(data):\n    return list(chain(*[[(len(list(x)), y)] if len(list(x)) > 1 else list(x) for x, y in zip(\n        [(data[i], data[i + 1]) for i in range(len(data) - 1)], data)]))\n\n\ndef test_run_length_encoding():\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3])\n    [(3, 1), 2, 3, (6, 3), 3]\n    \"\"\"\n    pass\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "# pylint: disable=wildcard-import\n# pylint: disable=unused-wildcard-import\nfrom itertools import *\nfrom operator import *\n\n\ndef run_length_encode(seq):\n    \"\"\"Run-length encode a sequence.\"\"\"\n    return [(len(list(group)), key) for (key, group) in groupby(seq)]\n\n\ndef run_length_decode(seq):\n    \"\"\"Decode a run-length encoded sequence.\"\"\"\n    return list(chain.from_iterable(starmap(repeat, seq)))",
+      -0.85888671875
+    ],
+    [
+      "def reflect_encoding(encoded):\n    \"\"\"\n    >>> reflect_encoding([(2, 'a'), (3, 'b'), (2, 'a')])\n    ['aa', 'bbbb', 'aa']\n    \"\"\"\n    lst = []\n    for count, char in encoded:\n        lst.append(char * count)\n\n    return lst\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def rle(lst):\n    \"\"\"\n    >>> rle([1, 1, 2, 3, 4, 4, 5])\n    [1, 2, 2, 1, 1, 1]\n    \"\"\"\n    out = []\n    for i in range(len(lst)):\n        if i == 0:\n            out.append(lst[i])\n        else:\n            if lst[i] == lst[i - 1]:\n                out[-1] += 1\n            else:\n                out.append(lst[i])\n    return out\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "def reflect(arr):\n    result = []\n    for i in range(len(arr)):\n        if i == 0:\n            result.append(arr[i])\n        else:\n            if arr[i] == arr[i - 1]:\n                result[-1] += 1\n            else:\n                result.append(arr[i])\n    return result\n\n\nif __name__ == '__main__':\n    print(reflect([1, 2, 2, 3, 4, 4, 4, 5, 6, 6]))",
+      -0.85888671875
+    ],
+    [
+      "def reflect_run_length_encoding(input_list):\n    \"\"\"\n    Reflects the modified run-length encoding from a list.\n\n    :param input_list: List of integers\n    :return: List of integers\n\n    >>> reflect_run_length_encoding([1, 1, 2, 3, 1, 1])\n    [1, 2, 2, 1, 2, 1]\n    \"\"\"\n    output_list = []\n    for number in input_list:\n        output_list.append(number)\n        output_list.append(number)\n    return output_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "# Time Complexity: O(n)\ndef run_length_encoding(l):\n    res = []\n    start_idx = 0\n    while start_idx < len(l):\n        cnt = 1\n        while start_idx < len(l) - 1 and l[start_idx + 1] == l[start_idx]:\n            start_idx += 1\n            cnt += 1\n        res.append([cnt, l[start_idx]])\n        start_idx += 1\n    return res\n\n\nif __name__ == \"__main__\":\n    print(run_length_encoding([1, 1, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9]))",
+      -0.85888671875
+    ],
+    [
+      "from itertools import groupby\n\n\ndef reflect_encoding(encoded):\n    \"\"\"Reflects the modified run-length encoding from a list.\"\"\"\n    return [[len(list(group)), char] for char, group in groupby(encoded)]\n\n\nif __name__ == '__main__':\n    print(reflect_encoding([1, 1, 2, 3, 4, 4, 5]))",
+      -0.85888671875
+    ],
+    [
+      "from typing import List, Tuple\n\n\ndef encode(lst: List[int]) -> List[Tuple[int, int]]:\n    \"\"\"\n    >>> encode([1, 1, 2, 3, 4, 4, 5])\n    [(1, 2), (2, 1), (3, 1), (4, 2), (5, 1)]\n    \"\"\"\n    res = []\n\n    for num, group in groupby(lst):\n        res.append((num, len(list(group))))\n\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85888671875
+    ],
+    [
+      "from itertools import chain, repeat\n\n\ndef reflect_modified_run_length_encoding(lst):\n    return list(chain.from_iterable(repeat(x, y) for x, y in lst))\n\n\ndef test_reflect_modified_run_length_encoding():\n    assert reflect_modified_run_length_encoding([(1, 2), (3, 4), (5, 6)]) == [\n        1, 1, 2, 3, 3, 4, 5, 5, 6\n    ]\n    assert reflect_modified_run_length_encoding([(1, 4), (3, 4), (5, 6)]) == [\n        1, 3, 1, 3, 1, 3, 5, 5, 6\n    ]\n    assert reflect_modified_run_length_encoding([(1, 4), (1, 4), (5, 6)]) == [\n        1, 1, 1, 1, 5, 5, 6\n    ]",
+      -0.85888671875
+    ],
+    [
+      "from itertools import groupby\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef get_encoding(l):\n    return [len(list(g)) * [k] for k, g in groupby(l)]\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef get_encoding_2(l):\n    result = []\n\n    for k, g in groupby(l):\n        count = len(list(g))\n        result.extend([count, k] if count > 1 else k)\n\n    return result\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef get_encoding_3(l):\n    result = []\n\n    for k, g in groupby(l):\n        count = len(list(g))\n\n        if count == 1:\n            result.append(k)\n        else:\n            result.extend([count, k])\n\n    return result",
+      -1.0673828125
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encode(l: List) -> List:\n    \"\"\"\n    >>> modified_run_length_encode([1, 1, 2, 3, 4, 4, 5])\n    [[1, 2], 3, [4, 2], 5]\n    >>> modified_run_length_encode([1, 1, 2, 2, 3, 4, 4, 5, 5])\n    [[1, 2], [2, 2], 3, [4, 2], [5, 2]]\n    \"\"\"\n    i = 0\n    while i < len(l):\n        start = i\n        while i < len(l) - 1 and l[i] == l[i + 1]:\n            i += 1\n        if start != i:\n            l[start] = [l[start], i - start + 1]\n        i += 1\n    return l\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.1689453125
+    ],
+    [
+      "def modified_run_length_encoding(input_list):\n    \"\"\"\n    >>> modified_run_length_encoding([0,0,0,1,1,1,1,2,3,3,3,3,4,4,4,4,4,5])\n    [[0, 3], [1, 4], [2, 1], [3, 5], [4, 5]]\n    >>> modified_run_length_encoding([0,0,0,0,1,1,1,1,2,3,3,3,3,4,4,4,4,5])\n    [[0, 4], [1, 4], [2, 1], [3, 4], [4, 5]]\n    >>> modified_run_length_encoding([0,0,1,1,2,3,3,4,4,5])\n    [[0, 2], [1, 2], [2, 1], [3, 2], [4, 2], [5, 1]]\n    \"\"\"\n    return [[element, len(list(group))] for element, group in itertools.groupby(input_list)]",
+      -1.1708984375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef run_length_encoding(lst):\n    return [str(len(list(group))) + char for char, group in groupby(lst)]\n\n\ndef test_run_length_encoding():\n    \"\"\"\n    >>> test_run_length_encoding()\n    True\n    \"\"\"\n    assert run_length_encoding([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,",
+      -1.228515625
+    ],
+    [
+      "def modified_run_length_encoding(input_list):\n    \"\"\"\n    Modified run-length encoding from a list\n    :param input_list: list of input data\n    :return: list\n    \"\"\"\n    if len(input_list) == 0:\n        return []\n\n    modified_list = []\n    for index, item in enumerate(input_list):\n        if index == 0:\n            modified_list.append(item)\n            continue\n        if item == input_list[index - 1]:\n            modified_list[-1] += 1\n        else:\n            modified_list.append(item)\n\n    return modified_list\n\n\nif __name__ == '__main__':\n    assert modified_run_length_encoding([]) == []\n    assert modified_run_length_encoding([1, 1, 2, 3, 4]) == [1, 2, 1, 1, 1, 2, 1, 1, 1]\n    assert modified_run_length_encoding([1, 2, 2, 3, 3, 3, 4, 5]) == [1, 1, 2, 2, 1, 3, 3, 2, 1, 1, 1, 1]",
+      -1.490234375
+    ],
+    [
+      "def run_length_encode(input_list):\n    \"\"\"Encodes the given list in run-length format.\n\n    Args:\n        input_list: The list to encode.\n\n    Returns:\n        The encoded list.\n    \"\"\"\n    encoded_list = []\n    for value in input_list:\n        if encoded_list and encoded_list[-1][0] == value:\n            encoded_list[-1][1] += 1\n        else:\n            encoded_list.append([value, 1])\n    return encoded_list\n\n\ndef run_length_decode(encoded_list):\n    \"\"\"Decodes the given list from run-length format.\n\n    Args:\n        encoded_list: The encoded list to decode.\n\n    Returns:\n        The decoded list.\n    \"\"\"\n    decoded_list = []\n    for value, count in encoded_list:\n        decoded_list.extend([value] * count)\n    return decoded_list\n\n\ndef main():\n    \"\"\"The main function of the program.\n\n    Args:\n        None\n\n    Returns:\n        None\n    \"\"\"\n    input_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]\n    encoded_list = run_length_encode(input_list)\n    print(encoded_list)\n    decoded_list = run_length_decode(encoded_list)\n    print(decoded_list)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.4931640625
+    ],
+    [
+      "def reflect_encoding(encoding: list) -> list:\n    \"\"\"Reflects the run-length encoding.\n\n    Args:\n        encoding (list): the run-length encoding.\n\n    Returns:\n        list: the reflected encoding.\n    \"\"\"\n    reflected_encoding = []\n    for element in encoding:\n        if isinstance(element, int):\n            reflected_encoding.append(element)\n        elif isinstance(element, list):\n            reflected_encoding.append(reflect_encoding(element))\n        else:\n            raise TypeError(\"All elements must be int or list.\")\n    return reflected_encoding\n\n\ndef test_reflect_encoding():\n    \"\"\"\n    >>> test_reflect_encoding()\n    \"\"\"\n    encoding = [2, 2, 3, 3, 3, 2, 2, 3, 3, 3, 2, 2]\n    reflected_encoding = [3, 2, 3, 2, 3, 2, 3, 2]\n    assert reflect_encoding(encoding) == reflected_encoding\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.515625
+    ],
+    [
+      "def reflect_run_length_encoding(encoded_list):\n    \"\"\"Reflect the run-length encoding in a list.\n\n    Args:\n        encoded_list: The list to reflect.\n    \"\"\"\n    # Check for empty list\n    if not encoded_list:\n        return encoded_list\n\n    # Create the output list\n    output_list = []\n\n    # Create a variable to keep track of the index\n    current_index = 0\n\n    # Loop through the input list\n    while current_index < len(encoded_list):\n\n        # Get the current element\n        current_element = encoded_list[current_index]\n\n        # If the current element is a number\n        if current_element.isdigit():\n\n            # Get the number of elements\n            number_of_elements = int(current_element)\n\n            # Get the next element\n            next_element = encoded_list[current_index + 1]\n\n            # Add the next element to the output list\n            output_list.extend([next_element] * number_of_elements)\n\n            # Increment the index\n            current_index += 2\n        else:\n            # Add the current element to the output list\n            output_list.append(current_element)\n\n            # Increment the index\n            current_index += 1\n\n    return output_list\n\n\ndef main():\n    # Create a list\n    test_list = [\"a\", \"a\", \"b\", \"c\", \"c\", \"c\", \"c\", \"b\", \"d\"]\n\n    # Print the original list\n    print(\"The original list:\")\n    print(test_list)\n\n    # Reflect the encoding\n    reflected_list = reflect_run_length_encoding(test_list)\n\n    # Print the reflected list\n    print(\"The reflected list:\")\n    print(reflected_list)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -1.6083984375
+    ],
+    [
+      "from itertools import groupby\nfrom typing import List\n\n\ndef reflect_modified_run_length_encoding(lst: List) -> List:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not lst:\n        return []\n\n    output = []\n\n    for key, group in groupby(lst):\n        length = sum(1 for _ in group)\n\n        if length == 1:\n            output.append(key)\n        else:\n            output.extend([length, key])\n\n    return output\n\n\nif __name__ == \"__main__\":\n    print(reflect_modified_run_length_encoding([1, 2, 2, 3, 3, 3, 4, 5]))",
+      -2.1640625
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encoding(input_list: List[int]) -> List[int]:\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 2, 2, 2, 3, 3, 3, 3])\n    [1, 1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1]\n    >>> modified_run_length_encoding([1, 2, 3, 3, 2, 1])\n    [1, 1, 2, 1, 2, 1, 3, 1, 3, 1, 2, 1, 1]\n    >>> modified_run_length_encoding([1])\n    [1, 1]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 1, 1, 1])\n    [1, 7, 1]\n    >>> modified_run_length_encoding([1, 1, 2, 2, 3, 3, 4, 4, 4])\n    [1, 1, 2, 1, 2, 1, 3, 1, 4, 2, 1, 4, 1, 4, 1]\n    \"\"\"\n    result = []\n\n    for num in input_list:\n        result.append(num)\n        result.append(input_list.count(num))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.19140625
+    ],
+    [
+      "def reflect_modified_run_length_encoding(a_list: list) -> list:\n    \"\"\"Reflect modified run-length encoding from a list.\n\n    Args:\n        a_list (list): list to reflect modified run-length encoding\n\n    Examples:\n        >>> assert reflect_modified_run_length_encoding([1, 1, 2, 3, 1, 1]) == [1, 2, 3, 1, 2]\n    \"\"\"\n    if len(a_list) < 2:\n        return a_list\n\n    a_list.reverse()\n    for i in range(1, len(a_list)):\n        if a_list[i] == a_list[i - 1]:\n            a_list[i] += a_list[i - 1]\n            a_list[i - 1] = a_list[i] - a_list[i - 1]\n\n    return a_list\n\n\ndef main():\n    a_list = [1, 1, 2, 3, 1, 1]\n    print(f\"a_list: {a_list}\")\n    print(f\"reflect_modified_run_length_encoding(a_list): {reflect_modified_run_length_encoding(a_list)}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.359375
+    ],
+    [
+      "from typing import List\n\n\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef modified_run_length_encoding(nums: List[int]) -> List[int]:\n    result = []\n\n    for i in range(len(nums)):\n        if i == 0 or nums[i] != nums[i - 1]:\n            count = 1\n\n            while i < len(nums) - 1 and nums[i] == nums[i + 1]:\n                count += 1\n                i += 1\n\n            result.append(nums[i])\n            result.append(count)\n\n    return result\n\n\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef modified_run_length_encoding2(nums: List[int]) -> List[int]:\n    result = []\n    count = 1\n\n    for i in range(len(nums) - 1):\n        if nums[i] == nums[i + 1]:\n            count += 1\n        else:\n            result.append(nums[i])\n            result.append(count)\n            count = 1\n\n    result.append(nums[-1])\n    result.append(count)\n    return result",
+      -2.37109375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef decode(data):\n    \"\"\"Decode the data to a list.\n\n    >>> decode(())\n    []\n    >>> decode([])\n    []\n    >>> decode([1, 1, 1])\n    [1, 1, 1]\n    >>> decode([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> decode([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,",
+      -2.44921875
+    ],
+    [
+      "def reflect_encoding(lst):\n    \"\"\"\n    Takes a list of integers and reflects the modified run-length encoding\n    :param lst: list of integers\n    :return: list of integers\n    \"\"\"\n    # TODO: implement me\n    pass\n\n\n# ## Unit Test\n\n# **The following code is to run the unit test built in.**\n\n# In[ ]:\n\n\nget_ipython().run_cell_magic('writefile', 'test_reflect_encoding.py', \"import unittest\\n\\n\\nclass TestFirst(unittest.TestCase):\\n\\n    def test_first(self):\\n        self.assertEqual(reflect_encoding([1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,",
+      -2.544921875
+    ],
+    [
+      "def reflect_modified_run_length_encoding(run_length_encoding):\n    \"\"\"\n    :param run_length_encoding: list of tuples (int, char)\n    :return: list of chars\n    \"\"\"\n    return [\n        count * char\n        for count, char in run_length_encoding\n    ]\n\n\ndef main():\n    assert reflect_modified_run_length_encoding([(1, 'a'), (2, 'b'), (3, 'c')]) == \\\n           ['a', 'a', 'b', 'b', 'b', 'c', 'c', 'c']\n\n\nif __name__ == '__main__':\n    main()",
+      -2.755859375
+    ],
+    [
+      "def reflect_modified_run_length_encoding(encoded_list):\n    \"\"\"\n    :param encoded_list: list\n    :return: list\n\n    >>> reflect_modified_run_length_encoding([1, 2, 3, 3, 2, 1, 2, 3])\n    [1, 2, 3, 2, 1, 2, 3, 3]\n    \"\"\"\n    result = []\n    for i in range(0, len(encoded_list), 2):\n        result.append(encoded_list[i])\n        result.append(encoded_list[i + 1])\n    return result\n\n\ndef reflect_modified_run_length_encoding_2(encoded_list):\n    \"\"\"\n    :param encoded_list: list\n    :return: list\n\n    >>> reflect_modified_run_length_encoding_2([1, 2, 3, 3, 2, 1, 2, 3])\n    [1, 2, 3, 2, 1, 2, 3, 3]\n    \"\"\"\n    result = []\n    for i in range(0, len(encoded_list), 2):\n        result.append(encoded_list[i + 1])\n        result.append(encoded_list[i])\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.828125
+    ],
+    [
+      "def reverse_run_length_encoding(lst):\n    output = []\n\n    for i in range(0, len(lst), 2):\n        output.append(lst[i + 1] * lst[i])\n\n    return output\n\n\ndef test_reverse_run_length_encoding():\n    \"\"\"Test for reverse_run_length_encoding function.\"\"\"\n    print(\"Test 1.\")\n    assert reverse_run_length_encoding([1, 1, 2, 3, 1, 1]) == [2, 3, 1, 2]\n\n    print(\"Test 2.\")\n    assert reverse_run_length_encoding([2, 1, 2, 3, 2, 2, 1, 1]) == [3, 3, 2, 2]\n\n    print(\"Test 3.\")\n    assert reverse_run_length_encoding([1, 2, 3, 4, 5, 1, 2, 1, 2, 1]) == [3, 4, 5, 2, 3]\n\n    print(\"Test 4.\")\n    assert reverse_run_length_encoding([1, 2, 3, 4, 5, 1, 2, 1, 1]) == [3, 4, 5, 2, 1]\n\n    print(\"Test 5.\")\n    assert reverse_run_length_encoding([1, 1, 1, 1, 1, 1, 1, 1]) == [8]\n\n    print(\"Test 6.\")\n    assert reverse_run_length_encoding([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n    print(\"Test 7.\")\n    assert reverse_run_length_encoding([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1]) == [10, 1, 1,",
+      -2.912109375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef modified_run_length_encode(lst):\n    \"\"\"Return the modified run-length encoding of lst.\"\"\"\n    return [[len(list(g)), k] for k, g in groupby(lst)]\n\n\ndef test_modified_run_length_encode():\n    \"\"\"Test modified run-length encode.\"\"\"\n    assert modified_run_length_encode([1, 2, 3, 4, 5, 6, 7]) == [\n        [3, 1],\n        [1, 2],\n        [1, 3],\n        [1, 4],\n        [1, 5],\n        [1, 6],\n        [1, 7],\n    ]\n    assert modified_run_length_encode([1, 1, 1, 1, 2, 2, 2, 2, 2, 2]) == [\n        [5, 1],\n        [5, 2],\n    ]\n    assert modified_run_length_encode([1, 1, 2, 2, 3, 4, 4, 5]) == [\n        [2, 1],\n        [2, 2],\n        [1, 3],\n        [1, 4],\n        [1, 5],\n    ]",
+      -2.96484375
+    ],
+    [
+      "# pylint: disable=wildcard-import, unused-wildcard-import\nfrom itertools import *\n\nfrom .run_length_encoding import *\n\n\ndef run_length_decoding(rle_list: List[int]) -> List[int]:\n    \"\"\"Decodes a run-length-encoded list.\n\n    Args:\n        rle_list: the run-length-encoded list to decode\n\n    Returns:\n        the decoded list\n\n    Raises:\n        ValueError: if the input list is not a valid run-length-encoded list\n    \"\"\"\n    rle_list = list(rle_list)\n    if not all(isinstance(x, int) and x >= 0 for x in rle_list):\n        raise ValueError(f\"Invalid run-length-encoded list: {rle_list}\")\n\n    return list(chain.from_iterable(repeat(x, y) for x, y in rle_list))\n\n\ndef run_length_decoding_star(rle_list: List[int]) -> List[int]:\n    \"\"\"Decodes a run-length-encoded list.\n\n    Args:\n        rle_list: the run-length-encoded list to decode\n\n    Returns:\n        the decoded list\n\n    Raises:\n        ValueError: if the input list is not a valid run-length-encoded list\n    \"\"\"\n    rle_list = list(rle_list)\n    if not all(isinstance(x, int) and x >= 0 for x in rle_list):\n        raise ValueError(f\"Invalid run-length-encoded list: {rle_list}\")\n\n    return [x for x, y in rle_list for _ in range(y)]",
+      -3.05859375
+    ],
+    [
+      "from typing import List\n\n\ndef reflect_encoding(lst: List[int]) -> List[int]:\n    \"\"\"\n    >>> reflect_encoding([1, 2, 3, 3, 3, 3, 2, 1])\n    [1, 1, 2, 1, 3, 1, 3, 1, 3, 2, 1]\n    >>> reflect_encoding([1, 1, 2, 2, 3, 3, 2, 2, 1])\n    [1, 2, 1, 2, 1, 3, 2, 3, 2, 1]\n    >>> reflect_encoding([1, 2, 3, 3, 2, 2, 1])\n    [1, 1, 2, 1, 3, 2, 2, 1]\n    >>> reflect_encoding([1, 1, 2, 2, 2, 2, 1])\n    [1, 2, 1, 2, 2, 1]\n    >>> reflect_encoding([1, 1, 2, 2, 3, 3, 1])\n    [1, 2, 1, 2, 1, 3, 2, 1]\n    \"\"\"\n    reflect_lst = []\n\n    for i in range(len(lst)):\n        reflect_lst.append(lst[i])\n        if i == len(lst) - 1:\n            break\n        if lst[i] == lst[i + 1]:\n            reflect_lst.append(lst[i])\n\n    return reflect_lst\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.17578125
+    ],
+    [
+      "def reflect_run_length_encoding(input_list: list) -> list:\n    \"\"\"\n    >>> reflect_run_length_encoding([1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 3, 3, 3])\n    [4, 2, 4, 1, 3]\n    \"\"\"\n    # first pass to get the counts\n    counts = []\n    for i in range(len(input_list)):\n        if i == 0 or input_list[i] != input_list[i - 1]:\n            counts.append(1)\n        else:\n            counts[-1] += 1\n\n    # second pass to reflect the counts\n    reflected_counts = []\n    for i in range(len(counts)):\n        if i == 0 or counts[i] != counts[i - 1]:\n            reflected_counts.append(counts[i])\n        else:\n            reflected_counts[-1] = counts[i] - reflected_counts[-1]\n\n    return reflected_counts\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.322265625
+    ],
+    [
+      "def modified_rle(lst):\n    result = []\n    for i in range(len(lst)):\n        if i == 0:\n            result.append(lst[i])\n        else:\n            if lst[i] == lst[i - 1]:\n                result[-1] += 1\n            else:\n                result.append(lst[i])\n    return result\n\n\ndef test_modified_rle():\n    \"\"\"\n    >>> test_modified_rle()\n    \"\"\"\n    assert modified_rle([1, 1, 2, 3, 4, 4, 5]) == [2, 1, 1, 2, 1, 2, 1]\n    assert modified_rle([1, 2, 3, 4, 5, 6]) == [1, 2, 1, 1, 2, 1]\n    assert modified_rle([1, 1, 1, 1, 1, 1]) == [6, 1]\n    assert modified_rle([1, 2, 3, 4, 5, 6, 7]) == [1, 2, 1, 1, 2, 1, 1]\n    assert modified_rle([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2]) == [6, 2, 4]",
+      -3.330078125
+    ],
+    [
+      "def modified_run_length_encoding(lst):\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 2, 3, 1, 1])\n    [[1, 5], [2, 1], [3, 1], [1, 1]]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 2, 3, 1, 1, 2])\n    [[1, 5], [2, 1], [3, 1], [1, 1], [2, 1]]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 2, 3, 1, 1, 2, 2])\n    [[1, 5], [2, 1], [3, 1], [1, 1], [2, 1], [2, 1]]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 2, 3, 1, 1, 2, 2, 2])\n    [[1, 5], [2, 1], [3, 1], [1, 1], [2, 1], [2, 1], [2, 1]]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 2, 3, 1, 1, 2, 2, 2, 2])\n    [[1, 5], [2, 1], [3, 1], [1, 1], [2, 1], [2, 1], [2, 1], [2, 1]]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 1])\n    [[1, 5]]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 1, 1])\n    [[1, 5], [1, 1]]\n    >>> modified_run_length_encoding",
+      -3.576171875
+    ],
+    [
+      "def run_length_encoding(lst):\n    pass\n\n\n\"\"\"\nExample:\n\nInput: [1, 2, 3, 4, 5, 6, 6, 6, 6, 7, 8, 8, 9]\nOutput: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10]\n\nInput: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nOutput: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n\"\"\"",
+      -3.728515625
+    ],
+    [
+      "def reflect_encoding(input_list):\n    \"\"\"\n    >>> reflect_encoding([1, 1, 2, 3, 1, 1, 2])\n    [2, 1, 3, 2, 2, 1]\n    \"\"\"\n    output_list = []\n\n    for i in input_list:\n        if i != output_list[-1] or len(output_list) == 0:\n            output_list.append(i)\n        else:\n            output_list.append(output_list.pop())\n\n    return output_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.73828125
+    ],
+    [
+      "from typing import List\n\n\ndef reflect_rle(encoded: List[int]) -> List[int]:\n    \"\"\"Reflect the modified run-length encoding from a list.\n\n    Args:\n        encoded (List[int]): a list of encoded elements\n\n    Returns:\n        List[int]: the reflected list\n\n    Examples:\n        >>> assert reflect_rle([1, 2, 3, 3, 2, 1]) == [1, 1, 2, 3, 3, 2, 1]\n        >>> assert reflect_rle([1, 1, 2, 3, 3, 2, 1]) == [1, 2, 3, 3, 2, 1, 1]\n    \"\"\"\n    return [element * count for count, element in zip(encoded, reversed(encoded))]\n\n\nif __name__ == \"__main__\":\n    print(reflect_rle([1, 2, 3, 3, 2, 1]))",
+      -3.921875
+    ],
+    [
+      "def reflect_encoding(lst):\n    \"\"\"Reflects the modified run-length encoding from a list.\"\"\"\n    return [\n        (1, lst[0]) if len(lst) == 1 else lst[0]\n        for lst in [\n            lst\n            for lst in [\n                [\n                    lst[i - 1],\n                    lst[i],\n                ]\n                for i in range(1, len(lst), 2)\n            ]\n            if lst[0] != lst[1]\n        ]\n    ]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ([1, 1, 2, 2, 3, 3, 3], [1, 2, 3, 3, 1, 2, 2, 1, 3, 3]),\n        ([1, 2, 3, 4, 5, 6, 7], [1, 2, 3, 4, 5, 6, 7]),\n        ([1, 1, 1, 1, 1, 1], [1, 6]),\n        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]),\n    ]\n\n    for lst, expected in test_cases:\n        assert reflect_encoding(lst) == expected, (\n            f\"reflect_encoding({lst}) should be {expected}\"\n        )",
+      -4.07421875
+    ],
+    [
+      "def encode_modified(a_list):\n    \"\"\"\n    :param a_list: list\n    :return: list\n    \"\"\"\n    output = []\n    for element in a_list:\n        if element == output[-1][0]:\n            output[-1][1] += 1\n        else:\n            output.append([element, 1])\n    return output\n\n\ndef test_encode_modified():\n    assert encode_modified([1, 1, 2, 3, 4, 4, 5]) == [[1, 2], [2, 1], [3, 1], [4, 2], [5, 1]]",
+      -4.34375
+    ],
+    [
+      "def rle(lst):\n    \"\"\"Reflect the modified run-length encoding from a list.\n\n    >>> rle([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3])\n    [4, 2, 4, 3]\n    \"\"\"\n    out = []\n    for i, x in enumerate(lst):\n        if i == 0:\n            count = 1\n        elif lst[i] == lst[i - 1]:\n            count += 1\n        else:\n            out.append(count)\n            count = 1\n    out.append(count)\n    return out\n\n\ndef rle_recursive(lst):\n    \"\"\"Reflect the modified run-length encoding from a list.\n\n    >>> rle_recursive([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3])\n    [4, 2, 4, 3]\n    \"\"\"\n    out = []\n    rle_recursive_helper(lst, out)\n    return out\n\n\ndef rle_recursive_helper(lst, out):\n    \"\"\"Recursively reflect the modified run-length encoding from a list.\n\n    >>> rle_recursive_helper([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3], [])\n    \"\"\"\n    if not lst:\n        return\n    if len(lst) == 1:\n        out.append(1)\n        return\n    if lst[0] == lst[1]:\n        count = 1\n        i = 1\n        while i < len(lst) and lst[i] == lst[0]:\n            i += 1\n            count += 1\n        out.append(count)\n        rle_recursive_helper(lst[i:], out)\n    else:\n        out.append(1)\n        rle_recursive_helper(lst[1:], out)",
+      -4.578125
+    ],
+    [
+      "def reflect_modified_run_length_encoding(encoded_list):\n    \"\"\"\n    :param encoded_list: list of integers\n    :return: list of integers\n    >>> reflect_modified_run_length_encoding([1, 1, 2, 2, 2, 3, 3, 3, 3])\n    [1, 2, 2, 1, 3, 3, 3, 2]\n    >>> reflect_modified_run_length_encoding([1, 1, 1, 1, 1, 1, 1, 1, 1])\n    [1, 1, 1, 1, 1, 1, 1, 1, 1]\n    >>> reflect_modified_run_length_encoding([1, 1, 1, 1, 2, 2, 2, 2])\n    [1, 1, 1, 1, 2, 2, 2, 2]\n    >>> reflect_modified_run_length_encoding([1, 1, 1, 2, 2, 2, 2, 2])\n    [1, 1, 1, 2, 2, 2, 2, 2]\n    \"\"\"\n    new_list = []\n    for i in range(len(encoded_list) - 1, -1, -1):\n        new_list.append(encoded_list[i])\n    return new_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.7890625
+    ],
+    [
+      "from itertools import chain, repeat\n\n\ndef expand(seq):\n    for is_repeat, value in seq:\n        if is_repeat:\n            yield from repeat(value, times=is_repeat)\n        else:\n            yield value\n\n\ndef run_length_encode(seq):\n    return [(len(list(g)), k) for k, g in itertools.groupby(seq)]\n\n\ndef reverse_run_length_encode(seq):\n    return list(chain(*map(lambda x: repeat(*x), seq)))\n\n\ndef test_run_length_encode():\n    assert run_length_encode([1, 1, 1, 2, 3, 4, 4, 5, 6]) == [(3, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6)]\n\n\ndef test_reverse_run_length_encode():\n    assert reverse_run_length_encode([(3, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6)]) == [1, 1, 1, 2, 3, 4, 4, 5, 6]",
+      -4.859375
+    ],
+    [
+      "from typing import List\n\n\ndef rle(arr: List[int]) -> List[int]:\n    \"\"\"\n    >>> rle([1, 1, 2, 2, 3, 3, 4, 4, 4, 4])\n    [1, 2, 1, 2, 1, 3, 2, 4]\n    \"\"\"\n    if not arr:\n        return []\n\n    res = []\n\n    count = 1\n    prev = arr[0]\n\n    for i in range(1, len(arr)):\n        if arr[i] == prev:\n            count += 1\n        else:\n            res.append(count)\n            res.append(prev)\n            count = 1\n            prev = arr[i]\n\n    res.append(count)\n    res.append(prev)\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.171875
+    ],
+    [
+      "from typing import List, Any\n\n\ndef encode(data: List[Any]) -> List[Any]:\n    encoded = []\n\n    for x in data:\n        if x in encoded:\n            continue\n        else:\n            encoded.append(x)\n\n        count = 0\n\n        for y in data:\n            if y == x:\n                count += 1\n\n        encoded.append(count)\n\n    return encoded\n\n\ndef decode(data: List[Any]) -> List[Any]:\n    decoded = []\n\n    for index, x in enumerate(data):\n        if index % 2 == 0:\n            for _ in range(x):\n                decoded.append(data[index + 1])\n\n    return decoded\n\n\nif __name__ == \"__main__\":\n    assert encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [\n        1,\n        1,\n        2,\n        1,\n        3,\n        1,\n        4,\n        1,\n        5,\n        1,\n        6,\n        1,\n        7,\n        1,\n        8,\n        1,\n        9,\n        1,\n        10,\n    ]\n    assert decode([1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8, 1, 9, 1, 10]) == [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6,\n        7,\n        8,\n        9,\n        10,\n    ]\n    assert encode([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]) == [\n        1,\n        1,\n        2,\n        2,\n        3,\n        3,\n        4,\n        4",
+      -5.44921875
+    ],
+    [
+      "def encode(l):\n    return [len(list(v)) for v in [list(g) for k, g in itertools.groupby(l)]]\n\n\ndef decode(l):\n    return [v for i in l for v in (i-1)*'a' + 'b']\n\n\ndef reflect(l):\n    return decode(encode(l))\n\n\nimport itertools\n\nassert reflect([1, 1, 2, 3, 3, 3, 2, 5]) == 'aabcccbaa'\nassert reflect([1, 1, 2, 3, 3, 3, 2, 5, 5, 5]) == 'aabcccbaaa'\nassert reflect([1, 1, 2, 3, 3, 3, 2, 5, 5, 5, 6, 6, 6, 7, 7, 7]) == 'aabcccbaaaaabcccbaaaa'",
+      -5.5078125
+    ],
+    [
+      "from collections import Counter\n\n\ndef run_length_encode(ls):\n    if not ls:\n        return ls\n\n    counter = Counter(ls)\n    return [str(counter[i]) + i for i in counter]\n\n\ndef run_length_decode(encoded_ls):\n    if not encoded_ls:\n        return encoded_ls\n\n    decoded_ls = []\n    for i in encoded_ls:\n        number, char = i.split(char=i[0], maxsplit=1)\n        decoded_ls.extend([char] * int(number))\n    return decoded_ls\n\n\n# tests\n\n# run_length_encode\n\n\ndef test_run_length_encode_with_no_ls():\n    assert run_length_encode([]) == []\n\n\ndef test_run_length_encode_with_one_element_ls():\n    assert run_length_encode([1]) == ['11']\n\n\ndef test_run_length_encode_with_no_repeated_elements_ls():\n    assert run_length_encode([1, 2, 3, 4, 5]) == ['11', '21', '31', '41', '51']\n\n\ndef test_run_length_encode_with_repeated_elements_ls():\n    assert run_length_encode([1, 1, 2, 2, 3, 3, 3, 4, 4, 5]) == [\n        '21',\n        '22',\n        '33',\n        '23',\n        '42',\n        '44',\n        '51',\n    ]\n\n\n# run_length_decode\n\n\ndef test_run_length_decode_with_no_ls():\n    assert run_length_decode([]) == []\n\n\ndef test_run_length_decode_with_one_element_ls():\n    assert run_length_decode(['11']) == [1]\n\n\ndef test_run_length_decode_with_no_repeated_elements_ls():\n    assert run_length_decode(['11', '2",
+      -5.59375
+    ],
+    [
+      "def reflect_encoding(lst):\n    \"\"\"\n    >>> reflect_encoding([1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 7, 8, 9, 10])\n    [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    \"\"\"\n    output = []\n    count = 1\n    for i in range(1, len(lst)):\n        if lst[i - 1] == lst[i]:\n            count += 1\n        else:\n            output.append(count)\n            count = 1\n    output.append(count)\n    return output\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -5.71484375
+    ],
+    [
+      "from typing import List\n\n\ndef modified_run_length_encoding(l: List) -> List:\n    \"\"\"\n    >>> modified_run_length_encoding([1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 6, 8, 9, 9, 9])\n    [1, 2, 3, 4, 5, 6, 1, 1, 1, 1, 1, 1, 8, 9, 1, 1, 1]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1])\n    [1, 5]\n    >>> modified_run_length_encoding([1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])\n    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    >>> modified_run_length_encoding([1, 1, 1, 2, 3, 1, 1, 1])\n    [1, 3, 3, 1, 1, 1]\n    >>> modified_run_length_encoding([1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6])\n    [1, 2, 3, 4, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    >>> modified_run_length_encoding([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])\n    [1, 5, 6, 1,",
+      -5.71484375
+    ],
+    [
+      "def modified_run_length_encode(run_length_encoded):\n    \"\"\"Encodes a list in modified run-length encoding.\n\n    Args:\n        run_length_encoded: A list of run-length encoded values.\n\n    Returns:\n        A list of values in modified run-length encoding.\n    \"\"\"\n    encoded_list = []\n    for i in range(len(run_length_encoded)):\n        if i % 2 == 0:\n            encoded_list.append(run_length_encoded[i])\n        else:\n            encoded_list[len(encoded_list) - 1] += run_length_encoded[i]\n    return encoded_list\n\n\ndef main():\n    print(\"OK\" if (modified_run_length_encode([1, 2, 3, 4, 5, 6]) == [1, 2, 2, 3, 4, 5, 5, 6]) else \"NOT OK\")\n\n\nif __name__ == '__main__':\n    main()",
+      -5.9765625
+    ],
+    [
+      "def rle(lst):\n    \"\"\"\n    >>> rle([])\n    []\n    >>> rle([1, 2, 3, 4, 5])\n    [1, 2, 3, 4, 5]\n    >>> rle([1, 2, 3, 4, 5, 1, 2, 3, 4, 5])\n    [1, 1, 2, 1, 3, 1, 4, 1, 5, 2, 1, 3, 2, 1, 4, 3, 1, 5]\n    >>> rle([1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5])\n    [1, 1, 2, 1, 3, 1, 4, 1, 5, 2, 1, 3, 2, 1, 4, 3, 1, 5, 2, 1, 3, 2, 1, 4, 3, 1, 5]\n    \"\"\"\n    if lst == []:\n        return []\n    lst = [lst[0]] + [x for x in lst[1:] if x != lst[0]]\n    new_lst = []\n    for i in range(0, len(lst), 2):\n        new_lst.extend([lst[i]] * lst[i + 1])\n    return new_lst\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.09765625
+    ],
+    [
+      "from typing import List\n\n\ndef reflect_encoding(encoding: List[int]) -> List[int]:\n    \"\"\"Reflect run-length encoding.\n\n    Args:\n        encoding (List[int]): run-length encoding\n\n    Returns:\n        List[int]: reflected run-length encoding\n    \"\"\"\n    if len(encoding) < 2:\n        return encoding\n\n    prev_index, prev_count = 0, encoding[0]\n    new_encoding = []\n\n    for index in range(1, len(encoding)):\n        if encoding[index] != prev_count:\n            new_encoding.extend([prev_count, prev_index])\n            prev_index, prev_count = index, encoding[index]\n\n    new_encoding.extend([prev_count, prev_index])\n\n    return new_encoding\n\n\nif __name__ == \"__main__\":\n    assert reflect_encoding([1, 1, 2, 3, 1, 1]) == [1, 2, 1, 2, 3, 1, 1]\n    assert reflect_encoding([1, 2, 3, 4, 5, 5, 6]) == [1, 1, 2, 1, 3, 1, 4, 1, 5, 2, 6, 1]\n    assert reflect_encoding([1, 2, 3, 4, 5, 6]) == [1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1]\n    assert reflect_encoding([1, 1, 1, 1, 1, 1]) == [6, 1]\n    assert reflect_encoding([1, 1, 1, 1, 2, 1, 1]) == [2, 1, 5, 1]\n    assert reflect_encoding([1, 1, 1, 1, 1, 1, 1]) == [6, 1, 1]\n    assert reflect_encoding([1, 1, 1, 1, 2, 1, 2",
+      -6.4921875
+    ],
+    [
+      "from itertools import chain\nfrom collections import deque\n\n\ndef rle_decode(encoded):\n    \"\"\"\n    >>> rle_decode(deque([2, 3, 2, 3]))\n    [3, 3, 3, 3, 3]\n    >>> rle_decode(deque([1, 3, 1, 2, 2, 1]))\n    [1, 3, 3, 2, 2, 1]\n    \"\"\"\n    decoded = []\n    for num in encoded:\n        decoded.extend([encoded[0]] * num)\n    return decoded\n\n\ndef rle_encode(encoded):\n    \"\"\"\n    >>> rle_encode([3, 3, 3, 3, 3])\n    deque([2, 3])\n    >>> rle_encode([1, 3, 3, 2, 2, 1])\n    deque([1, 3, 1, 2, 2, 1])\n    \"\"\"\n    encoded = iter(encoded)\n    encoded_list = []\n    curr = next(encoded)\n    count = 1\n    for num in encoded:\n        if num == curr:\n            count += 1\n        else:\n            encoded_list.append(count)\n            encoded_list.append(curr)\n            curr = num\n            count = 1\n    encoded_list.append(count)\n    encoded_list.append(curr)\n    return deque(encoded_list)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -6.9609375
+    ],
+    [
+      "def rle(lst):\n    # TODO: Write your code here\n    result = []\n    for item in lst:\n        if result and result[-1][0] == item:\n            result[-1][1] += 1\n        else:\n            result.append([item, 1])\n    return result\n\n\ndef test(expect, output):\n    print(f'expected: {expect}')\n    print(f'output: {output}')\n    assert expect == output\n\n\ndef main():\n    test([['a', 1], ['b', 2], ['c', 1]], rle(['a', 'a', 'a', 'a', 'b', 'b', 'b', 'c']))\n    test([['a', 1], ['b', 1], ['c', 1]], rle(['a', 'a', 'a', 'a', 'b', 'c']))\n    test([['a', 1], ['b', 2], ['c', 1]], rle(['a', 'a', 'a', 'a', 'b', 'b', 'b', 'c', 'c']))\n    test([['a', 2], ['b', 1], ['c', 2]], rle(['a', 'a', 'a', 'b', 'c', 'c']))\n    test([['a', 2], ['b', 1], ['c', 1]], rle(['a', 'a', 'a', 'b', 'c']))\n    test([['a', 2], ['b', 2], ['c', 1]], rle(['a', 'a', 'a', 'b', 'b', 'c']))\n    test([['a', 2], ['b', 2], ['c', 1]], rle(['a', 'a', 'a', 'b', 'b', 'b', 'c']))\n\n\nif __name__ == '__main__':\n    main()",
+      -7.25
+    ],
+    [
+      "from itertools import groupby\n\n\ndef reflect_encoding(lst):\n    \"\"\"\n    >>> reflect_encoding([1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 6, 6])\n    [1, 2, 3, 4, 2, 3, 1, 4, 1, 5, 6, 4, 1, 6]\n    >>> reflect_encoding([1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6])\n    [1, 2, 3, 2, 1, 4, 3, 2, 1, 5, 4, 2, 6, 4, 1, 6]\n    >>> reflect_encoding([1, 1, 2, 3, 4, 5, 6])\n    [1, 2, 1, 3, 2, 4, 1, 5, 2, 6, 1, 4]\n    \"\"\"\n    result = []\n    for key, group in groupby(lst):\n        result.extend([key] * len(list(group)))\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -7.328125
+    ],
+    [
+      "from typing import List\n\n\ndef reflect_rle(run_length: List[int]) -> List[int]:\n    \"\"\"\n    >>> reflect_rle([1, 1, 1, 1, 1])\n    [5, 1]\n    >>> reflect_rle([1, 1, 2, 3, 6])\n    [1, 1, 2, 3, 6]\n    >>> reflect_rle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    >>> reflect_rle([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7])\n    [2, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7]\n    >>> reflect_rle([1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 7, 8, 9])\n    [1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 7, 8, 9]\n    \"\"\"\n    reflect = []\n    for i, number in enumerate(run_length):\n        if i == len(run_length) - 1:\n            reflect.append(number)\n        elif number != run_length[i + 1]:\n            reflect.append(number)\n\n    return reflect\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -8.3046875
+    ],
+    [
+      "# Time Complexity: O(n)\n# Space Complexity: O(n)\ndef modified_run_length_encoding(l):\n    encoded = []\n    for i in range(len(l)):\n        count = 1\n        while i + 1 < len(l) and l[i] == l[i + 1]:\n            count += 1\n            i += 1\n        encoded.append(str(count))\n        encoded.append(l[i])\n    return encoded\n\n\ndef test(l, expected_answer):\n    answer = modified_run_length_encoding(l)\n\n    if answer != expected_answer:\n        raise Exception(\n            f\"Wrong answer {answer}. Expected answer was {expected_answer}.\"\n        )\n\n\nif __name__ == \"__main__\":\n    test([], [])\n    test([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3], [\"4\", 1, \"4\", 2, \"4\", 3, \"3\"])\n    test([\"a\", \"a\", \"a\", \"a\", \"b\", \"b\", \"c\", \"c\", \"c\"], [\"4\", \"a\", \"1\", \"b\", \"2\", \"c\"])\n    test([\"a\", \"b\", \"b\", \"c\", \"c\", \"c\"], [\"1\", \"a\", \"1\", \"b\", \"3\", \"c\"])\n    test([\"a\", \"a\", \"a\", \"a\", \"b\", \"b\", \"b\"], [\"4\", \"a\", \"1\", \"b\", \"3\"])\n    test([\"a\", \"a\", \"a\", \"a\", \"b\", \"b\"], [\"4\", \"a\", \"1\", \"b\", \"2\"])\n    test([\"a\", \"b\", \"c\", \"d\", \"e\", \"e\", \"e\", \"e\"], [\"1\", \"a\", \"1\", \"b\", \"1\", \"c\", \"4\", \"e\"])\n    test([\"a\", \"a\", \"a\", \"a\", \"a\", \"b\", \"b\", \"b\", \"b\"], [\"5\", \"a\",",
+      -8.6953125
+    ],
+    [
+      "def modified_run_length_encoding(l):\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9])\n    [1, [2, 1], [3, 1], [4, 3], 5, 6, 7, 8, 9]\n    >>> modified_run_length_encoding([1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3])\n    [1, [2, 2], [3, 5]]\n    \"\"\"\n    if len(l) == 0:\n        return l\n    res = []\n    for i in range(len(l)):\n        if i == 0:\n            res.append(l[i])\n        else:\n            if l[i] == l[i - 1]:\n                res[-1] = [res[-1], res[-1] + 1]\n            else:\n                res.append(l[i])\n    return res\n\n\ndef modified_run_length_encoding_v2(l):\n    \"\"\"\n    >>> modified_run_length_encoding_v2([1, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9])\n    [1, [2, 1], [3, 1], [4, 3], 5, 6, 7, 8, 9]\n    >>> modified_run_length_encoding_v2([1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3])\n    [1, [2, 2], [3, 5]]\n    \"\"\"\n    if len(l) == 0:\n        return l\n    res = []\n    for i in range(1, len(l)):\n        if l[i] == l[i - 1]:\n            res[-1] = [res[-1], res[-1]",
+      -11.9375
+    ],
+    [
+      "from itertools import groupby\n\n\ndef modified_run_length_encoding(l):\n    \"\"\"\n    >>> modified_run_length_encoding([1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3])\n    [1, 5, 2, 3, 4, 3]\n    >>> modified_run_length_encoding([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])\n    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    \"\"\"\n    return [\n        len(list(group)) + 1\n        for key, group in groupby(l)\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -11.9453125
+    ],
+    [
+      "def reflect_run_length(lst):\n    \"\"\"\n    >>> reflect_run_length([1, 1, 2, 3, 4, 5, 2, 1, 2, 3, 4, 5, 6])\n    [1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6]\n    \"\"\"\n    lst_copy = lst[:]\n    for i in range(len(lst_copy)):\n        if i == 0:\n            continue\n        if lst_copy[i] == lst_copy[i - 1]:\n            lst_copy[i] = lst_copy[i - 1]\n    return lst_copy\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -16.890625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

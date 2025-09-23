@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/416",
+    "prompt": "Write a function to find the maximum sum we can make by dividing number in three parts recursively and summing them up together for the given number.",
+    "canonical_solution": "MAX = 1000000\r\ndef breakSum(n): \r\n\tdp = [0]*(n+1) \r\n\tdp[0] = 0\r\n\tdp[1] = 1\r\n\tfor i in range(2, n+1): \r\n\t\tdp[i] = max(dp[int(i/2)] + dp[int(i/3)] + dp[int(i/4)], i); \r\n\treturn dp[n]",
+    "test_list": [
+      "assert breakSum(12) == 13",
+      "assert breakSum(24) == 27",
+      "assert breakSum(23) == 23"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 405
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# Write your code here\ndef max_sum(n):\n    if n == 1:\n        return 0\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n    return max_sum(n//3) + max_sum(n%3)\n\nprint(max_sum(100))",
+      2.453125
+    ],
+    [
+      "class Solution:\n    # @return an integer\n    def threeSumClosest(self, num, target):\n        def rec(n, i, j):\n            if i == j:\n                return 0\n            if i == len(num) - 1 or j == len(num) - 1:\n                return (n - num[i] - num[j])\n            if num[i] + num[j] > num[j] + num[i]:\n                return rec(n, i + 1, j)\n            if num[i] + num[j] < num[j] + num[i]:\n                return rec(n, i, j + 1)\n            return rec(n, i, j)\n\n        return rec(target, 0, len(num) - 1)\n\n\ns = Solution()\nprint s.threeSumClosest([2, -3, 1, -2, -4], -4)",
+      0.82470703125
+    ],
+    [
+      "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n# vim: set expandtab tabstop=4 shiftwidth=4 :\n\n# Copyright 2016, 2017 Ias Cheung (ias.cheung@gmail.com)\n#\n# This file is part of GNU Radio\n#\n# GNU Radio is free software; you can redistribute it and/or modify\n# it under the terms of the GNU General Public License as published by\n# the Free Software Foundation; either version 3, or (at your option)\n# any later version.\n#\n# GNU Radio is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n# GNU General Public License for more details.\n#\n# You should have received a copy of the GNU General Public License\n# along with GNU Radio; see the file COPYING.  If not, write to\n# the Free Software Foundation, Inc., 51 Franklin Street,\n# Boston, MA 02110-1301, USA.\n\nfrom __future__ import print_function\nfrom __future__ import division\nfrom __future__ import absolute_import\nfrom __future__ import unicode_literals\n\nimport math\nimport sys\nimport os\nimport re\nimport numpy as np\n\ndef is_number(s):\n    try:\n        float(s)\n        return True\n    except ValueError:\n        return False\n\ndef is_integer(s):\n    try:\n        int(s)\n        return True\n    except ValueError:\n        return False\n\ndef is_hex_string(s):\n    try:\n        int(s, 16)\n        return True\n    except ValueError:\n        return False\n\ndef is_decimal_string(s):\n    try:\n        float(s)\n        return True\n    except ValueError:\n        return False\n\ndef is_double_float(s):\n    if is_integer(s):\n        return False\n    if is_float(s):\n        return True\n    if is_number(s):\n        return False\n    if is_hex_string(s):\n        return False",
+      0.47802734375
+    ],
+    [
+      "def max_sum(n):\n    if n <= 2:\n        return n\n\n    return max(max_sum(n // 3), 3 * max_sum(n // 3) + n % 3)\n\n\n\nprint max_sum(123)\nprint max_sum(456)\nprint max_sum(789)",
+      0.439453125
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        if len(nums) < 3:\n            return 0\n        result = 0\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                for j in range(i + 1, len(nums) - 1):\n                    if j == len(nums) - 1 or nums[j]!= nums[j + 1]:\n                        tmp = nums[i] + nums[j] + nums[j + 1]\n                        if tmp > result:\n                            result = tmp\n        return result",
+      0.2418212890625
+    ],
+    [
+      "def max3(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    if n == 3:\n        return 3\n    return max3(n - 1) + max3(n - 2) + max3(n - 3)\n\n\n\nif __name__ == '__main__':\n    print max3(10)",
+      0.1387939453125
+    ],
+    [
+      "#!/bin/python3\n\ndef max_sum_3(n):\n    if n < 3:\n        return n\n    elif n % 3 == 0:\n        return max_sum_3(n / 3) + n\n    else:\n        return max_sum_3(n / 3) + max_sum_3(3) + n\n\nprint(max_sum_3(123))",
+      0.035369873046875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/three-sum/problem\n\n# @author: davide\n\nn = int(input().strip())\narr = list(map(int, input().strip().split()))\n\ndef max_three_sum(arr):\n    if len(arr) < 3:\n        return arr\n\n    if len(arr) == 3:\n        return max(arr)\n\n    return max_three_sum(arr[:3]) + max(arr[3:])\n\nprint(max_three_sum(arr))",
+      -0.70458984375
+    ],
+    [
+      "from math import floor\n\ndef three_part_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    elif n == 2:\n        return 3\n    else:\n        return three_part_sum(n / 3) + three_part_sum(n % 3)\n\nprint three_part_sum(100)\n\n\"\"\"\nOutput:\n\n>>> three_part_sum(100)\n10\n\"\"\"",
+      -0.85595703125
+    ],
+    [
+      "def get_max_sum_recursive(num):\n    if num <= 1:\n        return num\n    return max(get_max_sum_recursive(num / 3), get_max_sum_recursive(num / 3 + 1), get_max_sum_recursive(num - (num / 3 + 1)))\n\nprint(get_max_sum_recursive(12))",
+      -0.85595703125
+    ],
+    [
+      "def max_sum_part_three(n):\n    if n < 3:\n        return n\n    return max(max_sum_part_three(n//3), n)\n\nprint(max_sum_part_three(3))",
+      -0.85595703125
+    ],
+    [
+      "# https://www.youtube.com/watch?v=Vp5hX7lk0gQ\n\nclass Solution(object):\n    def maxSum(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        if num == 0:\n            return 0\n        if num == 1:\n            return 1\n        if num == 2:\n            return 2\n        if num == 3:\n            return 3\n        return max(self.maxSum(i) for i in range(1, num + 1) if i % 3 == 0) + max(self.maxSum(i) for i in range(1, num + 1) if i % 3!= 0)",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param {integer} n\n    # @return {integer}\n    def threeSum(self, num):\n        return self.threeSumRecursive(num)\n\n    def threeSumRecursive(self, num):\n        if len(num) < 3:\n            return num\n        l = len(num)\n        max_sum = 0\n        for i in range(l):\n            for j in range(i+1, l):\n                k = j + 1\n                while k < l:\n                    if num[i] + num[j] + num[k] < num[l - 1]:\n                        break\n                    else:\n                        k += 1\n                    if num[i] + num[j] + num[k] > max_sum:\n                        max_sum = num[i] + num[j] + num[k]\n        return max_sum",
+      -0.85693359375
+    ],
+    [
+      "from math import sqrt\n\n\ndef recursion_solution(n):\n    if n < 3:\n        return n\n    else:\n        return sum(recursion_solution(n / 3)) + recursion_solution(n / 3)\n\n\ndef recursion_solution2(n):\n    if n < 3:\n        return n\n    else:\n        return sum(recursion_solution2(n / 3)) + recursion_solution2(n / 3)\n\n\ndef main():\n    print(recursion_solution(100))\n    print(recursion_solution2(100))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def max_sum(n):\n    if n < 3:\n        return n\n    return max(max_sum(n/3), max_sum(n/3 + n/3) + n)\n\nprint max_sum(123)",
+      -0.85693359375
+    ],
+    [
+      "def max_sum_sub_trees(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 1:\n        return n\n    if n % 3 == 0:\n        return max(max_sum_sub_trees(n // 3), n - n // 3 * 3)\n    else:\n        return max(max_sum_sub_trees(n // 3), max_sum_sub_trees(n - n // 3 * 3))\n\n\nif __name__ == '__main__':\n    print(max_sum_sub_trees(10))",
+      -0.85791015625
+    ],
+    [
+      "# http://codility.com/demo/results/demo2A-5LJX/\ndef max_sum_div_3(n):\n    if n < 3:\n        return n\n    else:\n        return max(max_sum_div_3(n//3), max_sum_div_3((n//3)*2) + n%3)\n\nif __name__ == \"__main__\":\n    assert max_sum_div_3(3) == 6\n    assert max_sum_div_3(7) == 14",
+      -0.85791015625
+    ],
+    [
+      "def findMaxSum(num):\n    if num == 0:\n        return 0\n    elif num < 10:\n        return max(findMaxSum(num/10),findMaxSum(num%10))\n    else:\n        return max(findMaxSum(num/100),findMaxSum(num/10),findMaxSum(num%10))\n\nprint findMaxSum(10)",
+      -0.85791015625
+    ],
+    [
+      "def three_part_max_sum(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    elif n == 2:\n        return 2\n    else:\n        return max(three_part_max_sum(n / 3), three_part_max_sum(n / 3 + 1), three_part_max_sum(n - n / 3))\n\nprint(three_part_max_sum(13))",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        return self.threeSumClosestHelper(nums, target)\n\n    def threeSumClosestHelper(self, nums, target):\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return nums[0]\n        if len(nums) == 2:\n            return min(nums)\n        if len(nums) == 3:\n            return max(nums)\n\n        # check the first element\n        first = nums[0]\n        for i in range(1, len(nums)):\n            if i > len(nums) - 1:\n                return first\n            if nums[i] < first:\n                continue\n            if nums[i] > target:\n                return first\n            if nums[i] == first:\n                return first\n            if nums[i] > target:\n                return nums[i]\n            first = nums[i]\n        return nums[0]",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def threeSumMaximum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return max(nums)\n        return max(self.threeSumMaximumHelper(nums))\n\n    def threeSumMaximumHelper(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return max(nums)\n        return max(self.threeSumMaximumHelper(nums[:len(nums)/3]),\n                   self.threeSumMaximumHelper(nums[len(nums)/3:2*len(nums)/3]),\n                   self.threeSumMaximumHelper(nums[2*len(nums)/3:]))",
+      -0.8583984375
+    ],
+    [
+      "# Time:  O(n)\n# Space: O(1)\n# DP\n#\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def maxSum(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        return self.helper(root, 0)\n\n    def helper(self, root, sum):\n        if root is None:\n            return sum\n\n        left_sum = self.helper(root.left, sum)\n        right_sum = self.helper(root.right, sum)\n        root_sum = left_sum + root.val + right_sum\n        return max(root_sum, sum + root_sum)",
+      -0.8583984375
+    ],
+    [
+      "# The function will accept a number as input.\n# Input:\n#   1.  Number\n#   2.  Initial sum\n# Output:\n#   1.  Maximum sum\n\n# Recursive solution\ndef max_sum(number, sum, max_sum):\n    if sum + number <= number:\n        return max_sum\n    else:\n        return max(max_sum(number, sum + number, max_sum), max_sum(number, sum, max_sum))\n\n# Iterative solution\ndef max_sum(number, sum, max_sum):\n    if sum + number <= number:\n        return max_sum\n    else:\n        return max(max_sum(number, sum + number, max_sum), max_sum(number, sum, max_sum))\n\n# Time Complexity: O(n)\n# Space Complexity: O(1)",
+      -0.8583984375
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef maxSum(n):\n    if n < 3:\n        return n\n    return max(maxSum(n / 3), max(maxSum(n / 3 + 1), maxSum(n / 3 + 2)))\n\nprint maxSum(10)",
+      -0.8583984375
+    ],
+    [
+      "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def maxSum(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        left, right = self.maxSum(root.left), self.maxSum(root.right)\n        if not left and not right:\n            return root.val\n        if left and not right:\n            return max(left + root.val, right + root.val)\n        if not left and right:\n            return max(left + root.val, right + root.val)\n        if left == right:\n            return max(left + root.val, right + root.val)\n        return max(left + root.val, right + root.val)",
+      -0.8583984375
+    ],
+    [
+      "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def maxSum(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        \n        if not root.left and not root.right:\n            return root.val\n        \n        return max(self.maxSum(root.left), self.maxSum(root.right)) + root.val",
+      -0.8583984375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/maximum-sum-divisible-3/problem\n\nclass Solution(object):\n    def maxSumDiv3(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 0:\n            return 0\n        return max(self.maxSumDiv3(n // 3), self.maxSumDiv3(n // 2) + self.maxSumDiv3(n % 2))",
+      -0.8583984375
+    ],
+    [
+      "# Recursive function\ndef maxSumDivThree(num):\n    \"\"\"\n    :type num: int\n    :rtype: int\n    \"\"\"\n    if num == 1:\n        return 1\n\n    if num % 3 == 0:\n        return max(maxSumDivThree(num / 3), maxSumDivThree(num / 3) + num % 3)\n    else:\n        return max(maxSumDivThree(num / 3), maxSumDivThree(num / 3) + num % 3) + num % 3\n\n# Iterative function\ndef maxSumDivThreeIter(num):\n    \"\"\"\n    :type num: int\n    :rtype: int\n    \"\"\"\n    if num == 1:\n        return 1\n\n    if num % 3 == 0:\n        return max(maxSumDivThreeIter(num / 3), maxSumDivThreeIter(num / 3) + num % 3)\n    else:\n        return max(maxSumDivThreeIter(num / 3), maxSumDivThreeIter(num / 3) + num % 3) + num % 3\n\n# Test cases\nnum = 123\nprint(maxSumDivThree(num))\nprint(maxSumDivThreeIter(num))",
+      -0.8583984375
+    ],
+    [
+      "def maxSum(n):\n    return max(maxSum(n/3), n%3*3+maxSum(n/3))\n\nprint(maxSum(10))\n\n\"\"\"\nOutput:\n\n>>> maxSum(10)\n15\n\"\"\"",
+      -0.8583984375
+    ],
+    [
+      "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def maxSum(self, root: TreeNode) -> int:\n        if root is None:\n            return 0\n        return self.helper(root, 0)\n\n    def helper(self, root, sum):\n        if root is None:\n            return sum\n        if root.left is None and root.right is None:\n            return sum + root.val\n        return max(self.helper(root.left, sum+root.val), self.helper(root.right, sum+root.val))",
+      -0.8583984375
+    ],
+    [
+      "import collections\n\ndef find_max_sum_div3(num):\n    if num == 0:\n        return 0\n    if num == 1:\n        return 1\n    if num == 2:\n        return 3\n    if num == 3:\n        return 6\n    max_sum = 0\n    for i in range(4, num, 3):\n        max_sum = max(max_sum, find_max_sum_div3(i) + find_max_sum_div3(num - i) + find_max_sum_div3(i - 1))\n    return max_sum\n\ndef main():\n    num = 1000000\n    print find_max_sum_div3(num)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "# Note: The solution is trivial. It is very easy to figure out the sum.\n\n# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution:\n    # @param {integer} root\n    # @return {integer}\n    def maxSum(self, root):\n        if root is None:\n            return 0\n        if root.left is None and root.right is None:\n            return root.val\n        return max(self.maxSum(root.left), self.maxSum(root.right)) + root.val",
+      -0.8583984375
+    ],
+    [
+      "def sum_three_parts(n):\n    if n == 1:\n        return 0\n    if n == 2:\n        return 2\n    if n % 3 == 0:\n        return sum_three_parts(n // 3) + n // 3\n    else:\n        return sum_three_parts(n - 1) + n\n\nprint(sum_three_parts(12))",
+      -0.8583984375
+    ],
+    [
+      "# @include\ndef max_sum_recursive(n):\n    # Base case: n < 10\n    if n < 10:\n        return n\n\n    # Recursive case: n >= 10\n    return max(max_sum_recursive(n // 10), max_sum_recursive(n % 10) + n // 10)\n# @exclude\n\n\ndef main():\n    print(max_sum_recursive(10))\n\n    n = 100\n    print(max_sum_recursive(n))\n    assert max_sum_recursive(n) == n * (n + 1) / 2\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/three-sum\n\ndef threeSum(arr):\n    # print(arr)\n    if len(arr) < 3:\n        return arr\n    if len(arr) == 3:\n        return [arr[0]+arr[1]+arr[2]]\n    else:\n        return threeSum(arr[:len(arr)/3]) + threeSum(arr[len(arr)/3:])\n\nif __name__ == '__main__':\n    arr = [4, 2, 3, 1, 2]\n    print(threeSum(arr))",
+      -0.8583984375
+    ],
+    [
+      "def three_part_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n < 3:\n        return n\n    return three_part_sum(n // 3) + three_part_sum(n % 3)\n\nif __name__ == '__main__':\n    print(three_part_sum(1))",
+      -0.85888671875
+    ],
+    [
+      "def max_sum(n):\n    if n < 3:\n        return n\n    return max(max_sum(n/3), max_sum(n/2) + max_sum(n/3))\n\nprint(max_sum(10))\nprint(max_sum(20))\nprint(max_sum(100))\nprint(max_sum(1000))\nprint(max_sum(10000))",
+      -0.85888671875
+    ],
+    [
+      "# -*- coding:utf-8 -*-\n\nimport time\nstart_time = time.time()\n\ndef get_max_sum(number):\n    if number == 0:\n        return 0\n    if number == 1:\n        return 1\n    if number == 2:\n        return 2\n    if number == 3:\n        return 4\n    if number == 4:\n        return 8\n    return get_max_sum(number / 3) + get_max_sum(number / 3) + get_max_sum(number / 3)\n\n\nprint get_max_sum(1000)\nprint \"time used: {}\".format(time.time() - start_time)",
+      -0.85888671875
+    ],
+    [
+      "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def maxSum(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return root.val\n        \n        return max(self.maxSum(root.left), self.maxSum(root.right)) + root.val",
+      -0.85888671875
+    ],
+    [
+      "def max_sum(n):\n    if n == 1:\n        return 0\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n    return max(max_sum(n / 3), max_sum(n / 3) + n % 3, max_sum(n % 3))\n\nprint max_sum(123)\nprint max_sum(12345)\nprint max_sum(1234567)\nprint max_sum(12345678)",
+      -0.85888671875
+    ],
+    [
+      "import math\n\n\ndef max_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n == 0:\n        return 0\n\n    return max(max_sum(n / 3), max_sum(n / 3) + max_sum(n % 3))\n\n\nif __name__ == \"__main__\":\n    print max_sum(12)",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if len(num) == 0:\n            return 0\n        if len(num) == 1:\n            return num[0]\n        if len(num) == 2:\n            return max(num)\n        if num[0] > target:\n            return self.threeSumClosest(num[1:], target)\n        if num[-1] > target:\n            return self.threeSumClosest(num[:-1], target)\n        return self.threeSumClosest(num[:-2], target) + num[-2]\n\n\"\"\"\nInput: [2, 1, 2, 1, 3], 4\nOutput: 4\nExplanation:\nThe three-sum closest is 1 + 2 + 3 = 6.\n\"\"\"",
+      -0.85888671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/maximum-sum-recursive-sum\n\ndef maxSumRec(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n <= 1:\n        return 0\n\n    return max(maxSumRec(n / 3), maxSumRec(n / 3) + maxSumRec(n % 3))\n\nif __name__ == '__main__':\n    print(maxSumRec(9))",
+      -0.85888671875
+    ],
+    [
+      "def find_max_sum(number):\n    if number == 1:\n        return 0\n    if number == 2:\n        return 1\n    if number == 3:\n        return 2\n    if number % 3 == 0:\n        return find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3)\n    else:\n        return find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3) + find_max_sum(number / 3)\n\n\ndef main():\n    print(find_max_sum(1234))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/max-sum-of-divisible-sub-arrays\n# Solution: Recursive\n# Time complexity: O(n)\n# Space complexity: O(1)\n\ndef maxSum(n):\n    if n < 2:\n        return 0\n    if n == 2:\n        return n\n    return max(maxSum(n // 3), maxSum((n - 1) // 3) + n % 3)\n\nif __name__ == \"__main__\":\n    print(maxSum(12))",
+      -0.85888671875
+    ],
+    [
+      "#!/usr/bin/env python\n\nimport os\nimport sys\n\n# Complete the threeNumber function below.\ndef threeNumber(n):\n    # Your code here\n\n    if n == 1:\n        return 0\n    else:\n        n = n / 3\n        return max(threeNumber(n), threeNumber(n * 2), threeNumber(n * 3))\n\nif __name__ == '__main__':\n    # fptr = open(os.environ['OUTPUT_PATH'], 'w')\n\n    n = int(input())\n\n    print(threeNumber(n))",
+      -0.94970703125
+    ],
+    [
+      "class Solution:\n    # @param {integer} x\n    # @return {integer}\n    def threeSumClosest(self, num, target):\n        if num < 3:\n            return num\n\n        def threeSumClosest_helper(nums, target):\n            res = [0] * 3\n            for i in range(len(nums) - 1):\n                if i > 0 and nums[i] == nums[i - 1]:\n                    continue\n                res[0] = max(res[0], nums[i] + threeSumClosest_helper(nums[i + 1:], target - nums[i]))\n                res[1] = max(res[1], nums[i] + threeSumClosest_helper(nums[:i + 1], target - nums[i]))\n                res[2] = max(res[2], nums[i] + threeSumClosest_helper(nums[i + 1:], target - nums[i]))\n            return res\n\n        return threeSumClosest_helper(sorted(nums), target)",
+      -0.951171875
+    ],
+    [
+      "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        result = 0\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                left = i + 1\n                right = len(nums) - 1\n                while left < right:\n                    if nums[left] + nums[right] < nums[i]:\n                        result += nums[left] + nums[right]\n                        left += 1\n                    elif nums[left] + nums[right] > nums[i]:\n                        result += nums[left] + nums[right]\n                        right -= 1\n                    else:\n                        result += nums[left] + nums[right]\n                        left += 1\n                        right -= 1\n        return result",
+      -1.07421875
+    ],
+    [
+      "import unittest\n\nclass TestSolution(unittest.TestCase):\n    def test_example(self):\n        self.assertEqual(solution(2), 2)\n\n    def test_1(self):\n        self.assertEqual(solution(3), 4)\n\n    def test_2(self):\n        self.assertEqual(solution(5), 10)\n\n    def test_3(self):\n        self.assertEqual(solution(5), 10)\n\n    def test_4(self):\n        self.assertEqual(solution(10), 30)\n\n    def test_5(self):\n        self.assertEqual(solution(11), 55)\n\n    def test_6(self):\n        self.assertEqual(solution(100), 55)\n\n    def test_7(self):\n        self.assertEqual(solution(200), 55)\n\ndef solution(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n < 3:\n        return n\n    return (solution(n//3) + n%3 + solution(n//3 + 1)) % n\n\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      -1.2939453125
+    ],
+    [
+      "# Approach 1: Recursion\n# https://leetcode.com/problems/max-sum-of-three-integers/#/description\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef max_sum_three(n):\n    if n == 1: return n\n    if n == 2: return n\n    return max(max_sum_three(n // 3), max_sum_three(n % 3))\n\n# Approach 2: Iterative\n# https://leetcode.com/problems/max-sum-of-three-integers/#/description\n# Time complexity: O(n)\n# Space complexity: O(1)\ndef max_sum_three_iterative(n):\n    if n == 1: return n\n    if n == 2: return n\n    if n % 3 == 0: return max(max_sum_three_iterative(n // 3), max_sum_three_iterative(n % 3))\n    return max(max_sum_three_iterative(n // 3), max_sum_three_iterative(n % 3))\n\n# Approach 3: Dynamic Programming\n# https://leetcode.com/problems/max-sum-of-three-integers/#/description\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef max_sum_three_dynamic_programming(n):\n    if n == 1: return n\n    if n == 2: return n\n    if n % 3 == 0: return max(max_sum_three_dynamic_programming(n // 3), max_sum_three_dynamic_programming(n % 3))\n    return max(max_sum_three_dynamic_programming(n // 3), max_sum_three_dynamic_programming(n % 3))\n\n# Approach 4: DP\n# https://leetcode.com/problems/max-sum-of-three-integers/#/description\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef max_sum_three_dp(n):\n    if n == 1: return n\n    if n == 2: return n\n    if n % 3 == 0",
+      -1.330078125
+    ],
+    [
+      "def max_sum_recur(n, parts):\n    if n == 1:\n        return n\n\n    if n % 3 == 0:\n        return parts[0] + parts[1] + parts[2]\n\n    return max(max_sum_recur(n/3, [parts[0], parts[1], parts[2]]), max_sum_recur(n/3, [parts[2], parts[1], parts[0]]))\n\nprint(max_sum_recur(100, [0,0,0]))",
+      -1.5556640625
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        return self.threeSumClosest_recursive(num, target)\n\n    def threeSumClosest_recursive(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if len(num) < 3:\n            return num[0] + num[1] + num[2]\n\n        min_diff = float('inf')\n        for i in range(len(num)):\n            for j in range(i+1, len(num)):\n                for k in range(j+1, len(num)):\n                    sum = num[i] + num[j] + num[k]\n                    diff = abs(target - sum)\n                    if diff < min_diff:\n                        min_diff = diff\n                        max_sum = sum\n        return max_sum",
+      -1.609375
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n        max_sum = 0\n        for i in xrange(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                sum1 = nums[i] + nums[i + 1]\n                sum2 = nums[i] + nums[i + 2]\n                sum3 = nums[i] + nums[i + 3]\n                if sum1 > max_sum:\n                    max_sum = sum1\n                if sum2 > max_sum:\n                    max_sum = sum2\n                if sum3 > max_sum:\n                    max_sum = sum3\n        return max_sum\n\n\nif __name__ == '__main__':\n    nums = [1, 2, -1, -2, -3]\n    print Solution().threeSum(nums)",
+      -1.7763671875
+    ],
+    [
+      "def max_sum_div3(n):\n    if n <= 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 3\n    return max(max_sum_div3(n/3), max_sum_div3(n/2), n)\n\nprint max_sum_div3(1)\nprint max_sum_div3(2)\nprint max_sum_div3(3)\nprint max_sum_div3(4)\nprint max_sum_div3(5)\nprint max_sum_div3(6)\nprint max_sum_div3(7)\nprint max_sum_div3(8)\nprint max_sum_div3(9)",
+      -2.197265625
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return self.threeSumClosestHelper(nums, target)\n\n    def threeSumClosestHelper(self, nums, target):\n        n = len(nums)\n        if n < 2:\n            return 0\n        if n == 2:\n            return self.threeSumClosestHelper(nums, target - nums[0] - nums[1])\n        if target - nums[0] - nums[1] < nums[2]:\n            return self.threeSumClosestHelper(nums, target - nums[0] - nums[1])\n        if target - nums[0] - nums[1] > nums[2]:\n            return self.threeSumClosestHelper(nums, target - nums[0] - nums[1])\n        return nums[0] + nums[1] + nums[2]",
+      -2.57421875
+    ],
+    [
+      "# https://oj.leetcode.com/problems/maximum-sum-of-3-sums/\n\n# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    # @param {integer} x\n    # @return {integer}\n    def maxSum3(self, x):\n        if x <= 1:\n            return x\n        return max(self.maxSum3(x // 3), self.maxSum3(x - x // 3)) + x\n\n\nif __name__ == '__main__':\n    s = Solution()\n    assert s.maxSum3(2) == 3\n    assert s.maxSum3(3) == 6\n    assert s.maxSum3(9) == 27",
+      -2.609375
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if len(num) < 3:\n            return self.threeSumClosestHelper(num, target)\n        else:\n            return self.threeSumClosestHelper(num[:len(num)/3], target) + self.threeSumClosestHelper(num[len(num)/3:], target)\n\n    def threeSumClosestHelper(self, num, target):\n        # return 0 if num is not valid\n        if len(num) < 3:\n            return 0\n        sum = 0\n        for i in range(len(num) - 2):\n            if i == 0 or num[i]!= num[i-1]:\n                sum += num[i]\n                for j in range(i + 1, len(num) - 1):\n                    if j == len(num) - 2 or num[j]!= num[j+1]:\n                        sum += num[j]\n                        if sum > target:\n                            return target - sum\n                        elif sum < target:\n                            return sum - target\n        return sum\n\nif __name__ == \"__main__\":\n    print Solution().threeSumClosest([-1, 2, 1, -4], 0)",
+      -2.642578125
+    ],
+    [
+      "#!/usr/bin/python\n\n#!/usr/bin/python\n\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#",
+      -2.794921875
+    ],
+    [
+      "def threePartSum(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 2\n    if n == 3:\n        return 3\n    if n == 4:\n        return 6\n    if n == 5:\n        return 10\n    if n == 6:\n        return 15\n    if n == 7:\n        return 20\n    if n == 8:\n        return 25\n    if n == 9:\n        return 30\n    if n == 10:\n        return 35\n    if n == 11:\n        return 40\n    if n == 12:\n        return 45\n    if n == 13:\n        return 50\n    if n == 14:\n        return 55\n    if n == 15:\n        return 60\n    if n == 16:\n        return 65\n    if n == 17:\n        return 70\n    if n == 18:\n        return 75\n    if n == 19:\n        return 80\n    if n == 20:\n        return 85\n    if n == 21:\n        return 90\n    if n == 22:\n        return 95\n    if n == 23:\n        return 100\n    if n == 24:\n        return 105\n    if n == 25:\n        return 110\n    if n == 26:\n        return 115\n    if n == 27:\n        return 120\n    if n == 28:\n        return 125\n    if n == 29:\n        return 130\n    if n == 30:\n        return 135\n    if n == 31:\n        return 140\n    if n == 32:\n        return 145\n    if n == 33:\n        return 150\n    if n == 34:\n        return 155\n    if n == 35:\n        return 160\n    if n == 36:\n        return 165\n    if n == 37:\n        return 170\n    if n == 38:\n        return 175\n    if n == 39:\n        return 180\n    if n == 40:\n        return 185\n    if n == 41:\n        return 190\n    if n == 42:\n        return 195\n    if n == 43:\n        return 200\n    if n == 44:\n        return 205\n    if n == 45:",
+      -2.8203125
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integers\n    # @return an integer\n    def threeSumMaximum(self, num):\n        if len(num) < 3:\n            return 0\n        num.sort()\n        result = 0\n        for i in range(len(num)-2):\n            if i == 0 or num[i]!= num[i-1]:\n                l, r = i+1, len(num)-1\n                while l < r:\n                    if num[i] + num[l] + num[r] > result:\n                        result = num[i] + num[l] + num[r]\n                    if num[i] + num[l] + num[r] < result:\n                        r -= 1\n                    else:\n                        l += 1\n        return result\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.threeSumMaximum([-1,2,-3,4,-1,2,-3,4,-1,2,-3,4,-1,2,-3,4])",
+      -2.947265625
+    ],
+    [
+      "class Solution(object):\n    def maxThreeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if len(nums) <= 2:\n            return sum(nums)\n\n        max_sum = self.maxThreeSum(nums[:2])\n        for i in range(2, len(nums) - 2):\n            max_sum = max(max_sum, self.maxThreeSum(nums[i:i + 3]))\n        return max_sum + nums[-1]\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.maxThreeSum([1, 3, 4, -1, -2, -3, 1, -1, -1]))\n    print(s.maxThreeSum([1, 2, 3, 4, 5]))\n    print(s.maxThreeSum([0]))",
+      -3.37109375
+    ],
+    [
+      "import math\n\ndef get_max_sum(number, base, result):\n    if number < base:\n        return result\n    if number == base:\n        return result\n    if number % base == 0:\n        return max(get_max_sum(number/base, base, result), get_max_sum(number/base + 1, base, result) + number)\n    else:\n        return max(get_max_sum(number/base, base, result), result + number)\n\nif __name__ == \"__main__\":\n    print get_max_sum(10000, 3, 0)",
+      -3.697265625
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if len(num) < 3:\n            return 0\n        max_diff = 0\n        result = 0\n        for i in range(len(num)):\n            if i!= 0 and num[i] == num[i - 1]:\n                continue\n            left, right = i, len(num) - 1\n            while left < right:\n                sum = num[i] + num[left] + num[right]\n                if sum > target:\n                    right -= 1\n                elif sum < target:\n                    left += 1\n                else:\n                    result = sum\n                    max_diff = abs(target - sum)\n                    break\n        return result\n\nif __name__ == '__main__':\n    print(Solution().threeSumClosest([1, 2, 3, -1, -2, -3], 0))\n    print(Solution().threeSumClosest([-1, -2, -3, 1, 2, 3], 0))",
+      -3.90234375
+    ],
+    [
+      "def get_max_sum_for_number(num):\n    if num == 0:\n        return 0\n    if num == 1:\n        return 1\n    if num == 2:\n        return 2\n    if num == 3:\n        return 3\n    max_sum = 0\n    for i in range(2, num):\n        sum = num // i\n        if sum > max_sum:\n            max_sum = sum\n        if sum > 3:\n            return 0\n    return max_sum\n\n\nif __name__ == '__main__':\n    print(get_max_sum_for_number(3))\n    print(get_max_sum_for_number(5))\n    print(get_max_sum_for_number(10))\n    print(get_max_sum_for_number(100))\n    print(get_max_sum_for_number(1000))\n    print(get_max_sum_for_number(10000))\n    print(get_max_sum_for_number(100000))\n    print(get_max_sum_for_number(1000000))",
+      -3.953125
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n        nums.sort()\n        ret = 0\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    j += 1\n                    continue\n                if k < 0 or nums[k] == nums[k + 1]:\n                    k -= 1\n                    continue\n                if nums[i] + nums[j] + nums[k] > ret:\n                    ret = nums[i] + nums[j] + nums[k]\n        return ret\n\na = Solution()\nprint a.threeSum([-1, 0, 1, 2, -1, -4])",
+      -4.3046875
+    ],
+    [
+      "class Solution:\n    # @param {integer} x\n    # @return {integer}\n    def threeSumClosest(self, num, target):\n        if num < 0:\n            return 0\n        if num < 10:\n            return num\n\n        if num == 10:\n            return 10\n\n        return self.threeSumClosest(num - 10, target) + 10\n\n    def threeSumClosest(self, num, target):\n        if num < 0:\n            return 0\n        if num < 10:\n            return num\n\n        if num == 10:\n            return 10\n\n        return self.threeSumClosest(num - 10, target) + 10",
+      -4.36328125
+    ],
+    [
+      "def solve(n):\n    if n < 3:\n        return n\n    if n % 3 == 0:\n        return solve(n/3) + solve(n/3) + solve(n/3)\n    else:\n        return max(solve(n/3), solve(n/3)+solve(n/3))\n\ndef test(n):\n    return solve(n)\n\nimport unittest\n\nclass Test(unittest.TestCase):\n    def test_1(self):\n        self.assertEqual(test(100), 100)\n\n    def test_2(self):\n        self.assertEqual(test(15), 3)\n\n    def test_3(self):\n        self.assertEqual(test(45), 15)\n\nif __name__ == '__main__':\n    unittest.main()",
+      -4.484375
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        nums = nums[:len(nums):2]\n        nums.sort()\n        nums = nums[:len(nums):3]\n        nums.sort()\n        max_sum = 0\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                for k in range(j+1, len(nums)):\n                    if nums[i]+nums[j]+nums[k] == nums[0]:\n                        max_sum = max(max_sum, nums[i]+nums[j]+nums[k])\n        return max_sum",
+      -4.68359375
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n        nums.sort()\n        max_sum = 0\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                cur_sum = nums[i] + nums[i+1] + nums[i+2]\n                if cur_sum > max_sum:\n                    max_sum = cur_sum\n            else:\n                for j in range(i+3, len(nums)):\n                    if j == len(nums) - 1 or nums[i]!= nums[j]:\n                        cur_sum = nums[i] + nums[j] + nums[j+1]\n                        if cur_sum > max_sum:\n                            max_sum = cur_sum\n        return max_sum\n\n\nif __name__ == '__main__':\n    print Solution().threeSum([-1, 0, 1, 2, -1, -4])",
+      -4.8125
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integer\n    # @return an integer\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :rtype: int\n        \"\"\"\n        if not num:\n            return 0\n        n = len(num)\n        \n        if n < 3:\n            return self.threeSum(num, target)\n        \n        # sort by ascending order\n        num.sort()\n        \n        # find the first and last element\n        i = 0\n        j = n - 1\n        while i < j:\n            # find the first and last element\n            while i < j and num[i] + num[j] < target:\n                j -= 1\n            while i < j and num[i] + num[j] > target:\n                i += 1\n            \n            # get the sum\n            if i < j:\n                # sum = num[i] + num[j] + num[i+j]\n                sum = num[i] + num[j] + num[i+j]\n                # calculate the difference between sum and target\n                diff = target - sum\n                if sum > target:\n                    # return the max sum\n                    return sum\n                elif sum < target:\n                    # return the min sum\n                    return sum\n                else:\n                    # return the closest sum\n                    return sum - diff\n            else:\n                return self.threeSum(num, target)\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.threeSumClosest([0, 0, 0], 0)",
+      -4.8203125
+    ],
+    [
+      "class Solution(object):\n    def threeSumMaximum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n        nums.sort()\n        max_sum = 0\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                l, r = i + 1, len(nums) - 1\n                while l < r:\n                    if nums[i] + nums[l] + nums[r] > max_sum:\n                        max_sum = nums[i] + nums[l] + nums[r]\n                    if nums[i] + nums[l] + nums[r] > max_sum:\n                        l += 1\n                    elif nums[i] + nums[l] + nums[r] > max_sum:\n                        r -= 1\n                    else:\n                        l += 1\n                        r -= 1\n        return max_sum\n\nif __name__ == \"__main__\":\n    nums = [1, -1, -3, -2, -4]\n    print Solution().threeSumMaximum(nums)\n    nums = [1, 0, -1]\n    print Solution().threeSumMaximum(nums)\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89,",
+      -4.86328125
+    ],
+    [
+      "class Solution:\n    # @param num, a list of integers\n    # @return an integer\n    def threeSumClosest(self, num, target):\n        return self.threeSumClosestRecursive(num, target)\n\n    def threeSumClosestRecursive(self, num, target):\n        if len(num) < 3:\n            return num[0] if num else 0\n\n        # sort the numbers\n        num.sort()\n\n        # find the closest number\n        closest = num[0]\n        for i in range(1, len(num) - 2):\n            if num[i] + num[i+1] + num[i+2] < target:\n                closest = num[i] + num[i+1] + num[i+2]\n\n        # find the closest number\n        return self.threeSumClosestRecursive(num[:3], target - closest)",
+      -5.21875
+    ],
+    [
+      "#!/usr/bin/python\n\n#\n#\n#\ndef maxSum(n):\n    if n == 1:\n        return n\n    elif n == 2:\n        return n\n    elif n == 3:\n        return n\n    else:\n        return max(maxSum(n/3), n%3+maxSum(n/3))\n\nprint maxSum(7)\n\n#\n#\n#\ndef maxSum2(n):\n    if n == 1:\n        return n\n    elif n == 2:\n        return n\n    else:\n        return max(maxSum2(n/3), maxSum2(n/3) + maxSum2(n%3))\n\nprint maxSum2(7)",
+      -5.40625
+    ],
+    [
+      "# Note:\n# The recursion is implemented in this way to ensure that the recursion is always in the same direction and not going over the number.\n\n# This is the implementation using recursion.\n# Time complexity: O(n)\n# Space complexity: O(n)\n\n# Note:\n# We can also use dynamic programming to solve this problem.\n# Time complexity: O(n)\n# Space complexity: O(n)\n\nclass Solution:\n    # @param {integer} num\n    # @return {integer}\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :rtype: int\n        \"\"\"\n        # If num is empty, return the original number.\n        if len(num) == 0:\n            return num\n        # If num is only one number, return it.\n        if len(num) == 1:\n            return num[0]\n        # If num is only two numbers, return the two numbers.\n        if len(num) == 2:\n            return min(num) + max(num)\n        # If num is more than two numbers, return the sum of them.\n        if len(num) > 2:\n            # Sort the number and get the first number.\n            num.sort()\n            # Get the first two numbers.\n            first = num[0]\n            second = num[1]\n            # Get the last two numbers.\n            last = num[-2]\n            # Get the first number's sum.\n            sum1 = first + last\n            # Get the second number's sum.\n            sum2 = second + last\n            # Get the last number's sum.\n            sum3 = last + second\n            # Get the sum of the numbers.\n            sum = sum1 + sum2 + sum3\n            # Get the difference between the sum of the numbers and the target number.\n            diff = target - sum\n            # If the difference is less than the target, return the sum of the numbers.\n            if diff < 0:\n                return sum\n            # If the difference is greater than the target, return the target number.\n            else:\n                return target\n        # If num is less than or equal to 2, return the sum of the",
+      -5.42578125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/maximum-sum-of-three-part-recursively\n# https://www.hackerrank.com/challenges/maximum-sum-of-three-part-recursively-python\n\n# Recursive solution\ndef max3(num):\n    if num == 0:\n        return 0\n    elif num == 1:\n        return 1\n    elif num == 2:\n        return 3\n    else:\n        return max3(num // 3) + max3(num % 3)\n\n# Recursive solution with python\ndef max3_python(num):\n    if num == 0:\n        return 0\n    elif num == 1:\n        return 1\n    elif num == 2:\n        return 3\n    else:\n        return max3_python(num // 3) + max3_python(num % 3)\n\n# Iterative solution\ndef max3_iterative(num):\n    if num == 0:\n        return 0\n    elif num == 1:\n        return 1\n    elif num == 2:\n        return 3\n    else:\n        return max3_iterative(num // 3) + max3_iterative(num % 3)\n\n# Recursive solution with python\ndef max3_recursive(num):\n    if num == 0:\n        return 0\n    elif num == 1:\n        return 1\n    elif num == 2:\n        return 3\n    else:\n        return max3_recursive(num // 3) + max3_recursive(num % 3)\n\n# Iterative solution\ndef max3_iterative_python(num):\n    if num == 0:\n        return 0\n    elif num == 1:\n        return 1\n    elif num == 2:\n        return 3\n    else:\n        return max3_iterative_python(num // 3) + max3_iterative_python(num % 3)\n\n# Iterative solution\ndef max3_iterative_python2(num):\n    if num == 0:\n        return 0\n    elif num == 1:\n        return 1\n    elif num == 2:\n        return 3\n    else:\n        return",
+      -5.5078125
+    ],
+    [
+      "# -*- coding: utf-8 -*-\n\n\"\"\"\n@author: oicu\n\"\"\"\n\n# -*- coding: utf-8 -*-\n\n\"\"\"\n@version: 1.0\n@author: oicu\n@contact: https://oicu.github.io\n\"\"\"\n\ndef three_part_max_sum(n):\n    \"\"\"\n    @param n: the number we want to find the maximum sum\n    @return: the maximum sum we can make\n    \"\"\"\n    if n < 3:\n        return n\n\n    return three_part_max_sum(n // 3) + three_part_max_sum(n % 3)\n\ndef main():\n    \"\"\"\n    main function\n    \"\"\"\n    print(three_part_max_sum(10))\n\nif __name__ == '__main__':\n    main()",
+      -5.6015625
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: List[List[int]]\n        \"\"\"\n        if num < 0:\n            return []\n        res = []\n        if num == 0:\n            return res\n        res.append([0,0,0])\n        for i in range(num):\n            if i > 0 and num > i:\n                break\n            for j in range(num):\n                if j > i:\n                    break\n                if j < num-1:\n                    if num-i-j > num-i-j+j:\n                        break\n                    if num-i-j > i:\n                        break\n                if num-i-j > i:\n                    break\n                if num-i-j < j:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j < i:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:\n                    break\n                if num-i-j > i:\n                    break\n                if num-i-j > j:",
+      -5.6875
+    ],
+    [
+      "class Solution:\n    # @param {integer} n\n    # @return {integer}\n    def threeSumClosest(self, num, target):\n        if num < 0:\n            return 0\n        if num == 0:\n            return 0\n        if num == 1:\n            return 1\n        if num == 2:\n            return 2\n        if num == 3:\n            return 3\n        if num == 4:\n            return 4\n        if num == 5:\n            return 5\n        if num == 6:\n            return 6\n        if num == 7:\n            return 7\n        if num == 8:\n            return 8\n        if num == 9:\n            return 9\n        if num == 10:\n            return 10\n        if num == 11:\n            return 11\n        if num == 12:\n            return 12\n        if num == 13:\n            return 13\n        if num == 14:\n            return 14\n        if num == 15:\n            return 15\n        if num == 16:\n            return 16\n        if num == 17:\n            return 17\n        if num == 18:\n            return 18\n        if num == 19:\n            return 19\n        if num == 20:\n            return 20\n        if num == 21:\n            return 21\n        if num == 22:\n            return 22\n        if num == 23:\n            return 23\n        if num == 24:\n            return 24\n        if num == 25:\n            return 25\n        if num == 26:\n            return 26\n        if num == 27:\n            return 27\n        if num == 28:\n            return 28\n        if num == 29:\n            return 29\n        if num == 30:\n            return 30\n        if num == 31:\n            return 31\n        if num == 32:\n            return 32\n        if num == 33:\n            return 33\n        if num == 34:\n            return 34\n        if num == 35:\n            return 35\n        if num == 36:\n            return 36\n        if num == 37:\n            return 37\n        if num == 38:\n            return 38\n        if num == 39:\n            return 39\n        if num == 40:\n            return 40\n        if num == 41:\n            return 41\n        if",
+      -5.8828125
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if len(num) < 3:\n            return num[0]\n\n        # sort num in ascending order\n        sorted_num = sorted(num)\n        if sorted_num[0] > target:\n            return num[0]\n\n        # find the first number in num that is greater than target\n        for i in range(1, len(num)):\n            if sorted_num[i] <= target:\n                break\n        else:\n            return num[0]\n\n        # find the first number in num that is smaller than target\n        for i in range(len(num) - 1, 0, -1):\n            if sorted_num[i] >= target:\n                break\n        else:\n            return num[0]\n\n        # find the two numbers in num that is closest to target\n        l, r = sorted_num[i], sorted_num[i + 1]\n        if l > r:\n            return num[0]\n\n        if target - l < r - target:\n            return l\n        else:\n            return r\n\n\n# Test case\nnum = [1, -2, 3, -4, 5, -6]\ntarget = 4\nprint Solution().threeSumClosest(num, target)",
+      -6.3046875
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        res = self.threeSum(nums, target)\n        return (res - target) if res > target else target\n\n    def threeSum(self, nums, target):\n        if len(nums) < 3:\n            return target\n\n        res = 0\n        for i in range(len(nums) - 2):\n            if i == len(nums) - 3:\n                break\n            a = nums[i]\n            b = nums[i + 1]\n            c = nums[i + 2]\n            if a + b + c > target:\n                break\n            if a + b + c == target:\n                res = max(res, a + b + c)\n            elif a + c + b > target:\n                res = max(res, a + c + b)\n            elif a + b + c == target:\n                res = max(res, a + b + c)\n        return res\n\n\nif __name__ == '__main__':\n    print Solution().threeSumClosest([-1, 2, 1, -4], 5)",
+      -6.71484375
+    ],
+    [
+      "class Solution(object):\n    def threeSumMaximum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums or len(nums) < 3:\n            return 0\n        nums.sort()\n        max_sum = 0\n        for i in range(len(nums)-2):\n            if i > 0 and nums[i] == nums[i-1]:\n                continue\n            j = i+1\n            k = len(nums)-1\n            while j < k:\n                s = nums[i] + nums[j] + nums[k]\n                if s < max_sum:\n                    max_sum = s\n                    if max_sum == 0:\n                        break\n                elif s > max_sum:\n                    k -= 1\n                else:\n                    j += 1\n        return max_sum\n\n\nif __name__ == \"__main__\":\n    assert Solution().threeSumMaximum([-1, 0, 1, 2, -1, -4]) == 6\n    assert Solution().threeSumMaximum([-1, 0, -1, -2, 2]) == -3\n    assert Solution().threeSumMaximum([-1, 0, -1, -1, -1]) == -2\n    assert Solution().threeSumMaximum([-1, -1, -1, -1, -1]) == -1\n    assert Solution().threeSumMaximum([-1, -1, -1, -1, -1, -1]) == -1",
+      -6.828125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/maximum-sum-of-three-divisible-subsets\n\ndef findMaxSum(num):\n    if num < 0:\n        return 0\n    if num == 1:\n        return 1\n    if num == 2:\n        return 2\n    if num == 3:\n        return 3\n    if num == 4:\n        return 6\n    if num == 5:\n        return 10\n    if num == 6:\n        return 15\n    if num == 7:\n        return 20\n    if num == 8:\n        return 30\n    if num == 9:\n        return 45\n    if num == 10:\n        return 60\n    if num == 11:\n        return 90\n    return findMaxSum(num // 3) + findMaxSum(num // 2) + findMaxSum(num)\n\n# Testcases\n# num = 4\n# findMaxSum(num) == 30\n# num = 5\n# findMaxSum(num) == 45\n# num = 6\n# findMaxSum(num) == 90\n# num = 7\n# findMaxSum(num) == 90\n# num = 8\n# findMaxSum(num) == 150\n# num = 9\n# findMaxSum(num) == 210\n# num = 10\n# findMaxSum(num) == 300\n\n# num = 3\n# findMaxSum(num) == 3\n# num = 4\n# findMaxSum(num) == 6\n# num = 5\n# findMaxSum(num) == 10\n# num = 6\n# findMaxSum(num) == 15\n# num = 7\n# findMaxSum(num) == 20\n# num = 8\n# findMaxSum(num) == 30\n# num = 9\n# findMaxSum(num) == 45\n# num = 10\n# findMaxSum(num) == 60\n\n# num = 1\n# findMaxSum(num) == 1\n# num = 2\n# findMaxSum(num) == 2\n# num = 3\n# findMaxSum(num) == 3\n# num = 4\n# findMaxSum(num) == 6\n# num = 5\n# findMaxSum(num) == 10\n# num = 6\n# findMax",
+      -7.58203125
+    ],
+    [
+      "# https://discuss.leetcode.com/topic/78879/java-solution-recursive-dp-solution-in-python-python-3-4-and-3-5\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if len(nums) < 3:\n            return max(nums)\n        nums.sort()\n        nums.reverse()\n        nums = [nums[i] for i in range(len(nums)) if i > 0 and nums[i - 1] == nums[i]]\n        nums.sort()\n        nums.reverse()\n        max_sum = 0\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                l = i + 1\n                r = len(nums) - 1\n                while l < r:\n                    m = l + (r - l) / 2\n                    if nums[m] == nums[i] and nums[m - 1] == nums[i - 1]:\n                        max_sum = max(max_sum, nums[i] + nums[m] + nums[r])\n                        if nums[m] == nums[i]:\n                            r = m - 1\n                        elif nums[m] < nums[i]:\n                            l = m + 1\n                        else:\n                            r = m - 1\n                    elif nums[m] < nums[i]:\n                        l = m + 1\n                    else:\n                        r = m - 1\n        return max_sum\n\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        nums.reverse()\n        nums = [nums[i] for i in range(len(nums)) if i > 0 and nums[i - 1] == nums[i",
+      -7.59375
+    ],
+    [
+      "class Solution:\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        def find_three(nums, target, low, high):\n            if low == high:\n                return nums[low]\n            mid = (low + high) / 2\n            if nums[mid] < target:\n                return find_three(nums, target, low, mid)\n            elif nums[mid] > target:\n                return find_three(nums, target, mid + 1, high)\n            else:\n                return nums[mid]\n        nums.sort()\n        return find_three(nums, target, 0, len(nums) - 1)\n\n\nif __name__ == '__main__':\n    print(Solution().threeSumClosest([-1, 0, 1, 2, -1, -4], -4))",
+      -8.1640625
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        res = 0\n        for i in range(len(nums) - 2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                if nums[i] + nums[i+1] + nums[i+2] < 0:\n                    return -1\n                res += nums[i] + nums[i+1] + nums[i+2]\n        return res\n\nnums = [1,2,3,3,3,4,5]\nnums = [1,2,1]\nnums = [1,2,1,2,1,2,1]\nnums = [1,2,1,2,3,4]\nnums = [1,1,1,2,2,2,2,3,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5",
+      -8.625
+    ],
+    [
+      "# https://leetcode.com/problems/maximum-sum-of-three-digit-integers/discuss/72450/Java-Python-Recursion-and-BFS\n\n# DFS\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        if len(nums) < 3:\n            return result\n        for i in range(len(nums) - 2):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    j += 1\n                elif k < j + 1 and nums[k] == nums[k + 1]:\n                    k -= 1\n                else:\n                    result.append([nums[i], nums[j], nums[k]])\n                    while j < k and nums[j] == nums[j + 1]:\n                        j += 1\n                    while j < k and nums[k] == nums[k - 1]:\n                        k -= 1\n                    j += 1\n                    k -= 1\n        return result\n\n\n# BFS\nclass Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        if len(nums) < 3:\n            return result\n        queue = []\n        for i in range(len(nums)):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            for j in range(i + 1, len(nums) - 1):\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    continue\n                k = len(nums) - 1\n                while j < k and nums",
+      -9.015625
+    ],
+    [
+      "#!/usr/bin/python\n\n\"\"\"\nsolution:\n1. 1 1 1 1\n2. 1 1 2 1\n3. 1 2 1 1\n4. 2 1 1 1\n5. 1 2 1 2\n6. 1 1 2 2\n7. 2 1 1 1\n8. 1 2 1 1\n9. 2 1 1 2\n10. 1 1 2 2\n11. 2 1 1 1\n12. 1 2 1 1\n13. 2 1 1 2\n14. 1 1 2 2\n15. 2 1 1 1\n16. 1 2 1 1\n17. 2 1 1 2\n18. 1 1 2 2\n19. 2 1 1 1\n20. 1 2 1 1\n21. 2 1 1 2\n22. 1 1 2 2\n23. 2 1 1 1\n24. 1 2 1 1\n25. 2 1 1 2\n26. 1 1 2 2\n27. 2 1 1 1\n28. 1 2 1 1\n29. 2 1 1 2\n30. 1 1 2 2\n31. 2 1 1 1\n32. 1 2 1 1\n33. 2 1 1 2\n34. 1 1 2 2\n35. 2 1 1 1\n36. 1 2 1 1\n37. 2 1 1 2\n38. 1 1 2 2\n39. 2 1 1 1\n40. 1 2 1 1\n41. 2 1 1 2\n42. 1 1 2 2\n43. 2 1 1 1\n44. 1 2 1 1\n45. 2 1 1 2\n46. 1 1 2 2\n47. 2 1 1 1\n48. 1 2 1 1\n49. 2 1 1 2\n50. 1 1 2 2\n51. 2 1 1 1\n52. 1 2 1 1\n53. 2 1 1 2\n54. 1 1 2 2\n55. 2 1 1 1\n56. 1 2 1 1\n57. 2 1 1 2\n58. 1 1 2 2\n59. 2 1 1 1\n60. 1 2 1 1\n61. 2 1 1 2\n62. 1 1 2 2\n63. 2 1 1 1\n64. 1 2 1 1\n65. 2 1 1 2\n66. 1 1 2 2\n67. 2 1 1 1\n68. 1 2 1 1\n69. 2 1 1 2\n70. 1 1 2 2\n71. 2 1 1 1",
+      -9.5625
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums = sorted(nums)\n        return self.threeSumRecursive(nums, 0, len(nums) - 1)\n\n    def threeSumRecursive(self, nums, start, end):\n        if start > end:\n            return 0\n\n        mid = start + (end - start) / 2\n        left = start\n        right = end\n\n        while left < right:\n            if left == mid:\n                left += 1\n                continue\n            if right == mid:\n                right -= 1\n                continue\n            if nums[left] + nums[right] == nums[mid]:\n                return nums[left] + nums[right] + nums[mid]\n            elif nums[left] + nums[right] > nums[mid]:\n                right -= 1\n            else:\n                left += 1\n\n        return self.threeSumRecursive(nums, start, mid - 1) + self.threeSumRecursive(nums, mid + 1, end)",
+      -10.0
+    ],
+    [
+      "# I\ndef sum_rec(n, m):\n    if n == 1:\n        return m\n    if m == 1:\n        return 0\n    if n == 2:\n        return m\n    if m == 2:\n        return n\n    if n == 3:\n        return m\n    return max(sum_rec(n-1, m), sum_rec(n-1, m-1), sum_rec(n-2, m-1))\n\n# II\ndef sum_rec2(n, m):\n    if n == 1:\n        return m\n    if m == 1:\n        return 0\n    if n == 2:\n        return m\n    if m == 2:\n        return n\n    if n == 3:\n        return m\n    return max(sum_rec(n-1, m), sum_rec(n-1, m-1), sum_rec(n-2, m-1))\n\n# III\ndef sum_rec3(n, m):\n    if n == 1:\n        return m\n    if m == 1:\n        return 0\n    if n == 2:\n        return m\n    if m == 2:\n        return n\n    if n == 3:\n        return m\n    return max(sum_rec(n-1, m), sum_rec(n-1, m-1), sum_rec(n-2, m-1))\n\n# IV\ndef sum_rec4(n, m):\n    if n == 1:\n        return m\n    if m == 1:\n        return 0\n    if n == 2:\n        return m\n    if m == 2:\n        return n\n    if n == 3:\n        return m\n    return max(sum_rec(n-1, m), sum_rec(n-1, m-1), sum_rec(n-2, m-1))\n\n# V\ndef sum_rec5(n, m):\n    if n == 1:\n        return m\n    if m == 1:\n        return 0\n    if n == 2:\n        return m\n    if m == 2:\n        return n\n    if n == 3:\n        return m\n    return max(sum_rec",
+      -10.25
+    ],
+    [
+      "class Solution:\n    # @param n, an integer\n    # @return an integer\n    def threeSum(self, nums):\n        nums.sort()\n        ret = 0\n        for i in xrange(len(nums)-2):\n            if i == 0 or nums[i]!= nums[i-1]:\n                for j in xrange(i+1, len(nums)-1):\n                    if j == len(nums)-1 or nums[j]!= nums[j+1]:\n                        k = j + 1\n                        while k < len(nums)-1 and nums[k] == nums[j]:\n                            k += 1\n                        l = k + 1\n                        while l < len(nums)-1 and nums[l] == nums[k]:\n                            l += 1\n                        m = l + 1\n                        while m < len(nums)-1 and nums[m] == nums[l]:\n                            m += 1\n                        n = m + 1\n                        while n < len(nums)-1 and nums[n] == nums[m]:\n                            n += 1\n                        ret = max(ret, (nums[i]+nums[j]+nums[k]) - (nums[l]+nums[m]+nums[j]))\n        return ret",
+      -10.296875
+    ],
+    [
+      "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n\n        nums.sort()\n        for i in range(len(nums) - 2):\n            if i >= 2 and nums[i] == nums[i - 1]:\n                continue\n            j = i + 1\n            k = len(nums) - 1\n            while j < k:\n                if j < k - 1 and nums[i] + nums[j] + nums[k] > nums[i]:\n                    return nums[i] + nums[j] + nums[k]\n                elif j < k - 1 and nums[i] + nums[j] + nums[k] < nums[i]:\n                    k -= 1\n                else:\n                    j += 1\n        return nums[i]\n\n\nif __name__ == \"__main__\":\n    assert Solution().threeSum([-1, 0, 1]) == 3\n    assert Solution().threeSum([-1, 0, 1, 2]) == 0\n    assert Solution().threeSum([-1, -1, -1, -1]) == 0\n    assert Solution().threeSum([0, 0, 0, 0]) == 0\n    assert Solution().threeSum([1, 1, 1, 1]) == 3\n    assert Solution().threeSum([0, 1, 1, 1, 1, 1]) == 1\n    assert Solution().threeSum([0, 1, 1, 1, 1, 1, 1, 1, 1, 1]) == 4",
+      -11.109375
+    ],
+    [
+      "# This is a sample test cases\n# [1,3,3,4,5,6]\n# [[1,3,3], [1,3,4], [1,3,5], [1,3,6], [1,4,4], [1,5,5], [1,6,6]]\n# [[1,2,3], [1,2,4], [1,2,5], [1,2,6], [1,3,3], [1,3,4], [1,3,5], [1,3,6], [1,4,4], [1,4,5], [1,4,6], [1,5,5], [1,5,6], [1,6,6]]\n\n# Solution:\n# Recursive function to divide and sum up the three parts\n# The main function calls itself recursively for each number\n# Recursion is done by passing the three parts as a tuple\n# Recursion is done by calling the recursive function for each number and summing up the result\n# The main function takes the three parts and sum of the three parts and then returns the result\n\n# Time complexity: O(N)\n# Space complexity: O(N)\n\ndef max_sum_sub_array(arr):\n    if len(arr) == 0:\n        return 0\n    # Part 1: Divide the array into 3 parts and sum up the parts\n    left_part = 0\n    right_part = 0\n    middle_part = 0\n    for i in range(0, len(arr)):\n        left_part += arr[i]\n        right_part += arr[len(arr) - 1 - i]\n        middle_part += arr[len(arr) / 2 - i]\n\n    # Part 2: Call the recursive function for each element and sum up the result\n    # Sum of the three parts\n    result = max(left_part, right_part, middle_part)\n\n    # Sum of the elements from the middle part\n    result += max_sum_sub_array(arr[len(arr) / 2:])\n\n    return result\n\ndef max_sum_sub_array2(arr):\n    # Part 1: Divide the array into 3 parts and sum up the",
+      -11.484375
+    ],
+    [
+      "class Solution:\n    # @return an integer\n    def threeSumClosest(self, num, target):\n        return self.threeSumClosestHelper(num, target)\n\n    def threeSumClosestHelper(self, num, target):\n        if len(num) == 3:\n            return self.threeSumClosestHelperHelper(num, target)\n        else:\n            left, right = [], []\n            for i in xrange(len(num)):\n                if i > 0:\n                    if num[i] == num[i-1]:\n                        continue\n                left.append(num[i])\n            for i in xrange(len(num)-2, -1, -1):\n                if i < len(num)-1:\n                    if num[i] == num[i+1]:\n                        continue\n                right.append(num[i])\n            left.sort()\n            right.sort()\n            mid = num[len(num)-1] + num[len(num)-2]\n            max_diff = mid - target\n            for i in xrange(len(left)):\n                for j in xrange(len(right)):\n                    sum_left = left[i] + right[j]\n                    sum_right = left[i] + right[j] + left[i] + right[j]\n                    diff = sum_left - target\n                    if diff < 0:\n                        diff = -diff\n                    if diff < max_diff:\n                        max_diff = diff\n                        if sum_left == target:\n                            return sum_left\n                    if sum_right == target:\n                        return sum_right\n            return max_diff + target\n        \n    def threeSumClosestHelperHelper(self, num, target):\n        if len(num) == 3:\n            return self.threeSumClosestHelperHelperHelper(num, target)\n        else:\n            left, right = [], []\n            for i in xrange(len(num)):\n                if i > 0:\n                    if num[i] == num[i-1]:\n                        continue\n                left.append(num[i])\n            for i in xrange(len(num)-2, -1, -",
+      -11.875
+    ],
+    [
+      "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        # TODO:\n        # 1. sort the list\n        # 2. check the list against the target\n        # 3. find the closest sum\n        # 4. add the sum to the sum\n        # 5. return the sum\n        return self.threeSumClosestHelper(num, target)\n\n    def threeSumClosestHelper(self, num, target):\n        if len(num) < 3:\n            return num[0]\n        if len(num) == 3:\n            return num[0]\n        # sort the list\n        num.sort(key=lambda x: x)\n        # check the list against the target\n        for i in range(len(num) - 2):\n            if num[i] + num[i+1] + num[i+2] > target:\n                return num[i+1]\n        # find the closest sum\n        for i in range(len(num) - 2):\n            for j in range(i + 1, len(num) - 1):\n                if num[i] + num[j] + num[j + 1] == target:\n                    return num[i] + num[j] + num[j + 1]\n        # add the sum to the sum\n        return sum(num)",
+      -12.1640625
+    ],
+    [
+      "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        if len(nums) < 3:\n            return 0\n\n        # sort the input array\n        nums.sort()\n\n        # find the maximum sum\n        max_sum = -1\n        for i in range(len(nums)-2):\n            # find the three numbers\n            a = nums[i]\n            b = nums[i+1]\n            c = nums[i+2]\n\n            # find the three numbers\n            s = a + b + c\n            dif = target - s\n            if dif < 0:\n                dif = -dif\n\n            # find the two numbers\n            if dif < max_sum:\n                max_sum = dif\n                max_i = i\n\n        return max_sum + nums[max_i]\n\n\n# Time:  O(n^3)\n# Space: O(n^2)\n# Two pointers, two loops\nclass Solution2(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        # sort the input array\n        nums.sort()\n\n        # find the maximum sum\n        max_sum = -1\n        for i in range(len(nums)-2):\n            # find the three numbers\n            a = nums[i]\n            b = nums[i+1]\n            c = nums[i+2]\n\n            # find the three numbers\n            s = a + b + c\n            dif = target - s\n            if dif < 0:\n                dif = -dif\n\n            # find the two numbers\n            if dif < max_sum:\n                max_sum = dif\n                max_i = i\n\n        return max_sum + nums[max_i]\n\n# Time:  O(n^2)\n# Space: O(n^2)\n# Two pointers,",
+      -12.4140625
+    ],
+    [
+      "class Solution:\n    # @param {integer} num\n    # @return {integer}\n    def threeSumClosest(self, num, target):\n        if num < 0:\n            return 0\n        if num == 0:\n            return 0\n\n        three_sum_closest = num\n        three_sum_closest_delta = num\n        for i in range(0, len(num) - 2):\n            three_sum_closest = num\n            three_sum_closest_delta = num\n            for j in range(i + 1, len(num) - 1):\n                three_sum_closest = num\n                three_sum_closest_delta = num\n                for k in range(j + 1, len(num)):\n                    three_sum_closest = num\n                    three_sum_closest_delta = num\n                    three_sum_closest_delta = target - three_sum_closest_delta\n                    three_sum_closest_delta = abs(three_sum_closest_delta)\n                    if three_sum_closest_delta <= 0:\n                        return three_sum_closest\n                    three_sum_closest = three_sum_closest - num[j] - num[k]\n                    three_sum_closest_delta = three_sum_closest_delta - num[j] - num[k]\n                    if three_sum_closest_delta <= 0:\n                        return three_sum_closest\n                    three_sum_closest = three_sum_closest + num[i] + num[k]\n                    three_sum_closest_delta = three_sum_closest_delta + num[i] + num[k]\n                    if three_sum_closest_delta <= 0:\n                        return three_sum_closest\n\n        return three_sum_closest\n\n\nif __name__ == \"__main__\":\n    print Solution().threeSumClosest(0, 0)",
+      -13.6171875
+    ],
+    [
+      "class Solution:\n    # @return an integer\n    def threeSumClosest(self, num, target):\n        if not num:\n            return 0\n        if len(num) == 1:\n            return num[0]\n        if len(num) == 2:\n            if num[0] > num[1]:\n                return num[0]\n            else:\n                return num[1]\n        result = self.threeSum(num, target)\n        if result!= None:\n            return result\n        result = self.threeSum(num, target, True)\n        return result\n\n    def threeSum(self, num, target, use_cache=False):\n        if not num:\n            return None\n        if len(num) == 1:\n            return num[0]\n        if len(num) == 2:\n            if num[0] > num[1]:\n                return num[0]\n            else:\n                return num[1]\n        if use_cache:\n            if num in self.cache:\n                return self.cache[num]\n        else:\n            self.cache = {}\n\n        self.cache[num] = self.threeSum(num[:], target, True)\n        self.cache[num] = self.threeSum(num[:], target, False)\n\n        if self.cache[num] == None:\n            return self.threeSum(num[:], target, True)\n        else:\n            return self.cache[num]",
+      -14.8203125
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def threeSumClosest(self, num, target):\n        \"\"\"\n        :type num: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        return self.threeSum(num, target, 0, len(num) - 1)\n\n    def threeSum(self, num, target, i, j):\n        if i == j:\n            return num[i]\n\n        mid = (i + j) / 2\n        if num[mid] > target:\n            return self.threeSum(num, target, i, mid - 1)\n        elif num[mid] < target:\n            return self.threeSum(num, target, mid + 1, j)\n\n        l = i\n        r = j\n        while l < r:\n            if l == i or l == j or r == i or r == j:\n                break\n            if num[l] > num[r]:\n                l += 1\n            elif num[l] < num[r]:\n                r -= 1\n            else:\n                num[mid] = num[l] + num[r]\n                return self.threeSum(num, target, mid + 1, j)\n\n        return num[mid]\n\n\nclass TestThreeSumClosest(unittest.TestCase):\n    def test_threeSumClosest(self):\n        self.assertEqual(3, Solution().threeSumClosest([1, 2, 3], 4))\n        self.assertEqual(4, Solution().threeSumClosest([1, 2, 3], 2))\n        self.assertEqual(4, Solution().threeSumClosest([1, 2, 3], 4))\n        self.assertEqual(4, Solution().threeSumClosest([1, 2, 3], 4))\n        self.assertEqual(4, Solution().threeSumClosest([1, 2, 3], 3))\n        self.assertEqual(4, Solution().threeSumClosest([1, 2, 3], 3))\n        self.assertEqual(3, Solution().threeSumClosest([-1, 0, 1], 2))\n        self.",
+      -15.359375
+    ],
+    [
+      "def threeSum(n):\n    if n < 3:\n        return 0\n    if n == 3:\n        return 0\n    if n == 4:\n        return max(0, sum([-3, -2, -1]) + 2)\n    \n    max_sum = 0\n    for i in range(n - 2):\n        for j in range(i + 1, n - 1):\n            for k in range(j + 1, n):\n                if i == j:\n                    continue\n                if i == k:\n                    continue\n                if j == k:\n                    continue\n                if i + j + k == n:\n                    continue\n                if n - i - j - k == n:\n                    continue\n                if i + j + k > n:\n                    continue\n                if i + j + k > n:\n                    continue\n                if j + k > n:\n                    continue\n                if k > n:\n                    continue\n                \n                if n - i - j - k == 3:\n                    max_sum = max(max_sum, sum([-i, -j, -k]))\n                elif n - i - j - k == 2:\n                    max_sum = max(max_sum, sum([-i, -j, -k]))\n                else:\n                    max_sum = max(max_sum, sum([-i, -j, -k]))\n    return max_sum\n\nprint threeSum(100)",
+      -16.25
+    ],
+    [
+      "#!/usr/bin/env python\n\nclass Solution:\n    def maxSumSubarray(self, arr, n):\n        \"\"\"\n        :type arr: List[int]\n        :type n: int\n        :rtype: int\n        \"\"\"\n        return self.maxSum(arr, n, 0, n-1)\n\n    def maxSum(self, arr, n, l, r):\n        if l == r:\n            return arr[l]\n        mid = (l+r)/2\n        return max(self.maxSum(arr, n, l, mid), self.maxSum(arr, n, mid+1, r))\n\n    def maxSum(self, arr, n, l, r):\n        if l == r:\n            return arr[l]\n        mid = (l+r)/2\n        if arr[mid] < arr[mid+1]:\n            return arr[mid]\n        return max(self.maxSum(arr, n, l, mid), self.maxSum(arr, n, mid+1, r))\n\n\nif __name__ == \"__main__\":\n    arr = [1,2,3,4,5,6]\n    n = 6\n    print Solution().maxSumSubarray(arr, n)",
+      -17.265625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

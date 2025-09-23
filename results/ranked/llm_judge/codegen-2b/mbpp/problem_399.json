@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T20:20:01.537807",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "mbpp",
+  "problem_number": 399,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val, children):\n        self.val = val\n        self.children = children\n\n\nclass Solution:\n    def min(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        return self.min_helper(root, 0)\n\n    def min_helper(self, root, level):\n        if root is None:\n            return level\n        if root.children:\n            if root.val < root.children[0].val:\n                return self.min_helper(root.children[0], level + 1)\n            else:\n                return self.min_helper(root.children[1], level + 1)\n        else:\n            return level\n\n\nif __name__ == '__main__':\n    test = [\n        Node(2, [Node(1, []), Node(3, [])]),\n        Node(4, [Node(5, []), Node(6, [])]),\n        Node(7, [Node(8, []), Node(9, [])])\n    ]\n    print Solution().min(test)"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def min(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head or not head.next:\n            return head.val\n        \n        min = head.next.val\n        while head.next.next:\n            if head.next.next.val < min:\n                min = head.next.next.val\n            head = head.next\n        return min"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return nums[0]\n\n\nif __name__ == \"__main__\":\n    Solution().findMin([3, 0, 0, 0, 1, 2, 1, 2, 3])\n    print Solution().findMin([1, 2, 3, 4, 5])"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def findMin(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return None\n        if not root.left and not root.right:\n            return root.val\n        else:\n            return min(self.findMin(root.left), self.findMin(root.right))"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/minimum-element-in-a-heterogeneous-list/\n# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def minValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        # https://discuss.leetcode.com/topic/122338/python-solution-to-find-minimum-value-in-a-heterogeneous-list\n        if not root:\n            return 0\n        else:\n            left = self.minValue(root.left)\n            right = self.minValue(root.right)\n            if left > right:\n                return left\n            else:\n                return right"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/minimum-in-rotated-sorted-array/\n\n\nclass Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return None\n\n        n = len(nums)\n        i, j, min_val = 0, 0, nums[0]\n        while i < n:\n            if nums[i] < min_val:\n                min_val = nums[i]\n                j = i\n            i += 1\n        return min_val if j == 0 else nums[j - 1]\n\n\nif __name__ == '__main__':\n    s = Solution()\n    assert s.findMin([1, 2, 3]) == 1\n    assert s.findMin([1, 3, 2]) == 1\n    assert s.findMin([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 1\n    assert s.findMin([]) == None"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/minimum-in-rotated-sorted-array/\n# \n# The input array consists of n integers where n > 1.\n# \n# The input is given as an array of integers where each element in the array is a positive integer.\n# \n# The output is a single integer which is the minimum value in the array.\n# \n# Example 1:\n# Input: [3,2,1,5]\n# Output: 1\n# Example 2:\n# Input: [3,2,1,0,-1,-4]\n# Output: -1\n# Note:\n# \n# The input array does not contain any duplicates.\n# The input array is always positive and will not be empty.\n# The output is guaranteed to be a non-negative integer.\n# \n# \n# Company Tags: Google, Microsoft, Bloomberg, Adobe, Apple, Bloomberg, Microsoft, Apple, Adobe\n# Tags: Array, Math, Binary Search\n# Similar Problems: (M) Minimum Difference in Rotated Sorted Array\n# \n# \n# score:100(0ms)\n# time:O(n)\n# space:O(n)\n# \n\n# Definition for an interval.\nclass Interval(object):\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution(object):\n    def findMin(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: int\n        \"\"\"\n        ans = intervals[0].end\n        for i in xrange(1, len(intervals)):\n            ans = min(ans, intervals[i].start)\n        return ans\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.findMin([Interval(0, 2), Interval(2, 3), Interval(3, 5)])\n    print s.findMin([Interval(0, 2), Interval(2, 3), Interval(3, 5)])\n    print s.findMin([Interval(0, 2), Interval(2, 3), Interval(3, 5"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "# https://oj.leetcode.com/problems/minimum-element-in-a-sorted-array/\n# Given a sorted array of objects, find the minimum value in the array.\n#\n# The minimum value is defined as the smallest integer that can be obtained by\n# adding up all the objects in the array.\n#\n# Example 1:\n# Input: [1, 2, 3]\n# Output: 1\n# Explanation: The minimum value is 1.\n# Example 2:\n# Input: [5, 4, 3, 2]\n# Output: 2\n# Explanation: The minimum value is 2.\n# Note:\n# The length of the array will be in the range [1, 50].\n# All the elements in the array will be in the range of [-100, 100].\n#\nimport collections\n\n\nclass Solution:\n    def min_element(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        d = collections.defaultdict(int)\n        for n in nums:\n            d[n] += 1\n        min_elem = max(d.values())\n        for k, v in d.items():\n            if v == min_elem:\n                return k\n        return min_elem"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val=0, children=[]):\n        self.val = val\n        self.children = children\n\nclass Solution:\n    # @param {Node[]} nodes\n    # @return {integer}\n    def findMin(self, nodes):\n        if not nodes:\n            return 0\n\n        # dfs\n        # node_stack = [Node(val=0, children=[])]\n        # while node_stack:\n        #     node = node_stack.pop()\n        #     if not node.children:\n        #         return node.val\n        #     node_stack.append(Node(val=node.children[0].val, children=node.children[1:]))\n\n        # recursion\n        def dfs(node, cur_min):\n            if not node.children:\n                return cur_min\n            if node.val > cur_min:\n                cur_min = node.val\n            for child in node.children:\n                dfs(child, cur_min)\n        dfs(nodes[0], float(\"inf\"))\n        return cur_min\n\nif __name__ == \"__main__\":\n    # print Solution().findMin([Node(3, [Node(1, []), Node(2, [])]), Node(5, [Node(4, []), Node(6, [])])])\n    print Solution().findMin([Node(3, [Node(1, []), Node(2, [])]), Node(5, [Node(4, []), Node(6, [])])])"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/minimum-value-of-a-heterogeneous-list\n\nimport sys\nimport collections\n\ndef min_value(arr):\n    \"\"\"\n    >>> min_value([])\n    0\n    >>> min_value([1])\n    1\n    >>> min_value([1,2])\n    1\n    >>> min_value([1,2,3])\n    3\n    >>> min_value([1,2,3,4,5,6])\n    6\n    \"\"\"\n    if not arr:\n        return 0\n    min_val = sys.maxsize\n    for item in arr:\n        min_val = min(min_val, item)\n    return min_val\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6]\n    print min_value(arr)"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "class ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def getMin(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n\n        dummy = ListNode(0)\n        dummy.next = head\n        slow = dummy\n        fast = dummy\n        while fast.next and fast.next.next:\n            slow = slow.next\n            fast = fast.next.next\n        return slow.val\n\n\nif __name__ == '__main__':\n    assert Solution().getMin([1, 2, 3, 4, 5, 6]) == 1\n    assert Solution().getMin([1, 1, 1, 1, 1, 1, 1, 1]) == 1\n    assert Solution().getMin([-1, -2, -3, -4, -5, -6]) == -6\n    assert Solution().getMin([-1, -2, -3, -4, -5, -6, -7]) == -7"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "# Definition for a node.\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def findMin(self, root):\n        if root is None:\n            return None\n        left = self.findMin(root.left)\n        right = self.findMin(root.right)\n        if left is None and right is None:\n            return root.val\n        if left is None:\n            return right\n        if right is None:\n            return left\n        return min(left, right)\n\n    def findMin(self, root):\n        if root is None:\n            return None\n        if root.left is None and root.right is None:\n            return root.val\n        if root.left is None:\n            return root.right\n        if root.right is None:\n            return root.left\n        return min(root.left, root.right)\n\nroot = Node(10, Node(7, Node(2), Node(5)), Node(6, Node(8), Node(11)))\ns = Solution()\nprint(s.findMin(root))"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/min-value-in-a-heterogeneous-list\n\ndef min_value_in_list(list):\n    if len(list) == 0:\n        return None\n    if len(list) == 1:\n        return list[0]\n    \n    # Find the smallest value in the list\n    min_value = min(list)\n\n    # Find the index of the smallest value in the list\n    min_index = 0\n    for i in range(1, len(list)):\n        if list[i] < min_value:\n            min_value = list[i]\n            min_index = i\n\n    # If the smallest value is greater than the value in the first element of the list,\n    # then swap the first element with the smallest value\n    if list[0] > min_value:\n        list[0], list[min_index] = list[min_index], list[0]\n\n    return min_value"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\nclass Solution:\n    def findMin(self, nums: List[int]) -> int:\n        \"\"\"\n        Greedy\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return nums[0]"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "# Definition for a Node.\nclass Node(object):\n    def __init__(self, val, children):\n        self.val = val\n        self.children = children\n\n\nclass Solution(object):\n    def minHetero(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        res = float('inf')\n        self.traverse(root, res)\n        return res\n\n    def traverse(self, node, res):\n        if node is None:\n            return res\n        if node.children[0] is None:\n            return min(res, node.val)\n        self.traverse(node.children[0], min(res, node.val))\n        self.traverse(node.children[1], min(res, node.val))\n\n\nif __name__ == \"__main__\":\n    node1 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node2 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node3 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node4 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node5 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node6 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node7 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node8 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5, None)])\n    node9 = Node(1, [Node(2, [Node(3, None), Node(4, None)]), Node(5"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def getMin(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        min = head.val\n        while head.next is not None:\n            head = head.next\n            if head.val < min:\n                min = head.val\n        return min\n\n    def getMin2(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        min = head.val\n        while head is not None:\n            head = head.next\n            if head is not None:\n                if head.val < min:\n                    min = head.val\n        return min\n\n    def getMin3(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        min = head.val\n        while head is not None:\n            if head.val < min:\n                min = head.val\n            head = head.next\n        return min"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return root.val\n        \n        if not root.left:\n            return min(self.minValue(root.right), root.val)\n        if not root.right:\n            return min(self.minValue(root.left), root.val)\n        \n        return min(self.minValue(root.left), self.minValue(root.right))"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "def min_value(values):\n    return min(values)\n\nif __name__ == '__main__':\n    assert min_value([1, 2, 3, 4, 5]) == 1\n    assert min_value([1, 2, 2, 3, 4, 4]) == 2\n    assert min_value([1, 2, 3, 4, 5, 6]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 7]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 10]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 10, 11]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 10, 11, 12]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 10, 11, 12, 12, 13]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 10, 11, 12, 12, 13, 14]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 10, 11, 12, 12, 13, 14, 14, 15]) == 1\n    assert min_value([1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution(object):\n    def min(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        \n        min = head.val\n        while head.next:\n            if head.next.val < min:\n                min = head.next.val\n            head = head.next\n        return min"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution(object):\n    def minValue(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        \n        min_val = head.val\n        min_node = head\n        \n        while min_node.next:\n            min_val = min(min_val, min_node.next.val)\n            min_node = min_node.next\n            \n        return min_val"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "def find_min(lst):\n    \"\"\"\n    :type lst: List[int]\n    :rtype: int\n    \"\"\"\n    lst.sort()\n    return lst[0]\n\ndef find_min_2(lst):\n    \"\"\"\n    :type lst: List[int]\n    :rtype: int\n    \"\"\"\n    return min(lst)"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/minimum-in-heterogeneous-list/problem\n\ndef min(list_of_ints):\n    \"\"\"\n    Returns the minimum value in a given list.\n    \"\"\"\n    # If there are no elements, return 0\n    if not list_of_ints:\n        return 0\n\n    # If there is only one element, return it\n    if len(list_of_ints) == 1:\n        return list_of_ints[0]\n\n    # If there are two elements, return the minimum of the two\n    if len(list_of_ints) == 2:\n        return min(list_of_ints)\n\n    # Otherwise, find the minimum of the first element, the second element, and so on\n    return min(list_of_ints[1:])\n\n\n# Test Cases\n# list_of_ints = [1,2,3]\n# print(min(list_of_ints))\n# list_of_ints = [1,2,3,4]\n# print(min(list_of_ints))\n# list_of_ints = [1,2,3,4,5]\n# print(min(list_of_ints))\n# list_of_ints = [1,2,3,4,5,6]\n# print(min(list_of_ints))\n\n# Test Case:\nlist_of_ints = [1,2,3,4,5,6]\nprint(min(list_of_ints))"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def min(self, node: TreeNode) -> int:\n        if not node:\n            return 0\n        return min(self.min(node.left), self.min(node.right)) + node.val\n\n# TESTS\ntests = [\n    ([1], 1),\n    ([1, 2, 3], 1),\n    ([1, 2, 3, 4], 3),\n    ([1, 2, 3, 4, 5], 1),\n    ([1, 2, 3, 4, 5], 1),\n]\nfor t in tests:\n    sol = Solution()\n    actual = sol.min(t[0])\n    print(\"Min in\", t[0], \"->\", actual)\n    assert actual == t[1]"
+    },
+    {
+      "rank": 24,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def minValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return root.val\n        if not root.left:\n            return min(root.val, self.minValue(root.right))\n        if not root.right:\n            return min(root.val, self.minValue(root.left))\n        return min(min(self.minValue(root.left), self.minValue(root.right)), root.val)"
+    },
+    {
+      "rank": 25,
+      "score": 10.0,
+      "candidate": "import sys\n\nclass Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.findMinRecur(nums, 0, len(nums))\n\n    def findMinRecur(self, nums, start, end):\n        if start == end:\n            return nums[start]\n        mid = (start + end) / 2\n        if nums[mid] > nums[start]:\n            return self.findMinRecur(nums, mid + 1, end)\n        else:\n            return self.findMinRecur(nums, start, mid)\n\nif __name__ == '__main__':\n    print Solution().findMin([2, 3, 4, 1, 5, 6])\n    print Solution().findMin([1, 2, 3, 4])\n    print Solution().findMin([1, 2, 3, 4, 5, 6, 7])\n    print Solution().findMin([1, 2, 3, 4, 5, 6, 7, 8])\n    print Solution().findMin([])"
+    },
+    {
+      "rank": 26,
+      "score": 10.0,
+      "candidate": "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return nums[0]\n\n\nif __name__ == \"__main__\":\n    Solution().findMin([4, 5, 1, 8, 0, 2, 9, 10, 1, 6])"
+    },
+    {
+      "rank": 27,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/minimum-in-heterogeneous-list/problem\n\ndef find_min(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 0:\n        return arr[0]\n\n    min_value = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i] < min_value:\n            min_value = arr[i]\n    return min_value\n\n\ndef test_cases():\n    arr = [3, 2, 4, 1, 5]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3, 4]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3, 4, 3]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3, 4, 3, 5]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3, 4, 3, 5, 3]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3, 4, 3, 5, 3, 4]\n    assert find_min(arr) == 1\n    arr = [3, 2, 4, 1, 5, 3, 4, 3, 5, 3, 4, 3]\n    assert find_min(arr) == 1\n\n\nif __name__ == \"__main__\":\n    test_cases()"
+    },
+    {
+      "rank": 28,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def min(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        else:\n            return min(self.min(root.left), self.min(root.right)) + root.val"
+    },
+    {
+      "rank": 29,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def findMin(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head or not head.next:\n            return head.val\n        \n        slow = head\n        fast = head.next\n        \n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n            \n        return slow.val"
+    },
+    {
+      "rank": 30,
+      "score": 10.0,
+      "candidate": "# https://www.geeksforgeeks.org/find-minimum-value-in-a-heterogeneous-list/\n\ndef find_min(alist):\n    \"\"\"\n    :type alist: List[int]\n    :rtype: int\n    \"\"\"\n    if not alist:\n        return 0\n    min_value = alist[0]\n    for i in range(1, len(alist)):\n        if alist[i] < min_value:\n            min_value = alist[i]\n    return min_value\n\nif __name__ == '__main__':\n    alist = [1, 2, 3, 4, 5, 6, 7, 8]\n    print(find_min(alist))"
+    },
+    {
+      "rank": 31,
+      "score": 10.0,
+      "candidate": "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # sort\n        nums.sort()\n        return nums[0]\n\n\nif __name__ == \"__main__\":\n    Solution().findMin([1, 2, 3, 4, 5])"
+    },
+    {
+      "rank": 32,
+      "score": 10.0,
+      "candidate": "import sys\n\nclass Solution:\n    def min(self, arr):\n        if not arr:\n            return None\n        min_val = arr[0]\n        for val in arr[1:]:\n            if val < min_val:\n                min_val = val\n        return min_val\n\nif __name__ == '__main__':\n    sol = Solution()\n    arr = [1, 2, 3, 4, 5]\n    print(sol.min(arr))\n    arr = [1, 2, 3, 4, 5, 6]\n    print(sol.min(arr))"
+    },
+    {
+      "rank": 33,
+      "score": 10.0,
+      "candidate": "import collections\n\n\nclass Solution(object):\n    \"\"\"\n    @param nums: a list of integers\n    @return: the minimum value\n    \"\"\"\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if nums is None or len(nums) == 0:\n            return None\n        min_value = nums[0]\n        for num in nums:\n            if num < min_value:\n                min_value = num\n        return min_value\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.findMin([2,3,1,1])\n    print s.findMin([3,2,1,2,3])\n    print s.findMin([1,1])\n    print s.findMin([])"
+    },
+    {
+      "rank": 34,
+      "score": 10.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution(object):\n    def findMin(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head or not head.next:\n            return head.val\n        else:\n            pre = head\n            while pre.next:\n                pre = pre.next\n                if pre.next:\n                    pre.next = pre.next.next\n                else:\n                    break\n            return min(pre.val, self.findMin(head.next))\n\n# Note:\n#\n# 1. The head can be None.\n# 2. The input list can be empty.\n\nif __name__ == \"__main__\":\n    l1 = ListNode(1)\n    l2 = ListNode(2)\n    l3 = ListNode(3)\n    l1.next = l2\n    l2.next = l3\n    l3.next = None\n    print Solution().findMin(l1)"
+    },
+    {
+      "rank": 35,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minValue(self, root: TreeNode) -> int:\n        if root is None:\n            return 0\n        left = self.minValue(root.left)\n        right = self.minValue(root.right)\n        if left > right:\n            return left\n        return right"
+    },
+    {
+      "rank": 36,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def getMin(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return None\n        if not root.left and not root.right:\n            return root.val\n        if root.left and not root.right:\n            return self.getMin(root.left)\n        if root.right and not root.left:\n            return self.getMin(root.right)\n        if root.left and root.right:\n            if root.left.val < root.right.val:\n                return root.left.val\n            return root.right.val\n        return min(self.getMin(root.left), self.getMin(root.right))"
+    },
+    {
+      "rank": 37,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/find-the-minimum-value/problem\n\ndef find_min(lst):\n    if len(lst) == 0:\n        return None\n    elif len(lst) == 1:\n        return lst[0]\n    else:\n        return min(find_min(lst[:i]) for i in range(1, len(lst)) for j in range(i))\n\n# Sample Inputs\na = [5, 1, 3, 2, 4]\nb = [1, 3, 5, 2, 4]\nc = [3, 1, 5, 2, 4]\nd = [5, 1, 3, 2, 4, 5]\n\nprint(find_min(a))\nprint(find_min(b))\nprint(find_min(c))\nprint(find_min(d))"
+    },
+    {
+      "rank": 38,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def findMin(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return root.val\n        if not root.left:\n            return min(self.findMin(root.right), root.val)\n        if not root.right:\n            return min(self.findMin(root.left), root.val)\n        return min(self.findMin(root.left), self.findMin(root.right))"
+    },
+    {
+      "rank": 39,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def minDepth(self, root):\n        if root is None:\n            return 0\n        if root.left is None and root.right is None:\n            return 1\n        if root.left is None:\n            return self.minDepth(root.right) + 1\n        if root.right is None:\n            return self.minDepth(root.left) + 1\n        return min(self.minDepth(root.left), self.minDepth(root.right)) + 1\n\nif __name__ == \"__main__\":\n    print Solution().minDepth(TreeNode(1))"
+    },
+    {
+      "rank": 40,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n\tdef __init__(self, x):\n\t\tself.val = x\n\t\tself.left = None\n\t\tself.right = None\n\nclass Solution:\n\t# @param root, a tree node\n\t# @return an integer\n\tdef findMin(self, root):\n\t\tif root is None:\n\t\t\treturn None\n\t\tif root.left is None and root.right is None:\n\t\t\treturn root.val\n\t\tif root.left is not None:\n\t\t\treturn min(self.findMin(root.left), self.findMin(root.right))\n\t\tif root.right is not None:\n\t\t\treturn min(self.findMin(root.left), self.findMin(root.right))\n\nif __name__ == \"__main__\":\n\ts = Solution()\n\tt = TreeNode(5)\n\tt.left = TreeNode(4)\n\tt.right = TreeNode(7)\n\tt.left.left = TreeNode(3)\n\tt.left.right = TreeNode(6)\n\tt.right.left = TreeNode(2)\n\tt.right.right = TreeNode(8)\n\tprint s.findMin(t)"
+    },
+    {
+      "rank": 41,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def min(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        left_min = self.min(root.left)\n        right_min = self.min(root.right)\n        if left_min == -1 or right_min == -1:\n            return -1\n        return min(left_min, right_min)\n\n\ndef main():\n    n1 = TreeNode(1)\n    n2 = TreeNode(2)\n    n3 = TreeNode(3)\n    n4 = TreeNode(4)\n    n5 = TreeNode(5)\n    n6 = TreeNode(6)\n    n7 = TreeNode(7)\n    n8 = TreeNode(8)\n    n9 = TreeNode(9)\n    n10 = TreeNode(10)\n    n11 = TreeNode(11)\n    n12 = TreeNode(12)\n    n13 = TreeNode(13)\n    n14 = TreeNode(14)\n    n15 = TreeNode(15)\n    n16 = TreeNode(16)\n    n17 = TreeNode(17)\n    n18 = TreeNode(18)\n    n19 = TreeNode(19)\n    n20 = TreeNode(20)\n    n21 = TreeNode(21)\n    n22 = TreeNode(22)\n    n23 = TreeNode(23)\n    n24 = TreeNode(24)\n    n25 = TreeNode(25)\n    n26 = TreeNode(26)\n    n27 = TreeNode(27)\n    n28 = TreeNode(28)\n    n29 = TreeNode(29)\n    n30 = TreeNode(30)\n    n31 = TreeNode(31)\n    n32 = TreeNode(32)\n    n33 = TreeNode(33)\n    n34 = TreeNode(34)\n    n35 = TreeNode(35)\n    n"
+    },
+    {
+      "rank": 42,
+      "score": 10.0,
+      "candidate": "# TODO:\n# 1. Use a map to store the minimum value for each type\n# 2. Use a list to store the minimum value for each type\n# 3. Use a set to store the minimum value for each type\n# 4. Use a dictionary to store the minimum value for each type\n# 5. Use a queue to store the minimum value for each type\n\ndef min_heterogeneous_list(lst):\n    \"\"\"\n    :type lst: List[Any]\n    :rtype: int\n    \"\"\"\n    if not lst:\n        return 0\n    min_val = lst[0]\n    for i in range(1, len(lst)):\n        if lst[i] < min_val:\n            min_val = lst[i]\n    return min_val"
+    },
+    {
+      "rank": 43,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def findMin(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left:\n            return root.val\n        if not root.right:\n            return root.left.val\n        return min(root.left.val, root.right.val)"
+    },
+    {
+      "rank": 44,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/min-value-in-heterogeneous-list/problem\n\ndef min_value_in_list(list_):\n    \"\"\"\n    :param list_: a list of integers\n    :return: the minimum value in the list\n    \"\"\"\n    if not list_:\n        return None\n    min_value = list_[0]\n    for item in list_:\n        if item < min_value:\n            min_value = item\n    return min_value\n\nif __name__ == '__main__':\n    \"\"\"\n    Sample Input\n    [2, 1, 3]\n    Sample Output\n    1\n    \"\"\"\n    list_ = [2, 1, 3]\n    print min_value_in_list(list_)"
+    },
+    {
+      "rank": 45,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def minValue(self, root):\n        if root is None:\n            return 0\n        min_val = root.val\n        if root.left is not None:\n            min_val = min(min_val, self.minValue(root.left))\n        if root.right is not None:\n            min_val = min(min_val, self.minValue(root.right))\n        return min_val\n\nif __name__ == \"__main__\":\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.left.left = TreeNode(4)\n    root.left.right = TreeNode(5)\n    root.right.left = TreeNode(6)\n    root.right.right = TreeNode(7)\n    print Solution().minValue(root)"
+    },
+    {
+      "rank": 46,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def min(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return root.val\n        if not root.left:\n            return min(root.right)\n        if not root.right:\n            return min(root.left)\n        if root.left.val < root.right.val:\n            return root.left.val\n        else:\n            return root.right.val"
+    },
+    {
+      "rank": 47,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution(object):\n    def minValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return root.val\n        return min(self.minValue(root.left), self.minValue(root.right))\n\n\nif __name__ == \"__main__\":\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.left.left = TreeNode(4)\n    root.left.right = TreeNode(5)\n    root.right.left = TreeNode(6)\n    root.right.right = TreeNode(7)\n    print(Solution().minValue(root))"
+    },
+    {
+      "rank": 48,
+      "score": 10.0,
+      "candidate": "# Definition for a Node.\nclass Node(object):\n    def __init__(self, val, children):\n        self.val = val\n        self.children = children\n\nclass Solution(object):\n    def minValue(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.children:\n            return root.val\n        min_val = root.val\n        for child in root.children:\n            min_val = min(min_val, self.minValue(child))\n        return min_val"
+    },
+    {
+      "rank": 49,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def min(self, l):\n        \"\"\"\n        :type l: List[TreeNode]\n        :rtype: int\n        \"\"\"\n        if not l:\n            return 0\n        if not l[0]:\n            return l[0].val\n        else:\n            return min(self.min(l[1:]), self.min(l[0:1]))"
+    },
+    {
+      "rank": 50,
+      "score": 10.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minValue(self, root: TreeNode) -> int:\n        if root is None:\n            return 0\n        if root.left is None and root.right is None:\n            return root.val\n        min_left = self.minValue(root.left)\n        min_right = self.minValue(root.right)\n        return min(min_left, min_right) + root.val"
+    },
+    {
+      "rank": 51,
+      "score": 10.0,
+      "candidate": "__author__ = 'Danyang'\n\n\nclass Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return nums[0]\n        if len(nums) == 2:\n            return min(nums)\n\n        res = nums[0]\n        for i in range(1, len(nums)):\n            if nums[i] < res:\n                res = nums[i]\n\n        return res\n\n\nif __name__ == \"__main__\":\n    print(Solution().findMin([1, 2, 3, 4, 5]))\n    print(Solution().findMin([1, 2, 3]))\n    print(Solution().findMin([-1, -2, -3, -4, -5]))"
+    },
+    {
+      "rank": 52,
+      "score": 10.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def findMin(self, root: TreeNode) -> int:\n        \"\"\"\n        Brute force\n        \"\"\"\n        if not root:\n            return 0\n        ans = root.val\n        while root.left:\n            root = root.left\n        while root.right:\n            root = root.right\n        return min(ans, root.val)"
+    },
+    {
+      "rank": 53,
+      "score": 8.0,
+      "candidate": "import heapq\n\ndef find_min_heap(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    heap = [arr[0]]\n    for i in range(1, len(arr)):\n        if arr[i] < heap[0]:\n            heap[0] = arr[i]\n            heapq.heapify(heap)\n    return heap[0]\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    print(find_min_heap(arr))"
+    },
+    {
+      "rank": 54,
+      "score": 8.0,
+      "candidate": "def get_min(l):\n    \"\"\"\n    Return the minimum value in a given heterogeneous list.\n    >>> get_min([1, 3, 4, 5, 6, 7, 8])\n    1\n    >>> get_min([1, 3, 4, 5, 6, 7, 8, 9])\n    1\n    >>> get_min([3, 4, 5, 6, 7, 8, 9])\n    3\n    >>> get_min([3, 4, 5, 6, 7, 8, 9, 10])\n    3\n    \"\"\"\n    return min(l)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 55,
+      "score": 8.0,
+      "candidate": "def min_in_list(lst):\n    \"\"\"\n    :type lst: List[int]\n    :rtype: int\n    \"\"\"\n    if not lst:\n        return 0\n    elif len(lst) == 1:\n        return lst[0]\n    else:\n        return min(min_in_list(lst[:len(lst)/2]), min_in_list(lst[len(lst)/2:]))"
+    },
+    {
+      "rank": 56,
+      "score": 8.0,
+      "candidate": "import math\n\n# your function will be called as follows:\n# min_value = min_value(numbers)\n# where numbers is a list of values\ndef min_value(numbers):\n    if len(numbers) == 1:\n        return numbers[0]\n\n    # find the smallest value in the list\n    min_value = numbers[0]\n    for number in numbers:\n        if number < min_value:\n            min_value = number\n\n    # find the minimum value in the remaining lists\n    for number in numbers[1:]:\n        if number < min_value:\n            min_value = number\n\n    return min_value\n\n\n# tests\n# numbers = [2, 5, 6, 1, 7, 3]\n# print(min_value(numbers))\n# numbers = [2, 5, 6, 1, 7, 3, 8, 4]\n# print(min_value(numbers))\n\n# the above should print 4, because 2 and 1 are the smallest values in the list"
+    },
+    {
+      "rank": 57,
+      "score": 8.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def min(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        min_val = root.val\n        if root.left is not None:\n            min_val = self.min(root.left)\n        if root.right is not None:\n            min_val = self.min(root.right)\n        return min_val\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    print solution.min(root)\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.right.left = TreeNode(4)\n    root.right.right = TreeNode(5)\n    print solution.min(root)"
+    },
+    {
+      "rank": 58,
+      "score": 8.0,
+      "candidate": "class Node(object):\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nclass Solution(object):\n    def findMin(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if head is None or head.next is None:\n            return 0\n        \n        min_val = head.val\n        min_node = head\n        \n        while min_node.next:\n            min_node = min_node.next\n            if min_val > min_node.val:\n                min_val = min_node.val\n        \n        return min_val\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    head = Node(1)\n    head.next = Node(2)\n    head.next.next = Node(3)\n    head.next.next.next = Node(4)\n    head.next.next.next.next = Node(5)\n    head.next.next.next.next.next = Node(6)\n    head.next.next.next.next.next.next = Node(7)\n    head.next.next.next.next.next.next.next = Node(8)\n    head.next.next.next.next.next.next.next.next = Node(9)\n    print(solution.findMin(head))"
+    },
+    {
+      "rank": 59,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\ndef findMin(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    # Count the number of times each value appears\n    counts = Counter(nums)\n\n    # Find the keys of the dict that have the highest count\n    min_keys = [k for k, v in counts.items() if v == counts[k]]\n    min_key_value = counts[min_keys[0]]\n\n    # Return the index of the first key with the highest count\n    return min_keys[0]\n\n\nif __name__ == '__main__':\n    assert findMin([2, 2, 3, 4, 5]) == 0\n    assert findMin([2, 3, 4, 5, 6]) == 3\n    assert findMin([1, 2, 3, 4, 5]) == 0\n    assert findMin([1, 2, 3, 4, 5, 6]) == 2\n    assert findMin([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 0\n    assert findMin([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 2"
+    },
+    {
+      "rank": 60,
+      "score": 8.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        res = root.val\n        if root.left:\n            res = min(res, self.minValue(root.left))\n        if root.right:\n            res = min(res, self.minValue(root.right))\n        return res\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.minValue(TreeNode(1)))\n    print(sol.minValue(TreeNode(2)))\n    print(sol.minValue(TreeNode(3)))\n    print(sol.minValue(TreeNode(4)))\n    print(sol.minValue(TreeNode(5)))\n    print(sol.minValue(TreeNode(6)))"
+    },
+    {
+      "rank": 61,
+      "score": 8.0,
+      "candidate": "import math\n\ndef find_min(list):\n    \"\"\"\n    Find the minimum value in a list.\n    >>> find_min([1, 2, 4, 5])\n    1\n    >>> find_min([3, 5, 6, 7, 8, 9])\n    3\n    >>> find_min([3, 4, 6, 8, 9, 10])\n    3\n    >>> find_min([2, 2, 2, 2, 2])\n    2\n    >>> find_min([])\n    Traceback (most recent call last):\n      File \"<stdin>\", line 1, in <module>\n    ValueError: list is empty\n    >>> find_min([3, 4, 6, 8, 9, 10, 11])\n    Traceback (most recent call last):\n      File \"<stdin>\", line 1, in <module>\n    ValueError: list is too big\n    \"\"\"\n    if not list:\n        raise ValueError('list is empty')\n    \n    if len(list) > math.ceil(math.log(len(list), 2)):\n        raise ValueError('list is too big')\n    \n    min_value = list[0]\n    for value in list:\n        if value < min_value:\n            min_value = value\n    return min_value\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 62,
+      "score": 8.0,
+      "candidate": "# https://www.hackerrank.com/challenges/minimum-value-in-a-heterogeneous-list\n\ndef min(lst):\n    if len(lst) == 0:\n        return None\n    else:\n        return min(lst[1:]) if lst[0] < lst[1] else lst[0]\n\ndef min_hehe(lst):\n    if len(lst) == 0:\n        return None\n    else:\n        return min_hehe(lst[1:]) if lst[0] < lst[1] else lst[0]\n\ndef main():\n    n = int(input())\n    lst = [int(x) for x in input().split(' ')]\n    print(min_hehe(lst))\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 63,
+      "score": 8.0,
+      "candidate": "def getMin(numbers):\n    \"\"\"\n    :type numbers: List[int]\n    :rtype: int\n    \"\"\"\n    numbers = sorted(numbers)\n    return numbers[0]\n\nnumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(getMin(numbers))"
+    },
+    {
+      "rank": 64,
+      "score": 8.0,
+      "candidate": "def min_value(data):\n    \"\"\"\n    :type data: List[int]\n    :rtype: int\n    \"\"\"\n    if len(data) == 0:\n        return 0\n    elif len(data) == 1:\n        return data[0]\n\n    if data[0] > data[1]:\n        return data[0]\n    else:\n        return min_value(data[1:])\n\nif __name__ == \"__main__\":\n    data = [4, 5, 1, 3, 7]\n    print(min_value(data))"
+    },
+    {
+      "rank": 65,
+      "score": 8.0,
+      "candidate": "def find_min(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    # O(n)\n    res = nums[0]\n    for i in range(1, len(nums)):\n        if nums[i] < res:\n            res = nums[i]\n    return res"
+    },
+    {
+      "rank": 66,
+      "score": 8.0,
+      "candidate": "def find_min(lst):\n    \"\"\"\n    Find the minimum value in a given heterogeneous list.\n\n    :param lst:\n    :return:\n    \"\"\"\n    if not lst:\n        return 0\n\n    if lst[0] < lst[1]:\n        return lst[0]\n\n    return lst[1]\n\n\ndef main():\n    lst = [1, 3, 3, 4, 5]\n    print find_min(lst)\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 67,
+      "score": 8.0,
+      "candidate": "import collections\n\ndef min_value(lst):\n    \"\"\"\n    >>> min_value([2, 1, 3, 4, 3, 3, 1])\n    1\n    \"\"\"\n    return min(lst)\n\nif __name__ == \"__main__\":\n    print(min_value([2, 1, 3, 4, 3, 3, 1]))"
+    },
+    {
+      "rank": 68,
+      "score": 8.0,
+      "candidate": "def findMin(arr):\n    if len(arr) == 1:\n        return arr[0]\n    elif len(arr) == 2:\n        if arr[0] < arr[1]:\n            return arr[0]\n        else:\n            return arr[1]\n    else:\n        min_val = arr[0]\n        for i in range(len(arr)):\n            if arr[i] < min_val:\n                min_val = arr[i]\n        return min_val\n\n#Test Cases\narr = [2,3,4,5]\nprint findMin(arr)\narr = [2,4,5,6]\nprint findMin(arr)\narr = [2,4,6,7]\nprint findMin(arr)\narr = [5,5,5,5]\nprint findMin(arr)\narr = [2,3,4,5]\nprint findMin(arr)\narr = [2,4,6,7]\nprint findMin(arr)\narr = [5,5,5,5]\nprint findMin(arr)"
+    },
+    {
+      "rank": 69,
+      "score": 8.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def getMin(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        \n        curr = head\n        prev = head\n        while curr:\n            prev = curr\n            curr = curr.next\n        \n        while prev:\n            tmp = prev.next\n            prev.next = None\n            prev = tmp\n        \n        curr = head\n        while curr:\n            if curr.val < curr.next.val:\n                curr = curr.next\n            else:\n                break\n        return curr.val"
+    },
+    {
+      "rank": 70,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/python\n\ndef find_min_in_heterogeneous_list(lst):\n    \"\"\"\n    Find the minimum value in a given heterogeneous list.\n\n    Example\n    >>> find_min_in_heterogeneous_list([1,2,3,4,5])\n    3\n    >>> find_min_in_heterogeneous_list([1,3,5,6,7,8])\n    1\n    >>> find_min_in_heterogeneous_list([1,2,3,4,5,6,7,8,9,10])\n    1\n    \"\"\"\n    return min(lst)\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 71,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.findMinRecu(nums, 0, len(nums))\n\n    def findMinRecu(self, nums, start, end):\n        if start == end:\n            return nums[start]\n        mid = start + (end - start) / 2\n        if nums[mid] > nums[start]:\n            return self.findMinRecu(nums, mid + 1, end)\n        elif nums[mid] < nums[start]:\n            return self.findMinRecu(nums, start, mid)\n        else:\n            return min(self.findMinRecu(nums, start, mid),\n                       self.findMinRecu(nums, mid + 1, end))"
+    },
+    {
+      "rank": 72,
+      "score": 1.5,
+      "candidate": "#!/usr/bin/env python\n\nimport sys\n\ndef find_min(lst):\n    \"\"\"\n    Find the minimum value in a given heterogeneous list.\n\n    :param lst: list\n    :return: int\n    \"\"\"\n    min_val = sys.maxsize\n    for elem in lst:\n        if elem < min_val:\n            min_val = elem\n    return min_val\n\n\nif __name__ == \"__main__\":\n    assert find_min([1, 2, 3, 4, 5, 6]) == 1\n    assert find_min([1, 2, 3, 4, 5, 6, 7]) == 1\n    assert find_min([1, 2, 3, 4, 5, 6, 7, 8]) == 1\n    assert find_min([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 1\n    assert find_min([]) == sys.maxsize"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "def min_value(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if not nums:\n        return 0\n\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = (left + right) / 2\n        if nums[mid] < nums[left]:\n            left = mid + 1\n        elif nums[mid] > nums[left]:\n            right = mid - 1\n        else:\n            return nums[mid]\n\n    return nums[left] if nums[left] < nums[right] else nums[right]\n\nclass Solution(object):\n    def minValue(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        return min(nums)"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\n\nclass Solution(object):\n    def min(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        left = self.min(root.left)\n        right = self.min(root.right)\n        if left < right:\n            return left\n        else:\n            return right"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "# https://www.codewars.com/kata/55a6e1e8d9c5a6c15a0d1e\n\ndef min_value(list_of_numbers):\n    \"\"\"\n    :param list_of_numbers: A list of numbers\n    :return: The minimum value in the list\n    \"\"\"\n    # Your code here\n    return min(list_of_numbers)\n\n# These \"asserts\" using only for self-checking and not necessary for auto-testing\nif __name__ == '__main__':\n    assert min_value([5, -1, 1, 4, -3]) == -1, \"Min of [-1, 1, 4, -3] is -1\"\n    assert min_value([5, 0, -1, 1, 4, -3]) == -1, \"Min of [5, 0, -1, 1, 4, -3] is -1\"\n    assert min_value([5, -1, 1, 4, -3, -10]) == -10, \"Min of [-1, 1, 4, -3, -10] is -10\"\n    assert min_value([5, 0, -1, 1, 4, -3, -10]) == -10, \"Min of [5, 0, -1, 1, 4, -3, -10] is -10\"\n    assert min_value([5, -1, 1, 4, -3, -10, 5]) == -10, \"Min of [-1, 1, 4, -3, -10, 5] is -10\"\n    assert min_value([5, -1, 1, 4, -3, -10, 5, -5]) == -5, \"Min of [-1, 1, 4, -3, -10, 5, -5] is -5\"\n    assert min_value([5, -1, 1, 4, -3, -10, 5, -5, -15]) == -15, \"Min of [-1, 1, 4, -3, -10, 5, -5, -15] is -15\"\n    assert min_value([5, -1, 1, 4, -3, -10, 5, -5,"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "def find_min(lst):\n    \"\"\"\n    :type lst: List[int]\n    :rtype: int\n    \"\"\"\n    # find the minimum value\n    min_value = lst[0]\n    for num in lst:\n        if num < min_value:\n            min_value = num\n    return min_value\n\nif __name__ == '__main__':\n    lst = [1,2,3,4,5]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6,7]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6,7,8]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6,7,8,9]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6,7,8,9,10]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6,7,8,9,10,11]\n    print(find_min(lst))\n    lst = [1,2,3,4,5,6,7,8,9,10,11,12]\n    print(find_min(lst))"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\n\nclass Solution:\n    def findMin(self, root: TreeNode) -> int:\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n\n        # write your code here\n        while root.left:\n            root = root.left\n        return root.val\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.findMin([TreeNode(1), TreeNode(2), TreeNode(3), TreeNode(4)]))"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "# Your function will take as its inputs a list of integers\n# and return the minimum value in the list.\n\n# Hint:\n# Try to avoid using the built-in min function.\n\ndef min_heap_of_integers(list):\n    if not list:\n        return None\n    else:\n        return min(list, key = lambda x: x)\n\nprint(min_heap_of_integers([1, -1, -2, 0]))"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "def findMin(list):\n    \"\"\"\n    Find the minimum value in a given heterogeneous list.\n\n    :type list: List\n    :rtype: int\n    \"\"\"\n    return min(list)\n\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert findMin([1, 3, 5, 6, 8]) == 1, \"1st example\"\n    assert findMin([1, 3, 5, 6, 9]) == 6, \"2nd example\"\n    assert findMin([1, 3, 5, 6, 8, 10]) == 6, \"3rd example\"\n    assert findMin([1, 5, 8, 9]) == 1, \"4th example\"\n    assert findMin([5, 6, 10]) == 5, \"5th example\"\n    assert findMin([1, 5, 8, 9, 10]) == 1, \"6th example\""
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def findMin(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        if not root.left:\n            return root.val\n        if not root.right:\n            return root.val\n        if root.left.val < root.right.val:\n            return self.findMin(root.left)\n        else:\n            return self.findMin(root.right)"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val, children):\n        self.val = val\n        self.children = children\n\n\nclass Solution:\n    # @param {integer[]} trees\n    # @return {integer}\n    def minDepth(self, trees):\n        if not trees:\n            return 0\n        \n        left = self.minDepth(trees[:])\n        right = self.minDepth(trees[1:])\n        if left < right:\n            return left + 1\n        return right + 1\n\nif __name__ == '__main__':\n    solution = Solution()\n    print(solution.minDepth([0, [1, 2], [3, [4, 5]]]))\n    print(solution.minDepth([0, [1, 2], [3, [4]]]))\n    print(solution.minDepth([1, [2, 3]]))"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def minDepth(self, root: TreeNode) -> int:\n        \"\"\"\n        Time: O(n)\n        Space: O(n)\n        \"\"\"\n        if not root:\n            return 0\n        return 1 + min(self.minDepth(root.left), self.minDepth(root.right))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val=0, children=None):\n        self.val = val\n        self.children = children\n\n\nclass Solution:\n    def minValue(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        queue = [root]\n        while queue:\n            node = queue.pop(0)\n            if not node.children:\n                return node.val\n            queue.extend(node.children)\n            if node.children[0].children:\n                queue.append(node.children[0])\n        return -1\n\n# test\nroot = Node(1, [Node(2, []), Node(3, [])])\nprint Solution().minValue(root)"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "# TODO: Implement the function\n\n# Your function should return a value of type int.\n\n# EXAMPLE:\n# Given [1,2,3,4], return 1.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,2,3,4]\n\n# OUTPUT:\n# 1\n\n# EXAMPLE:\n# Given [1,3,5,4], return 3.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,3,5,4]\n\n# OUTPUT:\n# 3\n\n# EXAMPLE:\n# Given [1,2,3,4], return 1.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,2,3,4]\n\n# OUTPUT:\n# 1\n\n# EXAMPLE:\n# Given [1,3,5,4], return 3.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,3,5,4]\n\n# OUTPUT:\n# 3\n\n# EXAMPLE:\n# Given [1,2,3,4], return 1.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,3,5,4]\n\n# OUTPUT:\n# 1\n\n# EXAMPLE:\n# Given [1,3,5,4], return 3.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,3,5,4]\n\n# OUTPUT:\n# 3\n\n# EXAMPLE:\n# Given [1,2,3,4], return 1.\n\ndef find_min(list):\n    return min(list)\n\n# INPUT:\n# list = [1,2,3,4]\n\n# OUTPUT:\n# 1\n\n# EXAMPLE:\n# Given [1,3,5,4], return 3.\n\ndef find_min("
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "# TODO: Implement your function\n# Hint: you can use a helper function to compute the min value\ndef minimum(list):\n    min_value = list[0]\n    for item in list:\n        if item < min_value:\n            min_value = item\n    return min_value\n\n# These are the tests we use to determine if your code works\ndef test_min(test_case):\n    actual = minimum(test_case)\n    expected = test_case[0]\n    if actual == expected:\n        return True\n    else:\n        return False\n\ndef test_min_fail(test_case):\n    actual = minimum(test_case)\n    expected = test_case[0]\n    if actual == expected:\n        return True\n    else:\n        return False\n\ndef test_min_fail2(test_case):\n    actual = minimum(test_case)\n    expected = test_case[0]\n    if actual == expected:\n        return True\n    else:\n        return False\n\ndef test_min_fail3(test_case):\n    actual = minimum(test_case)\n    expected = test_case[0]\n    if actual == expected:\n        return True\n    else:\n        return False\n\ntest_cases = [\n    [ [1, 2, 3], 1 ],\n    [ [1, 2, 2], 2 ],\n    [ [1, 2, 1, 3], 1 ],\n    [ [1, 2, 2, 2], 1 ],\n    [ [1, 2, 1, 3, 4], 1 ],\n    [ [1, 2, 2, 2, 2], 2 ],\n    [ [1, 2, 1, 3, 4, 5], 1 ],\n    [ [1, 2, 2, 2, 2, 2], 1 ],\n    [ [1, 2, 1, 3, 4, 5, 6], 1 ],\n    [ [1, 2, 2, 2, 2, 2, 2], 1 ],\n    [ [1, 2, 1, 3, 4, 5, 6, 7], 1 ],\n    [ [1, 2, 2, 2, 2, 2, 2, 2], 1 ],\n    [ [1, 2, 1,"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        elif n == 1:\n            return nums[0]\n        else:\n            left, right = 0, n-1\n            while left < right:\n                mid = left + (right - left)//2\n                if nums[mid] < nums[right]:\n                    left = mid + 1\n                else:\n                    right = mid\n            return nums[left] if nums[left] < nums[right] else nums[right]\n\n# Note:\n# This solution is not the best one.\n# 1. The code is too slow.\n# 2. The code is ugly.\n# 3. The code is not in the way of the question."
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "def min_list(my_list):\n    \"\"\"\n    :type my_list: List[int]\n    :rtype: int\n    \"\"\"\n    if my_list:\n        return min(my_list)\n    else:\n        return 0\n\n\nif __name__ == '__main__':\n    my_list = [1, 2, 3, 4]\n    print(min_list(my_list))\n    my_list = [3, 2, 1]\n    print(min_list(my_list))"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minMismatch(self, root: TreeNode, target: List[int]) -> int:\n        if not root:\n            return 0\n        return self.minMismatch(root.left, target) + self.minMismatch(root.right, target) + 1"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "def min_in_heap(heap):\n    \"\"\"\n    :type heap: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(heap)\n    if n == 0:\n        return None\n    elif n == 1:\n        return heap[0]\n    else:\n        l = heap[0]\n        r = heap[1]\n        for i in range(2, n):\n            if heap[i] < l:\n                l = heap[i]\n            elif heap[i] > r:\n                r = heap[i]\n        return min(l, r)\n\n# Your MinInHeap solution here."
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\n\nclass Solution(object):\n    def minValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if root is None:\n            return 0\n        ans = root.val\n        if root.left is not None:\n            ans = min(self.minValue(root.left), ans)\n        if root.right is not None:\n            ans = min(self.minValue(root.right), ans)\n        return ans"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nclass Solution:\n    def minValue(self, head: Node) -> int:\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        p = head\n        while p.next:\n            p = p.next\n        min = p.val\n        p = head\n        while p.next:\n            if p.next.val < min:\n                min = p.next.val\n            p = p.next\n        return min\n\n    def minValue1(self, head: Node) -> int:\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        p = head\n        while p.next:\n            p = p.next\n        min = p.val\n        p = head\n        while p.next:\n            if p.next.val < min:\n                min = p.next.val\n            p = p.next\n        return min\n\n    def minValue2(self, head: Node) -> int:\n        \"\"\"\n        :type head: Node\n        :rtype: int\n        \"\"\"\n        if not head:\n            return 0\n        p = head\n        while p.next:\n            if p.val < p.next.val:\n                p = p.next\n            else:\n                return p.val\n        return p.val"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution(object):\n    def minUtilValue(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        left = self.minUtilValue(root.left)\n        right = self.minUtilValue(root.right)\n        if left < right:\n            return left\n        else:\n            return right"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param {TreeNode[]} nodes\n    # @return {integer}\n    def findMin(self, nodes):\n        if not nodes:\n            return None\n        if not nodes[0]:\n            return nodes[0].val\n\n        left_min = self.findMin(nodes[:2])\n        right_min = self.findMin(nodes[2:])\n\n        if left_min is None:\n            return right_min\n        elif right_min is None:\n            return left_min\n        else:\n            return min(left_min, right_min)\n\n\nif __name__ == '__main__':\n    nodes = [TreeNode(0), TreeNode(0), TreeNode(0), TreeNode(0), TreeNode(1), TreeNode(2)]\n    print(Solution().findMin(nodes))"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "# Definition for a Node.\nclass Node:\n    def __init__(self, val, children):\n        self.val = val\n        self.children = children\n\nclass Solution:\n    def findMin(self, root: 'Node') -> int:\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        queue = [root]\n\n        while queue:\n            node = queue.pop(0)\n            if node.children:\n                queue.append(node.children[0])\n                queue.append(node.children[1])\n\n        return node.val"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "class Solution:\n    def getMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # use two pointers to find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        # else we have to go to next element\n        # while we are in the middle of the list, we can move both pointers\n        # and find min value\n        # if both pointers are pointing to same element, we have reached the end of list\n        # and min is found\n        #"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minHeterogeneity(self, root: TreeNode) -> int:\n        \"\"\"\n        Time: O(n)\n        Space: O(h)\n        \"\"\"\n        if not root:\n            return 0\n\n        h = self.getHeight(root)\n        return min(h, self.minHeterogeneity(root.left), self.minHeterogeneity(root.right))\n\n    def getHeight(self, node: TreeNode) -> int:\n        if not node:\n            return 0\n\n        return 1 + max(self.getHeight(node.left), self.getHeight(node.right))"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "def find_min(list):\n    \"\"\"\n    Write a function to find the minimum value in a given heterogeneous list.\n    \"\"\"\n    if not list:\n        return None\n    if len(list) == 1:\n        return list[0]\n    elif len(list) == 2:\n        return min(list)\n    else:\n        return min(list[:-1])\n\n\nif __name__ == '__main__':\n    list = [1, 2, 3, 4, 5]\n    print find_min(list)"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nfrom collections import defaultdict\n\n\nclass Solution:\n    # @param {TreeNode} root\n    # @return {integer}\n    def minDepth(self, root):\n        if not root:\n            return 0\n        if not root.left and not root.right:\n            return 1\n        if not root.left:\n            return self.minDepth(root.right)\n        if not root.right:\n            return self.minDepth(root.left)\n        return 1 + min(self.minDepth(root.left), self.minDepth(root.right))\n\n\nif __name__ == '__main__':\n    root = TreeNode(val=0, left=TreeNode(val=1, left=TreeNode(val=2), right=TreeNode(val=3)), right=TreeNode(val=4, left=TreeNode(val=5), right=TreeNode(val=6)))\n    sol = Solution()\n    print(sol.minDepth(root))"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    # @param root, a tree node\n    # @return an integer\n    def minDepth(self, root):\n        if not root:\n            return 0\n\n        if not root.left and not root.right:\n            return 1\n\n        min_depth = 1\n\n        if root.left:\n            min_depth = min(min_depth, self.minDepth(root.left))\n\n        if root.right:\n            min_depth = min(min_depth, self.minDepth(root.right))\n\n        return min_depth + 1"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass Solution:\n    def minValue(self, root: TreeNode) -> int:\n        \"\"\"\n        Time: O(n)\n        Space: O(n)\n        \"\"\"\n        if root is None:\n            return 0\n        if root.left is None and root.right is None:\n            return root.val\n        min_val = root.val\n        if root.left is not None:\n            min_val = self.minValue(root.left)\n        if root.right is not None:\n            min_val = self.minValue(root.right)\n        return min_val if min_val < root.val else root.val"
+    }
+  ]
+}

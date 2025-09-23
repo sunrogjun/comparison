@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/278",
+    "prompt": "Write a function to find the element count that occurs before the record in the given tuple.",
+    "canonical_solution": "def count_first_elements(test_tup):\r\n  for count, ele in enumerate(test_tup):\r\n    if isinstance(ele, tuple):\r\n      break\r\n  return (count) ",
+    "test_list": [
+      "assert count_first_elements((1, 5, 7, (4, 6), 10) ) == 3",
+      "assert count_first_elements((2, 9, (5, 7), 11) ) == 2",
+      "assert count_first_elements((11, 15, 5, 8, (2, 3), 8) ) == 4"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 267
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def find_record_count(tup, record):\n    count = 0\n    for i in tup:\n        if i == record:\n            return count\n        count += 1\n\n\nprint(find_record_count((1, 1, 4, 2, 3, 5, 4, 5, 2, 6, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1), 2))\nprint(find_record_count((1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), 1))\nprint(find_record_count((1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), 2))\nprint(find_record_count((1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), 3))",
+      7.2890625
+    ],
+    [
+      "def count_before_record(tup, record):\n    # Your code goes here\n    for i in range(0, len(tup) - 1):\n        if tup[i] == record:\n            return i\n    return -1\n\n\nprint(count_before_record((1, 2, 3, 4, 5, 6, 7, 8, 9), 6))\nprint(count_before_record((1, 2, 3, 4, 5, 6, 7, 8, 9), 8))\nprint(count_before_record((1, 2, 3, 4, 5, 6, 7, 8, 9), 0))",
+      6.8515625
+    ],
+    [
+      "def count_before_record(nums, target):\n    \"\"\"\n    :param nums: tuple of integers\n    :param target: integer\n    :return: int\n    \"\"\"\n    if target not in nums:\n        return -1\n\n    nums_len = len(nums)\n    if nums_len == 1:\n        return 0\n\n    for i in range(nums_len - 1):\n        if nums[i] == target:\n            return i\n\n\nprint(count_before_record((2, 5, 6, 8, 10, 11, 12), 10))\nprint(count_before_record((2, 5, 6, 8, 10, 11, 12), 13))",
+      3.23046875
+    ],
+    [
+      "def count_before_record(lst, record):\n    for i, value in enumerate(lst):\n        if value == record:\n            return i\n\n\ndef test_count_before_record():\n    assert count_before_record([1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 7, 8, 9], 5) == 4\n    assert count_before_record([1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 7, 8, 9], 1) == 0\n    assert count_before_record([1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 7, 8, 9], 9) == 12\n    assert count_before_record([1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 7, 8, 9], 8) == 11\n\n\nif __name__ == '__main__':\n    test_count_before_record()",
+      2.380859375
+    ],
+    [
+      "def count_before_record(record, tuple_list):\n    \"\"\"\n    record -- the record to look for\n    tuple_list -- the list of tuples to search\n    \"\"\"\n    # your code here\n    for i in range(len(tuple_list)):\n        if record == tuple_list[i]:\n            return i\n    return 0\n\ndef test_count_before_record():\n    \"\"\"\n    Testing the count_before_record function\n    >>> count_before_record((5, 7, 2), [(0, 4, 9), (2, 7, 1), (5, 7, 2)])\n    2\n    >>> count_before_record((1, 1, 1), [(1, 1, 1), (2, 2, 2)])\n    0\n    >>> count_before_record((1, 1, 1), [(2, 2, 2), (1, 1, 1)])\n    0\n    >>> count_before_record((10, 10, 10), [(10, 10, 10)])\n    0\n    >>> count_before_record((10, 10, 10), [])\n    0\n    \"\"\"\n    pass\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      1.1171875
+    ],
+    [
+      "def count_before_record(arr, record):\n    for i in range(len(arr)):\n        if arr[i] == record:\n            return i\n\n\nif __name__ == \"__main__\":\n    print(count_before_record([1, 2, 3, 3, 3, 4, 5], 3))",
+      0.984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_element_before_record(arr, rec):\n    # Find the frequency of each element in the array\n    count = Counter(arr)\n    # Iterate over the elements in the array\n    for i in range(len(arr)):\n        # If the element is equal to the record\n        if arr[i] == rec:\n            # Find the frequency of the previous element\n            return count[arr[i-1]]\n\n\nprint(find_element_before_record([1, 2, 3, 4, 5, 6], 4))",
+      0.97802734375
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_before(arr):\n    \"\"\"Return the element that occurs before the record.\"\"\"\n    if len(arr) < 2:\n        raise ValueError(\"There is no element before the record.\")\n\n    counter = Counter(arr)\n    max_count = max(counter.values())\n    return [k for k, v in counter.items() if v == max_count][0]\n\n\nif __name__ == \"__main__\":\n    print(element_before((1, 2, 3, 3, 3, 3, 4, 5, 5)))\n    print(element_before((1, 1, 1)))\n    print(element_before((1, 1, 2, 2, 3, 3)))\n    print(element_before((1, 2, 3, 4, 5)))",
+      0.7978515625
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_before_record(nums, record):\n    \"\"\"\n    :param nums: tuple of integers\n    :param record: integer\n    :return: integer\n    \"\"\"\n    c = Counter(nums)\n    for k, v in c.items():\n        if k < record:\n            return v\n\n\n# tests\nassert element_before_record((1, 2, 3, 3, 4, 5), 3) == 2",
+      0.7958984375
+    ],
+    [
+      "def count_before_record(arr, record):\n    \"\"\"Returns the number of elements that occurs before the record.\n\n    Args:\n        arr (list): List of integers.\n        record (int): Record integer.\n\n    Returns:\n        int: Number of elements that occurs before the record.\n    \"\"\"\n    counter = 0\n    for i in range(len(arr)):\n        if arr[i] == record:\n            break\n        else:\n            counter += 1\n    return counter\n\n\ndef test_count_before_record():\n    \"\"\"Test for count_before_record function.\"\"\"\n    assert count_before_record([1, 2, 3, 3, 3, 4, 5], 3) == 2\n    assert count_before_record([1, 1, 2, 5, 6, 6, 6, 7, 8, 8], 6) == 3\n\n\nif __name__ == \"__main__\":\n    test_count_before_record()",
+      0.48486328125
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count_before_record(arr, record):\n    count = Counter(arr)\n    return sum(count[x] for x in count if x < record)\n\n\ndef test_element_count_before_record():\n    assert element_count_before_record([1, 2, 2, 3, 3, 3, 4, 5], 3) == 2\n    assert element_count_before_record([1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5], 2) == 4\n    assert element_count_before_record([1, 2, 3, 4, 5], 1) == 0\n    assert element_count_before_record([1, 2, 3, 4, 5], 5) == 4\n\n\nif __name__ == '__main__':\n    test_element_count_before_record()",
+      0.06549072265625
+    ],
+    [
+      "def element_before_record(tup, record):\n    \"\"\"\n    Return the element before the record in the given tuple.\n    >>> element_before_record((1, 2, 3, 4, 5), 3)\n    2\n    >>> element_before_record((1, 2, 3, 4, 5), 1)\n    -1\n    >>> element_before_record((1, 2, 3, 4, 5), 5)\n    -1\n    \"\"\"\n    if record < min(tup):\n        return -1\n    elif record > max(tup):\n        return -1\n    else:\n        for i in range(len(tup)):\n            if tup[i] == record:\n                if i == 0:\n                    return -1\n                else:\n                    return tup[i - 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.02142333984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count(arr, val):\n    return Counter(arr)\n\n\ndef before(arr, val):\n    return count(arr, val).most_common()[0][1]\n\n\ndef test_before():\n    assert before([1, 2, 2, 3, 3, 3, 4, 4, 4, 4], 3) == 2\n    assert before([1, 1, 2, 5, 2], 2) == 1\n\n\nif __name__ == \"__main__\":\n    test_before()",
+      -0.26171875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before_record(data, record):\n    \"\"\"Find the element count that occurs before the record in the given tuple.\n\n    Args:\n        data (tuple): A tuple of elements.\n        record (object): The record to find the element count that occurs before it.\n\n    Returns:\n        int: The element count that occurs before the record in the given tuple.\n    \"\"\"\n    counter = Counter(data)\n    for key, value in counter.most_common():\n        if key == record:\n            return value - 1\n\n\nif __name__ == \"__main__\":\n    print(count_before_record((1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 7, 8), 5))",
+      -0.77587890625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count(data):\n    \"\"\"Count the element that occurs before the record in the given tuple.\"\"\"\n    counter = Counter(data)\n    record = data[-1]\n    return counter[record] - 1",
+      -0.85595703125
+    ],
+    [
+      "def count(t):\n    # Your code here\n    count = 0\n    for i in t:\n        count += 1\n        if i == 2:\n            return count - 1\n    return count\n\nt = (1, 2, 3, 4, 5, 2, 2, 2, 1)\nprint(count(t))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(tup, record):\n    return Counter(tup)[:record]\n\n\nif __name__ == \"__main__\":\n    print(count_before((1, 2, 3, 4, 5, 5, 5, 5, 6, 7), 5))",
+      -0.85693359375
+    ],
+    [
+      "def count_before_record(arr, record):\n    \"\"\"\n    :param: arr - input array\n    :param: record - record value\n    return: int\n    \"\"\"\n    # TODO: Write your solution here\n    if record in arr:\n        return arr.index(record)\n    return -1\n\n\n# Test cases\nprint(count_before_record([1, 2, 3, 3, 4, 5], 3))\nprint(count_before_record([1, 2, 3, 3, 4, 5], 30))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count(data):\n    \"\"\"\n    >>> count((1, 2, 3, 4, 5, 4, 5, 6, 5, 6, 7, 8, 9, 9, 9, 9))\n    4\n    \"\"\"\n    counts = Counter(data)\n    return next(\n        x\n        for x, count in counts.most_common()\n        if count > 1\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "def find_record_count(tup, record):\n    for i, num in enumerate(tup):\n        if num == record:\n            return i\n    return None\n\n\nprint(find_record_count((1, 2, 3, 4, 5, 6), 4))",
+      -0.85693359375
+    ],
+    [
+      "def element_count(num):\n    \"\"\"\n    Takes a tuple and returns the number of elements before the record\n    :param num: tuple of ints\n    :return: int\n    \"\"\"\n    return num.count(num[-1])\n\n\nprint(element_count((1, 1, 2, 3, 1)))\nprint(element_count((1, 1, 2, 3, 2)))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_count(tup):\n    tup = tuple(sorted(tup))\n    c = Counter(tup)\n    count = c[tup[-1]]\n    return count\n\n\nif __name__ == \"__main__\":\n    print(get_count((4, 5, 2, 2, 4, 5, 1)))\n    print(get_count((1, 2, 2, 3, 3, 4, 4, 4, 4)))\n    print(get_count((1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5)))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_element(tup, elem):\n    if not isinstance(tup, tuple):\n        raise TypeError(\"tup must be a tuple\")\n    if not isinstance(elem, int):\n        raise TypeError(\"elem must be an int\")\n    if elem not in tup:\n        raise ValueError(\"elem must be an element in tup\")\n\n    c = Counter(tup)\n    c = dict(c)\n    return c[elem]\n\n\nif __name__ == \"__main__\":\n    print(before_element((1, 2, 3, 4, 5), 4))",
+      -0.85693359375
+    ],
+    [
+      "def element_count(tup, record):\n    return tup.count(record) - 1\n\n\nprint(element_count((3, 4, 5, 5, 5, 5, 6, 6, 6, 7, 8), 5))",
+      -0.85693359375
+    ],
+    [
+      "def count(tup):\n    \"\"\"\n    :param tup:\n    :return:\n    \"\"\"\n    return tup[0]\n\n\nprint(count((3, 1, 2, 3)))",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(tup, record):\n    counts = Counter(tup)\n    return counts[record] - 1\n\n\nif __name__ == \"__main__\":\n    assert count_before((1, 2, 3, 4, 5, 6), 3) == 2",
+      -0.85693359375
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_element_count(tup, rec):\n    return list(Counter(tup).keys())[list(Counter(tup).values()).index(rec)]\n\n\nif __name__ == \"__main__\":\n    tup = (\"A\", \"A\", \"A\", \"B\", \"A\", \"C\", \"A\", \"A\", \"A\", \"B\", \"C\")\n    rec = 2\n    print(get_element_count(tup, rec))",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_count(array):\n    counter = Counter(array)\n    index = array.index(max(counter.keys()))\n    return counter[array[index]]\n\n\nprint(before_count((1, 2, 3, 3, 3, 3, 4, 5)))",
+      -0.85791015625
+    ],
+    [
+      "def element_count(tup):\n    return tup[0] + tup[1] - 1\n\n\nif __name__ == '__main__':\n    print(element_count((2, 4)))",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_record(tup, record):\n    c = Counter(tup)\n    return [k for k in c.keys() if c[k] < record][0]\n\n\nprint(find_record((2, 2, 3, 3, 3, 4, 5, 5, 5, 5), 4))",
+      -0.85791015625
+    ],
+    [
+      "def count_before_record(tup, record):\n    for i in range(len(tup)):\n        if tup[i] == record:\n            return i\n\n\nif __name__ == \"__main__\":\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9)\n    record = 8\n    print(count_before_record(tup, record))",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count(tup, record):\n    count = Counter(tup)\n    return count[record]\n\n\nif __name__ == \"__main__\":\n    print(element_count((1, 2, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 7, 8), 6))",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count(data):\n    counter = Counter(data)\n    return counter.most_common()[0][1]\n\n\ndef main():\n    print(\"The count of elements before the record: \" +\n          str(element_count((1, 3, 5, 7, 7, 7, 8, 8))))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "def before(tuple_of_tuples, record):\n    for i in range(len(tuple_of_tuples) - 1, 0, -1):\n        if tuple_of_tuples[i][1] < record:\n            return tuple_of_tuples[i][0]\n\n\nprint(before([(1, 2), (3, 4), (4, 5)], 3))\nprint(before([(1, 2), (3, 4), (4, 5)], 5))",
+      -0.8583984375
+    ],
+    [
+      "def count_before(tup):\n    # Your code goes here\n    # count = tup.count(tup[0])\n    # return count\n    # return tup.count(tup[0])\n    # return tup.count(tup[0])\n    return tup.count(tup[0])\n\n\nprint(count_before((1, 2, 3, 4, 5, 6, 6, 6)))",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(numbers: tuple) -> int:\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\"\"\"\n    return sum(Counter(numbers)[:numbers.index(max(numbers))])\n\n\nif __name__ == \"__main__\":\n    print(count_before((1, 1, 1, 2, 3, 3, 4, 5, 6, 6)))",
+      -0.85888671875
+    ],
+    [
+      "def find_before_element(tup):\n    # Your code here\n    # tup = tuple(tup)\n    count = 0\n    for i in range(len(tup)):\n        if tup[i] == 1:\n            return count\n        else:\n            count += 1\n\n\nprint(find_before_element((0, 1, 0, 1, 0, 1)))",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(lst, element):\n    return Counter(lst)\n\n\nif __name__ == \"__main__\":\n    print(count_before([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10))",
+      -0.85888671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before_record(arr, record):\n    \"\"\"\n    :param: arr - input array\n    :param: record - record value\n    return the count of elements present in arr just before the record value\n\n    eg:\n    Input arr : [1 2 3 4 5 6 6 6 6 6]\n    Input record : 6\n    Output : 4\n\n    \"\"\"\n    # Get the count of each element\n    count = Counter(arr)\n    # Get the previous record count\n    previous_record = count[record]\n    # Iterate over the array and keep adding the count of each element\n    # until the element is not equal to the previous record count\n    count_of_elements_before_record = 0\n    for element in arr:\n        if count[element] == previous_record:\n            count_of_elements_before_record += 1\n        else:\n            return count_of_elements_before_record",
+      -0.85888671875
+    ],
+    [
+      "def count_before_record(a, b):\n    for i in range(0, len(a)):\n        if a[i] == b:\n            return i\n\na = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nb = 6\nprint(count_before_record(a, b))",
+      -0.85888671875
+    ],
+    [
+      "def element_count(data):\n    return data[0]\n\n\nif __name__ == \"__main__\":\n    element_count(((10, 10), (10, 20), (10, 20, 30)))",
+      -0.86083984375
+    ],
+    [
+      "def get_count(record, data):\n    return data[data.index(record) - 1]\n\n\nif __name__ == \"__main__\":\n    data = [1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 7, 8, 9]\n    record = 5\n    print(get_count(record, data))",
+      -0.86083984375
+    ],
+    [
+      "def count_before_record(data, record):\n    if record in data:\n        return data.index(record)\n    else:\n        return None\n\n\nif __name__ == \"__main__\":\n    data = (1, 2, 3, 4, 5, 6, 7, 8, 9)\n    print(count_before_record(data, 5))",
+      -0.86083984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_count(tup):\n    counter = Counter(tup)\n    for i in range(1, len(tup)):\n        if tup[i] != tup[i - 1]:\n            return i - 1\n    return None\n\n\nif __name__ == '__main__':\n    print(before_count((1, 2, 3, 3, 4, 5)))",
+      -0.86083984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_occurence(arr, record):\n    \"\"\"\n    :param arr: list of integers\n    :param record: integer\n    :return: integer\n    \"\"\"\n    # Your code goes here\n    # arr.sort()\n    count_dict = Counter(arr)\n    for key in count_dict.keys():\n        if key < record:\n            return count_dict[key]\n\n    return 0\n\n\nbefore_occurence([1, 3, 2, 1, 4], 3) == 2",
+      -0.86083984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_before_record(tup, record):\n    \"\"\"\n    :param tup: tuple of integers\n    :param record: integer\n    :return: int\n    \"\"\"\n    # Your code here\n    count = Counter(tup)\n    return count[record]\n\n\nif __name__ == '__main__':\n    # Run Tests\n    print(find_before_record((2, 3, 5, 6, 6, 6, 6, 7, 7), 3))",
+      -0.86083984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count_before_record(counts, record):\n    count_dict = Counter(counts)\n    return len(count_dict) - count_dict[record]\n\n\nif __name__ == \"__main__\":\n    counts = (1, 2, 3, 4, 5, 5, 5, 7, 8, 9)\n    record = 5\n    print(element_count_before_record(counts, record))",
+      -0.86083984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_record_count(tup, record):\n    c = Counter(tup)\n    return c[record]\n\n\nif __name__ == \"__main__\":\n    print(get_record_count((1, 2, 3, 2, 1, 1, 2, 3, 2, 4, 5, 2, 1, 1, 2, 3, 2), 2))",
+      -0.9208984375
+    ],
+    [
+      "def find_count(tup, record):\n    # your code goes here\n    count = 0\n    for i in tup:\n        count += 1\n        if i == record:\n            return count\n\nif __name__ == '__main__':\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 2))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 3))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 1))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 4))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 5))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 6))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 7))\n    print(find_count((1, 2, 3, 4, 5, 3, 1), 8))",
+      -1.2236328125
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count(arr, n):\n    counter = Counter(arr)\n    for i in range(n, len(arr)):\n        if arr[i] in counter:\n            return counter[arr[i]]\n\n\nif __name__ == \"__main__\":\n    print(element_count([1, 2, 3, 3, 4, 5], 5))",
+      -1.2392578125
+    ],
+    [
+      "def count_before(nums):\n    return nums[0] - 1\n\n\n# count_before((1, 2, 3, 4, 5))\nprint(count_before((1, 2, 3, 4, 5)))",
+      -1.4326171875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(tup, rec):\n    \"\"\"\n    Given a tuple and a record, count how many elements in the tuple occurs before the record.\n\n    :param tup: tuple\n    :param rec: record\n    :return: int, count of elements before the record\n\n    >>> count_before((1, 2, 3, 4, 5, 6), 4)\n    2\n    >>> count_before((1, 2, 3, 4, 5, 6), 6)\n    5\n    >>> count_before((1, 2, 3, 4, 5, 6), 3)\n    0\n    \"\"\"\n    tup = list(tup)\n    tup.reverse()\n    cnt = Counter(tup)\n    for k, v in cnt.items():\n        if k > rec:\n            return v\n\n    return 0\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      -1.529296875
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_record(tup, record):\n    \"\"\"return count of elements that appear before record\n\n    Args:\n        tup (tuple): of ints\n        record (int): record to find count of elements that appear before\n\n    Returns:\n        int: count of elements that appear before record\n    \"\"\"\n    counts = Counter(tup)\n    return counts[record]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 9, 5),\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 1, 2),\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 3, 4),\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 5, 6),\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 6, 6),\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 10, 0),\n        ((3, 1, 4, 1, 5, 9, 2, 6, 5, 3), 0, 0),\n    ]\n    for tup, record, expected in test_cases:\n        assert before_record(tup, record) == expected",
+      -1.7568359375
+    ],
+    [
+      "from collections import Counter\nfrom typing import List, Tuple\n\n\ndef count_before_record(record: Tuple[int, int], elements: List[int]) -> int:\n    \"\"\"Find the element count that occurs before the record in the given tuple.\n\n    Args:\n        record (Tuple[int, int]): a tuple of two integers\n        elements (List[int]): a list of integers\n\n    Returns:\n        int: the count of elements before the record\n    \"\"\"\n    count = 0\n    for i in elements:\n        if i <= record[0]:\n            count += 1\n        if i == record[1]:\n            break\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_before_record((4, 10), [4, 5, 8, 9, 10]) == 3\n    assert count_before_record((13, 17), [4, 5, 8, 9, 10]) == 5\n    assert count_before_record((0, 1), [4, 5, 8, 9, 10]) == 0",
+      -1.8427734375
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_before(tup, rec):\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\n\n    Args:\n        tup (tuple): A tuple of integers.\n        rec (int): A record value.\n\n    Returns:\n        int: The element count that occurs before the record in the given tuple.\n    \"\"\"\n    cnt = Counter(tup)\n    for i in range(rec - 1):\n        cnt[i] += 1\n    return cnt[rec - 1]\n\n\nif __name__ == \"__main__\":\n    tup = (1, 2, 3, 3, 3, 4, 4, 4, 4, 5, 6)\n    print(element_before(tup, 3))\n    print(element_before(tup, 6))",
+      -1.9033203125
+    ],
+    [
+      "def find_element(tup, n):\n    return tup.index(n)\n\n\nif __name__ == \"__main__\":\n    print(find_element((1, 2, 4, 5, 7, 8, 10), 8))\n    print(find_element((1, 2, 4, 5, 7, 8, 10), 10))\n    print(find_element((1, 2, 4, 5, 7, 8, 10), 7))\n    print(find_element((1, 2, 4, 5, 7, 8, 10), 1))\n    print(find_element((1, 2, 4, 5, 7, 8, 10), 4))",
+      -1.9140625
+    ],
+    [
+      "def count_before_record(tuples, record):\n    # Loop over the tuples\n    for i in range(len(tuples)):\n        if tuples[i][0] == record:\n            # Return the count\n            return tuples[i - 1][1]\n\n\nif __name__ == '__main__':\n    print(count_before_record([(10, 1), (20, 2), (21, 3)], 20))\n    print(count_before_record([(10, 1), (11, 2), (12, 3)], 10))\n    print(count_before_record([(10, 1), (11, 2), (12, 3)], 11))\n    print(count_before_record([(10, 1), (11, 2), (12, 3)], 12))\n    print(count_before_record([(10, 1), (11, 2), (12, 3)], 13))\n    print(count_before_record([(10, 1), (11, 2), (12, 3)], 9))",
+      -1.91796875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(tup, record):\n    c = Counter(tup)\n    before = 0\n    for key in c:\n        if key < record:\n            before += c[key]\n    return before\n\n\nprint(count_before((1, 2, 3, 4, 5), 2))\nprint(count_before((1, 2, 3, 4, 5), 3))\nprint(count_before((1, 2, 3, 4, 5), 4))\nprint(count_before((1, 2, 3, 4, 5), 5))\nprint(count_before((1, 2, 3, 4, 5), 6))\nprint(count_before((1, 2, 3, 4, 5), 1))\nprint(count_before((1, 2, 3, 4, 5), 0))",
+      -2.025390625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before_record(arr, record):\n    count_dict = Counter(arr)\n    return sum(count_dict[i] for i in range(record))\n\n\nif __name__ == \"__main__\":\n    assert count_before_record([1, 2, 3, 3, 3, 3, 4, 5], 3) == 3\n    assert count_before_record([1, 2, 3, 3, 4, 5], 6) == 0\n    assert count_before_record([1, 1, 2, 2, 2, 2], 1) == 1\n    assert count_before_record([1, 2, 2, 3, 3, 3], 1) == 0",
+      -2.06640625
+    ],
+    [
+      "def before_record(tup, record):\n    for i in range(len(tup)):\n        if tup[i] == record:\n            return i\n    return -1\n\n\nprint(before_record((1, 2, 3, 4, 5), 3))\nprint(before_record((1, 2, 3, 4, 5), 6))",
+      -2.10546875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count(tup: tuple) -> int:\n    \"\"\"\n    >>> count((1, 2, 3, 3, 2, 1, 4, 5, 6, 6, 5, 4, 1))\n    3\n    >>> count((1, 1, 1, 1, 1, 1, 1))\n    0\n    \"\"\"\n    c: Counter = Counter(tup)\n\n    for k, v in c.items():\n        if v > tup.count(k):\n            return k\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.134765625
+    ],
+    [
+      "def find_count_before_record(tup, record):\n    if record in tup:\n        return tup.index(record) - 1\n    return -1\n\n\nif __name__ == \"__main__\":\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n    record = 5\n    print(find_count_before_record(tup, record))\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n    record = 10\n    print(find_count_before_record(tup, record))\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n    record = 100\n    print(find_count_before_record(tup, record))",
+      -2.16796875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before_record(records: tuple[int, int], record: int) -> int:\n    \"\"\"Return the element count that occurs before the record.\n\n    Time complexity: O(n).\n    Space complexity: O(n).\n    \"\"\"\n    # Edge case.\n    if not records:\n        return 0\n\n    # Find the record index.\n    record_index = -1\n\n    for i, r in enumerate(records):\n        if r == record:\n            record_index = i\n            break\n\n    # Edge case.\n    if record_index == -1:\n        return 0\n\n    # Iterate through the records before the record.\n    count = 0\n    for i in range(record_index):\n        if records[i] == record:\n            count += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_before_record((1, 2, 3, 3, 4, 5, 6, 7, 7, 8, 9), 7) == 3\n    assert count_before_record((1, 2, 3, 3, 4, 5, 6, 7, 7, 8, 9), 8) == 4\n    assert count_before_record((1, 2, 3, 3, 4, 5, 6, 7, 7, 8, 9), 1) == 0\n    assert count_before_record((1, 2, 3, 3, 4, 5, 6, 7, 7, 8, 9), 3) == 0\n    assert count_before_record((1, 2, 3, 3, 4, 5, 6, 7, 7, 8, 9), 9) == 9",
+      -2.298828125
+    ],
+    [
+      "def element_count(tup, record):\n    \"\"\"\n    >>> element_count((\"A\", \"B\", \"C\", \"D\", \"E\", \"A\", \"B\", \"C\"), \"A\")\n    1\n    >>> element_count((\"A\", \"B\", \"C\", \"D\", \"E\", \"A\", \"B\", \"C\"), \"B\")\n    3\n    >>> element_count((\"A\", \"B\", \"C\", \"D\", \"E\", \"A\", \"B\", \"C\"), \"C\")\n    5\n    >>> element_count((\"A\", \"B\", \"C\", \"D\", \"E\", \"A\", \"B\", \"C\"), \"D\")\n    7\n    >>> element_count((\"A\", \"B\", \"C\", \"D\", \"E\", \"A\", \"B\", \"C\"), \"E\")\n    8\n    \"\"\"\n    return len(list(filter(lambda x: x == record, tup)))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.298828125
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_record(count_list, record):\n    counter = Counter(count_list)\n    for key, value in counter.items():\n        if key <= record:\n            return value\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(before_record((1, 2, 3, 3, 5, 5, 5, 5, 6), 3))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert before_record((1, 2, 3, 3, 5, 5, 5, 5, 6), 3) == 3\n    assert before_record((1, 1, 2, 5, 2), 5) == 2\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      -2.302734375
+    ],
+    [
+      "def get_count(tuple_of_counts):\n    \"\"\"\n    tuple_of_counts = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)\n    \"\"\"\n    for index, count in enumerate(tuple_of_counts):\n        if index > 0 and count < tuple_of_counts[index - 1]:\n            return index\n\n    return None\n\ndef main():\n    \"\"\"\n    tuple_of_counts = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)\n    \"\"\"\n    assert get_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)) == 1\n    assert get_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)) == 2\n    assert get_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)) == 3\n    assert get_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)) == 4\n    assert get_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)) == 5\n    assert get_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1",
+      -2.6015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(records: tuple, record: int) -> int:\n    \"\"\"Returns the count of element before the record.\n\n    Args:\n        records (tuple): tuple of elements\n        record (int): record to search\n\n    Returns:\n        int: count of elements before record\n    \"\"\"\n    return Counter(records)[:record].most_common()[-1][1]\n\n\nif __name__ == \"__main__\":\n    print(count_before((3, 5, 7, 9, 11), 11))\n    print(count_before((1, 3, 5, 7, 9), 5))\n    print(count_before((1, 3, 5, 7, 9), 1))",
+      -2.63671875
+    ],
+    [
+      "def count_before_record(tup, record):\n    \"\"\"\n    >>> count_before_record((1, 2, 3, 3, 3, 4, 5), 3)\n    3\n    >>> count_before_record((1, 2, 3, 3, 3, 4, 5), 4)\n    5\n    >>> count_before_record((1, 2, 3, 3, 3, 4, 5), 0)\n    0\n    >>> count_before_record((1, 2, 3, 3, 3, 4, 5), 6)\n    7\n    >>> count_before_record((1, 2, 3, 3, 3, 4, 5), 3.3)\n    Traceback (most recent call last):\n        ...\n    AssertionError: record must be an integer\n    \"\"\"\n    assert isinstance(record, int), \"record must be an integer\"\n    count = 0\n    for elem in tup:\n        count += 1\n        if elem == record:\n            break\n    return count - 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -2.720703125
+    ],
+    [
+      "from collections import Counter\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef get_count(data, record):\n    count = Counter(data)\n    for key, val in count.items():\n        if key < record:\n            return val\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef get_count_2(data, record):\n    count = 0\n    for i in range(len(data)):\n        if data[i] < record:\n            return count\n        count += 1\n\n\n# Time complexity O(log n)\n# Space complexity O(1)\ndef get_count_3(data, record):\n    left = 0\n    right = len(data) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if data[mid] < record:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return left\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef get_count_4(data, record):\n    count = 0\n    for i in range(len(data)):\n        if data[i] < record:\n            return count\n        count += 1\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef get_count_5(data, record):\n    count = 0\n    for i in range(len(data)):\n        if data[i] < record:\n            return count\n        count += 1\n\n\ndef main():\n    data = [2, 3, 5, 6, 8, 10, 12, 15]\n    record = 12\n    print(get_count(data, record))\n    print(get_count_2(data, record))\n    print(get_count_3(data, record))\n    print(get_count_4(data, record))\n    print(get_count_5(data, record))\n\n\nmain()",
+      -2.775390625
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(tup):\n    \"\"\"\n    :param tup: tuple\n    :return: int\n    \"\"\"\n    c = Counter(tup)\n    return c.most_common()[0][1]\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = count_before(test_input)\n    if test_actual == test_expected:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(((1, 1, 2, 3, 4, 5, 6, 6, 7, 12), 6))\ntest_function(((1, 1, 2, 3, 4, 5, 6, 6, 7, 12), 12))\ntest_function(((1, 1, 1, 2, 2, 3, 4, 5, 6, 6), 1))\ntest_function(((1, 2, 2, 3, 4, 5, 6, 6, 7, 12), 12))",
+      -2.87109375
+    ],
+    [
+      "def count_before_record(data: tuple, record: int) -> int:\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\n\n    >>> count_before_record((1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6), 5)\n    7\n    >>> count_before_record((1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6), 4)\n    4\n    >>> count_before_record((1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6), 6)\n    11\n    >>> count_before_record((1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6), 1)\n    0\n    \"\"\"\n    for index, element in enumerate(data):\n        if element == record:\n            return index",
+      -2.88671875
+    ],
+    [
+      "def element_count(tup):\n    \"\"\"\n    >>> element_count(())\n    -1\n    >>> element_count((1, 2))\n    0\n    >>> element_count((1, 2, 2, 3, 3, 4, 5, 2, 2, 2))\n    4\n    >>> element_count((1, 2, 2, 2, 2, 2, 2, 2))\n    0\n    \"\"\"\n    if len(tup) < 2:\n        return -1\n\n    count = 0\n    for i in range(1, len(tup)):\n        if tup[i] != tup[i - 1]:\n            count += 1\n        if count == tup[i - 1]:\n            return count\n    return -1\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.37890625
+    ],
+    [
+      "def element_count(count, record):\n    for i in range(len(count)):\n        if count[i] < record:\n            return i\n\n\nif __name__ == \"__main__\":\n    count = (2, 3, 5, 6, 8, 9)\n    record = 5\n    print(element_count(count, record))",
+      -3.587890625
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count(tup):\n    c = Counter(tup)\n    return c.most_common()[1][1]\n\n\nif __name__ == \"__main__\":\n    print(element_count((1, 2, 3, 4, 5, 5, 5, 5, 5, 6)))",
+      -3.587890625
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_count(tup, record):\n    cnt = Counter(tup)\n    return cnt.most_common()[-2][1]\n\n\nif __name__ == \"__main__\":\n    print(before_count((1, 2, 3, 3, 3, 3, 4, 5), 3))\n    print(before_count((1, 1, 2, 5, 5, 5, 5, 6, 6, 7, 10), 5))",
+      -3.587890625
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_before_count(tup, record):\n    \"\"\"\n    :param tup: tuple\n    :param record: int\n    :return: int\n    \"\"\"\n    return [key for key, value in Counter(tup).items() if value == 1][0]\n\n\nprint(get_before_count((1, 2, 3, 4, 4, 4, 5, 6, 1, 7, 8), 4))",
+      -3.587890625
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_element_count(tup, record):\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\n\n    Args:\n        tup (tuple): The tuple to search.\n        record (object): The record to search for.\n\n    Returns:\n        int: The element count that occurs before the record in the given tuple.\n\n    Examples:\n        >>> get_element_count((1, 2, 2, 3, 4), 2)\n        2\n        >>> get_element_count((1, 1, 2, 2, 3), 2)\n        1\n        >>> get_element_count((1, 2, 3, 4), 2)\n        1\n        >>> get_element_count((1, 2, 2, 3, 4), 5)\n        4\n        >>> get_element_count((1, 2, 3, 4), 5)\n        4\n    \"\"\"\n    tup_counter = Counter(tup)\n    record_count = tup_counter[record]\n\n    if record_count == 0:\n        return len(tup)\n\n    for i, tup_val in enumerate(tup):\n        if tup_val == record:\n            return i - record_count + 1\n\n    return len(tup)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod(verbose=True)",
+      -3.63671875
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_element_count(tup: tuple) -> int:\n    \"\"\"\n    >>> before_element_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))\n    3\n    >>> before_element_count((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16))\n    3\n    \"\"\"\n    # your code goes here\n    d = {}\n    c = Counter(tup)\n    for i in c:\n        d[i] = c[i]\n    if len(d) == 1:\n        return 0\n    for i in range(len(d) - 1):\n        if d[tup[i]] < d[tup[i + 1]]:\n            return d[tup[i]]\n    return len(tup) - 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -3.75390625
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_before_record(array, record):\n    count = Counter(array)\n    result = 0\n    for key, value in count.items():\n        if key == record:\n            return result\n        result += value\n    return result\n\n\nif __name__ == \"__main__\":\n    print(find_before_record([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 6))\n    print(find_before_record([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 1))\n    print(find_before_record([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 13))\n    print(find_before_record([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 14))",
+      -3.796875
+    ],
+    [
+      "def count_before(arr):\n    \"\"\"Returns the count of the element before the record in the given tuple.\n\n    Args:\n        arr (tuple): A tuple with at least 2 elements.\n\n    Returns:\n        int: The count of the element before the record.\n    \"\"\"\n    return arr[1] - arr[0] - 1\n\n\nif __name__ == '__main__':\n    print(count_before((3, 5)))\n    print(count_before((1, 2, 3, 4, 5)))\n    print(count_before((-1, 1, 2, 3, 4, 5)))\n    print(count_before((1, 2, 3, 4, 5, 6)))\n    print(count_before((1, 2, 3, 4, 5, 6, 7)))",
+      -4.23046875
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(array):\n    counts = Counter(array)\n    sorted_keys = sorted(counts.keys())\n    return counts[sorted_keys[-2]]\n\n\nif __name__ == \"__main__\":\n    print(count_before((1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,",
+      -4.3125
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count(nums: tuple) -> int:\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\n\n    Args:\n        nums (tuple): input tuple.\n\n    Examples:\n        >>> assert element_count((1, 2, 3, 3, 3, 3, 4, 5)) == 3\n        >>> assert element_count((1, 1, 1, 1, 1, 2, 2, 2)) == 1\n        >>> assert element_count((1, 1, 2, 2, 2, 2, 2, 2)) == 2\n        >>> assert element_count((1, 1, 1, 2, 2, 2, 2, 2)) == 1\n    \"\"\"\n    # 1. Your code here\n    # 2. Return the result\n    return nums.count(nums[nums.index(max(nums)) - 1])\n\n\nif __name__ == \"__main__\":\n    print(element_count((1, 2, 3, 3, 3, 3, 4, 5)))\n    print(element_count((1, 1, 1, 1, 1, 2, 2, 2)))\n    print(element_count((1, 1, 2, 2, 2, 2, 2, 2)))\n    print(element_count((1, 1, 1, 2, 2, 2, 2, 2)))",
+      -4.46484375
+    ],
+    [
+      "def find_element_count(tup):\n    \"\"\"\n    >>> find_element_count((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4))\n    (4, 1)\n    >>> find_element_count((1, 2, 3, 4, 4, 4, 4))\n    (4, 1)\n    >>> find_element_count((1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4))\n    (4, 1)\n    >>> find_element_count((1, 1, 1, 1, 1, 1, 1))\n    (1, 0)\n    >>> find_element_count((1, 2, 3, 4, 5, 6, 7))\n    (7, 0)\n    \"\"\"\n    # your code goes here\n    for i in range(len(tup)):\n        if i == 0:\n            if tup[i] < tup[i + 1]:\n                return tup[i], 0\n        elif i == len(tup) - 1:\n            if tup[i] < tup[i - 1]:\n                return tup[i], 1\n        else:\n            if tup[i] < tup[i - 1] and tup[i] > tup[i + 1]:\n                return tup[i], 1\n            elif tup[i] < tup[i - 1] and tup[i] < tup[i + 1]:\n                return tup[i], 0\n\n\ndef find_element_count2(tup):\n    \"\"\"\n    >>> find_element_count2((1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4))\n    (4, 1)\n    >>> find_element_count2((1, 2, 3, 4, 4, 4",
+      -4.49609375
+    ],
+    [
+      "from collections import Counter\n\n\ndef before_record(records: tuple, record: int) -> int:\n    \"\"\"Returns the element count that occurs before the record.\n\n    Args:\n        records (tuple): the tuple of elements.\n        record (int): the record element.\n\n    Examples:\n        >>> assert before_record((1, 2, 3, 4, 5, 6), 3) == 2\n    \"\"\"\n    return records.index(record) - 1\n\n\ndef before_record_counter(records: tuple, record: int) -> int:\n    \"\"\"Returns the element count that occurs before the record.\n\n    Args:\n        records (tuple): the tuple of elements.\n        record (int): the record element.\n\n    Examples:\n        >>> assert before_record_counter((1, 2, 3, 4, 5, 6), 3) == 2\n    \"\"\"\n    return Counter(records)\n\n\nif __name__ == \"__main__\":\n    print(before_record((1, 2, 3, 4, 5, 6), 3))",
+      -5.84765625
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_before_record(arr, record):\n    \"\"\"\n    :param arr: list of elements\n    :param record: record\n    :return: count of elements that occurs before the record\n\n    >>> find_before_record([1, 2, 3, 4, 5, 2, 2, 2, 2, 2, 2, 2], 2)\n    5\n    >>> find_before_record([1, 2, 3, 4, 5, 2, 2, 2, 2, 2, 2, 2], 1)\n    0\n    \"\"\"\n    counter = Counter(arr)\n    count_before_record = 0\n\n    for key, value in counter.most_common():\n        if key == record:\n            return count_before_record\n        count_before_record += value\n\n    return count_before_record\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.01953125
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_element_count(arr, record):\n    count = Counter(arr)\n    for key, value in count.most_common():\n        if key == record:\n            return value - 1\n    return None\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]\n    record = 10\n    print(get_element_count(arr, record))",
+      -6.0234375
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_before(records):\n    # find the most frequent element\n    c = Counter(records)\n    most_common = c.most_common()[0][1]\n\n    # find the index of the most frequent element in the tuple\n    index = records.index(most_common)\n\n    # return the element that occurs before the most frequent element\n    return records[index - 1]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ((1, 2, 3, 4, 4, 4, 5, 5, 6, 6, 6, 7, 8, 8, 8, 8, 9, 9), 6),\n        ((1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 6, 6, 7, 8, 8, 8, 9, 9), 1),\n        ((1, 1, 2, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 8, 8, 8, 9, 9), 2),\n        ((1, 2, 3, 4, 4, 5, 5, 6, 6, 6, 7, 8, 8, 8, 9, 9, 9, 9), 6),\n        ((1, 2, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 8, 8, 8, 9, 9, 9), 6),\n    ]\n\n    for test_case in test_cases:\n        print(find_before(test_case[0]))\n        assert find_before(test_case[0]) == test_case[1]",
+      -6.2265625
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_element_count_before_record(array, record):\n    \"\"\"\n    Finds the element count that occurs before the record in the given tuple.\n\n    :param array: Tuple of integers.\n    :param record: Record element.\n    :return: Element count that occurs before the record in the given tuple.\n    \"\"\"\n    counter = Counter(array)\n    for elem in counter:\n        if elem == record:\n            return counter[elem] - 1\n    return -1\n\n\ndef main():\n    print(get_element_count_before_record((1, 2, 3, 4, 5, 6), 5))\n    print(get_element_count_before_record((1, 2, 3, 4, 5, 6), 6))\n    print(get_element_count_before_record((1, 2, 3, 4, 5, 6), 3))\n    print(get_element_count_before_record((1, 2, 3, 4, 5, 6), 1))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -6.484375
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_count(arr, target):\n    \"\"\"Returns the count of the element before the target.\n\n    Args:\n        arr (list): List of integers.\n        target (int): Target integer.\n\n    Returns:\n        int: The count of the element before the target.\n\n    Raises:\n        TypeError: If the input is not a list.\n    \"\"\"\n    if not isinstance(arr, list):\n        raise TypeError(\"Input arr is not a list.\")\n\n    arr = sorted(arr)\n    counter = Counter(arr)\n    for key in counter.keys():\n        if key < target:\n            return counter[key]\n\n\ndef main():\n    print(get_count([1, 2, 3, 3, 3, 3, 4, 5], 5))\n    print(get_count([1, 2, 3, 3, 4, 5], 4))\n    print(get_count([1, 1, 2, 2], 2))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -6.57421875
+    ],
+    [
+      "def get_element_count(arr):\n    \"\"\"\n    >>> get_element_count((1, 2, 3, 4, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7))\n    6\n    >>> get_element_count((1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7))\n    5\n    >>> get_element_count((1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7))\n    5\n    >>> get_element_count((1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7))\n    5\n    >>> get_element_count((1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7))\n    5\n    >>> get_element_count((1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7))\n    5\n    >>> get_element_count((1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 7, 7, 7))\n    5\n    \"\"\"\n    # Your code goes here\n    i = 0\n    while i < len(arr):\n        if arr[i] == arr[i+1]:\n            i += 1\n        else:\n            return i\n    return len(arr)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -6.65234375
+    ],
+    [
+      "def count_before_record(input_list):\n    # Create a dictionary with the elements of the list as keys and their respective counts as values\n    # O(n)\n    count_dict = {}\n    for element in input_list:\n        if element in count_dict:\n            count_dict[element] += 1\n        else:\n            count_dict[element] = 1\n\n    # Traverse the dictionary and find the first element whose count is greater than 1\n    # O(n)\n    for key in count_dict:\n        if count_dict[key] > 1:\n            return key\n\n\nprint(count_before_record([1, 2, 2, 2, 3, 4, 2]))",
+      -7.30859375
+    ],
+    [
+      "from collections import Counter\n\n\ndef find_before_record(tup, record):\n    \"\"\"\n    Return the element count that occurs before the record in the given tuple.\n\n    :param tup: tuple\n    :param record: element\n    :return: element count\n\n    Examples:\n    >>> find_before_record((1, 2, 3, 4, 5, 5, 5, 6, 7, 7, 7, 8, 8, 8, 9, 9, 10), 5)\n    4\n    >>> find_before_record((1, 2, 3, 4, 5, 5, 5, 6, 7, 7, 7, 8, 8, 8, 9, 9, 10), 7)\n    7\n    >>> find_before_record((1, 2, 3, 4, 5, 5, 5, 6, 7, 7, 7, 8, 8, 8, 9, 9, 10), 8)\n    9\n    >>> find_before_record((1, 2, 3, 4, 5, 5, 5, 6, 7, 7, 7, 8, 8, 8, 9, 9, 10), 9)\n    10\n    >>> find_before_record((1, 2, 3, 4, 5, 5, 5, 6, 7, 7, 7, 8, 8, 8, 9, 9, 10), 10)\n    -1\n    \"\"\"\n    if record not in tup:\n        return -1\n\n    c = Counter(tup)\n    for i in range(len(tup)):\n        if tup[i] == record:\n            return c[tup[i - 1]] if i - 1 >= 0 else -1\n\n\ndef test_function():\n    assert find_before_record((1, 2, 3, 4, 5, 5, 5",
+      -7.5078125
+    ],
+    [
+      "from collections import Counter\n\ndef element_before(tup, rec):\n    count = Counter(tup)\n    for i in count.keys():\n        if i < rec:\n            return i\n    return -1\n\nprint(element_before((1, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 7, 8), 3))\nprint(element_before((1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8), 3))\nprint(element_before((1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8), 3))\nprint(element_before((1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8), 1))",
+      -7.51953125
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(counts, record):\n    \"\"\"Returns the number of elements before the record in the counts tuple.\n\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count_dict = dict(counts)\n\n    for count in counts:\n        if count[0] < record:\n            return count[1]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        ((1, 2, 3, 3, 4, 5), 3, 3),\n        ((1, 2, 3, 3, 4, 5), 6, None),\n        ((1, 2, 3, 3, 4, 5), 1, None),\n        ((1, 2, 3, 3, 4, 5), 2, 1),\n        ((1, 2, 3, 3, 4, 5), 3, 2),\n        ((1, 2, 3, 3, 4, 5), 4, 3),\n        ((1, 2, 3, 3, 4, 5), 5, 4),\n    ]\n\n    for test_case in test_cases:\n        assert count_before(test_case[0], test_case[1]) == test_case[2]",
+      -7.8203125
+    ],
+    [
+      "from collections import Counter\n\n\ndef element_count(tup, record):\n    \"\"\"Return the count of the element that occurs before the record in the given tuple.\n\n    Args:\n        tup: a tuple of integers\n        record: a single integer\n\n    Returns:\n        the count of the element that occurs before the record in the given tuple\n\n    Raises:\n        TypeError: if tup is not a tuple\n        ValueError: if record is not in tup\n\n    Examples:\n        >>> element_count((2, 3, 5, 6, 7), 5)\n        1\n        >>> element_count((2, 3, 5, 6, 7), 1)\n        Traceback (most recent call last):\n        ...\n        ValueError: 1 not in (2, 3, 5, 6, 7)\n    \"\"\"\n    if not isinstance(tup, tuple):\n        raise TypeError(\"tup must be a tuple\")\n    if record not in tup:\n        raise ValueError(f\"{record} not in {tup}\")\n\n    counts = Counter(tup)\n    for i in range(record):\n        counts[i] -= 1\n    return sum(counts.values())\n\n\ndef test_element_count():\n    \"\"\"Test element_count.\"\"\"\n    assert element_count((2, 3, 5, 6, 7), 5) == 1\n    assert element_count((2, 3, 5, 6, 7), 1) == 0\n    assert element_count((2, 3, 5, 6, 7), 2) == 0\n    assert element_count((2, 3, 5, 6, 7), 3) == 0\n    assert element_count((2, 3, 5, 6, 7), 4) == 0\n    assert element_count((2, 3, 5, 6, 7), 6) == 1\n    assert element_count((2, 3, 5, 6, 7), 7) == 2\n    assert element_count((2,",
+      -8.703125
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before_record(record, counter):\n    \"\"\"Count the number of elements before the record in the counter.\"\"\"\n    record_count = counter[record]\n    return sum(count for value, count in counter.items() if count > record_count)\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (2, (1, 1, 2, 2, 2, 3, 4, 4, 5, 5)),\n        (3, (1, 1, 2, 2, 2, 3, 4, 4, 5, 5)),\n        (2, (1, 1, 2, 2, 2, 3, 4, 4, 5, 5, 6, 6, 6)),\n        (3, (1, 1, 2, 2, 2, 3, 4, 4, 5, 5, 6, 6, 6)),\n        (1, (1, 1, 1)),\n        (0, (1, 1, 1)),\n        (1, (1,)),\n        (0, (1,)),\n        (0, tuple()),\n        (0, (1, 2, 3, 4, 5)),\n        (0, (1, 1, 1, 1, 1)),\n        (1, (1, 2, 2, 2, 2)),\n        (0, (1, 1, 1, 1, 1)),\n    ]\n\n    for expected_count, values in test_cases:\n        print(count_before_record(values[-1], Counter(values)))\n        assert count_before_record(values[-1], Counter(values)) == expected_count",
+      -9.609375
+    ],
+    [
+      "from collections import Counter\nfrom typing import Tuple\n\n\ndef count_before_record(data: Tuple[int, str], record: str) -> int:\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\n\n    Args:\n        data (Tuple[int, str]): The tuple to find the element count for.\n        record (str): The record to find the element count before.\n\n    Examples:\n        >>> assert count_before_record((1, 3, 5, 6, 9, 10), '5') == 2\n        >>> assert count_before_record((1, 2, 3, 4, 5), '3') == 2\n        >>> assert count_before_record((1, 2, 3, 4, 5), '6') == 4\n    \"\"\"\n    count = Counter(data)\n    return count[record]\n\n\nif __name__ == \"__main__\":\n    print(count_before_record((1, 3, 5, 6, 9, 10), \"5\"))\n    print(count_before_record((1, 2, 3, 4, 5), \"3\"))\n    print(count_before_record((1, 2, 3, 4, 5), \"6\"))",
+      -11.8828125
+    ],
+    [
+      "from collections import Counter\nfrom typing import Tuple\n\n\ndef element_count(record: Tuple[int, int], nums: Tuple[int, ...]) -> int:\n    \"\"\"Returns the element count that occurs before the record.\n\n    Args:\n        record (Tuple[int, int]): record to find element count for\n        nums (Tuple[int, ...]): tuple of numbers\n\n    Examples:\n        >>> element_count((1, 1), (1, 2, 3, 4, 5))\n        2\n        >>> element_count((2, 1), (1, 2, 3, 4, 5))\n        3\n        >>> element_count((3, 1), (1, 2, 3, 4, 5))\n        4\n        >>> element_count((4, 1), (1, 2, 3, 4, 5))\n        5\n        >>> element_count((5, 1), (1, 2, 3, 4, 5))\n        5\n        >>> element_count((6, 1), (1, 2, 3, 4, 5))\n        5\n    \"\"\"\n    return Counter(nums)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -13.703125
+    ],
+    [
+      "from collections import Counter\n\n\ndef count_before(tup: tuple, record: int) -> int:\n    \"\"\"Returns the element count that occurs before the record in the given tuple.\n\n    Args:\n        tup (tuple): tuple of integers\n        record (int): record\n\n    Examples:\n        >>> assert count_before((1, 2, 3, 4, 5, 4), 4) == 3\n        >>> assert count_before((1, 2, 3, 4, 5, 4), 5) == 4\n        >>> assert count_before((1, 2, 3, 4, 5, 4), 6) == 5\n    \"\"\"\n    return Counter(tup)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -13.7265625
+    ],
+    [
+      "from collections import Counter\n\n\ndef get_count_before(tup: tuple, record: int) -> int:\n    \"\"\"Returns the element count that occurs before the record.\n\n    Args:\n        tup (tuple): The tuple.\n        record (int): The record.\n\n    Examples:\n        >>> assert get_count_before((1, 2, 3, 3, 3, 4), 3) == 2\n        >>> assert get_count_before((1, 2, 3, 4, 4, 5, 6), 3) == 1\n        >>> assert get_count_before((1, 1, 1, 1, 2, 2, 2, 2, 2), 2) == 4\n        >>> assert get_count_before((1, 1, 1, 1, 2, 2, 2, 2, 2), 2) == 4\n        >>> assert get_count_before((1, 1, 1, 1, 1, 2, 2, 2, 2), 2) == 1\n    \"\"\"\n    if tup[0] == record:\n        return 0\n    if tup[-1] == record:\n        return len(tup) - 1\n\n    counter = Counter(tup)\n    for idx, value in enumerate(tup):\n        if value == record:\n            return counter[tup[idx - 1]]\n    return 0\n\n\ndef main():\n    tup = (1, 2, 3, 3, 3, 4)\n    print(get_count_before(tup, 3))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -14.3515625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

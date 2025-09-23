@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/143",
+    "prompt": "\ndef words_in_sentence(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n",
+    "canonical_solution": "    new_lst = []\n    for word in sentence.split():\n        flg = 0\n        if len(word) == 1:\n            flg = 1\n        for i in range(2, len(word)):\n            if len(word)%i == 0:\n                flg = 1\n        if flg == 0 or len(word) == 2:\n            new_lst.append(word)\n    return \" \".join(new_lst)\n",
+    "test": "def check(candidate):\n\n    # Check some simple cases\n    assert candidate(\"This is a test\") == \"is\"\n    assert candidate(\"lets go for swimming\") == \"go for\"\n    assert candidate(\"there is no place available here\") == \"there is no place\"\n    assert candidate(\"Hi I am Hussein\") == \"Hi am Hussein\"\n    assert candidate(\"go for it\") == \"go for it\"\n\n    # Check some edge cases that are easy to work out by hand.\n    assert candidate(\"here\") == \"\"\n    assert candidate(\"here is\") == \"is\"\n\n",
+    "entry_point": "words_in_sentence",
+    "docstring": "",
+    "problem_id": 143
+  },
+  "model_name": "codegen-2b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "words = sentence.split(' ')\n    lengths = []\n    for word in words:\n        lengths.append(len(word))\n\n    result = []\n    for i in range(len(lengths)):\n        for j in range(lengths[i]):\n            result.append(words[i][j])\n\n    return ''.join(result)\n\n\ndef test_words_in_sentence():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      2.455078125
+    ],
+    [
+      "words = [word for word in sentence.split() if word]\n    words_lengths = [len(word) for word in words]\n    words_lengths.sort()\n    words_lengths = [word for word in words_lengths if word % 2 == 0]\n    return \" \".join(words[i:i + words_lengths[i]])\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = [word for word in sentence.split() if word]\n    words_lengths = [len(word) for word in words]\n    words_lengths.sort()\n    words_lengths = [word for word in words_lengths if word % 2 == 0]\n    return \" \".join(words[i:i + words_lengths[i]])\n\n\ndef words_in_sentence_3(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = [word for word in sentence.split()",
+      1.5703125
+    ],
+    [
+      "# Your code here\n    # print(len(sentence))\n    words = sentence.split(\" \")\n    return \"\".join(sorted(words))\n\n\n# Your WordCount object will be instantiated and called as such:\n# word_count = WordCount(sentence)\n# word_count.words_in_sentence(sentence)",
+      1.5693359375
+    ],
+    [
+      "words = set(sentence.split())\n    n = len(sentence)\n    for i in range(2, n+1):\n        if all(i % p == 0 for p in range(1, n+1) if p > 1):\n            break\n    return ''.join(sorted(words))",
+      1.1845703125
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        if word not in words and is_prime(len(word)):\n            words.append(word)\n\n    return \" \".join(words)\n\n\ndef is_prime(n):\n    \"\"\"\n    Check if n is prime.\n\n    Constraints:\n        * 1 <= n <= 100\n    \"\"\"\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True",
+      1.1591796875
+    ],
+    [
+      "words = sentence.split()\n    result = \"\"\n    for word in words:\n        if len(result) == 0:\n            result = word\n        else:\n            if not is_prime(len(result)):\n                result += \" \" + word\n            else:\n                result += word\n    return result\n\n\ndef is_prime(n):\n    \"\"\"\n    Check if n is prime.\n    n is a positive integer\n    \"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      -0.05059814453125
+    ],
+    [
+      "words = [w for w in sentence.split(' ') if w]\n    words = [w for w in words if w and len(w) > 1]\n    return \" \".join(sorted(words))\n\n\nclass TestMethods(unittest.TestCase):\n    def test_words_in_sentence(self):\n        self.assertEqual(words_in_sentence(\n            \"This is a test\"), \"is\")\n        self.assertEqual(words_in_sentence(\n            \"lets go for swimming\"), \"go for\")\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85595703125
+    ],
+    [
+      "words = sentence.split()\n    return \" \".join(sorted(words))\n\n\nclass Solution(object):\n\n    def words_in_sentence(self, sentence):\n        \"\"\"\n        :type sentence: str\n        :rtype: str\n        \"\"\"\n        words = [word for word in sentence.split() if word.isalpha()]\n        return \" \".join(sorted(words))\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.words_in_sentence(\"This is a test\"))\n    print(sol.words_in_sentence(\"lets go for swimming\"))\n    print(sol.words_in_sentence(\"a test\"))",
+      -0.85595703125
+    ],
+    [
+      "return \" \".join(filter(lambda x: x.isalpha(), sentence.split()))\n\n\nclass Solution:\n    def wordsInSentence(self, sentence: str) -> str:\n        \"\"\"\n        use prime numbers to check length of words\n        :param sentence:\n        :return:\n        \"\"\"\n        sentence = sentence.lower()\n        words = sentence.split()\n        lengths = [len(w) for w in words]\n        lengths.sort()\n        for i in range(len(lengths)):\n            if lengths[i] % 2 == 0:\n                return words[i]\n        return \"\"",
+      -0.85595703125
+    ],
+    [
+      "words = sentence.split(' ')\n    result = []\n    for word in words:\n        if len(word) == 1:\n            result.append(word)\n        else:\n            for i in range(2, int(math.ceil(len(word) / 2))):\n                if len(word) % i == 0:\n                    result.append(word[:i])\n                    result.append(word[i:])\n                    break\n    return''.join(result)\n\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.85595703125
+    ],
+    [
+      "result = \"\"\n    for word in sentence.split():\n        if not word:\n            continue\n        if len(word) == 1:\n            result += word\n        else:\n            if len(result) == 0:\n                result = word\n            else:\n                result += word[0]\n    return result",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    sorted_words = sorted(words)\n    word_lengths = [len(word) for word in sorted_words]\n    return \"\".join(sorted_words[i:i+word_lengths[i]])",
+      -0.85693359375
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        if len(word) == 1:\n            words.append(word)\n        else:\n            for i in range(len(word)):\n                if not word[i] in 'abcdefghijklmnopqrstuvwxyz':\n                    word[i] = 'a'\n                words.append(word[:i] + word[i+1:])\n    return ''.join(words)",
+      -0.85693359375
+    ],
+    [
+      "result = \"\"\n    for word in sentence.split():\n        if len(word) > 1 and is_prime(len(word)):\n            result += word\n    return result\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.85693359375
+    ],
+    [
+      "# +++your code here+++\n    return \"\"",
+      -0.85693359375
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        words.extend(sorted(word))\n    return \" \".join(words)\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"Let's go for swimming\") == \"go for\"",
+      -0.85693359375
+    ],
+    [
+      "# Your code here\n    # print(sentence)\n    words = sentence.split(\" \")\n    return \" \".join(sorted(words))",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    return \" \".join(map(lambda x: x, filter(lambda x: x.isdigit(), words)))\n\n\nclass TestMethods(unittest.TestCase):\n    def test_words_in_sentence(self):\n        self.assertEqual(words_in_sentence(\"This is a test\"), \"is\")\n        self.assertEqual(words_in_sentence(\"lets go for swimming\"), \"go for\")\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85693359375
+    ],
+    [
+      "# Solution 1:\n    #   TODO\n    # Solution 2:\n    #   TODO\n    pass",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if len(word) == 1:\n            result.append(word)\n        else:\n            for i in range(1, len(word) + 1):\n                result.append(word[:i])\n    return''.join(result)",
+      -0.85693359375
+    ],
+    [
+      "sentence = sentence.split(' ')\n    result = []\n    for word in sentence:\n        if len(word) == 1:\n            result.append(word)\n        else:\n            for i in range(2, int(math.sqrt(len(word)))+1):\n                if len(word) % i == 0:\n                    result.append(word[:i])\n                    break\n    return''.join(result)",
+      -0.85693359375
+    ],
+    [
+      "if not sentence:\n        return \"\"\n    words = sentence.split(' ')\n    result = \"\"\n    for word in words:\n        if not is_prime(len(word)):\n            continue\n        result += word\n    return result",
+      -0.85693359375
+    ],
+    [
+      "words = re.findall(r'\\w+', sentence)\n    return ''.join(sorted(words))",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    lengths = [len(word) for word in words]\n    lengths = [i for i, j in enumerate(lengths) if j % 2 == 0]\n    new_sentence = ''\n    for i in lengths:\n        new_sentence += words[i]\n    return new_sentence\n\n\nif __name__ == '__main__':\n    assert words_in_sentence('This is a test') == 'is'\n    assert words_in_sentence('lets go for swimming') == 'go for'",
+      -0.85693359375
+    ],
+    [
+      "# Sort the string\n    sorted_sentence = sorted(sentence)\n    # Remove all non-alpha characters\n    sorted_sentence = [char for char in sorted_sentence if char.isalpha()]\n    # Remove all duplicated characters\n    sorted_sentence = list(set(sorted_sentence))\n    # Build the string\n    return ''.join(sorted_sentence)\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"a b c\") == \"a b c\"\n    assert words_in_sentence(\"aa bb cc\") == \"aa bb cc\"\n    assert words_in_sentence(\"aa bb cc\") == \"aa bb cc\"\n    assert words_in_sentence(\"abcd\") == \"abcd\"",
+      -0.85693359375
+    ],
+    [
+      "words = set()\n    for word in sentence.split():\n        if not word.isalpha():\n            continue\n        words.add(word)\n    return \"\".join(sorted(words, key=lambda word: len(word)))\n\n\nclass Solution:\n    def wordsInSentence(self, sentence: str) -> str:\n        \"\"\"\n        The idea is to split the sentence into words and then\n        make the words unique.\n\n        Time complexity: O(n)\n        Space complexity: O(n)\n        \"\"\"\n        words = set()\n        for word in sentence.split():\n            if not word.isalpha():\n                continue\n            words.add(word)\n        return \"\".join(sorted(words, key=lambda word: len(word)))\n\n\nif __name__ == \"__main__\":\n    assert Solution().wordsInSentence(\"this is a test\") == \"is\"\n    assert Solution().wordsInSentence(\"lets go for swimming\") == \"go for\"",
+      -0.85693359375
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        words.append(word)\n\n    return \" \".join(sorted(words, key=lambda w: len(w)))",
+      -0.85693359375
+    ],
+    [
+      "result = []\n    for word in sentence.split():\n        if len(word) == 1:\n            result.append(word)\n        else:\n            result.append(''.join(sorted(word)))\n    return''.join(result)\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"a\") == \"\"",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    for word in words:\n        if not word.isdigit():\n            return word\n    return \"\".join(words)\n\n\ndef main():\n    \"\"\"\n    Main function.\n    \"\"\"\n    pass\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "# Convert to lower case\n    sentence = sentence.lower()\n    # Remove special characters\n    sentence = re.sub(r'[^a-z]', '', sentence)\n    # Split into words\n    words = sentence.split()\n    # Create a new string\n    new_sentence = ''\n    # For each word\n    for word in words:\n        # Check if the word is prime\n        if is_prime(len(word)):\n            # Add the word to the new string\n            new_sentence += word\n    return new_sentence\n\n\nif __name__ == '__main__':\n    print(words_in_sentence('this is a test'))\n    print(words_in_sentence('lets go for swimming'))",
+      -0.85693359375
+    ],
+    [
+      "nums = [1]\n    for word in sentence.split():\n        nums.append(len(word))\n        nums.append(next(n for n in nums if n % 2 == 0))\n        nums.append(next(n for n in nums if n % 3 == 0))\n        nums.append(next(n for n in nums if n % 5 == 0))\n    return ''.join(chr(n) for n in nums)\n\nif __name__ == '__main__':\n    assert words_in_sentence('This is a test') == 'is'\n    assert words_in_sentence('lets go for swimming') == 'go for'",
+      -0.85693359375
+    ],
+    [
+      "words = sentence.split()\n    for word in words:\n        if not word.isalpha():\n            words.remove(word)\n    return \" \".join(words)",
+      -0.857421875
+    ],
+    [
+      "if not sentence:\n        return \"\"\n\n    words = sentence.split()\n    words = [word for word in words if word]\n    sorted_words = sorted(words)\n    return \" \".join(sorted_words)",
+      -0.857421875
+    ],
+    [
+      "# https://leetcode.com/problems/words-in-sentence/discuss/82737/Easy-O(n)-Time-Solution\n    word_list = []\n    for word in sentence.split():\n        word_list.append(word)\n    word_list.sort()\n    return ''.join(word_list)",
+      -0.85791015625
+    ],
+    [
+      "return ''.join(sorted(sentence.split(), key=lambda w: int(w.lower())))\n\n\nclass Solution(object):\n    def words_in_sentence(self, sentence):\n        \"\"\"\n        :type sentence: str\n        :rtype: str\n        \"\"\"\n        return ''.join(sorted(sentence.split(), key=lambda w: int(w.lower())))\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.words_in_sentence(\"This is a test\"))\n    print(s.words_in_sentence(\"lets go for swimming\"))",
+      -0.85791015625
+    ],
+    [
+      "# The problem is solved with a greedy algorithm.\n    # We first get the list of words.\n    words = sentence.split(' ')\n\n    # We get the list of word lengths.\n    word_lengths = [len(word) for word in words]\n\n    # We then sort the list of word lengths.\n    word_lengths = sorted(word_lengths)\n\n    # We then use a list comprehension to get all of the prime numbers.\n    prime_numbers = [i for i in range(2, sum(word_lengths) + 1) if word_lengths.count(i) == 0]\n\n    # We then add 1 to the word length to get the index of the first prime number.\n    prime_index = word_lengths.index(prime_numbers[0]) + 1\n\n    # We then add the prime number to the words list and return it.\n    return words[prime_index]",
+      -0.85791015625
+    ],
+    [
+      "words = sentence.split(\" \")\n    return \"\".join(words[:int(math.ceil(len(words) / 2))])\n\n\ndef words_in_sentence2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = sentence.split(\" \")\n    words = [word for word in words if word.isalpha()]\n    return \"\".join(words)\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence2(\"This is a test\") == \"is\"",
+      -0.8583984375
+    ],
+    [
+      "words = [word for word in sentence.split() if word]\n    sorted_words = sorted(words, key=len, reverse=True)\n    new_words = [word for word in sorted_words if is_prime(len(word))]\n    return \" \".join(new_words)\n\n\ndef is_prime(n):\n    \"\"\"\n    Check if a number is prime or not.\n\n    Time complexity: O(log(n))\n    Space complexity: O(1)\n    \"\"\"\n    if n == 2 or n == 3:\n        return True\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"this is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.8583984375
+    ],
+    [
+      "words = sentence.split(\" \")\n    for i, word in enumerate(words):\n        words[i] = int(word)\n    return \" \".join(map(str, words))\n\n\nclass Solution:\n    def wordsInSentence(self, sentence: str) -> str:\n        \"\"\"\n        Brute force O(n^2) solution.\n        \"\"\"\n        words = sentence.split(\" \")\n        for i in range(len(words)):\n            for j in range(i + 1, len(words)):\n                if words[i] < words[j]:\n                    words[i], words[j] = words[j], words[i]\n        return \" \".join(map(str, words))",
+      -0.8583984375
+    ],
+    [
+      "words = sentence.split()\n    length = len(words)\n    return''.join(words[:length//2]) +''.join(words[length//2:])\n\n\ndef main():\n    \"\"\"\n    Main function\n    \"\"\"\n    print(words_in_sentence('hello world'))\n    print(words_in_sentence('I am fine'))\n    print(words_in_sentence('I love you'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))\n    print(words_in_sentence('I love the weather'))",
+      -0.8583984375
+    ],
+    [
+      "sentence = sentence.split(\" \")\n    return \"\".join(x for x in sentence if x.isalpha())",
+      -0.8583984375
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        if len(word) > 1 and is_prime(len(word)):\n            words.append(word)\n    return''.join(words)\n\n\nclass TestMethods(unittest.TestCase):\n    def test_words_in_sentence(self):\n        self.assertEqual(words_in_sentence(sentence=\"This is a test\"), \"is\")\n        self.assertEqual(words_in_sentence(sentence=\"lets go for swimming\"), \"go for\")\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.8583984375
+    ],
+    [
+      "words = list(sentence)\n    return \" \".join(map(str, sorted(set(words))))\n\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -0.8583984375
+    ],
+    [
+      "return reduce(lambda s, word: s + word +'', sentence.split(), '')",
+      -0.8583984375
+    ],
+    [
+      "# solution 1\n    # words = []\n    # for c in sentence:\n    #     if c.isalpha():\n    #         words.append(c)\n    # return ''.join(words)\n\n    # solution 2\n    words = []\n    for c in sentence:\n        if c.isalpha():\n            words.append(c)\n            if len(words) % 2 == 0:\n                words.pop()\n    return ''.join(words)",
+      -0.8583984375
+    ],
+    [
+      "words = [x for x in sentence.split() if x]\n    words = [x for x in words if x]\n    words = [x for x in words if x]\n    return \" \".join(words)\n\n\nclass TestMethods(unittest.TestCase):\n    def test_words_in_sentence(self):\n        self.assertEqual(words_in_sentence(\n            \"This is a test\"), \"is\")\n        self.assertEqual(words_in_sentence(\n            \"lets go for swimming\"), \"go for\")\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.8583984375
+    ],
+    [
+      "words = [x for x in sentence.split(' ')]\n    words = [x for x in words if x!= '']\n    words = [x for x in words if x.isalnum()]\n    result = ''\n    for word in words:\n        if is_prime(len(word)):\n            result += word\n    return result\n\n\nif __name__ == '__main__':\n    sol = words_in_sentence(\"This is a test\")\n    print(sol)",
+      -0.8583984375
+    ],
+    [
+      "words = [word for word in sentence.split(\" \") if word.isalpha()]\n    return \" \".join(words)",
+      -0.8583984375
+    ],
+    [
+      "words = sentence.split(' ')\n    sorted_words = sorted(words)\n    result = []\n    for w in sorted_words:\n        if len(result) % 2 == 0:\n            result.append(w)\n        else:\n            result[len(result) / 2] = w\n    return''.join(result)",
+      -0.85888671875
+    ],
+    [
+      "words = sentence.split()\n    return \" \".join(words[:len(words) - 1])\n\n\nif __name__ == '__main__':\n    import sys\n\n    _stdin = sys.stdin\n    _stdout = sys.stdout\n\n    for _ in range(int(input())):\n        sentence = input().strip()\n        print(_words_in_sentence(sentence))\n        _stdout.flush()",
+      -0.85888671875
+    ],
+    [
+      "words = sentence.split()\n    for word in words:\n        if not word:\n            continue\n        word_length = len(word)\n        for i in range(2, word_length + 1):\n            if word_length % i!= 0:\n                continue\n            for j in range(i):\n                if word[j:j + i] in words:\n                    return word[:j] + word[j + i:]\n    return word\n\n\nif __name__ == '__main__':\n    import sys\n    if len(sys.argv) < 2:\n        print('Usage:./word_in_sentence.py sentence')\n        sys.exit(1)\n    sentence = sys.argv[1]\n    print(words_in_sentence(sentence))",
+      -0.85888671875
+    ],
+    [
+      "n = len(sentence)\n    words = []\n    for i in range(0, n):\n        for j in range(i, n):\n            if sentence[i:j] in words:\n                break\n        else:\n            words.append(sentence[i:j])\n    return \"\".join(words)",
+      -0.85888671875
+    ],
+    [
+      "result = []\n    for word in sentence.split():\n        result.append(word)\n        while len(result) % 5 == 0:\n            result.pop(0)\n    return \" \".join(result)",
+      -0.85888671875
+    ],
+    [
+      "if not sentence:\n        return \"\"\n    words = sentence.split()\n    result = \"\"\n    for word in words:\n        if word not in result:\n            result += word\n            if len(result) % 2 == 0:\n                result += \" \"\n    return result",
+      -0.85888671875
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        if not word in words and len(word) > 0 and len(word) < 20:\n            words.append(word)\n    return \" \".join(words)",
+      -0.92236328125
+    ],
+    [
+      "words = sentence.split()\n    new_words = []\n    for word in words:\n        new_words.append(word)\n        if len(new_words) == 2:\n            new_words.append(' ')\n    return ''.join(new_words)\n\n\nif __name__ == '__main__':\n    assert words_in_sentence('this is a test') == 'is'\n    assert words_in_sentence('lets go for swimming') == 'go for'\n    assert words_in_sentence('this is a test') == 'is'",
+      -1.9755859375
+    ],
+    [
+      "words = sentence.split(\" \")\n    res = []\n    for word in words:\n        if len(word) > 1:\n            if is_prime(len(word)):\n                res.append(word)\n    return \" \".join(res)\n\n\ndef is_prime(n):\n    \"\"\"\n    Check if n is prime or not.\n\n    :type n: int\n    :rtype: bool\n    \"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -2.0859375
+    ],
+    [
+      "sentence = sentence.strip().lower()\n    if not sentence:\n        return \"\"\n\n    words = sentence.split()\n    result = \"\"\n    for word in words:\n        if word:\n            result += word\n            result += \" \"\n    return result[:-1]\n\n\ndef words_in_sentence_test():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"Let's go for swimming\") == \"go for\"\n    assert words_in_sentence(\"\") == \"\"\n\n\ndef words_in_sentence_dp(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    sentence = sentence.strip().lower()\n    if not sentence:\n        return \"\"\n\n    words = sentence.split()\n    result = \"\"\n    for word in words:\n        if word:\n            result += word\n            result += \" \"\n    return result[:-1]\n\n\ndef words_in_sentence_dp_test():\n    assert words_in_sentence_dp(\"This is a test\") == \"is\"\n    assert words_in_sentence_dp(\"Let's go for swimming\") == \"go for\"\n    assert words_in_sentence_dp(\"\") == \"\"\n\n\ndef words_in_sentence_dp_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should",
+      -2.3671875
+    ],
+    [
+      "words = sentence.split(' ')\n    result = []\n    for word in words:\n        if len(word) > 1 and is_prime(len(word)):\n            result.append(word)\n    return''.join(result)\n\ndef is_prime(n):\n    \"\"\"\n    A prime number is a number that is not a part of a larger number.\n\n    Example:\n        Input: n = 12\n        Output: True\n\n    Example:\n        Input: n = 4\n        Output: False\n    \"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n**0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -2.392578125
+    ],
+    [
+      "words = sentence.split(\" \")\n    lengths = [len(word) for word in words]\n    lengths = sorted(set(lengths))\n    for i in range(len(lengths)):\n        if lengths[i] % 2 == 1:\n            continue\n        if lengths[i] == 1:\n            words.append(\" \")\n            continue\n        if lengths[i] == 2:\n            words.append(\" \")\n            words.append(\" \")\n            continue\n        length = lengths[i]\n        for j in range(i):\n            if lengths[j] == length:\n                words[j] = \" \" + words[j]\n    return \"\".join(words)\n\ndef main():\n    pass\n\nif __name__ == \"__main__\":\n    main()",
+      -2.427734375
+    ],
+    [
+      "words = sentence.split(\" \")\n    words = [word for word in words if word]\n    result = \"\".join(words)\n    return result\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = sentence.split(\" \")\n    words = [word for word in words if word]\n    result = \"\".join(sorted(words))\n    return result\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"Let's go for swimming\") == \"go for\"\n    assert words_in_sentence(\"This is a test\") == \"is\"",
+      -2.486328125
+    ],
+    [
+      "words = []\n    for word in sentence.split():\n        words.extend(sorted(word))\n    return \" \".join(words)\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = []\n    for word in sentence.split():\n        words.extend(sorted(word))\n    return \" \".join(words)\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"this is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence_2(\"this is a test\") == \"is\"\n    assert words_in_sentence_2(\"lets go for swimming\") == \"go for\"",
+      -2.74609375
+    ],
+    [
+      "words = sentence.split(\" \")\n    ans = []\n    for w in words:\n        if len(w) > 1 and w[0] in \"abcdefghijklmnopqrstuvwxyz\" and w[-1] in \"abcdefghijklmnopqrstuvwxyz\":\n            for i in range(1, len(w)):\n                if w[i] in \"abcdefghijklmnopqrstuvwxyz\" and w[i-1] in \"abcdefghijklmnopqrstuvwxyz\":\n                    ans.append(w[:i])\n    return \"\".join(ans)\n\n# words_in_sentence(\"This is a test\") == \"is\"\n# words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -3.15625
+    ],
+    [
+      "words = sentence.split()\n    length = len(words)\n    prime_nums = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997]\n    result = \"\"\n    for word in words:\n        for num in prime_nums:\n            if len(word) == num:\n                result += word\n                break\n    return result",
+      -3.197265625
+    ],
+    [
+      "if len(sentence) < 1:\n        return ''\n    if len(sentence) == 1:\n        return sentence[0]\n    words = sentence.split()\n    result = []\n    for word in words:\n        if word[0] in 'aeiou':\n            result.append('a')\n        if word[0] in 'bcdfghjklmnpqrstvwxyz':\n            result.append('b')\n        if word[0] in 'aeiouy':\n            result.append('c')\n        if word[0] in 'bcdfghjklmnpqrstvwxyz':\n            result.append('d')\n        if word[0] in 'aeiouy':\n            result.append('e')\n        if word[0] in 'aeiouy':\n            result.append('f')\n        if word[0] in 'aeiouy':\n            result.append('g')\n        if word[0] in 'aeiouy':\n            result.append('h')\n        if word[0] in 'aeiou':\n            result.append('i')\n        if word[0] in 'aeiouy':\n            result.append('j')\n        if word[0] in 'aeiouy':\n            result.append('k')\n        if word[0] in 'aeiouy':\n            result.append('l')\n        if word[0] in 'bcdfghjklmnpqrstvwxyz':\n            result.append('m')\n        if word[0] in 'aeiouy':\n            result.append('n')\n        if word[0] in 'aeiouy':\n            result.append('o')\n        if word[0] in 'aeiouy':\n            result.append('p')\n        if word[0] in 'aeiouy':\n            result.append('q')\n        if word[0] in 'aeiouy':\n            result.append('r')\n        if word[0] in 'aeiouy':\n            result.append('s')\n        if word[0] in 'aeiouy':",
+      -3.357421875
+    ],
+    [
+      "# TODO: (2/16) implement words_in_sentence\n    return \"\".join(filter(lambda x: x.isalpha(), sentence))\n\n\ndef words_in_sentence_1(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    # TODO: (2/16) implement words_in_sentence_1\n    return \"\".join(filter(lambda x: x.isalpha(), sentence))",
+      -3.521484375
+    ],
+    [
+      "words = [w for w in sentence.split() if w]\n    lens = [len(w) for w in words]\n    # print(lens)\n    max_lens = max(lens)\n    for i in range(max_lens):\n        # print(max_lens)\n        # print(words)\n        # print(i)\n        for j in range(len(words)):\n            if lens[j] == i:\n                # print(words[j])\n                words[j] = words[j][:i] + \" \" + words[j][i:]\n    # print(words)\n    return \" \".join(words)\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words_in_sentence(\"hello world\") == \"hello\"\n    assert words",
+      -3.669921875
+    ],
+    [
+      "words = [word for word in sentence.split(' ') if word]\n    primes = [i for i in range(2, len(words) + 1) if all(i % j == 0 for j in range(2, i + 1))]\n    new_words = [word for word in words if len(word) in primes]\n    return''.join(new_words)\n\n\nif __name__ == '__main__':\n    assert words_in_sentence('this is a test') == 'is'\n    assert words_in_sentence('lets go for swimming') == 'go for'\n    assert words_in_sentence('this is a test') == 'is'\n    assert words_in_sentence('lets go for swimming') == 'go for'",
+      -4.109375
+    ],
+    [
+      "words = sentence.split()\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n    return''.join(result)\n\n\ndef is_prime(n):\n    \"\"\"\n    You are given a positive integer n,\n    and you have to return True if n is prime,\n    or False if n is not prime.\n\n    Example 1:\n        Input: n = 6\n        Output: True\n\n    Example 2:\n        Input: n = 2\n        Output: False\n    \"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n**0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef main():\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))\n    print(words_in_sentence(\"abcd efg\"))\n    print(words_in_sentence(\"a b c d e f g h i j k l m n o p q r s t u v w x y z\"))\n    print(words_in_sentence(\"\"))\n\n\nif __name__ == '__main__':\n    main()",
+      -4.2109375
+    ],
+    [
+      "# sort the words from the sentence\n    words = sorted(sentence.split())\n    # build the new sentence\n    new_sentence = \"\"\n    for word in words:\n        new_sentence += word + \" \"\n    return new_sentence[:-1]\n\nif __name__ == '__main__':\n    print(words_in_sentence(\"This is a test\"))\n    print(words_in_sentence(\"lets go for swimming\"))",
+      -4.72265625
+    ],
+    [
+      "words = sentence.split(\" \")\n    words = [word for word in words if word]\n    words = [word for word in words if len(word) == 2]\n    words = [word for word in words if all(c.isdigit() for c in word)]\n    words = [word for word in words if all(c.isalpha() for c in word)]\n    words = [word for word in words if int(word) > 0]\n    words = [word for word in words if not word == \"\"]\n    return \" \".join(words)\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/words-in-sentence/solution/\n\n# 13.  Djikstra's algorithm\n# 1.  We need to check the following conditions:\n# 1.1. If the character is already in the array, then we have reached a\n#       substring that is a duplicate of the previous one.\n# 1.2. If the character is not in the array, then we need to check if the\n#       current substring is a duplicate of the previous one.\n# 1.3. If the character is in the array, then we need to check if the\n#       current substring is a duplicate of the previous one.\n# 2.  If the character is not in the array, then we need to check if the\n#       current substring is a duplicate of the previous one.\n# 3.  If the character is in the array, then we need to check if the\n#       current substring is a duplicate of the previous one.\n# 4.  If the character is not in the array, then we need to check if the\n#       current substring is a duplicate of the previous one.\n# 5.  If the character is not in the array, then we need to check if the\n#       current substring is a duplicate of the previous one.\n# 6.  If the character is not in the array, then we need to check if the\n#       current substring is",
+      -4.80078125
+    ],
+    [
+      "# Your code here\n    words = [word for word in sentence.split(' ') if word]\n    return''.join(words)\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    # Your code here\n    words = [word for word in sentence.split(' ') if word]\n    words = [word for word in words if len(word)>1 and is_prime(len(word))]\n    return''.join(words)\n\n\ndef is_prime(n):\n    \"\"\"\n    You are given an integer n,\n    you need to determine whether n is prime or not.\n\n    Constraints:\n        1 <= n <= 1000\n    \"\"\"\n    # Your code here\n    if n == 1:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    i = 3\n    while i*i <= n:\n        if n % i == 0:\n            return False\n        i += 1\n    return True\n\n\ndef words_in_sentence_3(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"",
+      -5.078125
+    ],
+    [
+      "words = sentence.split(' ')\n    for i in range(len(words)):\n        words[i] = str(prime_number(len(words[i])))\n    return''.join(words)\n\n\ndef prime_number(n):\n    \"\"\"\n    Find prime number in [2, n]\n    \"\"\"\n    i = 2\n    while i < n:\n        if n % i == 0:\n            return False\n        i += 1\n    return i\n\n\nif __name__ == '__main__':\n    print(words_in_sentence('a b c d'))\n    print(words_in_sentence('abcd'))\n    print(words_in_sentence('abcde'))",
+      -5.22265625
+    ],
+    [
+      "words = []\n    for i in range(len(sentence)):\n        if sentence[i] not in \"abcdefghijklmnopqrstuvwxyz\":\n            words.append(sentence[i])\n    return \"\".join(words)\n\n\ndef main():\n    \"\"\"\n    Sample Tests\n    \"\"\"\n    s1 = \"abcde\"\n    s2 = \"abcdef\"\n    s3 = \"abcdefgh\"\n    s4 = \"abcdefghij\"\n    s5 = \"abcdefghijk\"\n    s6 = \"abcdefghijkl\"\n    s7 = \"abcdefghijklm\"\n    s8 = \"abcdefghijklmn\"\n    s9 = \"abcdefghijklmnop\"\n    s10 = \"abcdefghijklmnopq\"\n    s11 = \"abcdefghijklmnopqr\"\n    s12 = \"abcdefghijklmnopqrst\"\n    s13 = \"abcdefghijklmnopqrstu\"\n    s14 = \"abcdefghijklmnopqrstuv\"\n    s15 = \"abcdefghijklmnopqrstuvw\"\n    s16 = \"abcdefghijklmnopqrstuvwxy\"\n    s17 = \"abcdefghijklmnopqrstuvwxyz\"\n    s18 = \"abcdefghijklmnopqrstuvwxyz\"\n    assert words_in_sentence(s1) == \"is\"\n    assert words_in_sentence(s2) == \"go\"\n    assert words_in_sentence(s3) == \"go\"\n    assert words_in_sentence(s4) == \"go\"\n    assert words_in_sentence(s5) == \"go\"\n    assert words_in_sentence(s6) == \"go\"\n    assert words_in_sentence(s7) == \"go\"\n    assert words_in_sentence(s8) == \"go\"\n    assert words_in_sentence(s9) == \"go\"\n    assert words_in_sentence(s10) == \"",
+      -5.6796875
+    ],
+    [
+      "words = [w for w in sentence.split(' ') if w]\n    return''.join(sorted(words, key=lambda w: len(w)))\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = [w for w in sentence.split(' ') if w]\n    return''.join(sorted(words, key=lambda w: len(w), reverse=True))\n\n\ndef words_in_sentence_3(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = [w for w in sentence.split(' ') if w]\n    return''.join(sorted(words, key=lambda w: len(w), reverse=True))\n\n\nif __name__ == '__main__':\n    assert words_in_sentence('this is a test') == 'is'\n    assert words_in_sentence('lets go for swimming') == 'go for'\n    assert words_in_sentence",
+      -5.74609375
+    ],
+    [
+      "# Note:\n    # The Solution's length of the new sentence should be a prime number\n    # and the length of the original sentence should be a prime number\n    # The original sentence should be a sentence\n    # The length of the new sentence should be the same as the original one\n    # The length of the original sentence should be the same as the length of the new one\n\n    # Solution 1:\n    # 1. Remove all the space characters\n    # 2. split the sentence into a list\n    # 3. for each list item\n    #    3.1. if the length of the list item is a prime number\n    #        3.1.1. if the length of the original sentence is a prime number\n    #        3.1.2. if the length of the new sentence is a prime number\n    #        3.1.3. if the length of the original sentence is the same as the length of the new sentence\n    #        3.1.4. then remove the space character and add the word to the new sentence\n    #        3.1.5. if the length of the new sentence is a prime number\n    #        3.1.6. return the new string\n    # 4. return the new string\n    # 5. return the new string\n\n    sentence = sentence.replace(' ', '')\n    words = sentence.split()\n    new_sentence = ''\n    for word in words:\n        if is_prime(len(word)):\n            if is_prime(len(sentence)):\n                if is_prime(len(new_sentence)):\n                    new_sentence += word\n                else:\n                    new_sentence +='' + word\n            else:\n                new_sentence += word\n        else:\n            new_sentence +='' + word\n    return new_sentence\n\n\ndef is_prime(n):\n    \"\"\"\n    Check if n is prime or not.\n    :param n: an integer\n    :return: True if n is prime, otherwise False\n    \"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n ** 0.5)",
+      -6.03125
+    ],
+    [
+      "if len(sentence) == 0:\n        return \"\"\n\n    # convert to list\n    words = sentence.split(\" \")\n\n    # find the largest prime number\n    max_prime = max(map(len, words))\n\n    # get the words in the original sentence\n    original_sentence = \"\".join(words)\n\n    # get the words in the new sentence\n    new_sentence = \"\"\n    for i in range(0, max_prime):\n        if i in original_sentence:\n            new_sentence += original_sentence[i]\n\n    # return the new sentence\n    return new_sentence\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -6.89453125
+    ],
+    [
+      "words = sentence.split()\n    word_set = set(words)\n    word_lengths = []\n    for word in word_set:\n        word_lengths.append(len(word))\n    word_lengths = sorted(word_lengths)\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [2, 2]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [2, 1]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [1, 2]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [1, 1]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [2, 1]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [1, 1]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [2, 1]]\n    word_lengths = [word_lengths[i:i+2] for i in range(len(word_lengths)) if word_lengths[i:i+2]!= [1, 1]]\n    word_lengths = [word_lengths[i:i",
+      -7.9453125
+    ],
+    [
+      "words = sentence.split(' ')\n    result = []\n    for word in words:\n        result.append(word)\n        if not word in result:\n            result.append(word)\n    return''.join(result)\n\n\ndef words_in_sentence_with_lengths(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = sentence.split(' ')\n    result = []\n    for word in words:\n        result.append(word)\n        if not word in result:\n            result.append(word)\n    return''.join(result)\n\n\ndef words_in_sentence_with_lengths_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = sentence.split(' ')\n    result = []\n    for word in words:\n        result.append(word)\n        if not word in result:\n            result.append(word)\n    return''.join(result)\n\n\ndef words_in_sentence_with_",
+      -8.0234375
+    ],
+    [
+      "if len(sentence) == 0:\n        return \"\"\n\n    # sort the string\n    words = sorted(sentence.split(\" \"))\n\n    # get the words' length\n    length = len(words)\n\n    # get the prime numbers\n    primes = [2]\n    for i in range(3, int(math.sqrt(length) + 1) + 1):\n        if all(x % i == 0 for x in range(1, length + 1)):\n            primes.append(i)\n\n    # get the length of the result\n    result = \"\"\n    for i in range(length):\n        if i == 0:\n            result += words[0]\n        elif i < len(words):\n            result += words[i]\n        else:\n            result += \" \"\n        if i == length - 1 or (i + 1) % len(primes) == 0:\n            result += \" \"\n    return result",
+      -8.28125
+    ],
+    [
+      "# TODO: (1)\n    #   - Use a set to store the words that are in the original sentence\n    #   - Add a function to generate all prime numbers in the range [1, 1000]\n    #   - Use a function to generate a new string,\n    #     which contains the words from the original sentence,\n    #     whose length is prime number\n\n    # TODO: (2)\n    #   - Use a list to store the words that are in the original sentence\n    #   - Generate all prime numbers in the range [1, 1000]\n    #   - Find the sum of the prime numbers\n    #   - Use a function to generate a new string,\n    #     which contains the words from the original sentence,\n    #     whose length is prime number\n    #   - Check if the sum is equal to the original string\n    #   - If it is, return the original string\n    #   - Otherwise, return the new string\n\n    # TODO: (3)\n    #   - Use a set to store the words that are in the original sentence\n    #   - Add a function to generate all prime numbers in the range [1, 1000]\n    #   - Generate a new string,\n    #     which contains the words from the original sentence,\n    #     whose length is prime number\n    #   - If it is, return the original string\n    #   - Otherwise, return the new string\n\n    # TODO: (4)\n    #   - Use a list to store the words that are in the original sentence\n    #   - Generate all prime numbers in the range [1, 1000]\n    #   - Find the sum of the prime numbers\n    #   - Use a function to generate a new string,\n    #     which contains the words from the original sentence,\n    #     whose length is prime number\n    #   - Check if the sum is equal to the original string\n    #   - If it is, return the original string\n    #   - Otherwise, return the new string\n\n    # TODO: (5)\n    #   - Use a set to store the words that are in the original sentence\n    #   - Add a function to generate all prime numbers in the range [1, 1000]\n    #   - Generate a new string,",
+      -8.4140625
+    ],
+    [
+      "# TODO\n    return ''.join(filter(lambda x: x.isalpha(), sentence.split(' ')))\n\n\ndef main():\n    \"\"\"\n    Sample Tests\n    \"\"\"\n    sample_test_1()\n    sample_test_2()\n\n\ndef sample_test_1():\n    \"\"\"\n    >>> words_in_sentence(\"This is a test\")\n    'is'\n    >>> words_in_sentence(\"This is a test.\")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in_sentence(\"This is a test. \")\n    'is'\n    >>> words_in",
+      -8.46875
+    ],
+    [
+      "# The idea is to find all prime numbers in the sentence,\n    # then we can use the prime number to mark the words.\n    # The first step is to find all prime numbers in the sentence.\n    # We use a stack to record the number of prime numbers in each word.\n    # Then we use the prime number to mark the word.\n    # After we find all prime numbers, we can use the prime number to mark the word.\n    # The last step is to use the prime number to mark the word.\n    # This algorithm is complicated, but the logic is very clear.\n\n    # Note: we assume the sentence is a valid sentence.\n    # This is because we assume the input is a string,\n    # and we can not check whether the input is a valid string.\n\n    # If the sentence is empty, we can return an empty string.\n    if len(sentence) == 0:\n        return \"\"\n\n    # If the sentence is only one word, we can return the word.\n    if len(sentence) == 1:\n        return sentence\n\n    # First we find all prime numbers in the sentence.\n    # We use a stack to record the number of prime numbers in each word.\n    # Then we use the prime number to mark the word.\n    # After we find all prime numbers, we can use the prime number to mark the word.\n    # The last step is to use the prime number to mark the word.\n    prime_numbers = []\n    for word in sentence.split():\n        # We assume the word is a valid word.\n        # The word can only contain letters.\n        for letter in word:\n            if letter not in \"abcdefghijklmnopqrstuvwxyz\":\n                break\n        else:\n            prime_numbers.append(len(word))\n\n    # We use the prime number to mark the word.\n    prime_numbers = [prime_number for prime_number in prime_numbers if prime_number > 0]\n    prime_numbers = sorted(prime_numbers)\n    new_sentence = \"\"\n    for word in sentence.split():\n        # We assume the word is a valid word.\n        # The word can only contain letters.\n        for letter in word:\n            if letter",
+      -8.546875
+    ],
+    [
+      "words = [word for word in sentence.split(' ') if word]\n    words = [word for word in words if len(word) > 1]\n    words = [word for word in words if is_prime(len(word))]\n    return''.join(words)\n\n\ndef is_prime(n):\n    \"\"\"\n    Check if a number is prime or not.\n    Assume that n is a positive integer.\n    If n is a prime number, return true.\n    Otherwise, check if n is a divisor of all the prime numbers smaller than n.\n    \"\"\"\n    if n == 2 or n == 3:\n        return True\n    if n <= 1:\n        return False\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    sol = words_in_sentence(sentence)\n    print(sol)",
+      -8.6328125
+    ],
+    [
+      "# Brute force solution\n    words = []\n    for c in sentence:\n        if c.isalpha():\n            words.append(c)\n    return \" \".join(words)\n\n\nclass Solution:\n    def words_in_sentence(self, sentence: str) -> str:\n        \"\"\"\n        Brute force solution\n        \"\"\"\n        words = []\n        for c in sentence:\n            if c.isalpha():\n                words.append(c)\n        return \" \".join(words)\n\n    def words_in_sentence(self, sentence: str) -> str:\n        \"\"\"\n        DP solution\n        \"\"\"\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        # [0, 1, 2, 3, 4]\n        #",
+      -8.6640625
+    ],
+    [
+      "# Solution:\n    # Split the sentence into words,\n    # then get the frequency of each word,\n    # then sort the frequency array,\n    # then get the prime number in the frequency array\n    # then reverse the sorted array,\n    # then join the words together\n    words = sentence.split()\n    freq = {}\n    for word in words:\n        if word in freq:\n            freq[word] += 1\n        else:\n            freq[word] = 1\n    sorted_freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)\n    prime_numbers = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    ans = ''\n    for i, (word, count) in enumerate(sorted_freq):\n        if i == len(sorted_freq) - 1:\n            ans += word\n        elif i == 0:\n            ans += word +''\n        elif prime_numbers[i] > len(ans):\n            ans += word +''\n        else:\n            ans += word +'' +''\n    return ans[:-1]\n\n\nif __name__ == '__main__':\n    sol = words_in_sentence('This is a test')\n    print(sol)",
+      -8.703125
+    ],
+    [
+      "words = []\n    for word in sentence.split(' '):\n        if len(word) > 0:\n            if word not in words:\n                words.append(word)\n\n    return''.join(words)\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = []\n    for word in sentence.split(' '):\n        if len(word) > 0:\n            if word not in words:\n                words.append(word)\n\n    if not words:\n        return ''\n\n    return''.join(words)\n\n\nif __name__ == '__main__':\n    import time\n\n    start_time = time.time()\n\n    test_cases = [\n        ([\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\"], \"abcdefg\"),\n        ([\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\"], \"abcdefgh\"),\n        ([\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\"], \"abcdefghi\"),\n        ([\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\"], \"abcdefghij\"),\n        ([\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\", \"k\"], \"abcdefghijk\"),\n        ([\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h",
+      -8.8671875
+    ],
+    [
+      "words = sentence.split()\n    return''.join(x for x in words if not x.isalpha())\n\n\nif __name__ == '__main__':\n    assert words_in_sentence('a') == 'a'\n    assert words_in_sentence('a b') == 'a b'\n    assert words_in_sentence('a b c') == 'c a b'\n    assert words_in_sentence('a b c d') == 'c a b d'\n    assert words_in_sentence('a b c d e') == 'c a b d e'\n    assert words_in_sentence('a b c d e f') == 'c a b d e f'",
+      -9.359375
+    ],
+    [
+      "# TODO: (5/17/2021) Implement this function.\n    # TODO: (5/17/2021) Check the correctness of the solution.\n    # TODO: (5/17/2021) Check the performance of the solution.\n\n    # Get the length of the sentence.\n    length = len(sentence)\n\n    # Get the prime numbers from 1 to length.\n    prime_numbers = get_prime_numbers(length)\n\n    # Get the list of all the words in the sentence.\n    words = get_words(sentence)\n\n    # Get the list of all the words from 1 to length.\n    words_from_1_to_length = get_words(sentence, 1, length)\n\n    # Get the list of the words that are in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True)\n\n    # Get the list of the words in the sentence.\n    words_in_sentence = get_words(sentence, 1, length, False)\n\n    # Get the list of the words that are in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True)\n\n    # Get the list of all the words in the sentence.\n    words_in_sentence = get_words(sentence, 1, length)\n\n    # Get the list of all the words in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True)\n\n    # Get the list of all the words in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True)\n\n    # Get the list of all the words in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True)\n\n    # Get the list of all the words in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True)\n\n    # Get the list of all the words in the original sentence.\n    words_in_original_sentence = get_words(sentence, 1, length, True",
+      -9.375
+    ],
+    [
+      "if not isinstance(sentence, str):\n        return \"\"\n\n    words = [word for word in sentence.split() if word]\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71]\n\n    for word in words:\n        if not is_prime(len(word)):\n            return \"\"\n\n    for i in range(2, len(words) + 1):\n        for j in range(2, len(words) + 1):\n            if (i % primes[j - 1] == 0) and (j % primes[i - 1] == 0):\n                words[i] = \"\".join(words[i - i % primes[i - 1] + j - j % primes[j - 1]])\n                break\n\n    return \" \".join(words)\n\n\nif __name__ == \"__main__\":\n    assert words_in_sentence(\"This is a test\") == \"is\", \"Test 1\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\", \"Test 2\"",
+      -9.390625
+    ],
+    [
+      "word_list = []\n    for word in sentence.split():\n        if len(word) > 1 and is_prime(len(word)):\n            word_list.append(word)\n\n    word_list = list(set(word_list))\n    word_list.sort()\n    return''.join(word_list)\n\n\ndef is_prime(n):\n    \"\"\"\n    Returns true if n is prime, otherwise returns false.\n\n    Constraints:\n        1 <= n <= 100\n    \"\"\"\n    if n == 1 or n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(math.sqrt(n)) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -10.0703125
+    ],
+    [
+      "result = []\n    for word in sentence.split():\n        if not word.isalpha():\n            continue\n        result.append(word)\n        if len(result) == len(sentence):\n            break\n    return \" \".join(result)\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    result = []\n    for word in sentence.split():\n        if not word.isalpha():\n            continue\n        result.append(word)\n        if len(result) == len(sentence):\n            break\n    return \" \".join(result)\n\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence_2(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence_2(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"This is a test\") == \"is\"",
+      -10.296875
+    ],
+    [
+      "words = sentence.split()\n\n    result = []\n\n    for word in words:\n        result.append(word)\n\n        # check if the length of the result is a prime number\n        if len(result) == len(set(result)):\n            return ''.join(result)\n\n        result = []\n\n    return ''.join(result)\n\n\ndef words_in_sentence_2(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = sentence.split()\n\n    result = []\n\n    for word in words:\n        if len(result) == 0:\n            result.append(word)\n        else:\n            result[-1] += word\n        if len(result) == len(set(result)):\n            return ''.join(result)\n\n    return ''.join(result)\n\n\ndef words_in_sentence_3(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n\n    Example 1:\n        Input: sentence = \"This is a test\"\n        Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words = sentence.split()\n\n    result = []\n\n    for word in words:",
+      -10.3125
+    ],
+    [
+      "if len(sentence) == 0:\n        return \"\"\n\n    # sort the words in the sentence by length\n    words = sorted(sentence.split(' '), key=lambda x: len(x))\n    # add '\\n' to the end of the sentence\n    words.append('\\n')\n\n    # get the length of each word\n    word_lengths = [len(word) for word in words]\n\n    # get the first prime number\n    # the first prime number is 1\n    prime_number = next(prime(i) for i in range(2, max(word_lengths) + 1))\n    # create a new list which is the same length as word_lengths\n    new_words = [word for word, length in zip(words, word_lengths) if length >= prime_number]\n\n    # get the last prime number\n    prime_number = next(prime(i) for i in range(prime_number, max(word_lengths) + 1))\n    # create a new list which is the same length as word_lengths\n    new_words.extend(words[-1] for word in words if word[-prime_number:] == '')\n\n    # get the last prime number\n    prime_number = next(prime(i) for i in range(prime_number, max(word_lengths) + 1))\n    # create a new list which is the same length as word_lengths\n    new_words.extend(words[-1] for word in words if word[:prime_number] == '')\n\n    return''.join(new_words)\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"this is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"a test\") == \"test\"\n    assert words_in_sentence(\"\") == \"\"",
+      -12.1875
+    ],
+    [
+      "# if not isinstance(sentence, str):\n    #     return\n\n    words = sentence.split()\n    new_words = []\n    for word in words:\n        if not word:\n            continue\n        if is_prime(len(word)):\n            new_words.append(word)\n    return \" \".join(new_words)\n\n\nif __name__ == \"__main__\":\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert words_in_sentence(str.split(\"This is a test\", \" \")) == \"is\", \"1\"\n    assert words_in_sentence(str.split(\"lets go for swimming\", \" \")) == \"go for\", \"2\"\n    assert words_in_sentence(str.split(\"\", \" \")) == \"\", \"3\"\n    assert words_in_sentence(\"This is a test\") == \"This is a test\", \"4\"\n    assert words_in_sentence(\"let's go for swimming\") == \"let's go for swimming\", \"5\"\n    assert words_in_sentence(\"\") == \"\", \"6\"",
+      -12.359375
+    ],
+    [
+      "if not isinstance(sentence, str):\n        return None\n    if not sentence:\n        return None\n\n    word_list = [x for x in sentence.split() if x]\n    word_list = [x for x in word_list if x]\n    # Get prime numbers\n    prime_numbers = list(itertools.takewhile(lambda x: x % 2 == 0, range(3, 101)))\n    prime_numbers.extend([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977",
+      -12.7109375
+    ],
+    [
+      "words = sentence.split()\n\n    # Check if the words are prime numbers\n    # If not, split the sentence into two parts\n    # and return the words of the first part\n    if not all(is_prime(word) for word in words):\n        return''.join(words[:len(words) // 2])\n    else:\n        return''.join(words)\n\n\ndef is_prime(num):\n    \"\"\"\n    Check if a number is prime\n\n    Constraints:\n        * 1 <= num <= 100\n    \"\"\"\n    if num < 2:\n        return False\n    if num == 2:\n        return True\n\n    if num % 2 == 0:\n        return False\n    if num % 3 == 0:\n        return False\n\n    for divisor in range(3, int(math.sqrt(num)) + 1, 2):\n        if num % divisor == 0:\n            return False\n\n    return True\n\n\nif __name__ == '__main__':\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"",
+      -12.75
+    ],
+    [
+      "# sort the words by length and then get the first and last of the words\n    words = sorted(sentence.split(), key=len, reverse=True)\n    first_word = words[0]\n    last_word = words[-1]\n    # check if the first word is a prime number\n    if not is_prime(len(first_word)):\n        return \"\"\n    # check if the last word is a prime number\n    if not is_prime(len(last_word)):\n        return \"\"\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # check if the first word is a prime number\n    if not is_prime(len(first_word)):\n        return \"\"\n    # check if the last word is a prime number\n    if not is_prime(len(last_word)):\n        return \"\"\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # check if the first word is a prime number\n    if not is_prime(len(first_word)):\n        return \"\"\n    # check if the last word is a prime number\n    if not is_prime(len(last_word)):\n        return \"\"\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # get the first and last word from the sorted list\n    first_word = words[0]\n    last_word = words[-1]\n    # check if the first word is a prime number\n    if not is_prime(len(first_word)):\n        return \"\"",
+      -12.8359375
+    ],
+    [
+      "if len(sentence) == 0:\n        return \"\"\n\n    if len(sentence) == 1:\n        return sentence\n\n    # words in the sentence\n    words = sentence.split(\" \")\n    # words length in the sentence\n    lens = [len(word) for word in words]\n\n    # words in the sentence\n    words = words[:1]\n\n    # words length in the sentence\n    lens = lens[:1]\n\n    # the number of prime numbers in lens\n    p = len(prime(lens))\n\n    # the number of prime numbers in lens\n    q = len(prime(lens))\n\n    # words in the sentence\n    words = words[:p]\n\n    # words length in the sentence\n    lens = lens[:p]\n\n    # the number of prime numbers in lens\n    p = len(prime(lens))\n\n    # the number of prime numbers in lens\n    q = len(prime(lens))\n\n    # words in the sentence\n    words = words[:q]\n\n    # words length in the sentence\n    lens = lens[:q]\n\n    # words in the sentence\n    words = words[:p]\n\n    # words length in the sentence\n    lens = lens[:p]\n\n    # the number of prime numbers in lens\n    p = len(prime(lens))\n\n    # the number of prime numbers in lens\n    q = len(prime(lens))\n\n    # words in the sentence\n    words = words[:p]\n\n    # words length in the sentence\n    lens = lens[:p]\n\n    # words in the sentence\n    words = words[:q]\n\n    # words length in the sentence\n    lens = lens[:q]\n\n    # words in the sentence\n    words = words[:p]\n\n    # words length in the sentence\n    lens = lens[:p]\n\n    # the number of prime numbers in lens\n    p = len(prime(lens))\n\n    # the number of prime numbers in lens\n    q = len(prime(lens))\n\n    # words in the sentence\n    words = words[:q]\n\n    # words length in the sentence\n    lens = lens[:q]\n\n    #",
+      -14.203125
+    ],
+    [
+      "result = []\n    for word in sentence.split():\n        if len(word) > 1:\n            for i in range(2, int(math.sqrt(len(word))) + 1):\n                if i >= len(word):\n                    continue\n                for j in range(i, len(word) + 1):\n                    if i * j == len(word):\n                        result.append(word[:i * j])\n    return ''.join(result)\n\n\ndef words_in_sentence_test():\n    assert words_in_sentence(\"This is a test\") == \"is\"\n    assert words_in_sentence(\"lets go for swimming\") == \"go for\"\n    assert words_in_sentence(\"a\") == \"\"\n    assert words_in_sentence(\"\") == \"\"\n    assert words_in_sentence(\"abc\") == \"abc\"\n    assert words_in_sentence(\"abcdefghijklmnopqrstuvwxyz\") == \"abcdefghijklmnopqrstuvwxyz\"\n    assert words_in_sentence(\"abcdefghijklmnopqrstuvwxyz\") == \"abcdefghijklmnopqrstuvwxyz\"\n    assert words_in_sentence(\"abcdefghijklmnopqrstuvwxyz\") == \"abcdefghijklmnopqrstuvwxyz\"\n    assert words_in_sentence(\"abcdefghijklmnopqrstuvwxyz\") == \"abcdefghijklmnopqrstuvwxyz\"\n    assert words_in_sentence(\"abcdefghijklmnopqrstuvwxyz\") == \"abcdefghijklmnopqrstuvwxyz\"\n\n\ndef main():\n    words_in_sentence_test()\n\n\nif __name__ == '__main__':\n    main()",
+      -16.640625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

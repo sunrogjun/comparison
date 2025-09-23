@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/324",
+    "prompt": "Write a function to extract the sum of alternate chains of tuples.",
+    "canonical_solution": "def sum_of_alternates(test_tuple):\r\n  sum1 = 0\r\n  sum2 = 0\r\n  for idx, ele in enumerate(test_tuple):\r\n    if idx % 2:\r\n      sum1 += ele\r\n    else:\r\n      sum2 += ele\r\n  return ((sum1),(sum2)) ",
+    "test_list": [
+      "assert sum_of_alternates((5, 6, 3, 6, 10, 34)) == (46, 18)",
+      "assert sum_of_alternates((1, 2, 3, 4, 5)) == (6, 9)",
+      "assert sum_of_alternates((6, 7, 8, 9, 4, 5)) == (21, 18)"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 313
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# https://leetcode.com/problems/alternate-permutations/\n\nclass Solution(object):\n    def getAlternatePermutationSum(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        def get_alternate_permutation_sum(n, k, result, current_sum):\n            if k == 0:\n                return current_sum\n            if k == 1:\n                return current_sum + n\n            if k == 2:\n                return current_sum + n * (n - 1) / 2\n            if k == 3:\n                return current_sum + n * (n - 1) * (2 * n - 1) / 6\n            if k == 4:\n                return current_sum + n * (n - 1) * (2 * n - 1) * (3 * n - 1) / 24\n            if k == 5:\n                return current_sum + n * (n - 1) * (2 * n - 1) * (3 * n - 1) * (4 * n - 1) / 120\n            if k == 6:\n                return current_sum + n * (n - 1) * (2 * n - 1) * (3 * n - 1) * (4 * n - 1) * (5 * n - 1) / 720\n            if k == 7:\n                return current_sum + n * (n - 1) * (2 * n - 1) * (3 * n - 1) * (4 * n - 1) * (5 * n - 1) * (6 * n - 1) / 5040\n            if k == 8:\n                return current_sum + n * (n - 1) * (2 * n - 1) * (3 * n - 1) * (4 * n - 1) * (5 * n - 1) * (6 * n - 1) * (7 * n - 1) / 40320\n            if k == 9:\n                return current_sum + n * (n - 1) * (2 * n - 1) * (3 * n - 1) * (4 * n - 1) * (5 * n - 1) * (6 * n - 1",
+      1.4521484375
+    ],
+    [
+      "def sum_alternate_chains(t):\n    \"\"\"\n    t is a list of tuples.\n    \"\"\"\n    if len(t) == 1:\n        return t[0][0]\n    \n    return sum_alternate_chains(t[0]) + sum_alternate_chains(t[1:])\n\nif __name__ == \"__main__\":\n    t = ((\"a\", \"b\"), (\"b\", \"c\"), (\"c\", \"d\"), (\"d\", \"e\"), (\"e\", \"f\"), (\"f\", \"g\"))\n    print(sum_alternate_chains(t))",
+      1.068359375
+    ],
+    [
+      "import collections\n\n# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution(object):\n    def sumTuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not tuples:\n            return 0\n        next_tuples = collections.defaultdict(list)\n        for t in tuples:\n            next_tuples[t.x].append(t.next)\n        current_sum = 0\n        for k in next_tuples:\n            current_sum += sum(next_tuples[k])\n        return current_sum\n\nif __name__ == \"__main__\":\n    s = Solution()\n    tuples = [Tuple(1), Tuple(2), Tuple(3), Tuple(4), Tuple(5), Tuple(6), Tuple(7)]\n    print s.sumTuple(tuples)\n    tuples = [Tuple(1), Tuple(2), Tuple(3), Tuple(4), Tuple(5), Tuple(6)]\n    print s.sumTuple(tuples)",
+      0.020782470703125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains\n\ndef alternate_chains(A):\n    count = 0\n    for i in range(len(A)):\n        if i > 0:\n            if A[i-1][0]!= A[i][0]:\n                count += A[i-1][1] + A[i][1]\n    return count\n\nif __name__ == '__main__':\n    t = int(input())\n    for _ in range(t):\n        A = list(map(int, input().split()))\n        print(alternate_chains(A))",
+      -0.85595703125
+    ],
+    [
+      "class Solution(object):\n    def getSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return nums[0]\n        res = 0\n        for i in range(1, len(nums)):\n            res += nums[i]\n            res += nums[i-1]\n        return res",
+      -0.85693359375
+    ],
+    [
+      "import unittest\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: int\n    \"\"\"\n    return sum(tuple[0] + tuple[1] for tuple in tuples)\n\nclass TestCode(unittest.TestCase):\n    def test_example(self):\n        self.assertEqual(sum_alternate_chains([(1, 2), (3, 4), (5, 6)]), 15)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85693359375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: int\n    \"\"\"\n    # type: (List[tuple]) -> int\n    return sum(\n        sum(x)\n        for x in\n        map(\n            lambda x:\n            defaultdict(int, x)\n            if isinstance(x, dict)\n            else x,\n            tuples\n        )\n    )",
+      -0.85693359375
+    ],
+    [
+      "# https://leetcode.com/problems/alternate-chains/\n\nclass Solution(object):\n    def alternateChains(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def dfs(nums, i, j):\n            if i == j:\n                return nums[i]\n            if i == len(nums) - 1:\n                return nums[i]\n            if nums[i] == nums[j]:\n                return nums[i] + nums[j]\n            return dfs(nums, i + 1, j)\n        return dfs(nums, 0, len(nums) - 1)",
+      -0.85791015625
+    ],
+    [
+      "def alternate_chain_sum(a_list):\n    \"\"\"\n    :param a_list: a list of tuples\n    :return: the sum of the alternate chains of tuples\n    \"\"\"\n    alternate_chain_sum = 0\n    for i in range(len(a_list) - 1):\n        if a_list[i][0] == a_list[i + 1][0]:\n            alternate_chain_sum += a_list[i][1]\n    return alternate_chain_sum\n\n\nif __name__ == \"__main__\":\n    a_list = [\n        (1, 1),\n        (2, 1),\n        (3, 2),\n        (4, 3),\n        (5, 1),\n        (6, 1),\n        (7, 2),\n        (8, 3),\n        (9, 4),\n    ]\n    print(alternate_chain_sum(a_list))",
+      -0.85791015625
+    ],
+    [
+      "def sum_of_alternate_chains(t):\n    \"\"\"\n    t is a list of tuples.\n\n    Returns the sum of the alternate chains.\n    \"\"\"\n    return sum(chain(t))\n\nif __name__ == \"__main__\":\n    t = [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5), ('f', 6)]\n    print(sum_of_alternate_chains(t))\n    # >>> 4",
+      -0.85791015625
+    ],
+    [
+      "def sum_alternate_chains(tuples):\n    sum = 0\n    for i in range(len(tuples) - 1):\n        sum += tuples[i][0] * tuples[i + 1][1]\n    return sum\n\nif __name__ == '__main__':\n    tuples = [ (1, 2), (3, 4), (5, 6), (7, 8) ]\n    print(sum_alternate_chains(tuples))",
+      -0.85791015625
+    ],
+    [
+      "from typing import List, Tuple\n\nfrom typing_extensions import Literal\n\n\ndef sum_alternate_chains(tuples: List[Tuple[Literal[0, 1],...]]) -> int:\n    \"\"\"\n    :type tuples: List[Tuple[int,...]]\n    :rtype: int\n    \"\"\"\n    return sum(chain.sum() for chain in zip(*tuples))",
+      -0.85791015625
+    ],
+    [
+      "def sum_alternate_chains(tuples):\n    \"\"\"\n    Returns the sum of the alternate chains of tuples.\n    tuples - a list of tuples.\n    \"\"\"\n    return sum(chain(x[1] for x in tuples))\n\n\nclass Test(unittest.TestCase):\n    def test_sum_alternate_chains(self):\n        self.assertEqual(sum_alternate_chains([(1, 2), (3, 4), (5, 6)]), 15)\n        self.assertEqual(sum_alternate_chains([(1, 2), (3, 4), (5, 6), (7, 8)]), 42)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    \"\"\"\n    @param: arr: An array of tuples\n    @return: A integer\n    \"\"\"\n    def getSum(self, arr):\n        \"\"\"\n        :type arr: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not arr:\n            return 0\n        s = 0\n        for i in range(len(arr)):\n            s += arr[i][0] * (arr[i][1] + arr[i][2])\n        return s",
+      -0.85791015625
+    ],
+    [
+      "# https://leetcode.com/problems/alternate-chains/description/\n# https://leetcode.com/problems/alternate-chains/discuss/4570/Python-C%2B%2B-Python-Solution-for-alternate-chains\n\nclass Solution:\n    # @param nums: A list of integers\n    # @return: A integer\n    def alternateChains(self, nums):\n        n = len(nums)\n        if n < 2:\n            return 0\n        \n        ans = 0\n        for i in range(n - 1):\n            if nums[i] == nums[i + 1]:\n                ans += nums[i]\n        return ans",
+      -0.85791015625
+    ],
+    [
+      "from collections import Counter\n\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: collections.Iterable[tuple]\n    :rtype: int\n    \"\"\"\n    counter = Counter(tuples)\n    total = sum(counter.values())\n    return total\n\n\nif __name__ == '__main__':\n    tuples = [(1, 2), (1, 3), (2, 3), (2, 4), (3, 4), (3, 5), (4, 5), (4, 6), (5, 6), (5, 7), (6, 7)]\n    print(sum_alternate_chains(tuples))",
+      -0.85791015625
+    ],
+    [
+      "def sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: int\n    \"\"\"\n    if not tuples:\n        return 0\n\n    return sum(chain(tuples, tuples[0]))",
+      -0.85791015625
+    ],
+    [
+      "class Solution:\n    # @param nums, a list of lists of integers\n    # @return an integer\n\n    def sumOfAlternate(self, nums):\n        def getSum(nums, start, end):\n            if start > end:\n                return 0\n            if start == end:\n                return nums[start]\n            return nums[start] + getSum(nums, start+1, end) - getSum(nums, start+1, end-1)\n\n        return getSum(nums, 0, len(nums)-1)\n\n\nif __name__ == \"__main__\":\n    nums = [[1, 2], [3, 4], [1, 2], [5, 6]]\n    sol = Solution()\n    print(sol.sumOfAlternate(nums))",
+      -0.8583984375
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n\n    def __str__(self):\n        return str(self.x)\n\nclass Solution(object):\n    def getSum(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not tuples:\n            return 0\n\n        ret = 0\n        for t in tuples:\n            ret += t.x\n        return ret",
+      -0.8583984375
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, first, second):\n        self.first = first\n        self.second = second\n\n    def __str__(self):\n        return \"{} {}\".format(self.first, self.second)\n\n    def __eq__(self, other):\n        return self.first == other.first and self.second == other.second\n\n    def __hash__(self):\n        return hash((self.first, self.second))\n\n    def __repr__(self):\n        return str(self)\n\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: int\n    \"\"\"\n    return sum(map(lambda t: t[0], filter(lambda t: t[1]!= t[0], tuples)))\n\n\ndef main():\n    tuples = [\n        (\"A\", \"B\"),\n        (\"A\", \"C\"),\n        (\"B\", \"A\"),\n        (\"B\", \"C\"),\n        (\"C\", \"A\"),\n        (\"C\", \"B\"),\n    ]\n\n    print(\"sum of alternate chains of tuples: {}\".format(sum_alternate_chains(tuples)))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.8583984375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains\n\n# Your code here\n\ndef alternate_chains(tuples):\n    s = 0\n    for t in tuples:\n        s += t[0] + t[1]\n    return s\n\ndef main():\n    tuples = [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]\n    print alternate_chains(tuples)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def getSum(self, nums):\n        \"\"\"\n        :type nums: List[List[int]]\n        :rtype: int\n        \"\"\"\n        return self.getSumRecursive(nums, 0)\n\n    def getSumRecursive(self, nums, start):\n        res = 0\n        if not nums:\n            return 0\n        n = len(nums)\n        for i in range(n):\n            for j in range(i + 1, n):\n                if nums[i][j] == nums[j][i]:\n                    res += nums[i][j]\n                    nums[i][j] = 0\n        return self.getSumRecursive(nums[:n - 1], start + 1) + res\n\n\nif __name__ == \"__main__\":\n    nums = [[1, 2], [3, 4], [1, 2], [3, 4], [5, 6]]\n    print(Solution().getSum(nums))\n    nums = [[1, 2], [3, 4], [1, 2], [3, 4], [5, 6], [1, 2], [3, 4]]\n    print(Solution().getSum(nums))\n    nums = [[1, 2], [3, 4], [1, 2], [3, 4]]\n    print(Solution().getSum(nums))",
+      -0.8583984375
+    ],
+    [
+      "def sum_of_alternate_chains(tuple_list):\n    \"\"\"\n    Input: A list of tuples\n    Output: A list of lists\n    \"\"\"\n    result = []\n    for chain in tuple_list:\n        if chain:\n            result.append(sum(chain))\n        else:\n            result.append(0)\n    return result\n\nif __name__ == \"__main__\":\n    tuple_list = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]\n    print(sum_of_alternate_chains(tuple_list))\n    tuple_list = [(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]\n    print(sum_of_alternate_chains(tuple_list))",
+      -0.8583984375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains/problem\n# https://www.codewars.com/kata/alternate-chains-tutorial/train/python\n\ndef alternate_chains(tuple_list):\n    # type: (List[Tuple]) -> int\n    \"\"\"\n    :type tuple_list: List[Tuple]\n    :rtype: int\n    \"\"\"\n\n    result = 0\n    for i in range(len(tuple_list) - 1):\n        if tuple_list[i] == tuple_list[i+1]:\n            result += tuple_list[i]\n\n    return result\n\nif __name__ == \"__main__\":\n    t = int(input())\n\n    for _ in range(t):\n        tuple_list = list(map(lambda x: tuple(map(int, x)), input().split()))\n        print(alternate_chains(tuple_list))",
+      -0.8583984375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains\n# https://www.hackerrank.com/challenges/alternate-chains/submissions/code/5673547\n\ndef alternate_chains(arr):\n    \"\"\"\n    :type arr: List[Tuple]\n    :rtype: int\n    \"\"\"\n    return sum(alternate_chain(t) for t in arr)\n\n\ndef alternate_chain(t):\n    \"\"\"\n    :type t: tuple\n    :rtype: int\n    \"\"\"\n    return sum(t) if t[0] == t[1] else 1 + alternate_chain(t[1:])\n\nif __name__ == \"__main__\":\n    t = int(input())\n    arr = [tuple(map(int, s.split())) for s in input().split()]\n    print(alternate_chains(arr))",
+      -0.8583984375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains/problem\n\ndef alternate_chains(arr):\n    \"\"\"\n    :type arr: List[Tuple[int, int]]\n    :rtype: int\n    \"\"\"\n    max_length = 0\n    for a, b in arr:\n        if a == b:\n            continue\n        if a > b:\n            max_length += a - b\n        else:\n            max_length += b - a\n    return max_length\n\nif __name__ == '__main__':\n    t = int(input())\n    for _ in range(t):\n        n = int(input())\n        arr = list(map(lambda x: tuple(map(int, x.split(','))), input().rstrip().split(' ')))\n        print(alternate_chains(arr))",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def sumOfAlternateChains(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def sum(t):\n            if not t:\n                return 0\n            return t[0] + sum(t[1:])\n        return sum(nums)",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param {List<List<int>>} matrix\n    # @return {int}\n    def sumOfAlternateChains(self, matrix):\n        if not matrix:\n            return 0\n        \n        # sum of alternate chain\n        s = 0\n        for i in range(len(matrix)):\n            for j in range(len(matrix[i])):\n                if i > 0 and matrix[i-1][j] == matrix[i][j]:\n                    continue\n                if j > 0 and matrix[i][j-1] == matrix[i][j]:\n                    continue\n                s += matrix[i][j]\n        return s",
+      -0.85888671875
+    ],
+    [
+      "import collections\n\n\ndef sum_alternate_chain(tuples):\n    return sum(chain(tuples))\n\n\nif __name__ == '__main__':\n    tuples = [\n        (1, 1), (2, 3), (4, 5), (5, 4), (6, 5), (7, 6), (8, 6), (9, 7), (10, 10)\n    ]\n    print(sum_alternate_chain(tuples))",
+      -0.85888671875
+    ],
+    [
+      "import collections\n\ndef sum_alternate(tuples):\n    alternate_chain_sum = 0\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            alternate_chain_sum += tuples[i][0] + tuples[j][0]\n    return alternate_chain_sum\n\ndef test_sum_alternate():\n    assert sum_alternate([(1,2),(2,3),(1,4),(1,3),(1,2)]) == 6\n\nif __name__ == '__main__':\n    test_sum_alternate()",
+      -0.85888671875
+    ],
+    [
+      "def sum_alternate_chains(tuple_list):\n    \"\"\"\n    :type tuple_list: List[Tuple]\n    :rtype: int\n    \"\"\"\n    # write your code here\n    if not tuple_list:\n        return 0\n    return sum(tuple_list[0]) + sum_alternate_chains(tuple_list[1:])\n\n\nif __name__ == \"__main__\":\n    tuple_list = [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]\n    print(sum_alternate_chains(tuple_list))",
+      -0.85888671875
+    ],
+    [
+      "#!/usr/bin/python\n# -*- coding: utf-8 -*-\nimport sys\n\ndef main():\n    if len(sys.argv) < 2:\n        sys.exit(\"Usage: %s filename\" % sys.argv[0])\n    with open(sys.argv[1], 'r') as f:\n        for line in f:\n            t = tuple(line.split())\n            if len(t) == 0:\n                continue\n            if len(t) == 1:\n                print(t[0])\n            else:\n                print(\"\".join(map(str, t[:-1])), \":\", t[-1])\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def sum_of_alternate_chains(tups):\n    \"\"\"\n    :type tups: List[Tuple]\n    :rtype: int\n    \"\"\"\n    return sum(chain(tups, tups[1:]))\n\n# Your Solution here.\n# def sum_of_alternate_chains(tups):\n#     res = 0\n#     for i in range(len(tups)):\n#         if i % 2 == 0:\n#             res += tups[i]\n#         else:\n#             res += tups[i] + tups[i + 1]\n#     return res",
+      -0.85888671875
+    ],
+    [
+      "def sum_alternate_chains(tuples):\n    \"\"\"\n    Returns the sum of the alternate chains of tuples.\n\n    tuples -- a list of tuples\n\n    Returns the sum of the alternate chains of tuples.\n    \"\"\"\n    return sum([tuple[0] for tuple in tuples if tuple[1]!= tuple[2]])",
+      -0.85888671875
+    ],
+    [
+      "def sum_alternate_chains(tuples):\n    \"\"\"\n    Return the sum of the alternate chains of tuples.\n    tuples is a list of tuples.\n    \"\"\"\n    return sum(chain(tup[0] for tup in tuples))",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\nclass Solution:\n    def sumTuple(self, nums: List[int]) -> int:\n        res = 0\n        for i, j in enumerate(nums):\n            if i == 0:\n                res += j\n            elif i == len(nums) - 1:\n                res += j\n            else:\n                res += j + nums[i - 1]\n        return res\n\n\n# TESTS\nfor nums, expected in [\n    ([1, 2, 3], 6),\n    ([1, 2, 2], 3),\n]:\n    sol = Solution()\n    actual = sol.sumTuple(nums)\n    print(\"The sum of alternate chains of\", nums, \"->\", actual)\n    assert actual == expected",
+      -0.85888671875
+    ],
+    [
+      "def sum_alternate(tup_list):\n    \"\"\"\n    Returns the sum of the alternate chains of tuples in tup_list.\n    \"\"\"\n    # write your code here\n    res = 0\n    for tup in tup_list:\n        res += sum(tup)\n    return res",
+      -0.85888671875
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\ndef sum_chain(tuples):\n    \"\"\"\n    :param tuples: list of tuples\n    :return: sum of all alternate chains\n    \"\"\"\n    if not tuples:\n        return 0\n    result = 0\n    for t in tuples:\n        if t.a == t.b:\n            continue\n        if t.a > t.b:\n            result += t.a - t.b\n        else:\n            result += t.b - t.a\n    return result\n\nif __name__ == '__main__':\n    tuples = [Tuple(1, 2), Tuple(3, 4), Tuple(1, 3), Tuple(2, 3)]\n    print(sum_chain(tuples))",
+      -0.85888671875
+    ],
+    [
+      "def sum_alternate(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: int\n    \"\"\"\n    return sum(map(lambda x: x[0] + x[1], tuples))\n\n# Your code here",
+      -0.85888671875
+    ],
+    [
+      "from typing import List, Tuple\n\ndef sum_of_alternate_chains(tuples: List[Tuple[int,...]]) -> int:\n    \"\"\"\n    >>> sum_of_alternate_chains([(1, 2, 3), (4, 5, 6), (7, 8, 9)])\n    16\n    >>> sum_of_alternate_chains([(1, 2), (3, 4), (5, 6)])\n    7\n    \"\"\"\n    return sum(t[0] for t in tuples if t[1]!= t[0])\n\n\nif __name__ == '__main__':\n    assert sum_of_alternate_chains([(1, 2, 3), (4, 5, 6), (7, 8, 9)]) == 16\n    assert sum_of_alternate_chains([(1, 2), (3, 4), (5, 6)]) == 7",
+      -0.88427734375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains/problem\n\ntuple = (1, 2, 3, 4, 5, 6, 7, 8, 9)\n\ndef alternate_chain(tuple):\n    # If the tuple is an even length, sum up the last two elements of the\n    # tuple and the second to last element of the tuple.\n    if len(tuple) % 2 == 0:\n        return tuple[-2] + tuple[-1]\n    else:\n        return tuple[-1]\n\n# If the tuple is an odd length, sum up the first two elements of the tuple\n# and the second to last element of the tuple.\ndef alternate_chain_odd(tuple):\n    if len(tuple) % 2 == 0:\n        return tuple[0] + tuple[1]\n    else:\n        return tuple[1]\n\n# If the tuple is an even length, sum up the first two elements of the tuple\n# and the second to last element of the tuple.\ndef alternate_chain_even(tuple):\n    if len(tuple) % 2 == 0:\n        return tuple[0] + tuple[1]\n    else:\n        return tuple[0] + tuple[2]\n\n# If the tuple is an odd length, sum up the first element of the tuple and the\n# second to last element of the tuple.\ndef alternate_chain_odd_2(tuple):\n    if len(tuple) % 2 == 0:\n        return tuple[0] + tuple[1]\n    else:\n        return tuple[1] + tuple[2]\n\n# If the tuple is an even length, sum up the first element of the tuple and the\n# second to last element of the tuple.\ndef alternate_chain_even_2(tuple):\n    if len(tuple) % 2 == 0:\n        return tuple[0] + tuple[1]\n    else:\n        return tuple[0] + tuple[2]\n\n# If the tuple is an odd length, sum up the last two elements of the tuple and\n# the second to last element of the tuple.\ndef alternate_chain_odd_3(tuple):\n    if len(tuple",
+      -2.169921875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains/problem\n\nimport sys\n\n\ndef get_alternate_chain(arr):\n    \"\"\"\n    Returns the sum of all the alternate chains.\n\n    :param arr: A list of tuples.\n    :return: Sum of all the alternate chains.\n    \"\"\"\n    sum = 0\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            sum += arr[i][1] * arr[j][1]\n    return sum\n\n\nif __name__ == \"__main__\":\n    arr = sys.stdin.readlines()\n    arr = [tuple(map(int, x.split())) for x in arr]\n    print get_alternate_chain(arr)",
+      -2.38671875
+    ],
+    [
+      "from collections import namedtuple\n\n# Example\n\n# Input:\n# [[1,2], [1,2], [1,2]]\n# Output: 6\n# Input:\n# [[1,2], [2,3], [2,3]]\n# Output: 3\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5]]\n# Output: 15\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5], [4,5], [5,6]]\n# Output: 21\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5], [4,5], [5,6], [6,7]]\n# Output: 36\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5], [4,5], [5,6], [6,7], [7,8]]\n# Output: 54\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5], [4,5], [5,6], [6,7], [7,8], [8,9]]\n# Output: 69\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5], [4,5], [5,6], [6,7], [7,8], [8,9], [9,10]]\n# Output: 84\n# Input:\n# [[1,2], [1,3], [2,3], [2,4], [3,4], [3,5], [4,5], [5,6], [6,7], [7,8], [8,9], [9,10], [10,11]]\n# Output: 109\n# Input:\n# [[1,2], [1,3], [2,3], [2,4],",
+      -2.388671875
+    ],
+    [
+      "def sum_alternate_chains(arr):\n    return sum(chain(arr))\n\nif __name__ == '__main__':\n    assert sum_alternate_chains([(1,2), (2,3), (3,4), (5,6), (6,7), (7,8)]) == 28\n    assert sum_alternate_chains([(1,2), (2,3), (3,4), (5,6), (6,7), (7,8), (8,9)]) == 56\n    assert sum_alternate_chains([(1,2), (2,3), (3,4), (5,6), (6,7), (7,8), (8,9), (9,10)]) == 86\n    assert sum_alternate_chains([(1,2), (2,3), (3,4), (5,6), (6,7), (7,8), (8,9), (9,10), (10,11)]) == 118",
+      -2.4375
+    ],
+    [
+      "def get_sum(t):\n    if isinstance(t, tuple):\n        return sum(get_sum(i) for i in t)\n    else:\n        return t\n\n\ndef main():\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert get_sum((1, 2)) == 3, \"1+2\"\n    assert get_sum((1, 2, 3)) == 6, \"1+2+3\"\n    assert get_sum((1, 2, 3, 4)) == 10, \"1+2+3+4\"\n    assert get_sum((1, 2, 3, 4, 5)) == 15, \"1+2+3+4+5\"\n    assert get_sum((1, 2, 3, 4, 5, 6)) == 21, \"1+2+3+4+5+6\"\n    assert get_sum((1, 2, 3, 4, 5, 6, 7)) == 28, \"1+2+3+4+5+6+7\"\n    assert get_sum((1, 2, 3, 4, 5, 6, 7, 8)) == 35, \"1+2+3+4+5+6+7+8\"\n\n\nif __name__ == \"__main__\":\n    main()",
+      -2.51953125
+    ],
+    [
+      "#!/bin/python\n\ndef sum_alternate_chains(tup):\n    \"\"\"\n    Given a list of tuples, sum the alternate chains of the tuples.\n\n    Example\n    Given the list [[(1,2), (3,4), (5,6)], [(1,2), (3,4), (7,8)], [(1,2), (3,4), (7,8)]],\n    the function should return 6.\n    \"\"\"\n    return sum(chain.__len__() for chain in itertools.groupby(tup, lambda t: t[0]))\n\nif __name__ == \"__main__\":\n    tup = [(1,2), (3,4), (5,6)]\n    print(sum_alternate_chains(tup))",
+      -2.9140625
+    ],
+    [
+      "def find_alternate_chain(tuple_list):\n    \"\"\"\n    :type tuple_list: List[Tuple[int,...]]\n    :rtype: int\n    \"\"\"\n    # https://leetcode.com/problems/find-alternate-chain/discuss/395560/Python-solution-with-explanation\n\n    def find_chain(tuple_list, prev_value, prev_chain_length):\n        for i in range(len(tuple_list)):\n            if tuple_list[i]!= prev_value:\n                continue\n            if tuple_list[i] in prev_chain_length:\n                prev_chain_length[tuple_list[i]] += 1\n            else:\n                prev_chain_length[tuple_list[i]] = 1\n                return\n        return\n\n    prev_value = tuple_list[0]\n    prev_chain_length = {}\n    for i in range(1, len(tuple_list)):\n        find_chain(tuple_list, prev_value, prev_chain_length)\n        prev_value = tuple_list[i]\n    return sum(prev_chain_length.values())\n\n\nif __name__ == \"__main__\":\n    tuple_list = [\n        (1, 2, 3),\n        (1, 3, 5),\n        (2, 3, 4),\n        (3, 4, 5),\n        (4, 5, 6),\n        (5, 6, 7),\n        (6, 7, 8),\n        (7, 8, 9),\n        (8, 9, 10),\n        (9, 10, 11),\n        (10, 11, 12),\n        (11, 12, 13),\n        (12, 13, 14),\n        (13, 14, 15),\n        (14, 15, 16),\n        (15, 16, 17),\n        (16, 17, 18),\n        (17, 18, 19),\n        (18, 19, 20),\n        (19, 20, 21),\n        (20, 21, 22),\n        (21, 22, 23),\n        (22, 23, 24),\n        (23,",
+      -2.943359375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef get_alternate_chain(tuple_list):\n    \"\"\"\n    Given a list of tuples, return the sum of the elements in alternate chains.\n    \"\"\"\n    alternate_chain = defaultdict(int)\n    for t in tuple_list:\n        alternate_chain[t[0]] += t[1]\n    return sum(alternate_chain.values())\n\n\nif __name__ == '__main__':\n    print get_alternate_chain([(1, 2), (2, 3), (1, 3), (2, 4), (3, 4)])\n    print get_alternate_chain([(1, 2), (2, 3), (1, 3), (2, 4), (3, 4)])\n    print get_alternate_chain([(1, 2), (2, 3), (1, 3), (2, 4), (3, 4)])\n    print get_alternate_chain([(1, 2), (2, 3), (1, 3), (2, 4), (3, 4)])",
+      -3.12109375
+    ],
+    [
+      "import unittest\n\n\ndef sum_alternate(tuples):\n    \"\"\"\n    :type tuples: Iterable[tuple]\n    :rtype: int\n    \"\"\"\n    chain_sum = 0\n    for tup in tuples:\n        chain_sum += tup[0] * tup[1]\n    return chain_sum\n\n\nclass TestProblem1(unittest.TestCase):\n    def test_sample_tests(self):\n        self.assertEqual(sum_alternate([(1, 2), (3, 4), (5, 6)]), 30)\n        self.assertEqual(sum_alternate([(1, 1), (2, 2), (3, 1)]), 6)\n        self.assertEqual(sum_alternate([(1, 2), (2, 1), (3, 1)]), 6)\n        self.assertEqual(sum_alternate([(1, 2), (2, 1), (2, 2)]), 6)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -3.30859375
+    ],
+    [
+      "from collections import namedtuple\n\n# Definition for a tuple.\nTuple = namedtuple('Tuple', 'x y')\n\nclass Solution(object):\n    def sumTuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        res = 0\n        for t in tuples:\n            res += t.x * t.y\n        return res",
+      -3.521484375
+    ],
+    [
+      "def sum_of_alternate_chains(tuples):\n    \"\"\"\n    Return the sum of the alternate chains of tuples.\n    tuples: list of tuples, where the first element is the sum of the previous\n    alternate chains, and the second is the sum of the next alternate chain.\n    \"\"\"\n    if not tuples:\n        return 0\n\n    prev, curr = tuples[0], 0\n    for tuple in tuples[1:]:\n        curr += tuple[0]\n        prev += tuple[1]\n\n    return curr + prev",
+      -3.900390625
+    ],
+    [
+      "def alternate_chain(tuple_list):\n    \"\"\"\n    Write a function to extract the sum of alternate chains of tuples.\n\n    Example\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    >>> alternate_chain([(1, 2), (3, 4), (1, 2), (5, 6)])\n    9\n    \"\"\"\n\n    # Your code here\n    return 0\n\nif __name__ == '__main__':\n    import timeit\n\n    start = timeit.default_timer()\n    test_cases = [\n        [(1, 2), (3, 4), (1, 2), (5, 6)],\n        [(1, 2), (3, 4), (1, 2), (5, 6)]\n    ]\n\n    for test in test_cases:\n        alternate_chain(test)\n    print(timeit.default_timer() - start)",
+      -3.93359375
+    ],
+    [
+      "class Solution(object):\n    def findAlternateChains(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        dp = [[0] * (n + 1) for i in range(n + 1)]\n        for i in range(n):\n            for j in range(i, n):\n                dp[i][j] = dp[i][j - 1] + nums[i]\n        for i in range(n, n + 1):\n            dp[i][0] = dp[i - 1][0]\n        return dp[n][0]\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.findAlternateChains([1, 2, 3]))\n    print(sol.findAlternateChains([2, 1, 3]))\n    print(sol.findAlternateChains([2, 1, 1]))\n    print(sol.findAlternateChains([1, 1, 1]))",
+      -4.04296875
+    ],
+    [
+      "def chain_sum(tuple_list):\n    \"\"\"\n    >>> chain_sum([(1, 2, 3), (2, 3, 4), (3, 4, 5)])\n    15\n    >>> chain_sum([(1, 2), (2, 3), (3, 4), (4, 5)])\n    10\n    \"\"\"\n    result = 0\n    for i in range(0, len(tuple_list) - 1):\n        result += tuple_list[i][0] * (tuple_list[i][1] + tuple_list[i][2])\n    return result\n\ndef main():\n    import time\n\n    start_time = time.time()\n\n    print('Chain sum:')\n    print(chain_sum([(1, 2, 3), (2, 3, 4), (3, 4, 5)]))\n    print('Chain sum:')\n    print(chain_sum([(1, 2), (2, 3), (3, 4), (4, 5)]))\n\n    print('Time:', time.time() - start_time,'seconds')\n\nif __name__ == '__main__':\n    main()",
+      -4.0703125
+    ],
+    [
+      "class Solution:\n    # @param nums a list of lists of integers\n    # @return an integer\n    def findSum(self, nums):\n        def sum(l):\n            s = 0\n            for i in l:\n                s += i\n            return s\n        n = len(nums)\n        if n == 0:\n            return 0\n        if n == 1:\n            return sum(nums[0])\n        if n == 2:\n            return sum(nums[0]) + sum(nums[1])\n        if n == 3:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2])\n        if n == 4:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2]) + sum(nums[3])\n        if n == 5:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2]) + sum(nums[3]) + sum(nums[4])\n        if n == 6:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2]) + sum(nums[3]) + sum(nums[4]) + sum(nums[5])\n        if n == 7:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2]) + sum(nums[3]) + sum(nums[4]) + sum(nums[5]) + sum(nums[6])\n        if n == 8:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2]) + sum(nums[3]) + sum(nums[4]) + sum(nums[5]) + sum(nums[6]) + sum(nums[7])\n        if n == 9:\n            return sum(nums[0]) + sum(nums[1]) + sum(nums[2]) + sum(nums[3]) + sum(nums[4]) + sum(nums[5]) + sum(nums[6]) + sum(n",
+      -4.2421875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\n    def __str__(self):\n        return str(self.x)\n\n\nclass Solution:\n    def getSum(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        ret = 0\n        queue = []\n        for t in tuples:\n            if t.next:\n                queue.append(t)\n            else:\n                ret += t.x\n        while queue:\n            t = queue.pop(0)\n            ret += t.x\n            if t.next:\n                queue.append(t.next)\n        return ret\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.getSum([(1, 2), (3, 4), (5, 6)]))\n    print(s.getSum([(1, 2), (3, 4), (5, 6), (1, 2)]))\n    print(s.getSum([(1, 2), (3, 4), (5, 6), (1, 2), (1, 2)]))",
+      -4.32421875
+    ],
+    [
+      "from collections import namedtuple\n\nChain = namedtuple('Chain', ['start', 'end', 'length'])\n\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: list[tuple]\n    :rtype: int\n    \"\"\"\n    return sum(chain.length for chain in _alternate_chains(tuples))\n\n\ndef _alternate_chains(tuples):\n    \"\"\"\n    :type tuples: list[tuple]\n    :rtype: list[Chain]\n    \"\"\"\n    return [Chain(start=tuple[0], end=tuple[1], length=1) for tuple in tuples if tuple[0]!= tuple[1]]\n\n\nif __name__ == '__main__':\n    assert sum_alternate_chains([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]) == 6\n    assert sum_alternate_chains([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]) == 10\n    assert sum_alternate_chains([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14)]) == 14\n    assert sum_alternate_chains([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16)]) == 16",
+      -4.8125
+    ],
+    [
+      "class Solution:\n    # @param {List<List<int>>} nums\n    # @return {int}\n    def getSum(self, nums):\n        # write your code here\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return nums[0][0]\n        if n == 2:\n            return sum(nums[0]) + sum(nums[1])\n        \n        ans = 0\n        for i in range(n):\n            if i!= 0 and i % 2 == 0:\n                ans += nums[i][0]\n            if i!= 0 and i % 2 == 1:\n                ans += nums[i][1]\n        return ans",
+      -4.8125
+    ],
+    [
+      "from collections import Counter\n\ndef sum_alt_chains(tuples):\n    # write your code here\n    counter = Counter(tuples)\n    sum_of_alt_chains = 0\n    for key, value in counter.items():\n        if value % 2 == 0:\n            sum_of_alt_chains += value\n    return sum_of_alt_chains\n\ndef main():\n    tuples = [\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (1, 2),\n        (",
+      -4.875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return str(self.x) + str(self.y)\n\n    def __repr__(self):\n        return str(self.x) + str(self.y)\n\nclass Solution:\n    # @param A, a list of tuples\n    # @return an integer\n    def findSum(self, A):\n        if len(A) == 0:\n            return 0\n        if len(A) == 1:\n            return A[0][0]\n        # find the sum of the first alternate chain\n        sum1 = 0\n        for t in A[0]:\n            sum1 += t[0]\n        # find the sum of the second alternate chain\n        sum2 = 0\n        for t in A[1]:\n            sum2 += t[0]\n        return sum1 + sum2",
+      -5.2265625
+    ],
+    [
+      "import unittest\n\n\ndef sum_alternate_chains(iterable):\n    \"\"\"\n    Return the sum of the alternate chains in the given iterable.\n\n    Each element in the iterable must be a tuple of length 2.\n    The first element of the tuple is the start of the chain and\n    the second is the end of the chain.\n    \"\"\"\n    return sum(chain)\n\n\nclass TestFunction(unittest.TestCase):\n    def test_sum_alternate_chains(self):\n        self.assertEqual(sum_alternate_chains([(0, 1), (1, 2), (1, 3), (2, 4)]), 8)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -5.33984375
+    ],
+    [
+      "from collections import Counter\n\ndef alternate_chain_sum(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: int\n    \"\"\"\n    return sum(chain_sum(tuples) for _ in range(len(tuples)))\n\n\ndef chain_sum(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: int\n    \"\"\"\n    c = Counter()\n    for t in tuples:\n        c[t] += 1\n    return sum(c.values())\n\nif __name__ == \"__main__\":\n    assert alternate_chain_sum([(1, 2), (3, 4), (1, 2), (2, 3)]) == 6\n    assert alternate_chain_sum([(1, 2), (3, 4), (1, 2), (2, 3)],\n                               maxlen=2) == 6\n    assert alternate_chain_sum([(1, 2), (3, 4), (1, 2), (2, 3)],\n                               maxlen=3) == 6\n    assert alternate_chain_sum([(1, 2), (3, 4), (1, 2), (2, 3)],\n                               maxlen=4) == 6\n    assert alternate_chain_sum([(1, 2), (3, 4), (1, 2), (2, 3)],\n                               maxlen=5) == 6",
+      -5.48828125
+    ],
+    [
+      "from collections import defaultdict\nfrom itertools import groupby\n\ndef get_alternate_chains(t):\n    \"\"\"\n    Return the sum of alternate chains of tuples.\n\n    Example:\n    >>> get_alternate_chains((1, 1, 1, 1))\n    1\n    >>> get_alternate_chains((1, 1, 1, 2))\n    2\n    >>> get_alternate_chains((1, 1, 2, 2))\n    3\n    >>> get_alternate_chains((1, 2, 2, 2))\n    4\n    >>> get_alternate_chains((1, 2, 3, 3))\n    6\n    >>> get_alternate_chains((1, 2, 3, 4))\n    7\n    >>> get_alternate_chains((1, 2, 3, 5))\n    8\n    >>> get_alternate_chains((1, 2, 3, 6))\n    9\n    >>> get_alternate_chains((1, 2, 3, 7))\n    10\n    >>> get_alternate_chains((1, 2, 3, 8))\n    11\n    >>> get_alternate_chains((1, 2, 3, 9))\n    12\n    >>> get_alternate_chains((1, 2, 3, 10))\n    13\n    >>> get_alternate_chains((1, 2, 3, 11))\n    14\n    >>> get_alternate_chains((1, 2, 3, 12))\n    15\n    >>> get_alternate_chains((1, 2, 3, 13))\n    16\n    >>> get_alternate_chains((1, 2, 3, 14))\n    17\n    >>> get_alternate_chains((1, 2, 3, 15))\n    18\n    >>> get_alternate_chains((1, 2, 3, 16))\n    19\n    >>> get_alternate_chains((1, 2, 3, 17))\n    20\n    >>> get_alternate_chains((1, 2, 3, 18))\n    21\n    >>> get_alternate_chains((1, 2, 3, 19))\n    22\n    >>> get_alternate_chains((1, 2, 3, 20))\n    23\n    >>> get_",
+      -5.65625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\nclass Solution(object):\n    def sumTuple(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n == 0:\n            return 0\n        if n == 1:\n            return nums[0].x\n        if n == 2:\n            return nums[0].x + nums[1].x\n        if n == 3:\n            return nums[0].x + nums[1].x + nums[2].x\n        if n == 4:\n            return nums[0].x + nums[1].x + nums[2].x + nums[3].x\n        if n == 5:\n            return nums[0].x + nums[1].x + nums[2].x + nums[3].x + nums[4].x\n        if n == 6:\n            return nums[0].x + nums[1].x + nums[2].x + nums[3].x + nums[4].x + nums[5].x\n        return self.sumTuple(nums[0:n-1]) + self.sumTuple(nums[n-1:])\n\nnums = [Tuple(1), Tuple(2), Tuple(3), Tuple(4), Tuple(5)]\nnums = nums + [Tuple(6)]\nnums = nums + [Tuple(7)]\nnums = nums + [Tuple(8)]\nnums = nums + [Tuple(9)]\nnums = nums + [Tuple(10)]\nnums = nums + [Tuple(11)]\nnums = nums + [Tuple(12)]\nnums = nums + [Tuple(13)]\nnums = nums + [Tuple(14)]\nnums = nums + [Tuple(15)]\nnums = nums + [Tuple(16)]",
+      -5.7265625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains/problem\n\ndef alternate_chains(tuples):\n    tup_list = list(tuples)\n    num_of_tuples = len(tup_list)\n    if num_of_tuples <= 1:\n        return 0\n    \n    result = 0\n    for i in range(1, num_of_tuples):\n        if tup_list[i][0] == tup_list[i-1][1]:\n            result += tup_list[i][2]\n    \n    return result\n\nif __name__ == \"__main__\":\n    tup_list = [\n                [1, 2, 3],\n                [1, 2, 4],\n                [1, 2, 5],\n                [1, 3, 6],\n                [1, 3, 7],\n                [1, 4, 8],\n                [2, 3, 9],\n                [2, 4, 10],\n                [2, 5, 11],\n                [2, 6, 12],\n                [2, 7, 13],\n                [3, 4, 14],\n                [3, 5, 15],\n                [3, 6, 16],\n                [4, 5, 17],\n                [4, 6, 18],\n                [4, 7, 19],\n                [4, 8, 20],\n                [5, 6, 21],\n                [5, 7, 22],\n                [5, 8, 23],\n                [6, 7, 24],\n                [6, 8, 25],\n                [7, 8, 26]\n                ]\n    print(alternate_chains(tup_list))",
+      -6.06640625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/alternate-permutation-sum/\n\n# DP solution\nclass Solution(object):\n    def getSum(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 1:\n            return 1\n        dp = [0] * (n + 1)\n        dp[0] = 1\n        for i in range(1, n + 1):\n            for j in range(i):\n                if i - j == j:\n                    dp[i] += dp[j]\n        return dp[n]\n\n\n# Recursive solution\nclass Solution(object):\n    def getSum(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 1:\n            return 1\n        return self.getSum(n - 1) + self.getSum(n - 2)\n\n\n# Dynamic programming solution\nclass Solution(object):\n    def getSum(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 1:\n            return 1\n        dp = [0] * (n + 1)\n        dp[0] = 1\n        for i in range(1, n + 1):\n            dp[i] = max(dp[i - 1], dp[i - 2] + i)\n        return dp[n]\n\n\nif __name__ == \"__main__\":\n    n = 5\n    assert Solution().getSum(n) == 4\n    assert Solution().getSum(1) == 1\n    assert Solution().getSum(0) == 0",
+      -6.08984375
+    ],
+    [
+      "class Tuple:\n    def __init__(self, x):\n        self.x = x\n    def __str__(self):\n        return str(self.x)\n    def __cmp__(self, other):\n        return cmp(self.x, other.x)\n\ndef main():\n    tuples = [Tuple(i) for i in range(5)]\n    for t in tuples:\n        print t,\n    print\n    print sum(t.x for t in tuples)\n\nif __name__ == '__main__':\n    main()",
+      -6.08984375
+    ],
+    [
+      "from collections import namedtuple\n\n\nclass Tuple(namedtuple('Tuple', 'a, b, c')):\n    \"\"\"A tuple of three integers.\n\n    >>> a, b, c = Tuple(1, 2, 3)\n    >>> a, b, c\n    (1, 2, 3)\n    >>> a, b, c = Tuple(1, 2, 3, 4)\n    >>> a, b, c\n    (1, 2, 3, 4)\n    >>> a, b, c = Tuple(1, 2, 3, 4, 5)\n    >>> a, b, c\n    (1, 2, 3, 4, 5)\n    >>> a, b, c = Tuple(1, 2, 3, 4, 5, 6)\n    >>> a, b, c\n    (1, 2, 3, 4, 5, 6)\n    >>> a, b, c = Tuple(1, 2, 3, 4, 5, 6, 7)\n    >>> a, b, c\n    (1, 2, 3, 4, 5, 6, 7)\n    >>> a, b, c = Tuple(1, 2, 3, 4, 5, 6, 7, 8)\n    >>> a, b, c\n    (1, 2, 3, 4, 5, 6, 7, 8)\n    >>> a, b, c = Tuple(1, 2, 3, 4, 5, 6, 7, 8, 9)\n    >>> a, b, c\n    (1, 2, 3, 4, 5, 6, 7, 8, 9)\n    \"\"\"\n\n# Your Tuple object will be named 'Tuple'\nTuple = namedtuple('Tuple', 'a, b, c')\n\n\ndef main():\n    \"\"\"Write a function to extract the sum of alternate chains of tuples.\n\n    >>> a, b, c = Tuple(1, 2, 3)\n    >>> a, b, c\n    (1, 2, 3)\n    >>> a, b, c = Tuple(1, 2, 3, 4)\n    >>> a, b, c\n    (1, 2, 3, 4)\n    >>> a, b, c = Tuple(1, 2",
+      -6.515625
+    ],
+    [
+      "def sum_alternate_chains(tuple_list):\n    \"\"\"\n    For each tuple, we know the first element and the last element of the\n    chain.  So, we just need to calculate the sum of the elements in the\n    chain.  We do not need to worry about the first element because it is\n    the first element of the tuple.\n\n    Example:\n        >>> tuple_list = [(1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 8)]\n        >>> sum_alternate_chains(tuple_list)\n        9\n\n    Explanation:\n        The sum of the elements in the chain is the sum of the elements\n        in the tuple itself.\n    \"\"\"\n    return sum(tuple(tuple_list[i] + tuple_list[i + 1] for i in range(0, len(tuple_list) - 1)))\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -6.69921875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __lt__(self, other):\n        return self.x < other.x\n\n    def __eq__(self, other):\n        return self.x == other.x\n\n    def __repr__(self):\n        return 'Tuple({})'.format(self.x)\n\n    def __str__(self):\n        return '{}'.format(self.x)\n\n\nclass Solution(object):\n    def sumTuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        res = 0\n        for t in sorted(tuples, key=lambda x: x.x):\n            res += t.y\n        return res\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    t1 = Tuple(1)\n    t2 = Tuple(2)\n    t3 = Tuple(3)\n    t4 = Tuple(4)\n    t5 = Tuple(5)\n    t6 = Tuple(6)\n    t7 = Tuple(7)\n    t8 = Tuple(8)\n    t9 = Tuple(9)\n    t10 = Tuple(10)\n    t11 = Tuple(11)\n    t12 = Tuple(12)\n    t13 = Tuple(13)\n    t14 = Tuple(14)\n    t15 = Tuple(15)\n    t16 = Tuple(16)\n    t17 = Tuple(17)\n    t18 = Tuple(18)\n    t19 = Tuple(19)\n    t20 = Tuple(20)\n    t21 = Tuple(21)\n    t22 = Tuple(22)\n    t23 = Tuple(23)\n    t24 = Tuple(24)\n    t25 = Tuple(25)\n    t26 = Tuple(26)\n    t27 = Tuple(27)\n    t28 = Tuple(28)\n    t29 = Tuple",
+      -7.0546875
+    ],
+    [
+      "class Solution(object):\n    def getSum(self, nums):\n        \"\"\"\n        :type nums: List[List[int]]\n        :rtype: int\n        \"\"\"\n        return self.getAlternateSum(nums, 0, len(nums) - 1)\n\n    def getAlternateSum(self, nums, start, end):\n        if start == end:\n            return nums[start][0]\n        ans = 0\n        for i in range(start + 1, end):\n            ans += nums[i][0]\n            ans += nums[i][1]\n        return ans\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [[1, 2, 3], [1, 3, 5], [2, 2, 2], [1, 1, 1]]\n    print sol.getSum(nums)",
+      -7.2890625
+    ],
+    [
+      "def find_alternate_chain_sum(tups):\n    \"\"\"\n    tups is a list of tuples, each tuple has two elements, the first\n    element is the length of the chain, the second element is the\n    value of the chain.\n    \"\"\"\n\n    if len(tups) == 0:\n        return 0\n\n    max_len = max(tuple(map(len, tups)))\n    res = 0\n\n    for i in range(len(tups)):\n        if i + 1 == len(tups):\n            res += tups[i][0]\n            continue\n        if tups[i][0]!= tups[i + 1][0]:\n            res += tups[i][0]\n    return res\n\nif __name__ == \"__main__\":\n    tups = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]]\n    print(find_alternate_chain_sum(tups))",
+      -7.34765625
+    ],
+    [
+      "# https://leetcode.com/problems/alternating-chain-sum/discuss/92468/Python-in-10-lines-using-lambda-and-recursion-with-explanation-of-solution\n\n\ndef chain_sum(tuples):\n    return sum(chain_sum(t) for t in tuples)\n\n\ndef main():\n    tuples = [\n        ([0, 1], [0, 1], [0, 1]),\n        ([0, 1, 2, 3], [0, 1, 3], [0, 1, 2]),\n        ([0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),\n        ([0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 3]),",
+      -8.0859375
+    ],
+    [
+      "def sum_of_alternate_chains(t):\n    \"\"\"\n    :param t: a tuple of integers\n    :return: the sum of the alternate chains of t\n    \"\"\"\n    \n    # Write your code here\n    \n    return sum(t)\n\nif __name__ == '__main__':\n    t = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n    print sum_of_alternate_chains(t)\n    \n    t = (1, 2, 3, 4, 5, 6, 7, 8)\n    print sum_of_alternate_chains(t)\n    \n    t = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)\n    print sum_of_alternate_chains(t)\n    \n    t = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)\n    print sum_of_alternate_chains(t)\n    \n    t = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)\n    print sum_of_alternate_chains(t)\n    \n    t = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41)\n    print sum_of_alternate_chains(t)",
+      -8.2265625
+    ],
+    [
+      "def sum_of_alternate_chains(nums):\n    \"\"\"\n    For each tuple, the number of alternate chains is the number of times\n    that the tuple appears, minus the number of times that the tuple\n    appears in the same alternate chain.\n\n    For example, if the tuple (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) appears\n    in three chains, with the first two being the same, then the sum of\n    the alternate chains is 6.\n\n    Inputs: A list of tuples.\n    Output: The sum of the alternate chains.\n    \"\"\"\n\n    # We'll store the sum of the alternate chains in an array.\n    chains = []\n\n    # For each tuple, we'll store the number of alternate chains it\n    # appears in, minus the number of times it appears in the same\n    # alternate chain.\n    for i in range(len(nums)):\n        current_chain = 0\n        for j in range(i):\n            if nums[i] == nums[j]:\n                current_chain += 1\n        chains.append(current_chain)\n\n    # The sum of the alternate chains is the sum of the chains minus\n    # the number of times that the same tuple appears in the same chain.\n    return sum(chains) - sum(set(chains))\n\n\n# Test cases.\nnums = [\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n]\nassert(sum_of_alternate_chains(nums) == 6)\n\nnums = [\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),\n    (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),\n    (1, 2, 3,",
+      -8.3359375
+    ],
+    [
+      "def alternate(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: int\n    \"\"\"\n    alt = 0\n    for i in range(len(tuples)):\n        for j in range(i+1, len(tuples)):\n            if tuples[i] == tuples[j]:\n                alt += 1\n    return alt\n\nif __name__ == '__main__':\n    tuples = [\n        (1, 2, 3),\n        (2, 3, 4),\n        (3, 4, 5),\n        (4, 5, 6),\n        (5, 6, 7),\n        (6, 7, 8),\n        (7, 8, 9),\n        (8, 9, 10),\n        (9, 10, 11),\n        (10, 11, 12),\n        (11, 12, 13),\n        (12, 13, 14),\n        (13, 14, 15),\n        (14, 15, 16),\n        (15, 16, 17),\n        (16, 17, 18),\n        (17, 18, 19),\n        (18, 19, 20),\n        (19, 20, 21),\n        (20, 21, 22),\n        (21, 22, 23),\n        (22, 23, 24),\n        (23, 24, 25),\n        (24, 25, 26),\n        (25, 26, 27),\n        (26, 27, 28),\n        (27, 28, 29),\n        (28, 29, 30),\n        (29, 30, 31),\n        (30, 31, 32),\n        (31, 32, 33),\n        (32, 33, 34),\n        (33, 34, 35),\n        (34, 35, 36),\n        (35, 36, 37),\n        (36, 37, 38),\n        (37, 38, 39),\n        (38, 39, 40),\n        (39, 40, 41),\n        (40, 41, 42),\n        (41, 42, 43),\n        (42, 43, 44),\n        (43, 44, 45),\n        (44, 45, 46),\n        (45, 46, 47",
+      -8.4609375
+    ],
+    [
+      "def find_alternate_chain(a, b):\n    if a[0] == b[0]:\n        return a[0]\n    elif a[0] > b[0]:\n        return find_alternate_chain(a[1:], b[1:])\n    elif a[0] < b[0]:\n        return find_alternate_chain(a[1:], b[1:])\n    else:\n        return 0\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def findAlternateChain(self, nums):\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return nums[0]\n        # nums[0] is the start of the chain\n        # nums[n-1] is the end of the chain\n        # nums[1] is the sum of the chain\n        return find_alternate_chain(nums[1:], nums[1:])\n\nif __name__ == \"__main__\":\n    print Solution().findAlternateChain([1, 2, 3])",
+      -8.5859375
+    ],
+    [
+      "def alternate_chain(tuples):\n    \"\"\"\n    Write a function to extract the sum of alternate chains of tuples.\n\n    Input:\n        tuples = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9)]\n\n    Output:\n        alternate_chain(tuples) = 10\n    \"\"\"\n\n    alternate_chain = 0\n    for i in range(len(tuples)):\n        for j in range(len(tuples) - i):\n            alternate_chain += tuples[j][0] * tuples[i + j][1]\n    return alternate_chain\n\nif __name__ == \"__main__\":\n    print alternate_chain([(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9)])",
+      -8.7109375
+    ],
+    [
+      "def alternate_chain_sum(tuples):\n    \"\"\"\n    :param tuples: a list of tuples.\n    :return: the sum of all the alternate chains.\n    \"\"\"\n    alternate_chain_sum = 0\n    for i in range(0, len(tuples)):\n        if i == 0:\n            alternate_chain_sum += tuples[i][0]\n        elif i == 1:\n            alternate_chain_sum += tuples[i][1]\n        else:\n            alternate_chain_sum += tuples[i][0] + tuples[i][1]\n    return alternate_chain_sum\n\nif __name__ == \"__main__\":\n    tuples = [\n        (1, 2),\n        (2, 3),\n        (3, 4),\n        (4, 5),\n        (5, 6),\n        (6, 7),\n        (7, 8),\n        (8, 9),\n        (9, 10),\n        (10, 11),\n        (11, 12),\n        (12, 13),\n        (13, 14),\n        (14, 15),\n        (15, 16),\n        (16, 17),\n        (17, 18),\n        (18, 19),\n        (19, 20),\n        (20, 21),\n        (21, 22),\n        (22, 23),\n        (23, 24),\n        (24, 25),\n        (25, 26),\n        (26, 27),\n        (27, 28),\n        (28, 29),\n        (29, 30),\n        (30, 31),\n        (31, 32),\n        (32, 33),\n        (33, 34),\n        (34, 35),\n        (35, 36),\n        (36, 37),\n        (37, 38),\n        (38, 39),\n        (39, 40),\n        (40, 41),\n        (41, 42),\n        (42, 43),\n        (43, 44),\n        (44, 45),\n        (45, 46),\n        (46, 47),\n        (47, 48),\n        (48, 49),\n        (49, 50),",
+      -9.671875
+    ],
+    [
+      "def sum_of_alternate_chains(tups):\n    \"\"\"\n    :type tups: List[Tuple]\n    :rtype: int\n    \"\"\"\n    if len(tups) == 1:\n        return 0\n\n    result = 0\n    for i in range(len(tups) - 1):\n        if tups[i]!= tups[i + 1]:\n            result += tups[i + 1][0]\n\n    return result\n\nif __name__ == '__main__':\n    tups = [\n        (1, 2),\n        (3, 4),\n        (5, 6),\n        (7, 8),\n        (9, 10),\n        (11, 12),\n        (13, 14),\n        (15, 16),\n        (17, 18),\n        (19, 20),\n        (21, 22),\n        (23, 24),\n        (25, 26),\n        (27, 28),\n        (29, 30),\n        (31, 32),\n        (33, 34),\n        (35, 36),\n        (37, 38),\n        (39, 40),\n        (41, 42),\n        (43, 44),\n        (45, 46),\n        (47, 48),\n        (49, 50),\n        (51, 52),\n        (53, 54),\n        (55, 56),\n        (57, 58),\n        (59, 60),\n        (61, 62),\n        (63, 64),\n        (65, 66),\n        (67, 68),\n        (69, 70),\n        (71, 72),\n        (73, 74),\n        (75, 76),\n        (77, 78),\n        (79, 80),\n        (81, 82),\n        (83, 84),\n        (85, 86),\n        (87, 88),\n        (89, 90),\n        (91, 92),\n        (93, 94),\n        (95, 96),\n        (97, 98),\n        (99, 100),\n        (101, 102),\n        (103, 104),\n        (105, 106),\n        (107, 108),\n        (109, 110),",
+      -9.7421875
+    ],
+    [
+      "#!/bin/python\n\n# https://www.hackerrank.com/challenges/alternate-chains/problem\n\ndef get_alternate_chains(input_array):\n    # write your code here\n\n    # Complete the alternateChains function below.\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #\n    #",
+      -9.9765625
+    ],
+    [
+      "def sum_alt_chain(t):\n  \"\"\"\n  t: a list of tuples\n\n  Returns: the sum of the alternate chains\n  \"\"\"\n  res = 0\n  for i in range(len(t)):\n    res += t[i][0] * t[i][1]\n    if i < len(t) - 1:\n      res += t[i][0] * t[i+1][1]\n  return res\n\n\nif __name__ == \"__main__\":\n  t = [\n      (1,1),\n      (2,3),\n      (1,4),\n      (4,2),\n      (1,5),\n      (2,6),\n      (1,7),\n      (3,8),\n      (1,9),\n      (4,10),\n      (1,11),\n      (2,12),\n      (1,13),\n      (2,14),\n      (1,15),\n      (2,16),\n      (1,17),\n      (3,18),\n      (1,19),\n      (4,20),\n      (1,21),\n      (2,22),\n      (1,23),\n      (2,24),\n      (1,25),\n      (2,26),\n      (1,27),\n      (3,28),\n      (1,29),\n      (4,30),\n      (1,31),\n      (2,32),\n      (1,33),\n      (2,34),\n      (1,35),\n      (2,36),\n      (1,37),\n      (2,38),\n      (1,39),\n      (3,40),\n      (1,41),\n      (2,42),\n      (1,43),\n      (2,44),\n      (1,45),\n      (2,46),\n      (1,47),\n      (3,48),\n      (1,49),\n      (4,50),\n      (1,51),\n      (2,52),\n      (1,53),\n      (2,54),\n      (1,55),\n      (2,56",
+      -10.03125
+    ],
+    [
+      "class Solution(object):\n    def findAlternateChains(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: int\n        \"\"\"\n        result = 0\n        for i in range(len(tuples)):\n            if i!= 0 and tuples[i-1][0] == tuples[i][0]:\n                continue\n            result += tuples[i][1]\n            if i!= len(tuples)-1 and tuples[i+1][0] == tuples[i][0]:\n                continue\n            result += tuples[i][2]\n        return result\n\n\nif __name__ == \"__main__\":\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 4)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 3)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 4)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 3)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 5)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 6)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 5), (1, 2, 4)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 5), (1, 2, 6)]) == 6\n    assert Solution().findAlternateChains([(1, 3, 5), (2, 4, 6), (1, 2, 4), (1, 2, 5), (1, 2, 6)]) == 6\n    assert Solution().findAlternateCh",
+      -10.5546875
+    ],
+    [
+      "# https://leetcode.com/problems/alternate-permutations/\n# https://leetcode.com/problems/alternate-permutations-ii/\n\n\nclass Solution(object):\n    def alternatePermutations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ret = []\n        nums_length = len(nums)\n        if nums_length == 0:\n            return [nums]\n        if nums_length == 1:\n            return [[nums[0]]]\n\n        result = self.alternatePermutations(nums[:nums_length - 1])\n        result.append(nums)\n        return result\n\n    def alternatePermutations(self, nums):\n        nums_length = len(nums)\n        if nums_length == 0:\n            return [nums]\n\n        if nums_length == 1:\n            return [[nums[0]]]\n\n        result = self.alternatePermutations(nums[:nums_length - 1])\n        result.append(nums)\n        return result\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.alternatePermutations([]))\n    print(s.alternatePermutations([1,2,3]))\n    print(s.alternatePermutations([1,2,3,4]))",
+      -10.8515625
+    ],
+    [
+      "def sum_alternate_chains(tuple_list):\n    \"\"\"\n    :type tuple_list: List[Tuple[int, int]]\n    :rtype: int\n    \"\"\"\n    if len(tuple_list) == 0:\n        return 0\n\n    # TODO:\n    # 1. use the second element of tuple to decide whether the chain is\n    #    increasing or decreasing\n    # 2. calculate the sum of the chain\n    # 3. return the sum of the chain\n    # 4. if the chain is decreasing, make the first element of the chain\n    #    negative\n    # 5. if the chain is increasing, make the last element of the chain\n    #    negative\n    # 6. if the chain is alternating, make the first element of the chain\n    #    negative and the last element of the chain negative\n    # 7. if the chain is alternating, make the first element of the chain\n    #    positive and the last element of the chain positive\n    # 8. if the chain is alternating, make the first element of the chain\n    #    negative and the last element of the chain positive\n    # 9. if the chain is alternating, make the first element of the chain\n    #    positive and the last element of the chain negative\n    # 10. if the chain is alternating, make the first element of the chain\n    #    positive and the last element of the chain positive\n    # 11. if the chain is alternating, make the first element of the chain\n    #    negative and the last element of the chain negative\n    # 12. if the chain is alternating, make the first element of the chain\n    #    negative and the last element of the chain positive\n    # 13. if the chain is alternating, make the first element of the chain\n    #    positive and the last element of the chain negative\n    # 14. if the chain is alternating, make the first element of the chain\n    #    positive and the last element of the chain positive\n    # 15. if the chain is alternating, make the first element of the chain\n    #    negative and the last element of the chain positive\n    # 16. if the chain is alternating, make the first element of the chain\n    #    positive and the last element of the chain negative\n    # 17. if the chain is alternating, make",
+      -10.9140625
+    ],
+    [
+      "def find_sum(tup):\n\treturn sum(chain(tup[0],tup[1:]))\n\ndef main():\n\ttup = [1,2,3]\n\ttup.append(tup)\n\ttup = [1,2,3,4,5]\n\ttup.append(tup)\n\ttup = [1,2,3,4,5,6]\n\ttup.append(tup)\n\ttup = [1,2,3,4,5,6,7,8,9,10]\n\ttup.append(tup)\n\ttup = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,",
+      -11.171875
+    ],
+    [
+      "from collections import namedtuple\n\nItem = namedtuple('Item', 'x y')\n\n\ndef sum_alternate(items):\n    \"\"\"\n    :type items: List[Item]\n    :rtype: int\n    \"\"\"\n    def sum_chain(items, sum_so_far):\n        for i in range(len(items)):\n            if i == 0 or items[i] == items[i-1]:\n                sum_so_far += items[i].x\n            else:\n                return sum_so_far\n        return sum_so_far\n\n    return sum_chain(items, 0)\n\n\nif __name__ == '__main__':\n    assert sum_alternate([(1, 2), (2, 3), (3, 4), (4, 5)]) == 6\n    assert sum_alternate([(1, 2), (2, 3), (3, 4), (4, 5), (1, 2)]) == 6\n    assert sum_alternate([(1, 2), (2, 3), (3, 4), (4, 5), (1, 2), (1, 2)]) == 6\n    assert sum_alternate([(1, 2), (2, 3), (3, 4), (4, 5), (1, 2), (1, 2), (2, 3)]) == 6\n    assert sum_alternate([(1, 2), (2, 3), (3, 4), (4, 5), (1, 2), (1, 2), (2, 3), (3, 4)]) == 12",
+      -11.53125
+    ],
+    [
+      "from collections import defaultdict\nfrom operator import add\n\nclass Tuple:\n    def __init__(self, first, second):\n        self.first = first\n        self.second = second\n\n    def __str__(self):\n        return '{} and {}'.format(self.first, self.second)\n\n    def __repr__(self):\n        return self.__str__()\n\n    def __eq__(self, other):\n        return self.first == other.first and self.second == other.second\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    Given a list of tuples, sum the sum of the alternate chains\n    \"\"\"\n    return sum(chain(tuples, tuples[1:]) for tuples in tuples)\n\ndef chain(tuples, to_add):\n    \"\"\"\n    Take a list of tuples and return a list of tuples that are in\n    alternate chains.\n    \"\"\"\n    # create a dictionary that tracks the chains\n    chains = defaultdict(list)\n    for t in tuples:\n        chains[t].append(t)\n\n    # create a list that will track the total sum of the chain\n    total = []\n\n    # keep track of which chain we are currently processing\n    current_chain = []\n\n    for t in to_add:\n        if t not in chains:\n            total.append(t)\n            current_chain.append(t)\n        else:\n            # if we are in a chain, add to the sum and reset the chain\n            total.extend(chain(chains[t], to_add[t]))\n            current_chain = []\n\n    # if there is a chain left, add it to the sum\n    if current_chain:\n        total.extend(chain(current_chain, to_add[current_chain[0]]))\n\n    # return the sum of the chains\n    return total\n\ndef main():\n    tuples = [\n        Tuple('a', 'b'),\n        Tuple('c', 'd'),\n        Tuple('e', 'f'),\n        Tuple('g', 'h'),\n        Tuple('i', 'j'),\n        Tuple('k', 'l'),",
+      -11.7890625
+    ],
+    [
+      "from collections import Counter\nfrom itertools import combinations\nfrom typing import List, Tuple\n\nfrom.utils import take_while\n\n\nclass Solution:\n    def countAlternateChains(self, A: List[Tuple[int, int]]) -> int:\n        \"\"\"\n        Time: O(n*logn)\n        Space: O(n)\n        \"\"\"\n        # 1. sort by (start, end)\n        A.sort(key=lambda x: (x[0], x[1]))\n        # 2. count the number of unique tuples\n        chain_count = Counter(tuple(i for i in xrange(len(A)) if i > 0) for x in A for y in xrange(len(A) - 1))\n        # 3. count the number of alternate chains\n        return sum(chain_count.values())\n\n\n# TESTS\nfor A, expected in [\n    ([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16), (17, 18), (19, 20)], 19),\n    ([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10), (10, 11), (11, 12), (12, 13), (13, 14), (14, 15), (15, 16), (16, 17), (17, 18), (18, 19), (19, 20)], 19),\n    ([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10), (10, 11), (11, 12), (12, 13), (13, 14), (14, 15), (15, 16), (16, 17), (17, 18), (18, 19), (19, 20)], 19),\n]:\n    sol = Solution()\n    actual = sol.countAlternateChains(A)\n    print(\"The sum of alternate chains of\", A, \"->\", actual)\n    assert actual == expected",
+      -11.8671875
+    ],
+    [
+      "import operator\n\n\ndef chain_sum(chain_list):\n    \"\"\"\n    Returns the sum of the alternate chain of tuples.\n\n    :param chain_list: A list of tuples.\n    :return: The sum of the alternate chain of tuples.\n    \"\"\"\n    total = 0\n    for chain in chain_list:\n        total += chain[-1]\n        for i in range(len(chain) - 2):\n            total += chain[i] * chain[i + 1]\n    return total\n\n\ndef test_chain_sum():\n    assert chain_sum([(1, 2), (2, 3), (3, 4), (4, 5)]) == 15\n    assert chain_sum([(1, 2), (2, 3), (3, 4)]) == 6\n    assert chain_sum([(1, 2), (2, 3), (3, 4), (4, 5)]) == 15\n    assert chain_sum([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]) == 30\n    assert chain_sum([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7)]) == 42\n    assert chain_sum([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]) == 57\n    assert chain_sum([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9)]) == 72\n\n\ndef test_chain_sum_empty():\n    assert chain_sum([]) == 0\n    assert chain_sum([(1, 2)]) == 0\n    assert chain_sum([(1, 2), (2, 3)]) == 0\n    assert chain_sum([(1, 2), (2, 3), (3, 4)]) == 0\n\n\ndef test_chain_sum_errors():\n    with pytest.raises(TypeError):\n        chain_sum(None)\n    with pytest.raises(TypeError):\n        chain_sum([",
+      -12.2421875
+    ],
+    [
+      "import collections\n\n\ndef find_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: int\n    \"\"\"\n    return sum(find_alternate_chains_recursive(tuples))\n\n\ndef find_alternate_chains_recursive(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: int\n    \"\"\"\n    if len(tuples) == 1:\n        return tuples[0][0]\n\n    alternate_chains = collections.defaultdict(int)\n\n    for t in tuples:\n        alternate_chains[t[0]] += 1\n\n    for i in range(1, len(tuples)):\n        for t in tuples[i]:\n            alternate_chains[t[0]] -= 1\n\n    return sum(alternate_chains.values())\n\n\ndef test_find_alternate_chains():\n    assert find_alternate_chains([(1, 2), (1, 3), (2, 3), (3, 4), (1, 4)]) == 4\n    assert find_alternate_chains([(1, 2), (1, 3), (2, 3), (3, 4), (1, 4)]) == 4\n    assert find_alternate_chains([(1, 2), (2, 3), (1, 3), (3, 4), (1, 4)]) == 4\n    assert find_alternate_chains([(1, 2), (2, 3), (1, 3), (3, 4), (1, 4)]) == 4\n    assert find_alternate_chains([(1, 2), (2, 3), (3, 4), (1, 3), (3, 4)]) == 4\n    assert find_alternate_chains([(1, 2), (2, 3), (3, 4), (1, 3), (3, 4)]) == 4\n\n\nif __name__ == '__main__':\n    test_find_alternate_chains()",
+      -12.53125
+    ],
+    [
+      "from collections import defaultdict\n\ndef chain_sum(chain_tuples):\n    \"\"\"\n    :type chain_tuples: List[Tuple[int, int]]\n    :rtype: int\n    \"\"\"\n    # Store the length of each chain in a dictionary\n    chain_lengths = defaultdict(int)\n    for i, t in enumerate(chain_tuples):\n        chain_lengths[t] += 1\n\n    # If there is only one chain, return its sum\n    if len(chain_lengths) == 1:\n        return sum(chain_lengths.values())\n\n    # For every chain, find the sum of its alternate chains\n    chain_sums = defaultdict(int)\n    for i, t in enumerate(chain_tuples):\n        # If this is the first chain, add its sum to the chain sum\n        if chain_lengths[t] == 1:\n            chain_sums[t] = chain_lengths[t] * t[0]\n        else:\n            # Otherwise, add the sum of its alternate chains\n            for j in range(1, chain_lengths[t]):\n                chain_sums[t + (j,)] += chain_lengths[t] * t[0]\n\n    return sum(chain_sums.values())\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert chain_sum([(1, 1), (1, 2), (1, 3), (2, 2), (2, 4), (3, 1), (3, 3)]) == 10, \"Basic example\"\n    assert chain_sum([(1, 1), (1, 2), (1, 3), (2, 2), (2, 4), (3, 1), (3, 3), (4, 1)]) == 15, \"Long example\"\n    assert chain_sum([(1, 1), (1, 2), (1, 3), (2, 2), (2, 4), (3, 1), (3, 3), (4, 1), (1, 2)]) == 15, \"Long example\"\n    assert chain_sum([(1, 1), (",
+      -12.78125
+    ],
+    [
+      "from collections import Counter\n\ndef find_alternate_chain(tuples):\n    \"\"\"\n    >>> find_alternate_chain([(1, 2), (2, 3), (3, 4), (1, 5), (2, 6), (5, 7)])\n    4\n    >>> find_alternate_chain([(1, 2), (2, 3), (3, 4), (1, 5), (2, 6), (5, 7), (1, 8), (2, 9)])\n    8\n    >>> find_alternate_chain([(1, 2), (2, 3), (3, 4), (1, 5), (2, 6), (5, 7), (1, 8), (2, 9), (1, 10), (2, 11)])\n    10\n    >>> find_alternate_chain([(1, 2), (2, 3), (3, 4), (1, 5), (2, 6), (5, 7), (1, 8), (2, 9), (1, 10), (2, 11), (1, 12), (2, 13)])\n    12\n    >>> find_alternate_chain([(1, 2), (2, 3), (3, 4), (1, 5), (2, 6), (5, 7), (1, 8), (2, 9), (1, 10), (2, 11), (1, 12), (2, 13), (1, 14), (2, 15)])\n    12\n    >>> find_alternate_chain([(1, 2), (2, 3), (3, 4), (1, 5), (2, 6), (5, 7), (1, 8), (2, 9), (1, 10), (2, 11), (1, 12), (2, 13), (1, 14), (2, 15), (1, 16), (2, 17)])\n    14\n    \"\"\"\n    \n    def find_alternate_chain_helper(tuples, i):\n        if len(tuples) == i:\n            return sum(tuples)\n        \n        if len(tuples) == i + 1:\n            return sum(tuples[:i])\n        \n        for j in range(",
+      -12.796875
+    ],
+    [
+      "def sum_alternate_chains(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: int\n    \"\"\"\n    return sum(chain(*tuple(x for x in t if x is not None)) for t in tuples)\n\n# Your solution is expected to pass the following test cases.\n# Note:\n# The tuple containing None is not considered an alternate chain.\n\n# Note:\n# You may assume all the tuples in the list are well-formed,\n# meaning each element is a non-empty list or tuple.\n\nclass TestCode(unittest.TestCase):\n    def test_sum_alternate_chains(self):\n        self.assertEqual(sum_alternate_chains([(1, 2, 3), (4, 5, 6), (7, 8, 9)]), 45)\n        self.assertEqual(sum_alternate_chains([(1, 2), (3, 4), (5, 6)]), 15)\n        self.assertEqual(sum_alternate_chains([(1, 2, 3), (4, 5), (6, 7)]), 18)\n        self.assertEqual(sum_alternate_chains([(1, 2, 3), (4, 5, 6), (7, 8, 9)]), 45)\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      -13.1015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/alternate-chains/problem\n\nimport unittest\n\n\nclass Solution(object):\n    def get_alternate_chain_sum(self, length):\n        \"\"\"\n        :type length: int\n        :rtype: int\n        \"\"\"\n        if length == 1:\n            return 0\n        if length == 2:\n            return 1\n        return sum(self.get_alternate_chain_sum(i) for i in range(length - 1))\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/alternate-chains/solution/\n\n# 1ms 100%\nclass Solution {\n    public int getAlternateChainSum(int length) {\n        if (length == 1) return 0;\n        if (length == 2) return 1;\n        return sum(getAlternateChainSum(i) for i in range(length - 1))\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public int getAlternateChainSum(int length) {\n        int[] sum = new int[length];\n        sum[0] = 1;\n        for (int i = 1; i < length; i++) {\n            sum[i] = sum[i - 1] + sum[i - 2];\n        }\n        return sum[length - 1];\n    }\n}\n'''",
+      -13.1796875
+    ],
+    [
+      "def sum_alternate(tup_list):\n    return sum(chain(tup_list))\n\n\n# Testing\n# Your function should return the same output as the following.\n\ndef test_sum_alternate():\n    assert sum_alternate([(1, 2), (1, 2), (1, 3), (2, 3), (2, 4), (3, 4), (3, 5), (4, 5), (4, 6), (5, 6), (5, 7), (6, 7), (6, 8), (7, 8), (7, 9), (8, 9), (8, 10), (9, 10), (9, 11), (10, 11), (10, 12), (11, 12), (11, 13), (12, 13), (12, 14), (13, 14), (13, 15), (14, 15), (14, 16), (15, 16), (15, 17), (16, 17), (16, 18), (17, 18), (17, 19), (18, 19), (18, 20), (19, 20), (19, 21), (20, 21), (20, 22), (21, 22), (21, 23), (22, 23), (22, 24), (23, 24), (23, 25), (24, 25), (24, 26), (25, 26), (25, 27), (26, 27), (26, 28), (27, 28), (27, 29), (28, 29), (28, 30), (29, 30), (29, 31), (30, 31), (30, 32), (31, 32), (31, 33), (32, 33), (32, 34), (33, 34), (33, 35), (34, 35), (34, 36), (35, 36), (35, 37), (36, 37), (36, 38), (37, 38), (37, 39), (38, 39), (38, 40), (39, 40), (39, 41), (40, 41), (40, 42), (41, 42), (41, 43), (42, 43), (42, 44), (43, 44), (43, 45), (44, 45), (44, 46), (45, 46), (45,",
+      -13.203125
+    ],
+    [
+      "class Solution(object):\n    def sumTuple(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n\n        def find_sum(nums, start, end, sum):\n            if start == end:\n                return sum\n            for i in range(start, end + 1):\n                if i % 2 == 0:\n                    sum += nums[i]\n                else:\n                    sum -= nums[i]\n                find_sum(nums, start, i, sum)\n        find_sum(nums, 0, len(nums) - 1, 0)\n        return sum",
+      -16.671875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.next = None\n\n    def __str__(self):\n        return str(self.x)\n\nclass Solution:\n    def sumTuple(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n\n        def visit(t):\n            if t.next:\n                return t.x + visit(t.next)\n            else:\n                return t.x\n\n        return visit(nums[0])\n\n\nif __name__ == \"__main__\":\n    nums = [\n        (1,2,3),\n        (1,3,4),\n        (1,3,5)\n    ]\n    sol = Solution()\n    print(sol.sumTuple(nums))\n    nums = []\n    sol = Solution()\n    print(sol.sumTuple(nums))\n    nums = [\n        (1,2,3),\n        (1,2,3)\n    ]\n    sol = Solution()\n    print(sol.sumTuple(nums))\n    nums = [\n        (1,2,3),\n        (1,2,3)\n    ]\n    sol = Solution()\n    print(sol.sumTuple(nums))",
+      -17.828125
+    ],
+    [
+      "from collections import deque\n\ndef sum_alternate_chains(tuples):\n    \"\"\"\n    >>> sum_alternate_chains([(1, 2), (1, 3), (2, 4), (2, 5), (3, 6)])\n    9\n    >>> sum_alternate_chains([(1, 2), (1, 3), (2, 4), (2, 5), (3, 6), (1, 7)])\n    12\n    \"\"\"\n    def accumulate_alternate_chains(tuples, count):\n        if len(tuples) == 0:\n            return 0\n        left, right = tuples[0]\n        count += 1\n        for t in tuples[1:]:\n            left, right = t\n            if left!= right:\n                return accumulate_alternate_chains(tuples[:count], count)\n        return accumulate_alternate_chains(tuples[:count], count) + \\\n            accumulate_alternate_chains(tuples[count:], count)\n\n    return accumulate_alternate_chains(tuples, 0)\n\ndef main():\n    import doctest\n    doctest.testmod()\n\nif __name__ == '__main__':\n    main()",
+      -20.09375
+    ],
+    [
+      "from collections import deque\n\n\ndef get_alternate_chain_sum(tuples):\n    \"\"\"\n    Input is a list of tuples.\n\n    Output is the sum of the alternate chain of the tuple.\n\n    Example:\n    >>> get_alternate_chain_sum([(1, 2), (3, 4), (5, 6)])\n    6\n    >>> get_alternate_chain_sum([(1, 2), (3, 4), (5, 6), (7, 8)])\n    14\n    >>> get_alternate_chain_sum([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)])\n    21\n    \"\"\"\n    result = 0\n    queue = deque(tuples)\n    while queue:\n        result += queue.popleft()\n        if queue and queue[0][0]!= queue[-1][0]:\n            queue.append(queue.popleft() * 2)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -21.265625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

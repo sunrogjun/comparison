@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/350",
+    "prompt": "Write a python function to minimize the length of the string by removing occurrence of only one character.",
+    "canonical_solution": "def minimum_Length(s) : \r\n    maxOcc = 0\r\n    n = len(s) \r\n    arr = [0]*26\r\n    for i in range(n) : \r\n        arr[ord(s[i]) -ord('a')] += 1\r\n    for i in range(26) : \r\n        if arr[i] > maxOcc : \r\n            maxOcc = arr[i] \r\n    return n - maxOcc ",
+    "test_list": [
+      "assert minimum_Length(\"mnm\") == 1",
+      "assert minimum_Length(\"abcda\") == 3",
+      "assert minimum_Length(\"abcb\") == 2"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 339
+  },
+  "model_name": "codellama-7b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from collections import Counter\n\n\ndef remove_only_one_char(input_str):\n    counter = Counter(input_str)\n    if len(counter) == 1:\n        return \"\"\n\n    min_length = len(input_str)\n    for key, val in counter.items():\n        if val > 1:\n            counter[key] = val - 1\n        else:\n            del counter[key]\n\n    for key, val in counter.items():\n        min_length = min(min_length, len(input_str) - val)\n    return min_length\n\n\ndef main():\n    input_str = \"aaabbcccc\"\n    print(remove_only_one_char(input_str))\n\n\nif __name__ == \"__main__\":\n    main()",
+      3.2421875
+    ],
+    [
+      "def shortest(string):\n    \"\"\"\n    :param string: str - string to evaluate\n    return: str - shortest string\n    \"\"\"\n    short = string\n    for char in string:\n        temp = string.replace(char, \"\")\n        if len(temp) < len(short):\n            short = temp\n    return short\n\n\nif __name__ == '__main__':\n    print(shortest('Hello'))\n    print(shortest('AAAAAAAAAA'))\n    print(shortest('AAAAAAAAAAA'))",
+      3.009765625
+    ],
+    [
+      "def get_min_length(str1: str) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    \"\"\"\n    res = str1\n    for c in set(str1):\n        new_str = str1.replace(c, \"\")\n        if len(new_str) < len(res):\n            res = new_str\n    return len(res)\n\n\nif __name__ == \"__main__\":\n    print(get_min_length(\"aaabbccca\"))\n    print(get_min_length(\"abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      2.890625
+    ],
+    [
+      "def remove_single_char(str1):\n    # Get all the unique characters of the string.\n    unique_chars = set(str1)\n    # Get the minimum length of the string.\n    min_len = len(str1)\n    # Iterate through the unique characters and remove them from the string.\n    for char in unique_chars:\n        new_str = str1.replace(char, \"\")\n        # Get the length of the new string.\n        curr_len = len(new_str)\n        # If the current length is smaller than the previous minimum length, update the minimum length.\n        if curr_len < min_len:\n            min_len = curr_len\n    return min_len\n\nstr1 = input(\"Enter a string: \")\nprint(remove_single_char(str1))",
+      2.623046875
+    ],
+    [
+      "def min_len(s):\n    d = {}\n    for i in s:\n        if i in d:\n            d[i] += 1\n        else:\n            d[i] = 1\n    char = max(d, key=d.get)\n    if d[char] == 1:\n        s = s.replace(char, '')\n        return min_len(s)\n    return s\n\nprint(min_len(\"abbbba\"))",
+      1.87890625
+    ],
+    [
+      "def minimize_length(string):\n    \"\"\"\n    >>> minimize_length('abbc')\n    'abcb'\n    >>> minimize_length('abc')\n    'abc'\n    >>> minimize_length('aabbcc')\n    'aabbcc'\n    \"\"\"\n    if len(string) <= 1:\n        return string\n    else:\n        min_length = len(string)\n        char_to_remove = ''\n        for char in string:\n            temp_string = string.replace(char, '', 1)\n            if len(temp_string) < min_length:\n                min_length = len(temp_string)\n                char_to_remove = char\n        return string.replace(char_to_remove, '', 1)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.65234375
+    ],
+    [
+      "def remove_char(s):\n    d = {}\n    for i in s:\n        if i not in d:\n            d[i] = 1\n        else:\n            d[i] += 1\n    for i in d:\n        if d[i] == 1:\n            return s.replace(i, \"\")\n    return s",
+      1.2900390625
+    ],
+    [
+      "from collections import Counter\n\n\ndef min_length(s):\n    counter = Counter(s)\n    key = max(counter, key=counter.get)\n    return len(s) - counter[key]\n\n\ns = input()\nprint(min_length(s))",
+      0.79833984375
+    ],
+    [
+      "def minString(s):\n    freq = {}\n    for i in s:\n        if i not in freq:\n            freq[i] = 1\n        else:\n            freq[i] += 1\n    min_len = float('inf')\n    for i in freq:\n        if freq[i] == 1:\n            min_len = min(min_len, len(s) - freq[i])\n    return min_len\n\nprint(minString(\"aabbbc\"))\nprint(minString(\"aab\"))",
+      0.6689453125
+    ],
+    [
+      "def minimize(string):\n    char = \"\"\n    count = 0\n    for i in string:\n        if i == char:\n            count += 1\n        else:\n            char = i\n            count = 1\n        if count == 1:\n            return False\n    return True\n\n\ns = \"abccbbc\"\nprint(minimize(s))",
+      0.60888671875
+    ],
+    [
+      "def min_len(s):\n    char = s[0]\n    for i in s[1:]:\n        if i != char:\n            char = i\n    return char\n\n\ndef min_len_solution(s):\n    char = s[0]\n    count = 1\n    for i in s[1:]:\n        if i != char:\n            char = i\n            count += 1\n    return char, count\n\n\ndef main():\n    s = \"aaabbc\"\n    char, count = min_len_solution(s)\n    print(f\"minimum occurrence of character in {s} is {char} with {count} occurrences\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.6083984375
+    ],
+    [
+      "def min_length(s):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    freq = {}\n    for i in s:\n        if i not in freq:\n            freq[i] = 1\n        else:\n            freq[i] += 1\n    min_len = len(s)\n    for i in freq:\n        if freq[i] > 1:\n            continue\n        else:\n            curr_len = 0\n            for j in range(len(s)):\n                if s[j] == i:\n                    curr_len += 1\n                else:\n                    curr_len += 2\n            min_len = min(min_len, curr_len)\n    return min_len\n\n\ndef main():\n    s = input()\n    print(min_length(s))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.580078125
+    ],
+    [
+      "def remove_char(s):\n    str_len = len(s)\n    if str_len == 0:\n        return s\n    elif str_len == 1:\n        return \"\"\n    elif str_len == 2:\n        return s[0]\n    else:\n        if s[0] != s[1]:\n            return s[0] + remove_char(s[1:])\n        else:\n            return remove_char(s[1:])\n\n\nif __name__ == \"__main__\":\n    print(remove_char(\"abcdeef\"))",
+      0.304443359375
+    ],
+    [
+      "def remove_one_char(string):\n    if len(string) == 1:\n        return 0\n    count = {}\n    for i in string:\n        if i in count:\n            count[i] += 1\n        else:\n            count[i] = 1\n    min_length = len(string)\n    for i in count:\n        min_length = min(min_length, len(string) - count[i])\n    return min_length\n\n\nprint(remove_one_char(\"abbbc\"))\nprint(remove_one_char(\"abbbcc\"))\nprint(remove_one_char(\"aabbbcc\"))\nprint(remove_one_char(\"aabbbbcc\"))\nprint(remove_one_char(\"aabbbbbcc\"))\nprint(remove_one_char(\"aabbbbbbcc\"))\nprint(remove_one_char(\"aabbbbbbbcc\"))",
+      0.09619140625
+    ],
+    [
+      "def get_min_length(string):\n    char_count = {}\n    for i in string:\n        if i in char_count:\n            char_count[i] += 1\n        else:\n            char_count[i] = 1\n\n    max_char_count = 0\n    for key in char_count:\n        if char_count[key] > max_char_count:\n            max_char_count = char_count[key]\n            max_char = key\n\n    return len(string) - max_char_count\n\n\ndef main():\n    string = input(\"Enter the string: \")\n    print(get_min_length(string))\n\n\nif __name__ == \"__main__\":\n    main()",
+      0.0289306640625
+    ],
+    [
+      "def remove_one(string):\n    new_str = string[0]\n    for i in range(1, len(string)):\n        if string[i] != string[i-1]:\n            new_str += string[i]\n    return new_str\n\nstring = input(\"Enter a string: \")\nprint(remove_one(string))",
+      -0.2025146484375
+    ],
+    [
+      "def length_minimization(input_string):\n    if len(input_string) <= 1:\n        return input_string\n    elif len(input_string) == 2:\n        if input_string[0] == input_string[1]:\n            return input_string[0]\n        else:\n            return input_string\n    else:\n        return input_string[0] + length_minimization(input_string[1:])\n\nprint(length_minimization(\"abcabc\"))",
+      -0.478271484375
+    ],
+    [
+      "def minimize_str(string: str) -> str:\n    \"\"\"\n    >>> minimize_str('aabcccccaaa')\n    'abc'\n    >>> minimize_str('aaabbbccc')\n    'abcc'\n    >>> minimize_str('abcdefgh')\n    'abcdefgh'\n    \"\"\"\n    if len(string) == 1:\n        return string\n\n    # Find the character with max occurrence\n    max_occ_char: str = string[0]\n    max_occ: int = 1\n    for char in string[1:]:\n        if string.count(char) > max_occ:\n            max_occ_char = char\n            max_occ = string.count(char)\n\n    # Remove the max_occ_char from the string\n    return string.replace(max_occ_char, \"\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.572265625
+    ],
+    [
+      "def remove_single_char(str1):\n    char_dict = {}\n    for char in str1:\n        if char not in char_dict:\n            char_dict[char] = 1\n        else:\n            char_dict[char] += 1\n    char_count = char_dict.values()\n    return len(str1) - max(char_count)\n\n\nprint(remove_single_char(\"abbabbbc\"))",
+      -0.5966796875
+    ],
+    [
+      "def remove_only_one_char(string: str) -> str:\n    \"\"\"\n    >>> remove_only_one_char('abbc')\n    'abc'\n    \"\"\"\n    min_len = float(\"inf\")\n    min_str = \"\"\n    for i in set(string):\n        if string.count(i) == 1:\n            string = string.replace(i, \"\")\n        if len(string) < min_len:\n            min_len = len(string)\n            min_str = string\n    return min_str\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.6669921875
+    ],
+    [
+      "def remove_char(string):\n    result = []\n    for i in string:\n        if string.count(i) > 1:\n            result.append(i)\n    return \"\".join(result)\n\n\nstr1 = \"abcdabcd\"\nprint(\"Original string: \" + str1)\nprint(\"Modified string: \" + remove_char(str1))",
+      -0.69189453125
+    ],
+    [
+      "def min_str(input_str):\n    unique_chars = set(input_str)\n    if len(unique_chars) == 1:\n        return \"\"\n    else:\n        min_length = len(input_str)\n        for char in unique_chars:\n            str_without_char = input_str.replace(char, \"\")\n            if len(str_without_char) < min_length:\n                min_length = len(str_without_char)\n        return min_length\n\n\nprint(min_str(\"aaabbbbccccccccccc\"))",
+      -0.85595703125
+    ],
+    [
+      "def min_length(str1):\n    str1_set = set(str1)\n    min_len = 100000000000\n    for i in str1_set:\n        temp_str = str1.replace(i, \"\")\n        temp_len = len(temp_str)\n        if temp_len < min_len:\n            min_len = temp_len\n    return min_len\n\n\nprint(min_length(\"abbcccdddde\"))",
+      -0.85595703125
+    ],
+    [
+      "def min_string(string):\n    if not string:\n        return\n    d = {}\n    for char in string:\n        if char in d:\n            d[char] += 1\n        else:\n            d[char] = 1\n\n    min_len = float('inf')\n    for key in d:\n        if d[key] == 1:\n            continue\n        for i in range(d[key]):\n            temp_string = string.replace(key, '', d[key] - i)\n            if len(temp_string) < min_len:\n                min_len = len(temp_string)\n    return min_len\n\n\nprint(min_string(\"abcba\"))",
+      -0.85693359375
+    ],
+    [
+      "def minimum_length(s):\n    s_set = set(s)\n    if len(s_set) == 1:\n        return 0\n    else:\n        return min(s.count(i) for i in s_set)\n\n\nprint(minimum_length(\"abc\"))\nprint(minimum_length(\"abb\"))\nprint(minimum_length(\"aabb\"))\nprint(minimum_length(\"abbcc\"))",
+      -0.85693359375
+    ],
+    [
+      "def remove_char(s):\n    if len(s) == 1:\n        return s\n    else:\n        return min(remove_char(s[1:]) + s[0], remove_char(s[:-1]) + s[-1])\n\n\nprint(remove_char('abbabab'))\nprint(remove_char('aabb'))\nprint(remove_char('aabbb'))\nprint(remove_char('ababba'))\nprint(remove_char('ababbaa'))\nprint(remove_char('aaaa'))",
+      -0.85693359375
+    ],
+    [
+      "def length_of_string(s):\n    result = []\n    for i in s:\n        if s.count(i) > 1:\n            result.append(i)\n    return len(result)\n\n\nprint(length_of_string(\"geeksforgeeks\"))\nprint(length_of_string(\"geeks\"))",
+      -0.85693359375
+    ],
+    [
+      "def remove_character(string):\n    char_count = {}\n    for char in string:\n        if char in char_count:\n            char_count[char] += 1\n        else:\n            char_count[char] = 1\n    min_length = len(string)\n    for key in char_count:\n        if char_count[key] == 1:\n            new_string = string.replace(key, \"\")\n            min_length = min(len(new_string), min_length)\n    return min_length\n\n\nprint(remove_character(\"aaabbbaaa\"))\nprint(remove_character(\"aaabbbcccaaa\"))",
+      -0.85693359375
+    ],
+    [
+      "def minimize_length(str1):\n    # code goes here\n    max_len = -1\n    for i in range(len(str1)):\n        c = str1[i]\n        if str1.count(c) > 1:\n            str1 = str1.replace(c, '')\n            if len(str1) > max_len:\n                max_len = len(str1)\n    return max_len\n\n\n# use this input to test your function\nstr1 = \"aabcc\"\nprint(minimize_length(str1))",
+      -0.85693359375
+    ],
+    [
+      "def remove_character(string):\n    if len(string) == 1:\n        return string\n    else:\n        min_len = 100\n        for char in string:\n            if string.count(char) == 1:\n                temp_string = string.replace(char, \"\")\n                if len(temp_string) < min_len:\n                    min_len = len(temp_string)\n                    min_string = temp_string\n        return min_string\n\nprint(remove_character(\"aaabbc\"))\nprint(remove_character(\"aaabbca\"))\nprint(remove_character(\"a\"))\nprint(remove_character(\"aaabbcc\"))\nprint(remove_character(\"aaabbbb\"))\nprint(remove_character(\"aabbccdde\"))\nprint(remove_character(\"aabbbccdde\"))",
+      -0.85693359375
+    ],
+    [
+      "def minimize(s):\n    if len(s) == 0:\n        return s\n    if len(s) == 1:\n        return \"\"\n\n    if s[0] == s[1]:\n        return minimize(s[1:])\n    else:\n        return s[0] + minimize(s[1:])\n\n\nprint(minimize(\"aaaabbbbccccccccccccccc\"))",
+      -0.85693359375
+    ],
+    [
+      "def min_length(string):\n    string_list = list(string)\n    string_list.sort()\n    result = string_list[0]\n    for i in range(1, len(string_list)):\n        if string_list[i] == string_list[i - 1] + 1:\n            result += string_list[i]\n        else:\n            result += string_list[i]\n    return result\n\n\ndef min_length_2(string):\n    return \"\".join(sorted(set(string)))\n\n\ndef main():\n    string = \"aabbccdd\"\n    print(min_length(string))\n    print(min_length_2(string))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def min_length(str1):\n    str_set = set(str1)\n    str_set = list(str_set)\n    str_set = [str(i) for i in str_set]\n    str_set = [i for i in str_set if len(i) > 1]\n    if len(str_set) == 0:\n        return str1\n    else:\n        return min(str_set, key=len)\n\n\nprint(min_length(\"abcdef\"))\nprint(min_length(\"abcdefgh\"))\nprint(min_length(\"abcdefghijklmnopqrstuvwxyz\"))",
+      -0.85693359375
+    ],
+    [
+      "def remove_single_char(str1):\n    # code goes here\n    if len(str1) <= 1:\n        return str1\n    else:\n        return min(remove_single_char(str1[1:]), remove_single_char(str1[:-1]))\n\n# end of function\n\n# using test cases from the question.\nprint(remove_single_char(\"aabbbcccc\"))\nprint(remove_single_char(\"abba\"))\nprint(remove_single_char(\"a\"))\nprint(remove_single_char(\"aaaaaaaaaaaaaa\"))\nprint(remove_single_char(\"aabbccdd\"))\nprint(remove_single_char(\"abcdefghijklmno\"))",
+      -0.85791015625
+    ],
+    [
+      "def remove_one_char(str):\n    if len(str) == 1:\n        return str\n    else:\n        char = str[0]\n        for i in range(1, len(str)):\n            if char != str[i]:\n                return str\n        return char\n\n\nif __name__ == \"__main__\":\n    str = \"abccd\"\n    print(remove_one_char(str))",
+      -0.85791015625
+    ],
+    [
+      "def min_length(input_string):\n    min_length = len(input_string)\n    for i in set(input_string):\n        new_string = input_string.replace(i, \"\")\n        if len(new_string) < min_length:\n            min_length = len(new_string)\n    return min_length\n\nprint(min_length(\"abcba\"))\nprint(min_length(\"aaaaaaaaaaaa\"))",
+      -0.85791015625
+    ],
+    [
+      "def minimize(string):\n    d = {}\n    for i in string:\n        if i in d:\n            d[i] += 1\n        else:\n            d[i] = 1\n    for i in d:\n        if d[i] == 1:\n            return string.replace(i, \"\")\n\n\nprint(minimize(\"abcba\"))\nprint(minimize(\"bbbbb\"))\nprint(minimize(\"aabbc\"))\nprint(minimize(\"aabbbcc\"))",
+      -0.85888671875
+    ],
+    [
+      "def remove_char(string):\n    unique_chars = set(string)\n    min_length = len(string)\n\n    for char in unique_chars:\n        # Create a copy of the string\n        new_string = string.replace(char, \"\")\n        # If the length of the new string is less than the previous minimum\n        if len(new_string) < min_length:\n            # Update the minimum length\n            min_length = len(new_string)\n\n    return min_length\n\n\ndef main():\n    string = input(\"Enter a string: \")\n    length = remove_char(string)\n    print(f\"Minimum length of string is {length}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85888671875
+    ],
+    [
+      "def min_length(string):\n    unique_chars = set(string)\n    min_length = len(string)\n    for char in unique_chars:\n        new_string = string.replace(char, \"\")\n        min_length = min(min_length, len(new_string))\n    return min_length\n\n\nstring = input(\"Enter string: \")\nprint(min_length(string))",
+      -0.85888671875
+    ],
+    [
+      "def remove_single_char(string):\n    # Find the length of the string\n    length = len(string)\n    # Check if the length is less than or equal to 1\n    if length <= 1:\n        # If true, return the string\n        return string\n    else:\n        # Else, return the string with the minimum length\n        return min(string, string[1:] + string[:1])\n\n\ndef main():\n    print(remove_single_char(\"bbbbba\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.86083984375
+    ],
+    [
+      "def min_length(s: str) -> int:\n    \"\"\"\n    >>> min_length(\"abcba\")\n    2\n    >>> min_length(\"aaa\")\n    0\n    >>> min_length(\"aaaa\")\n    0\n    \"\"\"\n    d: dict[int, int] = {}\n\n    for i in s:\n        d[i] = d.get(i, 0) + 1\n\n    return max(d.values()) - 1\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "def remove_one_character(s):\n    \"\"\"\n    >>> remove_one_character(\"abcba\")\n    'abcb'\n    \"\"\"\n    s = list(s)\n    for i in range(len(s) - 1):\n        if s[i] == s[i + 1]:\n            del s[i]\n    return \"\".join(s)\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "def remove_one_char(string):\n    if len(string) < 2:\n        return string\n\n    min_len = float('inf')\n    min_string = ''\n\n    for i in range(len(string)):\n        substr = string[:i] + string[i + 1:]\n        if len(substr) < min_len:\n            min_len = len(substr)\n            min_string = substr\n\n    return min_string\n\n\nprint(remove_one_char('abcba'))\nprint(remove_one_char('abcabc'))",
+      -0.86083984375
+    ],
+    [
+      "def remove_one(string):\n    if not string:\n        return 0\n\n    count = [0 for _ in range(26)]\n    for i in string:\n        count[ord(i) - ord('a')] += 1\n\n    res = 0\n    for i in count:\n        if i == 1:\n            res += 1\n        else:\n            res += i // 2\n\n    return res\n\n\nprint(remove_one(\"abbcccdddd\"))",
+      -0.86083984375
+    ],
+    [
+      "def minLengthString(s):\n    count = [0 for i in range(26)]\n    ans = 0\n    for i in s:\n        count[ord(i) - ord('a')] += 1\n    for i in range(26):\n        if count[i] != 0:\n            ans += (count[i] - 1)\n    return ans + 1\n\ns = \"aabbc\"\nprint(\"Original String: \", s)\nprint(\"Minimized string: \", minLengthString(s))",
+      -0.86083984375
+    ],
+    [
+      "def minimize_length(string):\n    min_length = float('inf')\n    for i in set(string):\n        count = string.count(i)\n        temp_string = string\n        for _ in range(count):\n            temp_string = temp_string.replace(i, '', 1)\n        if len(temp_string) < min_length:\n            min_length = len(temp_string)\n    return min_length\n\n\nstring = input()\nprint(minimize_length(string))",
+      -0.86083984375
+    ],
+    [
+      "def min_length(input_str):\n    min_len = len(input_str)\n    for i in range(len(input_str)):\n        if input_str[i] != input_str[i-1]:\n            continue\n        else:\n            temp = input_str[:i] + input_str[i+1:]\n            if len(temp) < min_len:\n                min_len = len(temp)\n    return min_len\n\nprint(min_length('aabbcc'))\nprint(min_length('aabcc'))\nprint(min_length('aabbcccc'))",
+      -1.0224609375
+    ],
+    [
+      "def min_str(s):\n    char_dict = {}\n    for i in s:\n        if i in char_dict:\n            char_dict[i] += 1\n        else:\n            char_dict[i] = 1\n\n    max_char = max(char_dict, key=char_dict.get)\n    print(max_char)\n    print(s.count(max_char))\n    return s.replace(max_char, \"\")\n\n\nmin_str(\"abbccd\")",
+      -1.138671875
+    ],
+    [
+      "def remove_char(str1):\n    char_dict = {}\n    for char in str1:\n        if char not in char_dict:\n            char_dict[char] = 1\n        else:\n            char_dict[char] += 1\n\n    if len(char_dict) == 1:\n        return str1\n\n    min_length = len(str1)\n    for char in char_dict:\n        char_dict[char] -= 1\n        new_str = str1.replace(char, \"\", char_dict[char])\n        if len(new_str) < min_length:\n            min_length = len(new_str)\n        char_dict[char] += 1\n\n    return min_length\n\n\nstr1 = \"aabcccccaaa\"\nprint(remove_char(str1))\n\n\n\"\"\"\nTime complexity: O(N)\nSpace complexity: O(N)\n\"\"\"",
+      -1.1650390625
+    ],
+    [
+      "def remove_one_char(string):\n    min_len = 9999999999\n    result = \"\"\n    for i in range(len(string)):\n        new_string = string[:i] + string[i + 1:]\n        if min_len > len(new_string):\n            min_len = len(new_string)\n            result = new_string\n    return result\n\n\nprint(remove_one_char(\"abcba\"))",
+      -1.1708984375
+    ],
+    [
+      "def minLength(string):\n    # code here\n    new_str = \"\"\n    for i in range(len(string)):\n        if string[i] != string[i-1]:\n            new_str += string[i]\n    return new_str\n\n\n# Best solution\ndef minLength(string):\n    # code here\n    new_str = \"\"\n    for i in range(1, len(string)):\n        if string[i] != string[i-1]:\n            new_str += string[i]\n    return new_str\n\n\n# Using dictionary\ndef minLength(string):\n    # code here\n    new_str = \"\"\n    for i in range(1, len(string)):\n        if string[i] != string[i-1]:\n            new_str += string[i]\n    return new_str\n\n\n\nif __name__ == '__main__':\n    string = input()\n    print(minLength(string))",
+      -1.18359375
+    ],
+    [
+      "def remove_char(string):\n    \"\"\"\n    >>> remove_char('aabbcce')\n    'ce'\n    >>> remove_char('aabccde')\n    'abcde'\n    \"\"\"\n    if len(string) < 2:\n        return string\n    # Sort the string so that repeating characters are adjacent\n    sorted_string = \"\".join(sorted(string))\n\n    # Iterate over the string and count the occurence of each character\n    char_count = {}\n    for char in sorted_string:\n        if char not in char_count:\n            char_count[char] = 1\n        else:\n            char_count[char] += 1\n\n    # Check for the character which occurs only once\n    for char in char_count:\n        if char_count[char] == 1:\n            return char * len(string)\n\n\ndef remove_char_eff(string):\n    \"\"\"\n    >>> remove_char_eff('aabbcce')\n    'ce'\n    >>> remove_char_eff('aabccde')\n    'abcde'\n    \"\"\"\n    char_count = {}\n    # Count the occurence of each character\n    for char in string:\n        if char not in char_count:\n            char_count[char] = 1\n        else:\n            char_count[char] += 1\n\n    # Find the character which occurs only once\n    only_once = None\n    for char in char_count:\n        if char_count[char] == 1:\n            only_once = char\n            break\n\n    # Return the string with all occurence of the character removed\n    return string.replace(only_once, \"\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.19921875
+    ],
+    [
+      "def min_length(str1: str) -> int:\n    \"\"\"\n    >>> min_length('abccba')\n    2\n    >>> min_length('abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      -1.595703125
+    ],
+    [
+      "def remove_one_char(input_str):\n    len_input_str = len(input_str)\n    if len_input_str <= 1:\n        return input_str\n    min_len = float('inf')\n    min_str = ''\n    for i in range(len_input_str):\n        if input_str[i] != input_str[i-1]:\n            # print(input_str[i])\n            temp_str = input_str[:i] + input_str[i+1:]\n            temp_len = len(temp_str)\n            if temp_len < min_len:\n                min_len = temp_len\n                min_str = temp_str\n    return min_str\n\n\nprint(remove_one_char('aaabbc'))\nprint(remove_one_char('aabbbc'))\nprint(remove_one_char('aabbcc'))\nprint(remove_one_char('aabbccc'))\nprint(remove_one_char('abc'))\nprint(remove_one_char('aaa'))",
+      -1.8759765625
+    ],
+    [
+      "def min_length(s: str) -> int:\n    \"\"\"\n    >>> min_length('ababab')\n    2\n    >>> min_length('aabbbc')\n    2\n    >>> min_length('abbbc')\n    3\n    >>> min_length('abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      -2.193359375
+    ],
+    [
+      "def min_length(string):\n    min_length = len(string)\n    for char in set(string):\n        new_string = string.replace(char, \"\")\n        if len(new_string) < min_length:\n            min_length = len(new_string)\n    return min_length\n\n\nprint(min_length(\"aabcccccaa\"))\nprint(min_length(\"aabcccccaa\"))\nprint(min_length(\"aabbcccccaa\"))",
+      -2.26953125
+    ],
+    [
+      "def min_length(str1):\n    if len(str1) < 2:\n        return str1\n\n    min_str = str1\n    for i in range(len(str1)):\n        for j in range(i+1, len(str1)+1):\n            new_str = str1[i:j]\n            if len(new_str) < len(min_str):\n                min_str = new_str\n    return min_str\n\n\nprint(min_length(\"abcba\"))\nprint(min_length(\"aabca\"))\nprint(min_length(\"abcbca\"))\nprint(min_length(\"abcbaa\"))",
+      -2.3046875
+    ],
+    [
+      "def min_length(s):\n    char_dict = dict()\n    for c in s:\n        if c in char_dict:\n            char_dict[c] += 1\n        else:\n            char_dict[c] = 1\n    char_list = list(char_dict.items())\n    char_list.sort(key=lambda x: x[1])\n    char = char_list[-1][0]\n    return s.replace(char, \"\")\n\n\nprint(min_length(\"bbbbbbbbbbb\"))",
+      -2.400390625
+    ],
+    [
+      "def remove_one(s):\n    if len(s) == 1:\n        return s\n    min_length = len(s)\n    for i in range(len(s)):\n        min_length = min(min_length, remove_one(s[:i] + s[i+1:]))\n    return min_length\n\n\nprint(remove_one(\"aabbbccc\"))",
+      -2.419921875
+    ],
+    [
+      "def remove_one_char(input_str: str) -> str:\n    \"\"\"\n    >>> remove_one_char(\"abccba\")\n    'abcb'\n    >>> remove_one_char(\"aaabbbccc\")\n    'abc'\n    >>> remove_one_char(\"abc\")\n    'abc'\n    >>> remove_one_char(\"ab\")\n    'ab'\n    >>> remove_one_char(\"aa\")\n    'a'\n    \"\"\"\n    char_count: dict[str, int] = {}\n\n    for char in input_str:\n        if char in char_count:\n            char_count[char] += 1\n        else:\n            char_count[char] = 1\n\n    # Remove the character from the string with the minimum count.\n    char_to_remove = min(char_count, key=char_count.get)\n\n    return input_str.replace(char_to_remove, \"\")\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.47265625
+    ],
+    [
+      "def remove_char(s):\n    s = s.lower()\n    l = []\n    for i in s:\n        if i not in l:\n            l.append(i)\n    if len(l) == 1:\n        print(\"No character can be removed\")\n    else:\n        return min(l, key=s.count)\n\n\nprint(remove_char(\"geeksforgeeks\"))\nprint(remove_char(\"aabbcc\"))\nprint(remove_char(\"geeks\"))",
+      -2.544921875
+    ],
+    [
+      "def min_length(str1):\n    d = {}\n    for i in str1:\n        d[i] = d.get(i, 0) + 1\n    # print(d)\n    if len(d) == 1:\n        return len(str1)\n    else:\n        return min(d.values())\n\n\nstr1 = \"aabbccd\"\nstr2 = \"aabbccdd\"\nprint(min_length(str1))\nprint(min_length(str2))",
+      -2.666015625
+    ],
+    [
+      "def remove_one(string: str) -> str:\n    \"\"\"\n    >>> remove_one('abba')\n    'abba'\n    >>> remove_one('abbba')\n    'abba'\n    >>> remove_one('bbbba')\n    'bbba'\n    \"\"\"\n    if len(string) < 3:\n        return string\n    for i in range(1, len(string) - 1):\n        if string[i - 1] != string[i] and string[i] == string[i + 1]:\n            return string[:i] + string[i + 1 :]\n    return string\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -2.73828125
+    ],
+    [
+      "def min_length(str_):\n    str_set = set(str_)\n    if len(str_set) == 1:\n        return str_\n    return min(str_set)\n\n\nif __name__ == \"__main__\":\n    str_ = \"aabbccd\"\n    print(min_length(str_))",
+      -2.884765625
+    ],
+    [
+      "def minLength(str1):\n    unique_char = set(str1)\n    if len(unique_char) == len(str1):\n        return -1\n    else:\n        count = {}\n        for i in unique_char:\n            count[i] = str1.count(i)\n        del count[min(count, key=count.get)]\n        result = str1\n        for i in count:\n            result = result.replace(i, \"\")\n        return result\n\n\nstr1 = \"abcabc\"\nprint(\"Original string: \", str1)\nprint(\"Minimized string: \", minLength(str1))",
+      -3.310546875
+    ],
+    [
+      "def get_min_length(s: str) -> str:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(s) <= 1:\n        return s\n\n    char_dict = dict()\n\n    for char in s:\n        if char not in char_dict:\n            char_dict[char] = 1\n        else:\n            char_dict[char] += 1\n\n    min_char = \"\"\n    min_count = float(\"inf\")\n\n    for char, count in char_dict.items():\n        if count < min_count:\n            min_char = char\n            min_count = count\n\n    return s.replace(min_char, \"\")\n\n\nif __name__ == \"__main__\":\n    print(get_min_length(\"aabbbc\"))",
+      -3.314453125
+    ],
+    [
+      "def remove_one(string):\n    result = []\n    for i in range(len(string)):\n        if i == 0:\n            result.append(string[i])\n            continue\n        if string[i] != string[i-1]:\n            result.append(string[i])\n    return \"\".join(result)\n\n\nprint(remove_one(\"aabbcc\"))\nprint(remove_one(\"aaaabbc\"))",
+      -3.330078125
+    ],
+    [
+      "def length_of_string(s):\n    s = sorted(s)\n    result = s[0]\n    for i in range(len(s)):\n        if s[i] == result:\n            continue\n        else:\n            result += s[i]\n    return result\n\n\ndef main():\n    string = input(\"Enter a string: \")\n    print(length_of_string(string))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.603515625
+    ],
+    [
+      "def string_minimization(str1):\n    str1_dict = {}\n    for i in str1:\n        str1_dict[i] = str1.count(i)\n    for key, value in str1_dict.items():\n        if value == 1:\n            str1 = str1.replace(key, \"\")\n    return str1\n\n\ndef main():\n    str1 = \"abbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      -3.771484375
+    ],
+    [
+      "from collections import Counter\n\n\ndef min_length(s):\n    c = Counter(s)\n    return len(s) - c.most_common(1)[0][1]\n\n\ndef min_length2(s):\n    return len(s) - max(map(s.count, s))\n\n\ndef main():\n    s = input(\"Enter a string: \")\n    print(\"Min length of the string: \", min_length(s))\n    print(\"Min length of the string: \", min_length2(s))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.91015625
+    ],
+    [
+      "def min_length(string):\n    if len(string) < 2:\n        return string\n\n    char = string[0]\n    result = ''\n    for i in range(1, len(string)):\n        if string[i] != char:\n            result += string[i]\n        else:\n            char = string[i]\n\n    return result\n\nprint(min_length('aabbbccccdddd'))\nprint(min_length('aaabbbbbccccccccccdddddddd'))\nprint(min_length('abcde'))\nprint(min_length('aaa'))\nprint(min_length('aaaa'))\nprint(min_length('aaaaa'))\nprint(min_length('a'))\nprint(min_length(''))\nprint(min_length('ab'))\nprint(min_length('aab'))\nprint(min_length('aaab'))\nprint(min_length('aabbb'))\nprint(min_length('aaabbb'))\nprint(min_length('aaba'))\nprint(min_length('aaaabbbb'))\nprint(min_length('aaaaabbbbb'))\nprint(min_length('aaaaabbbbbb'))\nprint(min_length('aaaaabbbbbbb'))\nprint(min_length('aaaaabbbbbbbb'))\nprint(min_length('aaaaabbbbbbbbb'))\nprint(min_length('aaaaa'))\nprint(min_length('aaaaaa'))\nprint(min_length('aaaaaaa'))\nprint(min_length('aaaaaaaa'))\nprint(min_length('aaaaaaaaa'))\nprint(min_length('aaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaaaaaaa'))\nprint(min_length('aaaaaaaaaaaaaaaaaaaa'))\nprint(min_length",
+      -4.03125
+    ],
+    [
+      "def min_length(a):\n    if len(a) == 0:\n        return 0\n\n    if len(a) == 1:\n        return 1\n\n    if len(a) == 2:\n        return 1\n\n    if a[0] != a[1]:\n        return 2\n\n    if a[1] != a[2]:\n        return 2\n\n    return 1 + min_length(a[1:])\n\n\ndef min_length2(a):\n    if len(a) == 0:\n        return 0\n\n    if len(a) == 1:\n        return 1\n\n    if a[0] != a[1]:\n        return 2\n\n    return 1 + min_length2(a[1:])\n\n\ndef min_length3(a):\n    if len(a) == 0:\n        return 0\n\n    if len(a) == 1:\n        return 1\n\n    if a[0] != a[1]:\n        return 2\n\n    return 1 + min_length3(a[1:])\n\n\nif __name__ == \"__main__\":\n    print(min_length2(\"aabcccccaaa\"))\n    print(min_length(\"aabcccccaaa\"))\n    print(min_length3(\"aabcccccaaa\"))",
+      -4.24609375
+    ],
+    [
+      "def string_minimizer(string):\n    minimum_length = len(string)\n    for i in set(string):\n        if string.count(i) > 1:\n            string = string.replace(i, '')\n            if len(string) < minimum_length:\n                minimum_length = len(string)\n    return minimum_length\n\n\ndef main():\n    string = input(\"Enter a string: \")\n    result = string_minimizer(string)\n    print(f\"Minimized String: {result}\")\n\n\nif __name__ == '__main__':\n    main()",
+      -4.26953125
+    ],
+    [
+      "def min_str_length(str1):\n    char_count = {}\n    for char in str1:\n        if char not in char_count:\n            char_count[char] = 1\n        else:\n            char_count[char] += 1\n\n    min_length = len(str1)\n    for char in char_count:\n        if char_count[char] == 1:\n            continue\n        min_length = min(min_length, len(str1) - char_count[char] + 1)\n\n    return min_length\n\n\ndef main():\n    str1 = \"aabbcc\"\n    min_length = min_str_length(str1)\n    print(min_length)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.44140625
+    ],
+    [
+      "def remove_char(str):\n    # Write your code here\n    res = \"\"\n    if len(str) == 0:\n        return res\n\n    d = {}\n    for i in range(len(str)):\n        if str[i] in d:\n            d[str[i]] += 1\n        else:\n            d[str[i]] = 1\n\n    if len(d) == 1:\n        return str\n    else:\n        for i in range(len(str)):\n            if d[str[i]] > 1:\n                res += str[i]\n    return res\n\n\ndef main():\n    str = input(\"Enter a string: \")\n    print(\"Minimized string is: \", remove_char(str))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -4.48828125
+    ],
+    [
+      "def remove_one(string):\n    d = {}\n    for char in string:\n        if char in d:\n            d[char] += 1\n        else:\n            d[char] = 1\n\n    min_len = len(string)\n    for char in d:\n        if d[char] > 1:\n            min_len = min(min_len, len(string) - (d[char] - 1))\n\n    return min_len\n\nprint(remove_one(\"abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      -4.65234375
+    ],
+    [
+      "def min_length(string):\n    min_length = len(string)\n    for i in range(len(string)):\n        if min_length > len(string[i:])+len(string[:i]):\n            min_length = len(string[i:])+len(string[:i])\n    return min_length\n\n\ndef min_length_by_removing_one_char(string):\n    min_length = len(string)\n    for i in range(len(string)):\n        for j in range(i+1, len(string)):\n            if min_length > len(string[i:j]) + len(string[:i]) + len(string[j:]):\n                min_length = len(string[i:j]) + len(string[:i]) + len(string[j:])\n    return min_length\n\n\nif __name__ == \"__main__\":\n    string = \"abbbbbbbcdef\"\n    print(min_length(string))\n    print(min_length_by_removing_one_char(string))",
+      -4.984375
+    ],
+    [
+      "def minimize(input_string):\n    string = list(input_string)\n    string.sort()\n    output_string = \"\"\n    for i in range(len(string)):\n        if string[i] == string[i-1]:\n            continue\n        else:\n            output_string += string[i]\n    return output_string\n\nif __name__ == \"__main__\":\n    input_string = input(\"Enter a string: \")\n    print(minimize(input_string))",
+      -5.21875
+    ],
+    [
+      "def min_length(string):\n    \"\"\"\n    :param string: str - input string\n    :return: int - minimum length of string\n    \"\"\"\n    if not isinstance(string, str):\n        return \"Please provide a valid string\"\n\n    if len(string) < 2:\n        return \"String must have at least 2 characters\"\n\n    min_length = len(string)\n    char_to_remove = \"\"\n\n    for char in set(string):\n        if string.count(char) == 1:\n            char_to_remove = char\n            break\n\n    if char_to_remove != \"\":\n        for i in range(len(string)):\n            if string[i] == char_to_remove:\n                min_length -= 1\n\n    return min_length\n\n\ndef main():\n    print(min_length(\"abb\"))\n    print(min_length(\"abbb\"))\n    print(min_length(\"abbabba\"))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -5.72265625
+    ],
+    [
+      "def minimize(string):\n    unique_char = set(string)\n    min_string = \"\"\n    for char in unique_char:\n        new_string = \"\"\n        for i in string:\n            if i == char:\n                new_string += i\n        if len(new_string) < len(min_string) or min_string == \"\":\n            min_string = new_string\n    return min_string\n\n\ndef main():\n    string = \"aaabbbccc\"\n    print(minimize(string))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -5.80859375
+    ],
+    [
+      "def remove_char(s):\n    l = len(s)\n    min_length = l\n    for i in range(l):\n        if s[i] == s[i + 1]:\n            min_length = min(min_length, l - 1)\n    return min_length\n\n\nremove_char('abbbc')",
+      -5.81640625
+    ],
+    [
+      "def min_length(input_str):\n    char_list = list(input_str)\n    char_set = set(char_list)\n    if len(char_set) == 1:\n        return min(input_str)\n    else:\n        return min(len(input_str), min(min_length(input_str.replace(min(char_set), \"\", 1))))\n\nif __name__ == \"__main__\":\n    print(min_length(\"aabbbbbcccc\"))",
+      -6.1171875
+    ],
+    [
+      "def min_length(str1):\n    \"\"\"\n    :param str1: str1 is a string\n    :return: return a string which has the minimum length after removing the occurrence of only one character\n    \"\"\"\n    if len(str1) < 2:\n        return str1\n    str2 = str1[1:] + str1[:1]\n    if str1 == str2:\n        return str1\n    else:\n        return min_length(str2)\n\n\nstr1 = input(\"Enter the string : \")\nprint(min_length(str1))",
+      -6.19140625
+    ],
+    [
+      "def remove_one_char(str_input):\n    # str_input = \"aaabbc\"\n    # str_input = \"aabbc\"\n    # str_input = \"abcc\"\n    # str_input = \"aaaa\"\n    # str_input = \"aaa\"\n    # str_input = \"aa\"\n    # str_input = \"a\"\n    # str_input = \"aaa\"\n    # str_input = \"ab\"\n    # str_input = \"aba\"\n    # str_input = \"abaa\"\n    # str_input = \"abaaa\"\n    # str_input = \"abaaab\"\n    # str_input = \"abaaaba\"\n    # str_input = \"abaaabaa\"\n    # str_input = \"abaaabaaa\"\n    # str_input = \"abaaabaaab\"\n    # str_input = \"abaaabaaaba\"\n    # str_input = \"abaaabaaabaa\"\n    # str_input = \"abaaabaaabaaa\"\n    # str_input = \"abaaabaaabaaab\"\n    # str_input = \"abaaabaaabaaaba\"\n    # str_input = \"abaaabaaabaaabaa\"\n    # str_input = \"abaaabaaabaaabaaa\"\n    # str_input = \"abaaabaaabaaabaaab\"\n    # str_input = \"abaaabaaabaaabaaaba\"\n    # str_input = \"abaaabaaabaaabaaabaa\"\n    # str_input = \"abaaabaaabaaabaaabaaa\"\n    # str_input = \"abaaabaaabaaabaaabaaab\"\n    # str_input = \"abaaabaaabaaabaaabaaaba\"\n    # str_input = \"abaaabaaabaaabaaabaaabaa\"\n    # str_input = \"abaaabaaabaaabaaabaaabaaa\"\n    # str_input = \"abaaabaaabaaabaaabaaabaaab\"\n    # str_input = \"abaaabaaabaaabaaabaa",
+      -6.4609375
+    ],
+    [
+      "def remove_single_char(string):\n    \"\"\"\n    >>> remove_single_char('aaabbc')\n    'aabbc'\n    >>> remove_single_char('aabbbccc')\n    'aabbbccc'\n    >>> remove_single_char('aabbccdde')\n    'aabbccdde'\n    >>> remove_single_char('aabbccddee')\n    'abcddede'\n    >>> remove_single_char('aaabbcddd')\n    'aabbcdde'\n    >>> remove_single_char('aaabbcccdde')\n    'aabbcdde'\n    \"\"\"\n    min_len = len(string)\n    for i in range(26):\n        new_string = \"\"\n        count = 0\n        for char in string:\n            if char.lower() == chr(97 + i):\n                count += 1\n            else:\n                new_string += char\n        if count == 1:\n            new_string = new_string[:-1]\n        if len(new_string) < min_len:\n            min_len = len(new_string)\n            min_string = new_string\n    return min_string\n\n\ndef remove_single_char_2(string):\n    \"\"\"\n    >>> remove_single_char_2('aaabbc')\n    'aabbc'\n    >>> remove_single_char_2('aabbbccc')\n    'aabbbccc'\n    >>> remove_single_char_2('aabbccdde')\n    'aabbccdde'\n    >>> remove_single_char_2('aabbccddee')\n    'abcddede'\n    >>> remove_single_char_2('aaabbcddd')\n    'aabbcdde'\n    >>> remove_single_char_2('aaabbcccdde')\n    'aabbcdde'\n    \"\"\"\n    min_len = len(string)\n    for i in range(26):\n        new_string = \"\"\n        count = 0\n        for char in string:\n            if char.lower() == chr(97 + i):\n                count +=",
+      -6.72265625
+    ],
+    [
+      "def get_min_length(string):\n    min_length = len(string)\n    for i in range(len(string)):\n        if string[i] == string[i+1]:\n            continue\n        temp_length = len(string) - 1\n        while i < len(string) - 1:\n            if string[i] != string[i+1]:\n                break\n            temp_length -= 1\n            i += 1\n        if min_length > temp_length:\n            min_length = temp_length\n    return min_length\n\n\ndef main():\n    string = input(\"Enter a string: \")\n    print(get_min_length(string))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -7.25
+    ],
+    [
+      "def string_minimizer(string):\n    if len(string) == 1:\n        return string\n    if len(string) == 2:\n        return string\n    if len(string) == 3:\n        return string\n    if len(string) == 4:\n        return string\n    if len(string) == 5:\n        return string\n    if len(string) == 6:\n        return string\n    if len(string) == 7:\n        return string\n    if len(string) == 8:\n        return string\n    if len(string) == 9:\n        return string\n    if len(string) == 10:\n        return string\n    if len(string) == 11:\n        return string\n    if len(string) == 12:\n        return string\n    if len(string) == 13:\n        return string\n    if len(string) == 14:\n        return string\n    if len(string) == 15:\n        return string\n    if len(string) == 16:\n        return string\n    if len(string) == 17:\n        return string\n    if len(string) == 18:\n        return string\n    if len(string) == 19:\n        return string\n    if len(string) == 20:\n        return string\n    if len(string) == 21:\n        return string\n    if len(string) == 22:\n        return string\n    if len(string) == 23:\n        return string\n    if len(string) == 24:\n        return string\n    if len(string) == 25:\n        return string\n    if len(string) == 26:\n        return string\n    if len(string) == 27:\n        return string\n    if len(string) == 28:\n        return string\n    if len(string) == 29:\n        return string\n    if len(string) == 30:\n        return string\n    if len(string) == 31:\n        return string\n    if len(string) == 32:",
+      -7.375
+    ],
+    [
+      "def minimumLength(s):\n    # code here\n    l = len(s)\n    if l == 0:\n        return 0\n    if l == 1:\n        return 1\n    if l == 2:\n        return 1\n    if l == 3:\n        return 2\n    if l == 4:\n        return 2\n    if l == 5:\n        return 2\n    if l == 6:\n        return 3\n    if l == 7:\n        return 3\n    if l == 8:\n        return 3\n    if l == 9:\n        return 3\n    if l == 10:\n        return 4\n    if l == 11:\n        return 4\n    if l == 12:\n        return 4\n    if l == 13:\n        return 4\n    if l == 14:\n        return 5\n    if l == 15:\n        return 5\n    if l == 16:\n        return 5\n    if l == 17:\n        return 6\n    if l == 18:\n        return 6\n    if l == 19:\n        return 6\n    if l == 20:\n        return 6\n    if l == 21:\n        return 7\n    if l == 22:\n        return 7\n    if l == 23:\n        return 7\n    if l == 24:\n        return 7\n    if l == 25:\n        return 8\n    if l == 26:\n        return 8\n    if l == 27:\n        return 8\n    if l == 28:\n        return 8\n    if l == 29:\n        return 9\n    if l == 30:\n        return 9\n    if l == 31:\n        return 9\n    if l == 32:\n        return 10\n    if l == 33:\n        return 10\n    if l == 34:\n        return 10\n    if l == 35:",
+      -7.45703125
+    ],
+    [
+      "def minimizeString(string):\n    char_set = {}\n\n    for char in string:\n        if char not in char_set:\n            char_set[char] = 1\n        else:\n            char_set[char] += 1\n\n    if len(char_set) == 1:\n        return 0\n\n    min_len = float('inf')\n    for key, value in char_set.items():\n        if value == 1:\n            continue\n        else:\n            min_len = min(min_len, len(string) - (value - 1))\n\n    return min_len\n\nif __name__ == '__main__':\n    string = 'aabbbc'\n    print(minimizeString(string))",
+      -7.640625
+    ],
+    [
+      "def min_length(s: str) -> int:\n    \"\"\"\n    >>> min_length(\"abcba\")\n    2\n    >>> min_length(\"abcab\")\n    3\n    >>> min_length(\"aaaaab\")\n    5\n    \"\"\"\n    if len(s) <= 1:\n        return len(s)\n\n    count = {}\n\n    for char in s:\n        if char in count:\n            count[char] += 1\n        else:\n            count[char] = 1\n\n    max_freq = max(count.values())\n\n    return len(s) - (max_freq - 1)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -9.0390625
+    ],
+    [
+      "def remove_only_one(s):\n    min_length = len(s)\n    for i in range(len(s)):\n        if s[i] == s[i + 1]:\n            min_length = min(min_length, remove_only_one(s[:i] + s[i + 2:]))\n    return min_length\n\n\nprint(remove_only_one(\"aaabbbaaa\"))",
+      -9.2421875
+    ],
+    [
+      "def min_len(str1: str) -> str:\n    \"\"\"\n    This function will return a string of minimum length.\n    >>> min_len(\"aaabbbb\")\n    'aab'\n    >>> min_len(\"aabbbbbb\")\n    'aab'\n    >>> min_len(\"aabbcbbb\")\n    'aab'\n    >>> min_len(\"aabbccbb\")\n    'aabbc'\n    \"\"\"\n    if len(str1) <= 2:\n        return str1\n    str1 = str1.replace(\"aa\", \"a\")\n    str1 = str1.replace(\"bb\", \"b\")\n    str1 = str1.replace(\"cc\", \"c\")\n    str1 = str1.replace(\"dd\", \"d\")\n    str1 = str1.replace(\"ee\", \"e\")\n    str1 = str1.replace(\"ff\", \"f\")\n    str1 = str1.replace(\"gg\", \"g\")\n    str1 = str1.replace(\"hh\", \"h\")\n    str1 = str1.replace(\"ii\", \"i\")\n    str1 = str1.replace(\"jj\", \"j\")\n    str1 = str1.replace(\"kk\", \"k\")\n    str1 = str1.replace(\"ll\", \"l\")\n    str1 = str1.replace(\"mm\", \"m\")\n    str1 = str1.replace(\"nn\", \"n\")\n    str1 = str1.replace(\"oo\", \"o\")\n    str1 = str1.replace(\"pp\", \"p\")\n    str1 = str1.replace(\"qq\", \"q\")\n    str1 = str1.replace(\"rr\", \"r\")\n    str1 = str1.replace(\"ss\", \"s\")\n    str1 = str1.replace(\"tt\", \"t\")\n    str1 = str1.replace(\"uu\", \"u\")\n    str1 = str1.replace(\"vv\", \"v\")\n    str1 = str1.replace(\"ww\", \"w\")\n    str1 = str1.replace(\"xx\", \"x\")\n    str1 = str1.replace(\"yy\", \"y\")\n    str1 = str1.replace",
+      -9.34375
+    ],
+    [
+      "def get_min_length(str1):\n    str1_list = list(str1)\n    str1_dict = {}\n    for i in str1_list:\n        if i in str1_dict:\n            str1_dict[i] += 1\n        else:\n            str1_dict[i] = 1\n    if len(str1_dict) == 1:\n        return len(str1)\n    elif len(str1_dict) == 2:\n        for i in str1_dict:\n            if str1_dict[i] == 1:\n                return len(str1)\n    elif len(str1_dict) == 3:\n        for i in str1_dict:\n            if str1_dict[i] == 2:\n                return len(str1)\n    return min(str1_dict.values())\n\ndef main():\n    str1 = \"aabbcc\"\n    str2 = \"aabcc\"\n    str3 = \"aabccd\"\n    str4 = \"abcd\"\n    print(get_min_length(str1))\n    print(get_min_length(str2))\n    print(get_min_length(str3))\n    print(get_min_length(str4))\n\nif __name__ == \"__main__\":\n    main()",
+      -9.71875
+    ],
+    [
+      "def minimum_length(input_string):\n    \"\"\"\n    Minimize the length of the string by removing occurrence of only one character\n\n    >>> minimum_length('aaabbc')\n    'abc'\n    >>> minimum_length('aabbcc')\n    'abcc'\n    >>> minimum_length('abbbcc')\n    'abcc'\n    >>> minimum_length('abbbcca')\n    'abcca'\n    >>> minimum_length('abc')\n    'abc'\n    >>> minimum_length('ab')\n    'ab'\n    >>> minimum_length('aa')\n    'a'\n    >>> minimum_length('a')\n    'a'\n    \"\"\"\n    if len(input_string) < 2:\n        return input_string\n    unique_char = set(input_string)\n    if len(unique_char) == 1:\n        return input_string[0]\n    return \"\".join(sorted(input_string))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -10.0234375
+    ],
+    [
+      "def remove_one_char(string):\n    temp = string[0]\n    count = 0\n    for i in string:\n        if temp == i:\n            count += 1\n        else:\n            temp = i\n            count = 1\n\n        if count > 2:\n            return False\n    return True\n\n\ndef main():\n    string = input(\"Enter string: \")\n    if remove_one_char(string):\n        print(\"Minimized string: \", string)\n    else:\n        print(\"Minimized string not possible\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      -10.875
+    ],
+    [
+      "def min_len_string(string):\n    \"\"\"\n    >>> min_len_string('abcde')\n    'abcd'\n    >>> min_len_string('aaabbb')\n    'ab'\n    >>> min_len_string('aabbccddee')\n    'abccdde'\n    \"\"\"\n    char_map = dict()\n    for char in string:\n        if char in char_map:\n            char_map[char] += 1\n        else:\n            char_map[char] = 1\n    char_map = sorted(char_map.items(), key=lambda kv: kv[1], reverse=True)\n    if char_map[0][1] == 1:\n        return string.replace(char_map[0][0], \"\", char_map[0][1])\n    return string\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.1171875
+    ],
+    [
+      "def min_len(str1: str) -> str:\n    \"\"\"\n    >>> min_len(\"aabcccccaaa\")\n    'abc'\n    >>> min_len(\"aabcccaaa\")\n    'aabcca'\n    >>> min_len(\"abc\")\n    'abc'\n    \"\"\"\n    c = set()\n\n    for i in str1:\n        if i not in c:\n            c.add(i)\n\n    if len(c) == 1:\n        return str1\n\n    c.discard(min(c))\n\n    return \"\".join(sorted(c))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -11.828125
+    ],
+    [
+      "def getMinLength(s):\n  '''\n  s: the string to be minimized\n  '''\n  if s == None or len(s) <= 1:\n    return s\n  hash_map = {}\n  for i in range(len(s)):\n    if s[i] in hash_map:\n      hash_map[s[i]] += 1\n    else:\n      hash_map[s[i]] = 1\n  max_value = max(hash_map.values())\n  if max_value == 1:\n    return s\n  else:\n    res = ''\n    for key, value in hash_map.items():\n      if value == max_value:\n        res += key\n    return res * (len(s) // len(res))\n\ndef main():\n  print(getMinLength(\"abcba\"))\n  print(getMinLength(\"aaaaaaaaaaaaaaaaaaaaa\"))\n  print(getMinLength(\"a\"))\n  print(getMinLength(None))\n\nmain()",
+      -13.7109375
+    ],
+    [
+      "def remove_one_char(string: str) -> str:\n    \"\"\"\n    Removes the occurrence of only one character from the string.\n    >>> remove_one_char(\"aabbbcccc\")\n    'abcc'\n    >>> remove_one_char(\"aaabbbccc\")\n    'abccc'\n    >>> remove_one_char(\"abbbccc\")\n    'abccc'\n    >>> remove_one_char(\"aabbcc\")\n    'acc'\n    >>> remove_one_char(\"abc\")\n    'abc'\n    >>> remove_one_char(\"aaabbbccc\")\n    'abccc'\n    \"\"\"\n    char_counts: dict[str, int] = {}\n    for char in string:\n        if char not in char_counts:\n            char_counts[char] = 1\n        else:\n            char_counts[char] += 1\n\n    if len(char_counts) == 1:\n        return string\n\n    char_counts = {k: v for k, v in char_counts.items() if v > 1}\n    if len(char_counts) == 1:\n        return \"\"\n\n    string_list: list[str] = []\n    for char in string:\n        if char in char_counts:\n            string_list.append(char)\n        else:\n            string_list.extend([char] * 2)\n    return \"\".join(string_list)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -16.59375
+    ],
+    [
+      "def min_length(string):\n    \"\"\"\n    >>> min_length('aabcccccaaa')\n    'abc'\n    >>> min_length('aabbcc')\n    'aabbcc'\n    \"\"\"\n    if len(string) == 1:\n        return string\n    elif len(string) == 0:\n        return None\n    else:\n        hash_map = {}\n        for i in string:\n            if i not in hash_map:\n                hash_map[i] = 1\n            else:\n                hash_map[i] += 1\n\n        max_count = 0\n        for i in hash_map:\n            if hash_map[i] > max_count:\n                max_count = hash_map[i]\n                char = i\n\n        if max_count == 1:\n            return min_length(string.replace(char, \"\"))\n        else:\n            return string\n\n\ndef min_length_eff(string):\n    \"\"\"\n    >>> min_length_eff('aabcccccaaa')\n    'abc'\n    >>> min_length_eff('aabbcc')\n    'aabbcc'\n    \"\"\"\n    if len(string) == 1:\n        return string\n    elif len(string) == 0:\n        return None\n    else:\n        char = string[0]\n        count = 0\n        for i in string:\n            if i == char:\n                count += 1\n            else:\n                break\n\n        return string[count:]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -18.578125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

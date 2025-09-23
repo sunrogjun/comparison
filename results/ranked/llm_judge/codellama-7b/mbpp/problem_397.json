@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-15T01:18:52.168668",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 397,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr1, arr2, k):\n    # O(n * m) time | O(n) space\n    counter = Counter(arr1)\n    pairs = 0\n    for num in arr2:\n        if counter[num] > 0:\n            pairs += 1\n        counter[num] -= 1\n    return pairs"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(first, second, k):\n    \"\"\"\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 2)\n    10\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 3)\n    20\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 4)\n    30\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 5)\n    40\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 6)\n    50\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 10)\n    50\n    >>> find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 1)\n    10\n    \"\"\"\n    count = 0\n    count += sum(min(first.count(i), second.count(i)) for i in set(first))\n    count += sum(min(first.count(i), second.count(i)) for i in set(second))\n    count += sum(\n        min(first.count(i), second.count(i))\n        for i in set(first).intersection(set(second))\n    )\n    return count * 2\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    if len(arr1) < len(arr2):\n        return find_pairs(arr2, arr1, k)\n\n    count = 0\n    count_dict = {}\n    for el in arr2:\n        if el in count_dict:\n            count_dict[el] += 1\n        else:\n            count_dict[el] = 1\n\n    for el in arr1:\n        if el in count_dict:\n            if count_dict[el] + count >= k:\n                count += 1\n\n    return count\n\n\ndef main():\n    result = find_pairs([1, 2, 3, 4], [1, 2, 5, 6], 3)\n    print(result)\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    \"\"\"\n    >>> find_pairs([2,5,3,3,5,2], [5,3,3,3,2,2], 7)\n    True\n    >>> find_pairs([2,5,3,3,5,2], [5,3,3,3,2,2], 8)\n    False\n    >>> find_pairs([2,5,3,3,5,2], [5,3,3,3,2,2], 12)\n    True\n    \"\"\"\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    count = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n\n    return count >= 2\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "def get_k_pairs(arr1, arr2, k):\n    n = len(arr1)\n    m = len(arr2)\n    if k > n or k > m:\n        return\n    arr1.sort()\n    arr2.sort()\n    i = 0\n    j = 0\n    count = 0\n    while i < n and j < m:\n        if arr1[i] + arr2[j] == k:\n            count += 1\n            i += 1\n            j += 1\n        elif arr1[i] + arr2[j] < k:\n            i += 1\n        else:\n            j += 1\n    return count\n\nif __name__ == \"__main__\":\n    arr1 = [1,2,3,4,5,6]\n    arr2 = [2,3,4,5,6,7]\n    print(get_k_pairs(arr1, arr2, 10))"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\ndef count_pairs(arr1, arr2, k):\n    # Fill this in.\n    c1 = Counter(arr1)\n    c2 = Counter(arr2)\n    result = 0\n    for i in c1:\n        if i in c2:\n            result += min(c1[i], c2[i])\n    return result\n\nprint(count_pairs([1, 2, 2, 2, 2], [2, 2, 2, 2, 2], 2))\n# 5\nprint(count_pairs([1, 2, 2, 2, 2], [2, 2, 2, 2, 2], 3))\n# 8\nprint(count_pairs([1, 2, 3, 4], [2, 3, 4, 5], 1))\n# 2\nprint(count_pairs([1, 2, 3, 4], [2, 3, 4, 5], 2))\n# 4\n\n\n\"\"\"\nPerformance\n\nTime complexity O(n)\nSpace complexity O(n)\n\"\"\""
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def pairs(a, b, k):\n    a.sort()\n    b.sort()\n    pairs = []\n    i = 0\n    j = 0\n    while i < len(a) and j < len(b):\n        if a[i] + b[j] == k:\n            pairs.append((a[i], b[j]))\n            i += 1\n            j += 1\n        elif a[i] + b[j] < k:\n            i += 1\n        else:\n            j += 1\n    return pairs\n\n\nprint(pairs([1, 3, 5, 7], [2, 4, 6, 8], 10))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from collections import defaultdict\n\n\ndef count_pairs(arr1, arr2, k):\n    d1 = defaultdict(int)\n    d2 = defaultdict(int)\n    for i in arr1:\n        d1[i] += 1\n    for j in arr2:\n        d2[j] += 1\n\n    count = 0\n    for i in d1.keys():\n        if i in d2:\n            count += min(d1[i], d2[i])\n    if count < k:\n        return -1\n    return count - k\n\n\ndef main():\n    arr1 = [1, 2, 3, 1, 2, 3, 3, 4]\n    arr2 = [1, 2, 3, 4, 5]\n    k = 6\n    print(count_pairs(arr1, arr2, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\ndef pair_sum(arr1, arr2, k):\n    if not arr1 or not arr2:\n        return 0\n    count = 0\n    counter = Counter(arr1)\n    for elem in arr2:\n        if elem in counter:\n            count += 1\n            counter[elem] -= 1\n            if counter[elem] == 0:\n                counter.pop(elem)\n    return count\n\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 2))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 3))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 4))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 5))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 6))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 7))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 8))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 9))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 10))\nprint(pair_sum([1, 2, 3, 4, 5, 6], [1, 3, 5, 7], 11))\nprint(pair_sum([1, 2,"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\n# O(n1 + n2) time | O(n1 + n2) space\ndef countPairs(arr1, arr2, k):\n    firstCount = Counter(arr1)\n    result = 0\n    for num in arr2:\n        if k - num in firstCount:\n            result += 1\n    return result\n\n\n# O(n1 + n2) time | O(n1 + n2) space\ndef countPairs(arr1, arr2, k):\n    firstCount = Counter(arr1)\n    result = 0\n    for num in arr2:\n        if k - num in firstCount:\n            result += 1\n    return result\n\n\n\"\"\"\nfirstCount = {2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\nsecondCount = {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\n\nfirstCount = {2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\nsecondCount = {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\n\nfirstCount = {2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\nsecondCount = {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\n\nfirstCount = {2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}\nsecondCount = {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pairs(arr1, arr2, k):\n    if len(arr1) == 0 or len(arr2) == 0:\n        return 0\n    if k == 0:\n        return 0\n    if k < 0:\n        return 0\n\n    arr1.sort()\n    arr2.sort()\n\n    i = 0\n    j = 0\n    count = 0\n    dict = defaultdict(int)\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] <= k:\n            dict[arr1[i] + arr2[j]] += 1\n            j += 1\n        else:\n            i += 1\n\n    for key in dict:\n        count += dict[key] // 2\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(pairs([1, 2, 3, 4], [2, 4, 6, 8], 6))"
+    },
+    {
+      "rank": 12,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\ndef pairs(arr1, arr2, k):\n    dict1 = Counter(arr1)\n    res = 0\n    for i in arr2:\n        if k-i in dict1:\n            res += 1\n    return res\n\nprint(pairs([1, 2, 3, 4, 5], [3, 4, 5, 6, 7], 11))\nprint(pairs([1, 2, 3, 4, 5], [3, 4, 5, 6, 7], 2))\nprint(pairs([1, 2, 3, 4, 5], [3, 4, 5, 6, 7], 6))"
+    },
+    {
+      "rank": 13,
+      "score": 8.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    res = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            res += 1\n            i += 1\n            j += 1\n    return res\n\n\nif __name__ == \"__main__\":\n    print(find_pairs([1, 2, 3], [2, 3, 4], 5))"
+    },
+    {
+      "rank": 14,
+      "score": 8.0,
+      "candidate": "def find_pairs(arr_1, arr_2, k):\n    count = 0\n    for i in range(len(arr_1)):\n        for j in range(len(arr_2)):\n            if arr_1[i] + arr_2[j] == k:\n                count += 1\n    return count\n\n\nprint(find_pairs([1, 3, 5, 7], [5, 9, 13, 17], 10))"
+    },
+    {
+      "rank": 15,
+      "score": 8.0,
+      "candidate": "def find_k_pairs(nums1, nums2, k):\n    # Time complexity: O(nlogn)\n    # Space complexity: O(n)\n    nums1.sort()\n    nums2.sort()\n    i, j = 0, 0\n    count = 0\n    while i < len(nums1) and j < len(nums2):\n        if nums1[i] + nums2[j] < 0:\n            i += 1\n        elif nums1[i] + nums2[j] > 0:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n        if count == k:\n            return True\n    return False"
+    },
+    {
+      "rank": 16,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef pairs(arr_1, arr_2, k):\n    counter_1 = Counter(arr_1)\n    counter_2 = Counter(arr_2)\n\n    count = 0\n    for key, value in counter_1.items():\n        if key in counter_2:\n            if count < k:\n                count += min(value, counter_2[key])\n            else:\n                break\n\n    return count\n\n\nprint(pairs([1, 2, 3, 4, 5], [4, 3, 2, 1, 2], 1))"
+    },
+    {
+      "rank": 17,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef pairs(arr1, arr2, k):\n    counter = Counter(arr1)\n    for num in arr2:\n        if k <= 0:\n            break\n        if counter[num] > 0:\n            k -= 1\n            counter[num] -= 1\n    return k == 0\n\n\nprint(pairs([1, 1, 1, 1], [2, 2, 2, 2], 1))\nprint(pairs([1, 1, 1, 1], [2, 2, 2, 2], 2))\nprint(pairs([1, 1, 1, 1], [2, 2, 2, 2], 3))\nprint(pairs([1, 1, 1, 1], [2, 2, 2, 2], 4))\nprint(pairs([1, 1, 1, 1], [2, 2, 2, 2], 5))"
+    },
+    {
+      "rank": 18,
+      "score": 8.0,
+      "candidate": "def findPairs(a, b, k):\n    a.sort()\n    b.sort()\n    if k < 0:\n        return -1\n    if k == 0:\n        return 0\n    i = 0\n    j = 0\n    count = 0\n    while i < len(a) and j < len(b):\n        if a[i] + b[j] == k:\n            count += 1\n            i += 1\n            j += 1\n        elif a[i] + b[j] < k:\n            i += 1\n        else:\n            j += 1\n    return count\n\na = [1, 5, 7, 1]\nb = [1, 2, 3, 4]\nk = 5\nprint(findPairs(a, b, k))"
+    },
+    {
+      "rank": 19,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\ndef pair_in_list(list1, list2, k):\n    # Using a dictionary to store the frequency of elements in list2\n    freq_dict = defaultdict(int)\n    for element in list2:\n        freq_dict[element] += 1\n    # Using a dictionary to store the frequency of pairs\n    pair_dict = defaultdict(int)\n    for element in list1:\n        if element in freq_dict:\n            pair_dict[element] += 1\n    count = 0\n    for key in pair_dict:\n        if pair_dict[key] >= freq_dict[key]:\n            count += pair_dict[key]\n        else:\n            count += freq_dict[key]\n    return count\n\nlist1 = [1, 2, 3, 4, 5, 6, 7, 8]\nlist2 = [1, 2, 3, 4, 5, 6, 7, 8]\nprint(pair_in_list(list1, list2, 2))"
+    },
+    {
+      "rank": 20,
+      "score": 8.0,
+      "candidate": "def count_pairs(arr1, arr2, k):\n    if len(arr1) == 0 or len(arr2) == 0:\n        return 0\n\n    arr1.sort()\n    arr2.sort()\n\n    i, j = 0, 0\n    count = 0\n    while i < len(arr1) and j < len(arr2):\n        if k > 0:\n            if arr1[i] + arr2[j] == k:\n                count += 1\n                i += 1\n                j += 1\n            elif arr1[i] + arr2[j] < k:\n                i += 1\n            elif arr1[i] + arr2[j] > k:\n                j += 1\n        else:\n            if arr1[i] + arr2[j] == k:\n                count += 1\n            elif arr1[i] + arr2[j] < k:\n                i += 1\n            elif arr1[i] + arr2[j] > k:\n                j += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 2, 3, 4], [2, 3, 4, 5], 5))"
+    },
+    {
+      "rank": 21,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_k_pairs(arr1, arr2, k):\n    count_dict = defaultdict(int)\n    result = []\n\n    for i in range(len(arr1)):\n        for j in range(len(arr2)):\n            count_dict[arr1[i] + arr2[j]] += 1\n\n    for key, value in count_dict.items():\n        if value >= 2:\n            result.append(key)\n\n    return result\n\n\ndef main():\n    print(find_k_pairs([1, 2, 3, 4], [1, 1, 1, 1], 2))\n    print(find_k_pairs([1, 1, 1, 2, 2, 2], [1, 1, 2, 2, 3, 3], 2))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 22,
+      "score": 8.0,
+      "candidate": "def count_pairs(arr1, arr2, k):\n    count = 0\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] == k:\n            count += 1\n            i += 1\n            j += 1\n        elif arr1[i] + arr2[j] < k:\n            i += 1\n        else:\n            j += 1\n    return count\n\n\ndef main():\n    arr1 = [1, 3, 5, 7, 9]\n    arr2 = [2, 4, 6, 8, 10]\n    k = 18\n    print(f\"The total number of pairs is {count_pairs(arr1, arr2, k)}\")\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 23,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef k_pairs_sum(arr1, arr2, k):\n    hashmap = defaultdict(int)\n    result = []\n\n    for num in arr1:\n        hashmap[num] += 1\n\n    for num in arr2:\n        if hashmap[num] > 0 and hashmap[num] < k:\n            k -= hashmap[num]\n            result.append((num, num))\n        elif hashmap[num] >= k:\n            result.append((num, num))\n            k -= 1\n            if k == 0:\n                return result\n\n    return result\n\n\nassert k_pairs_sum([1, 5, 7], [1, 2, 3, 4], 1) == [(1, 1)]\nassert k_pairs_sum([1, 3, 5], [2, 4], 3) == [(1, 2), (1, 4), (3, 2)]\nassert k_pairs_sum([1, 1, 1], [1, 2, 3], 10) == [(1, 1), (1, 1), (1, 1), (1, 2), (1, 2), (1, 2), (1, 3), (1, 3), (1, 3)]\nassert k_pairs_sum([1, 2, 3, 4, 5], [1, 2, 3], 2) == [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]"
+    },
+    {
+      "rank": 24,
+      "score": 8.0,
+      "candidate": "def count_pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    res = 0\n    i = 0\n    j = len(arr2) - 1\n    while i < len(arr1) and j >= 0:\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j -= 1\n        else:\n            res += 1\n            i += 1\n            j -= 1\n    return res\n\n\nprint(count_pairs([1, 2], [3, 4], 6))"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    count = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    arr1 = [1, 5, 7, 9]\n    arr2 = [3, 4, 6]\n    k = 10\n    print(find_pairs(arr1, arr2, k))"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(first_array, second_array, k):\n    if not first_array or not second_array:\n        return []\n\n    first_dict = defaultdict(int)\n\n    for num in first_array:\n        first_dict[num] += 1\n\n    result = []\n\n    for num in second_array:\n        if num in first_dict and first_dict[num] > 0:\n            first_dict[num] -= 1\n            result.append((num, num))\n            if len(result) == k:\n                return result\n\n    second_dict = defaultdict(int)\n\n    for num in second_array:\n        second_dict[num] += 1\n\n    for num in first_array:\n        if num in second_dict and second_dict[num] > 0:\n            second_dict[num] -= 1\n            result.append((num, num))\n            if len(result) == k:\n                return result\n\n    return result\n\n\nprint(find_pairs([1, 3, 5, 7], [2, 4, 6, 8], 1))\nprint(find_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 3))\nprint(find_pairs([1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], 1))\nprint(find_pairs([1, 1, 2, 2, 3, 3, 4, 4, 5, 5], [1, 1, 2, 2, 3, 3, 4, 4, 5, 5], 3))"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef pairs(a, b, k):\n    counter_a = Counter(a)\n    counter_b = Counter(b)\n    result = 0\n\n    for key_a, value_a in counter_a.items():\n        if key_a in counter_b:\n            if value_a + counter_b[key_a] >= k:\n                result += 1\n            else:\n                result += min(value_a, counter_b[key_a])\n\n    return result\n\n\nprint(pairs([1, 2, 2], [2, 2, 3], 7))"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\ndef pairs(arr1, arr2, k):\n    arr1_count = Counter(arr1)\n    arr2_count = Counter(arr2)\n    result = 0\n\n    for x in arr1_count:\n        if x in arr2_count:\n            if arr1_count[x] >= k:\n                result += k\n                break\n            else:\n                result += arr1_count[x]\n\n    for x in arr2_count:\n        if x in arr1_count:\n            if arr2_count[x] >= k:\n                result += k\n                break\n            else:\n                result += arr2_count[x]\n\n    return result\n\n\ndef main():\n    print(pairs([1, 3, 2, 2, 1], [2, 1, 2, 1, 3], 2))\n    print(pairs([1, 3, 2, 2, 1], [2, 1, 2, 1, 3], 3))\n\n\nmain()"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(nums1, nums2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    dict_nums1 = defaultdict(int)\n    for num in nums1:\n        dict_nums1[num] += 1\n\n    for num in nums2:\n        if num - k in dict_nums1:\n            return True\n        if num + k in dict_nums1:\n            return True\n\n    return False\n\n\ndef main():\n\n    print(find_pairs([1, 2, 3, 4], [2, 3, 4, 5], 2))\n    print(find_pairs([1, 2, 3, 4], [2, 3, 4, 5], 3))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr1, arr2, k):\n    count_map = Counter(arr2)\n    result = []\n\n    for num in arr1:\n        if count_map.get(num):\n            result.append((num, num))\n            count_map[num] -= 1\n            if count_map[num] == 0:\n                count_map.pop(num)\n\n    return result\n\n\nprint(find_pairs([1, 2, 3, 4, 5], [2, 3, 4, 5, 6], 2))"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def two_pairs(arr1, arr2, k):\n    from collections import defaultdict\n    d = defaultdict(int)\n    for i in arr1:\n        d[i] += 1\n    res = 0\n    for i in arr2:\n        if i in d:\n            res += d[i]\n            d[i] -= 1\n            if d[i] == 0:\n                del d[i]\n    return res >= k\n\n\nif __name__ == \"__main__\":\n    print(two_pairs([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4], [1, 1, 2, 3, 4], 2))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def pairs(arr1, arr2, k):\n    # Time complexity O(nlogn) + O(mlogm) = O(nlogn + mlogm)\n    # Space complexity O(n)\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    pairs_count = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] == k:\n            pairs_count += 1\n            i += 1\n            j += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            i += 1\n    return pairs_count\n\n\nprint(pairs([1, 5, 10, 20], [2, 3, 4, 12, 15], 21))\nprint(pairs([1, 2, 3, 4], [5, 6, 7, 8], 8))\nprint(pairs([1, 3, 5, 7], [2, 4, 6, 8], 7))\nprint(pairs([1, 5, 10, 20], [2, 3, 4, 12, 15], 23))\nprint(pairs([1, 2, 3, 4], [5, 6, 7, 8], 8))\nprint(pairs([1, 3, 5, 7], [2, 4, 6, 8], 7))\nprint(pairs([1, 5, 10, 20], [2, 3, 4, 12, 15], 23))\nprint(pairs([1, 5, 10, 20], [2, 3, 4, 12, 15], 24))\nprint(pairs([1, 5, 10, 20], [2, 3, 4, 12, 15], 25))\nprint(pairs"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr1, arr2, k):\n    counter = Counter(arr1)\n\n    count = 0\n    for num in arr2:\n        if counter.get(num) and counter.get(num) > 0:\n            count += 1\n            counter[num] -= 1\n\n        if count == k:\n            return True\n\n    return False\n\n\ndef main():\n    arr1 = [1, 2, 3, 1, 4]\n    arr2 = [1, 2, 4, 5, 6]\n    k = 2\n    result = find_pairs(arr1, arr2, k)\n    print(f\"{result}\")\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\n# Time Complexity: O(nlogn)\n# Space Complexity: O(n)\ndef count_pairs(arr1, arr2, k):\n    if len(arr1) > len(arr2):\n        arr1, arr2 = arr2, arr1\n\n    lookup = Counter(arr2)\n    result = 0\n\n    for num in arr1:\n        if lookup.get(num) and num + num <= k:\n            result += 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(count_pairs([1, 2, 3, 4], [2, 4, 6, 8], 6))\n    print(count_pairs([1, 2, 3, 4], [2, 4, 6, 8], 9))"
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "def pair_sum(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    pairs = []\n\n    while i < len(arr1) and j < len(arr2):\n        sum = arr1[i] + arr2[j]\n        if sum == k:\n            pairs.append((arr1[i], arr2[j]))\n            i += 1\n            j += 1\n        elif sum < k:\n            i += 1\n        else:\n            j += 1\n\n    return pairs\n\n\nprint(pair_sum([1, 1, 3, 2], [2, 1, 3, 5], 3))"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\ndef k_pairs(a, b, k):\n    dict_b = defaultdict(int)\n    for i in b:\n        dict_b[i] += 1\n    pairs = 0\n    for i in a:\n        if i in dict_b:\n            pairs += dict_b[i]\n    return pairs >= k\n\nassert k_pairs([1,2,3,4,5], [2,4,6,8], 3)\nassert k_pairs([1,2,3,4,5], [2,4,6,8], 4) == False\nassert k_pairs([1,2,3,4,5], [2,4,6,8], 6) == False\nassert k_pairs([1,2,3,4,5], [2,4,6,8], 7) == False"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pair_sum(arr1, arr2, k):\n    count = 0\n    hash_map = defaultdict(int)\n\n    for i in arr2:\n        hash_map[i] += 1\n\n    for j in arr1:\n        if j in hash_map and hash_map[j] > 0:\n            count += 1\n            hash_map[j] -= 1\n\n    return count\n\n\nprint(pair_sum([1, 2, 3, 4], [2, 3, 4, 5], 2))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "def pair_sum(a, b, k):\n    \"\"\"\n    :param a: sorted list\n    :param b: sorted list\n    :param k: sum of the two elements\n    :return: list of pairs that sum to k\n    \"\"\"\n\n    # if a or b is empty, return empty list\n    if not a or not b:\n        return []\n\n    # if a and b are both empty, return empty list\n    elif not a and not b:\n        return []\n\n    # if a and b are both non-empty\n    else:\n        # initialize a list to store the pairs\n        pairs = []\n        # initialize two pointers to track the sum of a[i] and b[j]\n        i = 0\n        j = len(b)-1\n        # iterate through the array\n        while i < len(a) and j >= 0:\n            # if the sum is k, append the pair to the list\n            if a[i] + b[j] == k:\n                pairs.append([a[i], b[j]])\n                i += 1\n                j -= 1\n            # if the sum is greater than k, decrement j\n            elif a[i] + b[j] > k:\n                j -= 1\n            # if the sum is less than k, increment i\n            else:\n                i += 1\n        # return the list of pairs\n        return pairs\n\n\n\"\"\"\ndef pair_sum(a, b, k):\n    # if a or b is empty, return empty list\n    if not a or not b:\n        return []\n\n    # if a and b are both empty, return empty list\n    elif not a and not b:\n        return []\n\n    # if a and b are both non-empty\n    else:\n        # initialize a list to store the pairs\n        pairs = []\n        # initialize two pointers to track the sum of a[i] and b[j]\n        i = 0\n        j = len(b)-1\n        # iterate through the array\n        while i < len(a) and j >= 0:\n            # if the sum is k, append the pair to the list\n            if a[i] + b["
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "def pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    count = 0\n\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] == k:\n            count += 1\n            i += 1\n            j += 1\n        elif arr1[i] + arr2[j] < k:\n            i += 1\n        else:\n            j += 1\n\n    return count\n\n\nprint(pairs([1, 3, 5, 7], [5, 7, 8, 9], 11))"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef count_pairs(arr1, arr2, k):\n    counter_arr1 = Counter(arr1)\n    counter_arr2 = Counter(arr2)\n\n    result = 0\n\n    for key, value in counter_arr1.items():\n        if key in counter_arr2:\n            result += min(value, counter_arr2[key])\n\n    return result\n\n\nprint(count_pairs([1, 2, 3, 4], [1, 1, 2, 2, 3], 1))\nprint(count_pairs([1, 1, 2, 2, 3], [1, 2, 3, 4], 2))"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "def count_pairs(a, b, k):\n    a.sort()\n    b.sort()\n    count = 0\n    for i in range(len(a)):\n        for j in range(len(b)):\n            if a[i] + b[j] == k:\n                count += 1\n\n    return count\n\n\nprint(count_pairs([1, 3, 7, 8, 9], [6, 8, 9, 11], 13))"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef count_pairs(first_array, second_array, k):\n    first_array_count = Counter(first_array)\n    second_array_count = Counter(second_array)\n\n    result = []\n\n    for num in first_array_count:\n        if num in second_array_count:\n            if num * 2 == k:\n                result.append([num, num])\n            else:\n                result.append([num, k - num])\n\n    return result\n\n\nprint(count_pairs([1, 1, 2, 2, 3], [1, 2, 3], 3))\nprint(count_pairs([1, 1, 2, 2, 3], [1, 2, 3], 4))\nprint(count_pairs([1, 1, 2, 2, 3], [1, 2, 3], 5))"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef get_pairs_with_k_elements(array_1, array_2, k):\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n)\n    \"\"\"\n    if not array_1 or not array_2:\n        return\n\n    counter = Counter(array_1)\n    result = []\n\n    for num in array_2:\n        if counter.get(num, 0) > 0:\n            result.append((num, num))\n            counter[num] -= 1\n\n        if counter.get(k - num, 0) > 0:\n            result.append((num, k - num))\n            counter[k - num] -= 1\n\n    return result\n\n\nget_pairs_with_k_elements([1, 2, 3], [2, 3, 4], 3)\nget_pairs_with_k_elements([1, 2, 3], [2, 3, 4], 4)\nget_pairs_with_k_elements([1, 2, 3], [2, 3, 4], 5)"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef pairs(arr1, arr2, k):\n    c1 = Counter(arr1)\n    c2 = Counter(arr2)\n    result = []\n\n    for num in c1:\n        if num in c2 and c2[num] > 0:\n            result.append((num, num))\n            c2[num] -= 1\n            k -= 1\n\n        if k == 0:\n            break\n\n    for num in c1:\n        if k == 0:\n            break\n\n        if num in c2 and c2[num] > 0:\n            result.append((num, num))\n            c2[num] -= 1\n            k -= 1\n\n    return result\n\n\nprint(pairs([1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5], [1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5], 1))"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def pair_sum(nums1, nums2, k):\n    from collections import Counter\n    nums1_counter = Counter(nums1)\n    nums2_counter = Counter(nums2)\n    result = []\n\n    for num in nums1_counter:\n        if (k - num) in nums2_counter:\n            result.append((num, k - num))\n            nums2_counter[k - num] -= 1\n\n    return result\n\nprint(pair_sum([1, 2, 3, 4, 5, 6], [2, 3, 4, 5, 6], 8))\nprint(pair_sum([1, 1, 1, 1], [1, 1, 1, 1], 2))\nprint(pair_sum([1, 2, 3, 4], [2, 3, 4, 5], 6))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr1, arr2, k):\n    # O(n*m)\n    # c1 = Counter(arr1)\n    # c2 = Counter(arr2)\n    # for key in c1:\n    #     if c2[key] > 0:\n    #         k -= 1\n    # return k < 0\n\n    # O(n*log(n)+m*log(m))\n    arr1.sort()\n    arr2.sort()\n    i = j = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] == k:\n            return True\n        elif arr1[i] + arr2[j] < k:\n            i += 1\n        else:\n            j += 1\n\n    return False\n\n\nif __name__ == \"__main__\":\n    print(find_pairs([1, 2, 3, 4, 5], [5, 6, 7, 8], 8))"
+    },
+    {
+      "rank": 47,
+      "score": 6.0,
+      "candidate": "from collections import Counter\n\ndef get_pairs(arr1, arr2, k):\n    counter = Counter(arr1)\n    result = 0\n\n    for num in arr2:\n        if counter.get(num) != None:\n            result += counter[num]\n\n    return result // 2\n\narr1 = [1, 2, 2, 2, 3, 3, 3, 3]\narr2 = [1, 1, 2, 2, 3, 3, 3, 3]\n\nprint(get_pairs(arr1, arr2, 2))"
+    },
+    {
+      "rank": 48,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_pairs(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - input array\n    :param: arr2 - another input array\n    :param: k - count\n    :return: count of pairs\n    \"\"\"\n    counter = Counter()\n    pairs = 0\n    for i in arr1:\n        counter[i] += 1\n    for i in arr2:\n        if i in counter:\n            if counter[i] > 0:\n                counter[i] -= 1\n                pairs += 1\n    return pairs\n\n\ndef test_function(test_case):\n    arr1 = test_case[0]\n    arr2 = test_case[1]\n    k = test_case[2]\n    solution = test_case[3]\n    output = count_pairs(arr1, arr2, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr1 = [1, 1, 2, 4]\narr2 = [3, 2, 1, 3, 5]\nk = 2\nsolution = 3\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)\n\narr1 = [1, 2, 3, 4, 5]\narr2 = [1, 3, 5, 7, 9]\nk = 3\nsolution = 3\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 49,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr_one, arr_two, k):\n    # Write your code here.\n\tif not arr_one or not arr_two or k < 0:\n\t\treturn None\n\t\n\thash_table = {}\n\tfor num in arr_two:\n\t\thash_table[num] = 1\n\t\n\tpairs = 0\n\tfor num in arr_one:\n\t\tif num in hash_table:\n\t\t\tpairs += 1\n\t\t\tif pairs == k:\n\t\t\t\treturn k\n\t\n\treturn pairs"
+    },
+    {
+      "rank": 50,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef pairs(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - input array\n    :param: arr2 - input array\n    :param: k - number of pairs\n    :return: k number of pairs\n    \"\"\"\n    count = Counter(arr1)\n    result = []\n\n    for i in arr2:\n        if i in count:\n            result.append([i, i])\n            count[i] -= 1\n            if count[i] == 0:\n                del count[i]\n\n    return result\n\n\ndef test_function(test_case):\n    arr1 = test_case[0]\n    arr2 = test_case[1]\n    k = test_case[2]\n    solution = test_case[3]\n    output = pairs(arr1, arr2, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr1 = [1, 5, 3, 3, 3, 2, 1, 4, 5, 6]\narr2 = [4, 2, 1, 6, 3, 4, 5, 2, 1, 3]\nk = 7\nsolution = [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 5]]\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)\n\narr1 = [1, 3, 5, 3, 3, 2, 1, 4, 5, 6]\narr2 = [4, 2, 1, 6, 3, 4, 5, 2, 1, 3]\nk = 7\nsolution = [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 5]]\ntest_case = [arr1, arr2, k, solution]"
+    },
+    {
+      "rank": 51,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pair_sum(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - input array\n    :param: arr2 - input array\n    :param: k - the sum of two numbers\n    return: pairs of two numbers from the two arrays whose sum is equal to k.\n    \"\"\"\n    if not arr1 or not arr2 or not k:\n        return None\n    # Create a dictionary of arr1\n    dict_arr1 = defaultdict(int)\n    for i in arr1:\n        dict_arr1[i] += 1\n\n    # Iterate through second array and check if the sum of current element with any of the elements from the dict is equal to k\n    result = []\n    for j in arr2:\n        if k - j in dict_arr1:\n            result.append([j, k - j])\n    return result\n\n\ndef test_function(test_case):\n    arr1 = test_case[0]\n    arr2 = test_case[1]\n    k = test_case[2]\n    solution = test_case[3]\n    output = pair_sum(arr1, arr2, k)\n    if solution == output:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr1 = [1, 2, 3, 4, 5, 6, 7]\narr2 = [1, 2, 3, 4, 5, 6, 7]\nk = 10\nsolution = [[1, 9], [2, 8], [3, 7], [4, 6], [5, 5]]\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 52,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(first_array, second_array, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    counter = Counter(first_array)\n    count = 0\n\n    for num in second_array:\n        if counter[num] > 0:\n            count += 1\n\n        if count == k:\n            return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert find_pairs([1, 2, 3], [1, 2, 3], 2) is True\n    assert find_pairs([1, 2, 3], [1, 2, 3], 3) is True\n    assert find_pairs([1, 2, 3], [1, 2, 3], 4) is False"
+    },
+    {
+      "rank": 53,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_pairs(arr1, arr2, k):\n    # First, we will count the number of times each element in arr1 occurs\n    # We use Counter to do this in O(n) time\n    counts = Counter(arr1)\n\n    # Then, we iterate over each element in arr2 and check if the element occurs in arr1. If it does, we add the element to the result\n    # We do this in O(n) time.\n    result = []\n    for element in arr2:\n        if element in counts:\n            result.append(element)\n\n    # If the length of result is greater than or equal to k, then we return the result\n    if len(result) >= k:\n        return result\n\n    # If not, we iterate over each element in arr1 and check if the element occurs in arr2. If it does, we add the element to the result\n    # We do this in O(n) time.\n    for element in arr1:\n        if element in counts:\n            result.append(element)\n\n        # If the length of result is greater than or equal to k, then we return the result\n        if len(result) >= k:\n            return result\n\n    # Otherwise, we return the result\n    return result\n\n\nprint(count_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 5))\nprint(count_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 6))\nprint(count_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 7))\nprint(count_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 8))\nprint(count_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 9))"
+    },
+    {
+      "rank": 54,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_pairs(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - first input array\n    :param: arr2 - second input array\n    :param: k - desired number of pairs\n    return: the number of pairs that lie in arr1 and arr2\n    \"\"\"\n    if len(arr1) < len(arr2):\n        return count_pairs(arr2, arr1, k)\n\n    counter = Counter(arr2)\n    count = 0\n\n    for num in arr1:\n        if num in counter and counter[num] > 0:\n            count += 1\n            counter[num] -= 1\n\n        if count == k:\n            return count\n\n    return count\n\n\ndef test_function(test_case):\n    output = count_pairs(test_case[0], test_case[1], test_case[2])\n    if output == test_case[3]:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr1 = [1, 2, 3, 4, 5]\narr2 = [1, 2, 3, 4, 5]\nk = 5\ntest_case = [arr1, arr2, k, 10]\ntest_function(test_case)\n\narr1 = [1, 1, 1, 1, 1]\narr2 = [1, 1, 1, 1, 1]\nk = 5\ntest_case = [arr1, arr2, k, 20]\ntest_function(test_case)\n\narr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\narr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nk = 5\ntest_case = [arr1, arr2, k, 20]\ntest_function(test_case)"
+    },
+    {
+      "rank": 55,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\nfrom typing import List\n\n\ndef find_k_pairs(nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:\n    \"\"\"\n    O(n log n) & O(n)\n    \"\"\"\n    result = []\n\n    nums1.sort()\n    nums2.sort()\n\n    i, j = 0, 0\n    while i < len(nums1) and j < len(nums2):\n        if nums1[i] + nums2[j] > 0:\n            j += 1\n        else:\n            if len(result) == k:\n                break\n            result.append([nums1[i], nums2[j]])\n            i += 1\n\n    return result\n\n\ndef find_k_pairs_efficient(nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    result = []\n\n    hashmap = defaultdict(list)\n    for num in nums2:\n        hashmap[-num].append(num)\n\n    for num in nums1:\n        if len(result) == k:\n            break\n        if num in hashmap:\n            result.append([num, hashmap[num][0]])\n            hashmap[num].pop(0)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    nums1 = [1, 7, 11]\n    nums2 = [2, 4, 6]\n    k = 3\n    assert find_k_pairs(nums1, nums2, k) == [[1, 2], [1, 4], [1, 6]]\n    assert find_k_pairs_efficient(nums1, nums2, k) == [[1, 2], [1, 4], [1, 6]]"
+    },
+    {
+      "rank": 56,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(arr1, arr2, k):\n    if not arr1 or not arr2 or k < 0:\n        return []\n\n    arr1.sort()\n    arr2.sort()\n\n    count = defaultdict(int)\n    i, j = 0, 0\n    ans = []\n\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] == k:\n            ans.append((arr1[i], arr2[j]))\n            i += 1\n            j += 1\n        elif arr1[i] + arr2[j] < k:\n            i += 1\n        else:\n            j += 1\n\n    return ans\n\n\ndef main():\n\n    arr1 = [1, 3, 5, 7, 9]\n    arr2 = [1, 2, 4, 8, 10]\n    k = 11\n    print(find_pairs(arr1, arr2, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 57,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n*m)\n    \"\"\"\n    result = []\n    count = {}\n    for num in arr1:\n        if num in count:\n            count[num] += 1\n        else:\n            count[num] = 1\n    for num in arr2:\n        if num in count and count[num] > 0:\n            result.append([num, num])\n            count[num] -= 1\n            if count[num] == 0:\n                del count[num]\n    return result\n\n\ndef main():\n    arr1 = [1, 2, 3, 4, 5]\n    arr2 = [1, 2, 3, 4, 5]\n    k = 1\n    print(find_pairs(arr1, arr2, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 58,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef k_pairs(arr1, arr2, k):\n    count = Counter()\n    result = 0\n    for i in arr1:\n        for j in arr2:\n            count[i - j] += 1\n    for i in count:\n        result += count[i] * (count[i] - 1) // 2\n    return result >= k\n\n\ndef main():\n    arr1 = [1, 1, 2, 2, 2, 2]\n    arr2 = [1, 3, 4]\n    k = 2\n    print(k_pairs(arr1, arr2, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 59,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(a, b, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    if not a or not b or len(a) < k or len(b) < k:\n        return\n\n    count = Counter(a)\n\n    for num in b:\n        if count[num] > 0 and count[num] + 1 == k:\n            return True\n\n    return False\n\n\na = [1, 2, 3, 4, 5]\nb = [2, 4, 5, 5, 6]\nprint(find_pairs(a, b, 2))"
+    },
+    {
+      "rank": 60,
+      "score": 1.0,
+      "candidate": "def pair_count(arr1, arr2, k):\n    # Write your code here.\n\t# arr1 = sorted(arr1)\n\t# arr2 = sorted(arr2)\n\t# i, j = 0, 0\n\t# count = 0\n\t# while i < len(arr1) and j < len(arr2):\n\t\t# if arr1[i] + arr2[j] < k:\n\t\t\t# i += 1\n\t\t# elif arr1[i] + arr2[j] > k:\n\t\t\t# j += 1\n\t\t# else:\n\t\t\t# i += 1\n\t\t\t# j += 1\n\t\t\t# count += 1\n\t# return count\n\tcount = 0\n\ti, j = 0, 0\n\twhile i < len(arr1) and j < len(arr2):\n\t\tif arr1[i] + arr2[j] < k:\n\t\t\ti += 1\n\t\telif arr1[i] + arr2[j] > k:\n\t\t\tj += 1\n\t\telse:\n\t\t\tcount += 1\n\t\t\ti += 1\n\t\t\tj += 1\n\treturn count\n\n\nprint(pair_count([1, 2, 3, 4, 5], [1, 2, 3, 4], 10))"
+    },
+    {
+      "rank": 61,
+      "score": 1.0,
+      "candidate": "class Pair:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\n\ndef find_pairs(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n\n    :param arr1:\n    :param arr2:\n    :param k:\n    :return:\n    \"\"\"\n\n    hash_map = {}\n\n    for item in arr1:\n        hash_map[item] = hash_map.get(item, 0) + 1\n\n    count = 0\n\n    for item in arr2:\n        if item in hash_map:\n            count += 1\n            if count == k:\n                return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    assert find_pairs([1, 3, 5, 7], [2, 4, 6, 8], 2) is True"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - first input array\n    :param: arr2 - second input array\n    :param: k - number of pairs\n    return: k number of pairs\n    \"\"\"\n    arr1_counter = Counter(arr1)\n    arr2_counter = Counter(arr2)\n\n    result = []\n    for num1 in arr1_counter:\n        if num1 in arr2_counter and arr1_counter[num1] >= arr2_counter[num1]:\n            result.append((num1, num1, arr1_counter[num1] - arr2_counter[num1]))\n        else:\n            for num2 in arr2_counter:\n                if arr2_counter[num2] >= arr1_counter[num1]:\n                    result.append((num1, num2, arr1_counter[num1] - arr2_counter[num2]))\n                    break\n    return result\n\n\nprint(find_pairs([1, 1, 2, 3], [1, 4, 2], 3))"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "def count_pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    i = 0\n    j = 0\n    count = 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n    return count\n\n\ndef main():\n    arr1 = [1, 5, 7, 9]\n    arr2 = [2, 3, 8, 10]\n    k = 11\n    print(count_pairs(arr1, arr2, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "def pairs(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - given list of integers\n    :param: arr2 - given list of integers\n    :param: k - number of pairs\n    :return: list of pairs with unique integers\n    \"\"\"\n    if len(arr1) == 0 or len(arr2) == 0:\n        return []\n\n    arr1.sort()\n    arr2.sort()\n    pairs = []\n    i, j = 0, 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            pairs.append((arr1[i], arr2[j]))\n            i += 1\n            j += 1\n    return pairs\n\n\ndef test_function(test_case):\n    arr1 = test_case[0]\n    arr2 = test_case[1]\n    k = test_case[2]\n    solution = test_case[3]\n    output = pairs(arr1, arr2, k)\n    if output == solution:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\narr1 = [1, 5, 3, 4]\narr2 = [3, 1, 4, 1]\nk = 8\nsolution = [(1, 4), (1, 4), (1, 4), (3, 1), (3, 1), (3, 1)]\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)\n\narr1 = [1, 5, 3, 4]\narr2 = [3, 1, 4, 1]\nk = 7\nsolution = [(1, 4), (1, 4), (3, 1), (3, 1)]\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)\n\narr1 = [1,"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef pairs(arr1, arr2, k):\n    d1 = Counter(arr1)\n    d2 = Counter(arr2)\n    result = 0\n    for key in d1.keys():\n        if key in d2.keys():\n            result += min(d1[key], d2[key])\n    return result\n\n\nassert pairs([1, 2], [2, 3], 1) == 1\nassert pairs([1, 1, 2, 2], [2, 2], 1) == 2\nassert pairs([1, 1, 2, 4, 4, 4, 5, 7, 7, 8, 9], [1, 2, 2, 5, 7, 9], 3) == 6"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pairs(arr1, arr2, k):\n    # TODO: Write your code here\n    # map arr2 elements with its count\n    count = defaultdict(int)\n    for ele in arr2:\n        count[ele] += 1\n    # check each element of arr1 and find its count in arr2\n    # and check if count of arr1 element is greater than\n    # k then return False\n    for ele in arr1:\n        if count[ele] > k:\n            return False\n    return True\n\n\ndef main():\n    print(\"Can find k pairs: \" +\n          str(pairs([1, 3, 5, 7], [1, 2, 3, 4, 5, 6, 7], 3)))\n    print(\"Can find k pairs: \" +\n          str(pairs([1, 3, 5, 7], [1, 2, 3, 4, 5, 6, 7], 4)))\n    print(\"Can find k pairs: \" +\n          str(pairs([1, 3, 5, 7], [1, 2, 3, 4, 5, 6, 7], 5)))\n\n\nmain()"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\ndef find_pairs(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    count = Counter(arr1)\n\n    result = 0\n    for x in arr2:\n        if count[x] > 0:\n            result += 1\n        count[x] -= 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(find_pairs([1, 2, 3, 4], [1, 2, 4, 5], 4))\n    print(find_pairs([1, 1, 1], [1, 2, 3], 1))"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(arr1, arr2, k):\n    arr1_freq = defaultdict(int)\n    for i in arr1:\n        arr1_freq[i] += 1\n\n    ans = 0\n    for i in arr2:\n        if arr1_freq[i] > 0:\n            ans += 1\n            arr1_freq[i] -= 1\n            if ans == k:\n                return True\n\n    return False\n\n\nif __name__ == \"__main__\":\n    arr1 = [1, 2, 2, 2, 2, 3]\n    arr2 = [2, 4, 2, 5, 2]\n    k = 3\n    assert find_pairs(arr1, arr2, k) is True\n    arr1 = [1, 2, 2, 2, 2, 3]\n    arr2 = [2, 4, 2, 5, 2]\n    k = 4\n    assert find_pairs(arr1, arr2, k) is False"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if not arr1 or not arr2 or len(arr1) == 0 or len(arr2) == 0:\n        return 0\n\n    count = 0\n    freq = defaultdict(int)\n\n    for num in arr2:\n        freq[num] += 1\n\n    for num in arr1:\n        if num in freq and freq[num] > 0:\n            count += 1\n            freq[num] -= 1\n            if count == k:\n                return count\n\n    return count\n\n\nprint(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 2))"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(arr1, arr2, k):\n    # Using hash map\n    hash_map = defaultdict(int)\n    for i in arr2:\n        hash_map[i] += 1\n    pairs = 0\n    for i in arr1:\n        if i in hash_map:\n            pairs += 1\n            if hash_map[i] > 1:\n                pairs += 1\n        if pairs == k:\n            return True\n    return False\n\n\ndef find_pairs_eff(arr1, arr2, k):\n    # Using hash map\n    hash_map = defaultdict(int)\n    for i in arr2:\n        hash_map[i] += 1\n    pairs = 0\n    for i in arr1:\n        if i in hash_map:\n            pairs += 1\n            if hash_map[i] > 1:\n                pairs += 1\n        if pairs == k:\n            return True\n    return False\n\n\ndef main():\n    arr1 = [1, 2, 3, 4, 5]\n    arr2 = [1, 1, 1, 1, 1]\n    k = 2\n    print(find_pairs(arr1, arr2, k))\n    print(find_pairs_eff(arr1, arr2, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\ndef pairs(a, b, k):\n    # Fill this in.\n    a_dict = defaultdict(list)\n    for i in range(len(a)):\n        a_dict[a[i]].append(i)\n\n    b_dict = defaultdict(list)\n    for i in range(len(b)):\n        b_dict[b[i]].append(i)\n\n    count = 0\n    for i in a_dict:\n        for j in b_dict:\n            if i == j:\n                count += len(a_dict[i]) * len(b_dict[j])\n            else:\n                count += len(a_dict[i]) * len(b_dict[j])\n\n    return count // k\n\nif __name__ == \"__main__\":\n    a = [1, 2, 3, 3]\n    b = [1, 2, 3, 4]\n    k = 3\n    print (pairs(a, b, k))\n    # 4\n\n    a = [1, 1, 1, 2, 2, 2, 2, 2]\n    b = [1, 2, 2, 2, 2, 2, 2]\n    k = 2\n    print (pairs(a, b, k))\n    # 8\n\n    a = [1, 2, 3]\n    b = [1, 2, 3]\n    k = 1\n    print (pairs(a, b, k))\n    # 3\n\n    a = [1, 2, 3, 4]\n    b = [1, 2, 3, 4]\n    k = 3\n    print (pairs(a, b, k))\n    # 6"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(a1, a2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(a1) > len(a2):\n        a1, a2 = a2, a1\n\n    lookup = defaultdict(int)\n    for i in a1:\n        lookup[i] += 1\n\n    pairs = 0\n    for i in a2:\n        if i - k in lookup:\n            pairs += lookup[i - k]\n\n    return pairs\n\n\nif __name__ == \"__main__\":\n    print(find_pairs([1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 3, 5, 7, 9], 3))"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "def pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    i, j = 0, 0\n    count = 0\n    while i<len(arr1) and j<len(arr2):\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n    return count\n\nprint(pairs([1, 2, 3, 4], [1, 2, 3, 4], 6))"
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - input array\n    :param: arr2 - input array\n    :param: k - number of pairs\n    return: pairs\n    \"\"\"\n    if not arr1 or not arr2 or k < 0:\n        return []\n\n    arr1_dict = {}\n    arr2_dict = {}\n\n    for num in arr1:\n        arr1_dict[num] = arr1_dict.get(num, 0) + 1\n\n    for num in arr2:\n        arr2_dict[num] = arr2_dict.get(num, 0) + 1\n\n    result = []\n\n    for num in arr1_dict:\n        if (k - arr1_dict[num] >= 0 and num in arr2_dict) or (k - arr1_dict[num] - arr2_dict.get(num, 0) >= 0):\n            result.append((num, num))\n\n    for num in arr2_dict:\n        if (k - arr2_dict[num] >= 0 and num in arr1_dict) or (k - arr2_dict[num] - arr1_dict.get(num, 0) >= 0):\n            result.append((num, num))\n\n    for num1 in arr1_dict:\n        for num2 in arr2_dict:\n            if (k - arr1_dict[num1] - arr2_dict[num2] >= 0 and num1 != num2) or (k - arr1_dict[num1] - arr2_dict[num2] - 1 >= 0 and num1 == num2):\n                result.append((num1, num2))\n\n    return result\n\n\ndef main():\n\n    arr1 = [1, 1, 1, 1]\n    arr2 = [1, 1, 1, 1]\n    k = 6\n    print(\"---\" * 10)\n    print(find_pairs(arr1, arr2, k))\n    print(\"---\" * 10)\n\n    arr1"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pair_in_list(arr1, arr2, k):\n    d = defaultdict(list)\n\n    for i in arr1:\n        d[i].append(1)\n\n    for j in arr2:\n        if j in d:\n            if d[j] == [1]:\n                k -= 1\n\n            d[j].append(1)\n\n    return k\n\n\nprint(pair_in_list([1, 3, 4], [1, 2, 3, 4], 3))\nprint(pair_in_list([1, 2, 3], [1, 3, 4], 2))\nprint(pair_in_list([1, 2, 3], [1, 3, 4], 1))\nprint(pair_in_list([1, 2, 3], [1, 3, 4], 0))"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef count_pairs(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    count = 0\n    dict_1 = defaultdict(int)\n    for i in arr1:\n        dict_1[i] += 1\n\n    for i in arr2:\n        if i in dict_1:\n            count += dict_1[i]\n        if count == k:\n            return True\n    return False\n\n\nif __name__ == \"__main__\":\n    arr1 = [1, 2, 3, 4]\n    arr2 = [1, 3, 5, 7]\n    k = 2\n    print(count_pairs(arr1, arr2, k))"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pairs_with_one_element_from_each_array(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    if len(arr1) == 0 or len(arr2) == 0:\n        return []\n\n    pairs = []\n    lookup = defaultdict(int)\n\n    for num in arr1:\n        lookup[num] += 1\n\n    for num in arr2:\n        if num in lookup and lookup[num] > 0:\n            pairs.append([num, num])\n            lookup[num] -= 1\n            if len(pairs) == k:\n                return pairs\n    return pairs\n\n\nprint(pairs_with_one_element_from_each_array([1, 2, 3, 4], [1, 2, 3, 4, 5], 5))"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef count_pairs(a, b, k):\n    \"\"\"\n    :param a: list of integers\n    :param b: list of integers\n    :param k: number of pairs\n    :return: number of pairs\n    \"\"\"\n    a_counts = Counter(a)\n    b_counts = Counter(b)\n    count = 0\n    for key, value in a_counts.items():\n        if key in b_counts:\n            count += value * b_counts[key]\n    return count // 2\n\n\na = [1, 1, 2, 2, 3]\nb = [1, 1, 2, 2, 3]\nk = 1\nprint(count_pairs(a, b, k))"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "def get_pairs_with_sum_k(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n)\n    \"\"\"\n    arr1_len = len(arr1)\n    arr2_len = len(arr2)\n\n    if arr1_len == 0 or arr2_len == 0:\n        return 0\n\n    pairs = 0\n    arr1_dict = {}\n    for i in range(arr1_len):\n        arr1_dict[arr1[i]] = 1\n\n    for i in range(arr2_len):\n        if arr2[i] in arr1_dict and arr2[i] + k in arr1_dict:\n            pairs += 1\n\n    return pairs\n\n\nassert get_pairs_with_sum_k([1, 2, 3, 2, 5], [1, 2, 3, 4, 5], 2) == 2"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_k_pairs(arr1, arr2, k):\n    if k == 0:\n        return []\n\n    pairs = []\n\n    # Map the elements of arr2 to their indexes\n    index_map = defaultdict(list)\n    for i, n in enumerate(arr2):\n        index_map[n].append(i)\n\n    for i, n in enumerate(arr1):\n        if n in index_map and len(index_map[n]) > 0:\n            index = index_map[n].pop(0)\n            pairs.append((i, index))\n            if len(pairs) == k:\n                return pairs\n    return pairs\n\n\nif __name__ == '__main__':\n    arr1 = [1, 2, 3, 4, 5, 6]\n    arr2 = [1, 3, 5, 7, 9]\n    k = 2\n    pairs = find_k_pairs(arr1, arr2, k)\n    print(pairs)"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "def find_k_pairs(arr_1, arr_2, k):\n    count = 0\n    arr_1.sort()\n    arr_2.sort()\n    i, j = 0, 0\n    while i < len(arr_1) and j < len(arr_2) and count < k:\n        if arr_1[i] + arr_2[j] < 0:\n            i += 1\n        elif arr_1[i] + arr_2[j] > 0:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n    return count\n\n\ndef main():\n    arr_1 = [1, 2, 3, 4, 5]\n    arr_2 = [1, 2, 3, 4, 5]\n    k = 1\n    result = find_k_pairs(arr_1, arr_2, k)\n    print(f\"{result} pairs can be found from the given two arrays\")\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "def find_pairs(first_array, second_array, k):\n    # Create a dictionary from the first array\n    first_dict = {first_array[i]: i for i in range(len(first_array))}\n    # Create a dictionary from the second array\n    second_dict = {second_array[i]: i for i in range(len(second_array))}\n\n    # Iterate over the first array and check if the element exists in the second array\n    # If so, increase the count by 1\n    count = 0\n    for i in first_array:\n        if i in second_dict:\n            count += 1\n\n    # If the count is not equal to k, return 0\n    if count != k:\n        return 0\n\n    # If the count is equal to k, return 1\n    return 1\n\n\nfirst_array = [1, 1, 2, 2, 3, 4, 5, 6, 7, 7, 8, 9]\nsecond_array = [1, 2, 3, 4, 5, 6, 7, 8, 9]\nk = 2\nprint(find_pairs(first_array, second_array, k))"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_pairs(arr1, arr2, k):\n    \"\"\"\n    :param arr1: - first array\n    :param arr2: - second array\n    :param k: - k number of pairs\n    :return: - k number of pairs\n    \"\"\"\n    if not arr1 or not arr2 or k < 0:\n        return None\n\n    pairs = 0\n    freq_dict = defaultdict(int)\n    for num in arr1:\n        freq_dict[num] += 1\n\n    for num in arr2:\n        if num in freq_dict and freq_dict[num] > 0:\n            pairs += 1\n            freq_dict[num] -= 1\n            if pairs == k:\n                return pairs\n\n    return pairs\n\n\ndef main():\n\n    arr1 = [1, 5, 7, 9, 10]\n    arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    k = 5\n    result = find_pairs(arr1, arr2, k)\n    print(result)\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\nfrom typing import List\n\n\ndef pairs_in_list(arr1: List[int], arr2: List[int], k: int) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    result = []\n\n    count_map = defaultdict(int)\n    for num in arr1:\n        count_map[num] += 1\n\n    for num in arr2:\n        if count_map[num] > 0:\n            result.append(num)\n            count_map[num] -= 1\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(pairs_in_list([1, 2, 3, 4], [2, 3, 4, 5], 2))"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "def pair_sum(arr, brr, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    arr.sort()\n    brr.sort()\n    i = 0\n    j = len(brr) - 1\n    count = 0\n    while i < len(arr) and j >= 0:\n        if arr[i] + brr[j] == k:\n            count += 1\n            i += 1\n            j -= 1\n        elif arr[i] + brr[j] < k:\n            i += 1\n        else:\n            j -= 1\n    return count\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    brr = [1, 2, 3, 4, 5]\n    k = 7\n    print(pair_sum(arr, brr, k))"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "def find_pairs(nums1, nums2, k):\n    # Create a dictionary for nums1\n    d1 = {}\n    for num in nums1:\n        if num in d1:\n            d1[num] += 1\n        else:\n            d1[num] = 1\n    # Iterate over nums2 and check if the difference is k\n    for num in nums2:\n        diff = k - num\n        if diff in d1:\n            return True\n    return False\n\nnums1 = [1, 2, 3, 4]\nnums2 = [2, 3, 4, 5]\nk = 1\nprint(find_pairs(nums1, nums2, k))"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr_1, arr_2, k):\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n)\n    \"\"\"\n    dict_1 = {}\n    dict_2 = {}\n\n    for element in arr_1:\n        dict_1[element] = dict_1.get(element, 0) + 1\n\n    for element in arr_2:\n        dict_2[element] = dict_2.get(element, 0) + 1\n\n    count = 0\n    for element in dict_1:\n        if element in dict_2:\n            count += min(dict_1[element], dict_2[element])\n\n    return count\n\n\nprint(find_pairs([1, 1, 1, 1, 1], [1, 1, 1, 1, 1], 1))"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "from collections import Counter\nfrom typing import List\n\n\ndef find_pairs(arr1: List[int], arr2: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n\n    count_1 = Counter(arr1)\n    count_2 = Counter(arr2)\n\n    ans = 0\n    for key, val in count_1.items():\n        if key in count_2:\n            ans += min(val, count_2[key])\n\n    return ans\n\n\nif __name__ == \"__main__\":\n    assert find_pairs([1, 1, 2, 2], [2, 3], 2) == 2\n    assert find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 0) == 6"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\nfrom typing import List\n\n\ndef pairs(arr1: List[int], arr2: List[int], k: int) -> List[List[int]]:\n    \"\"\"\n    Time Complexity: O(n*m)\n    Space Complexity: O(n)\n    \"\"\"\n\n    dict_1 = defaultdict(int)\n    dict_2 = defaultdict(int)\n\n    for num in arr1:\n        dict_1[num] += 1\n\n    for num in arr2:\n        dict_2[num] += 1\n\n    res = []\n    for num in dict_1:\n        if num in dict_2:\n            k -= 1\n            res.append([num, num])\n\n            if k == 0:\n                return res\n\n    for num in dict_1:\n        if k == 0:\n            return res\n\n        if num in dict_2:\n            if dict_1[num] > 1:\n                dict_2[num] -= 1\n                res.append([num, num])\n                k -= 1\n\n            elif dict_2[num] > 1:\n                dict_1[num] -= 1\n                res.append([num, num])\n                k -= 1\n\n    return res\n\n\nif __name__ == \"__main__\":\n    assert pairs([1, 2, 3, 4, 5], [2, 3, 4, 5, 6], 2) == [[3, 3]]\n    assert pairs([1, 2, 3, 4, 5], [2, 3, 4, 5, 6], 3) == [[3, 3], [4, 4]]\n    assert pairs([1, 2, 3, 4, 5], [2, 3, 4, 5, 6], 4) == [[3, 3], [4, 4]]\n    assert pairs([1, 2, 3, 4, 5], [2, 3, 4, 5, 6], 5) == [[3, 3], [4, 4]]"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "from collections import Counter\nfrom typing import List\n\n\ndef count_pairs_in_two_arrays(arr1: List[int], arr2: List[int], k: int) -> int:\n    \"\"\"\n    Time Complexity: O(nlogn)\n    Space Complexity: O(n)\n    \"\"\"\n    # Sort the arrays\n    arr1.sort()\n    arr2.sort()\n\n    # Count the frequency of elements\n    count1 = Counter(arr1)\n    count2 = Counter(arr2)\n\n    # Two pointers\n    i, j = 0, len(arr2) - 1\n    count = 0\n\n    while i < len(arr1) and j >= 0:\n        # Sum of two elements\n        sum_ = arr1[i] + arr2[j]\n\n        # If sum is equal to k\n        if sum_ == k:\n            count += 1\n            i += 1\n            j -= 1\n\n        # If sum is greater than k\n        elif sum_ > k:\n            j -= 1\n\n        # If sum is less than k\n        else:\n            i += 1\n\n        # If the current sum is less than k, we will need to increase j\n        # If the current sum is greater than k, we will need to decrease i\n        # If the current sum is equal to k, we will need to keep i and j same\n\n    return count\n\n\nif __name__ == \"__main__\":\n    assert count_pairs_in_two_arrays([1, 2, 3, 4, 5], [4, 5, 6, 7, 8], 7) == 2\n    assert count_pairs_in_two_arrays([1, 1, 1, 1], [1, 1, 1, 1], 2) == 6\n    assert count_pairs_in_two_arrays([1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], 5) == 3"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef pair_sum(arr1, arr2, k):\n    \"\"\"\n    :param: arr1 - input array\n    :param: arr2 - input array\n    :param: k - wanted sum\n    return: pairs - pairs of elements from arr1 and arr2 which sums to k\n    \"\"\"\n    pairs = []\n    hash_map = defaultdict(list)\n\n    for i in arr1:\n        hash_map[i].append(i)\n\n    for j in arr2:\n        if j in hash_map:\n            pairs.append((j, j))\n\n        if k - j in hash_map:\n            pairs.append((j, k - j))\n\n    return pairs\n\n\ndef test_function(test_case):\n    arr1 = test_case[0]\n    arr2 = test_case[1]\n    k = test_case[2]\n    solution = test_case[3]\n    output = pair_sum(arr1, arr2, k)\n\n    if solution == output:\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\narr1 = [1, 2, 3, 4, 5]\narr2 = [1, 2, 3, 4, 5]\nk = 3\nsolution = [(1, 2), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5), (3, 4), (3, 5), (4, 5)]\ntest_case = [arr1, arr2, k, solution]\ntest_function(test_case)"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "def find_k_pairs(nums1, nums2, k):\n    # Fill this in.\n    from collections import Counter\n    c1 = Counter(nums1)\n    c2 = Counter(nums2)\n    ans = 0\n    for i in c1:\n        if i in c2:\n            ans += min(c1[i], c2[i])\n    return ans\n\n\nif __name__ == \"__main__\":\n    nums1 = [1, 1, 2, 2]\n    nums2 = [1, 3, 4, 5]\n    k = 5\n    print(find_k_pairs(nums1, nums2, k))\n\n# time complexity = O(n+m)\n# space complexity = O(n)"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "from collections import defaultdict\n\n\ndef find_k_pairs(nums1, nums2, k):\n    \"\"\"\n    :param nums1: list of numbers\n    :param nums2: list of numbers\n    :param k: number of pairs to return\n    :return: list of pairs\n    Time complexity: O(n)\n    Space complexity: O(n)\n    \"\"\"\n    if not nums1 or not nums2 or k < 0 or len(nums1) + len(nums2) < k:\n        return []\n\n    # Use dict to store the count of each number in nums1\n    count = defaultdict(int)\n    for num in nums1:\n        count[num] += 1\n\n    # Iterate through nums2 and check if nums1 contains the pair\n    pairs = []\n    for num in nums2:\n        if count[num] > 0:\n            pairs.append([num, num])\n            count[num] -= 1\n            if len(pairs) == k:\n                return pairs\n\n    # Iterate through nums1 and check if nums2 contains the pair\n    for num in nums1:\n        if num in count and count[num] > 0:\n            pairs.append([num, num])\n            count[num] -= 1\n            if len(pairs) == k:\n                return pairs\n\n\nprint(find_k_pairs([1, 2, 3], [3, 4, 5], 2))"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n    arr1_len = len(arr1)\n    arr2_len = len(arr2)\n    i, j = 0, 0\n    count = 0\n    while i < arr1_len and j < arr2_len:\n        if arr1[i] + arr2[j] < k:\n            i += 1\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n        else:\n            count += 1\n            i += 1\n            j += 1\n    return count\n\n\ndef main():\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 8)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 7)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 6)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 5)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 4)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 3)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2, 3, 4], [1, 2, 3, 4], 2)))\n    print(\"Total number of pairs: \" +\n          str(find_pairs([1, 2"
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr1, arr2, k):\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    return len([\n        i for i in Counter(arr1).items()\n        if i[0] in Counter(arr2) and i[1] == Counter(arr2)[i[0]] and i[1] >= k\n    ])\n\n\nif __name__ == \"__main__\":\n    print(find_pairs([1, 2, 3, 4], [3, 2, 1, 4], 2))"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "def pairs_from_two_arrays(arr1, arr2, k):\n    hash_map = {}\n    for i in range(len(arr1)):\n        hash_map[arr1[i]] = arr1[i]\n\n    for i in range(len(arr2)):\n        if hash_map.get(arr2[i], None) is not None:\n            k -= 1\n            if k == 0:\n                return True\n    return False\n\n\ndef main():\n    arr1 = [1, 2, 3, 4, 5, 6]\n    arr2 = [1, 2, 3, 4, 5, 6]\n    k = 2\n    result = pairs_from_two_arrays(arr1, arr2, k)\n    print(result)\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\n\ndef find_pairs(arr_a, arr_b, k):\n    ctr = Counter(arr_b)\n    result = 0\n\n    for i in arr_a:\n        if ctr[i] > 0:\n            result += 1\n            ctr[i] -= 1\n\n    return result\n\n\ndef main():\n    arr_a = [1, 1, 2, 2, 2, 3, 3, 3, 3]\n    arr_b = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    k = 2\n    print(find_pairs(arr_a, arr_b, k))\n\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    arr1.sort()\n    arr2.sort()\n\n    i = 0\n    j = 0\n    count = 0\n\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] + arr2[j] == k:\n            count += 1\n            i += 1\n            j += 1\n        elif arr1[i] + arr2[j] < k:\n            i += 1\n        else:\n            j += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    arr1 = [1, 3, 4, 2, 5]\n    arr2 = [3, 4, 2, 1]\n    k = 3\n\n    print(find_pairs(arr1, arr2, k))\n\n    arr1 = [1, 3, 4, 2, 5]\n    arr2 = [3, 4, 2, 1]\n    k = 5\n\n    print(find_pairs(arr1, arr2, k))\n\n    arr1 = [1, 3, 4, 2, 5]\n    arr2 = [3, 4, 2, 1]\n    k = 6\n\n    print(find_pairs(arr1, arr2, k))\n\n    arr1 = [1, 3, 4, 2, 5]\n    arr2 = [3, 4, 2, 1]\n    k = 7\n\n    print(find_pairs(arr1, arr2, k))\n\n    arr1 = [1, 3, 4, 2, 5]\n    arr2 = [3, 4, 2, 1]\n    k = 8\n\n    print(find_pairs(arr1, arr2, k))\n\n    arr1 = [1, 3, 4, 2, 5]\n    arr2 = [3, 4, 2, 1]\n    k = 10\n\n    print("
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "def pair_sum_pairs(arr1, arr2, k):\n    pairs = {}\n    for i in range(len(arr1)):\n        for j in range(len(arr2)):\n            if arr1[i] + arr2[j] == k:\n                if arr1[i] not in pairs:\n                    pairs[arr1[i]] = [arr2[j]]\n                else:\n                    pairs[arr1[i]].append(arr2[j])\n    return pairs\n\n\nprint(pair_sum_pairs([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], 10))"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "def find_pairs(arr1, arr2, k):\n    # Write your code here.\n    # 1. Sort both the arrays\n    arr1.sort()\n    arr2.sort()\n\n    # 2. Use two pointers\n    i = 0\n    j = 0\n\n    # 3. While i is less than length of arr1 and j is less than length of arr2\n    while i < len(arr1) and j < len(arr2):\n\n        # 4. If diff of arr1[i] and arr2[j] is equal to k\n        if arr1[i] + arr2[j] == k:\n            return True\n\n        # 5. If diff is greater than k\n        elif arr1[i] + arr2[j] > k:\n            j += 1\n\n        # 6. If diff is less than k\n        else:\n            i += 1\n\n    # 7. Else return false\n    return False\n\n\ndef main():\n\n    arr1 = [1, 5, 7, 9]\n    arr2 = [6, 8, 2, 4]\n    k = 7\n    result = find_pairs(arr1, arr2, k)\n\n    print(f\"{result}\")\n\n\nif __name__ == \"__main__\":\n    main()"
+    }
+  ]
+}

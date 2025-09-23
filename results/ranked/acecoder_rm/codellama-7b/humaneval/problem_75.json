@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/75",
+    "prompt": "\ndef is_multiply_prime(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n",
+    "canonical_solution": "    def is_prime(n):\n        for j in range(2,n):\n            if n%j == 0:\n                return False\n        return True\n\n    for i in range(2,101):\n        if not is_prime(i): continue\n        for j in range(2,101):\n            if not is_prime(j): continue\n            for k in range(2,101):\n                if not is_prime(k): continue\n                if i*j*k == a: return True\n    return False\n",
+    "test": "def check(candidate):\n\n    assert candidate(5) == False\n    assert candidate(30) == True\n    assert candidate(8) == True\n    assert candidate(10) == False\n    assert candidate(125) == True\n    assert candidate(3 * 5 * 7) == True\n    assert candidate(3 * 6 * 7) == False\n    assert candidate(9 * 9 * 9) == False\n    assert candidate(11 * 9 * 9) == False\n    assert candidate(11 * 13 * 7) == True\n\n",
+    "entry_point": "is_multiply_prime",
+    "docstring": "",
+    "problem_id": 75
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# 1. We need to check if the number is a multiple of 3.\n    # 2. We need to check if the number is a multiple of 5.\n    # 3. We need to check if the number is a multiple of 7.\n    # 4. If it is, return True.\n    # 5. If it is not, return False.\n    if a % 3 == 0 or a % 5 == 0 or a % 7 == 0:\n        return True\n    else:\n        return False\n\ndef run_example():\n    print(is_multiply_prime(30))\n\nif __name__ == '__main__':\n    run_example()",
+      8.2734375
+    ],
+    [
+      "# return is_multiply_prime_v1(a)\n    # return is_multiply_prime_v2(a)\n    return is_multiply_prime_v3(a)\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\ndef is_multiply_prime_v1(a):\n    if a < 100:\n        return False\n    for i in range(2, 100):\n        if a % i != 0:\n            continue\n        is_prime_i = is_prime(i)\n        is_prime_j = is_prime(a // i)\n        if is_prime_i and is_prime_j:\n            return True\n    return False\n\ndef is_multiply_prime_v2(a):\n    if a < 100:\n        return False\n    for i in range(2, 100):\n        if a % i != 0:\n            continue\n        is_prime_i = is_prime(i)\n        is_prime_j = is_prime(a // i)\n        if is_prime_i and is_prime_j:\n            return True\n    return False\n\ndef is_multiply_prime_v3(a):\n    if a < 100:\n        return False\n    for i in range(2, 100):\n        if a % i != 0:\n            continue\n        j = a // i\n        is_prime_i = is_prime(i)\n        is_prime_j = is_prime(j)\n        if is_prime_i and is_prime_j:\n            return True\n    return False\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(35))\nprint(is_multiply_prime(17))\nprint(is_multiply_prime(300))\nprint(is_multiply_prime(121))",
+      4.41796875
+    ],
+    [
+      "def is_prime(n):\n        if n == 2 or n == 3: return True\n        if n % 2 == 0 or n % 3 == 0: return False\n        for i in range(5, int(n ** 0.5) + 1, 6): # only odd numbers\n            if n % i == 0 or n % (i + 2) == 0:\n                return False\n        return True\n\n    if a <= 100:\n        for i in range(1, 100):\n            if is_prime(i) and is_prime(a // i):\n                if is_prime(a // (i * (a // i))):\n                    return True\n    return False",
+      2.82421875
+    ],
+    [
+      "#\n    # Your code goes here\n    #\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n\n    for prime in primes:\n        if a % prime == 0:\n            a = a / prime\n            if a == 1:\n                return True\n    return False\n\n\nif __name__ == '__main__':\n    print(\"Example:\")\n    print(is_multiply_prime(30))\n\n    # These \"asserts\" are used for self-checking and not for an auto-testing\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(15) == False\n    assert is_multiply_prime(1) == False\n    assert is_multiply_prime(4) == False\n    assert is_multiply_prime(6) == False\n    assert is_multiply_prime(8) == False\n    assert is_multiply_prime(12) == False\n    assert is_multiply_prime(20) == False\n    print(\"Coding complete? Click 'Check' to earn cool rewards!\")",
+      1.63671875
+    ],
+    [
+      "# 1- find the prime numbers\n    # 2- multiply the prime numbers\n    # 3- check if the result is equal to (a)\n    # 4- return the result\n    # raise NotImplementedError\n    # 1- find the prime numbers\n    prime_numbers = [2,3,5]\n    for i in range(7,100,2):\n        if is_prime(i):\n            prime_numbers.append(i)\n    # 2- multiply the prime numbers\n    multiplied_prime_numbers = 1\n    for prime in prime_numbers:\n        multiplied_prime_numbers *= prime\n    # 3- check if the result is equal to (a)\n    if multiplied_prime_numbers == a:\n        return True\n    return False\n\ndef is_prime(a):\n    \"\"\"\n    This function returns True if a number is prime, otherwise False.\n    Example:\n    is_prime(7) == True\n    is_prime(8) == False\n    \"\"\"\n    # raise NotImplementedError\n    if a <= 1:\n        return False\n    if a <= 3:\n        return True\n    if a % 2 == 0 or a % 3 == 0:\n        return False\n    i = 5\n    while i * i <= a:\n        if a % i == 0 or a % (i + 2) == 0:\n            return False\n        i = i + 6\n    return True\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(15))\n    print(is_multiply_prime(10))",
+      1.1171875
+    ],
+    [
+      "if a < 100:\n        prime_list = [2, 3, 5]\n        for i in prime_list:\n            if a % i == 0:\n                a = a/i\n        return True if a == 1 else False\n    return False\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(12))\nprint(is_multiply_prime(100))\nprint(is_multiply_prime(20))\nprint(is_multiply_prime(10))\nprint(is_multiply_prime(1))",
+      0.97900390625
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            for j in range(2, i):\n                for k in range(2, j):\n                    if i * j * k == a:\n                        return True\n        return False\n    else:\n        return \"Error! the number is bigger than 100\"\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(15))\nprint(is_multiply_prime(12))\nprint(is_multiply_prime(121))\nprint(is_multiply_prime(9))",
+      0.4365234375
+    ],
+    [
+      "# 1) Write your code here\n\n    # 2) Test your code\n    # print(is_multiply_prime(30))\n    # print(is_multiply_prime(10))\n    # print(is_multiply_prime(3))\n    # print(is_multiply_prime(1))\n    # print(is_multiply_prime(20))\n    # print(is_multiply_prime(90))\n    # print(is_multiply_prime(100))\n    # print(is_multiply_prime(101))\n\n    # 3) Validate your results\n    # O(n) time complexity where n is the number of digits in a\n    # O(1) space complexity\n\n    # 4) Refactor your code\n    # O(1) time complexity where n is the number of digits in a\n    # O(1) space complexity\n    import math\n    def is_prime(n):\n        if n == 1:\n            return False\n        if n == 2:\n            return True\n        if n % 2 == 0:\n            return False\n        for i in range(3, int(math.sqrt(n)) + 1, 2):\n            if n % i == 0:\n                return False\n        return True\n\n    if a < 100:\n        return False\n    for i in range(1, 100):\n        for j in range(1, 100):\n            for k in range(1, 100):\n                if i * j * k == a and is_prime(i) and is_prime(j) and is_prime(k):\n                    return True\n    return False",
+      0.313232421875
+    ],
+    [
+      "pass\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert is_multiply_prime(30) == True, \"30 = 2 * 3 * 5\"\n    assert is_multiply_prime(9) == False, \"9 is not multiply prime\"\n    assert is_multiply_prime(15) == False, \"15 is not multiply prime\"\n    assert is_multiply_prime(243) == True, \"243 = 3 * 7 * 11\"\n    assert is_multiply_prime(725) == True, \"725 = 5 * 13 * 17\"\n    assert is_multiply_prime(10) == False, \"10 is not multiply prime\"\n    assert is_multiply_prime(30) == True, \"30 = 2 * 3 * 5\"",
+      0.041168212890625
+    ],
+    [
+      "prime_list = []\n    for i in range(2, a):\n        for j in range(2, i):\n            if i % j == 0:\n                break\n        else:\n            prime_list.append(i)\n    for i in range(len(prime_list)):\n        for j in range(i + 1, len(prime_list)):\n            for k in range(j + 1, len(prime_list)):\n                if prime_list[i] * prime_list[j] * prime_list[k] == a:\n                    return True\n    return False\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(4) == False\n    assert is_multiply_prime(31) == False",
+      -0.77978515625
+    ],
+    [
+      "if a < 100:\n        for i in range(2,a):\n            for j in range(2,i):\n                for k in range(2,j):\n                    if i*j*k==a:\n                        return True\n        return False\n\n\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(12))",
+      -0.77978515625
+    ],
+    [
+      "if a <= 0:\n        return False\n\n    prime_numbers = [2, 3, 5, 7]\n    for prime_number in prime_numbers:\n        while a % prime_number == 0:\n            a = a / prime_number\n\n    if a == 1:\n        return True\n    return False\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85595703125
+    ],
+    [
+      "prime = [2,3,5,7]\n    for p in prime:\n        if a % p == 0:\n            a /= p\n        else:\n            return False\n    return True\n\nprint(is_multiply_prime(30))",
+      -0.85693359375
+    ],
+    [
+      "if a < 100:\n        list_of_primes = [2, 3, 5]\n        for prime in list_of_primes:\n            if a % prime == 0:\n                a = a / prime\n            else:\n                return False\n    return True\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(15))",
+      -0.85693359375
+    ],
+    [
+      "# Start with the first prime number\n    prime = 2\n    count = 0\n    while prime < 100:\n        prime += 1\n        # Check if (a) is divisible by the current prime number\n        if a % prime == 0:\n            count += 1\n            if count == 3:\n                return True\n    return False\n\nprint(is_multiply_prime(30)) # True\nprint(is_multiply_prime(50)) # False\nprint(is_multiply_prime(75)) # False\nprint(is_multiply_prime(90)) # True\nprint(is_multiply_prime(120)) # False",
+      -0.85693359375
+    ],
+    [
+      "count = 0\n    for i in range(2, a):\n        if a % i == 0:\n            count += 1\n        if count == 3:\n            return True\n    return False\n\n\nprint(is_multiply_prime(30))",
+      -0.85693359375
+    ],
+    [
+      "# 1) find prime numbers\n    # 2) check if the given number is the multiplication of 3 prime numbers\n    # 3) return True or False\n    prime_list = []\n    for i in range(2, a):\n        is_prime = True\n        for j in range(2, i):\n            if i % j == 0:\n                is_prime = False\n                break\n        if is_prime:\n            prime_list.append(i)\n    if len(prime_list) < 3:\n        return False\n    for i in prime_list:\n        for j in prime_list:\n            for k in prime_list:\n                if i * j * k == a:\n                    return True\n    return False\n\nprint(is_multiply_prime(30))",
+      -0.85693359375
+    ],
+    [
+      "prime_list = [2,3,5]\n    # Check if a is divisible by prime_list\n    for prime in prime_list:\n        if a % prime == 0:\n            a = a / prime\n    return a == 1\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))",
+      -0.85693359375
+    ],
+    [
+      "if a > 100:\n        return False\n    elif a < 10:\n        return False\n    else:\n        for i in range(2,10):\n            if a % i == 0:\n                return True\n\n        return False\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85693359375
+    ],
+    [
+      "# TODO: Write code here\n    prime_list = [2,3,5,7]\n    for prime in prime_list:\n        if a % prime == 0:\n            a /= prime\n        else:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85693359375
+    ],
+    [
+      "is_prime = lambda x: all(x%i for i in range(2, x))\n    return is_prime(a) and (any(a % p == 0 for p in range(3, 100, 2)) or a == 2)\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(15))",
+      -0.85693359375
+    ],
+    [
+      "primes = [2,3,5]\n    for prime in primes:\n        if a%prime!=0:\n            return False\n    return True\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n\n\nif __name__ == '__main__':\n    test_is_multiply_prime()",
+      -0.85693359375
+    ],
+    [
+      "primes = [2,3,5,7]\n    if a == 2:\n        return True\n    for prime in primes:\n        if a % prime == 0:\n            a = a / prime\n            primes.append(prime)\n    if len(primes) != 3:\n        return False\n    return True\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(27))\n    print(is_multiply_prime(15))",
+      -0.85693359375
+    ],
+    [
+      "if a > 100:\n        return False\n    if a < 10:\n        return False\n    if a == 2 or a == 3 or a == 5:\n        return True\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n    return True\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(60))\nprint(is_multiply_prime(2))\nprint(is_multiply_prime(3))\nprint(is_multiply_prime(5))\nprint(is_multiply_prime(10))\nprint(is_multiply_prime(11))\nprint(is_multiply_prime(15))",
+      -0.85791015625
+    ],
+    [
+      "def is_prime(num):\n        for i in range(2, num):\n            if num % i == 0:\n                return False\n        return True\n\n    if a <= 9 or a % 2 == 0 or a % 3 == 0:\n        return False\n\n    for i in range(2, int(a / 2) + 1):\n        if is_prime(i):\n            if a % i == 0:\n                count = 1\n                for j in range(2, int(a / i)):\n                    if is_prime(j):\n                        if a % j == 0:\n                            count += 1\n                            if count == 3:\n                                return True\n                        else:\n                            break\n                if count == 3:\n                    return True\n    return False\n\n\nprint(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        for i in range(2, a):\n            if is_prime(i) and is_prime(a/i):\n                return True\n    return False\n\n\ndef is_prime(a):\n    if a <= 1:\n        return False\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n    return True\n\n\ndef is_multiply_prime_opt(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a < 100:\n        return is_prime(a) and is_prime(a/2) and is_prime(a/3)\n    return False\n\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))\n    print(is_multiply_prime_opt(30))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        prime = []\n        for i in range(2, a):\n            for j in range(2, i):\n                if i % j == 0:\n                    break\n            else:\n                prime.append(i)\n        if len(prime) == 3:\n            return True\n        return False\n    else:\n        return \"a is not less than 100\"\n\n\ndef run_is_multiply_prime():\n    for i in range(100):\n        print(is_multiply_prime(i))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        for i in range(2,100):\n            for j in range(2,100):\n                for k in range(2,100):\n                    if i * j * k == a:\n                        return True\n        return False\n\nprint(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a > 100:\n        return False\n    for i in range(2, a):\n        if a % i == 0:\n            j = 2\n            while j <= i:\n                if i % j == 0:\n                    j += 1\n                else:\n                    return False\n            return True\n    return False\n\n\nprint(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "primes = [2,3,5,7]\n    for prime in primes:\n        while a % prime == 0:\n            a = a / prime\n    if a == 1:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\n    if a < 30:\n        if a in primes:\n            return True\n        else:\n            return False\n    else:\n        for prime in primes:\n            if a % prime == 0:\n                a = a / prime\n                if a == 1:\n                    return True\n            else:\n                return False\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(14))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        primes = [2,3,5,7]\n        for prime in primes:\n            if prime * prime > a:\n                return False\n            while a % prime == 0:\n                a = a / prime\n                if a == 1:\n                    return True\n                else:\n                    return False\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(24))",
+      -0.85791015625
+    ],
+    [
+      "prime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\n    if a in prime_list:\n        return True\n    for prime in prime_list:\n        if a % prime == 0:\n            return False\n    return True\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(25) == False\n    assert is_multiply_prime(15) == False\n    assert is_multiply_prime(45) == True\n    assert is_multiply_prime(27) == False\n    assert is_multiply_prime(36) == True\n    assert is_multiply_prime(60) == False",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        for i in range(2,a):\n            for j in range(2,a):\n                for k in range(2,a):\n                    if i*j*k == a:\n                        return True\n    return False\n\n\n\ndef is_multiply_prime_v2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a < 100:\n        for i in range(2,a):\n            if is_prime(i) and is_prime(a/i):\n                return True\n    return False\n\n\ndef is_prime(a):\n    if a < 2:\n        return False\n    for i in range(2,a):\n        if a%i == 0:\n            return False\n    return True\n\n\n\nprint(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "i = 2\n    while i < a:\n        j = 2\n        while j < i:\n            if i % j == 0:\n                j += 1\n            else:\n                j = i\n        if j == i:\n            return True\n        i += 1\n    return False\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(15) == False\n    assert is_multiply_prime(10) == False\n    assert is_multiply_prime(6) == False\n    assert is_multiply_prime(2) == False\n    assert is_multiply_prime(1) == False\n    assert is_multiply_prime(0) == False",
+      -0.85791015625
+    ],
+    [
+      "primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    for prime in primes:\n        if a % prime == 0:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        prime_list = []\n        for i in range(2, a):\n            prime = True\n            for j in range(2, i):\n                if i % j == 0:\n                    prime = False\n            if prime:\n                prime_list.append(i)\n        if len(prime_list) == 3:\n            if a == prime_list[0]*prime_list[1]*prime_list[2]:\n                return True\n    return False\n\nprint(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        for i in range(2, 100):\n            for j in range(2, 100):\n                for k in range(2, 100):\n                    if i * j * k == a:\n                        return True\n        return False\n    else:\n        return \"Number is bigger than 100, can't check\"\n\n\nprint(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                j = 2\n                while j < i:\n                    if i % j == 0 and j != i:\n                        return False\n                    j += 1\n                return True\n            else:\n                return False\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a <= 100:\n        for i in range(2,a):\n            prime = True\n            for j in range(2,i):\n                if (i % j) == 0:\n                    prime = False\n            if prime == True:\n                i += 1\n            else:\n                break\n        if prime == True:\n            return True\n        else:\n            return False\n    else:\n        return \"The number must be less then 100.\"",
+      -0.85791015625
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                count = 1\n                for j in range(2, i):\n                    if i % j == 0:\n                        count += 1\n                if count == 2:\n                    return True\n        return False\n    else:\n        return None\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85791015625
+    ],
+    [
+      "if a < 100:\n        for i in range(2,100):\n            for j in range(2,100):\n                for k in range(2,100):\n                    if i * j * k == a:\n                        return True\n        return False\n    else:\n        return \"Out of Range\"",
+      -0.85791015625
+    ],
+    [
+      "prime_list = [2,3,5,7,11,13,17,19]\n    prime_list_multiply = 1\n    for prime in prime_list:\n        if a % prime == 0:\n            prime_list_multiply = prime_list_multiply * prime\n    if prime_list_multiply == a:\n        return True\n    else:\n        return False\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(9))",
+      -0.8583984375
+    ],
+    [
+      "# Your code here\n    if a <= 100:\n        for i in range(2, a):\n            if (a % i == 0):\n                for j in range(2, i):\n                    if (i % j == 0):\n                        for k in range(2, j):\n                            if (j % k == 0):\n                                return True\n                            else:\n                                return False\n                    else:\n                        return False\n                else:\n                    return True\n            else:\n                return False\n    else:\n        return False\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(24))",
+      -0.8583984375
+    ],
+    [
+      "# your code here\n    return is_prime(a)\n\ndef is_prime(a):\n    if a < 2:\n        return False\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n    return True\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.8583984375
+    ],
+    [
+      "if a < 100:\n        # 30 = 2 * 3 * 5\n        if a == 30:\n            return True\n        else:\n            for i in range(2, 10):\n                if a % i == 0:\n                    for j in range(2, 10):\n                        if a % j == 0:\n                            for k in range(2, 10):\n                                if a % k == 0:\n                                    return True\n    return False\n\nprint(is_multiply_prime(30))",
+      -0.8583984375
+    ],
+    [
+      "#\n    # Write your code here.\n    #\n    primes = [2, 3, 5, 7]\n    for prime in primes:\n        if a % prime != 0:\n            return False\n    return True\n\n\n\ndef run_auto_test():\n    import sys\n    results = []\n    for n in range(100):\n        results.append(is_multiply_prime(n))\n\n    if all(results):\n        print(\"Ok.\")\n    else:\n        print(\"Error.\")\n        sys.exit()\n\n\ndef run_manual_test():\n    print(is_multiply_prime(30))\n\n\nif __name__ == '__main__':\n    run_manual_test()\n    # run_auto_test()",
+      -0.8583984375
+    ],
+    [
+      "if a <= 100:\n        p = 0\n        for i in range(1,a+1):\n            if is_prime(i):\n                p += 1\n            if p == 3:\n                return True\n    else:\n        return False\n\ndef is_prime(n):\n    \"\"\"Checks if a number is prime.\"\"\"\n    for i in range(2, n):\n        if not n % i:\n            return False\n    return True\n\nprint(is_multiply_prime(30))",
+      -0.85888671875
+    ],
+    [
+      "primes = [2,3,5,7,11,13,17,19,23,29]\n    for prime in primes:\n        if a % prime == 0:\n            a /= prime\n        else:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -0.85888671875
+    ],
+    [
+      "# your code here\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    for prime in primes:\n        if a == prime:\n            return True\n        if a % prime == 0:\n            a = a / prime\n            return is_multiply_prime(a)\n    return False\n\nprint(is_multiply_prime(30))",
+      -0.85888671875
+    ],
+    [
+      "prime_factors = []\n    for i in range(2, a):\n        if a % i == 0:\n            prime_factors.append(i)\n\n    if len(prime_factors) == 3:\n        return True\n    else:\n        return False\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -1.23046875
+    ],
+    [
+      "# TODO: Write code here\n    pass\n\n\ndef run_example():\n    print(is_multiply_prime(30))  # True\n    print(is_multiply_prime(12))  # False\n    print(is_multiply_prime(10))  # False\n    print(is_multiply_prime(15))  # False\n    print(is_multiply_prime(60))  # True\n    print(is_multiply_prime(90))  # True\n\n\nif __name__ == '__main__':\n    run_example()",
+      -1.6435546875
+    ],
+    [
+      "if a < 100:\n        # prime list\n        prime_list = [2, 3, 5, 7]\n        # check if prime\n        for prime in prime_list:\n            if a % prime == 0:\n                a = a / prime\n                break\n        if a == 1:\n            return True\n        else:\n            return False\n    else:\n        return \"a number less then 100\"\n\n\nprint(is_multiply_prime(30))",
+      -1.8447265625
+    ],
+    [
+      "pass\n\n\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert is_multiply_prime(30) == True, \"30 = 2 * 3 * 5\"\n    assert is_multiply_prime(72) == False, \"72 is not multiply of 3 prime numbers\"\n    assert is_multiply_prime(81) == True, \"81 = 3 * 3 * 3\"\n    assert is_multiply_prime(15) == False, \"15 is not multiply of 3 prime numbers\"",
+      -2.125
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                j = 2\n                while j < i:\n                    if i % j == 0:\n                        return False\n                    j += 1\n        return True\n    return False\n\ndef run_is_multiply_prime():\n    \"\"\"\n    This function runs the is_multiply_prime function and prints the result\n    \"\"\"\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(31))\n    print(is_multiply_prime(32))\n    print(is_multiply_prime(33))\n    print(is_multiply_prime(34))\n    print(is_multiply_prime(35))\n    print(is_multiply_prime(36))\n    print(is_multiply_prime(37))\n    print(is_multiply_prime(38))\n    print(is_multiply_prime(39))\n    print(is_multiply_prime(40))\n    print(is_multiply_prime(41))\n    print(is_multiply_prime(42))\n    print(is_multiply_prime(43))\n    print(is_multiply_prime(44))\n    print(is_multiply_prime(45))\n    print(is_multiply_prime(46))\n    print(is_multiply_prime(47))\n    print(is_multiply_prime(48))\n    print(is_multiply_prime(49))\n    print(is_multiply_prime(50))\n    print(is_multiply_prime(51))\n    print(is_multiply_prime(52))\n    print(is_multiply_prime(53))\n    print(is_multiply_prime(54))\n    print(is_multiply_prime(55))\n    print(is_multiply_prime(56))\n    print(is_multiply_prime(57))\n    print(is_multiply_prime(",
+      -2.46484375
+    ],
+    [
+      "# if a < 30:\n    #     return False\n    # for i in range(2, int(a/2)):\n    #     if is_prime(i) and is_prime(a/i) and is_prime(a/(a/i)):\n    #         return True\n    # return False\n\n    primes = [2,3,5]\n    for prime in primes:\n        while a % prime == 0:\n            a = a / prime\n    return a == 1\n\ndef is_prime(a):\n    \"\"\"Return True if a is a prime number, and False if not. \n    Knowing that a is less then 100.\n    Example:\n    is_prime(30) == False\n    is_prime(21) == False\n    is_prime(13) == True\n    \"\"\"\n    if a <= 1:\n        return False\n    if a <= 3:\n        return True\n    if a % 2 == 0 or a % 3 == 0:\n        return False\n    i = 5\n    while i * i <= a:\n        if a % i == 0 or a % (i + 2) == 0:\n            return False\n        i += 6\n    return True\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))",
+      -2.708984375
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                return False\n        return True\n    else:\n        return False\n\nprint(is_multiply_prime(30))\n\ndef is_multiply_prime2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a <= 100:\n        return all([is_prime(a / i) for i in range(2, int(a / 2) + 1)])\n    else:\n        return False\n\nprint(is_multiply_prime2(30))\n\ndef is_prime(n):\n    \"\"\"Write a function that returns True when receiving a positive integer n\n    and False when receiving a negative or non-integer value.\n    Example:\n    is_prime(7) == True\n    is_prime(3.5) == False\n    is_prime(-2) == False\n    \"\"\"\n    if n > 0 and isinstance(n, int):\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n    else:\n        return False\n\nprint(is_prime(7))\n\ndef is_prime2(n):\n    \"\"\"Write a function that returns True when receiving a positive integer n\n    and False when receiving a negative or non-integer value.\n    Example:\n    is_prime(7) == True\n    is_prime(3.5) == False\n    is_prime(-2) == False\n    \"\"\"\n    if n > 0 and isinstance(n, int):\n        for i in range(2, int(n ** 0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n    else:\n        return False\n\nprint(is_prime2(7))",
+      -2.73046875
+    ],
+    [
+      "if a < 100:\n        for i in range(2, 10):\n            for j in range(2, 10):\n                for k in range(2, 10):\n                    if i != j and j != k and i != k:\n                        if i * j * k == a:\n                            return True\n        return False\n    else:\n        return \"Error\"\n\n\ndef run_is_multiply_prime():\n    \"\"\"Test the function is_multiply_prime\"\"\"\n    print(\"Testing is_multiply_prime with 30\")\n    expected_result = True\n    actual_result = is_multiply_prime(30)\n    print(\"Expected:\", expected_result)\n    print(\"Actual:\", actual_result)\n\n    print(\"Testing is_multiply_prime with 60\")\n    expected_result = True\n    actual_result = is_multiply_prime(60)\n    print(\"Expected:\", expected_result)\n    print(\"Actual:\", actual_result)\n\n    print(\"Testing is_multiply_prime with 90\")\n    expected_result = False\n    actual_result = is_multiply_prime(90)\n    print(\"Expected:\", expected_result)\n    print(\"Actual:\", actual_result)\n\n    print(\"Testing is_multiply_prime with 110\")\n    expected_result = False\n    actual_result = is_multiply_prime(110)\n    print(\"Expected:\", expected_result)\n    print(\"Actual:\", actual_result)\n\n    print(\"Testing is_multiply_prime with 20\")\n    expected_result = False\n    actual_result = is_multiply_prime(20)\n    print(\"Expected:\", expected_result)\n    print(\"Actual:\", actual_result)\n\n    print(\"Testing is_multiply_prime with 150\")\n    expected_result = True\n    actual_result = is_multiply_prime(150)\n    print(\"Expected:\", expected_result)\n    print(\"Actual:\", actual",
+      -2.8046875
+    ],
+    [
+      "primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n\n    # prime = 2\n    # for i in range(3, 100):\n    #     if is_prime(i):\n    #         primes.append(i)\n\n    i = 0\n    while i < len(primes) - 2:\n        j = i + 1\n        while j < len(primes) - 1:\n            k = j + 1\n            if a == primes[i] * primes[j] * primes[k]:\n                return True\n            k += 1\n        j += 1\n    return False\n\n\ndef is_prime(n):\n    \"\"\"Checks if a number is prime.\"\"\"\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\nprint(is_multiply_prime(30))\n\n# print(is_prime(100))\n# print(is_prime(50))\n# print(is_prime(101))\n# print(is_prime(102))\n# print(is_prime(99))\n# print(is_prime(11))\n# print(is_prime(7))\n# print(is_prime(13))\n# print(is_prime(17))\n# print(is_prime(19))\n# print(is_prime(23))\n# print(is_prime(29))\n# print(is_prime(31))\n# print(is_prime(37))\n# print(is_prime(41))\n# print(is_prime(43))\n# print(is_prime(47))\n# print(is_prime",
+      -2.9140625
+    ],
+    [
+      "if a < 100:\n        if a == 2:\n            return True\n        elif a == 3:\n            return True\n        elif a == 5:\n            return True\n        elif a == 7:\n            return True\n        else:\n            i = 2\n            while i < a:\n                j = 2\n                while j < a:\n                    k = 2\n                    while k < a:\n                        if i * j * k == a:\n                            return True\n                        k += 1\n                    j += 1\n                i += 1\n    return False\n\n\ndef run_time_test(func, *args):\n    \"\"\"\n    This function used to test run time of a given function\n    :param func: a function\n    :param args: list of arguments\n    :return: run time of the function\n    \"\"\"\n    import time\n    start = time.time()\n    func(*args)\n    finish = time.time()\n    print(finish - start)\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(21))\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(12))\n    run_time_test(is_multiply_prime, 30)\n    run_time_test(is_multiply_prime, 12)",
+      -2.98046875
+    ],
+    [
+      "if a <= 100:\n        # your code here\n        if a == 2 or a == 3 or a == 5:\n            return True\n        if a % 2 == 0 or a % 3 == 0 or a % 5 == 0:\n            return False\n        i = 2\n        while i <= a:\n            if a % i == 0:\n                return False\n            i += 1\n        return True\n    else:\n        return False\n\n\nprint(is_multiply_prime(30))",
+      -3.15625
+    ],
+    [
+      "# a = int(input(\"insert a number\"))\n    if a < 100:\n        for i in range(2,a):\n            count = 0\n            for j in range(2,i):\n                if i % j == 0:\n                    count += 1\n            if count == 1:\n                return True\n        return False\n    else:\n        return False\n\n# print(is_multiply_prime(30))\n# print(is_multiply_prime(31))\n# print(is_multiply_prime(32))\n# print(is_multiply_prime(33))\n# print(is_multiply_prime(34))\n# print(is_multiply_prime(35))\n# print(is_multiply_prime(36))\n# print(is_multiply_prime(37))\n# print(is_multiply_prime(38))\n# print(is_multiply_prime(39))\n# print(is_multiply_prime(40))\n# print(is_multiply_prime(41))\n# print(is_multiply_prime(42))\n# print(is_multiply_prime(43))\n# print(is_multiply_prime(44))\n# print(is_multiply_prime(45))\n# print(is_multiply_prime(46))\n# print(is_multiply_prime(47))\n# print(is_multiply_prime(48))\n# print(is_multiply_prime(49))\n# print(is_multiply_prime(50))\n# print(is_multiply_prime(51))\n# print(is_multiply_prime(52))\n# print(is_multiply_prime(53))\n# print(is_multiply_prime(54))\n# print(is_multiply_prime(55))\n# print(is_multiply_prime(56))\n# print(is_multiply_prime(57))\n# print(is_multiply_prime(58))\n# print(is_multiply_prime(59))",
+      -3.40625
+    ],
+    [
+      "prime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\n    if a == 0:\n        return False\n    if a in prime_list:\n        return True\n    for prime in prime_list:\n        if a % prime == 0:\n            new_num = a / prime\n            if new_num in prime_list:\n                return True\n            else:\n                return False\n    return False\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))",
+      -3.51953125
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                if is_prime(i):\n                    for j in range(2, a):\n                        if a % j == 0:\n                            if is_prime(j):\n                                for k in range(2, a):\n                                    if a % k == 0:\n                                        if is_prime(k):\n                                            return True\n    return False\n\n\ndef is_prime(a):\n    if a == 1:\n        return False\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n    return True\n\n\nprint(is_multiply_prime(30))",
+      -3.578125
+    ],
+    [
+      "count = 0\n    for i in range(2,100):\n        for j in range(2,100):\n            for k in range(2,100):\n                if (i * j * k) == a:\n                    count += 1\n    if count == 1:\n        return True\n    else:\n        return False\n\nprint(is_multiply_prime(30))\n\n\n# def is_multiply_prime(a):\n#     count = 0\n#     for i in range(2,100):\n#         for j in range(2,100):\n#             for k in range(2,100):\n#                 if (i * j * k) == a:\n#                     count += 1\n#     if count == 1:\n#         return True\n#     else:\n#         return False\n\n# print(is_multiply_prime(30))",
+      -3.626953125
+    ],
+    [
+      "if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                j = 1\n                while j < i:\n                    if i % j == 0:\n                        j += 1\n                    else:\n                        break\n                if j == i:\n                    return True\n        return False\n\n\nprint(is_multiply_prime(30))\n\n\n\ndef is_multiply_prime2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a <= 100:\n        for i in range(2, a):\n            if a % i == 0:\n                j = 1\n                while j < i:\n                    if i % j == 0:\n                        j += 1\n                    else:\n                        break\n                if j == i:\n                    return True\n        return False\n\n\nprint(is_multiply_prime2(30))\n\n\n\ndef is_multiply_prime3(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a <= 100:\n        return (a % 2 == 0) or (a % 3 == 0) or (a % 5 == 0)\n\n\nprint(is_multiply_prime3(30))",
+      -3.765625
+    ],
+    [
+      "# a = 30\n    if a < 100:\n        for i in range(2,a):\n            if a % i == 0:\n                if is_prime(i):\n                    for j in range(2,a):\n                        if a % j == 0:\n                            if is_prime(j):\n                                for k in range(2,a):\n                                    if a % k == 0:\n                                        if is_prime(k):\n                                            return True\n        return False\n    else:\n        return False\n\ndef is_prime(a):\n    \"\"\"\n    Check if the number is a prime number.\n    \"\"\"\n    if a <= 1:\n        return False\n    for i in range(2, a):\n        if (a % i) == 0:\n            return False\n    return True\n\n\nif __name__ == '__main__':\n    print(is_multiply_prime(30))\n    print(is_prime(30))",
+      -3.9453125
+    ],
+    [
+      "# Check if a is a prime number\n    # if it is not, return False\n    if a <= 1 or a % 2 == 0 or a % 3 == 0:\n        return False\n\n    i = 5\n    while i * i <= a:\n        if a % i == 0:\n            return False\n        i += 2\n        if a % i == 0:\n            return False\n        i += 4\n    return True\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(20))\n\ndef is_multiply_prime_two(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    # Check if a is a prime number\n    # if it is not, return False\n    if a <= 1 or a % 2 == 0 or a % 3 == 0:\n        return False\n\n    i = 5\n    while i * i <= a:\n        if a % i == 0:\n            return False\n        i += 2\n        if a % i == 0:\n            return False\n        i += 4\n    return True\n\n\nprint(is_multiply_prime_two(30))\nprint(is_multiply_prime_two(20))",
+      -3.978515625
+    ],
+    [
+      "# a = 100\n    # a = 1000\n    # a = 10000\n    a_str = str(a)\n    a_str_len = len(a_str)\n    for i in range(2, a):\n        # if i > a/3:\n        #     break\n        if i > int(a_str_len/3):\n            break\n        if is_prime(i):\n            for j in range(2, i):\n                # if j > a/3:\n                #     break\n                if j > int(a_str_len/3):\n                    break\n                if is_prime(j):\n                    for k in range(2, j):\n                        # if k > a/3:\n                        #     break\n                        if k > int(a_str_len/3):\n                            break\n                        if is_prime(k):\n                            if a == i * j * k:\n                                return True\n    return False\n\ndef is_prime(a):\n    \"\"\"\n    \"\"\"\n    if a == 2 or a == 3:\n        return True\n    if a < 2 or a % 2 == 0 or a % 3 == 0:\n        return False\n    for i in range(5, int(a**0.5) + 1, 6): # range(6, int(sqrt(n) + 1), 6)\n        if a % i == 0 or a % (i + 2) == 0:\n            return False\n    return True",
+      -3.984375
+    ],
+    [
+      "#a = int(input(\"Insert a number: \"))\n    i = 2\n    while i < a:\n        #print(i)\n        if is_prime(i):\n            #print(i)\n            if is_prime(a/i):\n                if is_prime(a/(a/i)):\n                    return True\n        i += 1\n    return False\n\ndef is_prime(n):\n    \"\"\"Return True if n is prime else False\"\"\"\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += 2\n    return True\n\ndef main():\n    \"\"\"Main function\n    \"\"\"\n    print(is_multiply_prime(30))\n\nif __name__ == \"__main__\":\n    main()",
+      -4.14453125
+    ],
+    [
+      "# for i in range(1, a):\n    #     if a % i == 0:\n    #         if is_prime(i):\n    #             j = a / i\n    #             if is_prime(j):\n    #                 k = j / i\n    #                 if is_prime(k):\n    #                     return True\n    # return False\n\n    # for i in range(2, a):\n    #     if a % i == 0:\n    #         return False\n    # return True\n\n    if a < 100:\n        for i in range(2, a):\n            if a % i == 0:\n                return False\n        return True\n    else:\n        return False\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_prime_v2(n):\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n**0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(35))\nprint(is_multiply_prime(25))\nprint(is_multiply_prime(100))",
+      -4.1953125
+    ],
+    [
+      "# base case\n    if a < 3:\n        return False\n    \n    # divide by 2\n    if a % 2 == 0:\n        return False\n    \n    # divide by 3\n    if a % 3 == 0:\n        return False\n    \n    # divide by 5\n    if a % 5 == 0:\n        return False\n    \n    # divide by 7\n    if a % 7 == 0:\n        return False\n    \n    # divide by 11\n    if a % 11 == 0:\n        return False\n    \n    # divide by 13\n    if a % 13 == 0:\n        return False\n    \n    # divide by 17\n    if a % 17 == 0:\n        return False\n    \n    # divide by 19\n    if a % 19 == 0:\n        return False\n    \n    return True\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))",
+      -4.22265625
+    ],
+    [
+      "prime = []\n    for i in range(2, a):\n        if is_prime(i):\n            prime.append(i)\n    if len(prime) == 3:\n        if a == prime[0] * prime[1] * prime[2]:\n            return True\n    return False\n\n\ndef is_prime(n):\n    \"\"\"Return True if n is prime and False otherwise\"\"\"\n    if n == 2 or n == 3:\n        return True\n    if n < 2 or n%2 == 0 or n%3 == 0:\n        return False\n    for i in range(5, int(n**0.5)+1, 6):    # only iterate up to \u221an+1\n        if n%i == 0 or n%(i+2) == 0:\n            return False\n    return True\n\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(30))\n    print(is_multiply_prime(10))",
+      -4.40625
+    ],
+    [
+      "if a < 100:\n        for i in range(2, a):\n            if a % i == 0:\n                if is_prime(i):\n                    if is_prime(a / i):\n                        if is_prime(a / (a / i)):\n                            return True\n                        else:\n                            return False\n                    else:\n                        return False\n                else:\n                    return False\n    else:\n        return False\n\ndef is_prime(n):\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\nprint(is_multiply_prime(30))",
+      -4.4296875
+    ],
+    [
+      "if a < 100:\n        return False\n    a = a - 1\n    if a % 2 == 0:\n        a = a - 1\n    while a > 0:\n        if is_prime(a) == True:\n            a = a - 1\n        else:\n            return False\n    return True\n\ndef is_prime(a):\n    \"\"\"Return True if a number is prime, False otherwise.\n    Examples:\n    is_prime(12) == False\n    is_prime(7) == True\n    is_prime(0) == False\n    is_prime(1) == False\n    is_prime(-6) == False\n    \"\"\"\n    if a < 2:\n        return False\n    if a == 2:\n        return True\n    if a % 2 == 0:\n        return False\n    for i in range(3, int(a**(1/2))+1, 2):\n        if a % i == 0:\n            return False\n    return True",
+      -4.765625
+    ],
+    [
+      "# TODO: Write code here\n    prime = [2,3,5,7,11,13,17,19,23,29]\n    if a in prime:\n        return True\n    for i in prime:\n        if a % i == 0:\n            a = a / i\n            if a in prime:\n                return True\n    return False\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(35))\n\n# def is_multiply_prime(a):\n#     \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n#     and false otherwise.\n#     Knowing that (a) is less then 100. \n#     Example:\n#     is_multiply_prime(30) == True\n#     30 = 2 * 3 * 5\n#     \"\"\"\n#     # TODO: Write code here\n#     prime = [2,3,5,7,11,13,17,19,23,29]\n#     if a in prime:\n#         return True\n#     for i in prime:\n#         if a % i == 0:\n#             a = a / i\n#             if a in prime:\n#                 return True\n#     return False\n\n\n# print(is_multiply_prime(30))\n# print(is_multiply_prime(35))",
+      -4.8203125
+    ],
+    [
+      "if a < 100:\n        return False\n    if a == 1:\n        return False\n    if a == 2:\n        return True\n    if a == 3:\n        return True\n    if a == 4:\n        return False\n    if a == 5:\n        return True\n    if a == 6:\n        return False\n    if a == 7:\n        return True\n    if a == 8:\n        return False\n    if a == 9:\n        return False\n    if a == 10:\n        return False\n    if a == 11:\n        return True\n    if a == 12:\n        return False\n    if a == 13:\n        return True\n    if a == 14:\n        return False\n    if a == 15:\n        return True\n    if a == 16:\n        return False\n    if a == 17:\n        return True\n    if a == 18:\n        return False\n    if a == 19:\n        return False\n    if a == 20:\n        return False\n    if a == 21:\n        return True\n    if a == 22:\n        return False\n    if a == 23:\n        return True\n    if a == 24:\n        return False\n    if a == 25:\n        return False\n    if a == 26:\n        return False\n    if a == 27:\n        return True\n    if a == 28:\n        return False\n    if a == 29:\n        return False\n    if a == 30:\n        return False\n    if a == 31:\n        return True\n    if a == 32:\n        return False\n    if a == 33:\n        return True\n    if a == 34:\n        return False\n    if a == 35:\n        return True\n    if a == 36:\n        return False\n    if a == 37:\n        return True\n    if a == 38:\n        return False\n    if a == 39:\n        return False",
+      -4.84765625
+    ],
+    [
+      "if a > 100:\n        return False\n\n    # Step 1: Find the prime numbers\n    primes = []\n    for i in range(2, a + 1):\n        is_prime = True\n        for j in range(2, i):\n            if i % j == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(i)\n\n    # Step 2: Check if the primes are multiplied\n    if len(primes) != 3:\n        return False\n    else:\n        return primes[0] * primes[1] * primes[2] == a\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(14) == False\n    assert is_multiply_prime(24) == False",
+      -4.84765625
+    ],
+    [
+      "if a < 100:\n        for i in range(2, 100):\n            for j in range(2, 100):\n                for k in range(2, 100):\n                    if i * j * k == a:\n                        return True\n        return False\n    else:\n        return \"Error: number is greater than 100\"\n\n\ndef run_time_is_multiply_prime(a):\n    \"\"\"\n    Measure run time of is_multiply_prime function\n    \"\"\"\n    # Measure run time\n    start_time = time.time()\n    is_multiply_prime(a)\n    print(\"Run time: \", time.time() - start_time, \" seconds\")\n\n\n# print(is_multiply_prime(30))\n# print(is_multiply_prime(14))\n# print(is_multiply_prime(24))\n# print(is_multiply_prime(97))\n# print(is_multiply_prime(101))\n\n# run_time_is_multiply_prime(30)\n# run_time_is_multiply_prime(14)\n# run_time_is_multiply_prime(24)\n# run_time_is_multiply_prime(97)\n# run_time_is_multiply_prime(101)",
+      -4.875
+    ],
+    [
+      "if a < 100:\n        for i in range(2, a):\n            if a % i == 0:\n                for j in range(2, i):\n                    if i % j == 0:\n                        for k in range(2, j):\n                            if j % k == 0:\n                                return True\n                            else:\n                                return False\n                    else:\n                        return False\n            else:\n                return False\n    else:\n        return False\n\nprint(is_multiply_prime(30))\n\n\n\ndef is_multiply_prime2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a < 100:\n        for i in range(2, a):\n            if a % i == 0:\n                for j in range(2, i):\n                    if i % j == 0:\n                        for k in range(2, j):\n                            if j % k == 0:\n                                return True\n                            else:\n                                return False\n                    else:\n                        return False\n            else:\n                return False\n    else:\n        return False\n\nprint(is_multiply_prime2(30))",
+      -5.08203125
+    ],
+    [
+      "a_str = str(a)\n    prime_nums = []\n    for i in range(2, 100):\n        for j in range(2, i):\n            if i % j == 0:\n                break\n        else:\n            prime_nums.append(i)\n\n    for prime_num in prime_nums:\n        if a_str.count(str(prime_num)) > 2:\n            return True\n\n    return False\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(100) == False\n    assert is_multiply_prime(300) == False\n    assert is_multiply_prime(101) == False\n    assert is_multiply_prime(102) == False\n    assert is_multiply_prime(103) == True\n    assert is_multiply_prime(104) == False\n    assert is_multiply_prime(105) == False\n    assert is_multiply_prime(106) == False\n    assert is_multiply_prime(107) == False\n    assert is_multiply_prime(108) == True\n    assert is_multiply_prime(109) == False\n\n\nif __name__ == '__main__':\n    test_is_multiply_prime()",
+      -5.390625
+    ],
+    [
+      "# a = 30\n    # 1. Get the factors of a\n    # 2. Check if the factors are prime\n    # 3. Return true if the factors are prime\n    # 4. Else return false\n    factors = []\n    for i in range(2, int(a/2)):\n        if a % i == 0:\n            factors.append(i)\n    # print(factors)\n    # 2. Check if the factors are prime\n    is_prime = [True for i in range(len(factors))]\n    for i in range(len(factors)):\n        if factors[i] > 1:\n            for j in range(2, int(factors[i]/2)):\n                if factors[i] % j == 0:\n                    is_prime[i] = False\n                    break\n    # print(is_prime)\n    # 3. Return true if the factors are prime\n    if is_prime[0] and is_prime[1] and is_prime[2]:\n        return True\n    else:\n        return False\n\n\nif __name__ == \"__main__\":\n    a = 30\n    print(is_multiply_prime(a))\n    a = 20\n    print(is_multiply_prime(a))",
+      -5.859375
+    ],
+    [
+      "# 1. Check if a is a prime number\n    if a <= 1:\n        return False\n\n    # 2. Check if a has a prime factor\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n\n    # 3. If we arrive here, a is a prime number\n    # 4. Check if a has only 3 prime factors\n    for i in range(2, a):\n        if a % i == 0:\n            # 5. If we arrive here, a has more than 3 prime factors\n            return False\n\n    return True\n\n\nif __name__ == \"__main__\":\n    print(is_multiply_prime(1))\n    print(is_multiply_prime(2))\n    print(is_multiply_prime(3))\n    print(is_multiply_prime(4))\n    print(is_multiply_prime(5))\n    print(is_multiply_prime(6))\n    print(is_multiply_prime(7))\n    print(is_multiply_prime(8))\n    print(is_multiply_prime(9))\n    print(is_multiply_prime(10))\n    print(is_multiply_prime(11))\n    print(is_multiply_prime(12))\n    print(is_multiply_prime(13))\n    print(is_multiply_prime(14))\n    print(is_multiply_prime(15))\n    print(is_multiply_prime(16))\n    print(is_multiply_prime(17))\n    print(is_multiply_prime(18))\n    print(is_multiply_prime(19))\n    print(is_multiply_prime(20))\n    print(is_multiply_prime(21))\n    print(is_multiply_prime(22))\n    print(is_multiply_prime(23))\n    print(is_multiply_prime(24))\n    print(is_multiply_prime(25))\n    print(is_multiply_prime(26))",
+      -5.87890625
+    ],
+    [
+      "# a = 30\n    # 30 = 2 * 3 * 5\n    # 2, 3, 5 are prime\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5, 6 are prime\n    # 2 * 3 * 5 * 6 = 720\n    # 720 = 2 * 3 * 5 * 7\n    # 2, 3, 5, 7 are prime\n    # 2 * 3 * 5 * 7 = 210\n    # 2, 3, 5, 7, 11 are prime\n    # 210 = 2 * 3 * 5 * 7 * 11\n\n    for i in range(2, a):\n        if a % i == 0:\n            for j in range(2, i):\n                if i % j == 0:\n                    return False\n            return True\n\n    return False\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(720))\nprint(is_multiply_prime(210))",
+      -5.95703125
+    ],
+    [
+      "for i in range(2, 100):\n        j = 2\n        while j < i:\n            if i % j == 0:\n                break\n            j += 1\n        if j == i:\n            continue\n        k = 2\n        while k < i:\n            if i % k == 0:\n                break\n            k += 1\n        if k == i:\n            continue\n        l = 2\n        while l < i:\n            if i % l == 0:\n                break\n            l += 1\n        if l == i:\n            continue\n        if i == a:\n            return True\n    return False\n\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime(12))\nprint(is_multiply_prime(9))",
+      -6.19921875
+    ],
+    [
+      "if a == 2 or a == 3 or a == 5:\n        return True\n    if a < 2 or a % 2 == 0 or a % 3 == 0 or a % 5 == 0:\n        return False\n    else:\n        for i in range(2, int(a**0.5)+1):\n            if a % i == 0:\n                return False\n    return True\n\n\nprint(is_multiply_prime(30))\n\n\ndef is_multiply_prime_2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    prime_list = [2,3,5]\n    for i in range(6, a+1):\n        if is_prime(i):\n            prime_list.append(i)\n        if len(prime_list) == 3:\n            if a == prime_list[0] * prime_list[1] * prime_list[2]:\n                return True\n            else:\n                return False\n\n\ndef is_prime(a):\n    \"\"\"\n    \"\"\"\n    if a == 1 or a == 0:\n        return False\n    for i in range(2, int(a**0.5)+1):\n        if a % i == 0:\n            return False\n    return True\n\n\nprint(is_multiply_prime_2(30))\n\n\ndef is_multiply_prime_3(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    prime_list = []\n    for i in range(2, 100):\n        if is_prime(i):",
+      -6.4453125
+    ],
+    [
+      "if a <= 100:\n        if a % 2 == 0:\n            a = a - 2\n        if a % 3 == 0:\n            a = a - 3\n        if a % 5 == 0:\n            a = a - 5\n        if a > 1:\n            return False\n        else:\n            return True\n    else:\n        return \"Error: the number is bigger then 100\"\n\ndef is_multiply_prime_2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a <= 100:\n        for i in range(2,a):\n            if a % i == 0:\n                if is_prime(i):\n                    a = a - i\n                else:\n                    return False\n        if a > 1:\n            return False\n        else:\n            return True\n    else:\n        return \"Error: the number is bigger then 100\"\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n > 2 and n % 2 == 0:\n        return False\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_prime_2(n):\n    if n < 2:\n        return False\n    if n == 2:\n        return True\n    if n > 2 and n % 2 == 0:\n        return False\n    for i in range(3, int(n ** 0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef is_multiply_prime_3(a):\n    \"\"\"Write a function",
+      -6.7421875
+    ],
+    [
+      "# a = 30\n    # 30 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5\n    # 2,",
+      -7.12109375
+    ],
+    [
+      "# 2 <= a <= 100\n    # 2, 3, 5 are prime numbers\n    # 2 * 3 * 5 = 30\n    # 2 * 3 * 7 = 42\n    # 2 * 5 * 7 = 35\n    # 2 * 3 * 11 = 66\n    # 3 * 5 * 7 = 105\n    # 2 * 3 * 13 = 42\n    # 3 * 5 * 11 = 63\n    # 2 * 5 * 13 = 60\n    # 3 * 7 * 11 = 91\n    # 2 * 3 * 17 = 54\n    # 3 * 5 * 13 = 95\n    # 3 * 7 * 13 = 98\n    # 2 * 5 * 17 = 70\n    # 3 * 7 * 17 = 126\n    # 2 * 3 * 19 = 58\n    # 3 * 5 * 19 = 90\n    # 2 * 5 * 19 = 65\n    # 3 * 7 * 19 = 122\n    # 2 * 3 * 23 = 66\n    # 3 * 5 * 23 = 125\n    # 3 * 7 * 23 = 158\n    # 2 * 5 * 23 = 70\n    # 3 * 7 * 29 = 231\n    # 2 * 3 * 29 = 82\n    # 2 * 5 * 29 = 110\n    # 3 * 7 * 29 = 221\n    # 2 * 3 * 31 = 96\n    # 3 * 5 * 31 = 135\n    # 3 * 7 * 31 = 214\n    # 2 * 5 * 31 = 105",
+      -7.5703125
+    ],
+    [
+      "# Base cases:\n    if a == 0 or a == 1:\n        return False\n    if a == 2:\n        return True\n    # We can start with 2, since it's the only even prime\n    i = 2\n    while i * i < a:\n        if a % i:\n            i += 1\n        else:\n            a /= i\n    return a == 1\n\ndef is_multiply_prime_2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    # Base cases:\n    if a == 0 or a == 1:\n        return False\n    if a == 2:\n        return True\n    # We can start with 2, since it's the only even prime\n    i = 2\n    while i < a:\n        if is_prime(i) and is_prime(a // i) and is_prime(a // (i * (a // i))):\n            return True\n        i += 1\n    return False\n\ndef is_prime(a):\n    \"\"\"Checks if a number is prime\"\"\"\n    if a < 2:\n        return False\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n    return True\n\nprint(is_multiply_prime(30))\nprint(is_multiply_prime_2(30))",
+      -7.63671875
+    ],
+    [
+      "# a = 2 * 3 * 5\n    # 2 is prime\n    # 3 is prime\n    # 5 is prime\n    # 2 * 3 * 5 = 30\n    # 2 * 3 * 7 = 21\n    # 2 * 3 * 11 = 66\n    # 2 * 3 * 13 = 42\n    # 2 * 3 * 17 = 105\n    # 2 * 3 * 19 = 86\n    # 2 * 3 * 23 = 126\n    # 2 * 3 * 29 = 169\n    # 2 * 3 * 31 = 198\n    # 2 * 3 * 37 = 289\n    # 2 * 3 * 41 = 241\n    # 2 * 3 * 43 = 266\n    # 2 * 3 * 47 = 339\n    # 2 * 3 * 53 = 390\n    # 2 * 3 * 59 = 462\n    # 2 * 3 * 61 = 486\n    # 2 * 3 * 67 = 589\n    # 2 * 3 * 71 = 614\n    # 2 * 3 * 73 = 646\n    # 2 * 3 * 79 = 786\n    # 2 * 3 * 83 = 849\n    # 2 * 3 * 89 = 981\n    # 2 * 3 * 97 = 1163\n    # 2 * 3 * 101 = 1215\n    # 2 * 3 * 103 = 1248\n    # 2 * 3 * 107 = 1371\n    # 2 * 3 * 109 = 1408\n    # 2 * 3 * 113 = 153",
+      -7.82421875
+    ],
+    [
+      "# 30 = 2 * 3 * 5\n    # 60 = 2 * 3 * 3 * 5\n    # 90 = 3 * 3 * 3 * 5\n    # 120 = 2 * 2 * 3 * 3 * 5\n    # 150 = 2 * 3 * 3 * 3 * 5\n    # 180 = 3 * 3 * 3 * 3 * 5\n    # 210 = 2 * 3 * 3 * 3 * 3 * 5\n    # 240 = 2 * 2 * 2 * 3 * 3 * 3 * 5\n    # 270 = 2 * 3 * 3 * 3 * 3 * 3 * 5\n    # 300 = 2 * 2 * 2 * 2 * 3 * 3 * 3 * 5\n    # 330 = 2 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 360 = 3 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 390 = 2 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 420 = 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 450 = 2 * 2 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 480 = 2 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 510 = 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 540 = 2 * 2 * 2 * 3 * 3 * 3 * 3 * 3 * 3 * 5\n    # 570 =",
+      -8.03125
+    ],
+    [
+      "# return 1\n    # a = 30\n    # 30 = 2 * 3 * 5\n    # 2 * 3 * 5 = 60\n    # 60 = 2 * 3 * 5 * 2\n    # 2 * 3 * 5 * 2 = 120\n    # 120 = 2 * 3 * 5 * 3\n    # 120 = 2^2 * 3 * 5\n    # 120 = 2^3 * 3 * 5\n    # 120 = 2^4 * 3 * 5\n    # 120 = 2^5 * 3 * 5\n    # 120 = 2^6 * 3 * 5\n    # 120 = 2^7 * 3 * 5\n    # 120 = 2^8 * 3 * 5\n    # 120 = 2^9 * 3 * 5\n    # 120 = 2^10 * 3 * 5\n    # 120 = 2^11 * 3 * 5\n    # 120 = 2^12 * 3 * 5\n    # 120 = 2^13 * 3 * 5\n    # 120 = 2^14 * 3 * 5\n    # 120 = 2^15 * 3 * 5\n    # 120 = 2^16 * 3 * 5\n    # 120 = 2^17 * 3 * 5\n    # 120 = 2^18 * 3 * 5\n    # 120 = 2^19 * 3 * 5\n    # 120 = 2^20 * 3 * 5\n    # 120 = 2^21 * 3 * 5\n    # 120 = 2^22 * 3 * 5\n    # 120 = 2^23 * 3 * 5\n    #",
+      -8.1875
+    ],
+    [
+      "prime_nums = [2,3,5]\n    for prime_num in prime_nums:\n        if a % prime_num != 0:\n            return False\n        a = a / prime_num\n    return True\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(15) == False\n    assert is_multiply_prime(35) == True\n    assert is_multiply_prime(100) == False\n    assert is_multiply_prime(9) == False\n    assert is_multiply_prime(25) == True\n    assert is_multiply_prime(45) == False\n    assert is_multiply_prime(50) == False\n    assert is_multiply_prime(75) == False\n    assert is_multiply_prime(81) == True\n\n\ndef is_multiply_prime_2(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    prime_nums = [2,3,5]\n    for prime_num in prime_nums:\n        if a % prime_num == 0:\n            return False\n    for prime_num in prime_nums:\n        if a % prime_num == 0:\n            return True\n    return False\n\n\ndef test_is_multiply_prime_2():\n    assert is_multiply_prime_2(30) == True\n    assert is_multiply_prime_2(15) == False\n    assert is_multiply_prime_2(35) == True\n    assert is_multiply_prime_2(100) == False\n    assert is_multiply_prime_2(9) == False\n    assert is_multiply_prime_2(25) == True\n    assert is_multiply_prime_2",
+      -8.578125
+    ],
+    [
+      "# prime numbers\n    # 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97\n    # prime numbers multiplied 3 times\n    # 2 * 3 * 5 = 30\n    # 3 * 5 * 7 = 105\n    # 2 * 3 * 7 = 42\n    # 2 * 3 * 11 = 66\n    # 2 * 5 * 7 = 140\n    # 3 * 5 * 11 = 165\n    # 2 * 5 * 11 = 110\n    # 3 * 7 * 11 = 231\n    # 2 * 3 * 13 = 46\n    # 3 * 5 * 13 = 195\n    # 3 * 7 * 13 = 501\n    # 2 * 3 * 17 = 78\n    # 3 * 5 * 19 = 405\n    # 3 * 7 * 19 = 883\n    # 3 * 5 * 23 = 1265\n    # 2 * 3 * 23 = 166\n    # 3 * 5 * 29 = 1405\n    # 2 * 5 * 29 = 140\n    # 3 * 7 * 29 = 2879\n    # 2 * 3 * 31 = 96\n    # 3 * 5 * 31 = 1685\n    # 3 * 7 * 31 = 5683\n    # 2 * 3 * 37 = 114\n    # 3 * 5 * 37 =",
+      -8.8125
+    ],
+    [
+      "a_list = []\n    for i in range(1,100):\n        if is_prime(i):\n            a_list.append(i)\n    for i in range(len(a_list)):\n        for j in range(i+1,len(a_list)):\n            for k in range(j+1,len(a_list)):\n                if a_list[i]*a_list[j]*a_list[k] == a:\n                    return True\n    return False\n\n\ndef is_prime(a):\n    \"\"\"\n    Write a primality test using the Miller-Rabin primality test. \n    This test will be used in the is_multiply_prime function.\n    \"\"\"\n    if a == 2:\n        return True\n    if a == 3:\n        return True\n    if a % 2 == 0:\n        return False\n    if a % 3 == 0:\n        return False\n\n    s = 0\n    d = a - 1\n    while (d % 2 == 0):\n        d /= 2\n        s += 1\n    assert(2**s * d == a-1)\n\n    def millerTest(d, s, n):\n        a = 2 + randint(1, n - 4)\n        x = pow(a, d, n)\n        if (x == 1 or x == n - 1):\n            return True\n        for i in range(s - 1):\n            x = pow(x, 2, n)\n            if (x == 1):\n                return False\n            if (x == n - 1):\n                return True\n        return False\n\n    if millerTest(d, s, a):\n        return True\n    else:\n        return False\n\n\ndef test_is_multiply_prime():\n    assert is_multiply_prime(30) == True\n    assert is_multiply_prime(12) == False\n    assert is_multiply_prime(35) == False\n    assert is_multiply_prime(11) == False\n    assert is_multiply_prime(24) == True",
+      -9.1640625
+    ],
+    [
+      "# 1- find prime numbers\n    # 2- multiply them and check if the result is equal to the input\n    # 3- return the result\n\n    # 1- find prime numbers\n    # create an array of the possible prime numbers\n    possible_prime_numbers = [x for x in range(2, a)]\n    # remove all numbers that are not prime numbers\n    for num in possible_prime_numbers:\n        for num2 in possible_prime_numbers:\n            if num * num2 == a:\n                possible_prime_numbers.remove(num)\n                possible_prime_numbers.remove(num2)\n                break\n\n    # 2- multiply them and check if the result is equal to the input\n    # multiply all possible prime numbers\n    possible_prime_numbers_product = 1\n    for num in possible_prime_numbers:\n        possible_prime_numbers_product *= num\n    # check if the result is equal to the input\n    if possible_prime_numbers_product == a:\n        return True\n    return False\n\n\nprint(is_multiply_prime(30))",
+      -9.5859375
+    ],
+    [
+      "# a = 30\n    # 2 * 3 * 5 = 60\n    # 2 * 5 = 10\n    # 3 * 5 = 15\n    # 2 * 3 = 6\n    # 3 * 2 = 6\n    # 5 * 6 = 30\n    # 5 * 10 = 50\n    # 2 * 6 = 12\n    # 2 * 10 = 20\n    # 2 * 15 = 30\n    # 3 * 10 = 30\n    # 3 * 15 = 45\n    # 5 * 12 = 60\n    # 5 * 20 = 100\n    # 5 * 30 = 150\n    # 2 * 12 = 24\n    # 2 * 20 = 40\n    # 2 * 30 = 60\n    # 3 * 12 = 36\n    # 3 * 20 = 60\n    # 3 * 30 = 90\n    # 5 * 24 = 120\n    # 5 * 40 = 200\n    # 5 * 60 = 300\n    # 2 * 15 = 30\n    # 2 * 45 = 90\n    # 3 * 45 = 135\n    # 5 * 15 = 75\n    # 2 * 30 = 60\n    # 2 * 60 = 120\n    # 2 * 90 = 180\n    # 3 * 60 = 180\n    # 3 * 90 = 270\n    # 5 * 180 = 900\n    # 2 * 180 = 360\n    # 2 * 360 = 720\n    # 3 * 360 = 1080\n    # 5 * 720 =",
+      -9.8046875
+    ],
+    [
+      "# 1- check if the number is less than 100\n    # 2- check if the number is the multiplication of 3 prime numbers\n    # 3- return True if the number is the multiplication of 3 prime numbers\n    # 4- return False otherwise\n    # 5- raise an error if the number is greater than 100\n    if a > 100:\n        raise ValueError('The number is greater than 100')\n    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]\n    i=0\n    while i < len(primes):\n        if a % primes[i] == 0:\n            i = i + 1\n        else:\n            i = i + 1\n        if i > 3:\n            return False\n    return True\n\nprint(is_multiply_prime(30))",
+      -11.0703125
+    ],
+    [
+      "# base case\n    if a < 100:\n        # 100 is not prime\n        if a == 100:\n            return False\n        # 2 is prime\n        if a == 2:\n            return True\n        # 4 is not prime\n        if a == 4:\n            return False\n        # 6 is not prime\n        if a == 6:\n            return False\n        # 8 is not prime\n        if a == 8:\n            return False\n        # 10 is prime\n        if a == 10:\n            return True\n        # 12 is not prime\n        if a == 12:\n            return False\n        # 14 is not prime\n        if a == 14:\n            return False\n        # 16 is not prime\n        if a == 16:\n            return False\n        # 18 is not prime\n        if a == 18:\n            return False\n        # 20 is not prime\n        if a == 20:\n            return False\n        # 22 is not prime\n        if a == 22:\n            return False\n        # 24 is not prime\n        if a == 24:\n            return False\n        # 25 is not prime\n        if a == 25:\n            return False\n        # 26 is not prime\n        if a == 26:\n            return False\n        # 28 is not prime\n        if a == 28:\n            return False\n        # 30 is not prime\n        if a == 30:\n            return False\n        # 32 is not prime\n        if a == 32:\n            return False\n        # 34 is not prime\n        if a == 34:\n            return False\n        # 36 is not prime\n        if a == 36:\n            return False\n        # 38 is not prime\n        if a == 38:\n            return False\n        # 40 is not prime\n        if a == 40:\n            return False\n        # 42 is not prime\n        if a == 42:\n            return False",
+      -11.5390625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

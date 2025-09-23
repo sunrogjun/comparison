@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T23:16:25.882222",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codellama-7b",
+  "dataset": "mbpp",
+  "problem_number": 129,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "def single_element(tup):\n    \"\"\"\n    >>> single_element([(1, 2, 3, 4, 5), (2, 4, 6, 8, 10), (1, 3, 5, 7, 9)])\n    [1, 2, 4, 7, 9]\n    \"\"\"\n    result = []\n\n    for i in range(len(tup)):\n        for j in range(len(tup)):\n            if i != j:\n                if tup[i] in tup[j]:\n                    break\n        else:\n            result.append(tup[i])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singly_occurring_elements(data: List[Tuple[int]]) -> List[int]:\n    \"\"\"Returns the list of elements that occur singly in the given tuple list.\n\n    Args:\n        data (List[Tuple[int]]): list of tuples\n\n    Examples:\n        >>> assert get_singly_occurring_elements([(1, 2), (2, 1), (3, 4), (1, 4)]) == [3]\n        >>> assert get_singly_occurring_elements([(1, 2), (2, 1), (2, 3), (1, 4)]) == [2, 3]\n        >>> assert get_singly_occurring_elements([(1, 2), (2, 1), (3, 4), (1, 4), (2, 4)]) == []\n    \"\"\"\n    return [\n        item\n        for i in range(len(data))\n        for j in range(i + 1, len(data))\n        if data[i][0] == data[j][0]\n    ]\n\n\nif __name__ == \"__main__\":\n    print(get_singly_occurring_elements([(1, 2), (2, 1), (3, 4), (1, 4)]))\n    print(get_singly_occurring_elements([(1, 2), (2, 1), (2, 3), (1, 4)]))\n    print(get_singly_occurring_elements([(1, 2), (2, 1), (3, 4), (1, 4), (2, 4)]))"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "def get_singles(lst):\n    ret = []\n    for item in lst:\n        if lst.count(item) == 1:\n            ret.append(item)\n    return ret\n\n\ndef main():\n    print(get_singles((1, 2, 3, 2, 1, 4, 5)))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\n# Time complexity O(N)\n# Space complexity O(N)\ndef extract_elements(input_list):\n    # Create a counter for the list\n    counter = Counter(input_list)\n    # Create a list of singly elements\n    singly_elements = []\n\n    for element in input_list:\n        if counter[element] == 1:\n            singly_elements.append(element)\n\n    return singly_elements\n\n\n# Time complexity O(N)\n# Space complexity O(N)\ndef extract_elements_sort(input_list):\n    # Sort the list\n    input_list.sort()\n    # Create a list of singly elements\n    singly_elements = []\n\n    # Use two pointers\n    i = 0\n    j = 1\n\n    while j < len(input_list):\n        if input_list[i] != input_list[j]:\n            singly_elements.append(input_list[j])\n        i += 1\n        j += 1\n\n    return singly_elements\n\n\n# Time complexity O(N)\n# Space complexity O(N)\ndef extract_elements_dict(input_list):\n    # Create a dict of singly elements\n    singly_elements = {}\n\n    for element in input_list:\n        if element not in singly_elements:\n            singly_elements[element] = 1\n        else:\n            singly_elements[element] += 1\n\n    return list(singly_elements.keys())\n\n\n# Time complexity O(N)\n# Space complexity O(N)\ndef extract_elements_dict_2(input_list):\n    # Create a dict of singly elements\n    singly_elements = {}\n\n    for element in input_list:\n        if element not in singly_elements:\n            singly_elements[element] = [1, element]\n        else:\n            singly_elements[element][0] += 1\n\n    return list(map(lambda x: x[1], singly_elements.values()))\n\n\n# Time complexity O(N)\n# Space complexity O(N)\ndef extract"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef get_singles(arr: List[tuple]) -> List[int]:\n    \"\"\"Return list of elements that occur singly in given tuple list.\n\n    >>> get_singles([(1, 2, 3), (2, 3), (1, 2, 3), (2, 3), (1, 2, 3), (3, 4), (3, 4)])\n    [1, 2, 3, 4]\n\n    >>> get_singles([(1, 2, 3), (2, 3), (1, 2, 3), (2, 3), (1, 2, 3), (3, 4), (3, 4, 5)])\n    [1, 2, 3, 4, 5]\n    \"\"\"\n    result = []\n    for tup in arr:\n        for num in tup:\n            if num not in result and arr.count(num) == 1:\n                result.append(num)\n    return result\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef extract_elements_singly(data: List[tuple]) -> set:\n    \"\"\"\n    >>> extract_elements_singly([(1,), (2,), (1,), (3,), (2,), (3,)])\n    {1, 3}\n    \"\"\"\n    return set(data[0]) if len(data) == 1 else data[0] & extract_elements_singly(data[1:])\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef extract_singles(lst: List[tuple]) -> tuple:\n    \"\"\"Extracts all elements that appear only once in a list of tuples.\n\n    Args:\n        lst (List[tuple]): list of tuples\n\n    Returns:\n        tuple: all elements that appear only once in a list of tuples\n    \"\"\"\n    return tuple(set(sum(lst, ())))\n\n\nif __name__ == \"__main__\":\n    print(extract_singles([(1, 2, 3, 4, 5, 5, 5), (2, 3, 3, 4, 6, 6, 6, 6), (2, 3, 3, 4, 6, 6, 6, 6)]))"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "from collections import Counter\n\n\n# Time complexity O(n)\ndef extract_singles(lst):\n    count = Counter(lst)\n    res = []\n    for num in lst:\n        if count[num] == 1:\n            res.append(num)\n    return res\n\n\nprint(extract_singles([1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3]))"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_singles(lists: List[tuple]) -> List[tuple]:\n    \"\"\"\n    >>> find_singles([(1,2,3,4,5,1), (2,3,4,5,6,7,2,2), (3,4,5,6,7,8,3,3,3), (4,5,6,7,8,9,4,4,4,4)])\n    [(1,), (7,), (8,)]\n    \"\"\"\n    return [tuple(x) for x in set([tuple(x) for x in lists if len(x) == 1])]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "from typing import List\n\n\ndef find_single(arr: List[tuple]) -> List[int]:\n    \"\"\"\n    >>> find_single([(1, 2, 3), (2, 3), (3), (2, 3, 4), (1, 2)])\n    [1, 4]\n    \"\"\"\n    single: List[int] = []\n\n    for i in range(len(arr)):\n        for j in range(len(arr)):\n            if i != j:\n                if arr[i] in arr[j]:\n                    break\n        else:\n            single.append(arr[i][0])\n\n    return single\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 11,
+      "score": 9.234050852198141,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singles(tup_list: List[Tuple[int, int]]) -> List[int]:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        tup_list (List[Tuple[int, int]]): list of tuples\n\n    Returns:\n        List[int]: list of elements that occur singly in the given tuple list\n    \"\"\"\n    return [tup[0] for tup in tup_list if len(tup) == 1]\n\n\nif __name__ == \"__main__\":\n    tup_list = [(1, 2), (3, 4), (5, 6), (7,), (8, 8, 8)]\n    print(get_singles(tup_list))"
+    },
+    {
+      "rank": 12,
+      "score": 9.226766272351448,
+      "candidate": "def singly_tuple_list(lst):\n    return list(set(lst) - set([x for x in lst if lst.count(x) > 1]))\n\n\nif __name__ == \"__main__\":\n    print(singly_tuple_list([1, 2, 3, 4, 2, 3, 1]))\n    print(singly_tuple_list([\"a\", \"b\", \"a\", \"c\", \"b\", \"c\"]))"
+    },
+    {
+      "rank": 13,
+      "score": 9.21346272767743,
+      "candidate": "from typing import List\n\n\ndef single_tuple_elements(lst: List) -> List:\n    \"\"\"Extracts the elements that occur singly in the given tuple list.\n\n    Args:\n        lst (List): list of tuples\n\n    Examples:\n        >>> assert single_tuple_elements([(1, 2), (1, 3), (2, 4)]) == [2, 4]\n        >>> assert single_tuple_elements([(1, 2), (1, 1), (2, 4)]) == []\n    \"\"\"\n    return [item for tup in lst for item in tup if lst.count(tup) == 1]\n\n\nif __name__ == \"__main__\":\n    print(single_tuple_elements([(1, 2), (1, 3), (2, 4)]))"
+    },
+    {
+      "rank": 14,
+      "score": 9.177268828905222,
+      "candidate": "from typing import List\n\n\ndef single_element(data: List[tuple]) -> set:\n    \"\"\"Extracts elements that occur singly.\n\n    Args:\n        data (List[tuple]): list of tuples\n\n    Returns:\n        set: set of elements that occur singly\n    \"\"\"\n    result = set()\n\n    for tup in data:\n        for elem in tup:\n            if elem not in result:\n                result.add(elem)\n            else:\n                result.remove(elem)\n                break\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(single_element([(1, 2, 3), (2, 3), (3), (-1, 1, 1, 1)]))"
+    },
+    {
+      "rank": 15,
+      "score": 9.122564458729856,
+      "candidate": "from collections import Counter\n\n\ndef singly_occurring_elements(tuples):\n    occurrences = Counter()\n    for t in tuples:\n        occurrences[t] += 1\n    return [t for t in tuples if occurrences[t] == 1]\n\n\nif __name__ == \"__main__\":\n    tuples = (1, 2, 3, 2, 4, 5, 6, 1, 3, 5, 3, 7, 8, 9, 1, 3, 4, 5, 6, 7)\n    print(singly_occurring_elements(tuples))"
+    },
+    {
+      "rank": 16,
+      "score": 8.95994420569242,
+      "candidate": "def single_element(tup):\n    \"\"\"\n    >>> single_element((1, 1, 2, 2, 3, 4, 4))\n    (3,)\n    \"\"\"\n    return tuple(\n        x\n        for x in tup\n        if tup.count(x) == 1\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 17,
+      "score": 8.946210893390457,
+      "candidate": "from collections import Counter\n\n\n# Time complexity O(N^2)\ndef get_singles_list(t):\n    c = Counter(t)\n    singles = []\n    for i in t:\n        if c[i] == 1:\n            singles.append(i)\n    return singles\n\n\n# Time complexity O(N)\ndef get_singles_dict(t):\n    c = Counter(t)\n    singles = []\n    for i in t:\n        if c[i] == 1:\n            singles.append(i)\n    return singles\n\n\nt = (1, 2, 3, 4, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9)\nprint(get_singles_list(t))\nprint(get_singles_dict(t))"
+    },
+    {
+      "rank": 18,
+      "score": 8.932217008005624,
+      "candidate": "def find_singles(tup_list):\n    result = []\n    for tup in tup_list:\n        if tup.count(tup[0]) == 1:\n            result.append(tup[0])\n    return result\n\n\ndef test_find_singles():\n    assert find_singles([(1, 2, 3, 4), (2, 3, 4), (1, 2, 3), (3, 4), (1, 2)]) == [1, 3]\n    assert find_singles([(1, 2, 3, 4), (1, 3, 4), (2, 3, 4), (1, 2)]) == [2]\n    assert find_singles([(1, 2, 3, 4), (1, 2, 3), (1, 2, 3, 4), (1, 2, 3)]) == [4]\n    assert find_singles([(1, 2, 3, 4), (1, 2, 3), (1, 2, 3), (1, 2, 3, 4)]) == [3]\n    assert find_singles([(1, 2, 3), (4, 5), (1, 2, 3)]) == [4, 5]\n    assert find_singles([(1, 2, 3), (1, 2, 3), (1, 2, 3)]) == []\n    assert find_singles([(1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3)]) == []"
+    },
+    {
+      "rank": 19,
+      "score": 8.910084504002544,
+      "candidate": "from typing import List\n\n\ndef get_singles(arr: List[tuple]) -> List[tuple]:\n    \"\"\"Returns list of tuples with elements that occur singly.\n\n    Args:\n        arr (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert get_singles([(1, 1), (1, 2), (2, 1)]) == [(2, 1)]\n    \"\"\"\n    res = []\n    for tup in arr:\n        if tup[1] == 1:\n            res.append(tup)\n    return res\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 1), (1, 2), (2, 1)]))"
+    },
+    {
+      "rank": 20,
+      "score": 8.855395696632057,
+      "candidate": "from typing import List\n\n\ndef single_elements(tuples: List[tuple]) -> List[int]:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert single_elements([(1, 2, 2, 3), (5, 5), (4, 4, 4, 4, 4)]) == [1, 3, 5]\n    \"\"\"\n    return [i for i, j in map(lambda x: (x[0], len(x)), zip(*tuples)) if j == 1]\n\n\nif __name__ == \"__main__\":\n    print(single_elements([(1, 2, 2, 3), (5, 5), (4, 4, 4, 4, 4)]))"
+    },
+    {
+      "rank": 21,
+      "score": 8.850707355641543,
+      "candidate": "from typing import List\n\n\ndef extract_singles(data: List) -> List:\n    \"\"\"Extracts elements that occur singly in the given tuple list.\n\n    Args:\n        data (List): list of tuples\n\n    Returns:\n        List: list of elements that occur singly\n    \"\"\"\n    return [item for item, count in dict([(item, data.count(item)) for item in data]).items() if count == 1]\n\n\nif __name__ == \"__main__\":\n    print(extract_singles([(1, 2), (2, 3), (3, 4), (1, 2), (2, 3), (3, 4), (1, 2)]))"
+    },
+    {
+      "rank": 22,
+      "score": 8.8281618090209,
+      "candidate": "from collections import Counter\n\n\ndef singly_elements(lst):\n    \"\"\"\n    :param lst: list of tuples\n    :return: list of elements that occur singly\n    >>> singly_elements([(1, 2), (2, 3), (3, 4), (2, 5)])\n    [2, 5]\n    \"\"\"\n    c = Counter(lst)\n    return [elem for elem in lst if c[elem] == 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 23,
+      "score": 8.81367773444215,
+      "candidate": "from typing import List\n\n\ndef get_singles(lst: List[tuple]) -> set:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        lst (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert get_singles([(1, 2, 3, 4), (1, 2, 3), (1, 2), (1,)]) == {4}\n    \"\"\"\n    result = set()\n\n    for i in lst:\n        for j in i:\n            if i.count(j) == 1:\n                result.add(j)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 2, 3, 4), (1, 2, 3), (1, 2), (1,)]))"
+    },
+    {
+      "rank": 24,
+      "score": 8.76828871349479,
+      "candidate": "from typing import List\n\n\ndef extract_singly_occurring_elements(tuples: List[tuple]) -> list:\n    \"\"\"Extracts elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Returns:\n        list: list of elements that occur singly in the given tuple list\n    \"\"\"\n    return [\n        element for element in set(element for tuple in tuples for element in tuple)\n        if tuple.count(element) == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    print(extract_singly_occurring_elements([(1, 2, 3), (2, 1, 2, 2, 3), (1, 2, 2, 2)]))"
+    },
+    {
+      "rank": 25,
+      "score": 8.701078161001123,
+      "candidate": "def extract_singles(lst):\n    return tuple(filter(lambda x: lst.count(x) == 1, lst))"
+    },
+    {
+      "rank": 26,
+      "score": 8.692801520950061,
+      "candidate": "from collections import Counter\n\n\ndef get_single_elements(tup):\n    return [item for item in tup if tup.count(item) == 1]\n\n\ndef main():\n    tuples = [(1, 2, 3, 4), (1, 1, 3, 4), (1, 2, 2, 4), (1, 2, 3, 3)]\n    result = [get_single_elements(tup) for tup in tuples]\n    print(result)\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 27,
+      "score": 8.632293453617281,
+      "candidate": "from collections import Counter\nfrom typing import List\n\n\ndef find_singles(lists: List[tuple]) -> set:\n    \"\"\"Find the elements that occur singly in the given tuple list.\n\n    Args:\n        lists (List[tuple]): list of tuples\n\n    Returns:\n        set: set of elements that occur singly\n    \"\"\"\n    count = Counter()\n\n    for tup in lists:\n        for element in tup:\n            count[element] += 1\n\n    return set(element for element, count in count.items() if count == 1)\n\n\nif __name__ == \"__main__\":\n    print(find_singles([(1, 1, 2), (1, 2), (1, 2, 3), (1, 2, 3, 4)]))\n    print(find_singles([(1, 1, 1), (1, 2), (1, 2, 3), (1, 2, 3, 4)]))"
+    },
+    {
+      "rank": 28,
+      "score": 8.625142247198651,
+      "candidate": "def find_singles(tup_list):\n    # 1. make a dictionary\n    # 2. check if the count of key is 1\n    # 3. append to list\n    # 4. return list\n    dict_singles = {}\n    for i in tup_list:\n        if i in dict_singles:\n            dict_singles[i] += 1\n        else:\n            dict_singles[i] = 1\n    list_singles = []\n    for i in dict_singles:\n        if dict_singles[i] == 1:\n            list_singles.append(i)\n    return list_singles\n\n\ntup_list = [(1, 2, 3, 4), (1, 2, 3), (1, 2, 2, 3, 4, 5), (1, 1, 2, 2, 3, 5),\n            (1, 2, 2, 3), (1, 2, 2, 2, 2)]\nprint(find_singles(tup_list))"
+    },
+    {
+      "rank": 29,
+      "score": 8.623000730200317,
+      "candidate": "from typing import List\n\n\ndef single_element(tuples: List[tuple]) -> List[tuple]:\n    \"\"\"Finds elements that appear only once in the given list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert single_element([(1, 2), (1, 2), (3, 4), (1, 2)]) == [(3, 4)]\n    \"\"\"\n    result = []\n\n    for tuple_ in tuples:\n        if tuple_ not in result:\n            result.append(tuple_)\n        else:\n            result.remove(tuple_)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(single_element([(1, 2), (1, 2), (3, 4), (1, 2)]))"
+    },
+    {
+      "rank": 30,
+      "score": 8.616253589228675,
+      "candidate": "from collections import Counter\n\n\n# O(n^2)\ndef singly_occur_elem(arr: list) -> list:\n    \"\"\"\n    :param arr: list of tuples\n    :return: list of elements that occur singly\n    \"\"\"\n    res = []\n\n    for tup in arr:\n        if len(tup) == 1:\n            res.append(tup[0])\n        else:\n            if tup[0] == tup[1]:\n                res.append(tup[0])\n\n    return res\n\n\n# O(n)\ndef singly_occur_elem2(arr: list) -> list:\n    \"\"\"\n    :param arr: list of tuples\n    :return: list of elements that occur singly\n    \"\"\"\n    c = Counter(arr)\n    res = []\n\n    for tup in arr:\n        if c[tup[0]] == 1:\n            res.append(tup[0])\n\n    return res\n\n\n# O(n)\ndef singly_occur_elem3(arr: list) -> list:\n    \"\"\"\n    :param arr: list of tuples\n    :return: list of elements that occur singly\n    \"\"\"\n    c = Counter(arr)\n    res = []\n\n    for tup in arr:\n        if c[tup[0]] == 1 and c[tup[1]] == 0:\n            res.append(tup[0])\n\n    return res\n\n\nif __name__ == \"__main__\":\n    print(singly_occur_elem([(1, 1), (1, 2), (2, 1), (1, 1), (1, 1)]))\n    print(singly_occur_elem2([(1, 1), (1, 2), (2, 1), (1, 1), (1, 1)]))\n    print(singly_occur_elem3([(1, 1), (1, 2), (2, 1), (1, 1), (1, 1)]))"
+    },
+    {
+      "rank": 31,
+      "score": 8.606486429141842,
+      "candidate": "from collections import Counter\n\ndef singletons(tupl):\n    # Your code here\n    count = Counter(tupl)\n    return [x for x in tupl if count[x] == 1]\n\nif __name__ == '__main__':\n    print(\"Here is the output of singletons(tupl):\\n\" , singletons((1, 2, 3, 1, 2, 3, 4, 5, 6)))"
+    },
+    {
+      "rank": 32,
+      "score": 8.565425580227462,
+      "candidate": "from typing import List\n\n\ndef extract_singly_occurring_elements(lst: List) -> List:\n    \"\"\"Extract elements that occur singly in the given list.\n\n    Args:\n        lst (List): list to extract elements from\n\n    Returns:\n        List: extracted elements\n    \"\"\"\n    # Create a dictionary with keys as elements and values as count\n    d = {}\n    for x in lst:\n        if x in d:\n            d[x] += 1\n        else:\n            d[x] = 1\n\n    # Extract elements that occur only once\n    res = []\n    for k, v in d.items():\n        if v == 1:\n            res.append(k)\n    return res\n\n\nif __name__ == \"__main__\":\n    lst = [1, 2, 2, 3, 4, 4, 4, 5, 5]\n    print(extract_singly_occurring_elements(lst))"
+    },
+    {
+      "rank": 33,
+      "score": 8.548876241946822,
+      "candidate": "from typing import List\n\n\ndef single_element(arr: List[tuple]) -> List[int]:\n    \"\"\"Returns elements that occur singly.\n\n    Args:\n        arr (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert single_element([(1, 2), (2, 3), (2, 4), (3, 4), (4, 5)]) == [1, 5]\n    \"\"\"\n    result = []\n\n    for i in range(len(arr)):\n        count = 0\n\n        for j in range(len(arr)):\n            if arr[i] == arr[j]:\n                count += 1\n\n        if count == 1:\n            result.append(arr[i][0])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(single_element([(1, 2), (2, 3), (2, 4), (3, 4), (4, 5)]))"
+    },
+    {
+      "rank": 34,
+      "score": 8.542875062379007,
+      "candidate": "from collections import Counter\n\n\ndef singly_elements(lst: tuple) -> tuple:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        lst (tuple): given tuple list.\n\n    Examples:\n        >>> assert singly_elements(('a', 'b', 'a', 'c', 'b', 'd')) == ('c', 'd')\n    \"\"\"\n    return tuple(\n        el\n        for el, count in Counter(lst).items()\n        if count == 1\n    )\n\n\nif __name__ == '__main__':\n    print(singly_elements(('a', 'b', 'a', 'c', 'b', 'd')))"
+    },
+    {
+      "rank": 35,
+      "score": 8.53012858503943,
+      "candidate": "def singly_elements(lst):\n    result = []\n    for i in lst:\n        if lst.count(i) == 1:\n            result.append(i)\n    return result\n\n\nprint(singly_elements([1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 7, 8, 9, 10, 12, 12]))"
+    },
+    {
+      "rank": 36,
+      "score": 8.499905739299377,
+      "candidate": "from typing import List\n\n\ndef find_singles(data: List[tuple]) -> set:\n    \"\"\"Returns the elements that appear only once in a list of tuples.\n\n    Args:\n        data (List[tuple]): The list of tuples.\n\n    Examples:\n        >>> assert find_singles([(1, 2, 3), (4, 5), (3, 4, 5), (1, 2, 4)]) == {1, 2}\n    \"\"\"\n    # Dictionary with key as the element and value as the count of the element\n    element_count = {}\n\n    for item in data:\n        for element in item:\n            if element in element_count:\n                element_count[element] += 1\n            else:\n                element_count[element] = 1\n\n    return set(key for key, value in element_count.items() if value == 1)\n\n\nif __name__ == \"__main__\":\n    print(find_singles([(1, 2, 3), (4, 5), (3, 4, 5), (1, 2, 4)]))"
+    },
+    {
+      "rank": 37,
+      "score": 8.490324832712195,
+      "candidate": "from typing import List, Tuple\n\n\ndef single_elements(elements: List[Tuple[int, int]]) -> List[int]:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        elements (List[Tuple[int, int]]): list of tuples\n\n    Examples:\n        >>> assert single_elements([(1, 2), (2, 3), (3, 1)]) == [1, 2]\n        >>> assert single_elements([(1, 2), (1, 3), (2, 1), (3, 1)]) == [1]\n    \"\"\"\n    # 1. get all elements\n    all_elements = [element for elements_pair in elements for element in elements_pair]\n\n    # 2. get elements that occur singly\n    return [\n        element\n        for element in set(all_elements)\n        if all_elements.count(element) == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    print(single_elements([(1, 2), (2, 3), (3, 1)]))\n    print(single_elements([(1, 2), (1, 3), (2, 1), (3, 1)]))"
+    },
+    {
+      "rank": 38,
+      "score": 8.478208546788407,
+      "candidate": "from typing import List\n\n\ndef get_singles(lst: List[tuple]) -> tuple:\n    \"\"\"Get elements that occur singly in the given tuple list.\n\n    Args:\n        lst (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert get_singles([(1, 2, 3), (3, 2), (2, 1), (1, 3), (3, 2)]) == (1, 3)\n    \"\"\"\n    return tuple(\n        sorted(\n            set(i for i, j in filter(lambda x: x[1] == 1, map(lambda x: x.count, lst)))\n        )\n    )\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 2, 3), (3, 2), (2, 1), (1, 3), (3, 2)]))"
+    },
+    {
+      "rank": 39,
+      "score": 8.437695832075478,
+      "candidate": "from collections import Counter\n\n\ndef find_singles(lst):\n    lst = [item for sublist in lst for item in sublist]\n    c = Counter(lst)\n    return tuple(item for item in lst if c[item] == 1)\n\n\ndef main():\n    print(find_singles([(1, 2, 3, 4), (1, 2, 3), (1, 1, 1)]))\n\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "rank": 40,
+      "score": 8.426531424889468,
+      "candidate": "def singly_occurring_elements(tup_list):\n    return [tup for tup in tup_list if tup_list.count(tup) == 1]\n\n\nif __name__ == \"__main__\":\n    assert singly_occurring_elements([(1, 2), (2, 3), (4, 5)]) == [(1, 2), (4, 5)]"
+    },
+    {
+      "rank": 41,
+      "score": 8.408439383654278,
+      "candidate": "from typing import List, Tuple\n\n\ndef singly_elements(tuple_list: List[Tuple]) -> List[int]:\n    \"\"\"Write a function to extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuple_list (List[Tuple]): list of tuples\n\n    Returns:\n        List[int]: list of integers\n    \"\"\"\n    if not tuple_list:\n        return []\n\n    # Create a dict with key as elements of tuple and value as count of elements\n    count_dict = dict()\n    for tup in tuple_list:\n        for element in tup:\n            if element not in count_dict:\n                count_dict[element] = 0\n            count_dict[element] += 1\n\n    # Now extract elements which occur only once\n    result = []\n    for key, value in count_dict.items():\n        if value == 1:\n            result.append(key)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(singly_elements([(1, 1, 2), (1, 1), (2, 3), (3), (1, 2, 3, 4)]))"
+    },
+    {
+      "rank": 42,
+      "score": 8.386620303250325,
+      "candidate": "from collections import Counter\n\n\ndef singleton_elem(tup_list):\n    \"\"\"Returns elements that occur singly in the given tuple list.\"\"\"\n    counter = Counter(tup_list)\n    return tuple(\n        elem for elem in tup_list\n        if counter[elem] == 1\n    )\n\n\nif __name__ == \"__main__\":\n    assert singleton_elem((1, 2, 3, 4, 2, 3, 1, 5)) == (1, 5)\n    assert singleton_elem((1, 2, 3, 4, 5)) == ()"
+    },
+    {
+      "rank": 43,
+      "score": 8.375312293858853,
+      "candidate": "from typing import List, Tuple\n\n\ndef extract_singles(data: List[Tuple[int, ...]]) -> List[int]:\n    \"\"\"Extracts elements that occur singly in a given tuple list.\n\n    Args:\n        data (List[Tuple[int, ...]]): list of tuples\n\n    Returns:\n        List[int]: list of singly-occuring elements\n    \"\"\"\n    res = []\n    for t in data:\n        if t not in res:\n            res.append(t)\n    return res\n\n\nif __name__ == \"__main__\":\n    print(extract_singles([(1, 2, 2), (1, 2, 3), (1, 2, 3), (1, 2, 3)]))"
+    },
+    {
+      "rank": 44,
+      "score": 8.351614956112536,
+      "candidate": "def singly_elements(tup_list):\n    res = []\n    for tup in tup_list:\n        for elem in tup:\n            if tup.count(elem) == 1:\n                res.append(elem)\n    return res\n\n\ndef singly_elements_v2(tup_list):\n    return list(set(elem for tup in tup_list for elem in tup if tup.count(elem) == 1))\n\n\nif __name__ == \"__main__\":\n    print(singly_elements([(1, 2, 3, 4), (1, 3, 5, 7), (1, 2, 4, 8), (1, 6, 9)]))\n    print(singly_elements_v2([(1, 2, 3, 4), (1, 3, 5, 7), (1, 2, 4, 8), (1, 6, 9)]))"
+    },
+    {
+      "rank": 45,
+      "score": 8.331556294201176,
+      "candidate": "from typing import List\n\n\ndef single_elem(tuples: List[tuple]) -> tuple:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert single_elem([(1, 2), (2, 3), (1, 3)]) == (2,)\n        >>> assert single_elem([(1, 2), (1, 2)]) == ()\n        >>> assert single_elem([(1, 2), (2, 3), (2, 3)]) == (1, 3)\n    \"\"\"\n    result = []\n    for tup in tuples:\n        if tup[0] not in result:\n            result.append(tup[0])\n        if tup[1] not in result:\n            result.append(tup[1])\n    return tuple(result)\n\n\nif __name__ == \"__main__\":\n    print(single_elem([(1, 2), (2, 3), (1, 3)]))"
+    },
+    {
+      "rank": 46,
+      "score": 8.327375965969855,
+      "candidate": "from typing import List\n\n\ndef single_elements(t: List[tuple]) -> list:\n    \"\"\"Returns a list of elements that occur only once in the given tuple list.\n\n    Args:\n        t (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert single_elements([(1, 2), (3, 1), (2, 2), (1, 3)]) == [3]\n    \"\"\"\n    return [\n        val\n        for val in set(sum(t, ()))\n        if sum([val in i for i in t], 0) == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    print(single_elements([(1, 2), (3, 1), (2, 2), (1, 3)]))"
+    },
+    {
+      "rank": 47,
+      "score": 8.327367757082776,
+      "candidate": "from collections import Counter\n\n\ndef singly_occurring_elements(lst):\n    \"\"\"Return list of elements that occur singly in the given tuple list.\n\n    >>> singly_occurring_elements([(0, 1, 2), (2, 3), (4, 5, 6), (4, 5)])\n    [2, 5]\n    \"\"\"\n    counter = Counter(lst)\n    return [x for x in counter if counter[x] == 1]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 48,
+      "score": 8.294940769211511,
+      "candidate": "from typing import List\n\n\ndef get_singles(tuples: List[tuple]) -> List[int]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): the tuple list\n\n    Examples:\n        >>> assert get_singles([(1, 2), (1,), (3, 2, 4), (3, 4)]) == [2, 4]\n    \"\"\"\n    res = []\n\n    for num in range(10):\n        if sum(num in tup for tup in tuples) == 1:\n            res.append(num)\n\n    return res\n\n\ndef get_singles_v2(tuples: List[tuple]) -> List[int]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): the tuple list\n\n    Examples:\n        >>> assert get_singles_v2([(1, 2), (1,), (3, 2, 4), (3, 4)]) == [2, 4]\n    \"\"\"\n    nums = {}\n\n    for tup in tuples:\n        for num in tup:\n            nums[num] = nums.get(num, 0) + 1\n\n    return [num for num, count in nums.items() if count == 1]\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 2), (1,), (3, 2, 4), (3, 4)]))\n    print(get_singles_v2([(1, 2), (1,), (3, 2, 4), (3, 4)]))"
+    },
+    {
+      "rank": 49,
+      "score": 8.2938925966498,
+      "candidate": "from typing import List\n\n\ndef singly_occur_tuple(tuple_list: List[tuple]) -> List[tuple]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuple_list (List[tuple]): the tuple list\n\n    Examples:\n        >>> singly_occur_tuple([(1, 2), (2, 3), (2, 3), (1, 2)])\n        [(2, 3)]\n        >>> singly_occur_tuple([(1, 2), (1, 2), (1, 2), (1, 2)])\n        [(1, 2)]\n        >>> singly_occur_tuple([(1, 2), (2, 3), (3, 4), (5, 6)])\n        [(2, 3), (3, 4), (5, 6)]\n        >>> singly_occur_tuple([(1, 2), (2, 3), (3, 4), (5, 6), (6, 7)])\n        [(2, 3), (3, 4), (5, 6), (6, 7)]\n    \"\"\"\n    result = []\n\n    for tup in tuple_list:\n        if tup not in result:\n            result.append(tup)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(singly_occur_tuple([(1, 2), (2, 3), (2, 3), (1, 2)]))\n    print(singly_occur_tuple([(1, 2), (1, 2), (1, 2), (1, 2)]))\n    print(singly_occur_tuple([(1, 2), (2, 3), (3, 4), (5, 6)]))\n    print(singly_occur_tuple([(1, 2), (2, 3), (3, 4), (5, 6), (6, 7)]))"
+    },
+    {
+      "rank": 50,
+      "score": 8.289838256518838,
+      "candidate": "def singleton(lst: list) -> list:\n    \"\"\"Returns the list of elements that occur only once in the list.\"\"\"\n    return [value for value in lst if lst.count(value) == 1]\n\n\nif __name__ == \"__main__\":\n    print(singleton([1, 2, 3, 4, 1, 3]))\n    print(singleton([\"a\", \"b\", \"c\", \"b\", \"c\", \"d\", \"a\"]))"
+    },
+    {
+      "rank": 51,
+      "score": 8.251903304236286,
+      "candidate": "from typing import List\n\n\ndef get_singles(lists: List[tuple]) -> List[int]:\n    \"\"\"Get elements that occur singly.\n\n    Args:\n        lists (List[tuple]): list of tuples.\n\n    Returns:\n        List[int]: list of integers.\n    \"\"\"\n    # O(n)\n    singles = []\n\n    for i in range(len(lists)):\n        if lists[i][0] in lists[i][1:]:\n            continue\n\n        singles.append(lists[i][0])\n\n    return singles\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 2, 2, 3), (5, 5), (4, 5, 5), (2, 2, 2)]))\n    print(get_singles([(1, 2, 2), (5, 5), (4, 5, 5)]))\n    print(get_singles([(1, 2, 2), (5, 5), (4, 5, 5), (2, 2, 2)]))"
+    },
+    {
+      "rank": 52,
+      "score": 8.214125058964552,
+      "candidate": "from collections import defaultdict\n\n\ndef singletons(t):\n    return [x for x in t if t.count(x) == 1]\n\n\ndef singletons_defaultdict(t):\n    d = defaultdict(int)\n    for x in t:\n        d[x] += 1\n    return [x for x in t if d[x] == 1]\n\n\n# Test cases\nprint(singletons((\"a\", \"a\", \"b\", \"c\", \"b\", \"c\", \"d\")))\nprint(singletons_defaultdict((\"a\", \"a\", \"b\", \"c\", \"b\", \"c\", \"d\")))"
+    },
+    {
+      "rank": 53,
+      "score": 8.211579567659316,
+      "candidate": "from typing import List\n\n\ndef get_singles(tuple_list: List[tuple]) -> list:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        tuple_list (List[tuple]): list of tuples\n\n    Returns:\n        list: elements that occur singly\n    \"\"\"\n    return [\n        element\n        for element in tuple_list[0]\n        if tuple_list.count(element) == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    tuple_list = [\n        (\"fond\", \"enamored\"),\n        (\"wrath\", \"anger\"),\n        (\"diligent\", \"employed\"),\n        (\"outfit\", \"garb\"),\n        (\"guide\", \"usher\"),\n    ]\n    print(get_singles(tuple_list))"
+    },
+    {
+      "rank": 54,
+      "score": 8.2048573255218,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singles(lst: List[Tuple[int, int]]) -> List[int]:\n    \"\"\"Write a function to extract elements that occur singly in the given tuple list.\n\n    Args:\n        lst (List[Tuple[int, int]]): list of tuples with numbers\n\n    Returns:\n        List[int]: list of numbers that occur singly\n    \"\"\"\n    lst_nums = list(set(num for num in range(1, len(lst) + 1)))\n    result = []\n\n    for num in lst_nums:\n        if sum(1 for i, j in lst if i == num or j == num) == 1:\n            result.append(num)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    lst = [(1, 2), (1, 3), (2, 3)]\n    print(get_singles(lst))"
+    },
+    {
+      "rank": 55,
+      "score": 8.179564342560925,
+      "candidate": "from typing import List\n\n\ndef extract_singles(lst: List[tuple]) -> List[int]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        lst (List[tuple]): given tuple list\n\n    Examples:\n        >>> extract_singles([(1, 2, 3), (1, 2, 3), (2, 3), (4, 5)])\n        [3, 5]\n    \"\"\"\n    return [\n        element\n        for element, count in [\n            (element, lst.count(element)) for element in set(element for tup in lst for element in tup)\n        ]\n        if count == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    print(extract_singles([(1, 2, 3), (1, 2, 3), (2, 3), (4, 5)]))"
+    },
+    {
+      "rank": 56,
+      "score": 8.163300679823958,
+      "candidate": "from typing import List\n\n\ndef singly_occurring_elements(input_list: List[tuple]) -> list:\n    \"\"\"\n    >>> singly_occurring_elements([(1, 2), (2, 3), (3, 2), (4, 5)])\n    [1, 5]\n    >>> singly_occurring_elements([(1, 2, 3), (2, 1, 3), (3, 1, 2)])\n    []\n    \"\"\"\n    output_list = []\n\n    for i in range(len(input_list)):\n        for j in range(len(input_list)):\n            if i != j and input_list[i] == input_list[j]:\n                break\n        else:\n            output_list.append(input_list[i][0])\n\n    return output_list\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 57,
+      "score": 8.143591138329747,
+      "candidate": "from typing import List\n\n\ndef singly_elements(tup_list: List[tuple]) -> tuple:\n    \"\"\"\n    >>> singly_elements([(1, 1), (1, 2), (2, 1), (2, 2), (2, 3), (3, 3)])\n    (1, 2, 3)\n    \"\"\"\n    result = set()\n\n    for tup in tup_list:\n        if tup[1] not in result:\n            result.add(tup[0])\n\n    return tuple(result)\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 58,
+      "score": 8.121884567141883,
+      "candidate": "from collections import Counter\n\n\ndef extract_singles(tuple_list):\n    \"\"\"Extract elements that occur singly in the given tuple list.\"\"\"\n    count = Counter(tuple_list)\n    return tuple(el for el in tuple_list if count[el] == 1)"
+    },
+    {
+      "rank": 59,
+      "score": 8.08452234024709,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singles(input_tuple: Tuple[int, ...]) -> List[int]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        input_tuple (Tuple[int, ...]): a tuple of integers\n\n    Examples:\n        >>> assert get_singles((1, 2, 3, 2, 1)) == [3]\n    \"\"\"\n    return [x for x in input_tuple if input_tuple.count(x) == 1]\n\n\nif __name__ == \"__main__\":\n    print(get_singles((1, 2, 3, 2, 1)))"
+    },
+    {
+      "rank": 60,
+      "score": 8.040197642997851,
+      "candidate": "def singleton(tuple_list):\n    return tuple(set([element for element in tuple_list if tuple_list.count(element) == 1]))\n\n\nprint(singleton((1, 2, 3, 2, 3, 4)))"
+    },
+    {
+      "rank": 61,
+      "score": 8.024835682833125,
+      "candidate": "from collections import defaultdict\n\n\ndef single_elem(tuple_list):\n    d = defaultdict(int)\n    for t in tuple_list:\n        for e in t:\n            d[e] += 1\n    return tuple(e for e in d if d[e] == 1)\n\n\nif __name__ == \"__main__\":\n    print(single_elem([(1, 2, 3, 4), (1, 3), (1, 3, 5), (2, 3, 5)]))"
+    },
+    {
+      "rank": 62,
+      "score": 7.990432406683839,
+      "candidate": "from typing import List\n\n\ndef single_element(tuples: List[tuple]) -> List[int]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Returns:\n        List[int]: list of elements that occur singly\n    \"\"\"\n    # 1. Extract all the elements from the tuples\n    elements = [element for tuple in tuples for element in tuple]\n\n    # 2. Count the number of occurence of each element\n    element_count = {element: elements.count(element) for element in elements}\n\n    # 3. Return the elements that occur singly\n    return [element for element, count in element_count.items() if count == 1]\n\n\nif __name__ == \"__main__\":\n    print(single_element([(1, 1, 2), (1, 1), (1, 2), (1, 2, 3, 4), (1, 3)]))"
+    },
+    {
+      "rank": 63,
+      "score": 7.84634113240411,
+      "candidate": "from typing import List, Tuple\n\n\ndef extract_singles(arr: List[Tuple[int, int]]) -> List[int]:\n    \"\"\"Returns elements that occur singly in given tuple list.\n\n    Args:\n        arr (List[Tuple[int, int]]): list of tuples\n\n    Returns:\n        List[int]: list of elements that occur singly\n    \"\"\"\n\n    def get_frequencies(arr):\n        freq = {}\n        for item in arr:\n            if item in freq:\n                freq[item] += 1\n            else:\n                freq[item] = 1\n        return freq\n\n    return [\n        key\n        for key, value in get_frequencies(sum(arr, ())).items()\n        if value == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    assert extract_singles([(1, 2), (2, 3), (3, 1)]) == [1]\n    assert extract_singles([(1, 2), (1, 3), (2, 1)]) == [3]\n    assert extract_singles([(1, 2), (2, 3), (3, 4), (4, 1), (1, 3), (2, 3)]) == [\n        3,\n        4,\n    ]"
+    },
+    {
+      "rank": 64,
+      "score": 7.834022619458933,
+      "candidate": "from collections import Counter\n\n\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef extract_single_elements(tup_list):\n    if not tup_list:\n        return []\n\n    elements = [tup_list[0]]\n    counter = Counter(tup_list)\n\n    for i in range(1, len(tup_list)):\n        if counter[tup_list[i]] == 1:\n            elements.append(tup_list[i])\n\n    return elements\n\n\n# Time complexity: O(n)\n# Space complexity: O(n)\ndef extract_single_elements_optimized(tup_list):\n    if not tup_list:\n        return []\n\n    counter = Counter(tup_list)\n    elements = [x for x in counter if counter[x] == 1]\n    return elements\n\n\nprint(extract_single_elements([(1, 2, 3, 4), (1, 2, 3, 4), (2, 3), (3, 4, 5, 6, 7)]))\nprint(extract_single_elements_optimized([(1, 2, 3, 4), (1, 2, 3, 4), (2, 3), (3, 4, 5, 6, 7)]))"
+    },
+    {
+      "rank": 65,
+      "score": 7.780351419995229,
+      "candidate": "from collections import Counter\n\n\ndef singly_occur(arr):\n    counter = Counter(arr)\n\n    return tuple(key for key, value in counter.items() if value == 1)\n\n\nprint(singly_occur((1, 1, 2, 3, 4, 4, 4)))"
+    },
+    {
+      "rank": 66,
+      "score": 7.738292593776799,
+      "candidate": "from typing import List\n\n\ndef singly_occurring(tuple_list: List[tuple]) -> List[int]:\n    \"\"\"Returns the elements that occur singly.\n\n    Args:\n        tuple_list (List[tuple]): The list of tuples.\n\n    Returns:\n        List[int]: The elements that occur singly.\n\n    Examples:\n        >>> singly_occurring([(1, 2, 3), (2, 1, 2), (1, 2)])\n        [3]\n        >>> singly_occurring([(1, 2, 3, 4), (2, 1, 2, 3), (1, 2, 3)])\n        []\n    \"\"\"\n    count = {}\n\n    for tup in tuple_list:\n        for elem in tup:\n            if elem in count:\n                count[elem] += 1\n            else:\n                count[elem] = 1\n\n    return [elem for elem, count in count.items() if count == 1]\n\n\nif __name__ == \"__main__\":\n    print(singly_occurring([(1, 2, 3), (2, 1, 2), (1, 2)]))\n    print(singly_occurring([(1, 2, 3, 4), (2, 1, 2, 3), (1, 2, 3)]))"
+    },
+    {
+      "rank": 67,
+      "score": 7.7320703513377165,
+      "candidate": "from typing import List\n\n\ndef singleton_elements(tuples: List[tuple]) -> List[int]:\n    \"\"\"Returns elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert singleton_elements([(1, 2), (2, 3), (1, 2), (3, 4)]) == [3, 4]\n        >>> assert singleton_elements([(1, 2), (2, 3), (1, 2), (2, 3)]) == []\n    \"\"\"\n    # 1. get all elements\n    elements = []\n\n    for first, second in tuples:\n        elements.append(first)\n        elements.append(second)\n\n    # 2. return singletons\n    return [element for element in set(elements) if elements.count(element) == 1]\n\n\nif __name__ == \"__main__\":\n    print(singleton_elements([(1, 2), (2, 3), (1, 2), (3, 4)]))"
+    },
+    {
+      "rank": 68,
+      "score": 7.705183449260731,
+      "candidate": "def single_elements(l):\n    return [l[i] for i in range(len(l)) if l.count(l[i]) == 1]\n\n\ndef test_single_elements():\n    \"\"\"\n    >>> test_single_elements()\n    \"\"\"\n    assert single_elements([1, 2, 3, 2, 1, 1]) == [3]\n    assert single_elements([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]\n    assert single_elements([1, 1, 1, 2, 2, 3, 4, 5, 5]) == [3, 4]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()"
+    },
+    {
+      "rank": 69,
+      "score": 7.562924366763077,
+      "candidate": "from typing import List\n\n\ndef single_elements(list_of_tuples: List[tuple]) -> List[tuple]:\n    \"\"\"Extracts elements that occur singly in the given tuple list.\n\n    Args:\n        list_of_tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert single_elements([(1, 2, 3), (1, 3), (3, 4), (5, 6, 6)]) == [(2,), (6,)]\n    \"\"\"\n    return [tuple(set(i)) for i in list_of_tuples if len(i) == 1]\n\n\nif __name__ == \"__main__\":\n    print(single_elements([(1, 2, 3), (1, 3), (3, 4), (5, 6, 6)]))"
+    },
+    {
+      "rank": 70,
+      "score": 7.4878043221155455,
+      "candidate": "from collections import Counter\n\n\ndef singletons(tuplist):\n    counter = Counter(tuplist)\n    return tuple(item for item in tuplist if counter[item] == 1)\n\n\nif __name__ == \"__main__\":\n    print(singletons((1, 2, 3, 4, 4, 3, 2, 1)))\n    print(singletons((1, 1, 1)))"
+    },
+    {
+      "rank": 71,
+      "score": 7.464609382504557,
+      "candidate": "from typing import List, Tuple\n\n\ndef singly_elements(arr: List[Tuple[int, int]]) -> List[int]:\n    \"\"\"Returns the singly occuring elements from the list of tuples.\"\"\"\n    if not arr:\n        return []\n\n    result = []\n\n    for num in arr[0]:\n        if sum(num in pair for pair in arr) == 1:\n            result.append(num)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert singly_elements([(1, 2, 3), (5, 3, 2), (9, 2), (3, 8)]) == [1, 9]\n    assert singly_elements([(1, 2), (3, 1), (2, 1), (1, 4)]) == [2, 4]"
+    },
+    {
+      "rank": 72,
+      "score": 7.4506599871439985,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singles(data: List[Tuple]) -> List[Tuple]:\n    \"\"\"Extracts elements that occur singly in the given tuple list.\n\n    Args:\n        data (List[Tuple]): list of tuples\n\n    Returns:\n        List[Tuple]: list of tuples containing elements that occur singly\n    \"\"\"\n    singles = []\n\n    for elem in data:\n        if data.count(elem) == 1:\n            singles.append(elem)\n\n    return singles\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 1), (2, 2), (3, 3), (1, 1)]))"
+    },
+    {
+      "rank": 73,
+      "score": 3.5186378916625025,
+      "candidate": "from typing import List\n\n\ndef singly_elements(lists: List[tuple]) -> tuple:\n    \"\"\"\n    This solution does not use the built in set function.\n\n    >>> singly_elements([(1, 2, 3), (4, 5, 6), (7, 8, 9)])\n    (1, 3, 6, 9)\n    \"\"\"\n    return tuple(\n        [\n            lists[0][0],\n            *[\n                element\n                for sublist in lists[1:]\n                for element in sublist\n                if element not in sublist[:sublist.index(element)]\n                and element not in sublist[sublist.index(element) + 1 :]\n            ],\n        ]\n    )\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 74,
+      "score": 3.426448359794247,
+      "candidate": "from typing import List\n\n\ndef single_element(arr: List[int]) -> List[int]:\n    \"\"\"Returns a list of elements that occur singly in the given list.\n\n    Args:\n        arr (List[int]): list of integers\n\n    Examples:\n        >>> assert single_element([1, 1, 2, 2, 3, 4, 5, 3]) == [4, 5]\n    \"\"\"\n    return [x for x in arr if arr.count(x) == 1]\n\n\nif __name__ == \"__main__\":\n    print(single_element([1, 1, 2, 2, 3, 4, 5, 3]))"
+    },
+    {
+      "rank": 75,
+      "score": 3.413810332527625,
+      "candidate": "from typing import List\n\n\ndef extract_singly_occurring_elements(lists: List[list]) -> list:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        lists (List[list]): list of lists\n\n    Examples:\n        >>> assert extract_singly_occurring_elements([[1, 2, 3], [1, 2, 3], [2, 3, 4]]) == [4]\n    \"\"\"\n    result = []\n\n    for num in range(1, 10):\n        for lst in lists:\n            if num in lst:\n                lst.remove(num)\n\n        if len([lst for lst in lists if num in lst]) == 0:\n            result.append(num)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(extract_singly_occurring_elements([[1, 2, 3], [1, 2, 3], [2, 3, 4]]))"
+    },
+    {
+      "rank": 76,
+      "score": 3.2959942233412964,
+      "candidate": "def singly_elements(tup):\n    return tuple(set(tup).difference(set(tup[i] for i in range(len(tup)) if tup[i] in tup[:i] or tup[i] in tup[i+1:])))\n\n\nprint(singly_elements((1, 2, 3, 4, 2, 5, 6, 1, 7, 6, 5)))"
+    },
+    {
+      "rank": 77,
+      "score": 3.2563125929565806,
+      "candidate": "from typing import List\n\n\ndef extract_singles(arr: List[tuple]) -> List[int]:\n    \"\"\"\n    O(n) & O(n)\n    \"\"\"\n    result: List[int] = []\n    cache: dict = {}\n    for num in arr:\n        if num not in cache:\n            cache[num] = 0\n        cache[num] += 1\n\n    for num in cache:\n        if cache[num] == 1:\n            result.append(num)\n    return result\n\n\nif __name__ == \"__main__\":\n    assert extract_singles([(1, 2), (2, 3), (3, 1), (1, 2)]) == [1, 3]\n    assert extract_singles([(1, 2), (2, 3), (2, 1), (1, 2)]) == [2]\n    assert extract_singles([(1, 2), (2, 3), (2, 1), (1, 2), (2, 3)]) == [1]"
+    },
+    {
+      "rank": 78,
+      "score": 3.230312575388893,
+      "candidate": "from collections import defaultdict\n\n\ndef find_singles(data):\n    result = []\n    d = defaultdict(int)\n    for t in data:\n        for x in t:\n            d[x] += 1\n    for x in data:\n        for y in x:\n            if d[y] == 1:\n                result.append(y)\n                break\n    return result\n\n\ndef test_find_singles():\n    assert find_singles([(1, 2, 3, 4), (1, 3, 5, 7), (1, 3, 7, 9), (2, 4, 6, 8)]) == [\n        5,\n        7,\n        9,\n    ]\n\n\nif __name__ == \"__main__\":\n    test_find_singles()"
+    },
+    {
+      "rank": 79,
+      "score": 3.171269360875443,
+      "candidate": "from typing import List\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef single_element(lists: List[List[int]]) -> List[int]:\n    \"\"\"\n    :param lists: list of tuple\n    :return: list of single elements\n    \"\"\"\n    if not lists:\n        return []\n\n    count = [0] * 10000\n\n    for l in lists:\n        for num in l:\n            count[num] += 1\n\n    return [num for num in range(10000) if count[num] == 1]\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef single_element_with_set(lists: List[List[int]]) -> List[int]:\n    \"\"\"\n    :param lists: list of tuple\n    :return: list of single elements\n    \"\"\"\n    if not lists:\n        return []\n\n    s = set()\n\n    for l in lists:\n        s = s.union(set(l))\n\n    return list(s)\n\n\n# Time complexity: O(n).\n# Space complexity: O(n).\ndef single_element_with_dict(lists: List[List[int]]) -> List[int]:\n    \"\"\"\n    :param lists: list of tuple\n    :return: list of single elements\n    \"\"\"\n    if not lists:\n        return []\n\n    d = {}\n\n    for l in lists:\n        for num in l:\n            d[num] = d.get(num, 0) + 1\n\n    return [num for num in d if d[num] == 1]\n\n\nif __name__ == \"__main__\":\n    print(single_element([[1, 2, 3, 4, 3], [3, 4, 5, 6, 7], [4, 8, 9, 10, 11]]))\n    print(single_element_with_set([[1, 2, 3, 4, 3], [3, 4, 5, 6, 7], [4, 8, 9, 1"
+    },
+    {
+      "rank": 80,
+      "score": 3.15191681220407,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singles(arr: List[Tuple[int, int]]) -> List[int]:\n    \"\"\"Write a function to extract elements that occur singly in the given tuple list.\n\n    Args:\n        arr (List[Tuple[int, int]]): list of tuples\n\n    Returns:\n        List[int]: list of ints\n    \"\"\"\n    _dict = {}\n\n    for i, j in arr:\n        _dict[i] = _dict.get(i, 0) + 1\n        _dict[j] = _dict.get(j, 0) + 1\n\n    return [i for i in _dict if _dict[i] == 1]\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 2), (2, 3), (3, 1)]))\n    print(get_singles([(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]))"
+    },
+    {
+      "rank": 81,
+      "score": 3.1012580870133375,
+      "candidate": "from collections import Counter\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef extract_singly_occurring_elements(arr):\n    counter = Counter()\n    for i in range(len(arr)):\n        counter[arr[i]] += 1\n\n    res = []\n    for i in range(len(arr)):\n        if counter[arr[i]] == 1:\n            res.append(arr[i])\n\n    return res\n\n\n# Time complexity O(nlogn)\n# Space complexity O(1)\ndef extract_singly_occurring_elements_sorted(arr):\n    arr.sort()\n    res = []\n    count = 1\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            if count == 1:\n                res.append(arr[i - 1])\n            count = 1\n\n    if count == 1:\n        res.append(arr[-1])\n\n    return res\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef extract_singly_occurring_elements_dict(arr):\n    count = {}\n    res = []\n    for i in range(len(arr)):\n        if arr[i] in count:\n            count[arr[i]] += 1\n        else:\n            count[arr[i]] = 1\n\n    for i in range(len(arr)):\n        if count[arr[i]] == 1:\n            res.append(arr[i])\n\n    return res\n\n\n# Time complexity O(n)\n# Space complexity O(n)\ndef extract_singly_occurring_elements_set(arr):\n    count = set()\n    res = []\n    for i in range(len(arr)):\n        if arr[i] in count:\n            count.remove(arr[i])\n        else:\n            count.add(arr[i])\n\n    for i in range(len(arr)):\n        if arr[i] in count:\n            res.append(arr[i])"
+    },
+    {
+      "rank": 82,
+      "score": 3.092753760792998,
+      "candidate": "from typing import List\n\n\ndef get_singles(lst: List[tuple]) -> list:\n    \"\"\"\n    >>> get_singles([(1,), (2,), (1,), (2,), (1,)])\n    [1]\n    \"\"\"\n    res = []\n\n    for i in lst:\n        if i[0] not in res:\n            res.append(i[0])\n\n    return res\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()"
+    },
+    {
+      "rank": 83,
+      "score": 3.0920503107047117,
+      "candidate": "def single_element_extractor(elements):\n    \"\"\"Extracts elements that occur singly in the given tuple list.\n\n    Args:\n        elements (list): A list of tuples.\n\n    Returns:\n        list: A list of elements that occur singly in the given tuple list.\n    \"\"\"\n    return list(set(elements).difference(set([item for item in elements if elements.count(item) != 1])))\n\n\ndef test_function(test_case):\n    test_input, test_expected = test_case\n    test_actual = single_element_extractor(test_input)\n    if sorted(test_expected) == sorted(test_actual):\n        print(\"Pass\")\n    else:\n        print(\"Fail\")\n\n\ntest_function(([(\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\")], [\"h\", \"e\", \"l\", \"l\", \"o\"]))\ntest_function(([(\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\")], [\"h\", \"e\", \"l\", \"l\", \"o\"]))\ntest_function(([(\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\")], []))\ntest_function(([(\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\"h\", \"e\", \"l\", \"l\", \"o\"), (\""
+    },
+    {
+      "rank": 84,
+      "score": 3.087989253126677,
+      "candidate": "from typing import List\n\n\ndef get_singles(arr: List[tuple]) -> List[tuple]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    singles: List[tuple] = []\n\n    for num in range(len(arr[0])):\n        for item in arr:\n            if item[num] == 1:\n                break\n        else:\n            singles.append((num,))\n\n    return singles\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 1, 1, 0, 0), (0, 1, 1, 1, 0), (1, 0, 1, 1, 0)]))"
+    },
+    {
+      "rank": 85,
+      "score": 3.024373179106688,
+      "candidate": "from typing import List\n\n\ndef single_element(arr: List[tuple]) -> List[int]:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    result = []\n\n    for element in arr:\n        if element[1] == 1:\n            result.append(element[0])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert single_element([(2, 2), (3, 3), (4, 1), (1, 4), (0, 2)]) == [0, 4]\n    assert single_element([(2, 2), (3, 3), (4, 1), (1, 4), (0, 2), (2, 2)]) == [0, 4]"
+    },
+    {
+      "rank": 86,
+      "score": 2.9384918714054966,
+      "candidate": "from typing import List\n\n\ndef singly_occurring_elements(elements: List[tuple]) -> list:\n    \"\"\"\n    Time Complexity: O(n)\n    Space Complexity: O(n)\n    \"\"\"\n    result = []\n\n    for element in elements:\n        if elements.count(element) == 1:\n            result.append(element)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert singly_occurring_elements([(1, 2), (1, 2), (2, 3), (1, 2), (3, 4)]) == [\n        (2, 3),\n        (3, 4),\n    ]"
+    },
+    {
+      "rank": 87,
+      "score": 2.9183257500578823,
+      "candidate": "from typing import List\n\n\ndef extract_elements(arr: List[int]) -> List[int]:\n    \"\"\"Extract elements that occur singly.\n\n    Time Complexity: O(n)\n    Space Complexity: O(1)\n    \"\"\"\n    return [arr[i] for i in range(len(arr)) if arr.count(arr[i]) == 1]\n\n\nif __name__ == \"__main__\":\n    assert extract_elements([1, 2, 1, 3, 4, 4, 5]) == [2, 3, 5]"
+    },
+    {
+      "rank": 88,
+      "score": 2.8702430460125106,
+      "candidate": "from typing import List\n\n\ndef singly_occurring_elements(tup_list: List[tuple]) -> set:\n    \"\"\"Get singly occurring elements in tuple list.\n\n    Args:\n        tup_list (List[tuple]): list of tuples\n\n    Returns:\n        set: singly occurring elements\n    \"\"\"\n    return {\n        item\n        for sublist in tup_list\n        for item in sublist\n        if sublist.count(item) == 1\n    }\n\n\nif __name__ == \"__main__\":\n    print(\n        singly_occurring_elements(\n            [(\"a\", \"b\", \"c\", \"a\"), (\"a\", \"a\", \"a\"), (\"b\", \"c\"), (\"a\", \"b\", \"c\")]\n        )\n    )"
+    },
+    {
+      "rank": 89,
+      "score": 2.8685471719382134,
+      "candidate": "from typing import List\n\n\ndef extract_singles(arr: List[tuple]) -> List[tuple]:\n    \"\"\"Returns the list of elements that occur singly in the given tuple list.\n\n    Args:\n        arr (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert extract_singles([(1, 2), (2, 3), (3, 4), (1, 2), (2, 3)]) == [(3, 4)]\n    \"\"\"\n    occurance = {}\n\n    for item in arr:\n        if item in occurance:\n            occurance[item] += 1\n        else:\n            occurance[item] = 1\n\n    return [item for item in occurance if occurance[item] == 1]\n\n\nif __name__ == \"__main__\":\n    print(extract_singles([(1, 2), (2, 3), (3, 4), (1, 2), (2, 3)]))"
+    },
+    {
+      "rank": 90,
+      "score": 2.8595080277963296,
+      "candidate": "from typing import List\n\n\ndef extract_singly_occurring_elements(arr: List[tuple]) -> List[int]:\n    \"\"\"Returns list of elements that occur singly in the given tuple list.\n\n    Args:\n        arr (List[tuple]): list of tuples to be checked\n\n    Examples:\n        >>> assert extract_singly_occurring_elements([(1, 2), (2, 3), (2, 2)]) == [1, 3]\n        >>> assert extract_singly_occurring_elements([(1, 1), (1, 2), (2, 2)]) == [2]\n        >>> assert extract_singly_occurring_elements([(1, 1), (2, 2), (3, 3)]) == []\n    \"\"\"\n    return list(set(i for tup in arr for i in tup).difference(set(i for tup in arr for i in tup[::-1])))\n\n\nif __name__ == \"__main__\":\n    print(extract_singly_occurring_elements([(1, 2), (2, 3), (2, 2)]))\n    print(extract_singly_occurring_elements([(1, 1), (1, 2), (2, 2)]))\n    print(extract_singly_occurring_elements([(1, 1), (2, 2), (3, 3)]))"
+    },
+    {
+      "rank": 91,
+      "score": 2.854884338883379,
+      "candidate": "from typing import List\n\n\ndef singly_occurring_elements(lst: List) -> List:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        lst (List): list of tuples\n\n    Returns:\n        List: list of elements\n    \"\"\"\n    # init\n    output = []\n\n    # calculate\n    for x in lst:\n        if lst.count(x) == 1:\n            output.append(x)\n\n    # return\n    return output\n\n\nif __name__ == \"__main__\":\n    print(singly_occurring_elements([(1, 2), (2, 3), (4, 5), (1, 2), (1, 2)]))"
+    },
+    {
+      "rank": 92,
+      "score": 2.8475728371329487,
+      "candidate": "from typing import List\n\n\ndef extract_singly_occurring_elements(arr: List[tuple]) -> List[int]:\n    \"\"\"Returns list of elements that occur singly in the given tuple list.\n\n    Args:\n        arr (List[tuple]): tuple list\n\n    Examples:\n        >>> assert extract_singly_occurring_elements([(1, 2), (2, 3), (1, 2)]) == [3]\n        >>> assert extract_singly_occurring_elements([(1, 2), (2, 3), (1, 3)]) == []\n    \"\"\"\n    return [x for x in range(1, len(arr) + 1) if arr.count((x,)) == 1]\n\n\nif __name__ == \"__main__\":\n    print(extract_singly_occurring_elements([(1, 2), (2, 3), (1, 2)]))"
+    },
+    {
+      "rank": 93,
+      "score": 2.8318211668227344,
+      "candidate": "from typing import List\n\n\ndef single_element(arr: List[tuple]) -> list:\n    \"\"\"\n    Time Complexity: O(n*k)\n    Space Complexity: O(k)\n    \"\"\"\n    result = []\n\n    for i in range(len(arr)):\n        if arr[i][1] is None:\n            result.append(arr[i][0])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert single_element([(1, 2), (1, None), (2, 3), (3, None), (3, 4)]) == [2, 4]\n    assert single_element([(1, 2), (2, None), (2, 3)]) == [1, 3]"
+    },
+    {
+      "rank": 94,
+      "score": 2.8104618399143315,
+      "candidate": "from typing import List, Tuple\n\n\ndef get_singles(data: List[Tuple]) -> List[int]:\n    \"\"\"Returns the elements that occur singly in a list of tuples.\n\n    Args:\n        data (List[Tuple]): a list of tuples\n\n    Examples:\n        >>> assert get_singles([(1, 2), (2, 3), (3, 4), (1, 3)]) == [2, 4]\n    \"\"\"\n    # your code here\n    return [x for x in data[0] if sum(x in pair for pair in data) == 1]\n\n\nif __name__ == \"__main__\":\n    print(get_singles([(1, 2), (2, 3), (3, 4), (1, 3)]))"
+    },
+    {
+      "rank": 95,
+      "score": 2.716407286306361,
+      "candidate": "from typing import List, Tuple\n\n\ndef extract_singleton(tuples: List[Tuple[int, ...]]) -> List[int]:\n    \"\"\"Extract elements that occur singly in the given tuple list.\n\n    Args:\n        tuples (List[Tuple[int, ...]]): list of tuples\n\n    Returns:\n        List[int]: list of elements\n    \"\"\"\n    return [item for item in set(sum(tuples, ())) if sum(item in tup for tup in tuples) == 1]\n\n\nif __name__ == \"__main__\":\n    print(extract_singleton([(1, 2), (2, 3), (3, 2), (3, 4), (3, 5), (4, 5)]))"
+    },
+    {
+      "rank": 96,
+      "score": 2.703840939892348,
+      "candidate": "from typing import List\n\n\ndef singly_occurring(arr: List[tuple]) -> List[int]:\n    \"\"\"\n    Return elements that occur only once in the given array.\n    \"\"\"\n\n    result = []\n    for item in arr:\n        if len(item) == 1:\n            result.append(item[0])\n    return result\n\n\nif __name__ == \"__main__\":\n    print(singly_occurring([(1, 2, 3), (4, 5), (6,), (1, 2, 3)]))"
+    },
+    {
+      "rank": 97,
+      "score": 2.690226207278312,
+      "candidate": "from collections import Counter\n\n\n# O(n)\ndef get_singles(t):\n    return tuple(x for x in t if t.count(x) == 1)\n\n\n# O(n)\ndef get_singles_counter(t):\n    c = Counter(t)\n    return tuple(x for x in t if c[x] == 1)\n\n\n# O(n log n)\ndef get_singles_sort(t):\n    t = sorted(t)\n    prev = t[0]\n    res = []\n    for i in range(1, len(t)):\n        if t[i] != prev:\n            res.append(t[i])\n        prev = t[i]\n    return tuple(res)\n\n\n# O(n)\ndef get_singles_set(t):\n    res = set()\n    for x in t:\n        if t.count(x) == 1:\n            res.add(x)\n    return tuple(res)\n\n\nif __name__ == \"__main__\":\n    print(get_singles((1, 2, 3, 2, 5, 2)))\n    print(get_singles_counter((1, 2, 3, 2, 5, 2)))\n    print(get_singles_set((1, 2, 3, 2, 5, 2)))\n    print(get_singles_sort((1, 2, 3, 2, 5, 2)))"
+    },
+    {
+      "rank": 98,
+      "score": 2.6777217983217554,
+      "candidate": "from typing import List\n\n\ndef get_single_element(list_of_tuples: List[tuple]) -> tuple:\n    \"\"\"Returns tuple of elements that occur singly.\n\n    Args:\n        list_of_tuples (List[tuple]): list of tuples\n\n    Examples:\n        >>> assert get_single_element([(1, 2), (1, 2, 3), (3,)]) == (2, 3)\n    \"\"\"\n    # Your code here\n    pass\n\n\nif __name__ == \"__main__\":\n    print(\"Pass\" if (get_single_element([(1, 2), (1, 2, 3), (3,)]) == (2, 3)) else \"Fail\")"
+    },
+    {
+      "rank": 99,
+      "score": 2.5170230068963506,
+      "candidate": "from typing import List\n\n\ndef singly_list(arr: List[tuple]) -> List[int]:\n    \"\"\"Returns list of elements that occur singly in the given tuple list.\n\n    Args:\n        arr (List[tuple]): a list of tuples\n\n    Examples:\n        >>> singly_list([(1, 2), (2, 3), (3, 1), (4, 5)])\n        [2, 4]\n    \"\"\"\n    result = []\n\n    for item in arr:\n        if item[1] not in arr:\n            result.append(item[1])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(singly_list([(1, 2), (2, 3), (3, 1), (4, 5)]))"
+    },
+    {
+      "rank": 100,
+      "score": 2.2664713708548714,
+      "candidate": "from typing import List\n\n\ndef extract_singles(tup_list: List[tuple]) -> List[int]:\n    \"\"\"Returns list of elements that occur singly.\n\n    Args:\n        tup_list (List[tuple]): list of tuples\n\n    Returns:\n        List[int]: list of elements that occur singly.\n\n    Examples:\n        >>> assert extract_singles([(1, 2), (1, 3), (3, 4)]) == [2, 4]\n    \"\"\"\n    return [\n        i\n        for i in set(\n            [i for sublist in tup_list for i in sublist]\n        )\n        if tup_list.count(i) == 1\n    ]\n\n\nif __name__ == \"__main__\":\n    print(extract_singles([(1, 2), (1, 3), (3, 4)]))"
+    }
+  ]
+}

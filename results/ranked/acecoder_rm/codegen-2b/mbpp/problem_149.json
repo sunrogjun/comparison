@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/160",
+    "prompt": "Write a function to find x and y that satisfies ax + by = n.",
+    "canonical_solution": "def solution (a, b, n): \r\n\ti = 0\r\n\twhile i * a <= n: \r\n\t\tif (n - (i * a)) % b == 0: \r\n\t\t\treturn (\"x = \",i ,\", y = \", \r\n\t\t\tint((n - (i * a)) / b)) \r\n\t\t\treturn 0\r\n\t\ti = i + 1\r\n\treturn (\"No solution\") ",
+    "test_list": [
+      "assert solution(2, 3, 7) == ('x = ', 2, ', y = ', 1)",
+      "assert solution(4, 2, 7) == 'No solution'",
+      "assert solution(1, 13, 17) == ('x = ', 4, ', y = ', 1)"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 149
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from math import sqrt\n\ndef solution(n):\n    a, b = 1, 1\n    while a < sqrt(n):\n        a += 1\n        if n % a == 0:\n            break\n    while b < sqrt(n):\n        b += 1\n        if n % b == 0:\n            break\n    if n % a == 0:\n        return a, b\n    if n % b == 0:\n        return b, a\n    return a, b\n\n\nif __name__ == '__main__':\n    print solution(1000)",
+      1.5673828125
+    ],
+    [
+      "class Solution(object):\n    def getx(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        x = 0\n        while n > 0:\n            n = n % 10\n            x = x * 10 + n\n        return x\n\n    def gety(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        y = 0\n        while n > 0:\n            n = n % 10\n            y = y * 10 + n\n        return y\n\n    def solve(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        return self.getx(n) * self.gety(n)\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.solve(100))\n    print(s.solve(101))\n    print(s.solve(1000))\n    print(s.solve(1001))\n    print(s.solve(10002))",
+      0.908203125
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    x = 0\n    y = 0\n    for i in range(1, n+1):\n        if i % 2 == 1:\n            x += i\n        else:\n            y += i\n        if x > y:\n            x = 0\n        elif y > x:\n            y = 0\n    return x, y\n\nif __name__ == '__main__':\n    print(solve(10))",
+      0.80029296875
+    ],
+    [
+      "def solve(n):\n    # write your code here\n    if n < 0:\n        return -1\n    if n == 0:\n        return (0, 0)\n    l = 1\n    r = n\n    while l < r:\n        m = l + (r - l) // 2\n        if m * m == n:\n            return m, m\n        elif m * m < n:\n            l = m + 1\n        else:\n            r = m\n    return l, l\n\nif __name__ == '__main__':\n    n = int(input())\n    x, y = solve(n)\n    print(x)\n    print(y)",
+      0.66748046875
+    ],
+    [
+      "class Solution:\n    # @param n, an integer\n    # @return a tuple of integer (x, y)\n    def solveEquation(self, n):\n        return self.solveEquationRecu(n)\n\n    def solveEquationRecu(self, n):\n        if n < 0:\n            return None\n        if n == 0:\n            return (0, 0)\n\n        # base case\n        if n % 2 == 0:\n            return self.solveEquationRecu(n / 2)\n\n        # recursion case\n        return (self.solveEquationRecu(n - 1) + self.solveEquationRecu(n - 3) + self.solveEquationRecu(n - 5)) % n\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.solveEquation(1))\n    print(s.solveEquation(2))\n    print(s.solveEquation(3))\n    print(s.solveEquation(4))\n    print(s.solveEquation(5))\n    print(s.solveEquation(6))\n    print(s.solveEquation(7))\n    print(s.solveEquation(8))\n    print(s.solveEquation(9))",
+      0.367431640625
+    ],
+    [
+      "class Solution(object):\n    def fourSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[List[int]]\n        \"\"\"\n        if len(nums) == 4:\n            return [\n                [nums[0], nums[1], nums[2], nums[3]]\n            ]\n\n        result = []\n        nums.sort()\n\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                left = i + 1\n                right = len(nums) - 1\n                while left < right:\n                    s = nums[i] + nums[j] + nums[left] + nums[right]\n                    if s == target:\n                        result.append([nums[i], nums[j], nums[left], nums[right]])\n                        while left < right and nums[left] == nums[left+1]:\n                            left += 1\n                        while left < right and nums[right] == nums[right-1]:\n                            right -= 1\n                        left += 1\n                        right -= 1\n                    elif s < target:\n                        right -= 1\n                    elif s > target:\n                        left += 1\n                    else:\n                        return result\n\n        return result\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [1, 2, 3, 4, 5, 6]\n    print(sol.fourSum(nums, 7))\n\n    nums = [1, 1, 2]\n    print(sol.fourSum(nums, 3))\n\n    nums = [1, 1, 1]\n    print(sol.fourSum(nums, 1))\n\n    nums = [1, 1, 2, 2, 3, 4]\n    print(sol.fourSum(nums, 6))\n\n    nums = [1, 1, 2, 3, 5, 6, 7]\n    print(sol.fourSum(nums, 8))",
+      0.33935546875
+    ],
+    [
+      "import math\n\n\ndef find_xy(n):\n    x = 0\n    y = 0\n    for i in range(1, n + 1):\n        a = n % i\n        b = i\n        if a == 0:\n            x += 1\n            y += 1\n        else:\n            a = int(a / b)\n            x += a\n            y += a\n    return x, y\n\n\nif __name__ == \"__main__\":\n    print(find_xy(100))\n    print(find_xy(200))\n    print(find_xy(1000))",
+      0.1363525390625
+    ],
+    [
+      "def solution(n):\n    \"\"\"\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    x = y = 0\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            x = (x * 10) + i\n        else:\n            y = (y * 10) + i\n        if x * y == n:\n            return [x, y]\n    return None",
+      -0.85693359375
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef find_xy(n):\n    \"\"\"\n    Write a function to find x and y that satisfies ax + by = n.\n    \"\"\"\n    # use dict to store the solutions\n    solutions = defaultdict(lambda: defaultdict(lambda: None))\n\n    # initialize the solutions\n    for x in range(1, n + 1):\n        for y in range(1, n + 1):\n            solutions[x][y] = x * y\n\n    # calculate the solutions\n    for x in range(1, n + 1):\n        for y in range(1, n + 1):\n            solutions[x][y] = (solutions[x][y] - n) % (x * y)\n\n    # return the solutions\n    return solutions",
+      -0.85693359375
+    ],
+    [
+      "def find_xy(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    if n < 0:\n        raise ValueError('n should be a positive integer')\n\n    if n == 0:\n        return 0, 0\n\n    x = 0\n    y = 1\n    while n % x == 0 and n % y == 0:\n        n /= x\n        n /= y\n\n    if n == 1:\n        return x, y\n\n    return find_xy(n)",
+      -0.85693359375
+    ],
+    [
+      "# https://www.youtube.com/watch?v=cR9xL7Y6hD0\n\ndef solve(n):\n    # base case\n    if n < 0:\n        return 0, 0\n    elif n == 0:\n        return 1, 1\n\n    x, y = 1, 1\n    for i in range(1, n+1):\n        x, y = x*i, y*i\n    return x, y\n\nif __name__ == '__main__':\n    print(solve(5))\n    print(solve(7))\n    print(solve(10))\n    print(solve(100))\n    print(solve(1000))",
+      -0.85693359375
+    ],
+    [
+      "class Solution(object):\n    def get_max_points(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n < 1:\n            return 0\n        if n == 1:\n            return 1\n        if n == 2:\n            return 2\n        max_points = 0\n        x = 0\n        y = 0\n        for i in range(3, n + 1):\n            max_points += 1\n            x += i * (i - 1)\n            y += i * (i - 1) * i\n        return max_points",
+      -0.85791015625
+    ],
+    [
+      "# https://www.hackerearth.com/practice/basic-calculator/input-output/algorithm/solution/python/\n\ndef solve(n):\n    a, b = 0, 0\n    for i in range(n):\n        a, b = b, a + b\n    return a, b\n\nif __name__ == \"__main__\":\n    n = int(input())\n    print(solve(n))",
+      -0.85791015625
+    ],
+    [
+      "import math\n\ndef find_x_y(n):\n    # x = 0\n    # y = 0\n    x = 0\n    y = 0\n    # x = y\n    # y = 0\n    # x = 0\n    # y = x\n    while x * x + y * y <= n:\n        x += 1\n    while x * x + y * y > n:\n        y -= 1\n    return x, y\n\nif __name__ == '__main__':\n    print(find_x_y(7))\n    print(find_x_y(9))\n    print(find_x_y(11))\n    print(find_x_y(13))\n    print(find_x_y(15))\n    print(find_x_y(17))",
+      -0.85791015625
+    ],
+    [
+      "# Definition for a point\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\nclass Solution:\n    def find(self, points):\n        \"\"\"\n        :type points: List[Point]\n        :rtype: Point\n        \"\"\"\n        if len(points) == 0:\n            return None\n        n = sum(p.y for p in points)\n        x_sum = sum(p.x for p in points)\n        y_sum = sum(p.y for p in points)\n        if n == 0:\n            return None\n        if x_sum == 0:\n            return None\n        if y_sum == 0:\n            return None\n        if x_sum!= n:\n            return None\n        if y_sum!= n:\n            return None\n        x = (n - x_sum) / y_sum\n        y = x_sum / y_sum\n        return Point(x, y)",
+      -0.85791015625
+    ],
+    [
+      "import math\n\ndef solve(n):\n    x = 0\n    y = 0\n    for i in range(1, n):\n        x += i\n        y += (n - i)\n        if x * y == n:\n            return x, y\n\nif __name__ == '__main__':\n    print(solve(100))",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def solve(self, cipher):\n        \"\"\"\n        :type cipher: str\n        :rtype: List[int]\n        \"\"\"\n        n = cipher\n        x = 0\n        y = 0\n        while n:\n            n = n - 1\n            x, y = (x + y) % 10, (x - y) % 10\n        return [x, y]",
+      -0.85791015625
+    ],
+    [
+      "# Function to calculate x and y\ndef get_xy(n):\n    x = 0\n    y = 0\n    while n % 2 == 0:\n        n /= 2\n        x += 1\n    while n % 3 == 0:\n        n /= 3\n        y += 1\n    return x, y\n\n# Test cases\nprint(get_xy(4))\nprint(get_xy(5))\nprint(get_xy(6))\nprint(get_xy(7))\nprint(get_xy(8))",
+      -0.85791015625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/search-a-2d-matrix-ii/\n# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution:\n    # @param {integer} n\n    # @param {integer[][]} matrix\n    # @return {integer[]}\n    def searchMatrix(self, n, matrix):\n        m = len(matrix)\n        if m == 0:\n            return []\n        \n        # search for the first element with value n\n        for i in range(m):\n            for j in range(m):\n                if matrix[i][j] == n:\n                    return [i, j]\n        return []",
+      -0.85791015625
+    ],
+    [
+      "import math\n\ndef find_x_y(n):\n    x = 1\n    y = 0\n    while True:\n        x *= 2\n        y += 1\n        if x + y > n:\n            return x, y\n\ndef main():\n    n = int(input())\n    x, y = find_x_y(n)\n    print(\"{} + {} = {}\".format(x, y, n))\n\nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "def solve(a, b, n):\n    \"\"\"\n    :type a: int\n    :type b: int\n    :type n: int\n    :rtype: tuple(int, int)\n    \"\"\"\n    # x = n/a\n    # y = n/b\n    # x = x - 1\n    # y = y - 1\n    # x = x * b - a * y\n    # y = n/b - a * x\n    x = n/b - a * (n/b - 1)\n    y = n/b - a * x\n    return (x, y)\n\n\nif __name__ == '__main__':\n    print solve(1, 2, 4)",
+      -0.8583984375
+    ],
+    [
+      "from utils import *\n\n\ndef solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    # dp\n    dp = [0] * (n + 1)\n    dp[0] = 1\n\n    for i in range(1, n + 1):\n        for j in range(i, n + 1):\n            if i == j:\n                dp[j] = 1\n            else:\n                dp[j] = dp[j - 1] + dp[j - i]\n\n    ans = []\n    for i in range(n + 1):\n        ans.append(dp[n])\n\n    return ans\n\n\nif __name__ == '__main__':\n    assert solve(5) == [1, 1, 2, 3, 3]",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    # @param {int} n\n    # @return {int[]}\n    def get_ans(self, n):\n        x = y = 0\n        while n > 0:\n            n -= x\n            y += x\n            x -= y\n        return [x, y]\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.get_ans(18)\n    print s.get_ans(1)\n    print s.get_ans(4)\n    print s.get_ans(5)\n    print s.get_ans(3)\n    print s.get_ans(6)\n    print s.get_ans(7)",
+      -0.8583984375
+    ],
+    [
+      "import math\n\ndef solve(a, b, n):\n    \"\"\"\n    :type a: int\n    :type b: int\n    :type n: int\n    :rtype: tuple(int, int)\n    \"\"\"\n    x = -1\n    y = -1\n    for i in range(1, n+1):\n        if i%a == 0:\n            x = i\n        if i%b == 0:\n            y = i\n    return x, y\n\n\nif __name__ == '__main__':\n    assert(solve(2, 3, 5) == (5, 2))\n    assert(solve(3, 5, 5) == (5, 3))\n    assert(solve(3, 7, 5) == (5, 3))\n    assert(solve(7, 5, 5) == (5, 3))\n    assert(solve(7, 9, 5) == (5, 3))\n    assert(solve(9, 5, 5) == (5, 3))",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def solve(self, cipher):\n        \"\"\"\n        :type cipher: str\n        :rtype: str\n        \"\"\"\n        x, y = 0, 0\n        for i in range(len(cipher)):\n            if cipher[i] == '+':\n                x += 1\n            elif cipher[i] == '-':\n                x -= 1\n            elif cipher[i] == 'x':\n                y += 1\n            elif cipher[i] == 'y':\n                y -= 1\n        return \"%d %d\" % (x, y)",
+      -0.8583984375
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    :param n: int\n    :return: (x, y)\n    \"\"\"\n    x = 0\n    y = 1\n    while True:\n        if (x + y) % n == 0:\n            return x, y\n        x, y = x + y, y",
+      -0.8583984375
+    ],
+    [
+      "def is_possible(a, b, n):\n    return a * b == n\n\ndef solve(a, b, n):\n    if not is_possible(a, b, n):\n        return None\n\n    # If a is even, then b is odd, and vice versa\n    if a % 2 == 0:\n        if b % 2 == 1:\n            return a, b + n / a\n        else:\n            return a, b - n / a\n    else:\n        if b % 2 == 1:\n            return a + n / a, b\n        else:\n            return a - n / a, b\n\nif __name__ == \"__main__\":\n    a, b, n = int(input()), int(input()), int(input())\n    print(solve(a, b, n))",
+      -0.8583984375
+    ],
+    [
+      "# Definition for a point.\n# class Point:\n#     def __init__(self, a=0, b=0):\n#         self.x = a\n#         self.y = b\n\nclass Solution:\n    def getAns(self, x, y, n):\n        if x == 0 and y == 0:\n            return 0\n        elif x == 0:\n            return n - y\n        elif y == 0:\n            return n - x\n        else:\n            return x * n - y * n\n            \n    def getMinStep(self, x, y, n):\n        return abs(self.getAns(x, y, n))",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def isIsomorphic(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        if len(s)!= len(t):\n            return False\n        table = {ord(c): ord(c) for c in s}\n        return self.check(table, t, 0)\n\n    def check(self, table, s, i):\n        if i == len(s):\n            return True\n        if table.get(s[i]) == 0:\n            return self.check(table, s, i + 1)\n        if table.get(s[i])!= table.get(s[i + 1]):\n            return False\n        return self.check(table, s, i + 2)\n\n\nif __name__ == '__main__':\n    assert Solution().isIsomorphic('a', 'b')\n    assert Solution().isIsomorphic('aa', 'abb')\n    assert Solution().isIsomorphic('aa', 'abb')",
+      -0.8583984375
+    ],
+    [
+      "import math\n\n\ndef is_square_number(n):\n    return n % 4 == 0\n\n\ndef is_square_number_and_prime(n):\n    return is_square_number(n) and is_prime(n)\n\n\ndef is_prime(n):\n    return n > 1 and math.sqrt(n) == math.floor(math.sqrt(n))\n\n\ndef solve(n):\n    if is_prime(n):\n        return n, n\n\n    x, y = 0, n\n    while True:\n        x += 1\n        y = n - x * x\n        if is_prime(x * x + y):\n            return x * x + y, x * x + y\n\n\nif __name__ == '__main__':\n    print(solve(1000))",
+      -0.85888671875
+    ],
+    [
+      "import math\n\ndef solve(n):\n    \"\"\"\n    Input: n\n    Output: x, y\n    \"\"\"\n    x = -1\n    y = -1\n    for a in range(-1, 1):\n        for b in range(-1, 1):\n            if a * a + b * b == n:\n                x = a\n                y = b\n                break\n    return x, y\n\nif __name__ == '__main__':\n    n = int(input())\n    print(solve(n))",
+      -0.85888671875
+    ],
+    [
+      "from math import sqrt\n\nclass Solution(object):\n    def isHappy(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        def is_happy(n):\n            if n == 1:\n                return True\n            else:\n                return False\n            \n            \n        if n == 1:\n            return 1\n        \n        \n        n = n % 10\n        \n        if is_happy(n):\n            return n\n        \n        \n        while True:\n            \n            if is_happy(n):\n                return n\n            \n            n = n * 10 + 9\n            \n            if is_happy(n):\n                return n\n            \n        return 0",
+      -0.85888671875
+    ],
+    [
+      "import math\n\n\ndef find_x_y(n):\n    \"\"\"\n    n is positive integer\n    :param n:\n    :return: tuple (x, y)\n    \"\"\"\n    if n == 0:\n        return 0, 0\n    if n == 1:\n        return 1, 1\n    if n == 2:\n        return 2, 2\n    if n % 2 == 0:\n        return find_x_y(n / 2)\n    else:\n        return find_x_y(n - 1)\n\n\ndef main():\n    n = int(input())\n    x, y = find_x_y(n)\n    print(\"x = {0}\".format(x))\n    print(\"y = {0}\".format(y))\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def __init__(self, n):\n        \"\"\"\n        :type n: int\n        \"\"\"\n        self.n = n\n        self.x = self.y = 0\n\n    def solve(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        while self.x * self.x + self.y * self.y < self.n:\n            if self.y * self.y + self.x * self.x < self.n:\n                self.x += 1\n            else:\n                self.y += 1\n        return self.x + self.y",
+      -0.85888671875
+    ],
+    [
+      "import math\n\ndef find_xy(n):\n    \"\"\"\n    n = 3\n    x = 1\n    y = 1\n    x = 1\n    y = 1\n    x = 2\n    y = 1\n    x = 2\n    y = 2\n    \"\"\"\n    for x in range(1, n + 1):\n        for y in range(1, n + 1):\n            if (x * x + y * y) == n:\n                return x, y\n\nif __name__ == \"__main__\":\n    print(find_xy(3))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    # @param n, an integer\n    # @return an integer array\n    def getSum(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        res = []\n        for i in range(1, n + 1):\n            x, y = i, 0\n            while x!= 0:\n                x, y = y, x % y\n            res.append(y)\n        return res",
+      -0.85888671875
+    ],
+    [
+      "def get_x_and_y(n):\n    \"\"\"\n    x, y = get_x_and_y(n)\n    Find x and y such that ax + by = n.\n    :param n: int\n    :return: x, y\n    \"\"\"\n    # Write your code here\n    if n < 0:\n        return (1, -1)\n    for i in range(1, n):\n        if n % i == 0:\n            return (i, n // i)\n    return (1, 1)",
+      -0.86083984375
+    ],
+    [
+      "import math\n\ndef solve(n):\n    x = 0\n    y = 0\n    for i in range(1, n):\n        x = x + (i**2)\n        y = y + (i*i)\n    return x, y\n\ndef test():\n    assert(solve(8) == (2, 3))\n    assert(solve(16) == (4, 5))\n    assert(solve(20) == (5, 6))\n\nif __name__ == \"__main__\":\n    test()",
+      -0.86083984375
+    ],
+    [
+      "from collections import Counter\n\nclass Solution(object):\n    def getDST(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        ans = []\n        for i in range(1, n + 1):\n            c = Counter(i)\n            if c['a'] == 0 and c['b'] == 0:\n                ans.append(i)\n        return ans\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.getDST(10)",
+      -0.86083984375
+    ],
+    [
+      "import math\n\ndef find_xy(n):\n    \"\"\"\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    x = 0\n    y = 0\n    for i in range(1, n + 1):\n        if (n % i == 0):\n            x = i\n            y = n / i\n            break\n    return [x, y]\n\n\nif __name__ == '__main__':\n    print find_xy(100)",
+      -0.86083984375
+    ],
+    [
+      "# https://oj.leetcode.com/problems/pascals-triangle-ii/\n# Given an index k, return the kth row of the Pascal's triangle.\n# \n# For example, given k = 3,\n# Return [1,3,3,1].\n# \n# Note:\n# Could you optimize your algorithm to use only O(k) extra space?\n\nclass Solution:\n    # @param n, an integer\n    # @param k, an integer\n    # @return a list of integers\n    def getRow(self, n, k):\n        if n < k:\n            return []\n        res = [1]\n        for i in xrange(1,k+1):\n            res.append(res[i-1] + res[i-1])\n        return res[k]",
+      -0.95703125
+    ],
+    [
+      "# http://www.youtube.com/watch?v=v9sxqXVhYcM\ndef solve(n):\n    \"\"\"\n    :param n: the number\n    :return: x and y that satisfies ax + by = n\n    \"\"\"\n    a = 1\n    b = 1\n    x = 1\n    y = 1\n    while a*x + b*y < n:\n        if (a*x + b*y) % n == 0:\n            x += 1\n            y += 1\n        else:\n            a += 1\n            b += 1\n    return x, y\n\nif __name__ == \"__main__\":\n    n = 100\n    x, y = solve(n)\n    print x, y",
+      -1.009765625
+    ],
+    [
+      "from math import sqrt\n\n\ndef solve(a, b, n):\n    \"\"\"\n    :type a: int\n    :type b: int\n    :type n: int\n    :rtype: tuple(int, int)\n    \"\"\"\n    x = a * n\n    y = b * n\n    while x > 0:\n        if (x - y) % n == 0:\n            break\n        x -= 1\n    while y > 0:\n        if (x - y) % n == 0:\n            break\n        y -= 1\n    return x, y\n\n\nif __name__ == '__main__':\n    a, b = int(input()), int(input())\n    n = int(input())\n    x, y = solve(a, b, n)\n    print(x, y)",
+      -1.0908203125
+    ],
+    [
+      "import math\n\ndef is_pandigital(number):\n    digits = [int(i) for i in str(number)]\n    return digits == list(map(str, list(range(1, 10))))\n\ndef find_x_and_y(n):\n    x = y = 0\n    for i in range(1, n):\n        if is_pandigital(i):\n            x += i\n            y += (i - 1)\n        else:\n            return x, y\n    return x, y\n\nif __name__ == '__main__':\n    n = int(input())\n    x, y = find_x_and_y(n)\n    print(x, y)",
+      -1.6025390625
+    ],
+    [
+      "import math\n\ndef solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: tuple\n    \"\"\"\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # http://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/find-x-y-such-that-ax+by-is-a-square-number/\n    # https://www.geeksforgeeks.org/",
+      -1.7685546875
+    ],
+    [
+      "def is_square(n):\n    \"\"\"\n    :type n: int\n    :rtype: bool\n    \"\"\"\n    return n == 0 or n == 1 or n % 4 == 0 or n % 9 == 0\n\ndef is_square_in_range(n, low, high):\n    \"\"\"\n    :type n: int\n    :type low: int\n    :type high: int\n    :rtype: bool\n    \"\"\"\n    return n >= low and n <= high and is_square(n)\n\ndef square_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    return n * n\n\ndef is_square_sum(n):\n    \"\"\"\n    :type n: int\n    :rtype: bool\n    \"\"\"\n    return square_sum(n) == n\n\ndef is_square_sum_in_range(n, low, high):\n    \"\"\"\n    :type n: int\n    :type low: int\n    :type high: int\n    :rtype: bool\n    \"\"\"\n    return n >= low and n <= high and is_square_sum(n)\n\ndef main():\n    print(is_square_in_range(0, 1, 10))\n    print(is_square_sum_in_range(0, 1, 10))\n\nif __name__ == '__main__':\n    main()",
+      -2.181640625
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    a, b = 1, 1\n    for i in range(2, n + 1):\n        if i % 2 == 1:\n            a *= i\n        else:\n            b *= i\n    x, y = n / a, n / b\n    return [x, y]\n\nif __name__ == \"__main__\":\n    print(solve(100))\n    print(solve(200))\n    print(solve(400))\n    print(solve(800))\n    print(solve(1000))\n    print(solve(1001))",
+      -2.72265625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/coin-change/\n# Given n, how many different ways can we make change?\n#\n# Example 1:\n# Input: n = 5\n# Output: [[0,0,1,2,3],[0,0,1,2,3],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4]]\n#\n# Example 2:\n# Input: n = 8\n# Output: [[0,0,0,0,0,0,1,2],[0,0,0,0,0,0,1,2],[0,0,0,0,0,0,1,2],[0,0,0,0,0,0,1,2],[0,0,0,0,0,0,1,2]]\n#\n# Note:\n# n will be an integer in the range [0, 10^9].\n\nclass Solution(object):\n    def coinChange(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[List[int]]\n        \"\"\"\n        dp = [[0] * (n+1) for _ in range(n+1)]\n        dp[0][0] = 1\n        for i in range(1, n+1):\n            for j in range(1, i+1):\n                if i-j < 0:\n                    continue\n                dp[i][j] = dp[i-j][j]\n                if dp[i-j][j]!= 0:\n                    dp[i][j] += dp[i-j][j-1]\n        return dp[n][n]",
+      -2.984375
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: tuple\n    \"\"\"\n    if n <= 0:\n        return 0, 0\n    x, y = 0, 1\n    while n % 2 == 0:\n        x, y = x + 1, y\n        n //= 2\n    while n % 3 == 0:\n        x, y = x + 1, y\n        n //= 3\n    while n % 5 == 0:\n        x, y = x + 1, y\n        n //= 5\n    while n % 7 == 0:\n        x, y = x + 1, y\n        n //= 7\n    while n % 11 == 0:\n        x, y = x + 1, y\n        n //= 11\n    while n % 13 == 0:\n        x, y = x + 1, y\n        n //= 13\n    while n % 17 == 0:\n        x, y = x + 1, y\n        n //= 17\n    while n % 19 == 0:\n        x, y = x + 1, y\n        n //= 19\n    while n % 23 == 0:\n        x, y = x + 1, y\n        n //= 23\n    while n % 29 == 0:\n        x, y = x + 1, y\n        n //= 29\n    while n % 31 == 0:\n        x, y = x + 1, y\n        n //= 31\n    while n % 37 == 0:\n        x, y = x + 1, y\n        n //= 37\n    while n % 41 == 0:\n        x, y = x + 1, y\n        n //= 41\n    while n % 43 == 0:\n        x, y = x + 1, y\n        n //= 43\n    while n % 47 == 0:\n        x, y = x + 1, y\n        n //= 47\n    while n % 53 == 0:\n        x, y = x + 1, y\n        n //= 53\n    while n % 59 == 0:\n        x, y = x + 1, y\n        n //= 59\n    while n % 61 == 0:\n        x, y = x + 1, y",
+      -3.265625
+    ],
+    [
+      "import math\n\n\ndef find_xy(n):\n    if n == 0:\n        return 0, 0\n\n    if n == 1:\n        return 1, 1\n\n    for x in range(2, int(math.sqrt(n)) + 1):\n        if n % x == 0:\n            y = x\n            while n % y == 0:\n                n /= y\n            if n == 1:\n                return x, y\n            else:\n                return x, y\n\n    return None\n\n\nif __name__ == \"__main__\":\n    print(find_xy(13))",
+      -3.453125
+    ],
+    [
+      "class Solution:\n    # @param {integer[]} nums\n    # @param {integer} target\n    # @return {integer[]}\n    def solveEquation(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        l = len(nums)\n        if l == 0:\n            return [-1, -1]\n\n        x = [0] * l\n        y = [0] * l\n        for i in range(l):\n            x[i] = x[i - 1] + nums[i]\n            y[i] = y[i - 1] + nums[i]\n\n        for i in range(l):\n            if nums[i] * x[i] + nums[i] * y[i] == target:\n                return [i, i]\n\n        # No solution found.\n        return [-1, -1]",
+      -3.623046875
+    ],
+    [
+      "import math\n\ndef solve(n):\n    # n = x * y\n    # x = n / y\n    # y = n / x\n    # x * y = n\n    # x * y + n = x * y + n\n    # x * y + n = (n / x) * y + n\n    # x * y + n = (n / x) * y + n / x\n    # (n / x) * y + n / x = n\n    # n = x * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n\n    # n = x * y + n\n    # n = (n / x) * y + n\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x\n    # n = (n / x) * y + n / x",
+      -3.72265625
+    ],
+    [
+      "class Solution:\n    # @param {integer} n\n    # @return {integer[]}\n    def fourSum(self, nums, target):\n        nums.sort()\n        if not nums:\n            return []\n        nums.append(target)\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 3):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            left = i + 1\n            right = len(nums) - 1\n            while left < right:\n                if left < len(nums) - 1 and nums[left] == nums[left + 1]:\n                    left += 1\n                    continue\n                if right < len(nums) - 1 and nums[right] == nums[right - 1]:\n                    right -= 1\n                    continue\n                sum = nums[i] + nums[left] + nums[right]\n                if sum == target:\n                    result.append([nums[i], nums[left], nums[right]])\n                    left += 1\n                    right -= 1\n                elif sum < target:\n                    left += 1\n                else:\n                    right -= 1\n        return result\n\n\nclass Solution2:\n    # @param {integer[]} nums\n    # @param {integer} target\n    # @return {integer[]}\n    def fourSum(self, nums, target):\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 3):\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            left = i + 1\n            right = len(nums) - 1\n            while left < right:\n                if left < len(nums) - 1 and nums[left] == nums[left + 1]:\n                    left += 1\n                    continue\n                if right < len(nums) - 1 and nums[right] == nums[right - 1]:\n                    right -= 1\n                    continue\n                sum = nums[i] + nums[left] + nums[right]\n                if sum == target:",
+      -3.771484375
+    ],
+    [
+      "def get_x_y(n):\n    \"\"\"\n    For a given n, find x and y that satisfies ax + by = n.\n    \"\"\"\n    d = n\n    x = 1\n    y = 1\n    while d % 2 == 0:\n        d /= 2\n        x += 1\n    while d % 3 == 0:\n        d /= 3\n        y += 1\n    while d % 5 == 0:\n        d /= 5\n        x += 1\n    while d % 7 == 0:\n        d /= 7\n        y += 1\n    while d % 11 == 0:\n        d /= 11\n        x += 1\n    while d % 13 == 0:\n        d /= 13\n        y += 1\n    while d % 17 == 0:\n        d /= 17\n        x += 1\n    while d % 19 == 0:\n        d /= 19\n        y += 1\n    while d % 23 == 0:\n        d /= 23\n        x += 1\n    while d % 29 == 0:\n        d /= 29\n        y += 1\n    while d % 31 == 0:\n        d /= 31\n        x += 1\n    while d % 37 == 0:\n        d /= 37\n        y += 1\n    while d % 41 == 0:\n        d /= 41\n        x += 1\n    while d % 43 == 0:\n        d /= 43\n        y += 1\n    while d % 47 == 0:\n        d /= 47\n        x += 1\n    while d % 53 == 0:\n        d /= 53\n        y += 1\n    return x, y\n\nif __name__ == \"__main__\":\n    print get_x_y(1)\n    print get_x_y(2)\n    print get_x_y(3)\n    print get_x_y(4)\n    print get_x_y(5)\n    print get_x_y(6)\n    print get_x_y(7)\n    print get_x_y(8)\n    print get_x_y(9)\n    print get_x_y(10)\n    print get_x_y(11)\n    print",
+      -3.88671875
+    ],
+    [
+      "# https://leetcode.com/problems/divide-the-square/\n# https://discuss.leetcode.com/topic/49665/java-dp-solution-in-24-lines-with-explanation\nclass Solution(object):\n    def findMedianSortedArrays(self, A, B):\n        \"\"\"\n        :type A: List[int]\n        :type B: List[int]\n        :rtype: float\n        \"\"\"\n        n = len(A) + len(B)\n        if n % 2:\n            return self.findKthLargest(A, B, n/2+1)\n        else:\n            return (self.findKthLargest(A, B, n/2+1) + self.findKthLargest(A, B, n/2))/2.0\n        \n    def findKthLargest(self, A, B, k):\n        \"\"\"\n        :type A: List[int]\n        :type B: List[int]\n        :rtype: float\n        \"\"\"\n        m = len(A)\n        if m == 0:\n            return B[k-1]\n        if k == 1:\n            return max(A)\n        if k == m:\n            return min(B)\n        if k == m+1:\n            return max(A)\n        if k == m+2:\n            return min(B)\n        if k == m+3:\n            return max(A)\n        if k == m+4:\n            return min(B)\n        if k == m+5:\n            return max(A)\n        if k == m+6:\n            return min(B)\n        if k == m+7:\n            return max(A)\n        if k == m+8:\n            return min(B)\n        return max(A)\n\nif __name__ == '__main__':\n    assert Solution().findMedianSortedArrays([1,2,3,4], [1,2,3,4]) == 2.5\n    assert Solution().findMedianSortedArrays([1,2,3,4], [2,",
+      -4.11328125
+    ],
+    [
+      "class Solution(object):\n    def myAtoi(self, str):\n        \"\"\"\n        :type str: str\n        :rtype: int\n        \"\"\"\n        if not str:\n            return 0\n        if str[0] == '-':\n            return -1 * self.myAtoi(str[1:])\n        if len(str) > 1 and str[0] == '0':\n            return 0\n        if len(str) == 1:\n            return int(str)\n        x = 0\n        y = 0\n        while x < len(str) and str[x] >= '0' and str[x] <= '9':\n            y = y * 10 + (str[x] - '0')\n            x += 1\n        return x * y",
+      -4.171875
+    ],
+    [
+      "# Definition for a point\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n# O(n) time\ndef is_valid(p):\n    return p.x >= 0 and p.y >= 0 and p.x <= 10000 and p.y <= 10000\n\n# O(n) time\ndef is_same_direction(p1, p2):\n    return p1.x * p2.y < p2.x * p1.y\n\n# O(n) time\ndef get_direction(p1, p2):\n    return (p1.x - p2.x) / (p1.y - p2.y)\n\n# O(n) time\ndef get_distance(p1, p2):\n    return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2\n\n# O(n) time\ndef get_direction_and_distance(p1, p2):\n    return (get_direction(p1, p2), get_distance(p1, p2))\n\n# O(n) time\ndef get_closest_point(points, n):\n    \"\"\"\n    :type points: List[Point]\n    :type n: int\n    :rtype: Point\n    \"\"\"\n    # init\n    result = None\n    dist = float(\"inf\")\n    for p in points:\n        if is_valid(p) and is_same_direction(p, points[0]) and is_same_direction(p, points[1]):\n            # check distance\n            if get_distance(p, points[0]) < dist:\n                dist = get_distance(p, points[0])\n                result = p\n    return result\n\n# O(n) time\ndef get_closest_point_2(points, n):\n    \"\"\"\n    :type points: List[Point]\n    :type n: int\n    :rtype: Point\n    \"\"\"\n    # init\n    result = None\n    dist = float(\"inf\")\n    for p in points:\n        if is_valid(p) and is",
+      -4.23828125
+    ],
+    [
+      "class Solution:\n    # @param n, an integer\n    # @return a tuple(x, y)\n    def get_solution(self, n):\n        x = y = 0\n        while True:\n            n = n % 1000000\n            x = (n % 1000) / 100\n            y = (n % 100) / 10\n            if (x * y) == n:\n                return x, y\n            elif (x * y) > n:\n                x -= 1\n                y += 1\n            else:\n                y -= 1\n                x += 1",
+      -4.30859375
+    ],
+    [
+      "import math\n\n\ndef solution(a, b, n):\n    \"\"\"\n    :type a: int\n    :type b: int\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    if n == 0:\n        return [0, 0]\n    if n == 1:\n        return [1, 0]\n    if n == 2:\n        return [1, 1]\n    if n % 2 == 0:\n        x, y = solution(a, b, n / 2)\n        return [x + a, y + b]\n    else:\n        x, y = solution(a, b, n - 1)\n        return [x + a, y + b]\n\n\nif __name__ == '__main__':\n    a, b, n = [int(i) for i in input().split()]\n    print(solution(a, b, n))",
+      -4.4921875
+    ],
+    [
+      "from __future__ import print_function\nfrom collections import namedtuple\n\nPoint = namedtuple('Point', ['x', 'y'])\n\n\ndef get_point(n):\n    \"\"\"\n    :type n: int\n    :rtype: Point\n    \"\"\"\n    x = n % 1000000\n    y = n / 1000000\n    return Point(x, y)\n\n\ndef main():\n    n = int(input())\n    point = get_point(n)\n    print(point.x, point.y)\n\n\nif __name__ == '__main__':\n    main()",
+      -4.515625
+    ],
+    [
+      "class Solution(object):\n    def fourSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[List[int]]\n        \"\"\"\n        nums.sort()\n        result = []\n        for i in range(len(nums) - 3):\n            for j in range(i + 1, len(nums) - 2):\n                for k in range(j + 1, len(nums) - 1):\n                    sum_left = nums[i] + nums[j]\n                    sum_right = nums[j] + nums[k]\n                    sum_right += nums[k] + nums[len(nums) - 1]\n                    if sum_left < target and sum_right < target:\n                        result.append([sum_left, sum_right])\n        return result\n\nif __name__ == \"__main__\":\n    nums = [1, 0, -1, 0, -2, 2]\n    nums = [1, 1, 1]\n    nums = [1, 2, 3, -1, -2, 2]\n    nums = [2, 2, 2]\n    nums = [2, 2, 3]\n    nums = [1, 1, 2, 2, 3]\n    nums = [1, 2, 3, 4, 5]\n    nums = [1, 2, 3, 4, 5, 6, 7]\n    nums = [1, 2, 3, 4, 5, 6, 7, 8]\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]",
+      -4.98828125
+    ],
+    [
+      "# https://oj.leetcode.com/problems/binary-tree-level-order-traversal/\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def levelOrder(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: List[List[int]]\n        \"\"\"\n        if not root:\n            return []\n        res = []\n        self.levelOrderHelper(root, res)\n        return res\n\n    def levelOrderHelper(self, root, res):\n        if not root:\n            return\n        res.append(root.val)\n        self.levelOrderHelper(root.left, res)\n        self.levelOrderHelper(root.right, res)",
+      -5.6796875
+    ],
+    [
+      "import math\n\ndef solve(n):\n    # n should be positive\n    if n < 0:\n        return None\n\n    if n == 0:\n        return (0, 0)\n\n    # find x and y that satisfy ax + by = n\n    # a is the greatest common divisor of (n - x) and (n - y)\n    # b is the least common multiple of (n - x) and (n - y)\n    # a is the greatest common divisor of (n - x) and (n - y)\n    # b is the least common multiple of (n - x) and (n - y)\n    # a = gcd(n - x, n - y)\n    # b = lcm(n - x, n - y)\n\n    # find the least common multiple of (n - x) and (n - y)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a, b) = a * b / gcd(a, b)\n    # lcm(a",
+      -5.7109375
+    ],
+    [
+      "def find_xy(n):\n    \"\"\"\n    :type n: int\n    :rtype: tuple\n    \"\"\"\n    x, y = 0, 1\n    while n!= 0:\n        if n % 2 == 0:\n            x += 1\n            n /= 2\n        else:\n            y += 1\n            n = n / 2\n    return x, y\n\nif __name__ == \"__main__\":\n    assert find_xy(4) == (1, 1)\n    assert find_xy(7) == (2, 3)\n    assert find_xy(20) == (3, 5)",
+      -5.87890625
+    ],
+    [
+      "import math\n\n\ndef is_prime(n):\n    for i in range(2, int(math.sqrt(n)) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef solution(n):\n    \"\"\"\n    :param n: integer\n    :return: tuple of (x, y)\n    \"\"\"\n    if n == 1:\n        return (0, 0)\n    if n == 2:\n        return (1, 1)\n\n    for x in range(2, int(math.sqrt(n)) + 1):\n        if is_prime(x):\n            for y in range(x, int(math.sqrt(n)) + 1, x):\n                if n % (x * y) == 0:\n                    return (x, y)\n    return (0, 0)\n\n\nif __name__ == \"__main__\":\n    print solution(12)",
+      -5.96875
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    # y = n/a - x*a + 1\n    # x = n/a - y*a + 1\n    # y = n/a - (n/a - x*a + 1)/a + 1\n    # x = n/a - (n/a - y*a + 1)/a + 1\n    # x = n/a - (n/a - x*a + 1)/a + 1\n    # x = n/a - (n/a - (n/a - x*a + 1)/a + 1)/a + 1\n    # x = n/a - (n/a - (n/a - (n/a - x*a + 1)/a + 1)/a + 1)/a + 1\n    # x = n/a - (n/a - (n/a - (n/a - (n/a - x*a + 1)/a + 1)/a + 1)/a + 1)/a + 1\n    # x = n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - x*a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1\n    # x = n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - x*a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1\n    # x = n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - (n/a - x*a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/a + 1)/",
+      -5.99609375
+    ],
+    [
+      "import math\nclass Solution:\n    def isPerfectSquare(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        if n < 0:\n            return False\n        if n == 0:\n            return True\n        if n % 2 == 0:\n            return False\n        x = 0\n        y = n\n        while x <= y:\n            m = x + (y - x) // 2\n            if m * m == n:\n                return True\n            elif m * m < n:\n                x = m + 1\n            else:\n                y = m - 1\n        return False\n\n    def isPerfectSquare1(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        if n < 0:\n            return False\n        if n == 0:\n            return True\n        if n % 2 == 0:\n            return False\n        x = 0\n        y = n\n        while x <= y:\n            m = x + (y - x) // 2\n            if m * m == n:\n                return True\n            elif m * m < n:\n                x = m + 1\n            else:\n                y = m - 1\n        return False",
+      -6.01171875
+    ],
+    [
+      "# x = (n^2 - n)/2\n# y = (n^2 + n)/2\n# a = x + y\n# b = y - x\n\ndef solution(n):\n    # base case\n    if n == 0:\n        return (0, 0)\n\n    # middle case\n    if n % 2 == 0:\n        x = (n ** 2 - n) / 2\n        y = (n ** 2 + n) / 2\n        a = x + y\n        b = y - x\n        return (a, b)\n\n    # recursive case\n    a, b = solution(n - 1)\n    x = (n ** 2 - n) / 2\n    y = (n ** 2 + n) / 2\n    a = a + x\n    b = b + y\n    return (a, b)\n\n# print solution(16)\n# print solution(4)\n# print solution(1)\n# print solution(7)\n# print solution(2)\n# print solution(3)\n# print solution(9)",
+      -6.28125
+    ],
+    [
+      "import math\n\ndef is_square(x):\n    return math.sqrt(x) == int(math.sqrt(x))\n\ndef solve(x, y, n):\n    if x == 0 and y == 0:\n        return (0, 0)\n    if x == 1 and y == 0:\n        return (n, n)\n    if x == 1 and y == 1:\n        return (n, n)\n    if x == 0 and y == 1:\n        return (n, n)\n    if is_square(x) and is_square(y):\n        return (x, y)\n    if x == y:\n        return (x, y)\n    if is_square(x) and is_square(y) and is_square(x * y):\n        return (x, y)\n    return solve(x, y - 1, n)\n\ndef main():\n    print(solve(5, 6, 4))\n\nif __name__ == '__main__':\n    main()",
+      -6.5
+    ],
+    [
+      "import unittest\n\nclass Solution:\n    # @param {integer} n\n    # @return {integer[]}\n    def findRHS(self, n):\n        # base case\n        if n == 0:\n            return [0, 0]\n\n        # find the max sum of two numbers\n        max_sum = max([self.findRHS(x)[0] + self.findRHS(y)[0] for x, y in self.findRHS(n - 1)])\n\n        # find the x and y that satisfies ax + by = n\n        for x in range(1, n):\n            for y in range(1, n):\n                # if the sum is less than the max sum, then we can break the loop\n                if self.findRHS(x)[0] + self.findRHS(y)[0] < max_sum:\n                    break\n            else:\n                # otherwise, the sum is greater than the max sum, then we can keep looking\n                max_sum = self.findRHS(x)[0] + self.findRHS(y)[0]\n\n        return [x, y]\n\n    def findRHS(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        if n == 1:\n            return [0, 0]\n\n        x, y = 1, 1\n        # if the sum is less than the max sum, then we can break the loop\n        if self.findRHS(n - 1)[0] + self.findRHS(n - 1)[1] < self.findRHS(n)[0]:\n            return [x, y]\n\n        # otherwise, the sum is greater than the max sum, then we can keep looking\n        while x < n and y < n:\n            # if the sum is less than the max sum, then we can break the loop\n            if self.findRHS(n - x - 1)[0] + self.findRHS(n - x - 1)[1] < self.findRHS(n - x)[0]:\n                x += 1\n            # otherwise, the sum is greater than the max sum, then we can keep looking\n            else:\n                y += 1",
+      -6.74609375
+    ],
+    [
+      "import math\n\n\ndef solve(a, b, n):\n    \"\"\"\n    :param a: integer\n    :param b: integer\n    :param n: integer\n    :return: tuple of two integers\n    \"\"\"\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a - b)\n    # n = (a + b) * (a -",
+      -7.0234375
+    ],
+    [
+      "def get_root_and_value(n):\n    \"\"\"\n    n is a positive integer.\n    \"\"\"\n    def get_root(n, i):\n        if i == 0:\n            return n/i\n        else:\n            return get_root(n, i - 1)\n\n    # get the root of n\n    root = get_root(n, n)\n\n    # find the value of n that satisfies ax + by = n\n    return root, n/root\n\nif __name__ == '__main__':\n    n = int(input())\n    root, value = get_root_and_value(n)\n    print('{} is the root of {}'.format(root, value))",
+      -7.32421875
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    Input: n\n    Output: x, y\n    \"\"\"\n    x, y = 0, 1\n    while abs(n) >= 2:\n        n, x = n//2, x + 1\n        n, y = n//2, y + 1\n    return x, y\n\nif __name__ == \"__main__\":\n    for n in range(1, 10**6):\n        x, y = solve(n)\n        print(n, x, y)",
+      -7.59375
+    ],
+    [
+      "def is_pythagorean(n):\n    x, y = 1, 1\n    for a in range(2, n):\n        if n % a == 0:\n            if a * a == n:\n                return True\n            else:\n                return False\n    return False\n\ndef is_pythagorean_solution(n):\n    \"\"\"\n    n is a positive integer\n    :return: x and y\n    \"\"\"\n    x, y = 1, 1\n    for a in range(2, n):\n        if n % a == 0:\n            if a * a == n:\n                return True\n            else:\n                return False\n    return False\n\ndef main():\n    n = int(input())\n    x, y = is_pythagorean_solution(n)\n    print(\"x = {} and y = {}\".format(x, y))\n\nif __name__ == '__main__':\n    main()",
+      -7.72265625
+    ],
+    [
+      "class Solution(object):\n    def getSum(self, x, y, n):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 0:\n            return 0\n        if n == 1:\n            return x\n        if n == 2:\n            return x * y\n        if n == 3:\n            return x * y + y * x\n        if n == 4:\n            return x * y + y * x + x * x + y * y\n        if n == 5:\n            return x * y + y * x + x * x + y * y + x * y\n\n    def getSum(self, x, y, n):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n == 0:\n            return 0\n        if n == 1:\n            return x\n        if n == 2:\n            return x * y\n        if n == 3:\n            return x * y + y * x\n        if n == 4:\n            return x * y + y * x + x * x + y * y\n        if n == 5:\n            return x * y + y * x + x * x + y * y + x * y\n\n\nif __name__ == '__main__':\n    assert Solution().getSum(1, 1, 1) == 0\n    assert Solution().getSum(1, 1, 2) == 1\n    assert Solution().getSum(1, 1, 3) == 2\n    assert Solution().getSum(1, 1, 4) == 3\n    assert Solution().getSum(1, 1, 5) == 4\n    assert Solution().getSum(1, 1, 6) == 5\n    assert Solution().getSum(1, 1, 7) == 6\n    assert Solution().getSum(1, 1, 8) == 7\n    assert Solution().getSum(1, 1, 9) == 8\n    assert Solution().getSum(1, 1, 10) == 9",
+      -7.76171875
+    ],
+    [
+      "from math import sqrt, floor, ceil\n\ndef solve(n):\n    if n == 0:\n        return (0, 0)\n    # Find the square root of n.\n    sqrt_n = int(floor(sqrt(n)))\n    # Find the square root of the square root of n.\n    sqrt_sqrt_n = int(floor(sqrt(sqrt_n)))\n    # Find the square root of the square root of the square root of n.\n    sqrt_sqrt_sqrt_n = int(floor(sqrt(sqrt_sqrt_n)))\n    # Find the square root of the square root of the square root of the square root of n.\n    sqrt_sqrt_sqrt_sqrt_n = int(floor(sqrt(sqrt_sqrt_sqrt_n)))\n    # Find the square root of the square root of the square root of the square root of the square root of n.\n    sqrt_sqrt_sqrt_sqrt_sqrt_n = int(floor(sqrt(sqrt_sqrt_sqrt_sqrt_n)))\n    # Find the square root of the square root of the square root of the square root of the square root of the square root of n.\n    sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_n = int(floor(sqrt(sqrt_sqrt_sqrt_sqrt_sqrt_n)))\n    # Find the square root of the square root of the square root of the square root of the square root of the square root of the square root of n.\n    sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_n = int(floor(sqrt(sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_n)))\n    # Find the square root of the square root of the square root of the square root of the square root of the square root of the square root of the square root of n.\n    sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_sqrt_n = int(floor(sqrt(sqrt_sqrt_sqrt_sqrt_sqrt",
+      -7.93359375
+    ],
+    [
+      "import math\n\n\ndef find_xy(n):\n    \"\"\"\n    :type n: int\n    :rtype: tuple(int, int)\n    \"\"\"\n    if n < 0:\n        return (-1, -1)\n    else:\n        if n == 0:\n            return (0, 0)\n        elif n == 1:\n            return (0, 0)\n        elif n == 2:\n            return (0, 1)\n        elif n == 3:\n            return (1, 0)\n        elif n == 4:\n            return (1, 1)\n        elif n == 5:\n            return (2, 1)\n        elif n == 6:\n            return (2, 2)\n        elif n == 7:\n            return (3, 2)\n        elif n == 8:\n            return (3, 3)\n        elif n == 9:\n            return (4, 3)\n        elif n == 10:\n            return (4, 4)\n        elif n == 11:\n            return (5, 4)\n        elif n == 12:\n            return (5, 5)\n        elif n == 13:\n            return (6, 5)\n        elif n == 14:\n            return (6, 6)\n        elif n == 15:\n            return (7, 6)\n        elif n == 16:\n            return (7, 7)\n        elif n == 17:\n            return (8, 7)\n        elif n == 18:\n            return (8, 8)\n        elif n == 19:\n            return (9, 8)\n        elif n == 20:\n            return (9, 9)\n        elif n == 21:\n            return (10, 9)\n        elif n == 22:\n            return (10, 10)\n        elif n == 23:\n            return (11, 10)\n        elif n == 24:\n            return (11, 11)\n        elif n == 25:\n            return (12, 11)\n        elif n == 26:\n            return (12, 12)\n        elif n == 27:\n            return (13, 12)\n        elif n == 28:",
+      -8.1875
+    ],
+    [
+      "import math\n\ndef solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: tuple\n    \"\"\"\n    if n == 0:\n        return 0, 0\n    if n == 1:\n        return 1, 1\n    if n == 2:\n        return 2, 2\n    if n == 3:\n        return 2, 1\n    if n == 4:\n        return 3, 1\n    if n == 5:\n        return 3, 2\n    if n == 6:\n        return 4, 1\n    if n == 7:\n        return 4, 2\n    if n == 8:\n        return 5, 1\n    if n == 9:\n        return 5, 2\n    if n == 10:\n        return 6, 1\n    if n == 11:\n        return 6, 2\n    if n == 12:\n        return 7, 1\n    if n == 13:\n        return 7, 2\n    if n == 14:\n        return 8, 1\n    if n == 15:\n        return 8, 2\n    if n == 16:\n        return 9, 1\n    if n == 17:\n        return 9, 2\n    if n == 18:\n        return 10, 1\n    if n == 19:\n        return 10, 2\n    if n == 20:\n        return 11, 1\n    if n == 21:\n        return 11, 2\n    if n == 22:\n        return 12, 1\n    if n == 23:\n        return 12, 2\n    if n == 24:\n        return 13, 1\n    if n == 25:\n        return 13, 2\n    if n == 26:\n        return 14, 1\n    if n == 27:\n        return 14, 2\n    if n == 28:\n        return 15, 1\n    if n == 29:\n        return 15, 2\n    if n == 30:\n        return 16, 1\n    if n == 31:\n        return 16, 2\n    if n == 32:\n        return 17, 1\n    if n == 33:\n        return 17, 2\n    if n == 34:\n        return 18, 1\n    if n == 35:\n        return 18, 2\n    if n == 36:\n        return 19, 1",
+      -8.2890625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/search-for-a-range/\n# OJ's solution:\n# 1. use binary search to find the lower bound of the range\n# 2. use binary search to find the upper bound of the range\n# 3. return the lower bound and upper bound of the range\n# 4. loop through the range and do binary search\n# 5. if the range is not empty, check if the range is in the range\n# 6. if yes, return the range\n# 7. if not, check if the range is in the range that is left of the range\n# 8. if yes, return the range\n# 9. if not, return the range that is left of the range\n# 10. if the range is empty, return the range\n# 11. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range\n# 12. return the range",
+      -8.4765625
+    ],
+    [
+      "def find_x_and_y(n):\n    \"\"\"\n    Write a function that takes n as input and returns x and y\n    that satisfy ax + by = n.\n    \"\"\"\n    return (n / 2, n / 2)\n\n# Test cases\n# n = 3\n# x = y = 1\n# n = 4\n# x = y = 2\n# n = 5\n# x = y = 3\n# n = 6\n# x = y = 4\n\n# n = 7\n# x = y = 5\n# n = 8\n# x = y = 6\n# n = 9\n# x = y = 7\n# n = 10\n# x = y = 8\n# n = 11\n# x = y = 9\n\n# n = 12\n# x = y = 10\n# n = 13\n# x = y = 11\n# n = 14\n# x = y = 12\n# n = 15\n# x = y = 13\n# n = 16\n# x = y = 14\n# n = 17\n# x = y = 15\n# n = 18\n# x = y = 16\n# n = 19\n# x = y = 17\n# n = 20\n# x = y = 18\n# n = 21\n# x = y = 19\n# n = 22\n# x = y = 20\n\n# n = 23\n# x = y = 21\n# n = 24\n# x = y = 22\n# n = 25\n# x = y = 23\n# n = 26\n# x = y = 24\n# n = 27\n# x = y = 25\n# n = 28\n# x = y = 26\n# n = 29\n# x = y = 27\n# n = 30\n# x = y = 28\n# n = 31\n# x = y = 29\n# n = 32\n# x = y = 30\n# n = 33\n# x = y = 31\n# n = 34\n# x = y = 32\n# n = 35\n# x = y = 33\n# n = 36\n# x = y = 34\n# n = 37\n# x = y = 35\n# n = 38\n# x = y = 36\n# n = 39\n# x = y = 37\n# n = 40",
+      -8.578125
+    ],
+    [
+      "import math\n\ndef solve(n):\n    x = y = 0\n    while True:\n        a = n % 10\n        n = n // 10\n        y = x + a\n        x = y\n        if x < 0:\n            x = x * -1\n        if y < 0:\n            y = y * -1\n        if x == y:\n            break\n    return x, y\n\nif __name__ == \"__main__\":\n    # n = 10\n    n = 20\n    print(solve(n))",
+      -8.59375
+    ],
+    [
+      "def find_root(n):\n    if n == 0:\n        return (0, 0)\n\n    s = 0\n    while True:\n        s += 1\n        m = n\n        r = s\n        while m % r == 0:\n            m /= r\n            r += 1\n        if m == 1:\n            return (s, r - 1)\n\ndef main():\n    n = int(input())\n    x, y = find_root(n)\n    print(x, y)\n\nif __name__ == \"__main__\":\n    main()",
+      -8.6953125
+    ],
+    [
+      "import math\n\n\ndef solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: list\n    \"\"\"\n    x, y = 1, 1\n    while n > 0:\n        n, m = n // 10, n % 10\n        x, y = (x * m) % 10, (y * m) % 10\n    return x, y\n\n\nif __name__ == '__main__':\n    print(solve(1))\n    print(solve(10))\n    print(solve(100))\n    print(solve(1000))\n    print(solve(10000))\n    print(solve(100000))\n    print(solve(1000000))\n    print(solve(1000000000))",
+      -8.984375
+    ],
+    [
+      "def solve(n):\n    \"\"\"\n    >>> solve(4)\n    (1, 1)\n    >>> solve(0)\n    (0, 0)\n    >>> solve(1)\n    (1, 1)\n    \"\"\"\n    # n = 2\n    if n == 2:\n        return (1, 1)\n\n    # n = 3\n    if n == 3:\n        return (1, 2)\n\n    # n = 5\n    if n == 5:\n        return (2, 3)\n\n    # n = 7\n    if n == 7:\n        return (3, 4)\n\n    # n = 9\n    if n == 9:\n        return (4, 5)\n\n    # n = 11\n    if n == 11:\n        return (5, 6)\n\n    # n = 13\n    if n == 13:\n        return (6, 7)\n\n    # n = 17\n    if n == 17:\n        return (7, 8)\n\n    # n = 19\n    if n == 19:\n        return (8, 9)\n\n    # n = 23\n    if n == 23:\n        return (9, 10)\n\n    # n = 29\n    if n == 29:\n        return (10, 11)\n\n    # n = 31\n    if n == 31:\n        return (11, 12)\n\n    # n = 37\n    if n == 37:\n        return (12, 13)\n\n    # n = 41\n    if n == 41:\n        return (13, 14)\n\n    # n = 43\n    if n == 43:\n        return (14, 15)\n\n    # n = 47\n    if n == 47:\n        return (15, 16)\n\n    # n = 53\n    if n == 53:\n        return (16, 17)\n\n    # n = 59\n    if n == 59:\n        return (17, 18)\n\n    # n = 61\n    if n == 61:\n        return (18, 19)\n\n    # n = 67\n    if n == 67:\n        return (19, 20)\n\n    # n = 71\n    if n == 71:\n        return (20, 21)\n\n    # n = 73\n    if n == 73:\n        return (",
+      -9.03125
+    ],
+    [
+      "# A simple solution\ndef solve_x_y(n):\n    if n == 1:\n        return n, n\n    if n == 2:\n        return 1, 1\n    if n == 3:\n        return 1, 2\n    if n == 4:\n        return 2, 1\n    if n == 5:\n        return 2, 2\n    if n == 6:\n        return 3, 1\n    if n == 7:\n        return 3, 2\n    if n == 8:\n        return 4, 1\n    if n == 9:\n        return 4, 2\n    if n == 10:\n        return 5, 1\n    if n == 11:\n        return 5, 2\n    if n == 12:\n        return 6, 1\n    if n == 13:\n        return 6, 2\n    if n == 14:\n        return 7, 1\n    if n == 15:\n        return 7, 2\n    if n == 16:\n        return 8, 1\n    if n == 17:\n        return 8, 2\n    if n == 18:\n        return 9, 1\n    if n == 19:\n        return 9, 2\n    if n == 20:\n        return 10, 1\n    if n == 21:\n        return 10, 2\n    if n == 22:\n        return 11, 1\n    if n == 23:\n        return 11, 2\n    if n == 24:\n        return 12, 1\n    if n == 25:\n        return 12, 2\n    if n == 26:\n        return 13, 1\n    if n == 27:\n        return 13, 2\n    if n == 28:\n        return 14, 1\n    if n == 29:\n        return 14, 2\n    if n == 30:\n        return 15, 1\n    if n == 31:\n        return 15, 2\n    if n == 32:\n        return 16, 1\n    if n == 33:\n        return 16, 2\n    if n == 34:\n        return 17, 1\n    if n == 35:\n        return 17, 2\n    if n == 36:\n        return 18, 1\n    if n == 37:\n        return 18, 2\n    if n == 38:\n        return 19, 1\n    if",
+      -9.046875
+    ],
+    [
+      "import math\n\ndef solve(n):\n    if n == 0:\n        return (0, 0)\n    \n    a = n % 10\n    b = n % 100\n    c = n % 1000\n    d = n % 10000\n    e = n % 100000\n    f = n % 1000000\n    g = n % 10000000\n    h = n % 100000000\n    i = n % 1000000000\n    \n    return solve(a) + solve(b) + solve(c) + solve(d) + solve(e) + solve(f) + solve(g) + solve(h) + solve(i)\n\nif __name__ == \"__main__\":\n    n = int(input())\n    x, y = solve(n)\n    print(\"x =\", x)\n    print(\"y =\", y)",
+      -9.1171875
+    ],
+    [
+      "from math import sqrt, pow\n\ndef solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: int, int\n    \"\"\"\n    if n == 0:\n        return (0, 0)\n\n    # find the square root of n\n    square_root_n = pow(n, 0.5)\n\n    # calculate the x and y\n    x = square_root_n + sqrt(square_root_n * square_root_n - n)\n    y = sqrt(square_root_n * square_root_n - n)\n\n    return x, y\n\n\nif __name__ == '__main__':\n    assert solve(1) == (0, 0)\n    assert solve(2) == (1, 1)\n    assert solve(3) == (2, 1)\n    assert solve(4) == (2, 2)\n    assert solve(5) == (3, 2)\n    assert solve(6) == (3, 3)\n    assert solve(7) == (4, 3)\n    assert solve(8) == (4, 4)\n    assert solve(9) == (5, 4)\n    assert solve(10) == (5, 5)\n    assert solve(11) == (6, 5)\n    assert solve(12) == (6, 6)\n    assert solve(13) == (7, 6)\n    assert solve(14) == (7, 7)\n    assert solve(15) == (8, 7)\n    assert solve(16) == (8, 8)\n    assert solve(17) == (9, 8)\n    assert solve(18) == (9, 9)\n    assert solve(19) == (10, 9)\n    assert solve(20) == (10, 10)\n    assert solve(21) == (11, 10)\n    assert solve(22) == (11, 11)\n    assert solve(23) == (12, 11)\n    assert solve(24) == (12, 12)\n    assert solve(25) == (13, 12)\n    assert solve(26) == (13, 13)\n    assert solve(27) == (14, 13)\n    assert solve(28) == (14",
+      -9.3125
+    ],
+    [
+      "import unittest\n\n\nclass Solution(object):\n    def __init__(self, n):\n        \"\"\"\n        :type n: int\n        \"\"\"\n        self.n = n\n\n    def getx(self, x, y, n):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        while y < 0:\n            y += n\n        while y > n:\n            y -= n\n        return x\n\n    def gety(self, x, y, n):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        while x < 0:\n            x += n\n        while x > n:\n            x -= n\n        return y\n\n    def solve(self, x, y):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :rtype: int\n        \"\"\"\n        return self.getx(x, y, self.n) + self.gety(x, y, self.n)\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/combination-sum/solution/\n\n# DFS\n# Time:  O(n!)\n# Space: O(n!)\n#\n# 1. Start from the end of the array.\n#    a) If we hit the target, return.\n#    b) If we hit the target, add the current number to the result.\n#    c) If we hit the target, add the current number to the result.\n#    d) If we hit the target, add the current number to the result.\n#    e) If we hit the target, return.\n#    f) If we hit the target, add the current number to the result.\n#    g) If we hit the target, add the current number to the result.\n#    h) If we hit the",
+      -10.375
+    ],
+    [
+      "import math\n\ndef solve(n):\n    \"\"\"\n    :type n: int\n    :rtype: int\n    \"\"\"\n    x = 0\n    y = 0\n    for a in range(1, n + 1):\n        for b in range(1, n + 1):\n            if a * a + b * b == n:\n                x = a\n                y = b\n                break\n    return x, y\n\nif __name__ == '__main__':\n    assert solve(1) == (0, 0)\n    assert solve(2) == (1, 0)\n    assert solve(3) == (1, 1)\n    assert solve(4) == (2, 1)\n    assert solve(5) == (2, 2)\n    assert solve(6) == (3, 1)\n    assert solve(7) == (3, 2)\n    assert solve(8) == (3, 3)\n    assert solve(9) == (4, 1)\n    assert solve(10) == (4, 2)\n    assert solve(11) == (4, 3)\n    assert solve(12) == (5, 1)\n    assert solve(13) == (5, 2)\n    assert solve(14) == (5, 3)\n    assert solve(15) == (6, 1)\n    assert solve(16) == (6, 2)\n    assert solve(17) == (6, 3)\n    assert solve(18) == (7, 1)\n    assert solve(19) == (7, 2)\n    assert solve(20) == (7, 3)\n    assert solve(21) == (8, 1)\n    assert solve(22) == (8, 2)\n    assert solve(23) == (8, 3)\n    assert solve(24) == (9, 1)\n    assert solve(25) == (9, 2)\n    assert solve(26) == (9, 3)\n    assert solve(27) == (10, 1)\n    assert solve(28) == (10, 2)\n    assert solve(29) == (10, 3)\n    assert solve(30) == (11, 1)\n    assert solve(31) == (11, 2",
+      -10.453125
+    ],
+    [
+      "# https://oj.leetcode.com/problems/search-for-a-range/\n# Given an array of integers nums and a target, find the number of indexes such that nums[i] == target.\n#\n# Example 1:\n# Input: nums = [1, 3, 5, 6], target = 6\n# Output: 2\n# Explanation: One possible way is [1, 3, 5], [1, 5, 6].\n# Example 2:\n# Input: nums = [1, 3, 5, 6], target = 2\n# Output: 3\n# Explanation: Three possible ways are [1, 3, 5], [1, 5, 6], [3, 5, 6].\n# Example 3:\n# Input: nums = [1, 3, 5, 6], target = 4\n# Output: 4\n# Explanation: Four possible ways are [1, 3, 5], [1, 5, 6], [3, 5, 6], [1, 3, 5].\n# Note:\n# The range of target is [-10000, 10000].\n# The length of nums is in range of [1, 10000].\n# The length of nums is in range of [1, 10000].\n# The input target is an integer and won't exceed the range of signed 32-bit integer.\n\nclass Solution(object):\n    def searchRange(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        nums.sort()\n        start, end = 0, len(nums) - 1\n        while start < end:\n            mid = (start + end) / 2\n            if target == nums[mid]:\n                return [start, end]\n            elif nums[mid] < target:\n                start = mid + 1\n            else:\n                end = mid\n        if target == nums[-1]:\n            return [start, end]\n        else:\n            return [start, end + 1]\n\n# Note:\n# The above solution is a bit tricky.\n# What if we want to search for a range that is outside of the array?\n# If the range is larger",
+      -10.8671875
+    ],
+    [
+      "# Definition for a point.\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\nclass Solution:\n    def isValid(self, point):\n        return 0 <= point.x and point.x <= 100 and 0 <= point.y and point.y <= 100\n        \n    def getDistance(self, p1, p2):\n        return (p1.x - p2.x)**2 + (p1.y - p2.y)**2\n        \n    def getMinDistance(self, p1, p2):\n        if not self.isValid(p1):\n            return self.getDistance(p2, p1)\n        elif not self.isValid(p2):\n            return self.getDistance(p1, p2)\n        \n        x1 = p1.x\n        y1 = p1.y\n        x2 = p2.x\n        y2 = p2.y\n        \n        if x1 < x2:\n            x1, x2 = x2, x1\n        if y1 < y2:\n            y1, y2 = y2, y1\n        \n        return min(self.getDistance(Point(x1, y1), Point(x2, y2)),\n                   self.getDistance(Point(x1, y2), Point(x2, y1)))\n        \n    def getMinDistance2(self, p1, p2):\n        x1, y1 = p1.x, p1.y\n        x2, y2 = p2.x, p2.y\n        \n        if x1 < x2:\n            x1, x2 = x2, x1\n        if y1 < y2:\n            y1, y2 = y2, y1\n        \n        return min(abs(x1 - x2), abs(y1 - y2))\n\nif __name__ == \"__main__\":\n    p1 = Point(1, 1)\n    p2 = Point(4, 5)\n    \n    print(Solution().getMinDistance(p1, p2))\n    print(Solution().getMinDistance",
+      -11.078125
+    ],
+    [
+      "# Definition for a point.\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\nclass Solution:\n    def getCircle(self, x, y, n):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type n: int\n        :rtype: Point\n        \"\"\"\n        def get_circle(n, x, y):\n            if n == 0:\n                return Point(x, y)\n            else:\n                a = get_circle(n - 1, x + 1, y)\n                b = get_circle(n - 1, x - 1, y)\n                c = get_circle(n - 1, x, y + 1)\n                d = get_circle(n - 1, x, y - 1)\n                return Point(a.x + b.x + c.x + d.x, a.y + b.y + c.y + d.y)\n\n        return get_circle(n, x, y)",
+      -11.2890625
+    ],
+    [
+      "# https://discuss.leetcode.com/topic/1265/java-solution-with-explanation\n# https://discuss.leetcode.com/topic/717/java-solution-with-explanation\n\ndef find_xy(n):\n    \"\"\"\n    :type n: int\n    :rtype: List[int]\n    \"\"\"\n    x = 0\n    y = 1\n    if n == 1:\n        return [0, 1]\n\n    while n!= 0:\n        n = n - 1\n        x = x + 1\n        y = y - 1\n    return [x, y]\n\n\nclass Solution(object):\n    def twoSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        # The idea is to find the indices of the first and second elements that\n        # are not in the list, and then find the sum of the first and second\n        # indices.\n        # The sum of the first and second indices should be equal to target.\n        #\n        # The problem is that we are not using the indices to find the sum.\n        # Instead we are using the x and y variables to store the indices.\n        #\n        # We have to make sure that we have found the sum before we can\n        # return the indices.\n        #\n        # The idea is to loop over the list and find the indices of the\n        # elements that are not in the list. We can then use the indices to\n        # find the sum and then return the indices.\n\n        # First, find the indices of the elements that are not in the list.\n        # We can then find the sum of the indices and then return the indices.\n        x = 0\n        y = 1\n        for index, item in enumerate(nums):\n            if item not in nums:\n                x = x + 1\n                y = y - 1\n\n        # Now, we can get the sum of the indices and the indices can be\n        # returned.\n        return [x, y]\n\n\n\nif __name__ == '__main__':\n    nums = [1, 2]",
+      -11.7578125
+    ],
+    [
+      "class Solution:\n    # @param n the given number\n    # @return a tuple of integer (x, y)\n    def fourSum(self, nums, target):\n        n = len(nums)\n        if n < 3:\n            return None\n        sortNums = sorted(nums)\n        result = []\n        for i in range(n-2):\n            for j in range(i+1, n-1):\n                l, r = sortNums[i], sortNums[j]\n                sum = l + r\n                if sum < target:\n                    continue\n                if sum > target:\n                    break\n                if sum == target:\n                    result.append((l, r))\n                    break\n                for k in range(i+1, n):\n                    m = sortNums[k]\n                    sum = l + m + r\n                    if sum < target:\n                        break\n                    if sum > target:\n                        continue\n                    result.append((l, m, r))\n                    result.append((l, r, m))\n                    break\n        return result\n\n\nif __name__ == '__main__':\n    print(Solution().fourSum([1,2,3,4], 8))",
+      -12.15625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/solve-the-equation\n# https://www.hackerrank.com/contests/30-days-of-code/challenges/day-21-solution-1\n# https://www.hackerrank.com/contests/30-days-of-code/challenges/day-21-solution-2\n# https://www.hackerrank.com/contests/30-days-of-code/challenges/day-21-solution-3\n# https://www.hackerrank.com/contests/30-days-of-code/challenges/day-21-solution-4\n\n# Time:  O(n)\n# Space: O(1)\n\nclass Solution(object):\n    def solveEquation(self, equations, values):\n        \"\"\"\n        :type equations: List[str]\n        :type values: List[str]\n        :rtype: str\n        \"\"\"\n        x, y = None, None\n        for equation in equations:\n            if equation.startswith('x'):\n                x = equation[1:]\n            elif equation.startswith('y'):\n                y = equation[1:]\n            elif x and y:\n                break\n        if not x or not y:\n            return None\n\n        for v in values:\n            if v.startswith(x) and v.endswith(y):\n                return v\n        return None",
+      -12.9453125
+    ],
+    [
+      "def solve(n):\n    x = 0\n    y = 0\n    for i in range(1, n + 1):\n        if n % i == 0:\n            x, y = x * i, y * i\n            break\n    return x, y\n\n\nif __name__ == '__main__':\n    assert solve(10) == (2, 3), 'n = 10'\n    assert solve(20) == (2, 4), 'n = 20'\n    assert solve(30) == (3, 5), 'n = 30'\n    assert solve(1) == (1, 1), 'n = 1'\n    assert solve(9) == (2, 3), 'n = 9'\n    assert solve(16) == (4, 4), 'n = 16'\n    assert solve(42) == (6, 7), 'n = 42'\n    assert solve(20) == (2, 4), 'n = 20'",
+      -13.390625
+    ],
+    [
+      "from __future__ import annotations\n\nimport functools\n\n\ndef solve(n: int) -> tuple[int, int]:\n    def f(x: int, y: int) -> int:\n        return x * x + y * y - n\n\n    def f_prime(x: int, y: int) -> int:\n        return 2 * x + y\n\n    x, y = functools.reduce(f, range(n + 1))\n    x, y = functools.reduce(f_prime, range(x, n))\n    return x, y\n\n\nif __name__ == \"__main__\":\n    assert solve(0) == (0, 0)\n    assert solve(1) == (1, 0)\n    assert solve(2) == (0, 1)\n    assert solve(3) == (1, 1)\n    assert solve(4) == (1, 0)\n    assert solve(5) == (2, 1)\n    assert solve(6) == (1, 2)\n    assert solve(7) == (3, 1)\n    assert solve(8) == (2, 2)\n    assert solve(9) == (3, 2)\n    assert solve(10) == (3, 1)\n    assert solve(11) == (4, 2)\n    assert solve(12) == (3, 3)\n    assert solve(13) == (4, 3)\n    assert solve(14) == (5, 2)\n    assert solve(15) == (5, 1)\n    assert solve(16) == (6, 2)\n    assert solve(17) == (7, 1)\n    assert solve(18) == (6, 3)\n    assert solve(19) == (7, 2)\n    assert solve(20) == (8, 2)\n    assert solve(21) == (9, 1)\n    assert solve(22) == (10, 1)\n    assert solve(23) == (11, 1)\n    assert solve(24) == (11, 2)\n    assert solve(25) == (12, 2)\n    assert solve(26) == (13, 1)\n    assert solve(27) == (13, 2)\n    assert solve",
+      -13.4921875
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef solution(n):\n    \"\"\"\n    :type n: int\n    :rtype: tuple(int, int)\n    \"\"\"\n    # TODO: write this function\n    m = defaultdict(int)\n    m[1] = 1\n    m[0] = 0\n    for i in range(2, n + 1):\n        m[i] = m[i - 1] + m[i - 2]\n    for i in range(2, n + 1):\n        m[i] += m[i - 1]\n    x, y = 0, 0\n    for i in range(n, -1, -1):\n        if m[i] > x:\n            y += i\n        else:\n            x += i\n    return x, y\n\n\nif __name__ == '__main__':\n    assert solution(10) == (2, 5)\n    assert solution(100) == (2, 25)\n    assert solution(1002) == (3, 13)\n    assert solution(1003) == (3, 13)\n    assert solution(2000) == (2, 25)\n    assert solution(5000) == (2, 25)\n    assert solution(10000) == (2, 25)",
+      -13.890625
+    ],
+    [
+      "def solve(n):\n    numerator = 0\n    denominator = 0\n    x = 1\n    y = 1\n    while x**2 + y**2 < n:\n        numerator = (x**2 + y**2) * (x + y)\n        denominator = (x**2 + y**2) * (x - y)\n        x += 1\n        y += 1\n        if numerator % denominator == 0:\n            return (x, y)\n    return (x, y)\n\nif __name__ == \"__main__\":\n    print(solve(200))",
+      -14.484375
+    ],
+    [
+      "class Solution:\n    def solveEquation(self, equation: str) -> str:\n        if equation.find('+') == -1:\n            return equation\n        sides = equation.split('+')\n        if len(sides)!= 2:\n            return ''\n        if sides[0].find('x') == -1:\n            return ''\n        if sides[1].find('x') == -1:\n            return ''\n        a, b, c = sides[0].split('x')\n        if a.find('x') == -1 or b.find('x') == -1 or c.find('x') == -1:\n            return ''\n        x, y = 0, 0\n        for i in range(len(a)):\n            if a[i] == 'x':\n                x += 1\n            if b[i] == 'x':\n                y += 1\n        for i in range(len(a)):\n            if a[i] == 'x':\n                a = a[:i] + '1' + a[i + 1:]\n            if b[i] == 'x':\n                b = b[:i] + '1' + b[i + 1:]\n        if 'x' in a or 'x' in b:\n            return ''\n        if 'x' in c:\n            return ''\n        return str(x) + 'x' + str(y) + '+' + str(a) + 'x' + str(b)",
+      -17.1875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

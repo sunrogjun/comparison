@@ -1,0 +1,432 @@
+{
+  "problem": {
+    "task_id": "MBPP/297",
+    "prompt": "Write a function to flatten a given nested list structure.",
+    "canonical_solution": "def flatten_list(list1):\r\n    result_list = []\r\n    if not list1: return result_list\r\n    stack = [list(list1)]\r\n    while stack:\r\n        c_num = stack.pop()\r\n        next = c_num.pop()\r\n        if c_num: stack.append(c_num)\r\n        if isinstance(next, list):\r\n            if next: stack.append(list(next))\r\n        else: result_list.append(next)\r\n    result_list.reverse()\r\n    return result_list ",
+    "test_list": [
+      "assert flatten_list([0, 10, [20, 30], 40, 50, [60, 70, 80], [90, 100, 110, 120]])==[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]",
+      "assert flatten_list([[10, 20], [40], [30, 56, 25], [10, 20], [33], [40]])==[10, 20, 40, 30, 56, 25, 10, 20, 33, 40]",
+      "assert flatten_list([[1,2,3], [4,5,6], [10,11,12], [7,8,9]])==[1, 2, 3, 4, 5, 6, 10, 11, 12, 7, 8, 9]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 286
+  },
+  "model_name": "codet5-770m",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def flatten_list(nested_list):\n    if not nested_list:\n        return []\n\n    result = []\n    for i in nested_list:\n        if isinstance(i, list):\n            result.extend(flatten_list(i))\n        else:\n            result.append(i)\n    return result\n\n\nif __name__ == \"__main__\":\n    assert flatten_list([]) == []\n    assert flatten_list([[1], 2, [3, 4], [5, 6]]) == [1, 2, 3, 4, 5, 6]\n    assert flatten_list([[1, 2], [3, 4, [5, 6]]]) == [1, 2, 3, 4, 5, 6]",
+      11.359375
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n\n    if type(nested_list[0]) is list:\n        return flatten(nested_list[0]) + flatten(nested_list[1:])\n\n    return [nested_list[0]] + flatten(nested_list[1:])\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, [3, 4, [5, 6]]]]) == [1, 2, 3, 4, 5, 6]\n    assert flatten([[1, 2], [3, 4], [5, 6]]) == [1, 2, 3, 4, 5, 6]\n    assert flatten([]) == []",
+      9.1171875
+    ],
+    [
+      "def flatten_list(list_):\n    if not list_:\n        return []\n    if not isinstance(list_, list):\n        return [list_]\n    return [x for x in flatten_list(list_[0])] + flatten_list(list_[1:])\n\n\nif __name__ == \"__main__\":\n    assert flatten_list([[1, 2, [3, 4, [5, [6, 7]]]], [[1, 2], [3, 4, [5, 6, 7]], [8, 9]]) == \\\n           [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      4.3828125
+    ],
+    [
+      "def flatten(nested_list):\n    if nested_list is None:\n        return []\n\n    if len(nested_list) == 1:\n        return [nested_list[0]]\n\n    result = []\n\n    for value in nested_list:\n        result.extend(flatten(value))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, [3, 4], [5, 6], 7]]) == [1, 2, 3, 4, 5, 6, 7]",
+      3.9296875
+    ],
+    [
+      "def flatten(nested_list):\n    return (\n        [item for sublist in nested_list for item in flatten(sublist)]\n        if nested_list\n        else []\n    )\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, 3], [4, 5, [6, 7, 8]]]) == [1, 2, 3, 4, 5, 6, 7, 8]",
+      3.646484375
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n    return result\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2], [3, 4], [5, 6], [7, 8]]) == [1, 2, 3, 4, 5, 6, 7, 8]",
+      2.919921875
+    ],
+    [
+      "from typing import List, Optional\n\n\ndef flatten(nested_list: List[Optional[List[int]]]) -> List[int]:\n    flattened = []\n    for sub_list in nested_list:\n        if sub_list is not None:\n            flattened.extend(flatten(sub_list))\n    return flattened\n\n\nif __name__ == '__main__':\n    assert flatten([[1, 2], [3, 4, 5], [6, 7, 8]]) == [1, 2, 3, 4, 5, 6, 7, 8]\n    assert flatten([]) == []",
+      2.212890625
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if not nested_list:\n        return []\n    if len(nested_list) == 1:\n        return nested_list[0]\n    return [x for sublist in nested_list for x in flatten(sublist)]\n\n\nif __name__ == '__main__':\n    assert flatten([[1, [2, [3, [4, [5, [6, 7, 8]], [9]]]],\n                     [[1, [2, [3, [4, [5, [6, 7, 8]], [9]]]]]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    assert flatten([[1, 2, [3, [4, [5, [6, 7, 8]]], [9]]]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    assert flatten([[1, 2, [3, [4, [5, [6, 7, 8]]], [9]]]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      2.1875
+    ],
+    [
+      "def flatten(nestedList):\n    if not nestedList:\n        return []\n    result = []\n    result.extend(flatten(nestedList[0]))\n    for x in nestedList[1:]:\n        result.extend(flatten(x))\n    return result",
+      1.7802734375
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: list[list[int]]\n    :rtype: list[int]\n    \"\"\"\n    if not nested_list:\n        return []\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n    return result",
+      1.6865234375
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[Any]]\n    :rtype: List[Any]\n    \"\"\"\n    if not nested_list:\n        return []\n    else:\n        return flatten(nested_list[0]) + flatten(nested_list[1:])\n\nprint(flatten([[1,2,3,[4,5,[6,7],8],9]]))",
+      1.6416015625
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n    if not isinstance(nested_list, list):\n        return [nested_list]\n\n    return [item for sublist in nested_list for item in flatten(sublist)]",
+      1.5693359375
+    ],
+    [
+      "class Solution:\n    def flatten(self, root):\n        \"\"\"\n        :type root: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        if root is None:\n            return []\n        res = []\n        res.extend(self.flatten(root[0]))\n        for i in root[1:]:\n            res.extend(self.flatten(i))\n        return res\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    assert sol.flatten([[1, 2, [3, 4, 5]], [6, 7, 8]]) == [1, 2, 3, 4, 5, 6, 7, 8]",
+      1.4150390625
+    ],
+    [
+      "def flatten(l):\n    if len(l) == 1:\n        return l[0]\n    return [l[0]] + flatten(l[1:])\n\n\nprint(flatten([[1, 2, [3, 4]], 5, [6, 7]]))",
+      1.16015625
+    ],
+    [
+      "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\n\ndef flatten(node):\n    if not node:\n        return []\n\n    result = []\n    result.extend(flatten(node.data))\n\n    if node.next:\n        result.extend(flatten(node.next))\n\n    return result",
+      1.1328125
+    ],
+    [
+      "def flatten(nested_list):\n    return flatten_helper(nested_list, [])\n\n\ndef flatten_helper(nested_list, result):\n    if not nested_list:\n        return\n    for i in nested_list:\n        flatten_helper(i, result)\n    result.append(nested_list)",
+      0.8134765625
+    ],
+    [
+      "def flatten(list_of_lists):\n    \"\"\"\n    :type list_of_lists: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    return [x for l in list_of_lists for x in flatten(l)]",
+      0.748046875
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if nested_list:\n        return [item for sublist in nested_list for item in flatten(sublist)]\n    else:\n        return []\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, 3, 4, 5], [6, 7, 8], [9]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      0.74267578125
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[Any]]\n    :rtype: List[Any]\n    \"\"\"\n\n    if not nested_list:\n        return []\n\n    if not nested_list[0]:\n        return []\n\n    return flatten(nested_list[0]) + flatten(nested_list[1:])\n\n\ndef flatten2(nested_list):\n    \"\"\"\n    :type nested_list: List[List[Any]]\n    :rtype: List[Any]\n    \"\"\"\n    if not nested_list:\n        return []\n\n    return [item for sublist in nested_list for item in flatten2(sublist)]\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, 3], 4, 5]) == [1, 2, 3, 4, 5]\n    assert flatten2([[1, 2, 3], 4, 5]) == [1, 2, 3, 4, 5]",
+      0.53662109375
+    ],
+    [
+      "def flatten(l):\n    if len(l) == 1:\n        return l\n    else:\n        return l[0] + flatten(l[1:])\n\n\nif __name__ == \"__main__\":\n    assert flatten([]) == []\n    assert flatten([[1]]) == [1]\n    assert flatten([[1, 2], [3, 4]]) == [1, 2, 3, 4]\n    assert flatten([[1, 2], [3, 4], [5]]) == [1, 2, 3, 4, 5]\n    assert flatten([[1, [2, [3, [4, [5]]]], 6]]) == [1, 2, 3, 4, 5, 6]",
+      0.52294921875
+    ],
+    [
+      "def flatten(node):\n    if node is None:\n        return []\n\n    if type(node) is not list:\n        return [node]\n\n    return [x for x in flatten(node[0]) + flatten(node[1])]\n\n\nif __name__ == \"__main__\":\n    print(flatten([1, [2, 3], [4, [5, 6, 7]]]))",
+      0.43798828125
+    ],
+    [
+      "def flatten(lst):\n    if not lst:\n        return []\n    else:\n        return flatten(lst[0]) + flatten(lst[1:])\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (\n            [[[1, 2, [3]], 4, 5, [6, 7, 8]], [[9, 10]]],\n            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],\n        ),\n        (\n            [[[1, 2, [3, 4, [5, 6]], 7, 8, 9]], [[10]]],\n            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],\n        ),\n    ]\n\n    for case in test_cases:\n        assert flatten(case[0]) == case[1]",
+      0.2086181640625
+    ],
+    [
+      "def flatten(nested_list):\n    if nested_list is None:\n        return []\n    return [nested for sub_list in nested_list for nested in flatten(sub_list)]\n\n\nif __name__ == '__main__':\n    nested_list = [\n        [1, 2, 3],\n        [4, 5, 6],\n        [7, 8, 9]\n    ]\n    assert flatten(nested_list) == [1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n    nested_list = [\n        [1],\n        [2, 3],\n        [4, 5, 6],\n        [7, 8, 9]\n    ]\n    assert flatten(nested_list) == [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      0.1365966796875
+    ],
+    [
+      "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n\n\nclass Solution:\n    def flatten(self, root):\n        if not root:\n            return []\n\n        stack = [root]\n        result = []\n\n        while stack:\n            node = stack.pop()\n            if node.next:\n                stack.append(node.next)\n                result.append(node.value)\n            else:\n                result.append(node.value)\n\n        return result",
+      0.09942626953125
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return\n    for node in nested_list:\n        if isinstance(node, list):\n            flatten(node)\n        else:\n            yield node",
+      0.09857177734375
+    ],
+    [
+      "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n\n\ndef flatten(node: Node) -> list:\n    res = []\n\n    def _flatten(node: Node, res: list):\n        if node.next:\n            res.append(node.value)\n            _flatten(node.next, res)\n\n    _flatten(node, res)\n    return res",
+      0.016845703125
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: list\n    :rtype: list\n    \"\"\"\n    if not nested_list:\n        return []\n    result = []\n    for i in nested_list:\n        result.extend(flatten(i))\n    return result\n\n\nif __name__ == \"__main__\":\n    print(flatten([1, 2, [3, 4, 5]]))",
+      -0.145751953125
+    ],
+    [
+      "def flatten(nested_list):\n    if nested_list is None or nested_list == []:\n        return []\n\n    if len(nested_list) == 1:\n        return [nested_list[0]]\n\n    return flatten(nested_list[0]) + flatten(nested_list[1:])\n\n\nif __name__ == \"__main__\":\n    assert flatten([1, 2, 3, [4, 5, 6]]) == [1, 2, 3, 4, 5, 6]\n    assert flatten([[1, 2, [3, 4, 5], 6]]) == [1, 2, 3, 4, 5, 6]",
+      -0.5712890625
+    ],
+    [
+      "class NestedList:\n    def __init__(self, value):\n        self.value = value\n\n    def __repr__(self):\n        return repr(self.value)\n\n    def __iter__(self):\n        return iter(self.value)\n\n\ndef flatten(nested_list):\n    return [item for sublist in nested_list for item in sublist]\n\n\ndef main():\n    nested_list = NestedList([[1, [2, [3, 4, 5]]]])\n    print(flatten(nested_list))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.7421875
+    ],
+    [
+      "def flatten(n):\n    if n is None:\n        return []\n    if isinstance(n, list):\n        return n + flatten(n[0])\n    return [n]\n\ndef flatten2(n):\n    if n is None:\n        return []\n    return flatten2(n[0]) + flatten(n[1])\n\nif __name__ == '__main__':\n    print(flatten([1,2,3]))\n    print(flatten2([1,2,3]))",
+      -0.75390625
+    ],
+    [
+      "def flatten(n):\n    \"\"\"\n    :type n: list[List[Any]]\n    :rtype: List[Any]\n    \"\"\"\n    if n == []:\n        return []\n    elif len(n) == 1:\n        return n[0]\n    else:\n        return [flatten(e) for e in n]\n\n\nif __name__ == \"__main__\":\n    assert flatten([1, 2, 3]) == [1, 2, 3]\n    assert flatten([[1, 2, 3], [4, 5, 6]]) == [1, 2, 3, 4, 5, 6]",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    def flatten(self, l):\n        \"\"\"\n        :type l: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        if not l:\n            return []\n\n        if len(l) == 1:\n            return l[0]\n\n        res = []\n        for i in l:\n            res.extend(self.flatten(i))\n\n        return res",
+      -0.85693359375
+    ],
+    [
+      "def flatten(l):\n    if l is None:\n        return []\n\n    if isinstance(l, list):\n        return l\n\n    return flatten(l[0]) + flatten(l[1:])",
+      -0.85693359375
+    ],
+    [
+      "def flatten(data):\n    if isinstance(data, list):\n        return [flatten(x) for x in data]\n    else:\n        return data",
+      -0.85693359375
+    ],
+    [
+      "def flatten(l):\n    if l is None:\n        return []\n    return [l] + flatten(l[0])\n\n\nif __name__ == '__main__':\n    print(flatten([[1, 2, [3, 4, [5]]], [[6, 7, 8]]))",
+      -0.85693359375
+    ],
+    [
+      "def flatten(lst):\n    if not lst:\n        return []\n    res = []\n    res.append(lst[0])\n    for item in lst[1:]:\n        res.append(item)\n    return res\n\nprint(flatten([[1, 2], [3, 4, 5]]))",
+      -0.85693359375
+    ],
+    [
+      "def flatten(root):\n    if not root:\n        return []\n    if isinstance(root, list):\n        return root\n    return flatten(root.children) + [root.val]",
+      -0.85693359375
+    ],
+    [
+      "from typing import List\n\n\ndef flatten(lst: List[List[int]]) -> List[int]:\n    if not lst:\n        return []\n\n    result = []\n    for sub_lst in lst:\n        for i in range(len(sub_lst)):\n            result.append(sub_lst[i])\n\n        result.append(sub_lst)\n\n    return result",
+      -0.85693359375
+    ],
+    [
+      "def flatten(l):\n    if not l:\n        return\n\n    for item in l:\n        if isinstance(item, list):\n            flatten(item)\n        else:\n            yield item",
+      -0.857421875
+    ],
+    [
+      "def flatten(nested_list):\n    return [item for sublist in nested_list for item in flatten(sublist)]",
+      -0.857421875
+    ],
+    [
+      "class NestedList:\n    def __init__(self, items):\n        self.items = items\n\n    def flatten(self):\n        return self.items",
+      -0.85791015625
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n    if not nested_list[0]:\n        return nested_list\n    return flatten(nested_list[0]) + flatten(nested_list[1:])\n\n\nprint(flatten([[1, [2, 3], 4]]))",
+      -0.85791015625
+    ],
+    [
+      "def flatten(nested_list):\n    return (flatten_helper(nested_list)\n            if nested_list else [])\n\ndef flatten_helper(nested_list):\n    if not nested_list:\n        return []\n    else:\n        return [nested_list[0]] + flatten_helper(nested_list[1:])",
+      -0.85791015625
+    ],
+    [
+      "def flatten(n):\n    if n is None:\n        return []\n    return flatten(n.children) + [n.val]",
+      -0.85791015625
+    ],
+    [
+      "def flatten(n):\n    \"\"\"\n    :type n: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if n is None:\n        return []\n    if len(n) == 0:\n        return []\n\n    res = []\n    for i in n:\n        res += flatten(i)\n\n    return res\n\nif __name__ == \"__main__\":\n    n = [\n        [1, 2, 3],\n        [4, 5],\n        [6, 7, 8]\n    ]\n\n    print(flatten(n))",
+      -0.85791015625
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: list[list[object]]\n    :rtype: list[object]\n    \"\"\"\n    flat_list = []\n    for i in nested_list:\n        if isinstance(i, list):\n            flat_list += flatten(i)\n        else:\n            flat_list.append(i)\n    return flat_list",
+      -0.85791015625
+    ],
+    [
+      "def flatten(lst):\n    \"\"\"\n    :type lst: List[List[Any]]\n    :rtype: List[List[Any]]\n    \"\"\"\n    if not lst:\n        return []\n    return [flatten(x) for x in lst[0]] + [flatten(x) for x in lst[1:]]",
+      -0.85791015625
+    ],
+    [
+      "def flatten_list(l):\n    if l is None:\n        return []\n    res = []\n    for i in l:\n        res.extend(flatten_list(i))\n    return res",
+      -0.85791015625
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n\n    return [flatten(item) for item in nested_list] + [nested_list]\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2], [3, 4]]) == [1, 2, 3, 4]",
+      -0.85791015625
+    ],
+    [
+      "def flatten(lst):\n    \"\"\"\n    Time: O(n^2)\n    Space: O(n)\n    :param lst:\n    :return:\n    \"\"\"\n    if lst is None:\n        return []\n    if len(lst) == 1:\n        return lst[0]\n    else:\n        return [x for sublist in lst for x in flatten(sublist)]",
+      -0.85791015625
+    ],
+    [
+      "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.children = []\n\n    def add_child(self, val):\n        self.children.append(Node(val))\n\n\nclass NestedList:\n    def __init__(self, val):\n        self.root = Node(val)\n\n    def flatten(self):\n        self.flatten_recursive(self.root)\n\n    def flatten_recursive(self, node):\n        if node.children:\n            for child in node.children:\n                self.flatten_recursive(child)\n            self.root.children.clear()\n\n\ndef test_flatten():\n    nested_list = NestedList(\"a\")\n    nested_list.add_child(\"b\")\n    nested_list.add_child(\"c\")\n    nested_list.add_child(\"d\")\n    nested_list.add_child(\"e\")\n    nested_list.add_child(\"f\")\n    assert nested_list.flatten() == [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\"]\n\n\ntest_flatten()",
+      -0.8583984375
+    ],
+    [
+      "def flatten(list_of_lists):\n    return list(itertools.chain.from_iterable(list_of_lists))\n\n\nif __name__ == '__main__':\n    print(flatten([[1, 2, 3], [4, 5, [6, 7, [8, 9, [10, 11]]]]))",
+      -0.8583984375
+    ],
+    [
+      "def flatten(nested_list):\n    if nested_list:\n        for i in nested_list:\n            if i:\n                for j in flatten(i):\n                    yield j\n            else:\n                yield i",
+      -0.8583984375
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[Any]]\n    :rtype: List[Any]\n    \"\"\"\n    if not nested_list:\n        return []\n    result = []\n    for sub_list in nested_list:\n        if isinstance(sub_list, list):\n            result += flatten(sub_list)\n        else:\n            result.append(sub_list)\n    return result",
+      -0.8583984375
+    ],
+    [
+      "def flatten(list):\n    res = []\n    for i in list:\n        if isinstance(i, list):\n            res += flatten(i)\n        else:\n            res.append(i)\n    return res\n\n\nif __name__ == \"__main__\":\n    print(flatten([]))\n    print(flatten([[1, 2, [3, 4], 5]]))\n    print(flatten([[1, 2, [3, 4], 5], [6, 7, 8, 9]]))\n    print(flatten([[1, 2, [3, 4], 5], [6, 7, 8, 9], [10, 11, 12, 13]]))",
+      -0.8583984375
+    ],
+    [
+      "def flatten(nested_list):\n    if nested_list:\n        return [x for x in flatten(nested_list[0])] + flatten(nested_list[1:])\n    return []\n\n\nprint(flatten([[1, 2, [3, [4, 5]]]]))",
+      -0.8583984375
+    ],
+    [
+      "class ListNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nclass Solution:\n    def flatten(self, root):\n        \"\"\"\n        :type root: ListNode\n        :rtype: List[ListNode]\n        \"\"\"\n        res = []\n        if not root:\n            return res\n        res.append(root)\n        while root.next:\n            res.append(root.next)\n            root = root.next.next\n        return res",
+      -0.8583984375
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[Any]]\n    :rtype: List[Any]\n    \"\"\"\n    if not nested_list:\n        return []\n    else:\n        return [item for sublist in nested_list for item in flatten(sublist)]\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, 3], [4, 5, 6]]) == [1, 2, 3, 4, 5, 6]\n    assert flatten([[1, 2, 3], [4, 5, 6], [7]]) == [1, 2, 3, 4, 5, 6, 7]",
+      -0.8583984375
+    ],
+    [
+      "def flatten(nest):\n    \"\"\"\n    :type nest: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if len(nest) == 0:\n        return nest\n    return [item for sublist in nest for item in flatten(sublist)]\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1,2,3],[4,5]]) == [1, 2, 3, 4, 5]",
+      -0.86083984375
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n    if len(nested_list) == 1:\n        return nested_list[0]\n    return flatten(nested_list[0]) + flatten(nested_list[1:])",
+      -0.86083984375
+    ],
+    [
+      "def flatten(nested_list):\n    if not nested_list:\n        return []\n\n    if not isinstance(nested_list[0], list):\n        return [nested_list]\n\n    return flatten(nested_list[0]) + flatten(nested_list[1:])\n\n\nprint(flatten([[1, 2, [3, 4, 5]], [[6, 7], 8, 9]]))",
+      -0.86083984375
+    ],
+    [
+      "def flatten(l):\n    if isinstance(l, list):\n        return [flatten(i) for i in l]\n    return l\n\n\nif __name__ == '__main__':\n    assert flatten([1, [2, 3], 4]) == [1, 2, 3, 4]\n    assert flatten([1, [2, 3], [4, [5, 6]]]) == [1, 2, 3, 4, 5, 6]",
+      -0.869140625
+    ],
+    [
+      "def flatten(list_):\n    return list(flatten_helper(list_))\n\n\ndef flatten_helper(list_):\n    if not list_:\n        return []\n\n    list_ = list_[0]\n    if isinstance(list_, list):\n        return list_\n    else:\n        list_ = flatten_helper(list_)\n        return list_ + [list_]",
+      -0.9921875
+    ],
+    [
+      "from typing import List, Optional\n\n\ndef flatten(nest: Optional[List[List[int]]]) -> Optional[List[int]]:\n    if nest is None:\n        return nest\n\n    if len(nest) == 1:\n        return nest[0]\n\n    return [flatten(nest[0])] + flatten(nest[1:])",
+      -1.1494140625
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if not nested_list:\n        return []\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            result += flatten(item)\n        else:\n            result.append(item)\n    return result",
+      -1.1513671875
+    ],
+    [
+      "def flatten(lst):\n    if not lst:\n        return []\n\n    res = []\n    for item in lst:\n        if isinstance(item, list):\n            res.extend(flatten(item))\n        else:\n            res.append(item)\n    return res\n\n\n\nif __name__ == '__main__':\n    print(flatten([[1,2,3], [4,5,6]]))",
+      -1.2236328125
+    ],
+    [
+      "def flatten(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return l + flatten(l[0])\n    else:\n        return [l]\n\n\ndef flatten_1(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return l + flatten_1(l[0])\n    else:\n        return [l]\n\n\ndef flatten_2(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_2(l[0])\n    else:\n        return [l]\n\n\ndef flatten_3(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_3(l[0])\n    else:\n        return [l]\n\n\ndef flatten_4(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_4(l[0])\n    else:\n        return [l]\n\n\ndef flatten_5(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_5(l[0])\n    else:\n        return [l]\n\n\ndef flatten_6(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_6(l[0])\n    else:\n        return [l]\n\n\ndef flatten_7(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_7(l[0])\n    else:\n        return [l]\n\n\ndef flatten_8(l):\n    if l is None:\n        return []\n    if type(l) is list:\n        return [l] + flatten_8(l[0])\n    else:\n        return [l]\n\n\ndef flatten_9(l):\n    if l is None",
+      -1.310546875
+    ],
+    [
+      "class Solution:\n    def flatten(self, root):\n        if not root:\n            return []\n        return self.flatten(root.left) + [root.val] + self.flatten(root.right)\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.flatten([1,2,3,4,5,6,7]))",
+      -1.33203125
+    ],
+    [
+      "def flatten(lst):\n    if lst:\n        for i in lst:\n            if isinstance(i, list):\n                flatten(i)\n            else:\n                yield i\n\n\nif __name__ == \"__main__\":\n    assert flatten([1, 2, [3, 4, [5, [6, 7]]]]) == [1, 2, 3, 4, 5, 6, 7]\n    assert flatten([1, [2, [3, 4], [5, [6, 7]]]]) == [1, 2, 3, 4, 5, 6, 7]",
+      -1.755859375
+    ],
+    [
+      "def flatten(nestedList):\n    \"\"\"\n    :type nestedList: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if not nestedList:\n        return []\n    if len(nestedList) == 1:\n        return nestedList[0]\n    else:\n        return [flatten(item) for sublist in nestedList for item in sublist]\n\n\nif __name__ == \"__main__\":\n    print(flatten([[1, 2], [3, 4], [5, [6, 7]]]))",
+      -2.185546875
+    ],
+    [
+      "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\n\ndef flatten(root: TreeNode):\n    if not root:\n        return\n    print(root.val)\n    for child in root.left:\n        flatten(child)\n    for child in root.right:\n        flatten(child)\n\n\nif __name__ == \"__main__\":\n    root = TreeNode(1)\n    root.left = TreeNode(2)\n    root.right = TreeNode(3)\n    root.left.left = TreeNode(4)\n    root.left.right = TreeNode(5)\n    flatten(root)",
+      -2.3203125
+    ],
+    [
+      "def flatten(nested_list):\n    '''\n    nested_list: List[List[int]]\n    returns: List[int]\n    '''\n    if nested_list == None:\n        return []\n    if len(nested_list) == 0:\n        return [0]\n\n    result = [nested_list[0]]\n\n    for element in nested_list[1:]:\n        result.append(result[-1] + element)\n\n    return result\n\n\n\nif __name__ == '__main__':\n    print(flatten([1,2,3,4,5,6,7,8,9]))",
+      -2.646484375
+    ],
+    [
+      "def flatten(nest):\n    \"\"\"\n    :type nest: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n\n    def recurse(nest, idx):\n        if len(nest) == 0:\n            return idx\n        else:\n            return nest[0][idx] + recurse(nest[1:], idx + 1)\n\n    return recurse(nest, 0)\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, 2, [3, 4, 5]], [[6, 7, 8, 9]]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      -3.1953125
+    ],
+    [
+      "class Solution(object):\n    def flatten(self, root):\n        \"\"\"\n        :type root: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        if root is None:\n            return []\n\n        res = []\n        while root:\n            res.append(root[0])\n            root = root[1]\n\n        return res\n\n\na = Solution()\nprint a.flatten([[1, 2], [3, 4, 5], [6, 7, 8]])",
+      -3.560546875
+    ],
+    [
+      "def flatten_list(list_):\n    if list_ is None:\n        return []\n    if list_[0] is None:\n        return [list_[1]]\n    return flatten_list(list_[1]) + flatten_list(list_[0])\n\n\nif __name__ == \"__main__\":\n    assert flatten_list([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    assert flatten_list([]) == []",
+      -3.943359375
+    ],
+    [
+      "def flatten(nested_list):\n    if nested_list == None:\n        return []\n    if len(nested_list) == 1:\n        return [nested_list[0]]\n    else:\n        return [nested_list[0], flatten(nested_list[1:])]\n\n\nif __name__ == \"__main__\":\n    print(flatten([[1, 2], [3, 4, 5]]))\n    print(flatten([[1, 2], [3, 4, 5], [6, 7], [8, 9]]))\n    print(flatten([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))",
+      -4.1015625
+    ],
+    [
+      "from typing import List\n\n\ndef flatten(nest: List[List[int]]) -> List[int]:\n    if nest:\n        return flatten(nest[0]) + [i for sublist in nest[1:] for i in sublist]\n    else:\n        return []\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, [2, [3, 4]]]]) == [1, 2, 3, 4]",
+      -4.2890625
+    ],
+    [
+      "class ListNode(object):\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\ndef flatten(head):\n    if not head:\n        return []\n    if not head.next:\n        return [head.val]\n    return flatten(head.next) + [head.val]\n\n\nif __name__ == \"__main__\":\n    print(flatten(ListNode(1)))\n    print(flatten(ListNode(2)))\n    print(flatten(ListNode(3)))",
+      -4.4375
+    ],
+    [
+      "def flatten(nested_list):\n    # Write your code here\n    flat_list = []\n    def flatten_helper(current_node, parent_node):\n        if current_node is None:\n            return\n        flat_list.append(current_node.val)\n        flatten_helper(current_node.left, parent_node)\n        flatten_helper(current_node.right, parent_node)\n    flatten_helper(nested_list[0], None)\n    return flat_list\n\n\nif __name__ == \"__main__\":\n    print(flatten([1, 2, 3, 4, 5, 6, 7, 8, 9]))",
+      -4.59765625
+    ],
+    [
+      "def flatten_list(nested_list):\n    if not nested_list:\n        return []\n    if not isinstance(nested_list[0], list):\n        return [nested_list]\n    return [item for sublist in nested_list for item in flatten_list(sublist)]\n\ndef flatten_list_2(nested_list):\n    if not nested_list:\n        return []\n    if not isinstance(nested_list[0], list):\n        return [nested_list]\n    return [item for sublist in nested_list for item in flatten_list_2(sublist)]\n\nif __name__ == '__main__':\n    print(flatten_list([1,2,3]))\n    print(flatten_list([1,2,3,4]))\n    print(flatten_list([1,2,3,4,5,6]))",
+      -4.81640625
+    ],
+    [
+      "from typing import List\n\n\ndef flatten(nested_list: List[List[str]]) -> str:\n    return \" \".join(flatten_list(nested_list[0])) if nested_list else \"\"\n\n\ndef flatten_list(nested_list: List[List[str]]) -> List[str]:\n    if not nested_list:\n        return []\n    return [str(item) for sublist in nested_list for item in flatten_list(sublist)]\n\n\nif __name__ == \"__main__\":\n    assert flatten([[1, [2, 3, [4, 5]]]]) == \"1 2 3 4 5\"",
+      -5.06640625
+    ],
+    [
+      "class ListNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\n\nclass Solution:\n    def flatten(self, head: ListNode) -> List[ListNode]:\n        if not head:\n            return []\n        res = []\n        res.append(head)\n        while head.next:\n            res.append(head.next)\n            head = head.next.next\n        return res\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    head = ListNode(1)\n    head.next = ListNode(2)\n    head.next.next = ListNode(3)\n    head.next.next.next = ListNode(4)\n    print(sol.flatten(head))",
+      -5.1015625
+    ],
+    [
+      "def flatten(node):\n    if isinstance(node, list):\n        for node in node:\n            flatten(node)\n        return\n    if isinstance(node, dict):\n        for key in node:\n            flatten(node[key])\n        return\n    print(node)\n\nflatten([{1:[2,3],2:[4,5]},{3:[6,7]},{4:[8,9]}])",
+      -5.171875
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    Time complexity: O(n^2)\n    Space complexity: O(n)\n    \"\"\"\n    if not nested_list:\n        return []\n    if not isinstance(nested_list, list):\n        raise TypeError('nested_list must be a list')\n    if len(nested_list) == 1:\n        return nested_list\n    return [\n        flatten(nested_list[0]),\n        flatten(nested_list[1:])\n    ]\n\n\nif __name__ == '__main__':\n    assert flatten([[1, 2, 3], [4, 5, [6, 7]], [8, 9]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      -5.22265625
+    ],
+    [
+      "def flatten_list(nested_list):\n    if nested_list is None:\n        return []\n\n    if len(nested_list) == 1:\n        return nested_list[0]\n\n    return [flatten_list(elem) for elem in nested_list]\n\nif __name__ == \"__main__\":\n    assert flatten_list([[1, 2, 3], [4, [5, [6, [7]]]]\n                        ) == [1, 2, 3, 4, 5, 6, 7],\n    assert flatten_list([1, 2, [3, [4, [5, [6, [7]]]]]]\n                        ) == [1, 2, 3, 4, 5, 6, 7],\n    assert flatten_list([[1, [2, [3, [4, [5, [6, [7]]]]]]]]\n                        ) == [1, 2, 3, 4, 5, 6, 7],",
+      -5.33203125
+    ],
+    [
+      "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nclass Stack:\n    def __init__(self):\n        self.items = []\n\n    def push(self, val):\n        if not self.items:\n            self.items.append(Node(val))\n        else:\n            node = self.items[-1]\n            while node.next:\n                node = node.next\n            node.next = Node(val)\n\n    def pop(self):\n        if not self.items:\n            return None\n        node = self.items.pop()\n        while node.next:\n            node = node.next\n        return node.val\n\n    def peek(self):\n        if not self.items:\n            return None\n        node = self.items[-1]\n        while node.next:\n            node = node.next\n        return node.val\n\n    def peek_next(self):\n        if not self.items:\n            return None\n        node = self.items[-1]\n        while node.next:\n            node = node.next\n        return node.val\n\n    def size(self):\n        return len(self.items)\n\n    def is_empty(self):\n        return self.size() == 0\n\n    def __len__(self):\n        return self.size()\n\n    def __str__(self):\n        return str(self.items)\n\nclass StackNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\n    def push(self, val):\n        if not self.items:\n            self.items.append(Node(val))\n        else:\n            node = self.items[-1]\n            while node.next:\n                node = node.next\n            node.next = Node(val)\n\n    def pop(self):\n        if not self.items:\n            return None\n        node = self.items.pop()\n        while node.next:\n            node = node.next\n        return node.val\n\n    def peek(self):\n        if not self.items:\n            return",
+      -5.9609375
+    ],
+    [
+      "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\n\ndef flatten(node):\n    if not node:\n        return []\n\n    if node.next:\n        return flatten(node.next) + [node.data]\n\n    return [node.data]\n\n\nif __name__ == \"__main__\":\n    n = Node([1, 2, 3, 4, 5, 6])\n    assert flatten(n) == [1, 2, 3, 4, 5, 6]",
+      -6.37109375
+    ],
+    [
+      "class ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\nclass Solution:\n    def flatten(self, root):\n        \"\"\"\n        :type root: ListNode\n        :rtype: List[ListNode]\n        \"\"\"\n        if not root:\n            return []\n\n        result = []\n        stack = [root]\n        while stack:\n            node = stack.pop()\n            if node.next:\n                stack.append(node.next)\n            result.append(node)\n\n        return result",
+      -6.40234375
+    ],
+    [
+      "from typing import List\n\n\nclass ListNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\n\ndef flatten(node: ListNode) -> List:\n    if not node:\n        return []\n\n    result = []\n\n    def _flatten(node: ListNode):\n        if not node.next:\n            result.append(node.val)\n\n        for child in node.next:\n            _flatten(child)\n\n    _flatten(node)\n\n    return result\n\n\nif __name__ == '__main__':\n    node = ListNode(1)\n    node.next = ListNode(2)\n    node.next.next = ListNode(3)\n    node.next.next.next = ListNode(4)\n\n    assert flatten(node) == [1, 2, 3, 4]",
+      -7.171875
+    ],
+    [
+      "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n\n\ndef flatten_list(root):\n    if not root:\n        return\n    result = []\n    stack = [root]\n    while stack:\n        node = stack.pop()\n        if node.next:\n            stack.append(node.next)\n        result.append(node.value)\n    return result\n\n\nif __name__ == '__main__':\n    root = Node(1)\n    root.next = Node(2)\n    root.next.next = Node(3)\n    root.next.next.next = Node(4)\n    root.next.next.next.next = Node(5)\n    root.next.next.next.next.next = Node(6)\n    root.next.next.next.next.next.next = Node(7)\n    root.next.next.next.next.next.next.next = Node(8)\n    root.next.next.next.next.next.next.next.next = Node(9)\n    root.next.next.next.next.next.next.next.next.next = Node(10)\n    root.next.next.next.next.next.next.next.next.next.next = Node(11)\n    root.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next = Node(12)\n    root.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next = Node(13)\n    root.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next.next",
+      -8.078125
+    ],
+    [
+      "def flatten(nested_list):\n    \"\"\"\n    :type nested_list: List[List[int]]\n    :rtype: List[int]\n    \"\"\"\n    if not nested_list:\n        return []\n\n    if len(nested_list) == 1:\n        return nested_list[0]\n\n    stack = [nested_list[0]]\n\n    for i in nested_list[1:]:\n        if len(stack) == 0:\n            return stack[0]\n        stack.append(stack[-1] + i)\n\n    return stack\n\n\nif __name__ == '__main__':\n    assert flatten([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [1, 2, 3, 4, 5, 6, 7, 8, 9]",
+      -9.34375
+    ],
+    [
+      "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n\n\ndef flatten(n):\n    if n is None:\n        return []\n\n    res = []\n    if n.value is not None:\n        res.append(n.value)\n    if n.next is not None:\n        for v in flatten(n.next):\n            res.append(v)\n\n    return res\n\n\nif __name__ == \"__main__\":\n    n1 = Node(1)\n    n2 = Node(2)\n    n3 = Node(3)\n    n4 = Node(4)\n    n5 = Node(5)\n    n6 = Node(6)\n    n7 = Node(7)\n    n8 = Node(8)\n    n9 = Node(9)\n    n10 = Node(10)\n\n    n1.next = n2\n    n2.next = n3\n    n3.next = n4\n    n4.next = n5\n    n5.next = n6\n    n6.next = n7\n    n7.next = n8\n    n8.next = n9\n    n9.next = n10\n\n    print(flatten(n1))",
+      -9.3828125
+    ],
+    [
+      "def flatten_list(list_to_flatten):\n    \"\"\"\n    :type list_to_flatten: List[List[Any]]\n    :rtype: List[List[Any]]\n    \"\"\"\n    if not list_to_flatten:\n        return []\n\n    if len(list_to_flatten) == 1:\n        return list_to_flatten[0]\n\n    return [flatten_list(sub_list) for sub_list in list_to_flatten]\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        [\n            [1, [2, [3, [4, [5, [6]]]]]\n        ],\n        [\n            [1, [2, [3, [4, [5, [6]]]]],\n            [7, 8, 9],\n            [10, 11, 12],\n            [13, 14, 15],\n            [16, 17, 18],\n            [19, 20, 21],\n            [22, 23, 24],\n            [25, 26, 27],\n            [28, 29, 30],\n            [31, 32, 33],\n            [34, 35, 36],\n            [37, 38, 39],\n            [40, 41, 42],\n            [43, 44, 45],\n            [46, 47, 48],\n            [49, 50, 51],\n            [52, 53, 54],\n            [55, 56, 57],\n            [56, 57, 58],\n            [58, 59, 60],\n            [61, 62, 63],\n            [64, 65, 66],\n            [65, 66, 67],\n            [66, 67, 68],\n            [68, 69, 70],\n            [69, 70, 71],\n            [70, 71, 72],\n            [71, 72, 73],\n            [72, 73, 74],\n            [73, 74, 75],\n            [74, 75, 76],\n            [75, 76, 77],\n            [76, 77, 78],\n            [77, 78, 79],\n            [78, 79, 80],\n            [79, 80, 81],\n            [80, 81, 82],",
+      -9.8984375
+    ],
+    [
+      "class ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\ndef flatten(node):\n    if not node:\n        return []\n\n    res = []\n    res.extend(flatten(node.next))\n    res.append(node.val)\n    return res\n\ndef main():\n    n1 = ListNode(1)\n    n2 = ListNode(2)\n    n3 = ListNode(3)\n    n4 = ListNode(4)\n    n5 = ListNode(5)\n    n6 = ListNode(6)\n    n7 = ListNode(7)\n    n8 = ListNode(8)\n\n    n1.next = n2\n    n2.next = n3\n    n3.next = n4\n    n4.next = n5\n    n5.next = n6\n    n6.next = n7\n    n7.next = n8\n\n    print(flatten(n1))\n\nif __name__ == \"__main__\":\n    main()",
+      -10.390625
+    ],
+    [
+      "class ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\n\ndef flatten(list_node):\n    if list_node is None:\n        return []\n\n    result = []\n    stack = [(list_node, result)]\n    while stack:\n        node, result = stack.pop()\n\n        if node.val is not None:\n            result.append(node.val)\n\n        if node.next is not None:\n            stack.append((node.next, result))\n\n    return result\n\n\nif __name__ == '__main__':\n    node_1 = ListNode(1)\n    node_2 = ListNode(2)\n    node_3 = ListNode(3)\n    node_4 = ListNode(4)\n\n    node_1.next = node_2\n    node_2.next = node_3\n    node_3.next = node_4\n\n    print(flatten(node_1))",
+      -11.4296875
+    ],
+    [
+      "class Node:\n    def __init__(self, key, value):\n        self.key = key\n        self.value = value\n        self.left = None\n        self.right = None\n\n    def __str__(self):\n        return str(self.key) + \" : \" + str(self.value)\n\ndef flatten_list(nodelist):\n    if not nodelist:\n        return []\n    result = []\n    stack = [nodelist]\n    while stack:\n        node = stack.pop()\n        if node.left:\n            stack.append(node.left)\n        if node.right:\n            stack.append(node.right)\n        if node.value:\n            result.append(node.value)\n    return result\n\n\nif __name__ == \"__main__\":\n    n = Node(1, [Node(2, [Node(3, [Node(4)])]), Node(5, [Node(6)])])\n    print(flatten_list(n))",
+      -11.765625
+    ],
+    [
+      "class NestedList:\n    def __init__(self, value):\n        self.value = value\n        self.children = []\n\n    def add_child(self, value):\n        self.children.append(value)\n\n    def flatten(self):\n        for child in self.children:\n            if isinstance(child, NestedList):\n                child.flatten()\n            else:\n                print(child)\n\n\nif __name__ == \"__main__\":\n    l = NestedList([1, [2, [3, [4, [5, 6]]]]])\n    l.add_child(2)\n    l.add_child(3)\n    l.add_child(4)\n    l.add_child(5)\n    l.add_child(6)\n    l.flatten()",
+      -12.015625
+    ],
+    [
+      "class Node:\n    def __init__(self, val=None, children=None):\n        self.val = val\n        self.children = children\n\n\ndef flatten_list(root):\n    if root == None:\n        return []\n    if root.children == None:\n        return [root.val]\n    return flatten_list(root.children) + [root.val]\n\n\ndef test():\n    n1 = Node(1)\n    n2 = Node(2)\n    n3 = Node(3)\n    n4 = Node(4)\n    n5 = Node(5)\n    n6 = Node(6)\n    n7 = Node(7)\n    n8 = Node(8)\n    n9 = Node(9)\n    n10 = Node(10)\n    n11 = Node(11)\n    n12 = Node(12)\n    n13 = Node(13)\n    n14 = Node(14)\n    n15 = Node(15)\n    n16 = Node(16)\n    n17 = Node(17)\n    n18 = Node(18)\n    n19 = Node(19)\n    n20 = Node(20)\n    n21 = Node(21)\n    n22 = Node(22)\n    n23 = Node(23)\n    n24 = Node(24)\n    n25 = Node(25)\n    n26 = Node(26)\n    n27 = Node(27)\n    n28 = Node(28)\n    n29 = Node(29)\n    n30 = Node(30)\n    n31 = Node(31)\n    n32 = Node(32)\n    n33 = Node(33)\n    n34 = Node(34)\n    n35 = Node(35)\n    n36 = Node(36)\n    n37 = Node(37)\n    n38 = Node(38)\n    n39 = Node(39)\n    n40 = Node(40)\n    n41 = Node(41)\n    n42 = Node(42)\n    n43 = Node(43)\n    n44 = Node(44)\n    n45 = Node(45)\n    n46 = Node(46)",
+      -12.515625
+    ],
+    [
+      "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n\nclass Solution:\n    def flatten(self, root):\n        if not root:\n            return []\n        return self.flatten(root.next) + [root.value]\n\nif __name__ == '__main__':\n    root = Node(1)\n    root.next = Node(2)\n    root.next.next = Node(3)\n    root.next.next.next = Node(4)\n    root.next.next.next.next = Node(5)\n    root.next.next.next.next.next = Node(6)\n    root.next.next.next.next.next.next = Node(7)\n    root.next.next.next.next.next.next.next = Node(8)\n    root.next.next.next.next.next.next.next.next = Node(9)\n    root.next.next.next.next.next.next.next.next = Node(10)\n    root.next.next.next.next.next.next.next.next.next = Node(11)\n    root.next.next.next.next.next.next.next.next.next = Node(12)\n    root.next.next.next.next.next.next.next.next.next.next = Node(13)\n    root.next.next.next.next.next.next.next.next.next.next.next.next = Node(14)\n    root.next.next.next.next.next.next.next.next.next.next.next = Node(15)\n    root.next.next.next.next.next.next.next.next.next.next.next = Node(16)\n    root.next.next.next.next.next.next.next.next.next.next.next = Node(17)\n    root.next.next.next.next.next.next.next.next.next.next.next.next = Node(18)\n    root.next.next.next.next.next.next.next.next.next.next.next = Node",
+      -13.3984375
+    ],
+    [
+      "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\n\ndef flatten(root):\n    if not root:\n        return []\n\n    results = []\n    stack = [root]\n\n    while stack:\n        node = stack.pop()\n        if node.next:\n            results.append(node.data)\n            stack.append(node.next)\n        else:\n            results.append(node.data)\n            stack.append(node.data)\n\n    return results\n\n\ndef test():\n    root = Node(\"a\")\n    root.next = Node(\"b\")\n    root.next.next = Node(\"c\")\n    root.next.next.next = Node(\"d\")\n    root.next.next.next.next = Node(\"e\")\n\n    assert flatten(root) == [\"a\", \"b\", \"c\", \"d\", \"e\"]\n\n\nif __name__ == \"__main__\":\n    test()",
+      -14.6875
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/487",
+    "prompt": "Write a function to sort a list of tuples in increasing order by the last element in each tuple.",
+    "canonical_solution": "def sort_tuple(tup): \r\n\tlst = len(tup) \r\n\tfor i in range(0, lst): \r\n\t\tfor j in range(0, lst-i-1): \r\n\t\t\tif (tup[j][-1] > tup[j + 1][-1]): \r\n\t\t\t\ttemp = tup[j] \r\n\t\t\t\ttup[j]= tup[j + 1] \r\n\t\t\t\ttup[j + 1]= temp \r\n\treturn tup",
+    "test_list": [
+      "assert sort_tuple([(1, 3), (3, 2), (2, 1)] ) == [(2, 1), (3, 2), (1, 3)]",
+      "assert sort_tuple([(2, 4), (3, 3), (1, 1)] ) == [(1, 1), (3, 3), (2, 4)]",
+      "assert sort_tuple([(3, 9), (6, 7), (4, 3)] ) == [(4, 3), (6, 7), (3, 9)]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 476
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "# https://leetcode.com/problems/sort-tuples/description/\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: List[Tuple]\n        \"\"\"\n        tuples.sort(key=lambda t: t[-1])\n        return tuples\n\nif __name__ == \"__main__\":\n    solution = Solution()\n    print solution.sortTuples([(1, 3), (2, 1), (2, 2), (3, 1)])",
+      6.8359375
+    ],
+    [
+      "class Solution(object):\n    def increasingTriplet(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int, int]]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(key=lambda x: (x[1], x[0], x[2]))\n        for i in range(len(nums) - 1):\n            if nums[i][2] > nums[i + 1][2]:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]\n\n    def increasingTriplet2(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int, int]]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(key=lambda x: (x[1], x[0]))\n        for i in range(len(nums) - 2):\n            if nums[i][1] > nums[i + 1][1]:\n                nums[i], nums[i + 1] = nums[i + 1], nums[i]",
+      5.37109375
+    ],
+    [
+      "import random\n\ndef sort_tuples_by_last_element(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: void Do not return anything, modify tuples in-place instead.\n    \"\"\"\n    random.shuffle(tuples)\n    for t in tuples:\n        t = t[:len(t)-1]\n        random.shuffle(t)\n        tuples.append(t)\n    return",
+      5.36328125
+    ],
+    [
+      "def sort_tuples_by_last(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: None\n    \"\"\"\n    # sort\n    tuples.sort()\n\n    # reverse\n    tuples.reverse()\n\nif __name__ == \"__main__\":\n    print sort_tuples_by_last([(1,2),(2,3),(3,4),(4,5)])",
+      5.09765625
+    ],
+    [
+      "def sort_tuples(tuples):\n    # write your code here\n    tuples.sort(key=lambda tup: tup[-1])\n    return tuples\n\ndef sort_tuples_inplace(tuples):\n    # write your code here\n    tuples.sort(key=lambda tup: tup[-1], reverse=False)\n    return tuples\n\ndef sort_tuples_random(tuples):\n    # write your code here\n    tuples.sort()\n    return tuples\n\ndef sort_tuples_random_inplace(tuples):\n    # write your code here\n    tuples.sort(reverse=False)\n    return tuples\n\ndef sort_tuples_random_inplace_alternate(tuples):\n    # write your code here\n    tuples.sort(key=lambda tup: tup[-1], reverse=False)\n    return tuples\n\nif __name__ == \"__main__\":\n    tuples = [(1,2),(3,4),(2,3),(1,2)]\n    sort_tuples(tuples)\n    print(tuples)\n    sort_tuples_inplace(tuples)\n    print(tuples)\n    sort_tuples_random(tuples)\n    print(tuples)\n    sort_tuples_random_inplace(tuples)\n    print(tuples)\n    sort_tuples_random_inplace_alternate(tuples)\n    print(tuples)",
+      4.70703125
+    ],
+    [
+      "def sort_tuples(tuples):\n    for i in range(len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n\ndef sort_tuples_iter(tuples):\n    for i in range(len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n\ndef sort_tuples_alternate(tuples):\n    for i in range(len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n\ndef sort_tuples_alternate_iter(tuples):\n    for i in range(len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n\ndef sort_tuples_alternate_alt(tuples):\n    for i in range(len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n\ndef sort_tuples_alternate_alt_iter(tuples):\n    for i in range(len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i",
+      4.24609375
+    ],
+    [
+      "def sort_tuple(tuples):\n    for i in range(0, len(tuples)):\n        for j in range(i, len(tuples)):\n            if tuples[i][1] < tuples[j][1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n    return tuples\n\ndef main():\n    tuples = [(1, \"b\"), (3, \"c\"), (2, \"a\"), (2, \"d\"), (5, \"e\")]\n    print(sort_tuple(tuples))\n\nif __name__ == \"__main__\":\n    main()",
+      3.353515625
+    ],
+    [
+      "from collections import OrderedDict\n\n\ndef sort_increasing(tuples: list):\n    \"\"\"\n    :type tuples: list\n    :rtype: None\n    \"\"\"\n    # sort the list in order by last element\n    tuples.sort(key=lambda t: t[-1])\n\n\nif __name__ == \"__main__\":\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5)]\n    sort_increasing(tuples)\n    print(tuples)\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6)]\n    sort_increasing(tuples)\n    print(tuples)\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6), (\"g\", 7)]\n    sort_increasing(tuples)\n    print(tuples)\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6), (\"g\", 7), (\"h\", 8)]\n    sort_increasing(tuples)\n    print(tuples)\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6), (\"g\", 7), (\"h\", 8), (\"i\", 9)]\n    sort_increasing(tuples)\n    print(tuples)\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6), (\"g\", 7), (\"h\", 8), (\"i\", 9), (\"j\", 10)]\n    sort_increasing(tuples)\n    print(tuples)\n\n    tuples = [(\"a\", 1), (\"b\", 2), (\"c\", 3), (\"d\", 4), (\"e\", 5), (\"f\", 6), (\"g\", 7), (\"h\", 8), (\"i\", 9), (\"j\", 10), (\"k\", 11)]\n    sort_increasing(tuples)\n    print(",
+      2.81640625
+    ],
+    [
+      "from collections import namedtuple\n\ndef sort_increasing_order(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: List[Tuple]\n    \"\"\"\n    return sorted(tuples, key=lambda t: t[-1])\n\ndef main():\n    tuples = [(1,2,3), (4,5,6), (7,8,9)]\n    print(sort_increasing_order(tuples))\n\n\nif __name__ == '__main__':\n    main()",
+      1.4033203125
+    ],
+    [
+      "from collections import namedtuple\n\nclass Tuple(namedtuple('Tuple', 'a, b, c')):\n    \"\"\"\n    A tuple with 3 elements.\n    \"\"\"\n    def __lt__(self, other):\n        return self.a < other.a\n\n    def __le__(self, other):\n        return self.a <= other.a\n\n    def __gt__(self, other):\n        return self.a > other.a\n\n    def __ge__(self, other):\n        return self.a >= other.a\n\n    def __eq__(self, other):\n        return self.a == other.a\n\n    def __ne__(self, other):\n        return self.a!= other.a\n\n\ndef sort_tuples_by_last_element(tuples):\n    \"\"\"\n    Sort a list of tuples in increasing order by the last element in each tuple.\n\n    >>> sort_tuples_by_last_element([\n   ...     (1, 2, 3),\n   ...     (4, 5, 6),\n   ...     (7, 8, 9)\n   ... ])\n    [(7, 8, 9), (1, 2, 3), (4, 5, 6)]\n    \"\"\"\n    return sorted(tuples, key=lambda t: t[-1])\n\ndef test_sort_tuples_by_last_element():\n    tuples = [\n        Tuple(1, 2, 3),\n        Tuple(4, 5, 6),\n        Tuple(7, 8, 9),\n    ]\n    assert sort_tuples_by_last_element(tuples) == [\n        (7, 8, 9),\n        (1, 2, 3),\n        (4, 5, 6),\n    ]\n\n    tuples = [\n        (1, 2, 3),\n        (4, 5, 6),\n        (7, 8, 9),\n    ]\n    assert sort_tuples_by_last_element(tuples) == [\n        (7, 8, 9),\n        (1, 2, 3),\n        (4, 5, 6),\n    ]\n\nif __name__ == '__main__':\n    import doctest",
+      1.37109375
+    ],
+    [
+      "from collections import namedtuple\n\nTuple = namedtuple('Tuple', 'a, b')\n\ndef sort(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: List[Tuple]\n    \"\"\"\n    return sorted(tuples, key=lambda tup: tup[-1])",
+      0.73486328125
+    ],
+    [
+      "def sort(tuples):\n    \"\"\"\n    Input:\n        tuples: a list of tuples, each tuple is a list of integers\n    Output:\n        sorted_tuples: a list of tuples, each tuple is a list of integers\n    Explanation:\n        For example,\n        >>> sort([(1, 2), (2, 3), (3, 1)])\n        [(1, 2), (2, 3), (3, 1)]\n    \"\"\"\n    sorted_tuples = sorted(tuples, key = lambda t: t[-1])\n    return sorted_tuples\n\nif __name__ == \"__main__\":\n    tuples = [(1, 2), (2, 3), (3, 1)]\n    print sort(tuples)",
+      0.5361328125
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: None\n    \"\"\"\n    tuples.sort(key=lambda t: t[-1])\n\n\nif __name__ == '__main__':\n    tuples = [\n        (1, 2),\n        (2, 3),\n        (1, 4),\n        (2, 5),\n        (3, 6),\n        (4, 7)\n    ]\n    sort_tuples(tuples)\n    print(tuples)\n\n    tuples = [\n        (1, 2, 3),\n        (2, 3, 4),\n        (1, 4, 5),\n        (2, 5, 6),\n        (3, 6, 7)\n    ]\n    sort_tuples(tuples)\n    print(tuples)\n\n    tuples = [\n        (1, 2, 3),\n        (2, 3, 4),\n        (1, 4, 5),\n        (2, 5, 6),\n        (3, 6, 7),\n        (4, 7, 8)\n    ]\n    sort_tuples(tuples)\n    print(tuples)",
+      0.37744140625
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda t: t[-1], reverse=True)\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.sortTuples([(1, 2), (3, 4), (2, 3)]))",
+      0.0221710205078125
+    ],
+    [
+      "def sort_tuples_by_last_element(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    return sorted(tuples, key=lambda x: x[-1])\n\n\nif __name__ == \"__main__\":\n    tuples = [(1, 2), (2, 1), (3, 2), (4, 4), (5, 3)]\n    print(sort_tuples_by_last_element(tuples))",
+      -0.18310546875
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int,...]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n        tuples.sort(key=lambda x: x[-1])\n        for i in range(len(tuples) - 1):\n            if tuples[i][-1] > tuples[i+1][-1]:\n                tuples[i], tuples[i+1] = tuples[i+1], tuples[i]",
+      -0.2420654296875
+    ],
+    [
+      "class Solution(object):\n    def sort(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return\n        for i in range(n-1):\n            if nums[i][1] > nums[i+1][1]:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n\n        for i in range(n-2, -1, -1):\n            if nums[i][1] > nums[i+1][1]:\n                nums[i], nums[i+1] = nums[i+1], nums[i]\n                \n        return",
+      -0.34423828125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-an-array/problem\n# https://www.hackerrank.com/challenges/sorting-an-array/submissions/code/5679876\n# https://www.hackerrank.com/challenges/sorting-an-array/submissions/code/5679876\n\n\ndef sort_tuple(tuple_list):\n    sorted_list = []\n    for element in tuple_list:\n        sorted_list.append(element)\n    return sorted(sorted_list)\n\n\nif __name__ == '__main__':\n    n = int(input())\n    tuple_list = []\n    for _ in range(n):\n        tuple_list.append(input())\n    sorted_list = sort_tuple(tuple_list)\n    print(sorted_list)",
+      -0.4248046875
+    ],
+    [
+      "import random\n\ndef sort(tuples):\n    random.shuffle(tuples)\n    for i in range(1, len(tuples)):\n        if tuples[i-1][-1] >= tuples[i][-1]:\n            continue\n        elif tuples[i-1][-1] < tuples[i][-1]:\n            tuples[i-1], tuples[i] = tuples[i], tuples[i-1]\n        else:\n            break\n    return tuples\n\ndef main():\n    tuples = [(random.randint(0, 100), random.randint(0, 100)) for i in range(100)]\n    print(sort(tuples))\n\nif __name__ == '__main__':\n    main()",
+      -0.44921875
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int,...]]\n    :rtype: List[Tuple[int,...]]\n    \"\"\"\n    tuples.sort(key=lambda tup: tup[-1])\n    return tuples\n\n# Your Solution",
+      -0.457275390625
+    ],
+    [
+      "from collections import OrderedDict\n\ndef sort_increasing(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: List[tuple]\n    \"\"\"\n    sorted_tuples = []\n    for t in tuples:\n        if t not in sorted_tuples:\n            sorted_tuples.append(t)\n    return sorted(sorted_tuples, key=lambda x: x[-1])\n\n\nif __name__ == '__main__':\n    tuples = [(1, 2, 3), (2, 1, 3), (3, 2, 1), (3, 2, 2), (3, 2, 3)]\n    print(sort_increasing(tuples))",
+      -0.457763671875
+    ],
+    [
+      "def sort_tuple_list(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: None\n    \"\"\"\n    tuples.sort(key=lambda tup: tup[-1])\n\nif __name__ == \"__main__\":\n    tuples = [(2, 5), (1, 1), (1, 3), (4, 2)]\n    sort_tuple_list(tuples)\n    for tup in tuples:\n        print tup",
+      -0.61767578125
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: void\n    \"\"\"\n    tuples.sort(key=lambda t: t[-1])\n    return\n\n\nif __name__ == \"__main__\":\n    tuples = [(1, 2), (2, 3), (3, 1), (4, 5)]\n    sort_tuples(tuples)\n    print(tuples)",
+      -0.85546875
+    ],
+    [
+      "#!/usr/bin/env python\n\nclass Solution(object):\n    def sort(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: (x[1], x[0]))\n\n\na = Solution()\na.sort([(1, 3), (2, 2), (3, 1)])\nprint(a.sort([(1, 3), (2, 2), (3, 1)]))",
+      -0.85595703125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution:\n    # @param {List<Tuple>} tuples\n    # @return {void} Do not return anything, modify tuples in-place instead.\n    def sort(self, tuples):\n        tuples.sort(key=lambda x: x[-1])",
+      -0.85595703125
+    ],
+    [
+      "def sort_increasing(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: void Do not return anything, modify tuples in-place instead.\n    \"\"\"\n    # Your code here\n    tuples.sort(key=lambda x: x[-1])\n\ns = [\n    (1, 2),\n    (3, 4),\n    (5, 6),\n    (7, 8)\n]\n\nsort_increasing(s)\nprint(s)",
+      -0.85693359375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-an-array/problem\n\ndef sort(arr):\n    return sorted(arr, key=lambda tup: tup[-1])\n\narr = [2, 1, 3]\nprint(sort(arr))",
+      -0.85693359375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-tuple/problem\n\nfrom collections import namedtuple\n\nTuple = namedtuple(\"Tuple\", \"a b\")\n\n\ndef main():\n    tuples = []\n    with open(\"input.txt\") as f:\n        for line in f:\n            tuples.append(Tuple(*line.split()))\n    tuples = sorted(tuples, key=lambda tup: tup.b)\n    for tup in tuples:\n        print(tup.a, tup.b)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = None\n\nclass Solution(object):\n    def sort(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        def cmp(a, b):\n            return (b.y) - (a.y)\n        tuples.sort(cmp=cmp)",
+      -0.85693359375
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    return sorted(tuples, key=lambda x: x[-1], reverse=True)",
+      -0.85693359375
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __str__(self):\n        return '({}, {})'.format(self.x, self.y)\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda t: t[-1], reverse=True)\n\nif __name__ == '__main__':\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    tuples = [Tuple(1), Tuple(10), Tuple(2), Tuple(8)]\n    Solution().sortTuples(tuples)\n    for t in tuples:\n        print(t)",
+      -0.85693359375
+    ],
+    [
+      "import random\n\ndef sort(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: None\n    \"\"\"\n    i = 0\n    while i < len(tuples):\n        if tuples[i][0] > tuples[i+1][0]:\n            t1, t2 = tuples[i], tuples[i+1]\n            tuples[i], tuples[i+1] = t2, t1\n        i += 1\n\n\n\ndef main():\n    tuples = [(random.randint(1, 100), random.randint(1, 100)) for i in range(100)]\n    sort(tuples)\n    print(tuples)\n\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: None\n    \"\"\"\n    tuples.sort(key=lambda tup: tup[-1])",
+      -0.857421875
+    ],
+    [
+      "def sort_tuples(tuples):\n    for i in range(len(tuples)):\n        for j in range(len(tuples) - 1):\n            if tuples[j][-1] < tuples[j+1][-1]:\n                tuples[j], tuples[j+1] = tuples[j+1], tuples[j]\n    return tuples\n\n\ndef main():\n    tuples = [(1, 2), (3, 4), (5, 6), (7, 8)]\n    print sort_tuples(tuples)\n    \nif __name__ == '__main__':\n    main()",
+      -0.85791015625
+    ],
+    [
+      "def sort_tuple(tuples):\n    \"\"\"\n    Sort a list of tuples in increasing order by the last element in each tuple.\n\n    Example\n    =======\n\n    >>> sort_tuple([('a', 1), ('b', 2), ('c', 3)])\n    [('a', 1), ('b', 2), ('c', 3)]\n    >>> sort_tuple([('a', 1), ('c', 3), ('b', 2)])\n    [('a', 1), ('b', 2), ('c', 3)]\n    >>> sort_tuple([('a', 1), ('b', 2), ('a', 3)])\n    [('a', 1), ('a', 3), ('b', 2)]\n    \"\"\"\n    sorted_tuples = sorted(tuples, key=lambda t: t[-1])\n    return sorted_tuples\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    >>> sort_tuples([('a', 3), ('b', 2), ('c', 1)])\n    [('a', 3), ('b', 2), ('c', 1)]\n    >>> sort_tuples([('a', 1), ('c', 3), ('b', 2)])\n    [('a', 1), ('b', 2), ('c', 3)]\n    >>> sort_tuples([('a', 2), ('b', 1), ('c', 3)])\n    [('a', 2), ('b', 1), ('c', 3)]\n    \"\"\"\n    tuples.sort(key=lambda t: t[1])\n    return tuples\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: x[1])\n        for i in range(len(tuples)):\n            tuples[i] = (tuples[i][0], tuples[i][1])",
+      -0.85791015625
+    ],
+    [
+      "import random\n\ndef sort_tuples(tuples):\n    random.shuffle(tuples)\n    return [tuple(sorted(t)) for t in tuples]\n\nif __name__ == '__main__':\n    tuples = [(random.randint(0, 100), random.randint(0, 100)) for i in range(10)]\n    print(sort_tuples(tuples))",
+      -0.85791015625
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    Sort a list of tuples in increasing order by the last element in each tuple.\n    tuples: list of tuples\n    return: new list of tuples\n    \"\"\"\n    for i in range(len(tuples)):\n        if tuples[i][-1] < tuples[i][-2]:\n            tuples[i][-1], tuples[i][-2] = tuples[i][-2], tuples[i][-1]\n    return tuples\n\n\n# Test cases\nprint(sort_tuples([(1, 2), (3, 5), (3, 4)]))\nprint(sort_tuples([(1, 2), (3, 4), (3, 5)]))\nprint(sort_tuples([(1, 2), (3, 4), (3, 5), (1, 1)]))\nprint(sort_tuples([(1, 2), (3, 4), (3, 5), (3, 5)]))",
+      -0.85791015625
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: void Do not return anything, modify tuples in-place instead.\n    \"\"\"\n    tuples.sort(key=lambda tup: tup[-1], reverse=True)\n    for i, tup in enumerate(tuples):\n        tuples[i] = tup[:-1]",
+      -0.85791015625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/sort-list-of-tuples/\n\nclass Solution(object):\n    def sortList(self, lists):\n        \"\"\"\n        :type lists: List[List[int]]\n        :rtype: void Do not return anything, modify lists in-place instead.\n        \"\"\"\n        for i in range(len(lists)):\n            lists[i].sort()",
+      -0.85791015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-a-list-of-tuples-in-increasing-order\n\ndef sort(list):\n    return sorted(list, key=lambda x: x[-1])\n\nif __name__ == \"__main__\":\n    with open(\"input.txt\") as f:\n        n = int(f.readline())\n        for _ in range(n):\n            t = map(int, f.readline().split(\" \"))\n            list = tuple(t)\n            print(sort(list))",
+      -0.8583984375
+    ],
+    [
+      "# https://leetcode.com/problems/sort-tuples-by-last-element-ii/discuss/253736/Python-solution-with-explanation-with-explanation-of-sorting-algorithm\n\n\nclass Solution:\n    def sortTuple(self, tuples: List[Tuple[int,...]]) -> None:\n        tuples.sort(key=lambda t: t[-1])\n\n\nif __name__ == '__main__':\n    s = Solution()\n    t = (1, 2, 3)\n    print(s.sortTuple([(3,), (2, 1), (1,)]))",
+      -0.8583984375
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: None\n    \"\"\"\n    tuples.sort(key=lambda x: x[-1])\n    for i in range(len(tuples)):\n        tuples[i] = tuple(sorted(tuples[i]))",
+      -0.8583984375
+    ],
+    [
+      "from collections import OrderedDict\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: List[Tuple]\n        \"\"\"\n        if not tuples:\n            return tuples\n        tuples = sorted(tuples, key=lambda t: t[-1])\n        return tuples\n\n\nif __name__ == '__main__':\n    solution = Solution()\n    print solution.sortTuples([(1, 2), (2, 3), (3, 4)])",
+      -0.8583984375
+    ],
+    [
+      "from collections import defaultdict\nimport time\n\n\ndef sort_increasing(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    t = defaultdict(lambda: 0)\n    for tup in tuples:\n        t[tup[1]] += 1\n    res = []\n    for k in sorted(t.keys()):\n        res.append((k, t[k]))\n    return res\n\n\nif __name__ == '__main__':\n    t = time.time()\n    tuples = [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]\n    print(sort_increasing(tuples))\n    print(\"time:\", time.time() - t)",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    # @param nums a list of tuples\n    # @return nothing\n    def sort(self, nums):\n        n = len(nums)\n        if n <= 1:\n            return nums\n        else:\n            pivot = nums[n-1]\n            for i in range(n-1, 0, -1):\n                if nums[i][-1] <= pivot[-1]:\n                    nums[i], nums[i-1] = nums[i-1], nums[i]\n                else:\n                    break\n        return nums\n\n\nif __name__ == '__main__':\n    nums = [(-3, 2), (5, 1), (2, 4)]\n    print Solution().sort(nums)",
+      -0.8583984375
+    ],
+    [
+      "import sys\nsys.path.append('..')\nfrom sorted_list import sorted_list\n\ndef insertion_sort(tuples):\n    for i in range(1, len(tuples)):\n        key = tuples[i]\n        j = i - 1\n        while j >= 0 and tuples[j][1] > key[1]:\n            tuples[j + 1] = tuples[j]\n            j = j - 1\n        tuples[j + 1] = key\n    return tuples\n\ndef main():\n    tuples = [(1,2), (3,4), (5,6), (7,8)]\n    print(sorted_list(tuples))\n    print(insertion_sort(tuples))\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda t: t[1])\n        tuples.reverse()",
+      -0.85888671875
+    ],
+    [
+      "import timeit\n\n\ndef sort_tuple_list(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    return sorted(tuples, key=lambda tup: tup[-1])\n\n\ndef test_sort_tuple_list():\n    tuples = [(1, 2), (3, 4), (2, 3), (5, 2)]\n    start = timeit.default_timer()\n    result = sort_tuple_list(tuples)\n    end = timeit.default_timer()\n    print(\"{}ms\".format((end - start) * 1000))\n    assert result == [(1, 2), (2, 3), (3, 4), (5, 2)]\n    assert result == [(2, 3), (3, 4), (1, 2), (5, 2)]\n\n\nif __name__ == \"__main__\":\n    test_sort_tuple_list()",
+      -0.85888671875
+    ],
+    [
+      "# Write your code here\n\ndef sort_tuples(tuples):\n    return sorted(tuples, key=lambda t: t[-1])\n\n# Your code will be tested after you have implemented the above functions.",
+      -0.85888671875
+    ],
+    [
+      "from typing import List\n\n\nclass Solution:\n    def sort_increasing_last_element(self, tuples: List[List[int]]) -> None:\n        tuples.sort(key=lambda x: x[-1])",
+      -0.85888671875
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    Input:\n        tuples: a list of tuples, where each tuple is a list of integers\n\n    Output:\n        sorted_tuples: a list of tuples, where each tuple is a list of integers, sorted in increasing order by the last element in each tuple\n    \"\"\"\n    # Sort in increasing order by the last element in each tuple\n    return sorted(tuples, key=lambda t: t[-1])\n\n\nif __name__ == \"__main__\":\n    tuples = [(1, 2, 3), (2, 3, 4), (3, 4, 5), (4, 5, 6), (5, 6, 7)]\n    sorted_tuples = sort_tuples(tuples)\n    print sorted_tuples",
+      -0.85888671875
+    ],
+    [
+      "def sort(tuples):\n    return sorted(tuples, key=lambda t: t[-1])",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def sortByB(self, arr):\n        \"\"\"\n        :type arr: List[Tuple[int, int]]\n        :rtype: List[Tuple[int, int]]\n        \"\"\"\n        def key(tup):\n            return tup[-1]\n        return sorted(arr, key=key, reverse=False)\n\n    def sortByA(self, arr):\n        \"\"\"\n        :type arr: List[Tuple[int, int]]\n        :rtype: List[Tuple[int, int]]\n        \"\"\"\n        def key(tup):\n            return tup[0]\n        return sorted(arr, key=key, reverse=False)\n\nif __name__ == '__main__':\n    arr = [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)]\n    print(Solution().sortByA(arr))\n    print(Solution().sortByB(arr))",
+      -0.85888671875
+    ],
+    [
+      "import collections\n\n\ndef sort_tuples_by_last(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    return collections.OrderedDict(sorted(tuples, key=lambda tup: tup[-1])).values()\n\n\nif __name__ == '__main__':\n    tuples = [\n        (1, 2),\n        (2, 3),\n        (3, 1),\n        (4, 3),\n        (4, 4),\n        (5, 1),\n        (5, 5),\n        (6, 1),\n        (6, 6),\n        (7, 1),\n        (7, 7),\n        (8, 1),\n        (8, 8),\n    ]\n    print(sort_tuples_by_last(tuples))",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: x[-1], reverse=True)",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def sort(self, arr):\n        \"\"\"\n        :type arr: List[tuple]\n        :rtype: void Do not return anything, modify arr in-place instead.\n        \"\"\"\n        for i in range(len(arr) - 1):\n            for j in range(i + 1, len(arr)):\n                if arr[j][-1] < arr[i][-1]:\n                    arr[i], arr[j] = arr[j], arr[i]\n        \n        return arr",
+      -0.88623046875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-tuples/problem\n\ndef sort_tuple(list_tuple):\n    # list_tuple is a list of tuples\n    for i in range(len(list_tuple)):\n        min_tuple = list_tuple[i]\n        for j in range(i+1, len(list_tuple)):\n            if list_tuple[j] < min_tuple:\n                min_tuple = list_tuple[j]\n        list_tuple[i] = min_tuple\n    return list_tuple\n\ndef main():\n    tuple_list = [\n        (1, 2, 3),\n        (1, 2, 4),\n        (1, 3, 4),\n        (2, 3, 4),\n        (3, 4, 5),\n        (3, 4, 6),\n        (4, 5, 6),\n        (5, 6, 7),\n        (6, 7, 8),\n        (7, 8, 9),\n        (8, 9, 10)\n    ]\n    print(sort_tuple(tuple_list))\n\nif __name__ == '__main__':\n    main()",
+      -0.91259765625
+    ],
+    [
+      "# Example:\n# Input: [(1, 3), (2, 2), (3, 1), (1, 1)]\n# Output: [(1, 1), (1, 3), (2, 2), (3, 1)]\n# Explanation: The input list is already sorted in increasing order by the second element.\n# The function should return the sorted input list.\n\n\nclass Solution(object):\n    def sortTuple(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int]]\n        :rtype: List[Tuple[int, int]]\n        \"\"\"\n        if not nums:\n            return []\n\n        def sort(nums):\n            # [1, 2, 3] -> [3, 1, 2]\n            for i in range(len(nums) - 1):\n                if nums[i][1] > nums[i + 1][1]:\n                    nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        sort(nums)\n\n        def sort2(nums):\n            # [1, 2, 3] -> [1, 3, 2]\n            for i in range(len(nums) - 1):\n                if nums[i][0] > nums[i + 1][0]:\n                    nums[i], nums[i + 1] = nums[i + 1], nums[i]\n        sort2(nums)\n\n        return nums\n\n\nif __name__ == \"__main__\":\n    print(Solution().sortTuple([(1, 3), (2, 2), (3, 1), (1, 1)]))",
+      -0.95751953125
+    ],
+    [
+      "def sort_tuples(tuples):\n    \"\"\"\n    Input: A list of tuples.\n    Output: A sorted list of tuples.\n    \"\"\"\n    # sort the list of tuples\n    tuples.sort(key=lambda x: x[-1])\n\n    # sort the list of tuples in increasing order\n    tuples = sorted(tuples, key=lambda x: x[-1], reverse=False)\n\n    return tuples\n\nif __name__ == \"__main__\":\n    tuples = [\n        (1,2),\n        (2,3),\n        (3,4),\n        (4,5),\n        (5,6),\n        (6,7),\n        (7,8),\n        (8,9),\n        (9,10),\n        (10,11),\n        (11,12),\n        (12,13),\n        (13,14),\n        (14,15),\n        (15,16),\n        (16,17),\n        (17,18),\n        (18,19),\n        (19,20),\n        (20,21),\n        (21,22),\n        (22,23),\n        (23,24),\n        (24,25),\n        (25,26),\n        (26,27),\n        (27,28),\n        (28,29),\n        (29,30),\n        (30,31),\n        (31,32),\n        (32,33),\n        (33,34),\n        (34,35),\n        (35,36),\n        (36,37),\n        (37,38),\n        (38,39),\n        (39,40),\n        (40,41),\n        (41,42),\n        (42,43),\n        (43,44),\n        (44,45),\n        (45,46),\n        (46,47),\n        (47,48),\n        (48,49),\n        (49,50),\n        (50,51),\n        (51,52),\n        (52,53),\n        (53,54),\n        (54,55),\n        (55,56),\n        (56,",
+      -0.96484375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-a-list-of-tuples/problem\n\ndef sort_list_of_tuples(tuples):\n    \"\"\"\n    Args:\n        tuples: A list of tuples, where each tuple is (item, score).\n\n    Returns:\n        A list of tuples, where each tuple is (item, score).\n    \"\"\"\n    return sorted(tuples, key=lambda t: t[-1], reverse=True)\n\nif __name__ == '__main__':\n    tuples = [('a', 1), ('b', 3), ('c', 2), ('d', 4), ('e', 5)]\n    print(sort_list_of_tuples(tuples))",
+      -0.99755859375
+    ],
+    [
+      "import sys\nimport timeit\n\ndef sort(tuples):\n    \"\"\"\n    >>> sort([(1, 2, 3), (4, 5, 6), (7, 8, 9)])\n    [(7, 8, 9), (1, 2, 3), (4, 5, 6)]\n    >>> sort([(1, 2, 3), (7, 8, 9), (4, 5, 6)])\n    [(7, 8, 9), (1, 2, 3), (4, 5, 6)]\n    >>> sort([(1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 2, 3), (4, 5, 6)])\n    [(1, 2, 3), (4, 5, 6), (7, 8, 9), (4, 5, 6), (1, 2, 3)]\n    >>> sort([(1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3)])\n    [(1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3), (1, 2, 3)]\n    \"\"\"\n    # your code goes here\n    if len(tuples) < 2:\n        return tuples\n    else:\n        return sorted(tuples, key=lambda tup: tup[-1])\n\ndef main():\n    tuples = [ (1, 2, 3), (4, 5, 6), (7, 8, 9) ]\n    print sort(tuples)\n\nif __name__ == '__main__':\n    t = timeit.Timer(\"main()\", \"from __main__ import main\")\n    count = 10000\n    print t.timeit(count) / count",
+      -1.0908203125
+    ],
+    [
+      "# https://leetcode.com/problems/sort-tuples/\n\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n\n        tuples.sort(key=lambda t: t[-1])",
+      -1.2109375
+    ],
+    [
+      "def sort(tuples):\n    if len(tuples) == 0:\n        return\n\n    tuples.sort(key=lambda t: t[-1])\n\n    for i in range(len(tuples) - 1):\n        if tuples[i][-1] > tuples[i+1][-1]:\n            tuples[i], tuples[i+1] = tuples[i+1], tuples[i]\n\ndef main():\n    tuples = [\n        (1,2,3),\n        (2,3,4),\n        (1,3,5),\n        (2,5,6)\n    ]\n\n    sort(tuples)\n    print(tuples)\n\nif __name__ == '__main__':\n    main()",
+      -1.3017578125
+    ],
+    [
+      "def sort_tuple(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    # TODO: write your code here\n\n    # if the list is empty, return the original list\n    if len(tuples) == 0:\n        return tuples\n\n    # build a dictionary with the keys as the tuples and the values as the index\n    d = dict((t, i) for i, t in enumerate(tuples))\n\n    # sort the tuples in increasing order by the last element\n    tuples.sort(key=lambda t: d[t])\n\n    return tuples",
+      -1.33203125
+    ],
+    [
+      "import timeit\n\n\ndef sort_increasing_tuples(tuples):\n    return sorted(tuples, key=lambda tup: tup[-1])\n\n\nif __name__ == \"__main__\":\n    tuples = [\n        (1, 2, 3),\n        (4, 5, 6),\n        (7, 8, 9),\n        (10, 11, 12),\n        (13, 14, 15),\n        (16, 17, 18),\n        (19, 20, 21),\n        (22, 23, 24),\n        (25, 26, 27),\n        (28, 29, 30),\n    ]\n\n    start = timeit.default_timer()\n    result = sort_increasing_tuples(tuples)\n    stop = timeit.default_timer()\n    print(\"Elapsed time: {}\".format(stop - start))\n    print(result)",
+      -1.4736328125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n\nclass Solution(object):\n    def sortTuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n        tuples.sort(key=lambda t: t.x)\n        tuples.sort(key=lambda t: t.y)\n        tuples.sort(key=lambda t: t.x, reverse=True)\n\n\nif __name__ == '__main__':\n    s = Solution()\n    s.sortTuple([(1, 2), (2, 1), (3, 3)])",
+      -1.662109375
+    ],
+    [
+      "from collections import namedtuple\n\ndef sort_tuples(tuples):\n    \"\"\"\n    Sort a list of tuples in increasing order by the last element.\n    >>> sort_tuples([('a', 1), ('b', 2), ('c', 3)])\n    [('a', 1), ('b', 2), ('c', 3)]\n    >>> sort_tuples([('a', 1), ('b', 2), ('c', 3), ('c', 3)])\n    [('a', 1), ('b', 2), ('c', 3), ('c', 3)]\n    \"\"\"\n    return sorted(tuples, key=lambda t: t[-1])\n\nif __name__ == '__main__':\n    tuples = [('a', 1), ('b', 2), ('c', 3)]\n    sort_tuples(tuples)\n    print(tuples)",
+      -1.6689453125
+    ],
+    [
+      "# https://leetcode.com/problems/sort-tuples/description/\n# time complexity: O(n*log(n))\n# space complexity: O(n)\n\n# Example 1:\n# Input: [(1, 3), (5, 7), (2, 2)]\n# Output: [(2, 2), (1, 3), (5, 7)]\n# Explanation:\n# First sort the list by the second element, then sort the list by the first element.\n# Example 2:\n# Input: [(2, 4), (1, 1), (3, 3)]\n# Output: [(1, 1), (2, 4), (3, 3)]\n# Explanation:\n# First sort the list by the second element, then sort the list by the first element.\n# Example 3:\n# Input: [(2, 5), (3, 7), (1, 1)]\n# Output: [(1, 1), (2, 5), (3, 7)]\n# Explanation:\n# First sort the list by the second element, then sort the list by the first element.\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: (x[1], x[0]))\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    # print(sol.sortTuples([(1, 3), (5, 7), (2, 2)]))\n    # print(sol.sortTuples([(2, 4), (1, 1), (3, 3)]))\n    # print(sol.sortTuples([(2, 5), (3, 7), (1, 1)]))\n    tuples = [\n        (2, 5), (3, 7), (1, 1),\n        (2, 4), (1, 1), (3, 3)\n    ]\n    sol.sortTuples(tuples)\n    print(tuples)",
+      -1.6748046875
+    ],
+    [
+      "# https://leetcode.com/problems/sort-tuple/discuss/111493/Python-solution-with-an-extra-step\n# https://leetcode.com/problems/sort-tuple/discuss/123796/Python-solution-with-an-extra-step\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: x[2], reverse=True)\n        return\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.sortTuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)]))\n    print(s.sortTuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)]))",
+      -1.71875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __repr__(self):\n        return str(self.x) + ',' + str(self.y)\n\nclass Solution:\n    # @param a, a list of tuples\n    # @return nothing\n    def sort(self, a):\n        for i in range(len(a) - 1):\n            for j in range(len(a) - 1):\n                if a[j].x > a[j + 1].x:\n                    a[j], a[j + 1] = a[j + 1], a[j]\n        return a\n\n    # @param a, a list of tuples\n    # @return a list of tuples\n    def sort2(self, a):\n        # write your code here\n        for i in range(len(a)):\n            for j in range(len(a)):\n                if a[i].x > a[j].x:\n                    a[i], a[j] = a[j], a[i]\n        return a\n\nif __name__ == '__main__':\n    a = [Tuple(3), Tuple(1), Tuple(2), Tuple(4), Tuple(5), Tuple(6)]\n    print a\n    s = Solution()\n    s.sort(a)\n    print a\n    s.sort2(a)\n    print a",
+      -2.376953125
+    ],
+    [
+      "class Solution(object):\n    def sort(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int]]\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort(key=lambda x: x[-1])\n        for i in xrange(1, len(nums)):\n            if nums[i-1][-1] >= nums[i][-1]:\n                nums[i-1], nums[i] = nums[i], nums[i-1]",
+      -2.423828125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    def __repr__(self):\n        return \"Tuple(%s, %s)\" % (self.x, self.y)\n\nclass Solution(object):\n    def sort(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda t: t[-1])\n\nif __name__ == \"__main__\":\n    t = Solution()\n    t.sort([(1, 2), (3, 4), (5, 6)])\n    print(t.sort([(1, 2), (3, 4), (5, 6)]))\n    print(t.sort([(1, 2), (3, 4), (5, 6), (7, 8)]))\n    print(t.sort([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]))",
+      -3.052734375
+    ],
+    [
+      "# https://oj.leetcode.com/problems/sort-list-of-tuples/\n# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return str(self.x) + \",\" + str(self.y)\n\n    def __cmp__(self, other):\n        return cmp(other.y, self.y)\n\nclass Solution(object):\n    def sortList(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        n = len(tuples)\n        if n == 0: return\n        if n == 1: return\n        for i in xrange(n-1):\n            if tuples[i].y > tuples[i+1].y:\n                tuples[i],tuples[i+1] = tuples[i+1],tuples[i]\n        return\n\ns = Solution()\nprint s.sortList([(1,2),(3,4),(5,6),(7,8),(9,10),(11,12)])",
+      -3.087890625
+    ],
+    [
+      "def sort_tuples_by_last_element(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: List[Tuple[int, int]]\n    \"\"\"\n    tuples.sort(key=lambda x: (x[1], x[0]))\n    return tuples\n\n# https://oj.leetcode.com/problems/sort-tuple/\n# Given a tuple, write a function to sort it.\n# Example:\n# Given [1, 5, 6], the output should be\n# [1, 5, 6]\n# sort_tuple([1, 5, 6])\n# sort_tuple([6, 5, 1])\n\n# Note:\n# You may assume the given tuple is always valid.\n# The given tuple is guaranteed to be always sorted.\n# You could assume the given tuple has at least one element.\n# Hint:\n# Use a stack to store the result.\n# Do not modify the given tuple.\n\n# 2018.02.17\n# sort_tuple_recursive(tuples)\n\nclass Solution(object):\n    def sort_tuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: List[Tuple[int, int]]\n        \"\"\"\n        tuples.sort(key=lambda x: (x[1], x[0]))\n        return tuples\n\nclass Solution(object):\n    def sort_tuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: List[Tuple[int, int]]\n        \"\"\"\n        tuples.sort(key=lambda x: (x[1], x[0]))\n        return tuples",
+      -3.134765625
+    ],
+    [
+      "from collections import namedtuple\n\nfrom sortedlist import SortedList\n\nclass Tuple(namedtuple('Tuple', 'x y')):\n    @classmethod\n    def from_list(cls, list_):\n        return cls(*list_)\n\n    @classmethod\n    def from_tuple(cls, t):\n        return cls(*t)\n\n    def __lt__(self, other):\n        return self.y < other.y\n\ndef sort_tuples_by_last_element(tuples):\n    \"\"\"\n    Sort a list of tuples in increasing order by the last element in each tuple.\n    :param tuples: a list of tuples\n    :return: a sorted list of tuples\n    \"\"\"\n    return SortedList(tuples, key=lambda t: t.y)\n\n\nif __name__ == '__main__':\n    tuples = [Tuple(x, y) for x, y in [\n        (1, 2),\n        (2, 1),\n        (3, 2),\n        (4, 5),\n        (5, 4),\n        (5, 6),\n        (6, 5)\n    ]]\n\n    sorted_tuples = sort_tuples_by_last_element(tuples)\n\n    print(sorted_tuples)",
+      -3.611328125
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: x[-1])\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.sortTuples([(1, 2), (3, 4), (2, 1)])\n    print s.sortTuples([(1, 2), (3, 4), (2, 1), (1, 2)])\n    print s.sortTuples([(1, 2), (3, 4), (2, 1), (3, 4)])",
+      -3.724609375
+    ],
+    [
+      "import random\n\n\ndef sort_tuple_list(tuples):\n    # sort tuples\n    tuples.sort(key=lambda tup: tup[-1])\n\n    # reverse tuples\n    tuples.reverse()\n\n\ndef main():\n    # tuples = [('a', 1), ('c', 2), ('b', 2), ('d', 3)]\n    tuples = [('a', 1), ('c', 2), ('b', 2), ('d', 3), ('e', 4)]\n    sort_tuple_list(tuples)\n    print(tuples)\n\n\nif __name__ == '__main__':\n    main()",
+      -4.05078125
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/sorting-a-tuples/problem\ndef sort_tuples(tuples):\n    tuples.sort(key=lambda x: x[-1])\n    return tuples\n\ndef main():\n    tuples = list(map(lambda x: (x, x, x), range(1, 10)))\n    sort_tuples(tuples)\n    print(tuples)\n\nif __name__ == '__main__':\n    main()",
+      -4.296875
+    ],
+    [
+      "def sort(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: void\n    \"\"\"\n    i = 0\n    while i < len(tuples):\n        j = i + 1\n        while j < len(tuples):\n            if tuples[j][-1] < tuples[i][-1]:\n                tuples[i], tuples[j] = tuples[j], tuples[i]\n                j += 1\n            else:\n                j += 1\n        i += 1",
+      -4.390625
+    ],
+    [
+      "def sort(tuples):\n    \"\"\"\n    :type tuples: List[Tuple[int, int]]\n    :rtype: None\n    \"\"\"\n    def sort_helper(tuples, temp_list):\n        if len(tuples) == 0:\n            return []\n        elif len(tuples) == 1:\n            return [tuples[0]]\n        else:\n            if tuples[0][1] > tuples[-1][1]:\n                temp_list.append(tuples[0])\n                sort_helper(tuples[1:], temp_list)\n            else:\n                temp_list.append(tuples[-1])\n                sort_helper(tuples[:-1], temp_list)\n\n    sort_helper(tuples, [])\n\n\nif __name__ == \"__main__\":\n    tuples = [\n        (1, 2),\n        (3, 4),\n        (5, 6),\n        (7, 8)\n    ]\n    sort(tuples)\n    print(tuples)",
+      -4.55859375
+    ],
+    [
+      "class Solution(object):\n    def sort(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        # Sort the list by the last element\n        nums.sort(key=lambda x: x[-1])\n        \n        # Copy the list back to the original list\n        for i in range(len(nums)):\n            nums[i] = tuple(nums[i])\n\n    def sort2(self, nums):\n        \"\"\"\n        :type nums: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify nums in-place instead.\n        \"\"\"\n        nums.sort()\n        \n        # Copy the list back to the original list\n        for i in range(len(nums)):\n            nums[i] = tuple(nums[i])",
+      -4.8359375
+    ],
+    [
+      "from collections import namedtuple\n\ndef sort_tuples(tuples):\n    \"\"\"\n    >>> sort_tuples([(1, 2), (3, 5), (1, 2), (1, 4), (5, 6), (2, 5)])\n    [(1, 2), (1, 4), (1, 2), (2, 5), (3, 5), (5, 6)]\n    \"\"\"\n    def tuple_cmp(a, b):\n        return cmp(a[-1], b[-1])\n    tuples.sort(key=lambda t: t[-1], reverse=True)\n    return tuples\n\ndef sort_tuples_inplace(tuples):\n    \"\"\"\n    >>> sort_tuples_inplace([(1, 2), (3, 5), (1, 2), (1, 4), (5, 6), (2, 5)])\n    [(1, 2), (1, 4), (1, 2), (2, 5), (3, 5), (5, 6)]\n    \"\"\"\n    tuples.sort(key=lambda t: t[-1], reverse=True)\n    return tuples\n\ndef sort_tuples_by_value(tuples):\n    \"\"\"\n    >>> sort_tuples_by_value([(1, 2), (3, 5), (1, 2), (1, 4), (5, 6), (2, 5)])\n    [(1, 2), (2, 5), (1, 4), (3, 5), (5, 6), (1, 2)]\n    \"\"\"\n    def tuple_cmp(a, b):\n        return cmp(b[0], a[0])\n    tuples.sort(key=lambda t: t[0])\n    return tuples\n\ndef sort_tuples_by_value_inplace(tuples):\n    \"\"\"\n    >>> sort_tuples_by_value_inplace([(1, 2), (3, 5), (1, 2), (1, 4), (5, 6), (2, 5)])\n    [(1, 2), (2, 5), (1, 4), (3, 5), (5, 6), (1, 2",
+      -5.1328125
+    ],
+    [
+      "def sort(tuples):\n    \"\"\"\n    :type tuples: List[Tuple]\n    :rtype: void\n    \"\"\"\n    i = 0\n    j = len(tuples) - 1\n    while i < j:\n        while i < j and tuples[i][-1] > tuples[j][-1]:\n            j = j - 1\n        while i < j and tuples[i][-1] < tuples[j][-1]:\n            i = i + 1\n        if i < j:\n            tuples[i], tuples[j] = tuples[j], tuples[i]\n    return",
+      -5.29296875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __repr__(self):\n        return str(self.x)\n\nclass Solution:\n    def sortTuples(self, tuples: List[Tuple]) -> None:\n        tuples.sort(key=lambda x: x[-1])\n\nclass TestFunction:\n    def test(self):\n        tuples = [Tuple(1,2), Tuple(2,3), Tuple(3,4)]\n        solution = Solution()\n        solution.sortTuples(tuples)\n        assert tuples == [Tuple(1,2), Tuple(2,3), Tuple(3,4)]",
+      -6.98046875
+    ],
+    [
+      "import collections\n\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: x[-1], reverse=True)\n        tuples.sort(key=lambda x: x[0], reverse=False)\n\n\ndef main():\n    # First case\n    tuples = [\n        (1, 1),\n        (1, 2),\n        (1, 3),\n        (2, 1),\n        (2, 3),\n        (3, 1),\n        (3, 2),\n        (3, 3),\n        (4, 1),\n        (4, 2),\n        (4, 3),\n    ]\n    Solution().sortTuples(tuples)\n    for i, t in enumerate(tuples):\n        print(i, t)\n\n    # Second case\n    tuples = [\n        (1, 1),\n        (1, 2),\n        (2, 1),\n        (2, 2),\n        (2, 3),\n        (3, 1),\n        (3, 2),\n        (3, 3),\n        (3, 4),\n        (4, 1),\n        (4, 2),\n        (4, 3),\n        (4, 4),\n    ]\n    Solution().sortTuples(tuples)\n    for i, t in enumerate(tuples):\n        print(i, t)\n\n    # Third case\n    tuples = [\n        (1, 1),\n        (1, 2),\n        (2, 1),\n        (2, 2),\n        (2, 3),\n        (3, 1),\n        (3, 2),\n        (3, 3),\n        (3, 4),\n        (4, 1),\n        (4, 2),\n        (4, 3),\n        (4, 4),\n    ]\n    Solution().sortTuples(tuples)\n    for i, t in enumerate(tuples):\n        print(i, t)\n\n\nif __name",
+      -7.0
+    ],
+    [
+      "def sort_increasing(tuples):\n    \"\"\"\n    :type tuples: List[tuple]\n    :rtype: void\n    \"\"\"\n    # The algorithm is simple, but it does not work.\n    # The idea is to sort the list by the last element in each tuple,\n    # and then sort the list by the first element in each tuple.\n    # For example, if we have a list of tuples:\n    # (1, 2, 3), (4, 5, 6), (7, 8, 9)\n    # and we want to sort the list by the last element,\n    # the algorithm will return the following:\n    # (1, 2, 3), (4, 5, 6), (7, 8, 9)\n    # instead of the following:\n    # (7, 8, 9), (4, 5, 6), (1, 2, 3)\n    # The algorithm is not efficient because it will sort the tuples\n    # in increasing order by the last element,\n    # and then sort the list by the first element in each tuple.\n    # The algorithm will sort the tuples in increasing order by the last element,\n    # and then sort the list by the first element in each tuple.\n    # The time complexity of the algorithm is O(n^2).\n    # The space complexity of the algorithm is O(n).\n    # The most efficient algorithm is O(n log n).\n    # The algorithm can be used to sort the list in increasing order\n    # by the last element in each tuple.\n    # The algorithm can be used to sort the list in increasing order\n    # by the first element in each tuple.\n    # The algorithm can be used to sort the list in decreasing order\n    # by the last element in each tuple.\n    # The algorithm can be used to sort the list in decreasing order\n    # by the first element in each tuple.\n    # The algorithm can be used to sort the list in increasing order\n    # by the last element in each tuple.\n    # The algorithm can be used to sort the list in increasing order\n    # by the first element in each tuple.\n    # The algorithm can be used to sort the list in decreasing order\n    # by the last element in each tuple.\n    # The algorithm can be used",
+      -7.6171875
+    ],
+    [
+      "# +++your code here+++\n# Example:\n# [('a', 1), ('b', 2), ('c', 3), ('d', 4)]\n# >>> sortByLastElement(testList)\n# [('d', 4), ('c', 3), ('b', 2), ('a', 1)]\n\ndef sortByLastElement(tuples):\n    def helper(tuples, start, end):\n        for i in range(start, end):\n            if tuples[i][1] < tuples[start][1]:\n                tuples[i], tuples[start] = tuples[start], tuples[i]\n                helper(tuples, start+1, end)\n        return\n    helper(tuples, 0, len(tuples))\n    return tuples\n\n# +++your code here+++\n# Example:\n# [('a', 1), ('b', 2), ('c', 3), ('d', 4)]\n# >>> sortByLastElement([('a', 1), ('b', 2), ('c', 3), ('d', 4)])\n# [('d', 4), ('c', 3), ('b', 2), ('a', 1)]",
+      -7.62890625
+    ],
+    [
+      "# https://leetcode.com/problems/sort-list-of-tuples/\n\n\nclass Solution(object):\n    def sortTuple(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if len(tuples) <= 1:\n            return\n\n        i = 0\n        while i < len(tuples):\n            min_tuple = tuples[i]\n            j = i + 1\n            while j < len(tuples):\n                if min_tuple[-1] > tuples[j][-1]:\n                    min_tuple = tuples[j]\n                    j += 1\n                else:\n                    break\n            tuples[i], tuples[j] = tuples[j], tuples[i]\n            i = j\n\n\nif __name__ == '__main__':\n    assert Solution().sortTuple([(1, 2), (3, 4), (5, 6)]) == []\n    assert Solution().sortTuple([(3, 4), (1, 2), (5, 6)]) == [(1, 2), (3, 4), (5, 6)]",
+      -7.70703125
+    ],
+    [
+      "class Solution:\n    # @param a list of tuples\n    # @return nothing\n    def sort(self, a):\n        if not a: return\n\n        for i in range(len(a) - 1):\n            for j in range(i, len(a)):\n                if a[j][-1] < a[j+1][-1]:\n                    a[j], a[j+1] = a[j+1], a[j]\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.sort([(1, 2), (3, 4), (5, 6), (7, 8)])",
+      -8.4140625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda t: t.y)\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    t1 = Tuple(3, 2)\n    t2 = Tuple(1, 2)\n    t3 = Tuple(2, 1)\n    t4 = Tuple(1, 1)\n    t5 = Tuple(1, 2)\n    t6 = Tuple(1, 3)\n    t7 = Tuple(1, 4)\n    t8 = Tuple(1, 5)\n    t9 = Tuple(2, 5)\n    t10 = Tuple(2, 4)\n    t11 = Tuple(2, 3)\n    t12 = Tuple(2, 2)\n    t13 = Tuple(2, 1)\n    t14 = Tuple(2, 0)\n    t15 = Tuple(2, -1)\n    t16 = Tuple(2, -2)\n    t17 = Tuple(2, -3)\n    t18 = Tuple(2, -4)\n    t19 = Tuple(2, -5)\n    t20 = Tuple(3, -5)\n    t21 = Tuple(3, -4)\n    t22 = Tuple(3, -3)\n    t23 = Tuple(3, -2)\n    t24 = Tuple(3, -1)\n    t25 = Tuple(3, 0)\n    t26 = Tuple(3, 1)\n    t27 = Tuple(3, 2)\n    t28 = Tuple(3, 3)\n    t29 = Tuple(3, 4)\n    t30 = Tuple(3, 5)\n    t31 = Tuple(4,",
+      -8.859375
+    ],
+    [
+      "class Solution:\n    # @param {ListNode[]} lists\n    # @return {void} Do not return anything, modify lists in-place instead.\n    def sort(self, lists):\n        if len(lists) == 0:\n            return\n        \n        if len(lists) == 1:\n            lists[0].next = None\n            return\n        \n        lists[0].next = None\n        lists[0] = self.sort_helper(lists[0])\n        \n        for i in range(1, len(lists)):\n            lists[i].next = lists[i-1]\n            lists[i] = self.sort_helper(lists[i])\n        \n        \n    def sort_helper(self, node):\n        prev = None\n        while node:\n            if not prev:\n                prev = node\n            else:\n                if node.next:\n                    prev.next = node.next\n                    node.next = node.next.next\n                else:\n                    prev.next = None\n                    node.next = None\n                \n                prev = node\n            node = node.next\n        \n        return prev",
+      -8.921875
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def sort(self, l):\n        \"\"\"\n        :type l: List[Tuple]\n        :rtype: List[Tuple]\n        \"\"\"\n        l.sort(key=lambda tup: tup[-1])\n        return l\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/sort-tuple-list/solution/\n\n# 1ms 100%\nclass Solution {\n    public List<Tuple> sort(List<Tuple> l) {\n        List<Tuple> res = new ArrayList<>();\n        for (Tuple t : l) {\n            res.add(new Tuple(t.get(0), t.get(1)));\n        }\n        res.sort(Comparator.comparing(t -> t.get(1)));\n        for (Tuple t : res) {\n            System.out.println(t);\n        }\n        return res;\n    }\n}\n\n# 2ms 100%\nclass Solution {\n    public List<Tuple> sort(List<Tuple> l) {\n        List<Tuple> res = new ArrayList<>();\n        for (Tuple t : l) {\n            res.add(new Tuple(t.get(0), t.get(1)));\n        }\n        res.sort((t1, t2) -> t2.get(1) - t1.get(1));\n        for (Tuple t : res) {\n            System.out.println(t);\n        }\n        return res;\n    }\n}\n'''",
+      -9.6875
+    ],
+    [
+      "class Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda t: t[1])\n        tuples.reverse()\n        tuples.sort(key=lambda t: t[0])\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    # print(sol.sortTuples([(1, 3), (2, 2), (3, 1)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (2, 2), (3, 1)]))\n    print(sol.sortTuples([(1, 3), (2, 2), (3, 1)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))\n    print(sol.sortTuples([(1, 3), (3, 1), (2, 2)]))",
+      -10.2109375
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n\n        tuples.sort(key=lambda x: x[1])\n\n        for i in range(len(tuples)):\n            tuples[i] = tuple(sorted(tuples[i]))\n\n    def sortTuples2(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n\n        tuples.sort(key=lambda x: x[1], reverse=True)\n\n        for i in range(len(tuples)):\n            tuples[i] = tuple(sorted(tuples[i], reverse=True))\n\n    def sortTuples3(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n\n        tuples.sort(key=lambda x: x[1], reverse=True)\n\n        for i in range(len(tuples)):\n            tuples[i] = tuple(sorted(tuples[i], reverse=True))\n\n    def sortTuples4(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple[int, int]]\n        :rtype: None Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        if not tuples:\n            return\n\n        tuples.sort(key=lambda x: x[1], reverse=True)\n\n        for i in range(len(tuples)):\n            tuples[i] = tuple(sorted(tuples[i], reverse=True))\n\n        # tuples = sorted(tuples, key=lambda x: x[1], reverse=True)\n\nclass Test",
+      -12.2421875
+    ],
+    [
+      "import unittest\n\nclass Solution:\n    # @param {ListNode[]} nodes\n    # @return {void} Do not return anything, modify nodes in-place instead.\n    def sortList(self, nodes):\n        if not nodes:\n            return\n\n        head = nodes[0]\n        last = head\n        for node in nodes[1:]:\n            if node.val < last.val:\n                head = node\n            else:\n                last = node\n        \n        self.sortList(nodes[:1])\n        self.sortList(nodes[1:])\n        \n        head.next = nodes[0]\n        head.next.prev = head\n        head.prev = None\n        head.next.next = None\n        \n        return\n\nclass Test(unittest.TestCase):\n    def test(self):\n        solution = Solution()\n        self.assertEqual(solution.sortList([(1, 3), (2, 2), (3, 1)]), [(3, 1), (2, 2), (1, 3)])\n        self.assertEqual(solution.sortList([(1, 3), (2, 2), (3, 1), (4, 4)]), [(1, 3), (2, 2), (3, 1), (4, 4)])\n        self.assertEqual(solution.sortList([(1, 3), (2, 2), (3, 1), (4, 4), (5, 5)]), [(5, 5), (4, 4), (3, 1), (2, 2), (1, 3)])\n        self.assertEqual(solution.sortList([(1, 3), (2, 2), (3, 1), (4, 4), (5, 5), (6, 6)]), [(5, 5), (6, 6), (4, 4), (3, 1), (2, 2), (1, 3)])\n        self.assertEqual(solution.sortList([(1, 3), (2, 2), (3, 1), (4, 4), (5, 5), (6, 6), (7, 7)]), [(7, 7), (6, 6",
+      -12.5
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution(object):\n    def sortTuples(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        tuples.sort(key=lambda x: (x.y, x.x))\n\ns = Solution()\n\ntuples = [Tuple(0), Tuple(1), Tuple(2), Tuple(3), Tuple(4), Tuple(5)]\ns.sortTuples(tuples)\n\nprint(tuples)",
+      -12.578125
+    ],
+    [
+      "import random\n\nclass Solution:\n    def sortTuples(self, tuples: List[tuple]) -> None:\n        def swap(t1, t2):\n            t1[0], t2[0] = t2[0], t1[0]\n            t1[1], t2[1] = t2[1], t1[1]\n            t1[2], t2[2] = t2[2], t1[2]\n            return t1, t2\n\n        tuples.sort(key=lambda t: t[2])\n        tuples.sort(key=lambda t: t[0])\n        for i in range(len(tuples)):\n            if tuples[i][2] > tuples[i][1]:\n                tuples[i] = swap(tuples[i], tuples[i][1:])\n\n    def randomTuple(self, n: int) -> tuple:\n        return tuple([random.randint(1, n) for _ in range(3)])\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print(sol.sortTuples([(0, 1, 2), (2, 1, 0), (1, 2, 0)]))\n    print(sol.sortTuples([(2, 1, 0), (1, 2, 0), (0, 1, 2)]))\n    print(sol.sortTuples([(1, 2, 0), (0, 1, 2), (2, 1, 0)]))\n    print(sol.sortTuples([(2, 1, 0), (0, 1, 2), (1, 2, 0)]))\n    print(sol.sortTuples([(0, 1, 2), (2, 1, 0), (1, 2, 0), (0, 1, 2)]))",
+      -13.6328125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __repr__(self):\n        return '<%s, %s>' % (self.x, self.y)\n\nclass Solution(object):\n    def sort(self, tuples):\n        \"\"\"\n        :type tuples: List[Tuple]\n        :rtype: void Do not return anything, modify tuples in-place instead.\n        \"\"\"\n        def sort_helper(tuples, start, end):\n            if start == end:\n                return\n            mid = (start + end) / 2\n            sort_helper(tuples, start, mid)\n            sort_helper(tuples, mid + 1, end)\n            i = j = mid\n            while i <= j:\n                if tuples[i].y < tuples[j].y:\n                    tuples[i], tuples[j] = tuples[j], tuples[i]\n                    i += 1\n                else:\n                    j += 1\n            sort_helper(tuples, start, mid)\n            sort_helper(tuples, mid + 1, end)\n\n        sort_helper(tuples, 0, len(tuples))\n\n# Note:\n# 1. We don't care about the order of the elements in the tuple, so we can just sort the list in-place.\n# 2. We don't need to sort the list in-place, just return the new list.",
+      -16.015625
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

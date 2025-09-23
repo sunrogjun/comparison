@@ -1,0 +1,432 @@
+{
+  "problem": {
+    "task_id": "MBPP/31",
+    "prompt": "Write a function to find the top k integers that occur most frequently from given lists of sorted and distinct integers using heap queue algorithm.",
+    "canonical_solution": "def func(nums, k):\r\n    import collections\r\n    d = collections.defaultdict(int)\r\n    for row in nums:\r\n        for i in row:\r\n            d[i] += 1\r\n    temp = []\r\n    import heapq\r\n    for key, v in d.items():\r\n        if len(temp) < k:\r\n            temp.append((v, key))\r\n            if len(temp) == k:\r\n                heapq.heapify(temp)\r\n        else:\r\n            if v > temp[0][0]:\r\n                heapq.heappop(temp)\r\n                heapq.heappush(temp, (v, key))\r\n    result = []\r\n    while temp:\r\n        v, key = heapq.heappop(temp)\r\n        result.append(key)\r\n    return result",
+    "test_list": [
+      "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],3)==[5, 7, 1]",
+      "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],1)==[1]",
+      "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],5)==[6, 5, 7, 8, 1]"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 20
+  },
+  "model_name": "codet5-770m",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k(nums, k):\n    counts = {}\n    for num in nums:\n        if num not in counts:\n            counts[num] = 1\n        else:\n            counts[num] += 1\n\n    heap = []\n    for key, value in counts.items():\n        heappush(heap, (-value, key))\n\n    res = []\n    for _ in range(k):\n        res.append(heappop(heap)[1])\n\n    return res\n\n\nnums = [2, 3, 5, 1, 1, 3, 5, 4, 5]\nk = 2\nprint(top_k(nums, k))",
+      2.56640625
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        import heapq\n        heap = []\n        for num in nums:\n            if not heap:\n                heapq.heappush(heap, num)\n            else:\n                heapq.heappushpop(heap, num)\n        return [heapq.heappop(heap) for _ in range(k)]",
+      1.685546875
+    ],
+    [
+      "def top_k_occurrences(arr, k):\n    # Fill this in.\n    from collections import Counter\n    c = Counter(arr)\n    return [k for k, v in c.most_common(k)]\n\n\nprint(top_k_occurrences([1, 1, 2, 2, 2, 3, 3, 4], 3))",
+      0.828125
+    ],
+    [
+      "from collections import Counter\n\ndef top_k_frequent(arr, k):\n    dic = Counter(arr)\n    return dic.most_common(k)\n\n\n\nif __name__ == \"__main__\":\n    arr = [3, 2, 1, 3, 3, 2, 1]\n    k = 2\n    print(top_k_frequent(arr, k))\n\n    arr = [2, 3, 1, 1, 2, 3, 2, 2, 2, 3, 1, 1, 2, 1, 1, 3, 2, 3, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,",
+      0.7646484375
+    ],
+    [
+      "from heapq import *\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        #\n        #   O(n) time | O(n) space\n        #\n        if len(nums) == 0:\n            return []\n\n        hashmap = {}\n        for num in nums:\n            if num in hashmap:\n                hashmap[num] += 1\n            else:\n                hashmap[num] = 1\n\n        heap = []\n        for num in hashmap:\n            heappush(heap, (-hashmap[num], num))\n\n        result = []\n        while len(heap) > 0:\n            result.append(heappop(heap)[1])\n\n        return result",
+      -0.185302734375
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from heapq import heappush, heappop\n        if not nums:\n            return []\n        freq = {}\n        for num in nums:\n            if num not in freq:\n                freq[num] = 1\n            else:\n                freq[num] += 1\n        h = []\n        for key, val in freq.items():\n            heappush(h, (val, key))\n        res = []\n        while len(h) > 0:\n            val, key = heappop(h)\n            res.append(key)\n            if len(res) == k:\n                return res\n        return res\n\n\ns = Solution()\nprint s.topKFrequent([1, 2, 3, 4, 5], 2)\nprint s.topKFrequent([1, 1, 2, 2, 3, 4, 5], 3)\nprint s.topKFrequent([1, 1, 2, 2, 3, 4, 5], 2)",
+      -0.3203125
+    ],
+    [
+      "from heapq import heappush, heappop\nfrom collections import Counter\n\n\ndef top_k_freq(nums, k):\n    counter = Counter(nums)\n    heap = []\n    for i in counter:\n        heappush(heap, (counter[i], i))\n    result = []\n    for _ in range(k):\n        result.append(heappop(heap)[1])\n    return result\n\n\nif __name__ == \"__main__\":\n    nums = [1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5]\n    k = 2\n    print(top_k_freq(nums, k))",
+      -0.5234375
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        import heapq\n        dic = {}\n        for i in nums:\n            if i not in dic:\n                dic[i] = 1\n            else:\n                dic[i] += 1\n        dic = sorted(dic.items(), key=lambda x: x[1], reverse=True)\n        return [x[0] for x in dic[:k]]\n\n\nif __name__ == '__main__':\n    nums = [1, 1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 6, 7, 7, 8, 8, 8, 9, 9]\n    k = 4\n    out = [1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 9]\n    sol = Solution()\n    print(sol.topKFrequent(nums, k))\n    assert sol.topKFrequent(nums, k) == out",
+      -0.66455078125
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from heapq import heappush, heappop\n        d = {}\n        for i in nums:\n            if i in d:\n                d[i] += 1\n            else:\n                d[i] = 1\n        res = []\n        for key in d.keys():\n            heappush(res, (d[key], key))\n        return [i[1] for i in res[:k]]",
+      -0.74609375
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(arr, k):\n    count = dict()\n    for num in arr:\n        if num in count:\n            count[num] += 1\n        else:\n            count[num] = 1\n\n    heap = []\n    for key, value in count.items():\n        heappush(heap, (-value, key))\n\n    ans = []\n    for _ in range(k):\n        ans.append(heappop(heap)[1])\n\n    return ans",
+      -0.76708984375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        from heapq import *\n        \n        freq = {}\n        for i in nums:\n            if i not in freq:\n                freq[i] = 1\n            else:\n                freq[i] += 1\n        \n        heap = []\n        for key, value in freq.items():\n            heappush(heap, (value, key))\n        \n        ans = []\n        for _ in range(k):\n            _, key = heappop(heap)\n            ans.append(key)\n        return ans",
+      -0.85693359375
+    ],
+    [
+      "import heapq\n\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        if len(nums) < k:\n            return []\n        count = {}\n        for i in nums:\n            if i not in count:\n                count[i] = 1\n            else:\n                count[i] += 1\n\n        q = []\n        for i in count:\n            heapq.heappush(q, (i, count[i]))\n\n        res = []\n        while q:\n            res.append(heapq.heappop(q)[0])\n\n        return res",
+      -0.85693359375
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_most_frequent(nums, k):\n    heap = []\n    for num in nums:\n        heappush(heap, (num, num))\n\n    result = []\n    while len(heap) > 0:\n        _, num = heappop(heap)\n        if len(result) < k:\n            result.append(num)\n        for i in range(len(nums)):\n            if nums[i] == num:\n                heappush(heap, (nums[i], nums[i]))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(top_k_most_frequent([1, 2, 3, 1, 2, 3, 4, 5, 5, 5], 3))\n    print(top_k_most_frequent([1, 2, 3, 4, 5, 5, 5, 5], 2))\n    print(top_k_most_frequent([1, 2, 3, 4, 5, 5, 5, 5], 5))",
+      -0.8583984375
+    ],
+    [
+      "from heapq import heapify, heappush, heappop, heapreplace\n\n\ndef top_k_frequent_in_list(nums, k):\n    # write your code here\n    heap = []\n    for num in nums:\n        if not heap or num > heap[0][1]:\n            heappush(heap, (num, num))\n\n    result = []\n    for _ in range(k):\n        result.append(heappop(heap)[0])\n\n    return result\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 1, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]\n    k = 3\n    print(top_k_frequent_in_list(nums, k))",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        if not nums:\n            return []\n        \n        dic = {}\n        for num in nums:\n            dic[num] = dic.get(num, 0) + 1\n            \n        heap = []\n        \n        for key, value in dic.items():\n            if value > 0:\n                heapq.heappush(heap, (value, key))\n                \n        res = []\n        \n        while heap:\n            value, key = heapq.heappop(heap)\n            res.append(key)\n            if len(res) == k:\n                return res\n                \n        return []",
+      -0.8583984375
+    ],
+    [
+      "def top_k_frequent(nums, k):\n    from heapq import heapify, heappop, heappush\n\n    # create a dictionary of the numbers and their frequency\n    d = {}\n    for num in nums:\n        if num in d:\n            d[num] += 1\n        else:\n            d[num] = 1\n\n    # create a heap of integers\n    heap = []\n    for key, val in d.items():\n        heappush(heap, (val, key))\n\n    # create a list of the k most frequently occuring numbers\n    res = []\n    while heap:\n        _, key = heappop(heap)\n        res.append(key)\n        if len(res) == k:\n            return res\n\n\nif __name__ == \"__main__\":\n    print(top_k_frequent([1, 2, 2, 3, 4, 2, 2, 3, 1], 2))",
+      -0.8583984375
+    ],
+    [
+      "from heapq import heappush, heappop\n\ndef top_k_frequent(nums, k):\n    # Fill this in.\n    heap = []\n    for num in nums:\n        heappush(heap, (num, num))\n    return [heappop(heap)[1] for _ in range(k)]\n\n\n\nif __name__ == \"__main__\":\n    print(top_k_frequent([1, 2, 3, 3, 4, 5], 3))",
+      -0.8583984375
+    ],
+    [
+      "import heapq\n\n\ndef top_k_occurrences(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: List[int]\n    \"\"\"\n\n    # create a heap\n    h = []\n\n    # put each element in a sorted list\n    for num in nums:\n        heapq.heappush(h, num)\n\n    # get the top k elements\n    result = []\n    for _ in range(k):\n        result.append(heapq.heappop(h))\n\n    return result\n\n\nif __name__ == \"__main__\":\n    assert top_k_occurrences([1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6], 3) == [1, 3, 5]\n    assert top_k_occurrences([1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6], 4) == [1, 2, 3, 4, 5]",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        from heapq import *\n        counts = Counter(nums)\n        heapify(heap)\n        res = []\n        for _ in range(k):\n            res.append(heappop(heap))\n        return res\n\nif __name__ == \"__main__\":\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3], 2) == [1, 2]\n    assert Solution().topKFrequent([1, 2, 2, 3, 3, 4, 4], 2) == [1, 2, 3]\n    assert Solution().topKFrequent([1, 2, 2, 3, 4, 4], 2) == [1, 2, 4]",
+      -0.8583984375
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(nums, k):\n    counts = {}\n    for num in nums:\n        if num not in counts:\n            counts[num] = 1\n        else:\n            counts[num] += 1\n    ans = []\n    for key in counts:\n        heappush(ans, (counts[key], key))\n    return ans[:k]\n\n\nprint(top_k_freq([1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5], 3))",
+      -0.8583984375
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_int(nums, k):\n    counts = {}\n    for num in nums:\n        counts.setdefault(num, 0)\n        counts[num] += 1\n    heap = []\n    for key, value in counts.items():\n        heappush(heap, (value, key))\n    for _ in range(k):\n        print(heappop(heap))\n\n\nif __name__ == \"__main__\":\n    top_k_int([1, 2, 3, 4, 5, 4, 1, 2], 4)",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from heapq import *\n        h = []\n        for num in nums:\n            if len(h) == 0 or num > h[0]:\n                heappush(h, num)\n            else:\n                heappushpop(h, num)\n                if len(h) > k:\n                    heappop(h)\n        return [x for x in h]",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        dic = {}\n        for i in nums:\n            dic[i] = dic.get(i, 0) + 1\n        heapq.heapify(dic)\n        res = []\n        while len(res) < k:\n            res.append(heapq.heappop(dic))\n        return res",
+      -0.8583984375
+    ],
+    [
+      "from heapq import heappush, heappop\nfrom collections import Counter\n\n\ndef top_k_frequent(nums, k):\n    counter = Counter(nums)\n    heap = []\n    for key, value in counter.items():\n        heappush(heap, (-value, key))\n\n    res = []\n    for _ in range(k):\n        res.append(heappop(heap)[1])\n\n    return res\n\n\nif __name__ == \"__main__\":\n    print(top_k_frequent([1, 2, 1, 1, 3, 2, 4, 1, 2], 2))",
+      -0.8583984375
+    ],
+    [
+      "from heapq import heappush, heappop\n\ndef top_k_freq(nums, k):\n    # write your code here\n    freq = {}\n    for num in nums:\n        if num not in freq.keys():\n            freq[num] = 1\n        else:\n            freq[num] += 1\n    heap = []\n    for num in freq.keys():\n        heappush(heap, (-freq[num], num))\n    return [heappop(heap)[1] for _ in range(k)]\n\nprint(top_k_freq([1, 2, 2, 3, 3, 4, 4, 5, 5], 3))",
+      -0.8583984375
+    ],
+    [
+      "from collections import Counter\n\n\ndef top_k_occurrences(nums, k):\n    counter = Counter(nums)\n    max_count = max(counter.values())\n    heap = []\n    for key, value in counter.items():\n        if value == max_count:\n            heapq.heappush(heap, (value, key))\n\n    result = []\n    while heap:\n        result.append(heapq.heappop(heap)[1])\n\n    return result\n\n\nprint(top_k_occurrences([1, 2, 2, 4, 3, 3, 1], 3))",
+      -0.85888671875
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(arr, k):\n    # Write your code here\n    if not arr:\n        return []\n    freq = {}\n    for num in arr:\n        if num in freq:\n            freq[num] += 1\n        else:\n            freq[num] = 1\n    heap = []\n    for num in freq:\n        heappush(heap, (freq[num], num))\n    while len(heap) > k:\n        heappop(heap)\n    return [item[1] for item in heap]\n\n\nif __name__ == \"__main__\":\n    print(top_k_freq([1, 1, 2, 2, 3, 3, 4], 3))\n    print(top_k_freq([1, 1, 2, 2, 3, 3, 4], 2))",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        dic = {}\n        for num in nums:\n            if num not in dic:\n                dic[num] = 1\n            else:\n                dic[num] += 1\n        \n        heap = []\n        for key in dic:\n            heapq.heappush(heap, (dic[key], key))\n        \n        res = []\n        for i in range(k):\n            res.append(heapq.heappop(heap)[1])\n        return res",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        d = {}\n        for i in nums:\n            if i in d:\n                d[i] += 1\n            else:\n                d[i] = 1\n        d = sorted(d.items(), key=lambda x: x[1], reverse=True)\n        return [i[0] for i in d[:k]]",
+      -0.85888671875
+    ],
+    [
+      "from heapq import heapify, heappush, heappop\n\n\ndef top_k_frequent(arr, k):\n    heap = []\n    for item in arr:\n        if len(heap) < k:\n            heappush(heap, (-item, item))\n        else:\n            heappop(heap)\n            heappush(heap, (-item, item))\n    return [item[1] for item in heap]\n\n\narr = [2, 3, 5, 2, 6, 7, 8, 8, 9]\nk = 2\nprint(top_k_frequent(arr, k))",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from collections import defaultdict\n        h = defaultdict(int)\n        for num in nums:\n            h[num] += 1\n\n        res = []\n        for key, value in h.items():\n            if len(res) < k:\n                res.append(key)\n            elif value > h[res[-1]]:\n                res.pop()\n                res.append(key)\n            elif value == h[res[-1]]:\n                res.pop()\n                res.append(key)\n        return res\n\na = Solution()\nprint(a.topKFrequent([3, 2, 2, 2, 1, 2, 4, 4, 3, 3, 3, 3, 2], 2))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        import heapq\n        \n        count = {}\n        \n        for i in nums:\n            if i not in count:\n                count[i] = 1\n            else:\n                count[i] += 1\n                \n        heap = []\n        for key, value in count.items():\n            heapq.heappush(heap, (value, key))\n            \n        return heapq.nsmallest(k, heap)",
+      -0.85888671875
+    ],
+    [
+      "from heapq import heappush, heappop, heapify\n\n\nclass Solution:\n    def top_k_frequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        freq_dict = {}\n\n        for num in nums:\n            if num not in freq_dict:\n                freq_dict[num] = 1\n            else:\n                freq_dict[num] += 1\n\n        heapify(freq_dict)\n\n        res = []\n\n        for i in range(k):\n            res.append(heappop(freq_dict))\n\n        return res\n\n\nif __name__ == '__main__':\n    s = Solution()\n    print(s.top_k_frequent([1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4], 2))",
+      -0.85888671875
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_most_frequent(nums, k):\n    heap = []\n    for num in nums:\n        heappush(heap, (-num, num))\n\n    top_k_list = []\n    while len(heap) > 0:\n        num, num = heappop(heap)\n        if len(top_k_list) < k:\n            top_k_list.append(num)\n\n    return top_k_list\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5]\n    k = 2\n    print(top_k_most_frequent(nums, k))",
+      -0.85888671875
+    ],
+    [
+      "from heapq import heapify, heappush, heappop\n\n\ndef top_k_freq(nums, k):\n    # write your code here\n    dic = {}\n    for i in nums:\n        dic[i] = dic.get(i, 0) + 1\n\n    heapify(dic)\n    res = []\n    while len(res) < k:\n        res.append(heappop(dic))\n    return res\n\n\nif __name__ == \"__main__\":\n    print(top_k_freq([1, 2, 3, 2, 1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4, 5], 4))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        from collections import Counter\n        c = Counter(nums)\n        return [k for k, v in c.most_common()]",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        import heapq\n\n        counter = {}\n        for num in nums:\n            counter[num] = counter.get(num, 0) + 1\n\n        heapq.heapify(counter)\n        result = []\n\n        while len(result) < k:\n            _, num = heapq.heappop(counter)\n            result.append(num)\n\n        return result\n\n\nif __name__ == \"__main__\":\n    nums = [1,2,1,2,3,3,4,4,5]\n    k = 3\n    print(Solution().topKFrequent(nums, k))",
+      -0.85888671875
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(list_of_ints, k):\n    if not list_of_ints:\n        return []\n\n    freq_dict = {}\n    for num in list_of_ints:\n        if num not in freq_dict:\n            freq_dict[num] = 1\n        else:\n            freq_dict[num] += 1\n\n    res = []\n    heap = []\n    for key, value in freq_dict.items():\n        heappush(heap, (value, key))\n\n    while heap:\n        val, key = heappop(heap)\n        res.append(key)\n\n        if len(res) == k:\n            return res\n\n    return res\n\n\nif __name__ == '__main__':\n    print(top_k_freq([1, 1, 2, 2, 2, 3, 3], 3))",
+      -0.85888671875
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        d = dict()\n        for i in nums:\n            if i not in d:\n                d[i] = 1\n            else:\n                d[i] += 1\n        res = []\n        heap = []\n        for i in d:\n            heapq.heappush(heap, (-d[i], i))\n        for i in range(k):\n            res.append(heapq.heappop(heap)[1])\n        return res",
+      -0.85888671875
+    ],
+    [
+      "from collections import defaultdict\nfrom heapq import heappush, heappop\n\n\ndef top_k_freq(nums, k):\n    counts = defaultdict(int)\n    for num in nums:\n        counts[num] += 1\n    heap = []\n    for num, count in counts.items():\n        heappush(heap, (count, num))\n    for _ in range(k):\n        num, _ = heappop(heap)\n        yield num",
+      -0.86083984375
+    ],
+    [
+      "# O(NlogN) time | O(1) space\ndef top_k_frequent(nums, k):\n    from heapq import heappush, heappop\n    if not nums:\n        return []\n    freq = {}\n    for num in nums:\n        freq.setdefault(num, 0)\n        freq[num] += 1\n\n    heap = []\n    for num, count in freq.items():\n        heappush(heap, (-count, num))\n\n    result = []\n    while heap:\n        count, num = heappop(heap)\n        result.append(num)\n        if len(result) == k:\n            break\n    return result\n\n\nif __name__ == '__main__':\n    nums = [1, 2, 2, 3, 3, 3, 4, 4, 4]\n    k = 2\n    print(top_k_frequent(nums, k))",
+      -0.8662109375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from heapq import heappush, heappop\n        freq = {}\n        for i in nums:\n            freq.setdefault(i, 0)\n            freq[i] += 1\n\n        res = []\n        heap = []\n        for key, val in freq.items():\n            heappush(heap, (val, key))\n\n        while len(res) < k:\n            val, key = heappop(heap)\n            res.append(key)\n\n        return res",
+      -0.8916015625
+    ],
+    [
+      "from collections import Counter\n\n\nclass Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        return [key for key, value in Counter(nums).most_common(k)]\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 1, 2, 3, 3, 4, 5, 5]\n    k = 2\n    result = Solution().topKFrequent(nums, k)\n    print(result)",
+      -1.07421875
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        dic = {}\n        for x in nums:\n            if x not in dic:\n                dic[x] = 1\n            else:\n                dic[x] += 1\n        \n        heap = []\n        for x in dic:\n            heapq.heappush(heap, (-dic[x], x))\n        \n        result = []\n        while len(heap) > k:\n            result.append(heapq.heappop(heap)[1])\n        \n        return result",
+      -1.3212890625
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_frequent(nums, k):\n    # Write your code here\n    dic = {}\n    for num in nums:\n        if num in dic:\n            dic[num] += 1\n        else:\n            dic[num] = 1\n    heap = []\n    for num in dic:\n        heappush(heap, (num, dic[num]))\n    res = []\n    while len(heap) > k:\n        res.append(heappop(heap)[0])\n    return res\n\n\nif __name__ == '__main__':\n    nums = [1, 1, 1, 2, 2, 2, 3, 3, 3]\n    k = 2\n    print(top_k_frequent(nums, k))",
+      -1.4677734375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        from heapq import heappush, heappop\n        count_dict = {}\n        for i in nums:\n            count_dict[i] = count_dict.get(i, 0) + 1\n        heap = []\n        for key, value in count_dict.items():\n            heappush(heap, (-value, key))\n        return [heappop(heap)[1] for _ in range(k)]",
+      -1.642578125
+    ],
+    [
+      "import heapq\n\nclass Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n        heap = []\n        for num in nums:\n            if len(heap) == 0:\n                heapq.heappush(heap, num)\n            else:\n                heapq.heappushpop(heap, num)\n            if len(heap) > k:\n                heapq.heappop(heap)\n        return [heapq.heappop(heap) for _ in range(k)]\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 1, 3, 3, 4, 4, 2, 2]\n    k = 2\n    res = Solution().topKFrequent(nums, k)\n    print res",
+      -1.669921875
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(nums, k):\n    # Write your code here\n    dic = {}\n    for item in nums:\n        if item in dic:\n            dic[item] += 1\n        else:\n            dic[item] = 1\n    heap = []\n    for key, value in dic.items():\n        heappush(heap, (value, key))\n    result = []\n    for _ in range(k):\n        result.append(heappop(heap)[1])\n    return result\n\n\nprint(top_k_freq([3, 2, 2, 1, 3, 3, 1], 2))",
+      -1.724609375
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k(arr, k):\n    if len(arr) < k:\n        return []\n\n    heap = []\n    for i in arr:\n        heappush(heap, (-i, i))\n\n    result = []\n    while len(heap) > 0:\n        _, val = heappop(heap)\n        result.append(val)\n\n        if len(result) > k:\n            heappush(heap, (-val, -val))\n\n    return result\n\n\nprint(top_k([2, 3, 1, 1, 1, 4, 3, 3, 3, 4, 3], 2))\nprint(top_k([2, 3, 1, 1, 1, 4, 3, 3, 3, 4, 3], 2))\nprint(top_k([2, 3, 1, 1, 1, 4, 3, 3, 3, 4, 3], 2))",
+      -1.7841796875
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_occurrences(nums, k):\n    count = {}\n    for num in nums:\n        if num in count:\n            count[num] += 1\n        else:\n            count[num] = 1\n\n    heapify(count)\n\n    result = []\n    for _ in range(k):\n        result.append(heappop(count))\n\n    return result",
+      -1.9423828125
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        count = {}\n        for num in nums:\n            if num in count:\n                count[num] += 1\n            else:\n                count[num] = 1\n        count_list = list(count.items())\n        count_list.sort(key=lambda x: x[1], reverse=True)\n        count_list = [x[0] for x in count_list]\n        return count_list[:k]\n\nif __name__ == \"__main__\":\n    s = Solution()\n    nums = [1, 2, 3, 4, 1, 2, 3, 1, 2, 4]\n    k = 2\n    print(s.topKFrequent(nums, k))",
+      -1.9443359375
+    ],
+    [
+      "from collections import Counter\nfrom heapq import heappush, heappop\n\ndef top_k_frequent(nums, k):\n    if len(nums) == 0:\n        return []\n    count = Counter(nums)\n    freq = count.most_common(k)\n    res = []\n    for i in freq:\n        heappush(res, i[0])\n    return res\n\nnums = [1,1,2,3,3,4,3,2,2,1,1]\nk = 2\nprint(top_k_frequent(nums, k))\n\nnums = [1,1,2,3,3,4,3,2,2,1,1]\nk = 2\nprint(top_k_frequent(nums, k))",
+      -1.9638671875
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_frequent(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: List[int]\n    \"\"\"\n    if k == 0:\n        return []\n    freq = {}\n    for num in nums:\n        if num not in freq:\n            freq[num] = 1\n        else:\n            freq[num] += 1\n    h = []\n    for num in freq:\n        heappush(h, (freq[num], num))\n    res = []\n    while len(h) > 0:\n        freq, num = heappop(h)\n        res.append(num)\n        if len(res) == k:\n            break\n    return res\n\n\nif __name__ == \"__main__\":\n    print(top_k_frequent([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2))",
+      -2.115234375
+    ],
+    [
+      "def top_k_frequent(lst, k):\n    from heapq import heappush, heappop\n    h = []\n    for i in lst:\n        if i not in h:\n            heappush(h, i)\n\n    for i in range(k):\n        if h:\n            heappop(h)\n\n    return h\n\n\nif __name__ == \"__main__\":\n    assert top_k_frequent([1, 1, 1, 1, 2, 2, 2], 2) == [1, 2]\n    assert top_k_frequent([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2) == [1, 5, 6]",
+      -2.15234375
+    ],
+    [
+      "# time complexity: O(nlogn)\n# space complexity: O(n)\n\n\nclass Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        dic = {}\n        for i in nums:\n            if i in dic:\n                dic[i] += 1\n            else:\n                dic[i] = 1\n        result = []\n        while dic:\n            result.append(max(dic, key=dic.get))\n            dic.pop(result[-1])\n        return result[::-1]",
+      -2.166015625
+    ],
+    [
+      "from heapq import heappush, heappop\nfrom collections import Counter\n\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n\n        dic = Counter(nums)\n        heap = []\n        for key, val in dic.items():\n            heappush(heap, (val, key))\n\n        res = []\n        while heap:\n            val, key = heappop(heap)\n            if len(res) < k:\n                res.append(key)\n\n            if len(res) == k:\n                break\n\n        return res",
+      -2.546875
+    ],
+    [
+      "from heapq import heappush, heappop\nfrom collections import Counter\n\n\nclass Solution:\n    def top_k_occurrences(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        counts = Counter(nums)\n        heap = []\n\n        for i in counts:\n            heappush(heap, (-counts[i], i))\n\n        result = []\n        for i in range(k):\n            result.append(heappop(heap)[1])\n\n        return result\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 1, 4, 4, 4, 4, 4, 4]\n    k = 4\n    result = Solution().top_k_occurrences(nums, k)\n    print(result)",
+      -2.62890625
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq_highest(nums, k):\n    freq_dict = {}\n    for i in nums:\n        if i not in freq_dict:\n            freq_dict[i] = 1\n        else:\n            freq_dict[i] += 1\n    freq_dict_sorted = sorted(freq_dict.items(), key=lambda x: x[1], reverse=True)\n    for i in range(k):\n        heappush(freq_dict_sorted, (freq_dict_sorted[0][0], freq_dict_sorted[0][1]))\n    return [x[0] for x in freq_dict_sorted]",
+      -2.634765625
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(lst, k):\n    counter = {}\n    for item in lst:\n        counter[item] = counter.get(item, 0) + 1\n    result = []\n    for item in counter.keys():\n        if counter[item] > k:\n            heappush(result, item)\n    return result\n\n\nif __name__ == \"__main__\":\n    print(top_k_freq([4, 3, 2, 1, 5, 1, 1], 2))",
+      -2.759765625
+    ],
+    [
+      "from heapq import heapify, heappop, heappush\n\n\ndef top_k_freq(nums, k):\n    count = {}\n    for i in nums:\n        if i in count:\n            count[i] += 1\n        else:\n            count[i] = 1\n    heapify(count)\n    res = []\n    while k > 0:\n        res.append(heappop(count))\n        k -= 1\n    return res\n\n\nif __name__ == \"__main__\":\n    print(top_k_freq([1, 2, 3, 4, 1, 5, 2, 5, 3], 3))",
+      -2.798828125
+    ],
+    [
+      "import heapq\n\n\ndef top_k_frequent(nums, k):\n    h = []\n    for x in nums:\n        if len(h) < k:\n            heapq.heappush(h, x)\n        else:\n            heapq.heappop(h)\n            heapq.heappush(h, x)\n    return [x for x in h]\n\n\nif __name__ == \"__main__\":\n    print(top_k_frequent([1, 2, 3, 4, 4, 4, 5, 5], 2))",
+      -2.888671875
+    ],
+    [
+      "from heapq import heapify, heappush, heappop\n\n\ndef top_k(nums, k):\n    if not nums or len(nums) == 0:\n        return []\n\n    # Create a hash map from numbers to counts.\n    hash_map = dict()\n    for num in nums:\n        if num not in hash_map:\n            hash_map[num] = 1\n        else:\n            hash_map[num] += 1\n\n    # Create a heap.\n    heap = []\n    for key, value in hash_map.items():\n        heappush(heap, (value, key))\n\n    # Return the top k numbers.\n    return [heappop(heap)[1] for _ in range(k)]\n\n\nif __name__ == \"__main__\":\n    print(top_k([1, 2, 2, 3, 1, 1, 5, 6, 2, 2, 2, 4, 5, 6, 3], 3))\n    print(top_k([3, 2, 3, 2, 2, 3, 2, 3, 2, 2, 2, 3, 2, 2, 4, 4, 4, 4, 5, 5, 5, 5], 5))\n    print(top_k([1, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4], 3))",
+      -3.02734375
+    ],
+    [
+      "from collections import defaultdict\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        counts = defaultdict(int)\n        for x in nums:\n            counts[x] += 1\n        \n        heap = []\n        for x in counts:\n            heapq.heappush(heap, (-counts[x], x))\n        \n        res = []\n        while heap:\n            res.append(-heapq.heappop(heap)[1])\n        return res",
+      -3.126953125
+    ],
+    [
+      "from collections import Counter\nfrom heapq import heappush, heappop\n\n\ndef top_k_freq(nums, k):\n    \"\"\"\n    Time: O(nlogk)\n    Space: O(n)\n    \"\"\"\n    if not nums:\n        return []\n\n    c = Counter(nums)\n    return [heappop(c)[0] for _ in range(k)]\n\n\nprint(top_k_freq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3))",
+      -3.80078125
+    ],
+    [
+      "import heapq\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n        d = {}\n        for num in nums:\n            if num in d:\n                d[num] += 1\n            else:\n                d[num] = 1\n        heap = []\n        for k, v in d.items():\n            heapq.heappush(heap, (v, k))\n\n        res = []\n        while len(heap) > 0:\n            v, k = heapq.heappop(heap)\n            res.append(k)\n            if len(res) > k:\n                heapq.heappush(heap, (v, k))\n        return res\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.topKFrequent([2, 2, 3, 3, 3], 2))",
+      -3.873046875
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        from heapq import heappush, heappop\n        counter = {}\n        for num in nums:\n            if num not in counter:\n                counter[num] = 1\n            else:\n                counter[num] += 1\n        result = []\n        while k:\n            result.append(heappop(counter))\n            k -= 1\n        return result\n\n\nif __name__ == \"__main__\":\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 2) == [1, 3]",
+      -3.876953125
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        import heapq\n        d = {}\n        for i in nums:\n            if i in d:\n                d[i] += 1\n            else:\n                d[i] = 1\n\n        heap = []\n        for i in d:\n            heapq.heappush(heap, (d[i], i))\n\n        res = []\n        for i in range(k):\n            res.append(heapq.heappop(heap)[1])\n        return res\n\n\nif __name__ == '__main__':\n    s = Solution()\n    nums = [1, 2, 1, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7",
+      -3.900390625
+    ],
+    [
+      "from collections import Counter\n\nclass Solution(object):\n    def top_k_frequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        d = Counter(nums)\n        heap = []\n        for key, val in d.items():\n            heapq.heappush(heap, (val, key))\n\n        res = []\n        while heap:\n            val, key = heapq.heappop(heap)\n            res.append(key)\n            if len(res) == k:\n                return res",
+      -3.935546875
+    ],
+    [
+      "from collections import Counter\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        count = Counter(nums)\n        heap = []\n        for key, val in count.items():\n            heapq.heappush(heap, (val, key))\n        \n        result = []\n        for _ in range(k):\n            result.append(heapq.heappop(heap)[1])\n        \n        return result",
+      -4.01171875
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from collections import Counter\n        cnt = Counter(nums)\n        res = []\n        for k, v in cnt.items():\n            res.append(k)\n        res.sort()\n        return res[:k]\n\n\ns = Solution()\nprint s.topKFrequent([1, 2, 3, 2, 3, 2, 4, 3, 4, 4, 4], 2)\nprint s.topKFrequent([1, 2, 3, 2, 3, 2, 4, 3, 4, 4, 4], 3)\nprint s.topKFrequent([1, 2, 3, 2, 3, 2, 4, 3, 4, 4, 4], 4)",
+      -4.02734375
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_freq(arr, k):\n    if len(arr) < k:\n        return []\n\n    count_dict = {}\n    for i in arr:\n        if i in count_dict:\n            count_dict[i] += 1\n        else:\n            count_dict[i] = 1\n\n    # Create a heap to store the count of each integer\n    heap = []\n    for key, value in count_dict.items():\n        heappush(heap, (value, key))\n\n    res = []\n    # Create a dictionary to keep track of the most frequently occuring\n    # integer\n    freq_dict = {}\n    # Create a dictionary to keep track of the most frequently occuring\n    # integer\n    freq_freq_dict = {}\n    # Iterate through the heap\n    while heap:\n        # Pop the value of the most frequently occuring\n        # integer from the heap\n        value, key = heappop(heap)\n        # If the most frequently occuring integer is not\n        # present in the dictionary, then add it\n        # to the list of most frequently occuring integers\n        if key not in freq_dict:\n            freq_dict[key] = value\n            res.append(key)\n        # If the most frequently occuring integer is\n        # present in the dictionary, then add it\n        # to the dictionary of most frequently occuring integers\n        elif freq_dict[key] < value:\n            freq_freq_dict[freq_dict[key]] = value\n            res.append(key)\n\n    return res\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 2, 1, 1, 2, 2, 1, 3, 1, 3, 2, 4, 1, 4, 4, 1, 3, 1, 2, 1, 2, 2, 3, 2, 2, 4, 2, 3, 3, 4, 4, 2, 2, 3, 4, 4, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4",
+      -4.109375
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        d = {}\n        for i in nums:\n            if i not in d:\n                d[i] = 1\n            else:\n                d[i] += 1\n\n        heap = []\n        for key, value in d.items():\n            heapq.heappush(heap, (value, key))\n\n        res = []\n        while len(heap) > k:\n            _, key = heapq.heappop(heap)\n            res.append(key)\n\n        return res\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    print sol.topKFrequent([1, 2, 2, 1, 1, 1, 3, 3], 2)",
+      -4.29296875
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\nclass Solution:\n    def top_k_frequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        if len(nums) < k:\n            return []\n\n        dic = {}\n        for i in nums:\n            if i not in dic:\n                dic[i] = 1\n            else:\n                dic[i] += 1\n\n        res = []\n        heappush(res, (0, 0))\n\n        while len(res) < k:\n            _, count = heappop(res)\n            if count not in dic:\n                heappush(res, (count, count))\n\n        return [x[0] for x in res]\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4]\n    k = 2\n    out = [3, 4]\n    result = Solution().top_k_frequent(nums, k)\n    assert result == out, (result, out)\n\n    nums = [1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]\n    k = 2\n    out = [3, 4, 4]\n    result = Solution().top_k_frequent(nums, k)\n    assert result == out, (result, out)\n\n    nums = [1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]\n    k = 2\n    out = [3, 4, 4]\n    result = Solution().top_k_frequent(nums, k)\n    assert result == out, (result, out)\n\n    nums = [1, 1, 1, 1, 2, 2, 2",
+      -4.37890625
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        if not nums:\n            return []\n        count = {}\n        for i in nums:\n            if i in count:\n                count[i] += 1\n            else:\n                count[i] = 1\n        heap = []\n        for key, value in count.items():\n            heapq.heappush(heap, (value, key))\n        while len(heap) > k:\n            _, key = heapq.heappop(heap)\n            nums.remove(key)\n        return nums",
+      -4.46484375
+    ],
+    [
+      "from collections import Counter\n\n\ndef top_k_freq(arr, k):\n    count_dict = Counter(arr)\n    return [x for x, y in count_dict.most_common(k)]\n\n\nif __name__ == '__main__':\n    arr = [1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 27, 27, 27, 27, 28, 28, 28, 28, 29, 29, 29, 30, 30, 30, 31, 31, 31, 31, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,",
+      -4.53125
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_int(lst, k):\n    if k > len(lst):\n        return []\n    count = {}\n    for item in lst:\n        if item in count:\n            count[item] += 1\n        else:\n            count[item] = 1\n    heapify(count)\n    ans = []\n    while k > 0:\n        ans.append(heappop(count))\n        k -= 1\n    return ans\n\n\nif __name__ == '__main__':\n    print(top_k_int([1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5], 3))",
+      -4.5859375
+    ],
+    [
+      "from heapq import *\n\ndef top_k_frequent(arr, k):\n    h = []\n    for num in arr:\n        heappush(h, (num, num))\n\n    res = []\n    while h:\n        res.append(heappop(h)[1])\n\n    return res[:k]\n\n\nif __name__ == \"__main__\":\n    arr = [2, 2, 2, 2, 3, 2, 2, 3, 3]\n    k = 3\n    print(top_k_frequent(arr, k))",
+      -4.77734375
+    ],
+    [
+      "from heapq import heapify, heappop, heappush\n\ndef top_k(arr, k):\n    heap = []\n    for i in arr:\n        if len(heap) < k:\n            heappush(heap, i)\n        else:\n            heappush(heap, -heappop(heap))\n    return [i for i in heap]\n\narr = [1,1,2,2,3,3,4,5,5,5,6,6,6,7,7,8,9,10,10,10,10,10,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,",
+      -5.0546875
+    ],
+    [
+      "from heapq import heappush, heappop\nfrom collections import Counter\n\n\ndef top_k_freq(nums, k):\n    freq = Counter(nums)\n    res = []\n    for _, v in freq.most_common(k):\n        res.append(v)\n    return res\n\n\nnums = [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5]\nk = 3\nprint(top_k_freq(nums, k))",
+      -5.08984375
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_occur(nums, k):\n    count = {}\n    for num in nums:\n        if num not in count:\n            count[num] = 1\n        else:\n            count[num] += 1\n\n    heapify(count)\n\n    return [num for num, count in count.items()][:k]\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 9, 10, 9, 9, 9, 10, 9, 9, 9, 10, 9, 9, 9, 10, 9, 9, 10, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,",
+      -5.1640625
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from heapq import heappush, heappop\n        d = {}\n        for i in nums:\n            if i not in d:\n                d[i] = 1\n            else:\n                d[i] += 1\n        res = []\n        for i in d:\n            heappush(res, (-d[i], i))\n        while len(res) < k:\n            _, i = heappop(res)\n            res.append(i)\n        return res\n\n\na = Solution()\nprint(a.topKFrequent([1, 1, 1, 2, 2, 3, 3, 4], 2))\nprint(a.topKFrequent([1, 1, 2, 2, 3, 3, 4], 2))\nprint(a.topKFrequent([1, 2, 3, 4, 3, 4, 3, 4, 3, 4], 3))",
+      -5.49609375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        if not nums:\n            return []\n        dic = {}\n        for i in nums:\n            dic.setdefault(i, 0)\n            dic[i] += 1\n        res = []\n        heap = []\n        for key in dic:\n            heapq.heappush(heap, (dic[key], key))\n            while len(heap) > k:\n                heapq.heappop(heap)\n            res.append(heapq.heappop(heap)[1])\n        return res\n\n\nif __name__ == \"__main__\":\n    nums = [1, 2, 2, 1, 2, 3, 3, 4]\n    k = 2\n    print(Solution().topKFrequent(nums, k))",
+      -5.7265625
+    ],
+    [
+      "from typing import List\n\n\nclass Solution:\n    def top_k_frequent(self, nums: List[int], k: int) -> List[int]:\n        if not nums:\n            return []\n\n        from collections import defaultdict\n        from heapq import heappush, heappop\n\n        dic = defaultdict(int)\n        for num in nums:\n            dic[num] += 1\n\n        heap = []\n        for key, value in dic.items():\n            heappush(heap, (value, key))\n            if len(heap) > k:\n                heappop(heap)\n\n        return [key for _, key in heap]\n\n\nif __name__ == '__main__':\n    sol = Solution()\n\n    assert sol.top_k_frequent([1, 1, 1, 1, 2, 2, 2], 2) == [1, 2]\n    assert sol.top_k_frequent([2, 2, 3, 3, 4, 4, 5, 5, 6], 3) == [4, 5]",
+      -5.7734375
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_most_frequent(nums, k):\n    count = {}\n    for num in nums:\n        if num not in count:\n            count[num] = 1\n        else:\n            count[num] += 1\n    heap = []\n    for key in count:\n        heappush(heap, (-count[key], key))\n    result = []\n    for _ in range(k):\n        result.append(heappop(heap)[1])\n    return result\n\n\nif __name__ == \"__main__\":\n    assert top_k_most_frequent([1, 2, 3, 1, 1, 3, 5, 5, 4, 4, 4], 2) == [3, 4]\n    assert top_k_most_frequent([1, 2, 3, 1, 1, 3, 5, 5, 4, 4, 4, 4], 3) == [1, 3]\n    assert top_k_most_frequent([1, 2, 3, 1, 1, 3, 5, 5, 4, 4, 4, 4], 4) == [1, 3]",
+      -5.98046875
+    ],
+    [
+      "import heapq\n\n\ndef top_k_most_frequent(nums, k):\n    # Sort the nums\n    nums = sorted(nums)\n\n    # Create a dictionary to store the number of times it was seen in the nums\n    counts = {}\n\n    # Create a heap to store the most frequently seen numbers\n    heap = []\n\n    # Populate the heap\n    for num in nums:\n        if num not in counts:\n            counts[num] = 1\n        else:\n            counts[num] += 1\n\n        if len(heap) < k:\n            heapq.heappush(heap, (-counts[num], num))\n        else:\n            heapq.heappop(heap)\n            heapq.heappush(heap, (-counts[num], num))\n\n    # Print the top k most frequently seen numbers\n    for i in range(k):\n        print(heapq.heappop(heap)[1])\n\n\nif __name__ == \"__main__\":\n    top_k_most_frequent([3, 2, 4, 2, 3], 2)",
+      -6.01171875
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n\n        # Time Complexity: O(nlogn)\n        # Space Complexity: O(n)\n\n        count = {}\n        for num in nums:\n            if num not in count:\n                count[num] = 1\n            else:\n                count[num] += 1\n\n        return [k for k, v in count.items()]\n\n\nif __name__ == '__main__':\n    print(Solution().topKFrequent([1, 2, 2, 2, 2, 3, 4, 4, 4, 4], 4))",
+      -7.640625
+    ],
+    [
+      "from heapq import heapify, heappush, heappop\n\n\ndef top_k_most_frequent(nums, k):\n    if not nums:\n        return []\n\n    freq_dict = {}\n    for num in nums:\n        freq_dict[num] = freq_dict.get(num, 0) + 1\n\n    heapify(freq_dict)\n    res = []\n    for _ in range(k):\n        res.append(heappop(freq_dict))\n    return res\n\n\nif __name__ == \"__main__\":\n    nums = [3, 2, 4, 5, 2, 1]\n    k = 2\n    print(top_k_most_frequent(nums, k))",
+      -7.64453125
+    ],
+    [
+      "from heapq import heappush, heappop\n\n\ndef top_k_frequent(nums, k):\n    # Fill this in.\n    res = []\n    freq_dict = {}\n    for num in nums:\n        freq_dict[num] = freq_dict.get(num, 0) + 1\n\n    for num, freq in freq_dict.items():\n        if freq > k:\n            heappush(res, (-freq, num))\n\n    return res\n\n\nprint(top_k_frequent([4, 2, 2, 2, 3, 1, 5, 3], 3))",
+      -7.84375
+    ],
+    [
+      "from heapq import heapify, heappush, heappop\n\n\ndef top_k_frequent(nums, k):\n    # sort the list\n    nums.sort()\n    # create a heap to store the numbers that occur most frequently\n    heap = []\n    # create a dictionary to store the number and its frequency\n    freq = {}\n    # create a counter to count the number of times it occurs\n    count = 0\n    # for every number in the list\n    for num in nums:\n        # if it's not in the dictionary, then add it to the heap\n        if num not in freq:\n            # add the number to the heap\n            heappush(heap, (num, count))\n            # increment the count\n            count += 1\n            # if the number is less than k, then remove it from the dictionary\n            if count < k:\n                # if the number is in the dictionary, then remove it from the heap\n                if num in freq:\n                    heappop(heap)\n                # if the number is not in the dictionary, then add it to the dictionary\n                else:\n                    heappush(heap, (num, count))\n    # return the top k numbers that occur most frequently\n    return [num for num, count in heap]\n\n\n# test cases\nnums = [1, 2, 3, 4, 2, 3, 4, 2, 4, 2, 5, 2, 4, 5, 5, 2, 3, 3, 4, 4, 4, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,",
+      -7.91015625
+    ],
+    [
+      "import heapq\n\n\ndef top_k_frequent(nums, k):\n    hq = []\n    for num in nums:\n        if len(hq) == 0 or num > hq[-1][1]:\n            heapq.heappush(hq, (num, num))\n        else:\n            heapq.heappushpop(hq, (num, num))\n\n    top_k_frequent = []\n    while len(top_k_frequent) < k:\n        if len(hq) == 0:\n            return []\n        num, num_count = heapq.heappop(hq)\n        top_k_frequent.append(num)\n        if len(hq) == 1:\n            heapq.heappush(hq, (num, num_count))\n\n    return top_k_frequent\n\n\nif __name__ == '__main__':\n    print(top_k_frequent([1, 1, 2, 3, 3, 3, 4, 4, 5, 5, 5], 3))",
+      -8.1171875
+    ],
+    [
+      "from heapq import heapify, heappush, heappop\n\n\ndef top_k_most_frequent(nums, k):\n    if not nums:\n        return []\n    counts = {}\n    for num in nums:\n        counts[num] = counts.get(num, 0) + 1\n    heapify(counts)\n    for _ in range(k):\n        heappush(counts, heappop(counts))\n    return [num for num, count in counts.items()]\n\n\nif __name__ == '__main__':\n    assert top_k_most_frequent([1, 2, 1, 2, 3, 1], 3) == [1, 2]\n    assert top_k_most_frequent([1, 1, 2, 3, 2, 3, 2, 3], 2) == [1, 2, 3]\n    assert top_k_most_frequent([1, 1, 2, 3, 2, 3, 2], 1) == [1, 2]\n    assert top_k_most_frequent([1, 1, 2, 3, 2, 3, 2], 2) == [1, 2]",
+      -8.875
+    ],
+    [
+      "import heapq\nfrom collections import defaultdict\n\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        d = defaultdict(int)\n        for i, num in enumerate(nums):\n            d[num] += 1\n        heapq.heapify(d.values())\n        return [i for i, num in enumerate(d.values()) if num > k]\n\n\nif __name__ == \"__main__\":\n    assert Solution().topKFrequent([3, 4, 2, 1, 1], 2) == [1, 2]\n    assert Solution().topKFrequent([1, 2, 1, 2, 2, 2, 3], 2) == [2]\n    assert Solution().topKFrequent([1, 1, 1, 1, 2, 2, 2, 3], 2) == [1, 2, 3]\n    assert Solution().topKFrequent([1, 1, 2, 2, 2, 3, 3, 3, 3, 3], 2) == [1, 2, 3]\n    assert Solution().topKFrequent([1, 2, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], 2) == [1, 2, 3]\n    assert Solution().topKFrequent([1, 2, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], 2) == [1, 2, 3]",
+      -9.640625
+    ],
+    [
+      "from heapq import heappush, heappop, heapify\n\n\ndef top_k_freq_count(arr, k):\n    # Write your code here\n    if len(arr) < k:\n        return []\n    count = dict()\n    for i in arr:\n        if i not in count:\n            count[i] = 1\n        else:\n            count[i] += 1\n    res = []\n    heappush(res, (-count[arr[0]], 0, arr[0]))\n    for i in range(1, len(arr)):\n        heappush(res, (count[arr[i]], i, arr[i]))\n    while res:\n        count, i, j = heappop(res)\n        heappush(res, (-count[j], i, j))\n    return [i for i in range(k) if i not in res]\n\n\ndef top_k_freq_count2(arr, k):\n    count = dict()\n    for i in arr:\n        if i not in count:\n            count[i] = 1\n        else:\n            count[i] += 1\n    res = []\n    heappush(res, (-count[arr[0]], 0, arr[0]))\n    for i in range(1, len(arr)):\n        heappush(res, (count[arr[i]], i, arr[i]))\n    while res:\n        count, i, j = heappop(res)\n        heappush(res, (-count[j], i, j))\n    return [i for i in range(k) if i not in res]\n\n\nif __name__ == \"__main__\":\n    print(top_k_freq_count([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4], 4))\n    print(top_k_freq_count([1, 2, 2, 1, 1, 2, 1, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4], 4))",
+      -10.4140625
+    ],
+    [
+      "import heapq\n\n\ndef top_k_frequent(nums, k):\n    heap = []\n    freq = {}\n    for num in nums:\n        if num in freq:\n            freq[num] += 1\n        else:\n            freq[num] = 1\n\n    for key in freq:\n        heapq.heappush(heap, (freq[key], key))\n\n    for i in range(k):\n        if len(heap) == 0:\n            return []\n\n        _, key = heapq.heappop(heap)\n\n        if key not in freq:\n            continue\n\n        freq[key] -= 1\n\n        if freq[key] == 0:\n            del freq[key]\n\n        if len(heap) == 0:\n            return []\n\n        _, key = heapq.heappop(heap)\n\n        if key not in freq:\n            continue\n\n        freq[key] += 1\n\n        if freq[key] == 0:\n            del freq[key]\n\n        if len(heap) == 0:\n            return []\n\n        _, key = heapq.heappop(heap)\n\n        if key not in freq:\n            continue\n\n        freq[key] -= 1\n\n    return [x[1] for x in freq.items()]\n\n\nif __name__ == \"__main__\":\n    print(top_k_frequent([1, 1, 1, 2, 2, 2, 3], 3))\n    print(top_k_frequent([1, 1, 2, 2, 3, 3], 3))",
+      -10.7890625
+    ],
+    [
+      "from heapq import *\n\ndef top_k_frequent(nums, k):\n    \"\"\"\n    :type nums: List[int]\n    :type k: int\n    :rtype: List[int]\n    \"\"\"\n    # Your code here\n    heap = []\n    for num in nums:\n        heappush(heap, (num, num))\n    top_k = []\n    while heap:\n        num, count = heappop(heap)\n        if len(top_k) < k:\n            top_k.append(num)\n        if count > 0:\n            heappush(heap, (-count, count))\n    return top_k\n\n\nif __name__ == \"__main__\":\n    nums = [1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 5]\n    k = 3\n    print(top_k_frequent(nums, k))",
+      -11.0625
+    ],
+    [
+      "from heapq import *\n\n\ndef top_k_freq(nums, k):\n    heap = []\n    for num in nums:\n        heappush(heap, (-num, num))\n    freq = {}\n    while heap:\n        num, freq_num = heappop(heap)\n        freq[num] = freq.get(num, 0) + 1\n        if len(freq) > k:\n            heappush(heap, (-freq[nums[0]], nums[0]))\n    return [k for k, v in freq.items()]\n\n\ndef main():\n    nums = [2, 1, 1, 1, 3, 5, 4, 4, 3, 2, 2, 2]\n    k = 2\n    print(top_k_freq(nums, k))\n\n\nif __name__ == '__main__':\n    main()",
+      -11.5234375
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        # \u5c06\u6570\u7ec4\u7ec4\u5408\u5e76\u5230\u5355\u9879\n        dict = {}\n        for num in nums:\n            if num not in dict:\n                dict[num] = 1\n            else:\n                dict[num] += 1\n\n        # \u5c06\u5b57\u5178\u5199\u5165heap\n        heap = []\n        for num, freq in dict.items():\n            heapq.heappush(heap, (-freq, num))\n\n        # \u83b7\u53d6\u5355\u9879\u7684\u503c\n        res = []\n        while heap:\n            freq, num = heapq.heappop(heap)\n            res.append(num)\n            if len(res) > k:\n                heapq.heappop(heap)\n\n        return res\n\n\na = Solution()\nprint a.topKFrequent([1, 1, 1, 2, 2, 3, 3], 2)",
+      -16.1875
+    ],
+    [
+      "# Time: O(n log n) Space: O(n)\n\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n\n        if len(nums) < k:\n            return []\n\n        # create a heap\n        h = []\n\n        # add the first element of the list to the heap\n        h.append(nums[0])\n\n        # create a dictionary to keep track of the frequency of each element\n        count = {}\n\n        # iterate over the list\n        for num in nums[1:]:\n\n            # add the number to the dictionary\n            if num not in count:\n                count[num] = 1\n            else:\n                count[num] += 1\n\n            # add the number to the heap\n            heapq.heappush(h, -count[num])\n\n            # if the heap is full\n            if len(h) > k:\n                # remove the element with the largest frequency\n                heapq.heappop(h)\n\n        # return the list of elements\n        return [num for num in h]\n\n\n\n# Time: O(n) Space: O(n)\n\n\nclass Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n\n        if len(nums) < k:\n            return []\n\n        # create a heap\n        h = []\n\n        # add the first element of the list to the heap\n        h.append(nums[0])\n\n        # create a dictionary to keep track of the frequency of each element\n        count = {}\n\n        # iterate over the list\n        for num in nums[1:]:\n\n            # add the number to the dictionary\n            if num not in count:\n                count[num] = 1\n            else:\n                count[num] += 1\n\n            # add the number to the heap\n            heapq.heappush(h, -count[num])",
+      -16.609375
+    ],
+    [
+      "class Solution:\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        from collections import Counter\n        counter = Counter(nums)\n        heap = []\n        for key, value in counter.items():\n            if len(heap) < k:\n                heapq.heappush(heap, (value, key))\n            else:\n                heapq.heappop(heap)\n                heapq.heappush(heap, (value, key))\n        return [heapq.heappop(heap)[1] for _ in range(k)]\n\n\nif __name__ == \"__main__\":\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 2) == [2]\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 3) == [1, 3, 4]\n    assert Solution().topKFrequent([1, 2, 3, 1, 2, 3, 4, 5], 5) == [1, 2, 3, 4, 5]\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 2) == [2, 3, 4, 5]\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 3) == [1, 3, 4, 5]\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 4) == [1, 2, 3, 4, 5]\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 2) == [1, 2, 3, 4, 5]\n    assert Solution().topKFrequent([1, 1, 2, 2, 3, 3, 4, 4, 5], 3) == [1, 2, 3, 4, 5]\n    assert Solution().topKFrequent",
+      -16.921875
+    ],
+    [
+      "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        # Create a dictionary to store the frequency of each item\n        dict_num = {}\n        for num in nums:\n            if num in dict_num:\n                dict_num[num] += 1\n            else:\n                dict_num[num] = 1\n\n        # Create a heap to store the most frequent items\n        heap = []\n        for key, value in dict_num.items():\n            heapq.heappush(heap, (value, key))\n\n        # Sort the heap and get the top k items\n        res = []\n        while len(heap) > 0:\n            res.append(heapq.heappop(heap)[1])\n        return res\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1, 2, 2, 3, 3, 4, 4, 4]\n    k = 2\n    print(sol.topKFrequent(nums, k))",
+      -17.234375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 10,
+    "inference_batch_size": 64,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_length": 512,
+    "source_len": 600,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

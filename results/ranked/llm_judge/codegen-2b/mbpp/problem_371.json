@@ -1,0 +1,511 @@
+{
+  "timestamp": "2025-09-14T20:07:29.408587",
+  "method": "improved_llm_judge",
+  "judge_model": "codellama/CodeLlama-7b-Python-hf",
+  "target_model": "codegen-2b",
+  "dataset": "mbpp",
+  "problem_number": 371,
+  "total_candidates": 100,
+  "results": [
+    {
+      "rank": 1,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/circular-array/problem\n\n#!/bin/python\n\ndef numRotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # print arr\n    n = len(arr)\n    # print arr\n    cnt = 0\n    if n < 2:\n        return 0\n    while arr[n-1] < arr[0]:\n        arr.append(arr.pop(0))\n    for i in range(n-1):\n        if arr[i] == arr[i+1]:\n            cnt += 1\n    return cnt\n\nif __name__ == '__main__':\n    arr = [2,4,6,8,10,12,14]\n    print numRotations(arr)"
+    },
+    {
+      "rank": 2,
+      "score": 10.0,
+      "candidate": "# Definition for a circularly sorted array.\nclass CircularlySortedArray:\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        self.nums = nums\n\n    def numRotations(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        return self.numRotationsHelper(0, len(self.nums) - 1)\n\n    def numRotationsHelper(self, start, end):\n        if start == end:\n            return 1\n        left = start\n        right = end\n        while left < right:\n            if self.nums[left] > self.nums[right]:\n                right = right - 1\n            else:\n                left = left + 1\n        return self.numRotationsHelper(left + 1, end)\n\n\n# Your CircularlySortedArray object will be instantiated and called as such:\n# obj = CircularlySortedArray(nums)\n# param_1 = obj.numRotations()"
+    },
+    {
+      "rank": 3,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/circular-array/problem\n\ndef circular_array(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    \n    # for each element in the array, rotate it to the right by one\n    for i in range(len(arr)):\n        arr[i] = arr[i] + len(arr) - i\n    \n    # count the number of rotations\n    count = 0\n    for i in range(len(arr)):\n        if arr[i]!= arr[(i + 1) % len(arr)]:\n            count += 1\n    \n    return count"
+    },
+    {
+      "rank": 4,
+      "score": 10.0,
+      "candidate": "import unittest\n\n\ndef count_rotations(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    if len(nums) == 1:\n        return 0\n    else:\n        return count_rotations(nums[1:]) + 1\n\n\nclass Test(unittest.TestCase):\n    def test(self):\n        self.assertEqual(count_rotations([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), 10)\n        self.assertEqual(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), 10)\n        self.assertEqual(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]), 11)\n        self.assertEqual(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]), 12)\n        self.assertEqual(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]), 13)\n        self.assertEqual(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]), 14)\n\n\nif __name__ == '__main__':\n    unittest.main()"
+    },
+    {
+      "rank": 5,
+      "score": 10.0,
+      "candidate": "class Solution:\n    # @return an integer\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.count(nums)\n    \n    def count(self, nums):\n        res = 0\n        for i in range(len(nums)):\n            res += self.count_rotations(nums, i, i)\n        return res\n    \n    def count_rotations(self, nums, start, end):\n        if start == end:\n            return 1\n        else:\n            return self.count_rotations(nums, start+1, end) + self.count_rotations(nums, start+1, end-1) + self.count_rotations(nums, start, end-1)"
+    },
+    {
+      "rank": 6,
+      "score": 10.0,
+      "candidate": "import math\n\ndef circular_sort(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # Write your code here\n    length = len(arr)\n    # Rotations = 0\n    # While the array is not circularly sorted\n    while length > 0:\n        # Get the first number\n        first = arr[0]\n        # Find the index of the first number\n        index = 0\n        # Iterate through the array\n        for i in range(1, length):\n            # If the first number is smaller than the current number\n            if arr[i] < first:\n                # Then the array is not circularly sorted\n                return 0\n            # Otherwise, the array is circularly sorted\n            else:\n                # Increment the index\n                index += 1\n        # Increment the number of rotations\n        Rotations += 1\n        # Set the first number to the last one\n        arr[0] = arr[length-1]\n        # Decrement the length by 1\n        length -= 1\n        # Decrement the index by 1\n        index -= 1\n        # Reverse the array from index to end\n        arr[index:length] = arr[index:length][::-1]\n    # Return the number of rotations\n    return Rotations\n\n\nif __name__ == \"__main__\":\n    # Input array\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    # Output\n    print(circular_sort(arr))"
+    },
+    {
+      "rank": 7,
+      "score": 10.0,
+      "candidate": "def circular_sort(array):\n    count = 0\n    for i in range(len(array) - 1):\n        if array[i] < array[i + 1]:\n            continue\n        else:\n            count += 1\n            for j in range(i + 1, len(array)):\n                if array[j] > array[j - 1]:\n                    array[j - 1], array[j] = array[j], array[j - 1]\n                    break\n    return count\n\nif __name__ == '__main__':\n    array = [4, 5, 6, 7, 8, 9]\n    print circular_sort(array)"
+    },
+    {
+      "rank": 8,
+      "score": 10.0,
+      "candidate": "import unittest\n\nclass Solution(object):\n    def numRotation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        max_rot = 0\n        for i in range(1, len(nums)):\n            max_rot = max(max_rot, len(nums) - i)\n        return max_rot\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/rotate-array/solution/\n\n# 11ms 99.50%\nclass Solution {\n    public int numRotation(int[] nums) {\n        int res = 0;\n        if (nums == null || nums.length == 0) return res;\n        Arrays.sort(nums);\n        for (int i = 0; i < nums.length; i++) {\n            res += i;\n        }\n        return res;\n    }\n}\n\n# 11ms 99.50%\nclass Solution {\n    public int numRotation(int[] nums) {\n        if (nums == null || nums.length == 0) return 0;\n        int res = 0;\n        for (int i = 0; i < nums.length; i++) {\n            int j = i + 1;\n            while (j < nums.length && nums[j] == nums[i]) j++;\n            res += j - i - 1;\n        }\n        return res;\n    }\n}\n'''"
+    },
+    {
+      "rank": 9,
+      "score": 10.0,
+      "candidate": "# https://oj.leetcode.com/problems/circular-sorted-array/\n# Given a circularly sorted array (i.e. where the last element is the first element),\n# return the number of elements to the left of the first element that has a different value.\n# The value of the elements to the left of the first element should be the same as the\n# element to the right of the first element.\n#\n# Example 1:\n# Input: [1,2,3,4,5,6]\n# Output: 2\n# Explanation:\n# The first element, 1, is different from the second element, 2.\n# The second element, 2, is different from the third element, 3.\n# The third element, 3, is different from the fourth element, 4.\n# The fourth element, 4, is different from the fifth element, 5.\n# The fifth element, 5, is different from the sixth element, 6.\n# The sixth element, 6, is different from the first element, 1.\n#\n# Example 2:\n# Input: [1,2,3,4,5,6,7]\n# Output: 4\n# Explanation:\n# The first element, 1, is different from the second element, 2.\n# The second element, 2, is different from the third element, 3.\n# The third element, 3, is different from the fourth element, 4.\n# The fourth element, 4, is different from the fifth element, 5.\n# The fifth element, 5, is different from the sixth element, 6.\n# The sixth element, 6, is different from the seventh element, 7.\n# The seventh element, 7, is different from the first element, 1.\n#\n# Example 3:\n# Input: [1,2,3,4,5]\n# Output: 0\n# Explanation:\n# The first element, 1, is different from the second element, 2.\n# The second element, 2, is different from the third element, 3.\n# The third element, 3, is different from the fourth element, 4.\n# The fourth element, 4, is different from the fifth element, 5.\n#\n# Note:\n# The length of the given array is in range [1, 100].\n# The"
+    },
+    {
+      "rank": 10,
+      "score": 10.0,
+      "candidate": "def rotate(num):\n    \"\"\"\n    For a circularly sorted array of n elements, the number of rotations is:\n    \n    n - 1 + 2 * n(n+1)/2\n    \n    The above formula can be rearranged to:\n    \n    (n - 1) * (n - 2) * (n - 3) *... * 1\n    \n    For example, if the array is [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], then the number of rotations is:\n    \n    1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 = 17\n    \n    Hint:\n    \n    For an array with length = n, how many rotations can it have?\n    \n    \"\"\"\n    return 1 + 2 * (num - 1) * (num - 2) * (num - 3) *... * 1\n\ndef main():\n    n = int(input())\n    num = [int(x) for x in input().split()]\n    print(rotate(n))\n\nif __name__ == '__main__':\n    main()"
+    },
+    {
+      "rank": 11,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/circular-array-rotation-number/problem\n\ndef circular_rotations(arr):\n    return len(arr) - circular_sort(arr)\n\ndef circular_sort(arr):\n    return len(arr) - circular_sort_inner(arr)\n\ndef circular_sort_inner(arr):\n    # Find the middle element\n    middle = len(arr) // 2\n    # If the array is smaller than 2 elements\n    if len(arr) < 2:\n        return len(arr)\n    # If the array has 2 elements\n    if len(arr) == 2:\n        return circular_sort_inner(arr[0]) + circular_sort_inner(arr[1])\n    # If the array has 3 elements\n    if len(arr) == 3:\n        return circular_sort_inner(arr[0]) + circular_sort_inner(arr[1]) + circular_sort_inner(arr[2])\n    # If the array has 4 elements\n    if len(arr) == 4:\n        return circular_sort_inner(arr[0]) + circular_sort_inner(arr[1]) + circular_sort_inner(arr[2]) + circular_sort_inner(arr[3])\n    # If the array has 5 or more elements\n    if len(arr) >= 5:\n        # If the first element is smaller than the second\n        if arr[0] < arr[1]:\n            # If the first element is smaller than the third\n            if arr[0] < arr[2]:\n                return circular_sort_inner(arr[0]) + circular_sort_inner(arr[1]) + circular_sort_inner(arr[2]) + circular_sort_inner(arr[3])\n            # If the first element is smaller than the fourth\n            if arr[0] < arr[3]:\n                return circular_sort_inner(arr[0]) + circular_sort_inner(arr[1]) + circular_sort_inner(arr[2]) + circular_sort_inner(arr[3]) + circular_sort_inner(arr[4])\n            # If the first element is smaller than the fifth\n            if arr[0] < arr[4"
+    },
+    {
+      "rank": 12,
+      "score": 10.0,
+      "candidate": "# Definition for an interval.\n# class Interval(object):\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution(object):\n    def rotate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.helper(nums, k, 0, len(nums) - 1)\n\n    def helper(self, nums, k, l, r):\n        if r - l == 1:\n            return 1 if nums[l] > nums[r] else 0\n        if r - l == 2:\n            if nums[l] > nums[r]:\n                return 1\n            else:\n                return 0\n        mid = (l + r) / 2\n        left = self.helper(nums, k, l, mid)\n        right = self.helper(nums, k, mid, r)\n        return left + right\n\n\nif __name__ == \"__main__\":\n    print Solution().rotate([3, 4, 5], 1)"
+    },
+    {
+      "rank": 13,
+      "score": 10.0,
+      "candidate": "# Definition for an interval.\nclass Interval:\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\nclass Solution:\n    # @param intervals, a list of Interval\n    # @return an integer\n    def numRotatations(self, intervals):\n        if not intervals:\n            return 0\n        if len(intervals) == 1:\n            return 0\n        if len(intervals) == 2:\n            return abs(intervals[0].end - intervals[1].start)\n        # Find the max and min\n        max = intervals[0].start\n        min = intervals[0].end\n        for interval in intervals[1:]:\n            if interval.start < min:\n                min = interval.start\n            if interval.end > max:\n                max = interval.end\n        # The number of rotations\n        rotations = 0\n        for interval in intervals:\n            # The number of rotations is the difference between the min and max\n            rotations += abs(interval.start - min) - abs(interval.end - max)\n        return rotations\n\ns = Solution()\nprint s.numRotatations([Interval(1, 2), Interval(3, 4), Interval(6, 7)])"
+    },
+    {
+      "rank": 14,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/circular-sorted-array/problem\n\ndef circular_sorted_array(arr):\n    size = len(arr)\n    if size == 0:\n        return 0\n    max_size = max(arr)\n    rotations = 0\n    while max_size > 0:\n        max_size = max(arr)\n        rotations += 1\n        arr.sort()\n        max_size = max(arr)\n    return rotations\n\nif __name__ == '__main__':\n    arr = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99]\n    print(circular_sorted_array(arr))"
+    },
+    {
+      "rank": 15,
+      "score": 10.0,
+      "candidate": "# https://leetcode.com/problems/circular-sorted-array/#/description\n# https://leetcode.com/problems/circular-sorted-array/discuss/255615/Efficient-solution-with-explanation-and-time-complexity-analysis-with-python-and-python-3\n\nclass Solution(object):\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # https://discuss.leetcode.com/topic/67894/python-solution-with-explanation\n        # https://leetcode.com/problems/circular-sorted-array/discuss/296670/Python-DP-solution\n        # https://leetcode.com/problems/circular-sorted-array/discuss/296670/Python-DP-solution-with-explanation-and-time-complexity-analysis-with-python-and-python-3\n        # https://leetcode.com/problems/circular-sorted-array/discuss/296670/Python-DP-solution-with-explanation-and-time-complexity-analysis-with-python-and-python-3\n        # https://leetcode.com/problems/circular-sorted-array/discuss/296670/Python-DP-solution-with-explanation-and-time-complexity-analysis-with-python-and-python-3\n        # https://leetcode.com/problems/circular-sorted-array/discuss/296670/Python-DP-solution-with-explanation-and-time-complexity-analysis-with-python-and-python-3\n        # https://leetcode.com/problems/circular-sorted-array/discuss/296670/Python-DP-solution-with-explanation-and-time-complexity-analysis-with-python-and-python-3\n        # https://leetcode.com/problems/circular-sorted-array/disc"
+    },
+    {
+      "rank": 16,
+      "score": 10.0,
+      "candidate": "def circular_array(arr):\n    # Write your code here\n    n = len(arr)\n    circular = 0\n    while circular < n:\n        circular += 1\n        for i in range(1, n):\n            if arr[i-1] > arr[i]:\n                circular -= 1\n                break\n        else:\n            return circular\n    return circular\n\nif __name__ == '__main__':\n    print circular_array([1,2,3,4,5,6,7,8])"
+    },
+    {
+      "rank": 17,
+      "score": 10.0,
+      "candidate": "# Definition for a circularly sorted array.\nclass CircularlySortedArray(object):\n\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        self.nums = nums\n\n    def numRotations(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        return 0 if len(self.nums) == 1 else (len(self.nums) - 1) / 2\n\n\n# Your CircularlySortedArray object will be instantiated and called as such:\n# obj = CircularlySortedArray(nums)\n# param_1 = obj.numRotations()"
+    },
+    {
+      "rank": 18,
+      "score": 10.0,
+      "candidate": "# Definition for an interval.\nclass Interval:\n    def __init__(self, s=0, e=0):\n        self.start = s\n        self.end = e\n\n    def start(self):\n        return self.start\n\n    def end(self):\n        return self.end\n\n    def is_overlapped(self, x):\n        return (self.start <= x) and (x < self.end)\n\n\ndef num_rotations(arr):\n    \"\"\"\n    :type arr: List[Interval]\n    :rtype: int\n    \"\"\"\n    if not arr:\n        return 0\n    start = arr[0].start\n    end = arr[0].end\n    for i in range(1, len(arr)):\n        if arr[i].is_overlapped(start):\n            start = arr[i].end\n        elif arr[i].is_overlapped(end):\n            end = arr[i].start\n        else:\n            return i - 1\n    return len(arr) - 1\n\n\nif __name__ == '__main__':\n    arr = [Interval(1, 3), Interval(4, 6), Interval(7, 9), Interval(10, 12)]\n    print(num_rotations(arr))\n    arr = [Interval(1, 2), Interval(3, 4), Interval(5, 6), Interval(7, 8), Interval(9, 10), Interval(11, 12)]\n    print(num_rotations(arr))\n    arr = [Interval(1, 2), Interval(3, 4), Interval(5, 6), Interval(7, 8), Interval(9, 10)]\n    print(num_rotations(arr))"
+    },
+    {
+      "rank": 19,
+      "score": 10.0,
+      "candidate": "#!/usr/bin/env python\n\n# https://www.hackerrank.com/challenges/circular-sorted-array\n\nimport sys\nimport math\n\ndef circular_sorted_array_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) < 2:\n        return 0\n    \n    circular_sum = 0\n    circular_sum_i = 0\n    circular_sum_j = 0\n    circular_sum_k = 0\n    circular_sum_l = 0\n    circular_sum_m = 0\n    circular_sum_n = 0\n    circular_sum_o = 0\n    circular_sum_p = 0\n    circular_sum_q = 0\n    circular_sum_r = 0\n    circular_sum_s = 0\n    circular_sum_t = 0\n    circular_sum_u = 0\n    circular_sum_v = 0\n    circular_sum_w = 0\n    circular_sum_x = 0\n    circular_sum_y = 0\n    circular_sum_z = 0\n\n    # The circular sum is the sum of circular numbers\n    # So we can just use the circular sum of the first element\n    circular_sum = circular_sum + arr[0]\n\n    # The first element is circular, so we can just skip it\n    circular_sum_i = circular_sum_i + arr[0]\n    circular_sum_j = circular_sum_j + arr[0]\n    circular_sum_k = circular_sum_k + arr[0]\n    circular_sum_l = circular_sum_l + arr[0]\n    circular_sum_m = circular_sum_m + arr[0]\n    circular_sum_n = circular_sum_n + arr[0]\n    circular_sum_o = circular_sum_o + arr[0]\n    circular_sum_p = circular_sum_p + arr[0]\n    circular_sum_q = circular_sum_q + arr[0]\n    circular"
+    },
+    {
+      "rank": 20,
+      "score": 10.0,
+      "candidate": "def number_of_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return 0 if len(arr) == 0 else 1 + number_of_rotations(arr[1:])\n\nif __name__ == '__main__':\n    print(number_of_rotations([1, 2, 3, 4, 5, 6]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))\n    print(number_of_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))"
+    },
+    {
+      "rank": 21,
+      "score": 10.0,
+      "candidate": "def rotations(arr):\n  if len(arr) < 2:\n    return 0\n  else:\n    return sum(1 for i in range(1, len(arr)) if arr[i] < arr[i-1])\n\n\n#Testing\nprint(rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))\nprint(rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))\nprint(rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))\nprint(rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]))\nprint(rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143,"
+    },
+    {
+      "rank": 22,
+      "score": 10.0,
+      "candidate": "# https://www.hackerrank.com/challenges/circular-sorted-array-rotations\n# Problem: Circularly Sorted Array\n# Written by Vaideesh\n# Total Accepted: 78883\n# Total Submissions: 232917\n# Difficulty: Medium\n# Contributors: Admin\n# Given an array of integers, return the number of rotations required to make the array circularly sorted.\n#\n# Example 1:\n# Input: [1,2,3]\n# Output: 0\n# Explanation: The array is already sorted in ascending order. There are no rotations required.\n# Example 2:\n# Input: [1,3,2]\n# Output: 1\n# Explanation: There are two rotations required to sort the array.\n# Example 3:\n# Input: [1,2,3,4,5]\n# Output: 4\n# Explanation: The array is already sorted in ascending order. There are four rotations required to sort the array.\n# Example 4:\n# Input: [5,4,3,2,1]\n# Output: 2\n# Explanation: The array is already sorted in ascending order. There are two rotations required to sort the array.\n# Example 5:\n# Input: [4,3,2,1]\n# Output: 0\n# Explanation: The array is already sorted in ascending order. There are no rotations required.\n# Note:\n# - 1 <= arr.length <= 1000\n# - arr[i] is an integer in the range of [0, 10^9].\n# - All the integers in the input array are unique.\n# - The input array is already sorted in ascending order.\n\n# 2019.02.16\nclass Solution(object):\n    def circularRotations(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        return self.circular_sort(arr)\n\n    def circular_sort(self, arr):\n        if len(arr) == 0:\n            return 0\n        return self.circular_sort(arr[1:]) + self.circular_sort(arr[:1])"
+    },
+    {
+      "rank": 23,
+      "score": 10.0,
+      "candidate": "def circular_array_rotations(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    return len(array) - circular_array_circular_sum(array)\n\ndef circular_array_circular_sum(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    return sum(array[0:len(array)])"
+    },
+    {
+      "rank": 24,
+      "score": 10.0,
+      "candidate": "def circular_sort(arr):\n    length = len(arr)\n    if length <= 1:\n        return length\n    \n    mid = length / 2\n    left = 0\n    right = mid\n    while left < mid and right < length:\n        if arr[left] > arr[right]:\n            arr[left], arr[right] = arr[right], arr[left]\n            left += 1\n            right -= 1\n        else:\n            right += 1\n    if right < length:\n        arr[left:right+1] = circular_sort(arr[left:right+1])\n    return len(arr)\n\nif __name__ == \"__main__\":\n    arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]\n    print(circular_sort(arr))"
+    },
+    {
+      "rank": 25,
+      "score": 8.0,
+      "candidate": "# https://www.geeksforgeeks.org/circular-array-rotations/\n\ndef circular_rotation_count(array):\n    \"\"\"\n    :param array: a list of numbers\n    :return: the number of rotations in the array\n    \"\"\"\n    count = 0\n    for i in range(1, len(array)):\n        if array[i-1] > array[i]:\n            count += 1\n    return count\n\nif __name__ == \"__main__\":\n    array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(circular_rotation_count(array))"
+    },
+    {
+      "rank": 26,
+      "score": 8.0,
+      "candidate": "def num_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    \n    if len(arr) <= 1:\n        return 0\n    \n    count = 0\n    for i in range(len(arr) - 1):\n        if arr[i] == arr[i+1]:\n            count += 1\n        else:\n            break\n    \n    return count\n\nif __name__ == \"__main__\":\n    arr = [1,2,3,4,5,6,7,8,9,10]\n    print(num_rotations(arr))"
+    },
+    {
+      "rank": 27,
+      "score": 8.0,
+      "candidate": "def rotate_array(array):\n    \"\"\"\n    Write a function to rotate an array.\n    \"\"\"\n    length = len(array)\n    for i in range(length-1):\n        array[i], array[i+1] = array[i+1], array[i]\n    return array\n\ndef rotations(array):\n    \"\"\"\n    Write a function to find the number of rotations in a circularly sorted array.\n    \"\"\"\n    length = len(array)\n    return length - 1 - rotate_array(array)\n\nif __name__ == \"__main__\":\n    array = [1,2,3,4,5]\n    print rotations(array)"
+    },
+    {
+      "rank": 28,
+      "score": 8.0,
+      "candidate": "import math\n\n\ndef count_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return int(math.ceil(math.sqrt(len(arr))))\n\n\nif __name__ == '__main__':\n    print(count_rotations([1, 2, 3, 4, 5]))"
+    },
+    {
+      "rank": 29,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/python\n\ndef numRotations(arr):\n    # Complete this function\n    count = 0\n    for i in range(0, len(arr)):\n        if arr[i]!= arr[i + 1]:\n            count += 1\n    return count\n\nif __name__ == \"__main__\":\n    arr = [3, 3, 1, 1, 3, 3, 1, 3]\n    print numRotations(arr)"
+    },
+    {
+      "rank": 30,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def countRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        count = 0\n        for i in range(len(nums) - 1):\n            if nums[i] < nums[i+1]:\n                count += 1\n        return count\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.countRotations([1, 2, 3, 4]))\n    print(sol.countRotations([1, 2, 3]))\n    print(sol.countRotations([1, 2, 3, 4, 5, 6, 7, 8]))"
+    },
+    {
+      "rank": 31,
+      "score": 8.0,
+      "candidate": "def num_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(arr)\n    if n < 2:\n        return 0\n    if arr[0] > arr[n - 1]:\n        return num_rotations(reversed(arr))\n    return n - 1 - num_rotations(reversed(arr))\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(\"Number of rotations:\", num_rotations(arr))"
+    },
+    {
+      "rank": 32,
+      "score": 8.0,
+      "candidate": "def circular_rotations(arr):\n    n = len(arr)\n    count = 0\n    for i in range(n-1):\n        if arr[i] > arr[i+1]:\n            count += 1\n    return count"
+    },
+    {
+      "rank": 33,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        return len(set(nums)) - len(set(reversed(nums)))\n\nif __name__ == \"__main__\":\n    print Solution().numRotations([1, 2, 3, 4, 5])\n    print Solution().numRotations([4, 3, 2, 1, 5])\n    print Solution().numRotations([1, 2, 3, 4, 5, 6])"
+    },
+    {
+      "rank": 34,
+      "score": 8.0,
+      "candidate": "# https://github.com/hackerrank/challenges/blob/master/sorting-rotations/sorting-rotations.py\n\n# Solution:\n#\n# Using a stack, we can keep track of the number of rotations by counting the number of elements\n# we have to remove from the stack.\n#\n# Time complexity: O(n)\n# Space complexity: O(1)\n#\n# 1. Remove the first element from the stack and add it to the stack.\n# 2. Remove the last element from the stack and add it to the stack.\n# 3. Remove the last element from the stack and add it to the stack.\n# 4. Remove the first element from the stack and add it to the stack.\n# 5. Remove the first element from the stack and add it to the stack.\n# 6. Remove the last element from the stack and add it to the stack.\n# 7. Remove the last element from the stack and add it to the stack.\n# 8. Remove the first element from the stack and add it to the stack.\n# 9. Remove the first element from the stack and add it to the stack.\n# 10. Remove the last element from the stack and add it to the stack.\n# 11. Remove the last element from the stack and add it to the stack.\n# 12. Remove the first element from the stack and add it to the stack.\n# 13. Remove the first element from the stack and add it to the stack.\n# 14. Remove the last element from the stack and add it to the stack.\n# 15. Remove the last element from the stack and add it to the stack.\n# 16. Remove the first element from the stack and add it to the stack.\n# 17. Remove the first element from the stack and add it to the stack.\n# 18. Remove the last element from the stack and add it to the stack.\n# 19. Remove the last element from the stack and add it to the stack.\n# 20. Remove the first element from the stack and add it to the stack.\n# 21. Remove the first element from the stack and add it to the stack.\n# 22. Remove the last element from the stack and add it to the stack.\n# 23. Remove the last element from the stack and add it to the stack.\n# 24."
+    },
+    {
+      "rank": 35,
+      "score": 8.0,
+      "candidate": "from collections import deque\n\n\ndef count_rotations(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    circular_array = deque(array)\n    rotations = 0\n    while circular_array:\n        rotations += 1\n        circular_array.rotate(1)\n    return rotations\n\n\nif __name__ == '__main__':\n    assert count_rotations([1, 2, 3, 4, 5, 6, 7]) == 6\n    assert count_rotations([1, 2, 3, 4, 5, 6, 7, 8]) == 9\n    assert count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 10\n    assert count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 12"
+    },
+    {
+      "rank": 36,
+      "score": 8.0,
+      "candidate": "def numRotations(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    length = len(array)\n    if length == 0:\n        return 0\n    \n    left = 0\n    right = length - 1\n    count = 0\n    while left < right:\n        if array[left] > array[right]:\n            count += 1\n            right -= 1\n        elif array[left] < array[right]:\n            left += 1\n        else:\n            left += 1\n            right -= 1\n    \n    return count"
+    },
+    {
+      "rank": 37,
+      "score": 8.0,
+      "candidate": "def num_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    \n    if len(arr) < 2:\n        return 0\n\n    n = len(arr)\n    d = [0] * (n+1)\n\n    for i in range(n):\n        d[i+1] = d[i] + 1\n\n    for i in range(2, n+1):\n        d[i] = d[i-1] + d[i-2]\n    \n    for i in range(1, n+1):\n        d[0] += d[i]\n\n    return d[n]\n\nif __name__ == '__main__':\n    arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print(num_rotations(arr))"
+    },
+    {
+      "rank": 38,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/env python\n\nimport math\n\ndef find_rotations(numbers):\n    count = 0\n    for i in range(len(numbers)):\n        for j in range(i):\n            if numbers[i] == numbers[j]:\n                count += 1\n    return count\n\nif __name__ == \"__main__\":\n    numbers = [1, 2, 3, 4, 5, 6]\n    print find_rotations(numbers)\n    numbers = [1, 2, 2, 3, 4, 5, 5, 6, 6]\n    print find_rotations(numbers)\n    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    print find_rotations(numbers)"
+    },
+    {
+      "rank": 39,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param nums, a list of integer\n    # @return an integer\n    def numRotations(self, nums):\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return 0\n        nums.sort()\n        i = 0\n        j = len(nums) - 1\n        while i < j:\n            if nums[i] > nums[j]:\n                j -= 1\n            else:\n                i += 1\n        return i + 1"
+    },
+    {
+      "rank": 40,
+      "score": 8.0,
+      "candidate": "def circular_array_rotations(arr):\n    \"\"\"\n    Input: A circularly sorted array arr\n    Output: The number of rotations\n    \"\"\"\n    # base case\n    if len(arr) < 2:\n        return 0\n\n    # find the first element which is not the first element of the array\n    first_element = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i]!= first_element:\n            break\n        first_element = arr[i]\n\n    # count the number of rotations\n    count = 0\n    for i in range(1, len(arr)):\n        if arr[i]!= arr[i - 1]:\n            count += 1\n        else:\n            count += 2\n    return count\n\nif __name__ == \"__main__\":\n    assert circular_array_rotations([1, 2, 3, 4, 5, 6]) == 3\n    assert circular_array_rotations([1, 2, 3, 4, 5, 6, 7]) == 5\n    assert circular_array_rotations([1, 2, 3, 4, 5, 6, 7, 8]) == 7\n    assert circular_array_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 9"
+    },
+    {
+      "rank": 41,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/python\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        if nums == None or len(nums) == 0:\n            return 0\n        n = len(nums)\n        \n        i = 0\n        j = 0\n        k = 0\n        \n        while i < n:\n            if nums[i] == nums[j]:\n                k += 1\n            j += 1\n            if j == n:\n                j = 0\n            i += 1\n            \n        return k\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.numRotations([1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4])"
+    },
+    {
+      "rank": 42,
+      "score": 8.0,
+      "candidate": "def find_rotations(array):\n    if len(array) <= 1:\n        return 0\n    count = 0\n    for i in range(len(array) - 1):\n        if array[i] < array[i + 1]:\n            count += 1\n    return count"
+    },
+    {
+      "rank": 43,
+      "score": 8.0,
+      "candidate": "def countRotations(arr):\n    if len(arr) == 1:\n        return 0\n    l = 0\n    r = len(arr) - 1\n    while l < r:\n        if arr[l] > arr[r]:\n            l += 1\n        else:\n            r -= 1\n    return l + 1\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(countRotations(arr))"
+    },
+    {
+      "rank": 44,
+      "score": 8.0,
+      "candidate": "import sys\n\ndef circular_sorted_array(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr or not arr[0]:\n        return 0\n    n = len(arr)\n    if n < 2:\n        return 0\n    if n % 2 == 0:\n        return (n - 1) / 2\n    else:\n        return n / 2\n\nif __name__ == '__main__':\n    if len(sys.argv) > 1:\n        arr = map(int, sys.argv[1:])\n    else:\n        arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(circular_sorted_array(arr))"
+    },
+    {
+      "rank": 45,
+      "score": 8.0,
+      "candidate": "def num_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for i in range(len(arr)):\n        if arr[i] == arr[i+1]:\n            count += 1\n        else:\n            count += 2\n    return count\n\nprint(num_rotations([1,2,3,4,5]))"
+    },
+    {
+      "rank": 46,
+      "score": 8.0,
+      "candidate": "import sys\n\nif __name__ == \"__main__\":\n    try:\n        n = int(sys.argv[1])\n        arr = list(range(1, n + 1))\n        print(rotations(arr))\n    except IndexError:\n        print(\"Please input the number of elements to be sorted\")"
+    },
+    {
+      "rank": 47,
+      "score": 8.0,
+      "candidate": "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        count = 0\n        for i in range(len(nums)):\n            if nums[i] == nums[(i + 1) % len(nums)]:\n                count += 1\n        return count"
+    },
+    {
+      "rank": 48,
+      "score": 8.0,
+      "candidate": "class Solution(object):\n    def countRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = 0\n        length = len(nums)\n        for i in range(length):\n            if i == 0 or nums[i]!= nums[i - 1]:\n                count += 1\n        return count"
+    },
+    {
+      "rank": 49,
+      "score": 8.0,
+      "candidate": "#!/usr/bin/env python\n\n# http://www.geeksforgeeks.org/write-a-circular-sorted-array-rotation-counting-algorithm/\n\ndef circular_sorted_array_rotations(array):\n    \"\"\"\n    Rotations of circularly sorted array\n    :param array: circularly sorted array\n    :return: rotations of circularly sorted array\n    \"\"\"\n    count = 0\n    for i in xrange(0, len(array)):\n        if array[i] < array[i+1]:\n            count += 1\n    return count\n\nif __name__ == '__main__':\n    assert circular_sorted_array_rotations([1,2,3,4,5,6]) == 4\n    assert circular_sorted_array_rotations([1,2,3,4,5,6,7,8,9]) == 9\n    assert circular_sorted_array_rotations([1,2,3,4,5,6,7,8,9,10]) == 16\n    assert circular_sorted_array_rotations([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]) == 21\n    assert circular_sorted_array_rotations([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]) == 37"
+    },
+    {
+      "rank": 50,
+      "score": 8.0,
+      "candidate": "def countRotations(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for i in range(1, len(array)):\n        if array[i] < array[i - 1]:\n            count += 1\n    return count"
+    },
+    {
+      "rank": 51,
+      "score": 4.0,
+      "candidate": "import unittest\n\n\nclass Solution(object):\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.numRotations_slow(nums)\n\n    def numRotations_slow(self, nums):\n        res = 0\n        n = len(nums)\n        if n == 0:\n            return 0\n        if n == 1:\n            return 1\n\n        for i in range(n - 1):\n            if nums[i] < nums[i + 1]:\n                res += 1\n        return res\n\n    def numRotations_fast(self, nums):\n        n = len(nums)\n        if n == 0:\n            return 0\n\n        if n == 1:\n            return 1\n        if n == 2:\n            return 1\n\n        res = 0\n        for i in range(n - 2):\n            if nums[i] > nums[i + 1]:\n                res += 1\n            elif nums[i] < nums[i + 1]:\n                res += 2\n        return res\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/circular-array-rotation/solution/\n\n# 1ms 100%\nclass Solution {\n    public int numRotations(int[] nums) {\n        int res = 0;\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] > nums[i - 1]) {\n                res++;\n            } else if (nums[i] < nums[i - 1]) {\n                res += 2;\n            }\n        }\n        return res;\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public int numRotations(int[] nums) {\n        int n = nums.length;\n        if (n == 0) return 0"
+    },
+    {
+      "rank": 52,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def circularRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        ans = 0\n        for i in range(1, len(nums)):\n            if nums[i] == nums[i - 1]:\n                ans += 1\n        return ans\n\n\nif __name__ == '__main__':\n    print Solution().circularRotations([1, 2, 3, 4, 5])\n    print Solution().circularRotations([3, 2, 1, 4, 5])"
+    },
+    {
+      "rank": 53,
+      "score": 1.0,
+      "candidate": "# Definition for an interval.\n# class Interval:\n#     def __init__(self, s=0, e=0):\n#         self.start = s\n#         self.end = e\n\nclass Solution:\n    def numRotations(self, intervals):\n        \"\"\"\n        :type intervals: List[Interval]\n        :rtype: int\n        \"\"\"\n        def getInterval(intervals, start, end):\n            if end <= start:\n                return 0\n            interval = [intervals[start], intervals[end]]\n            left = getInterval(intervals, start + 1, interval[0].start)\n            right = getInterval(intervals, interval[1].end, end - 1)\n            return left + right + 1\n\n        return getInterval(intervals, 0, len(intervals) - 1)"
+    },
+    {
+      "rank": 54,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\ndef count_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    count = 0\n    for i in range(len(arr) - 1):\n        if arr[i] < arr[i+1]:\n            count += 1\n    return count\n\n# Your code here\n# Test cases\nprint(count_rotations([1, 2, 3, 4, 5]))\nprint(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))"
+    },
+    {
+      "rank": 55,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/circular-array-rotation/discuss/91322/Python-2-O(n)-Time-Easy-solution-with-explanation\n\nclass Solution(object):\n    def numRotation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) <= 1:\n            return 0\n        nums.sort()\n        rotations = 0\n        for i in range(1, len(nums)):\n            if nums[i] < nums[i - 1]:\n                rotations += 1\n        return rotations\n\nif __name__ == \"__main__\":\n    assert Solution().numRotation([1, 2, 3, 4, 5]) == 2\n    assert Solution().numRotation([-1, -2, -3, -4, -5]) == 1\n    assert Solution().numRotation([1, 2, 3, 4, 5, 6]) == 3\n    assert Solution().numRotation([-1, -2, -3, -4, -5, -6]) == 2"
+    },
+    {
+      "rank": 56,
+      "score": 1.0,
+      "candidate": "# https://www.geeksforgeeks.org/circular-array-rotation-number/\n# https://leetcode.com/problems/circular-array-rotation-number/\n\ndef circular_array_rotation_number(arr):\n    # write your code here\n    n = len(arr)\n    if n < 2:\n        return 0\n\n    # calculate the number of rotations\n    count = 0\n    for i in range(0, n-1):\n        if arr[i] > arr[i+1]:\n            count += 1\n\n    return count\n\nif __name__ == '__main__':\n    print(circular_array_rotation_number([3, 2, 1, 4]))\n    print(circular_array_rotation_number([1, 2, 3, 4]))\n    print(circular_array_rotation_number([1, 2, 3, 4, 5]))\n    print(circular_array_rotation_number([1, 2, 3, 4, 5, 6, 7]))\n    print(circular_array_rotation_number([1, 2, 3, 4, 5, 6, 7, 8]))\n    print(circular_array_rotation_number([1, 2, 3, 4, 5, 6, 7, 8, 9]))"
+    },
+    {
+      "rank": 57,
+      "score": 1.0,
+      "candidate": "# Definition for a circularly sorted array.\n# class CircularlySortedArray:\n#     def __init__(self, nums):\n#         self.nums = nums\n\n#     def getRotation(self, nums, start, end):\n#         count = 0\n#         for i in range(start, end):\n#             if nums[i]!= nums[start]:\n#                 count += 1\n#         return count\n\n# Example 1:\n\n# Input: nums = [1,2,3,4,5], start = 1, end = 5\n# Output: 4\n# Explanation:\n# The circularly sorted array is [1,2,3,4,5], so the 4 rotations are [1,2,5,4,3].\n# Note:\n# The length of the array will be in the range [0, 1000].\n# The value in each position will be an integer in the range [0, 99].\n\nclass Solution(object):\n    def numRotations(self, nums, start, end):\n        \"\"\"\n        :type nums: List[int]\n        :type start: int\n        :type end: int\n        :rtype: int\n        \"\"\"\n        count = 0\n        n = len(nums)\n        for i in range(start, end):\n            if nums[i]!= nums[start]:\n                count += 1\n                start = i\n        return count\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1,2,3,4,5]\n    print(sol.numRotations(nums, 0, 4))\n    print(sol.numRotations(nums, 1, 5))\n    print(sol.numRotations(nums, 1, 6))\n    print(sol.numRotations(nums, 1, 7))"
+    },
+    {
+      "rank": 58,
+      "score": 1.0,
+      "candidate": "def find_num_rotations(arr):\n    # +++your code here+++\n    n = len(arr)\n    if n < 2:\n        return 0\n    if arr[0] > arr[-1]:\n        return 0\n    if arr[0] == arr[-1]:\n        return 1\n    \n    num_rotations = 0\n    i = 0\n    while i < n - 1:\n        if arr[i] < arr[i + 1]:\n            num_rotations += 1\n        i += 1\n    return num_rotations\n    \n\nif __name__ == '__main__':\n    assert(find_num_rotations([1, 2, 3, 4]) == 2)\n    assert(find_num_rotations([1, 2, 3, 4, 5]) == 3)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6]) == 4)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7]) == 5)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8]) == 6)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 7)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 8)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == 9)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) == 10)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]) == 11)\n    assert(find_num_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) == 12)\n    assert(find_num_rotations([1, 2, 3"
+    },
+    {
+      "rank": 59,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def findRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        \n        n = len(nums)\n        \n        if n == 1:\n            return 0\n        \n        # count the number of rotations\n        count = 0\n        i = 0\n        while i < n:\n            if nums[i] == nums[(i + 1) % n]:\n                count += 1\n            i += 1\n        \n        return count"
+    },
+    {
+      "rank": 60,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param num, a list of integer\n    # @return an integer\n    def numRotations(self, num):\n        if not num: return 0\n        max_num = max(num)\n        min_num = min(num)\n        # num.sort()\n        i = 0\n        j = 0\n        count = 0\n        while i < len(num):\n            if num[i] < max_num:\n                i += 1\n            elif num[i] > min_num:\n                count += j\n                j = 0\n            else:\n                j += 1\n        return count\n\nif __name__ == \"__main__\":\n    assert Solution().numRotations([1,2,3,4,5]) == 2\n    assert Solution().numRotations([1,2,3,4,5,6]) == 3\n    assert Solution().numRotations([1,2,3,4,5,6,7]) == 3"
+    },
+    {
+      "rank": 61,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def rotate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # nums is circularly sorted\n        # k is the number of times to rotate\n        if k == 0:\n            return len(nums)\n        elif k < 0:\n            return len(nums) - abs(k)\n        else:\n            k %= len(nums)\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of times to rotate\n            # k is the number of"
+    },
+    {
+      "rank": 62,
+      "score": 1.0,
+      "candidate": "import math\n\ndef number_of_rotations(nums):\n    n = len(nums)\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    if n == 2:\n        return 0\n    if n == 3:\n        return 1\n    if n == 4:\n        return 2\n    if n == 5:\n        return 3\n    if n == 6:\n        return 4\n    if n == 7:\n        return 5\n    if n == 8:\n        return 6\n    if n == 9:\n        return 7\n    if n == 10:\n        return 8\n    if n == 11:\n        return 9\n    if n == 12:\n        return 10\n    if n == 13:\n        return 11\n    if n == 14:\n        return 12\n    if n == 15:\n        return 13\n    if n == 16:\n        return 14\n    if n == 17:\n        return 15\n    if n == 18:\n        return 16\n    if n == 19:\n        return 17\n    if n == 20:\n        return 18\n    if n == 21:\n        return 19\n    if n == 22:\n        return 20\n    if n == 23:\n        return 21\n    if n == 24:\n        return 22\n    if n == 25:\n        return 23\n    if n == 26:\n        return 24\n    if n == 27:\n        return 25\n    if n == 28:\n        return 26\n    if n == 29:\n        return 27\n    if n == 30:\n        return 28\n    if n == 31:\n        return 29\n    if n == 32:\n        return 30\n    if n == 33:\n        return 31\n    if n == 34:\n        return 32\n    if n == 35:\n        return 33\n    if n == 36:\n        return 34\n    if n == 37:\n        return 35\n    if n == 38:\n        return 36\n    if n == 39:\n        return 37\n    if n == 40:\n        return 38\n    if n == 41:\n        return 39\n    if n == 42:\n        return 40\n    if n == 43:\n        return 41\n    if"
+    },
+    {
+      "rank": 63,
+      "score": 1.0,
+      "candidate": "# Definition for a circularly sorted array.\nclass CircularlySortedArray:\n    def __init__(self, nums):\n        \"\"\"\n        Initialize your data structure here.\n        :type nums: List[int]\n        \"\"\"\n        self.n = len(nums)\n        self.nums = nums\n        self.num_rotations = 0\n        self.cnt = 0\n        self.rev_cnt = 0\n        for i in range(self.n):\n            self.rev_cnt += 1\n            self.cnt += 1\n            if i!= 0:\n                if nums[i] < nums[i-1]:\n                    self.cnt += 1\n                    self.rev_cnt += 1\n            else:\n                self.cnt += 1\n        self.num_rotations = self.cnt - self.rev_cnt\n\n\nclass Solution:\n    def findRotations(self, nums: List[int]) -> int:\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ans = 0\n        for i in range(len(nums)):\n            ans += 1\n            nums[i] = nums[i] - nums[i-1]\n        for i in range(len(nums)):\n            if i!= 0:\n                if nums[i] < nums[i-1]:\n                    ans += 1\n        return ans\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.findRotations([1, 2, 3, 4, 5]))\n    print(s.findRotations([4, 5, 6, 7, 8]))\n    print(s.findRotations([3, 2, 1, 0, 4, 5]))\n    print(s.findRotations([4, 5, 6, 7, 8, 1, 0, 3]))"
+    },
+    {
+      "rank": 64,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n < 2:\n            return 0\n        d = {}\n        for i in range(n):\n            d[nums[i]] = i\n        for i in range(n-1):\n            d[nums[i]] = d[nums[i+1]] - 1\n        cnt = 0\n        for i in range(n):\n            if d[nums[i]] < 0:\n                cnt += 1\n        return cnt\n\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.numRotations([1,2,3,4]))\n    print(sol.numRotations([4,3,2,1]))\n    print(sol.numRotations([1]))\n    print(sol.numRotations([1,2,3,4,5]))"
+    },
+    {
+      "rank": 65,
+      "score": 1.0,
+      "candidate": "def num_of_rotations(arr):\n    # write your code here\n    if len(arr) == 1:\n        return 0\n    if len(arr) == 2:\n        return 1\n    n = len(arr)\n    count = 0\n    for i in range(n - 1):\n        if arr[i] < arr[i + 1]:\n            count += 1\n    return count\n\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print(num_of_rotations(arr))"
+    },
+    {
+      "rank": 66,
+      "score": 1.0,
+      "candidate": "import unittest\n\nclass Solution(object):\n    def circularRotation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 0:\n            return 0\n        l = len(nums)\n        if l % 2 == 0:\n            return self.circularRotation(nums[:l//2]) + self.circularRotation(nums[l//2:])\n        return self.circularRotation(nums[l//2:]) + self.circularRotation(nums[:l//2])\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/circular-array-rotation/solution/\n#\nApproach 1: Sort\nComplexity Analysis\nTime Complexity: O(n), where n is the length of the array.\nSpace Complexity: O(n)\n\n# 8ms 96.52%\nclass Solution {\n    public int circularRotation(int[] nums) {\n        if (nums == null || nums.length == 0) {\n            return 0;\n        }\n        int len = nums.length;\n        int halfLen = len / 2;\n        if (len % 2 == 0) {\n            return circularRotation(nums, halfLen);\n        } else {\n            return circularRotation(nums, halfLen) + circularRotation(nums, len - halfLen);\n        }\n    }\n\n    private int circularRotation(int[] nums, int halfLen) {\n        int result = 0;\n        for (int i = 0; i < halfLen; i++) {\n            result += nums[i] - nums[len - 1 - i];\n        }\n        return result;\n    }\n}\n\n# 2ms 100%\nclass Solution {\n    public int circularRotation(int[] nums) {\n        if (n"
+    },
+    {
+      "rank": 67,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/rotate-array/discuss/1606/Python-solution-in-python-and-C++\n\nclass Solution(object):\n    def rotate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return n\n        i = 0\n        j = n - 1\n        while i < j:\n            nums[i], nums[j] = nums[j], nums[i]\n            i += 1\n            j -= 1\n        return j\n\nclass Solution2(object):\n    def rotate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return n\n        i = 0\n        j = n - 1\n        while i < j:\n            nums[i], nums[j] = nums[j], nums[i]\n            i += 1\n            j -= 1\n        return j\n\nclass Solution3(object):\n    def rotate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return n\n        i = 0\n        j = n - 1\n        while i < j:\n            nums[j], nums[i] = nums[i], nums[j]\n            i += 1\n            j -= 1\n        return j\n\nif __name__ == '__main__':\n    assert Solution().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 3\n    assert Solution2().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 3\n    assert Solution3().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 3\n    assert Solution().rotate([9, 8, 7, 6, 5,"
+    },
+    {
+      "rank": 68,
+      "score": 1.0,
+      "candidate": "import unittest\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return 0\n        if n == 2:\n            return 1\n        if n == 3:\n            return 2\n        return self.numRotationsHelper(nums, 0, n - 1)\n\n    def numRotationsHelper(self, nums, start, end):\n        n = len(nums)\n        if start == end:\n            return 0\n        if start == end - 1:\n            return 1\n        if start == end - 2:\n            return 2\n        if start == end - 3:\n            return 3\n        return self.numRotationsHelper(nums, start + 1, end - 1) + \\\n               self.numRotationsHelper(nums, start + 2, end - 2) + \\\n               self.numRotationsHelper(nums, start + 3, end - 3)\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought:\n\n# 12ms 80.15%\nclass Solution {\n    public int numRotations(int[] nums) {\n        int n = nums.length;\n        if (n == 1) return 0;\n        if (n == 2) return 1;\n        if (n == 3) return 2;\n        return numRotationsHelper(nums, 0, n - 1);\n    }\n    \n    private int numRotationsHelper(int[] nums, int start, int end) {\n        if (start == end) return 0;\n        if (start == end - 1) return 1;\n        if (start == end - 2) return 2;\n        if (start == end - 3) return 3;\n        return numRotationsHelper(nums, start + 1, end - 1) +\n               numRotationsHelper(nums, start"
+    },
+    {
+      "rank": 69,
+      "score": 1.0,
+      "candidate": "def circular_array_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) == 1:\n        return 0\n    return circular_array_rotations(arr[1:]) + arr[0]\n\nclass Solution(object):\n    def circularRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        return circular_array_rotations(nums)"
+    },
+    {
+      "rank": 70,
+      "score": 1.0,
+      "candidate": "def number_of_rotations(arr):\n    # write your code here\n    return 0\n\nif __name__ == '__main__':\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print number_of_rotations(arr)\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n    print number_of_rotations(arr)"
+    },
+    {
+      "rank": 71,
+      "score": 1.0,
+      "candidate": "from collections import deque\n\n\ndef circular_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if not arr or arr.pop()!= 0:\n        return 0\n\n    q = deque(arr)\n    n = len(arr)\n    res = 0\n\n    while q:\n        res += len(q)\n        q.popleft()\n        q.appendleft(q.pop())\n\n    return res % n\n\n\nif __name__ == '__main__':\n    assert circular_rotations([1, 2, 3, 4, 5, 6, 7]) == 2\n    assert circular_rotations([0, 1, 2, 3, 4, 5, 6]) == 5\n    assert circular_rotations([0, 1, 2, 3, 4, 5]) == 0"
+    },
+    {
+      "rank": 72,
+      "score": 1.0,
+      "candidate": "import unittest\n\n\ndef circular_sorted_array(array):\n    \"\"\"\n    :type array: List[int]\n    :rtype: int\n    \"\"\"\n    size = len(array)\n    if size == 0:\n        return 0\n    else:\n        return circular_sorted_array_helper(array, 0, size - 1)\n\n\ndef circular_sorted_array_helper(array, start, end):\n    if start == end:\n        return 1\n    mid = (start + end) / 2\n    if array[mid] < array[start]:\n        return circular_sorted_array_helper(array, mid + 1, end)\n    else:\n        return circular_sorted_array_helper(array, start, mid) + circular_sorted_array_helper(array, mid + 1, end)\n\n\nclass TestMethods(unittest.TestCase):\n    def test_circular_sorted_array(self):\n        self.assertEqual(circular_sorted_array([1, 2, 3, 4, 5]), 5)\n\n\nif __name__ == '__main__':\n    unittest.main()"
+    },
+    {
+      "rank": 73,
+      "score": 1.0,
+      "candidate": "def circular_sort(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    n = len(arr)\n    if n <= 1:\n        return 0\n    middle = n / 2\n    for i in range(1, middle + 1):\n        for j in range(i, n - i):\n            if arr[j] > arr[j + i]:\n                arr[j], arr[j + i] = arr[j + i], arr[j]\n    return circular_sort(arr) + 1\n\n\n# Your CircularSortedArray solution here."
+    },
+    {
+      "rank": 74,
+      "score": 1.0,
+      "candidate": "import unittest\n\nclass Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return self.sortedCircular(nums) - self.sortedCircular(nums[::-1])\n\n    def sortedCircular(self, nums):\n        # Note:\n        #   It's not a problem if nums is a circular array.\n        #   So we can sort it by the last element first.\n        #   Then we can get the number of rotations.\n        #   However, this is still a problem if nums is not a circular array.\n        #   For example, [1,2,3,4] is not a circular array.\n        #   So we can only sort it by the first element.\n        #   And then we can get the number of rotations.\n        #   However, this is still a problem if nums is not a circular array.\n        #   For example, [1,2,3,4] is not a circular array.\n        #   So we can only sort it by the first element.\n        #   And then we can get the number of rotations.\n        #   However, this is still a problem if nums is not a circular array.\n        #   For example, [1,2,3,4] is not a circular array.\n        #   So we can only sort it by the last element.\n        #   And then we can get the number of rotations.\n        #   However, this is still a problem if nums is not a circular array.\n        if len(nums) == 0:\n            return 0\n        if len(nums) == 1:\n            return 0\n        if len(nums) == 2:\n            return 1\n        if len(nums) == 3:\n            return 2\n        # Here nums is a circular array.\n        # So we can sort it by the last element first.\n        # Then we can get the number of rotations.\n        # However, this is still a problem if nums is not a circular array.\n        #"
+    },
+    {
+      "rank": 75,
+      "score": 1.0,
+      "candidate": "import unittest\n\n\nclass Solution(object):\n    def circularRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def count(nums, start, end):\n            if start == end:\n                return 0\n            count = 1\n            for i in range(start, end):\n                if nums[i] < nums[start]:\n                    count += 1\n                else:\n                    break\n            for i in range(end - 1, start - 1, -1):\n                if nums[i] < nums[start]:\n                    count += 1\n                else:\n                    break\n            return count\n\n        res = 0\n        for i in range(len(nums)):\n            res += count(nums, 0, i)\n        return res\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/circular-array-rotation/solution/\n\nApproach 1: Sort\nComplexity Analysis\nTime Complexity: O(n log n), where n is the length of the input array.\nSpace Complexity: O(n log n).\n\n# 14ms 99.38%\nclass Solution {\n    public int circularRotations(int[] nums) {\n        int n = nums.length;\n        int res = 0;\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n - i; j++) {\n                if (nums[j] > nums[j + 1]) res++;\n            }\n        }\n        return res;\n    }\n}\n\nApproach 2: DP\nComplexity Analysis\nTime Complexity: O(n log n), where n is the length of the input array.\nSpace Complexity: O(n).\n\n# 7ms 99.62%\nclass Solution {\n    public int circularRotations(int[] nums) {\n        int n"
+    },
+    {
+      "rank": 76,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def numRotations(self, nums):\n        # write your code here\n        if not nums: return 0\n        \n        n = len(nums)\n        if n == 1: return 0\n        \n        # find the first element of nums that is not in range [0, n-1]\n        i = 0\n        while i < n and nums[i] <= n-1:\n            i += 1\n        \n        # calculate the number of rotations\n        count = 0\n        j = i\n        while j < n:\n            count += 1\n            j = i + nums[i]\n            \n        return count"
+    },
+    {
+      "rank": 77,
+      "score": 1.0,
+      "candidate": "# https://oj.leetcode.com/problems/circular-array/\n# Given an array of n elements where each element is either 0 or 1,\n# write a function to find the number of elements that are rotated to the left.\n#\n# For example, with array [0, 1, 1, 1, 0, 1, 1, 1, 1],\n# the function should return 4.\n#\n# Note:\n#\n#     The length of the given array will be in the range [1, 20,000].\n#     The given array may contain duplicates, and they are fine.\n#     You may assume the number of elements in the given array will be at most 1000.\n#\n# Credits:Special thanks to @mithmatt for adding this problem and creating all test cases.\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#"
+    },
+    {
+      "rank": 78,
+      "score": 1.0,
+      "candidate": "def count_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    return sum(1 for _ in range(len(arr) - 1))\n\n\nif __name__ == '__main__':\n    assert(count_rotations([1, 2, 3, 4, 5, 6]) == 4)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7]) == 5)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8]) == 6)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 7)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 8)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == 9)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) == 10)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]) == 11)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) == 12)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) == 13)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]) == 14)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]) == 15)\n    assert(count_rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11"
+    },
+    {
+      "rank": 79,
+      "score": 1.0,
+      "candidate": "def rotate(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    rotate_array(arr, 1, len(arr) - 1)\n\n\ndef rotate_array(arr, i, j):\n    \"\"\"\n    Rotate the array from the index i to the index j.\n    \"\"\"\n    for k in range(i, j + 1):\n        arr[k], arr[j] = arr[j], arr[k]\n\n\ndef rotations(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    rotate_array(arr, 0, len(arr) - 1)\n\n\ndef test_rotate():\n    assert rotations([1, 2, 3, 4, 5]) == 1\n    assert rotations([1, 2, 3, 4, 5, 6]) == 2\n    assert rotations([1, 2, 3, 4, 5, 6, 7]) == 3\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8]) == 4\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 5\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 6\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == 7\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) == 8\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]) == 9\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) == 10\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) == 11\n    assert rotations([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]) == 12\n    assert rotations([1, 2, 3, 4,"
+    },
+    {
+      "rank": 80,
+      "score": 1.0,
+      "candidate": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def rotations(self, head: ListNode) -> int:\n        if not head:\n            return 0\n        length = 0\n        curr = head\n        while curr:\n            curr = curr.next\n            length += 1\n        if length % 2 == 1:\n            return 0\n        head = head.next\n        length = 0\n        curr = head\n        while curr:\n            curr = curr.next\n            length += 1\n        return length"
+    },
+    {
+      "rank": 81,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def countRotations(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if len(arr) < 2:\n            return 0\n        count = 0\n        for i in range(len(arr) - 1):\n            if arr[i] > arr[i + 1]:\n                count += 1\n        return count"
+    },
+    {
+      "rank": 82,
+      "score": 1.0,
+      "candidate": "# Definition for a circularly sorted array.\nclass CircularlySortedArray(object):\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        self.nums = nums\n        self.size = len(nums)\n\n    def getRotation(self, index):\n        \"\"\"\n        :type index: int\n        :rtype: int\n        \"\"\"\n        return self.nums[index] + self.nums[index - 1]\n\n    def getRotationCount(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        return sum(self.getRotation(i)!= self.nums[i] for i in range(self.size))\n\n\nclass Solution(object):\n    def rotate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        return self.getRotationCount(nums, k)\n\n\nif __name__ == '__main__':\n    print Solution().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3)\n    print Solution().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2)"
+    },
+    {
+      "rank": 83,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @return an integer\n    def findRotateSteps(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if not arr: return 0\n        n = len(arr)\n        left = 0\n        right = n - 1\n        while left < right:\n            mid = left + (right - left) / 2\n            if arr[mid] > arr[left]:\n                right = mid\n            else:\n                left = mid + 1\n        return n - left\n\n    # @return an integer\n    def findRotateSteps_dp(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if not arr: return 0\n        n = len(arr)\n        if n == 1: return 1\n        dp = [1] * n\n        dp[0] = 1\n        for i in xrange(1, n):\n            dp[i] = dp[i - 1] + dp[i - 1]\n        for i in xrange(1, n):\n            for j in xrange(i + 1, n):\n                if arr[i] > arr[j]:\n                    dp[j] = dp[i] + dp[j - 1]\n        return dp[n - 1]\n\n\na = Solution()\nprint a.findRotateSteps([1,2,3,4,5,6])"
+    },
+    {
+      "rank": 84,
+      "score": 1.0,
+      "candidate": "from collections import Counter\n\ndef solution(A):\n    count = Counter(A)\n    return sum(count.values())\n\nif __name__ == '__main__':\n    assert solution([2, 1, 3, 4]) == 3\n    assert solution([1, 2, 3, 4]) == 2\n    assert solution([1, 2, 3, 4, 5, 6]) == 5\n    assert solution([1, 2, 3, 4, 5, 6, 7]) == 6\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8]) == 7\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 8\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 9\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == 10\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) == 11\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]) == 12\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) == 13\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) == 14\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]) == 15\n    assert solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]) == 16"
+    },
+    {
+      "rank": 85,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def findRotateSteps(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        count = 0\n        for i in xrange(len(nums)):\n            if nums[i] == nums[i - 1]:\n                count += 1\n        return count\n\n\nif __name__ == '__main__':\n    so = Solution()\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    print so.findRotateSteps(nums)"
+    },
+    {
+      "rank": 86,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def circularRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if len(nums) == 1:\n            return 1\n        n = len(nums)\n        i = 0\n        j = n - 1\n        while i < j:\n            if nums[i] > nums[j]:\n                i += 1\n            else:\n                j -= 1\n        return (j - i + 1) % n\n\nif __name__ == '__main__':\n    assert Solution().circularRotations([1, 2, 3, 4]) == 2\n    assert Solution().circularRotations([4, 3, 2, 1]) == 2\n    assert Solution().circularRotations([1, 2, 3, 4, 5, 6, 7, 8]) == 4\n    assert Solution().circularRotations([5, 6, 7, 8, 9, 10]) == 3\n    assert Solution().circularRotations([1, 2, 3, 4, 5, 6]) == 2"
+    },
+    {
+      "rank": 87,
+      "score": 1.0,
+      "candidate": "# https://www.youtube.com/watch?v=dgYWjVlgwEw\n\n# Your code here\ndef circular_array_rotations(array):\n    rotations = 0\n    for i in range(0, len(array) - 1):\n        if array[i] < array[i + 1]:\n            rotations += 1\n    return rotations\n\n\n\n# Test cases\n\ntest_circular_array_rotations([0, 1, 2, 3, 4, 5, 6])\n#>>> 2\n\ntest_circular_array_rotations([1, 2, 3, 4, 5, 6, 7])\n#>>> 3\n\ntest_circular_array_rotations([1, 2, 3, 4, 5, 6, 7, 8])\n#>>> 4"
+    },
+    {
+      "rank": 88,
+      "score": 1.0,
+      "candidate": "class Solution:\n    # @param {integer[]} nums\n    # @return {integer}\n    def findRotations(self, nums):\n        if len(nums) == 0:\n            return 0\n        if len(nums) == 1:\n            return 0\n        if len(nums) == 2:\n            return 1\n        \n        # use the first two numbers to find the number of rotations\n        # if they are the same, we know that the last one is the rotation\n        # the first two numbers are sorted and the last one is not\n        if nums[0] == nums[1]:\n            return nums[len(nums)-2] + 1\n        else:\n            return nums[len(nums)-1] + 1\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    nums = [1,1,2,2,3,3,4]\n    print(sol.findRotations(nums))\n    nums = [1,2,3]\n    print(sol.findRotations(nums))\n    nums = [1,2,3,4,5]\n    print(sol.findRotations(nums))\n    nums = [1,2,3,4,5,6,7]\n    print(sol.findRotations(nums))\n    nums = [1,2,3,4,5,6,7,8]\n    print(sol.findRotations(nums))"
+    },
+    {
+      "rank": 89,
+      "score": 1.0,
+      "candidate": "def number_of_rotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    if len(arr) <= 1:\n        return 0\n    max_val = max(arr)\n    min_val = min(arr)\n    if max_val == min_val:\n        return 0\n    else:\n        return (len(arr) - 1) * (max_val - min_val) + 1\n\nif __name__ == '__main__':\n    assert number_of_rotations([1, 2, 3, 4, 5]) == 4\n    assert number_of_rotations([1, 3, 5, 7, 9, 11]) == 9\n    assert number_of_rotations([-1, -2, -3, -4, -5]) == 1"
+    },
+    {
+      "rank": 90,
+      "score": 1.0,
+      "candidate": "# https://leetcode.com/problems/circular-sorted-array/discuss/47791/Python-3-O(n)-Time-O(1)-Space\nclass Solution(object):\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        nums.sort()\n        return len(set(nums)) - len(nums) % 2"
+    },
+    {
+      "rank": 91,
+      "score": 1.0,
+      "candidate": "import math\nimport unittest\n\n__author__ = 'Daniel'\n\n\nclass Solution(object):\n    def circularRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        return math.ceil(math.sqrt(len(nums)))\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/circular-sorted-array/solution/\n\n# 1ms 100%\nclass Solution {\n    public int circularRotations(int[] nums) {\n        int len = nums.length;\n        int rotations = 0;\n        for (int i = 0; i < len; i++) {\n            if (nums[i] > nums[(i + 1) % len]) {\n                rotations++;\n            }\n        }\n        return rotations;\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public int circularRotations(int[] nums) {\n        int len = nums.length;\n        int rotations = 0;\n        for (int i = 0; i < len; i++) {\n            if (nums[i] > nums[(i + 1) % len]) {\n                rotations++;\n            }\n        }\n        return rotations;\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public int circularRotations(int[] nums) {\n        return (int) Math.ceil(Math.sqrt(nums.length));\n    }\n}\n'''"
+    },
+    {
+      "rank": 92,
+      "score": 1.0,
+      "candidate": "import timeit\n\nstart = timeit.default_timer()\n\ndef rotate(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:\n        arr[i], arr[j] = arr[j], arr[i]\n        i += 1\n        j -= 1\n    return arr\n\ndef rotate_2(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:\n        arr[i], arr[j] = arr[j], arr[i]\n        i += 1\n        j -= 1\n    return arr\n\ndef rotate_3(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:\n        arr[i], arr[j] = arr[j], arr[i]\n        i += 1\n        j -= 1\n    return arr\n\ndef rotate_4(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:\n        arr[i], arr[j] = arr[j], arr[i]\n        i += 1\n        j -= 1\n    return arr\n\ndef rotate_5(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:\n        arr[i], arr[j] = arr[j], arr[i]\n        i += 1\n        j -= 1\n    return arr\n\ndef rotate_6(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:\n        arr[i], arr[j] = arr[j], arr[i]\n        i += 1\n        j -= 1\n    return arr\n\ndef rotate_7(arr):\n    \"\"\"\n    Rotate the array.\n    \"\"\"\n    i = 0\n    j = len(arr)-1\n    while i < j:"
+    },
+    {
+      "rank": 93,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def numRotate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        n = len(nums)\n        count = 0\n        for i in xrange(0, n):\n            count += nums[i] - i - 1\n            if i < n - 1:\n                count += nums[i+1] - i\n        return count"
+    },
+    {
+      "rank": 94,
+      "score": 1.0,
+      "candidate": "def numRotations(arr):\n    \"\"\"\n    :type arr: List[int]\n    :rtype: int\n    \"\"\"\n    # Write your code here\n    if not arr:\n        return 0\n    count = 0\n    for i in range(len(arr)):\n        j = i + 1\n        while j < len(arr):\n            if arr[i] >= arr[j]:\n                break\n            count += 1\n            j += 1\n    return count\n\nif __name__ == \"__main__\":\n    assert numRotations([0, 1, 2, 3, 4]) == 5, \"1\"\n    assert numRotations([5, 4, 3, 2, 1]) == 6, \"2\"\n    assert numRotations([3, 2, 1, 0, 5]) == 7, \"3\"\n    assert numRotations([1, 2, 3, 4, 5]) == 6, \"4\""
+    },
+    {
+      "rank": 95,
+      "score": 1.0,
+      "candidate": "def circular_array_rotations(arr):\n    if not arr:\n        return 0\n    else:\n        return circular_array_rotations(arr[1:]) + 1"
+    },
+    {
+      "rank": 96,
+      "score": 1.0,
+      "candidate": "def numRotations(arr):\n    # write your code here\n    # https://www.hackerrank.com/challenges/circular-array-rotations/problem\n    \n    # Count the number of rotations in the array\n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    # return 0 if the array is not circular\n    # return 1 if the array is circular\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    # n is the length of the array\n    # arr is the array to be rotated\n    # return the count of rotations\n    \n    #"
+    },
+    {
+      "rank": 97,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def rotate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if k == 0 or len(nums) == 1:\n            return k\n\n        mid = len(nums) // 2\n        nums.reverse()\n        nums.insert(mid, 0)\n        nums.pop()\n        nums.insert(0, len(nums) - 1)\n        return self.rotate(nums, k - 1)\n\n\nif __name__ == '__main__':\n    assert Solution().rotate([1, 2, 3, 4], 3) == 3\n    assert Solution().rotate([1, 2, 3, 4], 2) == 0\n    assert Solution().rotate([1, 2, 3, 4], 1) == 3\n    assert Solution().rotate([1, 2, 3, 4], 0) == 4"
+    },
+    {
+      "rank": 98,
+      "score": 1.0,
+      "candidate": "# Definition for a circularly sorted array.\n# class CircularlySortedArray(object):\n#     def __init__(self, nums):\n#         \"\"\"\n#         :type nums: List[int]\n#         \"\"\"\n#         self.nums = nums\n\nclass Solution(object):\n    def numRotations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        size = len(nums)\n        res = 0\n        for i in range(size):\n            j = i\n            while j < size and nums[i] == nums[j]:\n                j += 1\n            res += j - i\n        return res % size + 1"
+    },
+    {
+      "rank": 99,
+      "score": 1.0,
+      "candidate": "class Solution(object):\n    def findRotateSteps(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return 0\n        \n        # count number of steps to rotate\n        ans = 0\n        for i in range(1, n):\n            if nums[i] >= nums[i-1]:\n                ans += 1\n        return ans"
+    },
+    {
+      "rank": 100,
+      "score": 1.0,
+      "candidate": "# Definition for a circularly sorted array.\nclass CircularlySortedArray:\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        self.nums = nums\n        self.circ_len = len(nums)\n\n    def circularly_sorted(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        return self.circ_len - circular_sort(self.nums)\n\n\n# Returns the number of rotations in circularly sorted array.\ndef circular_sort(nums):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: int\n    \"\"\"\n    len = len(nums)\n    if len == 0:\n        return 0\n    if len == 1:\n        return 1\n    if len == 2:\n        return nums[1] - nums[0]\n    if len == 3:\n        return nums[2] - nums[0] + nums[1] - nums[1]\n    \n    i = 0\n    j = len - 1\n    while i < j:\n        if nums[i] > nums[j]:\n            nums[i], nums[j] = nums[j], nums[i]\n            i += 1\n        else:\n            j -= 1\n    return circular_sort(nums[i + 1:]) + circular_sort(nums[:i])\n\n\nif __name__ == '__main__':\n    assert CircularlySortedArray([1]).circularly_sorted() == 1\n    assert CircularlySortedArray([1, 2, 3]).circularly_sorted() == 3\n    assert CircularlySortedArray([1, 2, 3, 4]).circularly_sorted() == 4\n    assert CircularlySortedArray([1, 2, 3, 4, 5, 6, 7]).circularly_sorted() == 7\n    assert CircularlySortedArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21"
+    }
+  ]
+}

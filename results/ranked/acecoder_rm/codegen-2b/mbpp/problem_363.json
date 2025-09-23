@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/374",
+    "prompt": "Write a function to print all permutations of a given string including duplicates.",
+    "canonical_solution": "def permute_string(str):\r\n    if len(str) == 0:\r\n        return ['']\r\n    prev_list = permute_string(str[1:len(str)])\r\n    next_list = []\r\n    for i in range(0,len(prev_list)):\r\n        for j in range(0,len(str)):\r\n            new_str = prev_list[i][0:j]+str[0]+prev_list[i][j:len(str)-1]\r\n            if new_str not in next_list:\r\n                next_list.append(new_str)\r\n    return next_list",
+    "test_list": [
+      "assert permute_string('ab')==['ab', 'ba']",
+      "assert permute_string('abc')==['abc', 'bac', 'bca', 'acb', 'cab', 'cba']",
+      "assert permute_string('abcd')==['abcd', 'bacd', 'bcad', 'bcda', 'acbd', 'cabd', 'cbad', 'cbda', 'acdb', 'cadb', 'cdab', 'cdba', 'abdc', 'badc', 'bdac', 'bdca', 'adbc', 'dabc', 'dbac', 'dbca', 'adcb', 'dacb', 'dcab', 'dcba']"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 363
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def print_permutations(s):\n    \"\"\"\n    :type s: str\n    :rtype: None\n    \"\"\"\n    if len(s) == 1:\n        print(s)\n        return\n\n    for i in range(len(s)):\n        print_permutations(s[:i] + s[i+1:])\n\nprint_permutations(\"ab\")",
+      1.6904296875
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def allPermutations(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[str]]\n        \"\"\"\n        self.result = []\n        self.dfs(s, [], 0)\n        return self.result\n\n    def dfs(self, s, path, index):\n        if index == len(s):\n            self.result.append(path)\n            return\n        for i in range(index, len(s)):\n            path.append(s[i])\n            self.dfs(s, path, index+1)\n            path.pop()",
+      1.6845703125
+    ],
+    [
+      "def print_permutations(s):\n    if len(s) == 0:\n        return\n    s_copy = s[:]\n    print_permutations(s_copy)\n    for i in range(len(s)):\n        if s_copy[i]!= s[i]:\n            s_copy[i] = s[i]\n            print_permutations(s_copy)\n            s_copy[i] = s[i]\n            s_copy[i] = s[i]\n    return\n\nprint_permutations('abcd')",
+      1.5703125
+    ],
+    [
+      "def print_permutations(s):\n    if len(s) == 1:\n        print s\n    else:\n        for i in range(len(s)):\n            for j in range(i+1, len(s)):\n                print s[i:j],\n            print\n        print\n\ndef permutations(s):\n    if len(s) == 1:\n        return [s]\n    else:\n        res = []\n        for i in range(len(s)):\n            for j in permutations(s[:i] + s[i+1:]):\n                res.append(s[:i] + j + s[i+1:])\n        return res\n\nprint_permutations(\"abc\")\nprint\nprint_permutations(\"abcd\")\nprint\nprint_permutations(\"abcd\")\nprint\nprint_permutations(\"abcd\")\nprint\nprint_permutations(\"abcd\")\nprint",
+      1.568359375
+    ],
+    [
+      "import string\n\ndef permutations(string):\n    if not string:\n        yield []\n    else:\n        for perm in permutations(string[1:]):\n            for c in string:\n                yield [string[:]] + perm + [c]\n\nif __name__ == \"__main__\":\n    print(\"\\n\".join(sorted(permutations(\"abcd\"))))",
+      1.361328125
+    ],
+    [
+      "def permute(string):\n    if len(string) == 1:\n        return [string]\n    res = []\n    for i in range(len(string)):\n        for j in range(i+1, len(string)):\n            res.append(string[i] + string[j])\n    return permute(res)\n\nprint permute('aa')",
+      1.0634765625
+    ],
+    [
+      "class Solution(object):\n    def permuteUnique(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[str]]\n        \"\"\"\n        # http://www.cnblogs.com/tenlee/archive/2012/10/22/2888686.html\n        def dfs(s, result):\n            if len(s) == 0:\n                return result\n            for i in range(len(s)):\n                if i!= 0 and s[i] == s[i - 1]:\n                    continue\n                result.append(s[:i] + s[i:] + s[:i])\n                dfs(s[i:], result)\n        result = []\n        dfs(s, result)\n        return result",
+      0.98046875
+    ],
+    [
+      "def perm(seq, r = None):\n\tif r is None:\n\t\tr = len(seq)\n\tfor i in range(len(seq)):\n\t\tfor j in range(r - i):\n\t\t\tyield(seq[:i] + seq[j:r] + seq[i:])\n\nprint(perm(\"abc\"))\nprint(perm(\"abc\", 2))",
+      0.87744140625
+    ],
+    [
+      "class Solution:\n    # @param s, a string\n    # @return a list of strings\n    def permute(self, s):\n        if not s:\n            return []\n        result = []\n        self.recursive(s, result, [])\n        return result\n\n    def recursive(self, s, result, path):\n        if len(path) == len(s):\n            result.append(path)\n            return\n        for i in range(len(s)):\n            if i > 0 and s[i-1] == s[i]:\n                continue\n            self.recursive(s[:i]+s[i+1:], result, path+[s[i]])\n\n\nif __name__ == \"__main__\":\n    print Solution().permute(\"aabcc\")",
+      0.484375
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[str]\n    \"\"\"\n    # https://www.hackerrank.com/challenges/permutations/problem\n    return [''.join(i) for i in combinations(string, len(string))]\n\n\nif __name__ == '__main__':\n    print permutations('abacd')",
+      0.385498046875
+    ],
+    [
+      "class Solution:\n    # @return a list of strings\n    def getPermutation(self, s, k):\n        if not s:\n            return [s]\n        res = []\n        self.getPermutation(s[1:], k-1, res)\n        for i in range(k):\n            self.getPermutation(s[1:], k-i-1, res)\n        return res\n\nif __name__ == \"__main__\":\n    print Solution().getPermutation(\"ab\", 3)",
+      0.2249755859375
+    ],
+    [
+      "from itertools import permutations\nfrom collections import deque\n\ndef permute(s):\n    if not s:\n        yield []\n    else:\n        for p in permutations(s):\n            for i in permute(s[1:]):\n                yield [s[0]] + i\n\ndef main():\n    print(permute('abcd'))\n\nif __name__ == '__main__':\n    main()",
+      -0.1446533203125
+    ],
+    [
+      "class Solution(object):\n    def permute(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        if s == '':\n            return []\n        if len(s) == 1:\n            return [s]\n        res = []\n        self.permute_rec(s, res)\n        return res\n\n    def permute_rec(self, s, res):\n        if len(s) == 1:\n            res.append(s)\n        else:\n            for i in range(len(s)):\n                self.permute_rec(s[:i] + s[i+1:], res)\n                res.append(s[i])",
+      -0.200439453125
+    ],
+    [
+      "import collections\n\ndef permutations(string):\n    \"\"\"\n    Given a string, print all permutations of it.\n\n    Example\n    Input:\n    string = \"abc\"\n\n    Output:\n    [\"abc\", \"acb\", \"bac\", \"bca\", \"cab\", \"cba\"]\n    \"\"\"\n    if not string:\n        return []\n    if len(string) == 1:\n        return [string]\n    return collections.permutations(string, len(string) - 1)\n\nif __name__ == \"__main__\":\n    for permutation in permutations(\"abc\"):\n        print permutation",
+      -0.4677734375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/permutations/problem\n\nimport string\n\ndef permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[str]\n    \"\"\"\n    return [''.join(sorted(string)) for s in string]\n\nif __name__ == '__main__':\n    string = 'abracadabra'\n    print(permutations(string))",
+      -0.65478515625
+    ],
+    [
+      "def permute(s):\n    if not s:\n        return\n    res = []\n    for i in range(len(s)):\n        for p in permute(s[:i] + s[i+1:]):\n            res.append(s[:i] + p + s[i+1:])\n    if s not in res:\n        res.append(s)\n    return res\n\nif __name__ == '__main__':\n    s = 'abc'\n    print(permute(s))",
+      -0.8330078125
+    ],
+    [
+      "import re\n\ndef permutations(s):\n    s_perm = []\n    for i in range(len(s)):\n        for j in range(i+1, len(s)):\n            s_perm.append(s[:i]+s[j]+s[i:])\n    return s_perm\n\nif __name__ == '__main__':\n    s = 'abc'\n    print permutations(s)\n    s = 'abcd'\n    print permutations(s)\n    s = 'abbc'\n    print permutations(s)",
+      -0.85693359375
+    ],
+    [
+      "def print_permutations(s):\n    if s == \"\":\n        return\n    print_permutations(s[1:])\n    print(s)\n\n\ndef print_permutations2(s):\n    if s == \"\":\n        return\n    print_permutations2(s[1:])\n    print(s, end=\"\")\n\n\nprint_permutations(\"abca\")\nprint_permutations2(\"abca\")",
+      -0.85693359375
+    ],
+    [
+      "def print_all_permutations(string):\n    \"\"\"\n    string: string to print all permutations of\n    \"\"\"\n    if len(string) == 1:\n        print(string)\n        return\n\n    print_all_permutations(string[1:])\n    for i in range(len(string)):\n        for j in range(i+1, len(string)):\n            print(string[i] + string[j], end=\"\")\n            print_all_permutations(string[:i] + string[j+1:] + string[i:])\n\n\n\nif __name__ == '__main__':\n    string = \"abc\"\n    print_all_permutations(string)",
+      -0.85693359375
+    ],
+    [
+      "def permutations(string):\n    if len(string) == 0:\n        return 1\n    result = permutations(string[1:])\n    for i in range(len(string)):\n        result = itertools.chain(result, itertools.permutations(string))\n    return result\n\nif __name__ == \"__main__\":\n    string = \"abcd\"\n    print permutations(string)",
+      -0.85693359375
+    ],
+    [
+      "import string\n\ndef permute_string(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[str]\n    \"\"\"\n    # Sort the string\n    string_list = sorted(string)\n    # Create a list of strings\n    string_list_new = []\n    for char in string_list:\n        for i in range(len(string_list)):\n            if char!= string_list[i]:\n                string_list_new.append(char + string_list[i])\n    # Print the strings\n    return string_list_new\n\nif __name__ == '__main__':\n    string = 'abc'\n    print(permute_string(string))",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n    def getPermutation(self, s, r):\n        if len(s) == 1:\n            return [s]\n        res = []\n        self.getPermutation(s[1:], r - 1)\n        for i in xrange(r - 1, -1, -1):\n            s = s[0:i + 1] + s[i + 1:r] + s[0:i]\n            res.append(s)\n        return res\n\n\nif __name__ == \"__main__\":\n    s = \"abc\"\n    r = 3\n    print Solution().getPermutation(s, r)",
+      -0.85693359375
+    ],
+    [
+      "import string\nimport itertools\n\ndef print_permutations(string, result):\n    if len(string) == 1:\n        print string,\n    else:\n        for perm in itertools.permutations(string):\n            result.append(perm)\n            print_permutations(string[1:], result)\n\nprint_permutations('abcd', [])",
+      -0.85693359375
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    string: the string to be permuted.\n    returns: a list of strings which are permutations of the input string.\n    \"\"\"\n    if not string:\n        return []\n    return permutations(string[1:]) + [string] + permutations(string[:-1])\n\ndef main():\n    string = input()\n    print(permutations(string))\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "import sys\nimport string\n\ndef print_permutations(s):\n    if len(s) == 1:\n        print s\n    else:\n        for perm in print_permutations(s[1:]):\n            print s[0] + perm\n\nif __name__ == '__main__':\n    print_permutations(sys.argv[1])",
+      -0.85693359375
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n    def allPermutations(self, s):\n        if not s:\n            return []\n        res = []\n        self.helper(s, res, [])\n        return res\n\n    def helper(self, s, res, cur):\n        if len(cur) == len(s):\n            res.append(cur)\n            return\n        for i in range(len(s)):\n            if i > 0 and s[i] == s[i-1]:\n                continue\n            cur.append(s[i])\n            self.helper(s, res, cur)\n            cur.pop()\n\n# Note:\n# https://leetcode.com/problems/all-permutations/",
+      -0.85693359375
+    ],
+    [
+      "# https://leetcode.com/problems/permutations/\n\n\nclass Solution(object):\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        res = []\n        self.permute_rec(nums, res)\n        return res\n\n    def permute_rec(self, nums, res):\n        if not nums:\n            res.append(nums)\n            return\n        for i in range(len(nums)):\n            if i == len(nums) - 1:\n                res.append(nums[:])\n            else:\n                self.permute_rec(nums[:i] + nums[i + 1:], res)",
+      -0.85693359375
+    ],
+    [
+      "# Write your code here\n\ndef perm(string):\n    if len(string) == 1:\n        yield string\n    else:\n        for i in range(len(string)):\n            for x in perm(string[:i] + string[i+1:]):\n                yield string[:i] + x + string[i+1:]\n\ndef main():\n    print perm('hello')\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def print_all_permutations(string):\n    if not string:\n        return\n    print_all_permutations(string[1:])\n    print(string)\n\nprint_all_permutations(\"a\")",
+      -0.857421875
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: Iterable[str]\n    \"\"\"\n    return",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def permute(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[str]\n        \"\"\"\n        return self.permute_rec(num, [])\n\n    def permute_rec(self, num, res):\n        if not num:\n            return res\n        for i in xrange(len(num)):\n            res = self.permute_rec(num[:i] + num[i+1:], res + [num[i]])\n        return res\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.permute('abc')\n    print s.permute('bbbb')\n    print s.permute('aaabb')\n    print s.permute('aab')",
+      -0.85791015625
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[str]\n    \"\"\"\n    if not string:\n        return [string]\n    res = []\n    for i in range(len(string)):\n        temp = string[:i] + string[i+1:]\n        res.append(temp)\n        temp = string[:i] + string[i:]\n        res.append(temp)\n    return res",
+      -0.85791015625
+    ],
+    [
+      "import unittest\n\ndef permutations(string):\n    if string == \"\":\n        yield []\n    else:\n        for perm in permutations(string[1:]):\n            for i in range(len(perm)):\n                yield [string[0]] + perm[i:]\n\n\nclass TestPermutations(unittest.TestCase):\n    def test_permutations(self):\n        self.assertEqual(list(permutations(\"abc\")),\n                         [[\"a\", \"b\", \"c\"], [\"a\", \"b\"], [\"a\"], [\"b\", \"c\"], [], [\"c\"], [\"b\"], [\"a\"]])\n\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      -0.85791015625
+    ],
+    [
+      "import string\n\ndef permutations(s):\n    \"\"\"\n    Returns all permutations of a string\n    \"\"\"\n    if not s:\n        yield []\n    else:\n        for perm in permutations(s[1:]):\n            for i in range(len(s)):\n                yield [s[:i] + char + s[i+1:] for char in string.ascii_uppercase] + perm\n\nif __name__ == \"__main__\":\n    s = \"abcabc\"\n    for perm in permutations(s):\n        print(perm)",
+      -0.85791015625
+    ],
+    [
+      "import string\n\n\ndef perm(s, i):\n    if len(s) == i:\n        yield s\n    else:\n        for c in perm(s[1:], i):\n            yield s[0] + c\n\n\ndef print_permutations(s):\n    for p in perm(s, len(s)):\n        print(p)\n\n\nif __name__ == \"__main__\":\n    s = \"abcd\"\n    print_permutations(s)",
+      -0.85791015625
+    ],
+    [
+      "class Solution(object):\n    def permute(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        if not s:\n            return []\n        res = []\n        self.permute_helper(s, [], res)\n        return res\n\n    def permute_helper(self, s, res, res_new):\n        if len(res) == len(res_new):\n            res.append(s)\n            return\n        for i in range(len(res)):\n            if res[i]!= s:\n                continue\n            self.permute_helper(s, res_new, res)\n            res_new.append(s)",
+      -0.8583984375
+    ],
+    [
+      "def print_permutation(s):\n    \"\"\"\n    :type s: str\n    :rtype: None\n    \"\"\"\n    if len(s) == 1:\n        print s\n        return\n\n    for i in range(len(s)):\n        print_permutation(s[:i] + s[i+1:])\n        print s[i]\n\nprint_permutation(\"aab\")",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[str]\n        :rtype: List[List[str]]\n        \"\"\"\n        if not nums:\n            return []\n        \n        res = []\n        self.permuteRec(nums, [], res)\n        return res\n    \n    def permuteRec(self, nums, cur, res):\n        if not nums:\n            res.append(cur)\n            return\n        \n        for i in range(len(nums)):\n            if i == 0:\n                self.permuteRec(nums[:i] + nums[i+1:], cur + [nums[i]], res)\n            else:\n                self.permuteRec(nums[:i] + nums[i+1:], cur + [nums[i]], res)\n                self.permuteRec(nums[:i] + nums[i+1:], cur, res)",
+      -0.8583984375
+    ],
+    [
+      "def print_all_permutations(string, out):\n    \"\"\"\n    Write a function to print all permutations of a given string including duplicates.\n    Input:\n        string: a string to be printed\n        out: an output stream\n    Output:\n        None\n    \"\"\"\n    if not string:\n        return\n    if not out:\n        return\n    if not string[0]:\n        out.write(string)\n        return\n    char = string[0]\n    print_all_permutations(string[1:], out)\n    for i in range(len(string) - 2):\n        out.write(string[0])\n        out.write(string[i+1])\n        out.write(char)\n        out.write(string[i+2])\n        print_all_permutations(string[i+3:], out)\n\nprint_all_permutations(\"abc\", out=None)",
+      -0.8583984375
+    ],
+    [
+      "import sys\nsys.path.append('..')\nfrom string_permutations import permutations\nfrom string_permutations import all_permutations\n\nif __name__ == '__main__':\n    test_string = \"abc\"\n    test_string_copy = test_string\n    # print permutations(test_string)\n    print all_permutations(test_string)",
+      -0.85888671875
+    ],
+    [
+      "class Solution(object):\n    def permute(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[List[str]]\n        \"\"\"\n        if not num:\n            return [[]]\n        self.res = []\n        self.permuteHelper(num, 0, [])\n        return self.res\n\n    def permuteHelper(self, num, index, res):\n        if index == len(num):\n            self.res.append(res)\n            return\n        for i in xrange(index, len(num)):\n            res.append(num[index:i] + num[i:])\n            self.permuteHelper(num, i + 1, res)\n\n\nif __name__ == '__main__':\n    solution = Solution()\n    print solution.permute('ab')",
+      -0.85888671875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/permutations/problem\n\n# Create a list of chars in the string\ndef get_chars(str):\n    return [char for char in str]\n\n# Sort the chars in the string\ndef sort_chars(str):\n    return sorted(str)\n\n# Create a list of strings\ndef create_strings(chars, n):\n    strings = []\n    for i in range(n):\n        strings.append(''.join(chars))\n    return strings\n\n# Generate all permutations of a given string\ndef permutations(str):\n    chars = get_chars(str)\n    chars.sort()\n    strings = create_strings(chars, len(chars))\n    return [''.join(strings[i]) for i in range(len(strings))]\n\n# Print all permutations of a given string\ndef print_permutations(str):\n    permutations = permutations(str)\n    for perm in permutations:\n        print perm\n\nif __name__ == '__main__':\n    str = input()\n    print_permutations(str)",
+      -0.90869140625
+    ],
+    [
+      "def permutations(s):\n    res = []\n    if not s:\n        return res\n    for i in range(len(s)):\n        for p in permutations(s[:i] + s[i + 1:]):\n            p.append(s[i])\n            res.append(p)\n    return res\n\nif __name__ == '__main__':\n    s = 'abcd'\n    res = permutations(s)\n    print(res)",
+      -0.966796875
+    ],
+    [
+      "class Solution(object):\n    def permuteUnique(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[str]]\n        \"\"\"\n        def dfs(s, result):\n            if len(s) == 0:\n                result.append(s)\n            else:\n                for i in range(len(s)):\n                    dfs(s[:i] + s[i+1:] + s[:i], result)\n        result = []\n        dfs(s, result)\n        return result",
+      -1.015625
+    ],
+    [
+      "def printPermutations(string):\n    if len(string) == 1:\n        print(string)\n        return\n    for i in range(len(string)):\n        printPermutations(string[:i] + string[i+1:])\n\nprintPermutations(\"a\")",
+      -1.328125
+    ],
+    [
+      "# https://leetcode.com/problems/permutations-of-a-string/description/\n\nclass Solution(object):\n    def permute(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        result = []\n        self.dfs(s, result, [], 0)\n        return result\n\n    def dfs(self, s, result, p, i):\n        if i == len(s):\n            result.append(p)\n            return\n        for j in range(i, len(s)):\n            p.append(s[i:j+1])\n            self.dfs(s, result, p, j+1)\n            p.pop()\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.permute('abcd')",
+      -1.7763671875
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param s, a string\n    # @return a list of strings\n    def permute(self, s):\n        if not s:\n            return []\n        if len(s) == 1:\n            return [s]\n        res = []\n        self.permuteRec(s, [], res)\n        return res\n\n    def permuteRec(self, s, cur, res):\n        if len(cur) == len(s):\n            res.append(cur)\n            return\n        for i in range(len(s)):\n            if i == len(cur):\n                self.permuteRec(s, cur + [s[i]], res)\n            else:\n                self.permuteRec(s, cur + [s[i]], res)\n                self.permuteRec(s, cur + [s[i]], res)\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.permute('abc')",
+      -1.9521484375
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/find-all-permutations/problem\n\ndef permutations(string):\n    \"\"\"\n    Given a string, print all permutations of it.\n\n    Time Complexity: O(n!)\n    \"\"\"\n    if len(string) == 1:\n        return [string]\n\n    permutations = []\n    for i in range(len(string)):\n        for j in range(len(string)):\n            if i!= j:\n                new_string = string[:i] + string[j+1:]\n                if len(new_string) == len(string):\n                    permutations.append(new_string)\n\n    return permutations\n\nif __name__ == '__main__':\n    string = input()\n    print(permutations(string))",
+      -2.404296875
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    string: string to be permuted.\n    Return a generator that yields all permutations of the given string.\n    \"\"\"\n    if not string:\n        yield []\n    else:\n        for perm in permutations(string[1:]):\n            for i in range(len(perm)):\n                yield perm[:i] + string + perm[i:]\n\nif __name__ == \"__main__\":\n    print(permutations(\"abc\"))",
+      -2.447265625
+    ],
+    [
+      "def print_permutations(string):\n\tstring_list = [string]\n\tstring_list.sort()\n\tprint(string_list)\n\t\n\nprint_permutations(\"a\")\nprint_permutations(\"ab\")\nprint_permutations(\"abc\")\nprint_permutations(\"b\")\nprint_permutations(\"bb\")\nprint_permutations(\"bc\")\nprint_permutations(\"bcc\")\nprint_permutations(\"c\")\nprint_permutations(\"ccc\")\nprint_permutations(\"ccccc\")\nprint_permutations(\"ccccccc\")\nprint_permutations(\"ccccccccc\")\nprint_permutations(\"ccccccccccc\")\nprint_permutations(\"ccccccccccccc\")\nprint_permutations(\"ccccccccccccccc\")\nprint_permutations(\"ccccccccccccccccccc\")\nprint_permutations(\"ccccccccccccccccccccccc\")\nprint_permutations(\"ccccccccccccccccccccccccccc\")\nprint_permutations(\"ccccccccccccccccccccccccccccccccccccc\")",
+      -2.541015625
+    ],
+    [
+      "import sys\n\n# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        res = []\n        self.helper(res, nums, [], 0)\n        return res\n\n    def helper(self, res, nums, cur, i):\n        if len(nums) == i:\n            res.append(cur)\n            return\n\n        for j in range(i, len(nums)):\n            if i == 0:\n                tmp = TreeNode(nums[j], None, None)\n            else:\n                tmp = TreeNode(nums[j], cur[i-1], None)\n            self.helper(res, nums, [tmp], j+1)\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    nums = [1, 2, 2, 3]\n    print(sol.permute(nums))\n    nums = [1, 1, 2, 2, 3, 3]\n    print(sol.permute(nums))",
+      -2.732421875
+    ],
+    [
+      "class Solution(object):\n    def permute(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[str]\n        \"\"\"\n        if not num:\n            return []\n\n        res = []\n        self.permute_recursive(num, res)\n        return res\n\n    def permute_recursive(self, num, res):\n        if len(num) == 1:\n            res.append(num)\n            return\n\n        for i in range(len(num)):\n            self.permute_recursive(num[:i] + num[i + 1:], res)\n\n    def permute_iterative(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[str]\n        \"\"\"\n        res = []\n        self.permute_iterative_recursive(num, res)\n        return res\n\n    def permute_iterative_recursive(self, num, res):\n        if not num:\n            return\n\n        self.permute_iterative_recursive(num[1:], res)\n        res.append(num[0])\n        self.permute_iterative_recursive(num[1:], res)\n\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print(s.permute_iterative(\"abcd\"))\n    print(s.permute(\"abcd\"))",
+      -2.78125
+    ],
+    [
+      "class Solution:\n    # @param s, a string\n    # @return a list of strings\n    def permute(self, s):\n        if s == \"\":\n            return []\n        res = []\n        self.helper(s, res, [])\n        return res\n\n    def helper(self, s, res, cur):\n        if len(cur) == len(s):\n            res.append(s)\n            return\n        for i in range(len(s)):\n            if i == len(cur) or s[i]!= cur[i]:\n                self.helper(s, res, cur + [s[i]])\n                cur.append(s[i])\n\n\nif __name__ == \"__main__\":\n    print Solution().permute(\"aabcc\")",
+      -2.99609375
+    ],
+    [
+      "import string\nimport random\n\ndef permutations(string, n):\n    if n == 1:\n        yield string\n    else:\n        for perm in permutations(string[1:], n-1):\n            for c in string:\n                yield string[:1] + c + perm\n\ndef print_permutations(string):\n    for perm in permutations(string, len(string)):\n        print(perm)\n\nprint_permutations('a')",
+      -3.15625
+    ],
+    [
+      "from collections import deque\n\ndef print_perm(s):\n    def rec(s, i):\n        if i == len(s):\n            print s\n        else:\n            for j in range(i, len(s)):\n                rec(s[:i] + s[j:], j)\n    rec(s, 0)\n\ndef perm(s):\n    return ''.join(map(str, deque(s)))\n\nprint_perm('ab')",
+      -3.39453125
+    ],
+    [
+      "def all_permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[List[str]]\n    \"\"\"\n    string_list = []\n    for i in range(len(string)):\n        for j in range(i):\n            string_list.append(string[:i] + string[j] + string[i:])\n    return string_list\n\nif __name__ == '__main__':\n    string = \"abc\"\n    print(all_permutations(string))",
+      -3.412109375
+    ],
+    [
+      "# Definition for a  string\nclass String:\n    def __init__(self, s):\n        self.s = s\n\n    def __len__(self):\n        return len(self.s)\n\n    def __str__(self):\n        return self.s\n\n    def __repr__(self):\n        return 'String:'+ self.s\n\n\nclass Solution:\n    # @param s, a string\n    # @return a list of strings\n    def permute(self, s):\n        if len(s) == 1:\n            yield s\n        else:\n            for i in range(len(s)):\n                for j in self.permute(s[:i] + s[i + 1:]):\n                    yield s[:i] + j + s[i + 1:]\n\n\nif __name__ == '__main__':\n    s = String('abcd')\n    s1 = String('cdab')\n    s2 = String('bacd')\n    s3 = String('bdac')\n    s4 = String('cbad')\n    s5 = String('dabc')\n    s6 = String('dbca')\n    s7 = String('dcba')\n\n    print(Solution().permute(s))\n    print(Solution().permute(s1))\n    print(Solution().permute(s2))\n    print(Solution().permute(s3))\n    print(Solution().permute(s4))\n    print(Solution().permute(s5))\n    print(Solution().permute(s6))\n    print(Solution().permute(s7))",
+      -3.759765625
+    ],
+    [
+      "def permutations(s):\n    # +++your code here+++\n    res = []\n    if not s:\n        return res\n    if len(s) == 1:\n        res.append(s)\n        return res\n    for i in range(len(s)):\n        res.extend(permutations(s[:i] + s[i + 1:]))\n    return res\n\nif __name__ == '__main__':\n    print permutations('abcd')",
+      -3.8671875
+    ],
+    [
+      "from collections import deque\n\ndef print_all_permutations(string):\n    if not string:\n        return\n    elif len(string) == 1:\n        print(string)\n    else:\n        for i in range(len(string)):\n            print_all_permutations(string[:i] + string[i+1:])\n\nif __name__ == '__main__':\n    string = \"abcdefghijklmnopqrstuvwxyz\"\n    print_all_permutations(string)",
+      -3.97265625
+    ],
+    [
+      "def print_perm(s):\n    for i in range(len(s)):\n        for j in range(i, len(s)):\n            if i!= j:\n                print s[i:j+1]\n\nif __name__ == '__main__':\n    s = \"abc\"\n    print_perm(s)\n    s = \"abcd\"\n    print_perm(s)\n    s = \"abcde\"\n    print_perm(s)\n    s = \"abcdef\"\n    print_perm(s)\n    s = \"abcdefgh\"\n    print_perm(s)\n    s = \"abcdabc\"\n    print_perm(s)\n    s = \"abcabc\"\n    print_perm(s)",
+      -4.4921875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/permutations\n\ndef permute(string):\n    \"\"\"\n    :type string: str\n    :rtype: Iterable[str]\n    \"\"\"\n    string = list(string)\n    for index in range(len(string)):\n        for perm in permute(string[:index] + string[index+1:]):\n            yield string[:index] + perm + string[index+1:]\n\nif __name__ == '__main__':\n    string = input().strip()\n    print(list(permute(string)))",
+      -4.77734375
+    ],
+    [
+      "import string\n\ndef perm(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm_duplicate(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate_2(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm_duplicate_2(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate_3(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm_duplicate_3(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate_4(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm_duplicate_4(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate_5(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm_duplicate_5(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate_6(s, l):\n    if l == 0:\n        yield ''\n    else:\n        for i in range(l):\n            for j in perm_duplicate_6(s[1:], l-1):\n                yield s[0] + j\n\ndef perm_duplicate_7(s, l):\n    if l == 0",
+      -5.015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/permutations/problem\n\ndef permutations(string):\n    result = []\n    string = str(string)\n    if len(string) == 0:\n        return result\n    for i in range(len(string)):\n        for j in range(i, len(string)):\n            if j > i:\n                result.append(string[i:j] + string[j:])\n    return result\n\nif __name__ == '__main__':\n    print(permutations('ab'))\n    print(permutations('b'))\n    print(permutations('a'))\n    print(permutations('ac'))\n    print(permutations('abc'))",
+      -5.16015625
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n\n    def permute(self, s):\n        return self.permute_recur(s, [], [])\n\n    def permute_recur(self, s, res, cur):\n        if len(s) == 0:\n            return cur\n        if len(res) == 0:\n            res.append(cur)\n            return res\n        for i in range(len(s)):\n            self.permute_recur(s[:i] + s[i+1:], res, cur + [s[i]])\n        return res\n\n\nif __name__ == \"__main__\":\n    print Solution().permute(\"abcd\")",
+      -5.2421875
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n    def permute(self, s):\n        if not s:\n            return []\n\n        res = []\n        self.permuteHelper(s, res, [])\n        return res\n\n    def permuteHelper(self, s, res, temp):\n        if len(temp) == len(s):\n            res.append(temp)\n            return\n\n        for i in range(len(s)):\n            if i > 0 and s[i] == s[i - 1]:\n                continue\n            temp.append(s[i])\n            self.permuteHelper(s, res, temp)\n            temp.pop()\n\nif __name__ == \"__main__\":\n    s = \"abc\"\n    print Solution().permute(s)",
+      -5.55078125
+    ],
+    [
+      "import sys\n\ndef permutations(s):\n    if not s:\n        return []\n    result = []\n    for i in range(len(s)):\n        for j in range(i + 1, len(s)):\n            result.append(s[i:j] + s[j:])\n    return result\n\n# print all permutations of a string including duplicates\ndef print_permutations(s):\n    result = permutations(s)\n    for perm in result:\n        print perm\n\nprint_permutations(\"a\")",
+      -5.58203125
+    ],
+    [
+      "#!/usr/bin/env python\n\ndef print_permutations(string, print_duplicates=False):\n    \"\"\"\n    :type string: str\n    :type print_duplicates: bool\n    :rtype: list[str]\n    \"\"\"\n    # Write your code here\n    # I'm sure there is a better way to do this.\n    result = []\n    if not string:\n        return result\n    \n    if print_duplicates:\n        result.append(string)\n    \n    for i in range(len(string)):\n        new_string = string[:i] + string[i + 1:]\n        if print_duplicates:\n            result.append(new_string)\n        result += print_permutations(new_string, print_duplicates)\n    \n    return result\n\nif __name__ == '__main__':\n    print_permutations(\"abc\")",
+      -6.17578125
+    ],
+    [
+      "def all_permutations(string):\n    res = []\n    if len(string) == 1:\n        res.append(string)\n    else:\n        for i in range(len(string)):\n            for j in range(len(string)):\n                if j > i:\n                    res.append(string[i] + string[j])\n    return res\n\n# Test Cases\nstring = 'aabbcc'\n\nprint all_permutations(string)\n\nstring = 'aaabbcc'\n\nprint all_permutations(string)\n\nstring = 'abbcc'\n\nprint all_permutations(string)",
+      -6.25390625
+    ],
+    [
+      "def print_all_permutations(s):\n    \"\"\"\n    :type s: str\n    :rtype: void Do not return anything, modify s in-place instead.\n    \"\"\"\n    if len(s) == 0:\n        return\n\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all_permutations(s[1:])\n    # print_all",
+      -6.55078125
+    ],
+    [
+      "class Solution(object):\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        def dfs(nums, res, cur):\n            if len(res) == len(nums):\n                return\n            if cur == len(nums):\n                res.append(nums[:])\n                return\n            for i in xrange(len(nums)):\n                if i!= cur:\n                    nums[i], nums[cur] = nums[cur], nums[i]\n                    dfs(nums, res, cur + 1)\n                    nums[i], nums[cur] = nums[cur], nums[i]\n        res = []\n        dfs(nums, res, 0)\n        return res\n\nif __name__ == '__main__':\n    s = Solution()\n    s.permute([1, 2, 3])",
+      -6.72265625
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def permute(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[str]]\n        \"\"\"\n        # write your code here\n        if not s:\n            return []\n        result = []\n        self.permute(s, result, [])\n        return result\n\n    def permute(self, s, result, temp):\n        if len(temp) == len(s):\n            result.append(temp)\n            return\n        for i in range(len(s)):\n            if i > 0 and s[i] == s[i-1]:\n                continue\n            temp.append(s[i])\n            self.permute(s, result, temp)\n            temp.pop()",
+      -6.98046875
+    ],
+    [
+      "class Solution(object):\n    def permuteUnique(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[str]\n        \"\"\"\n        if len(num) == 0:\n            return []\n        res = self.permuteUniqueRec(num, [])\n        return res\n\n    def permuteUniqueRec(self, num, res):\n        if len(num) == 1:\n            return [num]\n        if len(res) == 0:\n            res = self.permuteUniqueRec(num[1:], [num[0]])\n            for i in range(len(res)):\n                res[i] = res[i] + [num[0]]\n        else:\n            res = self.permuteUniqueRec(num[1:], res)\n            for i in range(len(res)):\n                res[i] = res[i] + [num[0]]\n        return res\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.permuteUnique(\"ab\")",
+      -7.14453125
+    ],
+    [
+      "def permutation(s):\n    \"\"\"\n    Write a function to print all permutations of a given string including duplicates.\n    \"\"\"\n    if len(s) == 0:\n        return\n    if len(s) == 1:\n        print s\n        return\n    for i in xrange(len(s)):\n        for j in xrange(i):\n            if j!= i:\n                print s[i] + s[j]\n\ndef permutation2(s):\n    if len(s) == 0:\n        return\n    if len(s) == 1:\n        print s\n        return\n    for i in xrange(len(s)):\n        for j in xrange(len(s)):\n            if i!= j:\n                print s[i] + s[j]\n\ndef permutation3(s):\n    if len(s) == 0:\n        return\n    if len(s) == 1:\n        print s\n        return\n    for i in xrange(len(s)):\n        for j in xrange(len(s)):\n            if i!= j:\n                for k in xrange(len(s)):\n                    if k!= i and k!= j:\n                        print s[i] + s[j] + s[k]\n\ndef permutation4(s):\n    if len(s) == 0:\n        return\n    if len(s) == 1:\n        print s\n        return\n    for i in xrange(len(s)):\n        for j in xrange(len(s)):\n            if i!= j:\n                for k in xrange(len(s)):\n                    if k!= i and k!= j:\n                        for l in xrange(len(s)):\n                            if l!= i and l!= j:\n                                print s[i] + s[j] + s[k] + s[l]",
+      -7.25
+    ],
+    [
+      "def print_all_permutations(string, is_duplicate=lambda x: x == string):\n    \"\"\"\n    string: string to permute\n    is_duplicate: a function to check if a string is a duplicate\n    \"\"\"\n    print(string)\n    if is_duplicate(string):\n        return\n    else:\n        for i in range(0, len(string)):\n            print_all_permutations(string[0:i] + string[i+1:], is_duplicate)\n\nprint_all_permutations('abc')",
+      -7.703125
+    ],
+    [
+      "# https://oj.leetcode.com/problems/permutations/\n# Given a string s, return all permutations of it.\n#\n# Example:\n# Input:\n# s = \"abcd\"\n#\n# Output:\n#\n# [\n#   [\"a\",\"b\",\"c\",\"d\"],\n#   [\"a\",\"d\",\"b\",\"c\"],\n#   [\"b\",\"a\",\"d\",\"c\"],\n#   [\"b\",\"c\",\"a\",\"d\"],\n#   [\"c\",\"b\",\"a\",\"d\"],\n#   [\"c\",\"d\",\"a\",\"b\"],\n#   [\"d\",\"c\",\"b\",\"a\"]\n# ]\n#\n# Follow up:\n# Could you do it without extra space and in O(n!) time?\n#\n# Companies\n# Google\n# Related Topics\n# Hash Table\n# Similar Questions\n# Permutations II\n#\n#\n#\n#\n# Note:\n# The string s will only contain lowercase characters.\n# The length of s will be at most 100.\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#\n#",
+      -7.859375
+    ],
+    [
+      "def print_permutations(s):\n\tif s == \"\":\n\t\treturn\n\tfor perm in permutations(s):\n\t\tprint_perm(perm)\n\ndef permutations(s):\n\tif s == \"\":\n\t\treturn\n\tif len(s) == 1:\n\t\tyield s\n\telse:\n\t\tfor perm in permutations(s[1:]):\n\t\t\tfor perm1 in permutations(s[0]):\n\t\t\t\tyield s[0] + perm1 + s[1:]\n\nprint_permutations(\"aabbcc\")",
+      -8.0546875
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    Returns all permutations of the given string.\n    \"\"\"\n    res = []\n    if len(string) == 0:\n        return res\n    for i in range(len(string)):\n        if i == 0:\n            res.append(string)\n        else:\n            for j in range(i):\n                res.append(string[:j] + string[j+1:] + string[:i] + string[i+1:])\n    return res\n\ndef print_permutations(string):\n    \"\"\"\n    Prints all permutations of the given string including duplicates.\n    \"\"\"\n    for perm in permutations(string):\n        print(perm)\n\nprint_permutations('abc')",
+      -8.2578125
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n    def permute(self, s):\n        if len(s) == 1:\n            return [s]\n\n        ret = []\n        self.permuteRecur(s, [], ret)\n        return ret\n\n    def permuteRecur(self, s, result, ret):\n        if len(s) == 1:\n            ret.append(s)\n            return\n        for i in range(len(s)):\n            new_s = s[:i] + s[i+1:]\n            self.permuteRecur(new_s, result, ret)\n\n    def permute(self, s):\n        if not s:\n            return []\n        ret = []\n        self.permuteRecur(s, [], ret)\n        return ret",
+      -8.6875
+    ],
+    [
+      "import unittest\nimport string\n\n\nclass Solution(object):\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[str]\n        :rtype: List[List[str]]\n        \"\"\"\n        return self.permuteRecur(nums, [])\n\n    def permuteRecur(self, nums, result):\n        if not nums:\n            return result\n        result.append(nums[:])\n        for i in range(len(nums)):\n            self.permuteRecur(nums[:i] + nums[i+1:], result)\n\n        return result\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/permutations/solution/\n\n# 1ms 100%\nclass Solution {\n    public List<List<String>> permute(String[] nums) {\n        List<List<String>> result = new ArrayList<>();\n        if (nums == null || nums.length == 0) return result;\n\n        Arrays.sort(nums);\n        permuteRecur(nums, new ArrayList<>(), result);\n        return result;\n    }\n\n    private void permuteRecur(String[] nums, List<String> result, List<List<String>> result2) {\n        if (nums.length == 1) {\n            result.add(nums[0]);\n            return;\n        }\n\n        for (int i = 0; i < nums.length; i++) {\n            swap(nums, i, nums.length - 1);\n            permuteRecur(nums, result, result2);\n            swap(nums, i, nums.length - 1);\n        }\n    }\n\n    private void swap(String[] nums, int i, int j) {\n        String temp = nums[i];\n        nums[i] = nums[j];\n        nums[j",
+      -8.8203125
+    ],
+    [
+      "# write your code here\n\nimport unittest\n\nclass Solution(object):\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        if not nums:\n            return []\n        nums.sort()\n        res = []\n        self.permute_rec(res, nums, [])\n        return res\n\n    def permute_rec(self, res, nums, res_list):\n        if len(res_list) == len(nums):\n            res.append(res_list)\n            return\n        for i in range(len(nums)):\n            if res_list and nums[i] == res_list[-1][-1]:\n                continue\n            else:\n                res_list.append([nums[i]])\n                self.permute_rec(res, nums, res_list)\n                res_list.pop()\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought:\n\n# 2ms 100%\nclass Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        if (nums == null || nums.length == 0) return res;\n        Arrays.sort(nums);\n        permute(res, new ArrayList<>(), nums);\n        return res;\n    }\n\n    private void permute(List<List<Integer>> res, List<Integer> list, int[] nums) {\n        if (list.size() == nums.length) {\n            res.add(new ArrayList<>(list));\n            return;\n        }\n        for (int i = 0; i < nums.length; i++) {\n            if (list.contains(nums[i])) continue;\n            list.add(nums[i]);\n            permute(res, list,",
+      -9.3046875
+    ],
+    [
+      "import re\nimport collections\n\n# Definition for a character: char class.\nclass Char:\n    def __init__(self, c):\n        self.c = c\n        self.next = None\n\nclass Solution(object):\n    def permute(self, str):\n        \"\"\"\n        :type str: str\n        :rtype: List[List[str]]\n        \"\"\"\n        # Use a stack to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use a list to store all permutations.\n        # Use",
+      -9.59375
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None, next=None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\nclass Solution:\n    # @param {string} s\n    # @return {string[]}\n    def permute(self, s):\n        if not s or len(s) == 1:\n            return [s]\n        \n        if len(s) == 2:\n            return [\"\"+s[0], s[1]]\n        \n        ans = []\n        self.permuteRec(s, [], ans)\n        return ans\n        \n    def permuteRec(self, s, cur, ans):\n        if len(s) == 0:\n            ans.append(cur)\n            return\n        \n        for i in range(len(s)):\n            cur.append(s[i])\n            self.permuteRec(s[:i] + s[i+1:], cur[:], ans)\n            cur.pop()\n\n# Note:\n# 1. the first level will always be the root\n# 2. the first level will always be a list\n# 3. the second level will be a list\n# 4. the third level will be a list\n# 5. the fourth level will be a list\n# 6. the fifth level will be a list\n# 7. the sixth level will be a list\n# 8. the seventh level will be a list\n# 9. the eighth level will be a list\n# 10. the ninth level will be a list\n# 11. the tenth level will be a list\n# 12. the eleventh level will be a list\n# 13. the twelfth level will be a list\n# 14. the thirteenth level will be a list\n# 15. the fourteenth level will be a list\n# 16. the fifteenth level will be a list\n# 17. the sixteenth level will be a list\n# 18. the seventeenth level will be a list\n# 19. the eighteenth level will be a list\n# 20. the nineteenth level will be a list\n# 21. the twentieth level will be a list",
+      -9.6015625
+    ],
+    [
+      "import unittest\n\ndef all_permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: Iterator[str]\n    \"\"\"\n    for index in range(len(string)):\n        for new_string in all_permutations(string[:index] + string[index+1:]):\n            yield string[:index] + new_string + string[index+1:]\n\nclass Test(unittest.TestCase):\n    def test(self):\n        self.assertEqual(list(all_permutations('abc')),\n                         ['abc', 'bac', 'bca', 'cab', 'cba', 'abc', 'bac', 'cba'])\n\nif __name__ == '__main__':\n    unittest.main()",
+      -9.8671875
+    ],
+    [
+      "# https://www.youtube.com/watch?v=Fg5b_VHfEQc\n\n# The problem is to handle duplicates.\n#\n# The following is the solution.\n#\n# Note that the input string is not necessarily all lower case.\n#\n#\n# def permutations(string):\n#     \"\"\"\n#     :type string: str\n#     :rtype: Iterable[str]\n#     \"\"\"\n#     def rec(s, i):\n#         if i == len(s):\n#             yield s\n#         else:\n#             for j in range(i, len(s)):\n#                 s1 = s[:i] + s[i] + s[j+1:]\n#                 s2 = s[:i] + s[j] + s[i]\n#                 s3 = s[:j] + s[j] + s[i]\n#                 yield s1, s2, s3\n#     for s in rec(string, 0):\n#         yield s\n\n# def permutations(string):\n#     \"\"\"\n#     :type string: str\n#     :rtype: Iterable[str]\n#     \"\"\"\n#     if len(string) == 0:\n#         yield string\n#     else:\n#         for i in range(len(string)):\n#             for s in permutations(string[:i] + string[i+1:]):\n#                 yield string[:i] + s + string[i+1:]\n\n# def permutations(string):\n#     \"\"\"\n#     :type string: str\n#     :rtype: Iterable[str]\n#     \"\"\"\n#     if len(string) == 0:\n#         yield string\n#     else:\n#         for i in range(len(string)):\n#             for s in permutations(string[:i] + string[i+1:]):\n#                 yield string[:i] + s + string[i+1:]\n\n# def permutations(string):\n#     \"\"\"\n#     :type string: str\n#     :rtype: Iterable[str]\n#     \"\"\"\n#     if len",
+      -10.0625
+    ],
+    [
+      "class Solution:\n    # @param s, a string\n    # @return a list of strings\n    def permute(self, s):\n        res = []\n        self.permute_rec(s, res, [], 0)\n        return res\n\n    def permute_rec(self, s, res, p, i):\n        if i == len(s):\n            res.append(p)\n            return\n        for j in range(i, len(s)):\n            if j > i:\n                self.permute_rec(s, res, p + [s[j]], i + 1)\n            else:\n                self.permute_rec(s, res, p + [s[j]], i)\n\nif __name__ == \"__main__\":\n    print Solution().permute(\"abcd\")",
+      -10.125
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n    def permute(self, s):\n        if not s:\n            return []\n        res = self.permute(s[1:])\n        for i in range(len(s)):\n            res.append(s[:i] + s[i+1:] + s[i:])\n        return res\n\nif __name__ == \"__main__\":\n    sol = Solution()\n    print(sol.permute(\"abcd\"))\n    print(sol.permute(\"acb\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"\"))\n    print(sol.permute(\"\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"abc\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"a\"))\n    print(sol.permute(\"a\"))",
+      -10.546875
+    ],
+    [
+      "import collections\n\n\ndef all_permutations(string):\n    \"\"\"\n    All permutations.\n    \"\"\"\n    if not string:\n        return\n\n    # Base case\n    if len(string) == 1:\n        yield string\n\n    # Recursive case\n    for i in range(1, len(string) + 1):\n        for perm in all_permutations(string[:i]):\n            yield string[:i] + perm + string[i:]\n\n\ndef main():\n    print(all_permutations('abc'))\n    print(all_permutations('abb'))\n    print(all_permutations('abbb'))\n    print(all_permutations('aaabb'))\n\n\nif __name__ == '__main__':\n    main()",
+      -10.8203125
+    ],
+    [
+      "# Example 1\n#\n# Input:\n# s = \"ab\"\n#\n# Output:\n# [\n#    [\"a\",\"b\"],\n#    [\"a\",\"b\"],\n#    [\"b\",\"a\"],\n#    [\"b\",\"b\"]\n# ]\n\n# Example 2\n#\n# Input:\n# s = \"abc\"\n#\n# Output:\n# [\n#    [\"a\",\"b\",\"c\"],\n#    [\"a\",\"c\",\"b\"],\n#    [\"b\",\"a\",\"c\"],\n#    [\"b\",\"c\",\"a\"],\n#    [\"c\",\"a\",\"b\"],\n#    [\"c\",\"b\",\"a\"]\n# ]\n\n# Example 3\n#\n# Input:\n# s = \"abcd\"\n#\n# Output:\n# [\n#    [\"a\",\"b\",\"c\",\"d\"],\n#    [\"a\",\"b\",\"d\",\"c\"],\n#    [\"a\",\"c\",\"b\",\"d\"],\n#    [\"a\",\"c\",\"d\",\"b\"],\n#    [\"b\",\"a\",\"c\",\"d\"],\n#    [\"b\",\"a\",\"d\",\"c\"],\n#    [\"b\",\"c\",\"a\",\"d\"],\n#    [\"b\",\"c\",\"d\",\"a\"],\n#    [\"c\",\"a\",\"b\",\"d\"],\n#    [\"c\",\"a\",\"d\",\"b\"],\n#    [\"c\",\"b\",\"a\",\"d\"],\n#    [\"c\",\"b\",\"d\",\"a\"],\n#    [\"d\",\"a\",\"b\",\"c\"],\n#    [\"d\",\"a\",\"c\",\"b\"],\n#    [\"d\",\"b\",\"a\",\"c\"],\n#    [\"d\",\"b\",\"c\",\"a\"],\n#    [\"d\",\"c\",\"a\",\"b\"]\n# ]\n\n# Example 4\n#\n# Input:\n# s = \"abc\"\n#\n# Output:\n# [\n#    [\"a\",\"b\",\"c\"],\n#    [\"a\",\"c\",\"b\"],\n#    [\"b\",\"a\",\"c\"],\n#    [\"b\",\"c\",\"a\"],\n#    [\"c\",\"a\",\"b\"],\n#    [\"c\",\"b\",\"a\"]\n# ]\n\ndef permutations(s):\n    \"\"\"\n    :type s: str\n    :rtype: List[List[str]]\n    \"\"\"\n    ret",
+      -10.84375
+    ],
+    [
+      "def perm(s, r=None):\n    if r is None:\n        r = len(s)\n        \n    if r == 1:\n        yield s\n    else:\n        for p in perm(s[1:], r-1):\n            for t in perm(s[0:r-1] + p, r):\n                yield t\n                \ndef permute(s, r=None):\n    if r is None:\n        r = len(s)\n        \n    if r == 1:\n        yield s\n    else:\n        for p in perm(s, r-1):\n            for t in permute(s[1:], r-1):\n                yield t\n                \ndef permutations(s, r=None):\n    if r is None:\n        r = len(s)\n        \n    if r == 1:\n        yield s\n    else:\n        for p in perm(s, r-1):\n            for t in permutations(s[1:], r-1):\n                yield t\n                \ndef printPerms(s, r=None):\n    if r is None:\n        r = len(s)\n        \n    if r == 1:\n        print(s)\n    else:\n        for p in perm(s, r-1):\n            for t in printPerms(s[1:], r-1):\n                print(s, p, t)\n\nif __name__ == \"__main__\":\n    print(perm(\"abcd\"))\n    print(perm(\"abcd\", 3))\n    print(perm(\"abcd\", 4))\n    print(perm(\"abcd\", 5))\n    print(perm(\"abcd\", 6))\n    print(perm(\"abcd\", 7))\n    print(perm(\"abcd\", 8))\n    print(perm(\"abcd\", 9))\n    print(perm(\"abcd\", 10))\n    print(perm(\"abcd\", 11))\n    print(perm(\"abcd\", 12))\n    print(perm(\"abcd\", 13))\n    print(perm(\"abcd\", 14))\n    print(perm(\"abcd\", 15))\n    print(perm(\"abcd\", 16))",
+      -11.2421875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/permutation-string/problem\n\n# Write a function that takes a string and returns a list of all permutations\n# of the string.\n\n# Example:\n# Input:\n# \"aab\"\n#\n# Output:\n# [\n#   [\"aa\",\"ab\"],\n#   [\"ab\",\"a\"],\n#   [\"a\",\"b\"],\n#   [\"b\",\"a\"],\n#   [\"a\",\"\"],\n#   [\"\",\"a\"],\n#   [\"\",\"b\"],\n#   [\"\",\"\"],\n#   [\"\",\"\"]\n# ]\n\n# Note:\n# The input string will only have lowercase letters.\n# The length of the input string will be less than 1000.\n\n# @author JasonZhang\n\ndef permutations(string):\n    result = []\n    if len(string) == 0:\n        return result\n    else:\n        for i in range(len(string)):\n            permutations_str = permutations(string[:i] + string[i+1:])\n            for perm in permutations_str:\n                result.append(string[:i] + perm + string[i+1:])\n    return result\n\n# print permutations('aab')\n# [[\"a\",\"a\"],[\"a\",\"b\"],[\"b\",\"a\"],[\"b\",\"b\"]]",
+      -12.0859375
+    ],
+    [
+      "import unittest\n\n# @include\ndef permutations(str):\n    if not str:\n        return\n    ans = [[str]]\n    for i in range(len(str)):\n        for perm in permutations(str[:i] + str[i + 1:]):\n            perm[0] = str[:i] + str[i] + perm[0]\n            ans.append(perm)\n    for perm in ans:\n        print(perm)\n# @exclude\n\n\nclass TestPermutations(unittest.TestCase):\n\n    def test_permutations(self):\n        self.assertEqual(permutations('a'), [['a'], ['a'], ['a'], ['a', 'a'], ['a', 'a'], ['a', 'a', 'a']])\n        self.assertEqual(permutations('abc'), [['a', 'b', 'c'], ['c', 'b', 'a'], ['a', 'c', 'b'], ['b', 'a', 'c'], ['b', 'c', 'a'], ['c', 'a', 'b']])\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -12.75
+    ],
+    [
+      "def permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[str]\n    \"\"\"\n    if not string:\n        return []\n\n    string = string.lower()\n\n    if not string:\n        return []\n\n    string_length = len(string)\n\n    if string_length == 1:\n        return [[string]]\n\n    permutations = []\n    for index in range(0, string_length):\n        new_permutations = permutations(string[:index])\n        for permutation in new_permutations:\n            permutation.append(string[index])\n            permutations.append(permutation)\n\n    return permutations\n\nif __name__ == '__main__':\n    print(permutations('ab'))\n    print(permutations('cba'))\n    print(permutations('c'))\n    print(permutations('abc'))\n    print(permutations('cba'))\n    print(permutations('aba'))\n    print(permutations('cba'))\n    print(permutations('abcd'))\n    print(permutations('a'))\n    print(permutations('c'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('abcd'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('abcd'))\n    print(permutations('cba'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('abc'))\n    print(permutations('abc'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('abc'))\n    print(permutations('cba'))\n    print(permutations('abc'))\n    print(permutations('cba'))\n    print(permutations('cba'))\n    print(permutations('cba'",
+      -13.359375
+    ],
+    [
+      "import string\n\n\ndef print_permutations(s):\n    \"\"\"\n    :type s: str\n    :rtype: void Do not return anything, modify s in-place instead.\n    \"\"\"\n    def recur(s, i, res):\n        if i == len(s):\n            res.append(s)\n            return\n        for c in string.ascii_lowercase:\n            if i < len(s) and s[i] == c:\n                recur(s[:i] + s[i] + s[i + 1:], i + 1, res)\n            i += 1\n    res = []\n    recur(s, 0, res)\n    print(res)\n\n\nif __name__ == '__main__':\n    s = \"abc\"\n    print_permutations(s)",
+      -13.7265625
+    ],
+    [
+      "class Solution(object):\n    def allPermutations(self, S):\n        \"\"\"\n        :type S: str\n        :rtype: List[List[str]]\n        \"\"\"\n        if not S:\n            return []\n\n        return self.recursive(S)\n\n    def recursive(self, S):\n        if len(S) == 1:\n            return [[S]]\n\n        result = []\n        for i in range(len(S)):\n            result += self.recursive(S[:i] + S[i+1:])\n\n        result += self.recursive(S[:1] + S[2:])\n\n        return result\n\n\nif __name__ == '__main__':\n    sol = Solution()\n    S = 'abc'\n    print sol.allPermutations(S)",
+      -14.0546875
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Solution:\n    # @param {string} s\n    # @return {string[]}\n    def allPermutations(self, s):\n        if len(s) == 0:\n            return []\n        if len(s) == 1:\n            return [s]\n        res = []\n        self.allPermutationsRec(s, 0, res)\n        return res\n\n    def allPermutationsRec(self, s, cur, res):\n        res.append(s[cur:])\n        if cur == len(s) - 1:\n            return\n        for i in range(cur + 1, len(s)):\n            s[cur:i+1] = s[cur:i] + s[i+1:]\n            self.allPermutationsRec(s, i+1, res)\n            s[cur:i+1] = s[cur:i] + s[i+1:]",
+      -14.09375
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    # @param {string} s\n    # @return {string[]}\n    def permute(self, s):\n        if len(s) == 1:\n            return [s]\n        if len(s) == 2:\n            return [s[0], s[1]]\n        res = []\n        self.helper(s, res, [])\n        return res\n    \n    def helper(self, s, res, cur):\n        if len(cur) == len(s):\n            res.append(s)\n            return\n        for i in range(len(cur)):\n            cur[i] += 1\n            self.helper(s, res, cur)\n            cur[i] -= 1\n\nif __name__ == \"__main__\":\n    s = Solution()\n    res = s.permute(\"ab\")\n    print(res)",
+      -14.3359375
+    ],
+    [
+      "# https://leetcode.com/problems/permutations/\n#\n# Given a string, we can represent it as a binary tree by pre-order traversal.\n#\n# If a tree is rotated 180 degrees, we need to flip its values at the top node\n# and recurse the recursion with the new root value.\n#\n# To find the number of permutations, we recursively generate all possible tree\n# configurations and keep track of the number of permutations.\n#\n# For example, with root = [3, 4, 5, 1, 6, 2],\n#\n#     [3,4,5,1,6,2]\n#     /   \\\n#    3    [4,5,6,2,1]\n#      /  \\\n#     4    [3,5,6,1,2]\n#       /  \\\n#      5    [3,4,6,1,2]\n#        /  \\\n#       6    [3,4,5,2,1]\n#\n# The number of permutations of the above examples is:\n#\n#    3! = 6\n#    4! = 24\n#    5! = 120\n#    6! = 720\n#\n# By concatenating every permutation and with the original root, we get the\n# full permutations of the string.\n#\n# What is the total number of permutations of the given string?\n\n# https://discuss.leetcode.com/topic/834/java-solution-using-recursion-and-backtracking\n# https://discuss.leetcode.com/topic/5961/java-solution-with-explanation\n\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def permute(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: List[List[int]]\n        \"\"\"\n        res = []\n        self.helper(root, res)\n        return res\n\n    def helper(self",
+      -14.8671875
+    ],
+    [
+      "class Solution:\n    # @param {string} s\n    # @return {string[]}\n    def getPermutation(self, s, k):\n        if not s:\n            return []\n        \n        result = self.getPermutation(s[1:], k - 1)\n        result.append(s[0])\n        return result\n\n# test cases:\ns = \"abcd\"\nk = 4\ns = \"abcd\"\nk = 3\ns = \"abcd\"\nk = 1\ns = \"abcd\"\nk = 0\ns = \"abcd\"\nk = -1\ns = \"abcd\"\nk = -2\ns = \"abcd\"\nk = -3\ns = \"abcd\"\nk = -4\ns = \"abcd\"\nk = -5\ns = \"abcd\"\nk = -6\ns = \"abcd\"",
+      -16.5625
+    ],
+    [
+      "# https://www.codewars.com/kata/how-to-make-a-string-into-a-permutation/train/python\ndef permutations(string):\n    \"\"\"\n    :type string: str\n    :rtype: List[str]\n    \"\"\"\n    if not string:\n        return ['']\n\n    # Start with a single character and keep adding the next character\n    # to the permutation list until we hit the end\n    result = []\n    for c in string:\n        result.append(string[:])\n        string = string[1:]\n\n    # Now we can go back and do the next permutation\n    while string:\n        new_string = string[:]\n        string = string[1:]\n        for i in range(len(new_string)):\n            new_string[i] = new_string[i] + string[i]\n        result.append(new_string)\n\n    return result\n\n# Tests\n# string = \"abc\"\n# string = \"bac\"\n# string = \"cab\"\n# string = \"cba\"\n# string = \"a\"\n# string = \"ab\"\n# string = \"abc\"\n# string = \"ba\"\n# string = \"bac\"\n# string = \"cab\"\n# string = \"cba\"\n# string = \"a\"\n# string = \"b\"\n# string = \"abc\"\n# string = \"bac\"\n# string = \"cab\"\n# string = \"cba\"\n# string = \"a\"\n# string = \"b\"\n# string = \"abc\"\n# string = \"ba\"\n# string = \"bac\"\n# string = \"cab\"\n# string = \"cba\"\n# string = \"a\"\n# string = \"b\"\n# string = \"abc\"\n# string = \"bac\"\n# string = \"cab\"\n# string = \"cba\"\n# string = \"a\"\n# string = \"b\"\n# string = \"abc\"\n# string = \"ba\"\n# string = \"bac\"\n# string = \"cab\"\n# string = \"cba\"\n# string = \"a\"\n# string = \"b",
+      -17.3125
+    ],
+    [
+      "# Definition for a  binary tree node\nclass TreeNode:\n     def __init__(self, val=0, left=None, right=None):\n         self.val = val\n         self.left = left\n         self.right = right\n\nclass Solution:\n    # @param s, a string\n    # @return a list of strings\n    def permute(self, s):\n        if not s:\n            return []\n        self.permute(s, [])\n        return [self.permute(s, [])]\n\n    def permute(self, s, res):\n        if len(res) == len(s):\n            return res\n        if not s:\n            res.append(s)\n            return res\n        for i in range(len(s)):\n            self.permute(s[:i] + s[i+1:], res)\n            self.permute(s[:i] + s[i+1:], res)\n\nif __name__ == \"__main__\":\n    print Solution().permute(\"a\")",
+      -17.359375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

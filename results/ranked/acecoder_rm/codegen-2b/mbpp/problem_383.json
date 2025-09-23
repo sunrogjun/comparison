@@ -1,0 +1,431 @@
+{
+  "problem": {
+    "task_id": "MBPP/394",
+    "prompt": "Write a function to check if given tuple is distinct or not.",
+    "canonical_solution": "def check_distinct(test_tup):\r\n  res = True\r\n  temp = set()\r\n  for ele in test_tup:\r\n    if ele in temp:\r\n      res = False\r\n      break\r\n    temp.add(ele)\r\n  return (res) ",
+    "test_list": [
+      "assert check_distinct((1, 4, 5, 6, 1, 4)) == False",
+      "assert check_distinct((1, 4, 5, 6)) == True",
+      "assert check_distinct((2, 3, 4, 5, 6)) == True"
+    ],
+    "challenge_test_list": [],
+    "problem_id": 383
+  },
+  "model_name": "codegen-2b",
+  "dataset": "mbpp",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "def is_tuple_distinct(tuple):\n    \"\"\"\n    Returns true if the given tuple is distinct, otherwise returns false.\n\n    :type tuple: List[int]\n    :rtype: bool\n    \"\"\"\n    seen = set()\n    for i in tuple:\n        if i in seen:\n            return False\n        seen.add(i)\n    return True\n\nif __name__ == \"__main__\":\n    print(is_tuple_distinct([1, 1, 1, 1]))\n    print(is_tuple_distinct([1, 2, 2, 2]))\n    print(is_tuple_distinct([1, 2, 3, 3]))\n    print(is_tuple_distinct([1, 2, 3, 4]))",
+      4.5625
+    ],
+    [
+      "from collections import defaultdict\n\ndef is_distinct(tuple):\n    d = defaultdict(int)\n    for i in tuple:\n        d[i] += 1\n        if d[i] > 1:\n            return False\n    return True\n\nif __name__ == '__main__':\n    assert is_distinct((1, 2, 3))\n    assert is_distinct((1, 1, 3))\n    assert is_distinct((1, 2, 3, 3, 5))\n    assert is_distinct((1, 2, 3, 3, 5, 5))\n    assert not is_distinct((1, 2, 3, 3, 5, 5, 5))\n    assert not is_distinct((1, 2, 3, 4, 5))\n    assert not is_distinct((1, 2, 3, 4, 5, 5))\n    assert not is_distinct((1, 2, 3, 4, 5, 5, 5))",
+      2.0546875
+    ],
+    [
+      "import unittest\n\nclass TupleTest(unittest.TestCase):\n    def test_distinct(self):\n        self.assertEqual(True, (1, 1)!= (1, 2))\n        self.assertEqual(True, (1, 2)!= (1, 2))\n        self.assertEqual(True, (1, 2)!= (1, 3))\n        self.assertEqual(True, (1, 3)!= (1, 2))\n        self.assertEqual(True, (1, 3)!= (1, 3))\n\n    def test_not_distinct(self):\n        self.assertEqual(False, (1, 1) == (1, 2))\n        self.assertEqual(False, (1, 2) == (1, 2))\n        self.assertEqual(False, (1, 2) == (1, 3))\n        self.assertEqual(False, (1, 3) == (1, 2))\n        self.assertEqual(False, (1, 3) == (1, 3))\n\nif __name__ == '__main__':\n    unittest.main()",
+      1.1318359375
+    ],
+    [
+      "class Tuple:\n    def __init__(self, i, j):\n        self.i = i\n        self.j = j\n\n    def __eq__(self, other):\n        return self.i == other.i and self.j == other.j\n\n    def __repr__(self):\n        return \"(\" + str(self.i) + \", \" + str(self.j) + \")\"\n\n    def __str__(self):\n        return str(self.i) + \" \" + str(self.j)\n\nclass Solution:\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if len(nums) == 0:\n            return True\n        d = {}\n        for i in range(len(nums)):\n            if nums[i] in d:\n                return False\n            d[nums[i]] = i\n        return True\n\nnums = [Tuple(1,1), Tuple(1,2), Tuple(1,3), Tuple(2,1), Tuple(2,2), Tuple(2,3), Tuple(3,1), Tuple(3,2), Tuple(3,3)]\ns = Solution()\nprint(s.isDistinct(nums))",
+      1.095703125
+    ],
+    [
+      "class Tuple:\n    \"\"\"\n    A tuple is a list of values.\n    \"\"\"\n    def __init__(self, elements):\n        self.elements = elements\n\n    def __eq__(self, other):\n        return len(self.elements) == len(other.elements) and \\\n               all(self.elements == other.elements)\n\n    def __hash__(self):\n        return hash(tuple(self.elements))\n\n    def __repr__(self):\n        return 'Tuple({})'.format(', '.join(map(repr, self.elements)))\n\n    def __str__(self):\n        return repr(self)\n\n    def __iter__(self):\n        return iter(self.elements)\n\n    def __getitem__(self, key):\n        return self.elements[key]\n\n    def __len__(self):\n        return len(self.elements)\n\n    def __add__(self, other):\n        return Tuple(self.elements + other.elements)\n\n    def __radd__(self, other):\n        return Tuple(other.elements + self.elements)\n\n    def __mul__(self, n):\n        return Tuple(self.elements * n)\n\n    def __rmul__(self, n):\n        return Tuple(n * self.elements)\n\n    def __getitem__(self, index):\n        return self.elements[index]\n\n    def __lt__(self, other):\n        return self.elements < other.elements\n\n    def __le__(self, other):\n        return self.elements <= other.elements\n\n    def __eq__(self, other):\n        return self.elements == other.elements\n\n    def __ne__(self, other):\n        return self.elements!= other.elements\n\n    def __gt__(self, other):\n        return self.elements > other.elements\n\n    def __ge__(self, other):\n        return self.elements >= other.elements\n\n    def __delitem__(self, key):\n        del self.elements[key]\n\n    def __setitem__",
+      0.86181640625
+    ],
+    [
+      "import collections\n\nclass Tuple(collections.namedtuple('Tuple', 'x y')):\n    def __hash__(self):\n        return hash(self.x + self.y)\n\ndef is_tuple_distinct(tuple_list):\n    \"\"\"\n    Write a function to check if given tuple is distinct or not.\n\n    Example:\n    Input:\n        tuple_list = [Tuple(1, 2), Tuple(1, 2), Tuple(1, 2), Tuple(1, 2)]\n\n    Output:\n        False\n    \"\"\"\n    return len(set(tuple_list)) == len(tuple_list)\n\nif __name__ == '__main__':\n    tuple_list = [Tuple(1, 2), Tuple(1, 2), Tuple(1, 2), Tuple(1, 2)]\n    assert is_tuple_distinct(tuple_list)\n    tuple_list = [Tuple(1, 2), Tuple(2, 2), Tuple(1, 2), Tuple(1, 2)]\n    assert not is_tuple_distinct(tuple_list)",
+      0.80712890625
+    ],
+    [
+      "def is_distinct(t):\n    if t == ():\n        return True\n    elif len(t) == 1:\n        return True\n    else:\n        for i in range(len(t)):\n            if t[i] == t[(i + 1) % len(t)]:\n                return False\n        return True\n\nprint(is_distinct((1, 1, 2)))\nprint(is_distinct((1, 1, 3)))\nprint(is_distinct((2, 3)))\nprint(is_distinct((3, 4)))\nprint(is_distinct((1, 2, 3)))\nprint(is_distinct((2, 3, 4)))\nprint(is_distinct((1, 2, 3, 4)))\nprint(is_distinct((1, 2, 3, 4, 5)))",
+      0.80029296875
+    ],
+    [
+      "class Tuple(object):\n    \"\"\"\n    A tuple is a collection of values.\n\n    >>> t = Tuple(1, 2, 3)\n    >>> t\n    (1, 2, 3)\n    >>> t.is_distinct()\n    True\n    >>> t = Tuple(1, 2, 1)\n    >>> t\n    (1, 2, 1)\n    >>> t.is_distinct()\n    False\n    >>> t = Tuple(1, 2, 3, 4)\n    >>> t\n    (1, 2, 3, 4)\n    >>> t.is_distinct()\n    True\n    \"\"\"\n    def __init__(self, *values):\n        self.values = values\n\n    def __iter__(self):\n        return iter(self.values)\n\n    def __str__(self):\n        return '({})'.format(', '.join(str(x) for x in self.values))\n\n    def __repr__(self):\n        return 'Tuple({})'.format(', '.join(repr(x) for x in self.values))\n\n    def is_distinct(self):\n        \"\"\"\n        Return True if the tuple is distinct, otherwise return False.\n        \"\"\"\n        return len(set(self.values)) == len(self.values)\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
+      0.7900390625
+    ],
+    [
+      "def is_distinct(tuple):\n    \"\"\"\n    :type tuple: List[int]\n    :rtype: bool\n    \"\"\"\n    return len(set(tuple)) == len(tuple)\n\nif __name__ == '__main__':\n    print(is_distinct([1, 1, 2]))\n    print(is_distinct([1, 2, 2, 2, 3]))\n    print(is_distinct([1, 2, 3, 3, 4]))\n    print(is_distinct([1, 2, 3, 4, 5]))",
+      0.75634765625
+    ],
+    [
+      "import unittest\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        d = {}\n        for x in nums:\n            if x in d:\n                return False\n            d[x] = True\n        return True\n\n\nclass TestMethods(unittest.TestCase):\n    def test_Local(self):\n        self.assertEqual(1, 1)\n\nif __name__ == '__main__':\n    unittest.main()\n\nJava = '''\n# Thought: https://leetcode.com/problems/distinct-subsequences/solution/\n\n# 1ms 100%\nclass Solution {\n    public boolean isDistinct(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n        for (int i = 0; i < nums.length; i++) {\n            if (set.contains(nums[i])) {\n                return false;\n            }\n            set.add(nums[i]);\n        }\n        return true;\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public boolean isDistinct(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n        for (int i = 0; i < nums.length; i++) {\n            if (set.contains(nums[i])) {\n                return false;\n            }\n            set.add(nums[i]);\n        }\n        return true;\n    }\n}\n\n# 1ms 100%\nclass Solution {\n    public boolean isDistinct(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n        for (int i = 0; i < nums.length; i++) {\n            if (set.contains(nums[i])) {\n                return false;\n            }\n            set.add(nums[i]);\n        }\n        return true;\n    }\n}\n'''",
+      0.6171875
+    ],
+    [
+      "def is_distinct(tup):\n    return not (tup[0] == tup[1] and tup[0] == tup[2])\n\ndef main():\n    tup = (1, 1, 1)\n    print(is_distinct(tup))\n    tup = (1, 1, 2)\n    print(is_distinct(tup))\n    tup = (1, 1, 3)\n    print(is_distinct(tup))\n    tup = (1, 2, 2)\n    print(is_distinct(tup))\n    tup = (1, 2, 3)\n    print(is_distinct(tup))\n    tup = (1, 3, 2)\n    print(is_distinct(tup))\n    tup = (1, 3, 3)\n    print(is_distinct(tup))\n    tup = (2, 1, 1)\n    print(is_distinct(tup))\n    tup = (2, 1, 2)\n    print(is_distinct(tup))\n    tup = (2, 1, 3)\n    print(is_distinct(tup))\n    tup = (2, 2, 2)\n    print(is_distinct(tup))\n    tup = (2, 2, 3)\n    print(is_distinct(tup))\n    tup = (2, 3, 2)\n    print(is_distinct(tup))\n    tup = (2, 3, 3)\n    print(is_distinct(tup))\n    tup = (3, 1, 1)\n    print(is_distinct(tup))\n    tup = (3, 1, 2)\n    print(is_distinct(tup))\n    tup = (3, 1, 3)\n    print(is_distinct(tup))\n    tup = (3, 2, 2)\n    print(is_distinct(tup))\n    tup = (3, 2, 3)\n    print(is_distinct(tup))\n    tup = (3, 3, 3)",
+      0.365966796875
+    ],
+    [
+      "import unittest\n\n\nclass DistinctTuple(unittest.TestCase):\n    def test_distinct_tuple(self):\n        self.assertTrue(distinct_tuple((1, 2)))\n        self.assertTrue(distinct_tuple((1, 2, 3)))\n        self.assertFalse(distinct_tuple((1, 1, 3)))\n        self.assertFalse(distinct_tuple((1, 2, 3, 3)))\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      0.2386474609375
+    ],
+    [
+      "class Tuple:\n    def __init__(self, a=0, b=0):\n        self.a = a\n        self.b = b\n\n    def __repr__(self):\n        return \"Tuple(\" + str(self.a) + \",\" + str(self.b) + \")\"\n\ndef check_tuple(tup):\n    if tup.a == tup.b:\n        return False\n    else:\n        return True\n\nif __name__ == \"__main__\":\n    tup = Tuple(a=1, b=2)\n    print check_tuple(tup)\n    tup = Tuple(a=2, b=1)\n    print check_tuple(tup)\n    tup = Tuple(a=1, b=3)\n    print check_tuple(tup)\n    tup = Tuple(a=3, b=1)\n    print check_tuple(tup)\n    tup = Tuple(a=1, b=1)\n    print check_tuple(tup)\n    tup = Tuple(a=2, b=2)\n    print check_tuple(tup)\n    tup = Tuple(a=1, b=2)\n    print check_tuple(tup)\n    tup = Tuple(a=2, b=1)\n    print check_tuple(tup)\n    tup = Tuple(a=1, b=2)\n    print check_tuple(tup)\n    tup = Tuple(a=2, b=2)\n    print check_tuple(tup)",
+      0.16748046875
+    ],
+    [
+      "def is_distinct(tup):\n    if len(tup) == 1:\n        return True\n    for i in range(len(tup) - 1):\n        if tup[i] == tup[i+1]:\n            return False\n    return True\n\ndef main():\n    print(is_distinct((1,2,3)))\n    print(is_distinct((1,1,1)))\n    print(is_distinct((2,3,4,1,2)))\n    print(is_distinct((2,3,4,1,2,3,4)))\n    print(is_distinct((2,3,4,1,2,3,4,1)))\n    print(is_distinct((1,2,3,4,5)))\n    print(is_distinct((1,2,3,4,5,1)))\n    print(is_distinct((1,2,3,4,5,1,2,3,4,5)))\n    print(is_distinct((1,2,3,4,5,1,2,3,4,5,1)))\n\nif __name__ == '__main__':\n    main()",
+      0.147216796875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n        \n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        # Use set to store distinct elements.\n        distinct = set()\n        for i in nums:\n            distinct.add(i)\n            if len(distinct) > 2:\n                return False\n        return True",
+      0.1461181640625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\nclass Solution:\n    # @param {Tuple[]} tuples\n    # @return {boolean}\n    def isDistinct(self, tuples):\n        if len(tuples) <= 1:\n            return True\n        visited = set()\n        for t in tuples:\n            if t.x in visited:\n                return False\n            visited.add(t.x)\n        return True\n\ns = Solution()\nprint s.isDistinct([(1, 2), (1, 3), (2, 3), (1, 4), (2, 4), (3, 4)])",
+      0.035614013671875
+    ],
+    [
+      "def is_distinct(t):\n    \"\"\"\n    :type t: List[int]\n    :rtype: bool\n    \"\"\"\n    if len(t) < 2:\n        return True\n    for i in range(len(t)):\n        for j in range(i+1, len(t)):\n            if t[i] == t[j]:\n                return False\n    return True\n\nif __name__ == \"__main__\":\n    print(is_distinct([1,2,1,3,4,2,5,6]))\n    print(is_distinct([1,1,2,2,3,3,4,4]))\n    print(is_distinct([1,2,1,3,4,2,5,6]))\n    print(is_distinct([1,2,1,3,4,2,5,6]))\n    print(is_distinct([1,2,1,3,4,2,5,6]))\n    print(is_distinct([1,2,1,3,4,2,5,6]))\n    print(is_distinct([1,2,1,3,4,2,5,6]))",
+      -0.09075927734375
+    ],
+    [
+      "def is_distinct(tup):\n    \"\"\"\n    Returns whether the tuple is distinct or not.\n    :type tup: tuple\n    :rtype: bool\n    \"\"\"\n    return len(set(tup)) == len(tup)\n\n# Complete the function below.\ndef is_distinct(tup):\n    \"\"\"\n    Returns whether the tuple is distinct or not.\n    :type tup: tuple\n    :rtype: bool\n    \"\"\"\n    return len(set(tup)) == len(tup)",
+      -0.288818359375
+    ],
+    [
+      "def is_tuple_distinct(tuple):\n    \"\"\"\n    Write a function is_tuple_distinct that takes a tuple and returns true if the tuple is distinct, and returns false otherwise.\n    \"\"\"\n    return all(tuple[i]!= tuple[i + 1] for i in range(len(tuple) - 1))\n\ndef main():\n    \"\"\"\n    Write a function to check if given tuple is distinct or not.\n    \"\"\"\n    tuple = (1, 2, 3, 4)\n    print(is_tuple_distinct(tuple))\n\nif __name__ == '__main__':\n    main()",
+      -0.4619140625
+    ],
+    [
+      "def is_tuple_distinct(tuple_of_tuples):\n    \"\"\"\n    Returns True if given tuple is distinct and False if not.\n    tuple_of_tuples: tuple of tuples\n    \"\"\"\n    return len(set(tuple_of_tuples)) == len(tuple_of_tuples)\n\n\nif __name__ == \"__main__\":\n    #These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert is_tuple_distinct((1, 2)), \"1, 2 is distinct\"\n    assert not is_tuple_distinct((1, 1)), \"1, 1 is not distinct\"\n    assert not is_tuple_distinct((1, 2, 3)), \"1, 2, 3 is not distinct\"\n    assert not is_tuple_distinct((1, 2, 3, 3)), \"1, 2, 3, 3 is not distinct\"",
+      -0.66796875
+    ],
+    [
+      "def is_distinct(tuple_arr):\n    \"\"\"\n    :type tuple_arr: List[List[int]]\n    :rtype: bool\n    \"\"\"\n    for i in range(len(tuple_arr)):\n        for j in range(i+1, len(tuple_arr)):\n            if tuple_arr[i][0] == tuple_arr[j][0] and tuple_arr[i][1] == tuple_arr[j][1]:\n                return False\n    return True\n\n\n\n# Your NumDistinctPairs object will be instantiated and called as such:\n# numDistinctPairs = NumDistinctPairs()\n# param_1 = numDistinctPairs.numDistinctPairs(tuple_arr)\n\nif __name__ == \"__main__\":\n    tuple_arr = [[1, 2], [3, 4], [1, 3], [1, 4], [2, 4], [1, 2], [2, 3], [2, 4], [3, 4]]\n    print(is_distinct(tuple_arr))",
+      -0.7373046875
+    ],
+    [
+      "def is_tuple_distinct(tup):\n    \"\"\"\n    :type tup: tuple\n    :rtype: bool\n    \"\"\"\n    # https://leetcode.com/problems/tuple-distinct/discuss/95578/Python-Python-solution\n    if len(tup)!= len(set(tup)):\n        return False\n    else:\n        return True\n\nif __name__ == '__main__':\n    print(is_tuple_distinct((1, 2, 1)))\n    print(is_tuple_distinct((1, 2, 3)))\n    print(is_tuple_distinct((1, 2, 3, 4)))\n    print(is_tuple_distinct((1, 2, 3, 4, 5)))\n    print(is_tuple_distinct((1, 2, 3, 4, 5, 6)))\n    print(is_tuple_distinct((1, 2, 3, 4, 5, 6, 7)))\n    print(is_tuple_distinct((1, 2, 3, 4, 5, 6, 7, 8)))",
+      -0.78955078125
+    ],
+    [
+      "def is_distinct(t):\n    \"\"\"\n    Check if tuple is distinct or not.\n    :param t: tuple\n    :return: True if tuple is distinct otherwise False\n    \"\"\"\n    set_t = set(t)\n    if set_t == {t}:\n        return True\n    else:\n        return False\n\nif __name__ == \"__main__\":\n    print(is_distinct([1,2,1]))",
+      -0.85595703125
+    ],
+    [
+      "def is_tuple_distinct(tuple):\n    \"\"\"\n    :type tuple: List[int]\n    :rtype: bool\n    \"\"\"\n    seen = set()\n    for item in tuple:\n        if item in seen:\n            return False\n        else:\n            seen.add(item)\n    return True",
+      -0.85693359375
+    ],
+    [
+      "def is_tuple_distinct(tuple_object):\n    \"\"\"\n    Returns True if the given tuple object is unique, else returns False.\n    >>> is_tuple_distinct((1, 2, 3))\n    True\n    >>> is_tuple_distinct((1, 2, 3, 3))\n    False\n    \"\"\"\n    return len(set(tuple_object)) == len(tuple_object)",
+      -0.85693359375
+    ],
+    [
+      "def is_distinct(t):\n    return len(set(t)) == len(t)\n\ndef main():\n    t = (1,2,3)\n    print(is_distinct(t))\n\nif __name__ == '__main__':\n    main()",
+      -0.85693359375
+    ],
+    [
+      "def is_distinct(t):\n  \"\"\"\n  Input: tuple t\n  Output: bool\n  \"\"\"\n  if len(t)!= 2:\n    return False\n  if t[0] == t[1]:\n    return False\n  return True\n\n\n#Testing\nt1 = (1, 2)\nt2 = (1, 2)\nt3 = (3, 4)\nt4 = (5, 6)\n\nassert is_distinct(t1) == True\nassert is_distinct(t2) == True\nassert is_distinct(t3) == False\nassert is_distinct(t4) == False",
+      -0.85693359375
+    ],
+    [
+      "def is_distinct(tuple):\n    \"\"\"\n    :type tuple: List[int]\n    :rtype: bool\n    \"\"\"\n    return len(tuple) == len(set(tuple))\n\nif __name__ == '__main__':\n    print(is_distinct([1, 2, 3]))\n    print(is_distinct([1, 2, 1]))\n    print(is_distinct([1, 1, 2]))\n    print(is_distinct([1, 1, 1]))",
+      -0.85791015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/tuple-distinct\n# Time complexity: O(n)\ndef is_distinct(tup):\n    seen = set()\n    for x in tup:\n        if x in seen:\n            return False\n        else:\n            seen.add(x)\n    return True\n\nif __name__ == \"__main__\":\n    print(is_distinct((1, 2, 3, 4)))",
+      -0.85791015625
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/tutorial-distinct/problem\n\ndef is_distinct(tuple):\n    return len(tuple) == len(set(tuple))\n\nif __name__ == \"__main__\":\n    t = input().strip()\n    print(is_distinct(t))",
+      -0.85791015625
+    ],
+    [
+      "class Tuple:\n    def __init__(self, *args):\n        self.data = list(args)\n    def __str__(self):\n        return str(self.data)\n\ndef is_distinct(tuple):\n    return len(set(tuple)) == len(tuple)\n\nif __name__ == '__main__':\n    tuple = Tuple(1, 2, 3)\n    print(is_distinct(tuple))",
+      -0.85791015625
+    ],
+    [
+      "def is_tuple_distinct(tup):\n    \"\"\"\n    Write a function is_tuple_distinct that takes a tuple as input and returns a boolean value.\n\n    Args:\n        tup (tuple): The input tuple.\n\n    Returns:\n        bool: True if the tuple is distinct, False otherwise.\n    \"\"\"\n    return len(tup) == len(set(tup))",
+      -0.85791015625
+    ],
+    [
+      "def is_distinct(tup):\n    for i in range(len(tup)):\n        for j in range(i + 1, len(tup)):\n            if tup[i] == tup[j]:\n                return False\n    return True\n\nif __name__ == \"__main__\":\n    tup = (1, 2, 1)\n    print(is_distinct(tup))",
+      -0.85791015625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return str(self.x)\n\n    def __eq__(self, other):\n        return self.x == other.x\n\n    def __lt__(self, other):\n        return self.x < other.x\n\n    def __gt__(self, other):\n        return self.x > other.x\n\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        nums.sort()\n        return len(nums) == len(set(nums))\n\nif __name__ == '__main__':\n    solution = Solution()\n    print solution.isDistinct([(1, 1), (1, 2), (2, 1), (2, 2), (3, 3)])",
+      -0.8583984375
+    ],
+    [
+      "class Tuple:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\n    def __str__(self):\n        return str((self.x, self.y))\n\n    def __repr__(self):\n        return str(self)\n\ndef is_tuple_distinct(tuple_1, tuple_2):\n    return tuple_1!= tuple_2\n\nif __name__ == \"__main__\":\n    tuple_1 = Tuple(1, 2)\n    tuple_2 = Tuple(1, 3)\n    tuple_3 = Tuple(1, 2)\n\n    print(is_tuple_distinct(tuple_1, tuple_2))\n    print(is_tuple_distinct(tuple_1, tuple_3))\n    print(is_tuple_distinct(tuple_2, tuple_3))",
+      -0.8583984375
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = None\n\n    def __repr__(self):\n        return str(self.x)\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if not nums:\n            return True\n        if len(nums) == 1:\n            return nums[0]!= nums[0].__repr__()\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                if nums[i] == nums[j]:\n                    return False\n        return True\n\n# Note:\n# - The Tuple class is not in the input, so we can't use the same\n#   function with the Tuple class.\n# - The Tuple class is not in the output, so we can't use the same\n#   function with the Tuple class.\n# - The Tuple class is not in the output, so we can't use the same\n#   function with the Tuple class.",
+      -0.8583984375
+    ],
+    [
+      "import unittest\n\n\nclass DistinctTupleTestCase(unittest.TestCase):\n    def test_distinct_tuple(self):\n        self.assertTrue(is_distinct_tuple((1, 2, 3)))\n        self.assertFalse(is_distinct_tuple((1, 2, 1)))\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.8583984375
+    ],
+    [
+      "class Solution(object):\n    \"\"\"\n    :type nums: List[int]\n    :rtype: bool\n    \"\"\"\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        if len(nums) < 2:\n            return True\n\n        for i in range(len(nums)):\n            if nums[i] == nums[i+1]:\n                return False\n            elif nums[i]!= nums[i+1]:\n                return True\n        return True",
+      -0.8583984375
+    ],
+    [
+      "class Solution:\n    # @param {Tuple} t\n    # @return {boolean}\n    def isDistinct(self, t):\n        s = set()\n        for x in t:\n            if x in s:\n                return False\n            s.add(x)\n        return True",
+      -0.8583984375
+    ],
+    [
+      "import collections\n\ndef is_distinct(tuple):\n    if not isinstance(tuple, collections.Iterable):\n        return False\n\n    return len(set(tuple)) == len(tuple)\n\nif __name__ == \"__main__\":\n    assert is_distinct((1, 2, 3))\n    assert is_distinct((1, 2, 2))\n    assert not is_distinct((1, 2, 2, 3, 2))",
+      -0.8583984375
+    ],
+    [
+      "def is_distinct(tuple):\n    \"\"\"\n    :type tuple: List[int]\n    :rtype: bool\n    \"\"\"\n    return len(set(tuple)) == len(tuple)\n\nclass Solution:\n    # @param {List[int]} nums\n    # @return {boolean}\n    def isDistinct(self, nums):\n        if not nums:\n            return True\n        return len(set(nums)) == len(nums)",
+      -0.8583984375
+    ],
+    [
+      "from collections import defaultdict\nfrom itertools import islice\nfrom operator import itemgetter\n\ndef distinct_tuple(tuple_list):\n    \"\"\"\n    Check if given tuple is distinct or not.\n    :param tuple_list: list of tuples\n    :return: true if given tuple is distinct, false otherwise\n    \"\"\"\n    d = defaultdict(int)\n    for t in tuple_list:\n        d[t] += 1\n        if d[t] > 1:\n            return False\n    return True\n\ndef main():\n    \"\"\"\n    Main function\n    \"\"\"\n    t = (1, 2, 3)\n    # t = (1, 2, 3, 4)\n    print distinct_tuple(t)\n\nif __name__ == '__main__':\n    main()",
+      -0.8583984375
+    ],
+    [
+      "from collections import defaultdict\n\ndef is_distinct(tuple):\n    \"\"\"\n    Returns True if the tuple is distinct, else returns False.\n    \"\"\"\n    d = defaultdict(int)\n    for e in tuple:\n        d[e] += 1\n    return len(d) == len(tuple)\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(tuple)\n# param_1 = obj.is_distinct(tuple)",
+      -0.8583984375
+    ],
+    [
+      "from collections import defaultdict\n\ndef is_tuple_distinct(tuple):\n    \"\"\"\n    Returns true if the given tuple is distinct, else false.\n\n    :type tuple: tuple\n    :rtype: bool\n    \"\"\"\n    # Create a dict with key as the first element of the tuple and value as the count of the tuple.\n    # We use defaultdict to create a dictionary with the first element as the key and the second element as the value.\n    d = defaultdict(int)\n    for x in tuple:\n        d[x] += 1\n    # If there is more than one element in the dict, the given tuple is not distinct.\n    if len(d)!= 1:\n        return False\n    # If there is only one element in the dict, the given tuple is distinct.\n    return True\n\nif __name__ == '__main__':\n    assert is_tuple_distinct((1,2,3))\n    assert not is_tuple_distinct((1,2,1))",
+      -0.85888671875
+    ],
+    [
+      "import unittest\n\n\nclass DistinctTuple(unittest.TestCase):\n    def test_distinct_tuple(self):\n        self.assertTrue(is_distinct_tuple((1, 2)))\n        self.assertFalse(is_distinct_tuple((1, 1)))\n        self.assertFalse(is_distinct_tuple((1, 2, 3)))\n        self.assertFalse(is_distinct_tuple((1, 2, 1)))\n        self.assertFalse(is_distinct_tuple((1, 2, 3, 4)))\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85888671875
+    ],
+    [
+      "import unittest\n\n\nclass DistinctTuple(unittest.TestCase):\n    def test_distinct(self):\n        self.assertEqual(is_distinct([1, 2, 3]), True)\n        self.assertEqual(is_distinct([1, 2, 1]), False)\n        self.assertEqual(is_distinct([1, 2, 2]), False)\n\n\nif __name__ == '__main__':\n    unittest.main()",
+      -0.85888671875
+    ],
+    [
+      "from collections import defaultdict\n\ndef is_distinct(t):\n    \"\"\"\n    :type t: List[int]\n    :rtype: bool\n    \"\"\"\n    d = defaultdict(int)\n    for i in t:\n        d[i] += 1\n    return len(d) == len(t)\n\n\n# Your NumDistinctClubs solution should also work.\n# test cases:\n# [[1,2,3], [1,2], [1,2,3,4], [1,2,3,4,5]]\n# [[1,2], [1,2,3], [1,2,3,4], [1,2,3,4,5]]",
+      -1.1357421875
+    ],
+    [
+      "class Tuple:\n    def __init__(self, x, y, z):\n        self.x = x\n        self.y = y\n        self.z = z\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y and self.z == other.z\n    def __ne__(self, other):\n        return not self.__eq__(other)\n    def __hash__(self):\n        return hash(self.x) + hash(self.y) + hash(self.z)\n\nt1 = Tuple(1, 2, 3)\nt2 = Tuple(1, 2, 3)\nt3 = Tuple(1, 2, 4)\n\nprint(t1 == t2)\nprint(t1 == t3)\nprint(t2 == t3)\n\ndef is_tuple_distinct(t1, t2):\n    return t1!= t2\n\nprint(is_tuple_distinct(t1, t2))\nprint(is_tuple_distinct(t2, t3))",
+      -1.1640625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\nclass Solution(object):\n    def isDistinct(self, num):\n        \"\"\"\n        :type num: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if not num: return True\n        count = collections.Counter(num)\n        if sum(count.values()) == len(num):\n            return False\n        return True\n\nif __name__ == '__main__':\n    s = Solution()\n    print s.isDistinct([(1, 1), (1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (4, 4)])",
+      -1.3720703125
+    ],
+    [
+      "class Tuple:\n    \"\"\"\n    Tuple is a tuple of values, which can be compared by comparing\n    values from the tuple.\n    \"\"\"\n    def __init__(self, values):\n        self.values = values\n\n    def __eq__(self, other):\n        return self.values == other.values\n\nclass TupleDistinctChecker(object):\n    \"\"\"\n    Given an array of tuples, check if all the tuples are distinct or not.\n    \"\"\"\n    def __init__(self, tuples):\n        self.tuples = tuples\n\n    def is_distinct(self):\n        \"\"\"\n        Check if all the tuples are distinct or not.\n        \"\"\"\n        for t1, t2 in zip(self.tuples, self.tuples[1:]):\n            if t1 == t2:\n                return False\n        return True\n\nif __name__ == '__main__':\n    t1 = Tuple([1, 2, 3])\n    t2 = Tuple([1, 2, 4])\n    t3 = Tuple([1, 2, 3, 4])\n\n    print TupleDistinctChecker([t1, t2]).is_distinct()\n    print TupleDistinctChecker([t2, t3]).is_distinct()\n    print TupleDistinctChecker([t3, t1]).is_distinct()",
+      -1.75390625
+    ],
+    [
+      "import unittest\n\nclass Test(unittest.TestCase):\n    def test_is_distinct(self):\n        self.assertTrue(is_distinct((1, 1)))\n        self.assertTrue(is_distinct((1, 2)))\n        self.assertFalse(is_distinct((1, 1)))\n        self.assertFalse(is_distinct((1, 2)))\n        self.assertFalse(is_distinct((2, 1)))\n        self.assertFalse(is_distinct((2, 2)))\n        self.assertFalse(is_distinct((2, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertTrue(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.assertFalse(is_distinct((3, 3)))\n        self.",
+      -1.8056640625
+    ],
+    [
+      "from collections import defaultdict\n\n\ndef is_distinct(tup):\n    \"\"\"\n    :type tup: tuple\n    :rtype: bool\n    \"\"\"\n    d = defaultdict(int)\n    for elem in tup:\n        d[elem] += 1\n    if len(d) == len(tup):\n        return False\n    return True\n\n\nif __name__ == '__main__':\n    assert not is_distinct((1, 2, 3, 4))\n    assert not is_distinct((1, 2, 3, 4, 5))\n    assert is_distinct((1, 2, 3, 4, 5, 6))\n    assert not is_distinct((1, 2, 3, 4, 5, 6, 7))\n    assert not is_distinct((1, 2, 3, 4, 5, 6, 7, 8))\n    assert is_distinct((1, 2, 3, 4, 5, 6, 7, 8, 9))",
+      -2.046875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n\n    def __eq__(self, other):\n        return self.x == other.x\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if len(nums) == 0:\n            return True\n        if len(nums) == 1:\n            return nums[0]!= nums[0]\n        if len(nums) == 2:\n            return nums[0]!= nums[1]\n        if len(nums) == 3:\n            return nums[0]!= nums[1] or nums[0]!= nums[2] or nums[1]!= nums[2]\n        for i in range(1, len(nums)):\n            if nums[i] == nums[i-1]:\n                return False\n        return True",
+      -2.12109375
+    ],
+    [
+      "class Tuple:\n    def __init__(self, tup):\n        self.tup = tup\n    def __str__(self):\n        return str(self.tup)\n\ndef is_tuple_distinct(tup1, tup2):\n    if tup1 == tup2:\n        return False\n    if tup1 == Tuple(tup2):\n        return True\n    if tup2 == Tuple(tup1):\n        return True\n    if is_tuple_distinct(tup1, Tuple(tup2)) and is_tuple_distinct(Tuple(tup1), tup2):\n        return True\n    return False\n\nprint(is_tuple_distinct((1, 2), (1, 3)))\nprint(is_tuple_distinct((1, 2), (1, 2)))\nprint(is_tuple_distinct((1, 2), (2, 1)))\nprint(is_tuple_distinct((1, 2, 3), (1, 3, 4)))",
+      -2.29296875
+    ],
+    [
+      "# Definition for a tuple.\n# class Tuple(object):\n#     def __init__(self, x):\n#         self.x = x\n#         self.y = y\n\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if len(nums) <= 1:\n            return True\n        s = set()\n        for t in nums:\n            s.add(t.x)\n            s.add(t.y)\n        return len(s) == len(nums)",
+      -2.306640625
+    ],
+    [
+      "class Tuple:\n    def __init__(self, *args):\n        self.args = args\n\n    def __eq__(self, other):\n        return self.args == other.args\n\n    def __hash__(self):\n        return hash(tuple(self.args))\n\ndef is_distinct(tuple):\n    for t in tuple:\n        if t == tuple[0]:\n            return False\n    return True\n\nt = Tuple(1, 2)\nprint(is_distinct(t))\n\nt = Tuple(1, 2, 3)\nprint(is_distinct(t))\n\nt = Tuple(1, 2, 3, 4)\nprint(is_distinct(t))\n\nt = Tuple(1, 2, 3, 4, 5)\nprint(is_distinct(t))\n\nt = Tuple(1, 2, 3, 4, 5, 6)\nprint(is_distinct(t))",
+      -2.41796875
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n    def __repr__(self):\n        return '('+str(self.a)+','+str(self.b)+')'\n\nclass TupleList(object):\n    def __init__(self, lst):\n        self.lst = lst\n    def __repr__(self):\n        return '('+str(self.lst)+')'\n\ndef isDistinct(t1, t2):\n    return t1!= t2\n\ndef isDistinct2(t1, t2):\n    return t1.a!= t2.a or t1.b!= t2.b\n\ndef isDistinct3(t1, t2):\n    return t1.a!= t2.a or t1.b!= t2.b or t1.a!= t2.b\n\ndef main():\n    t1 = Tuple(1, 2)\n    t2 = Tuple(1, 3)\n    t3 = Tuple(2, 3)\n    t4 = Tuple(3, 4)\n    t5 = Tuple(4, 5)\n    t6 = Tuple(5, 6)\n    t7 = Tuple(6, 7)\n    t8 = Tuple(7, 8)\n    t9 = Tuple(8, 9)\n    t10 = Tuple(9, 10)\n    t11 = Tuple(10, 11)\n    t12 = Tuple(11, 12)\n    t13 = Tuple(12, 13)\n    t14 = Tuple(13, 14)\n    t15 = Tuple(14, 15)\n    t16 = Tuple(15, 16)\n    t17 = Tuple(16, 17)\n    t18 = Tuple(17, 18)\n    t19 = Tuple(18, 19)\n    t20 = Tuple(19, 20)\n    t21 = Tuple(20, 21)\n    t22 = Tuple(21, 22)\n    t23 = Tuple(22, 23)\n    t24 = Tuple",
+      -2.62109375
+    ],
+    [
+      "# https://leetcode.com/problems/check-if-tuple-is-distinct/\n\nclass Solution:\n    # @param {List<List<Integer>>} nums\n    # @return {boolean}\n    def isDistinct(self, nums):\n        if not nums:\n            return True\n        \n        # use set to keep track of unique values\n        set_of_values = set()\n        \n        # iterate over all elements\n        for num in nums:\n            # if element is not in set, add it\n            if num not in set_of_values:\n                set_of_values.add(num)\n            else:\n                # if element is in set, return false\n                return False\n        \n        # all elements are unique\n        return True",
+      -2.677734375
+    ],
+    [
+      "import collections\n\n\ndef is_distinct(tuple_list):\n    \"\"\"\n    Check if given tuple is distinct or not.\n    :param tuple_list: list of tuples.\n    :return: boolean\n    \"\"\"\n    distinct_tuple = collections.defaultdict(lambda: 1)\n    for t in tuple_list:\n        distinct_tuple[tuple(t)] += 1\n        if distinct_tuple[tuple(t)] > 1:\n            return False\n    return True\n\n\n# Your is_distinct function should return the same output as the following.\n# is_distinct([(1, 2), (1, 3), (2, 4), (2, 5), (3, 6)]) == False\n# is_distinct([(1, 2), (1, 3), (2, 4), (2, 5), (3, 6)]) == True\n# is_distinct([(1, 1), (2, 2), (3, 3)]) == False\n# is_distinct([(1, 1), (2, 2), (3, 3)]) == True",
+      -2.72265625
+    ],
+    [
+      "def is_tuple_distinct(tuple):\n    \"\"\"\n    Write a function is_tuple_distinct that checks if given tuple is distinct or not.\n\n    Input\n    -----\n    tuple: tuple\n        Tuple to be checked.\n\n    Output\n    ------\n    is_distinct: boolean\n        True if given tuple is distinct, False otherwise.\n    \"\"\"\n    is_distinct = True\n    for i in range(len(tuple)):\n        if tuple[i] == tuple[i-1]:\n            is_distinct = False\n    return is_distinct",
+      -2.72265625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\n    def __hash__(self):\n        return hash(self.x) ^ hash(self.y)\n\n\nclass Solution(object):\n    def checkDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        for i in xrange(len(nums)):\n            for j in xrange(i+1, len(nums)):\n                if nums[i] == nums[j]:\n                    return False\n        return True",
+      -2.76953125
+    ],
+    [
+      "def is_distinct(tup):\n    if tup in set(tup):\n        return False\n    else:\n        return True\n\n# Complete the is_distinct function below.\n\n# Note:\n# The function is_distinct must return True if\n# the given array is sorted in ascending order.\n# If the array is not sorted, then the function must return False.\n# You may assume that the given array consists of unique integers.\n\n\ndef is_distinct(tup):\n    return True if tup[0] > tup[1] else False\n\n\nif __name__ == '__main__':\n    print is_distinct((1, 2, 3))\n    print is_distinct((1, 3, 2))\n    print is_distinct((3, 2, 1))\n    print is_distinct((3, 1, 2))\n    print is_distinct((1, 1, 2))\n    print is_distinct((2, 2, 2))",
+      -2.806640625
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, elements):\n        self.elements = elements\n\n    def __str__(self):\n        return str(self.elements)\n\n    def __eq__(self, other):\n        if isinstance(other, tuple):\n            return self.elements == other.elements\n        else:\n            return False\n\n    def __hash__(self):\n        return hash(self.elements)\n\ndef is_tuple_distinct(tuple_list):\n    if len(tuple_list) == 0:\n        return False\n\n    if len(tuple_list) == 1:\n        return True\n\n    for t in tuple_list:\n        if t.__eq__(tuple_list[0]):\n            return False\n\n    return True\n\nif __name__ == \"__main__\":\n    t = Tuple([1, 2, 3])\n    t2 = Tuple([3, 2, 1])\n    t3 = Tuple([3, 1, 2])\n\n    print is_tuple_distinct([t, t2, t3])",
+      -2.92578125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n    def __str__(self):\n        return str(self.x)\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        for i in range(len(nums)):\n            for j in range(i+1, len(nums)):\n                if nums[i] == nums[j]:\n                    return False\n        return True",
+      -3.01953125
+    ],
+    [
+      "def is_tuple_distinct(tuple):\n    \"\"\"\n    Input: tuple is a tuple\n    Output: True if tuple is distinct, False otherwise\n    \"\"\"\n    # check if tuple is empty\n    if not tuple:\n        return False\n    # check if tuple is not empty\n    # check if each element in tuple is unique\n    return len(tuple) == len(set(tuple))\n\nif __name__ == \"__main__\":\n    print is_tuple_distinct((1, 2, 3))\n    print is_tuple_distinct((1, 2, 3, 1))",
+      -3.16015625
+    ],
+    [
+      "class Tuple(object):\n    \"\"\"Tuple class.\"\"\"\n\n    def __init__(self, x, y):\n        \"\"\"Initialize tuple class.\"\"\"\n        self.x = x\n        self.y = y\n\n    def __eq__(self, other):\n        \"\"\"Equality operator.\"\"\"\n        return (self.x == other.x) and (self.y == other.y)\n\n    def __ne__(self, other):\n        \"\"\"Inequality operator.\"\"\"\n        return not self.__eq__(other)\n\n    def __str__(self):\n        \"\"\"String representation.\"\"\"\n        return \"Tuple({}, {})\".format(self.x, self.y)\n\n\ndef is_tuple_distinct(tuple1, tuple2):\n    \"\"\"Check if two tuples are distinct.\"\"\"\n    return tuple1!= tuple2\n\n\ndef is_tuple_equal(tuple1, tuple2):\n    \"\"\"Check if two tuples are equal.\"\"\"\n    return tuple1 == tuple2\n\n\ndef main():\n    \"\"\"Main function.\"\"\"\n    tuple1 = Tuple(1, 2)\n    tuple2 = Tuple(1, 3)\n    tuple3 = Tuple(1, 2)\n    tuple4 = Tuple(1, 2)\n\n    assert is_tuple_distinct(tuple1, tuple2)\n    assert not is_tuple_distinct(tuple1, tuple3)\n    assert not is_tuple_distinct(tuple1, tuple4)\n\n    assert is_tuple_equal(tuple1, tuple2)\n    assert is_tuple_equal(tuple1, tuple3)\n    assert not is_tuple_equal(tuple1, tuple4)\n\n\nif __name__ == \"__main__\":\n    main()",
+      -3.193359375
+    ],
+    [
+      "class Tuple(object):\n    \"\"\"\n    A tuple with a name and a value.\n    \"\"\"\n    def __init__(self, name, value):\n        self.name = name\n        self.value = value\n\n    def __str__(self):\n        return \"%s: %s\" % (self.name, self.value)\n\n\ndef is_tuple_distinct(tuple1, tuple2):\n    \"\"\"\n    Check if two tuples are distinct or not.\n    :param tuple1: The first tuple.\n    :param tuple2: The second tuple.\n    :return: True if the two tuples are distinct, otherwise False.\n    \"\"\"\n    return tuple1.name!= tuple2.name or tuple1.value!= tuple2.value\n\n\ndef main():\n    \"\"\"\n    Main program.\n    \"\"\"\n    print(\"Checking if (a, b) is distinct or not.\")\n    tuple1 = Tuple(\"a\", 1)\n    tuple2 = Tuple(\"b\", 2)\n    assert is_tuple_distinct(tuple1, tuple2)\n    print(\"Checking if (a, b) is distinct or not.\")\n    tuple1 = Tuple(\"a\", 1)\n    tuple2 = Tuple(\"a\", 1)\n    assert is_tuple_distinct(tuple1, tuple2)\n    print(\"Checking if (a, b) is distinct or not.\")\n    tuple1 = Tuple(\"a\", 1)\n    tuple2 = Tuple(\"b\", 2)\n    assert not is_tuple_distinct(tuple1, tuple2)\n    print(\"Checking if (a, b) is distinct or not.\")\n    tuple1 = Tuple(\"a\", 1)\n    tuple2 = Tuple(\"b\", 1)\n    assert not is_tuple_distinct(tuple1, tuple2)\n    print(\"Checking if (a, b) is distinct or not.\")\n    tuple1 = Tuple(\"a\", 1)\n    tuple2 = Tuple(\"a\", 2)\n    assert not is_tuple_distinct(tuple1, tuple2)\n    print(\"Checking if (a, b)",
+      -3.23828125
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, tup):\n        self.tup = tup\n    def __eq__(self, other):\n        return self.tup == other.tup\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        # dp[i] indicates whether nums[i] is distinct\n        # dp[0] is always False\n        dp = [False] * len(nums)\n        for i in range(1, len(nums)):\n            dp[i] = dp[i-1] or nums[i-1]!= nums[i]\n        return all(dp)\n\n\nif __name__ == \"__main__\":\n    assert Solution().isDistinct([1,2,3,3])\n    assert Solution().isDistinct([1,1,2,2])\n    assert not Solution().isDistinct([1,1,1,2])\n    assert Solution().isDistinct([1,1,1,2,3])\n    assert not Solution().isDistinct([1,1,1,2,3,3])\n    assert not Solution().isDistinct([1,1,1,2,3,3,3])",
+      -3.416015625
+    ],
+    [
+      "class Tuple:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\ndef is_distinct(tuple):\n    if len(tuple)!= 2:\n        return False\n    for i in range(0, len(tuple)):\n        if tuple[i] == tuple[i-1]:\n            return False\n    return True\n\n# Test Cases\n\ntuple1 = Tuple(1, 2)\ntuple2 = Tuple(1, 2)\ntuple3 = Tuple(1, 3)\ntuple4 = Tuple(1, 4)\ntuple5 = Tuple(5, 6)\ntuple6 = Tuple(1, 6)\ntuple7 = Tuple(1, 2)\ntuple8 = Tuple(1, 2)\n\nprint(\"Tuple1 is distinct: \" + str(is_distinct(tuple1)))\nprint(\"Tuple2 is distinct: \" + str(is_distinct(tuple2)))\nprint(\"Tuple3 is distinct: \" + str(is_distinct(tuple3)))\nprint(\"Tuple4 is distinct: \" + str(is_distinct(tuple4)))\nprint(\"Tuple5 is distinct: \" + str(is_distinct(tuple5)))\nprint(\"Tuple6 is distinct: \" + str(is_distinct(tuple6)))\nprint(\"Tuple7 is distinct: \" + str(is_distinct(tuple7)))\nprint(\"Tuple8 is distinct: \" + str(is_distinct(tuple8)))",
+      -3.4453125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if not nums:\n            return True\n        if len(nums) == 1:\n            return True\n        # dp[i] is whether nums[i] is distinct or not.\n        # dp[i] = 1 if nums[i] is distinct, 0 if not.\n        dp = [0] * len(nums)\n        for i in range(1, len(nums)):\n            # if nums[i] is distinct, then nums[i-1] is distinct too.\n            dp[i] = dp[i-1] ^ 1\n        return dp[-1] == 0",
+      -3.525390625
+    ],
+    [
+      "class Tuple:\n    def __init__(self, lst):\n        self.lst = lst\n\n    def __str__(self):\n        return str(self.lst)\n\n    def __eq__(self, other):\n        return self.lst == other.lst\n\ndef is_distinct(tuple_list):\n    \"\"\"\n    Returns True if tuple_list is distinct, False otherwise.\n\n    time complexity O(n)\n    space complexity O(n)\n    \"\"\"\n    if not tuple_list:\n        return True\n\n    tuple_set = set()\n    for t in tuple_list:\n        if t in tuple_set:\n            return False\n        else:\n            tuple_set.add(t)\n\n    return True\n\ntuple_list = [\n    (1, 2, 3),\n    (1, 2, 4),\n    (1, 2, 3),\n    (1, 2, 4),\n    (1, 2, 3),\n    (1, 2, 4)\n]\n\nprint(is_distinct(tuple_list))",
+      -3.646484375
+    ],
+    [
+      "def distinct(tuple):\n    \"\"\"\n    Input: tuple (int)\n    Output: True or False\n    \"\"\"\n    return len(tuple) == len(set(tuple))\n\n# Test Cases\n\n# tuple = (1, 2, 3)\n# tuple = (1, 3, 2)\n# tuple = (1, 2, 3, 4)\n# tuple = (1, 3, 2, 4)\ntuple = (1, 3, 2, 4)\nprint distinct(tuple)",
+      -3.69921875
+    ],
+    [
+      "class Tuple:\n    def __init__(self, tup):\n        self.tup = tup\n\n    def __hash__(self):\n        return hash(self.tup)\n\n    def __eq__(self, other):\n        if not isinstance(other, Tuple):\n            return False\n        return self.tup == other.tup\n\n    def __str__(self):\n        return str(self.tup)\n\n    def __repr__(self):\n        return repr(self.tup)\n\ndef is_distinct(tup):\n    \"\"\"\n    Check if given tuple is distinct or not.\n    \"\"\"\n    if tup in [tup2 for tup2 in [tup]]:\n        return False\n    return True\n\ndef main():\n    tup1 = (1,2,3)\n    tup2 = (1,2,3)\n    tup3 = (1,2,4)\n\n    print(is_distinct(tup1))\n    print(is_distinct(tup2))\n    print(is_distinct(tup3))\n\nif __name__ == '__main__':\n    main()",
+      -3.794921875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __hash__(self):\n        return hash(self.x + self.y)\n\nclass Solution(object):\n    def isDistinct(self, num):\n        \"\"\"\n        :type num: List[int]\n        :rtype: bool\n        \"\"\"\n        if len(num) < 2:\n            return True\n        dp = [[False] * len(num) for i in range(len(num))]\n        dp[0][0] = True\n        for i in range(1, len(num)):\n            dp[i][0] = num[i]!= num[i - 1]\n            for j in range(1, i):\n                if num[i]!= num[j] and dp[i - 1][j]:\n                    dp[i][j] = dp[i][j - 1]\n                else:\n                    dp[i][j] = dp[i - 1][j] or dp[i][j - 1]\n        return dp[-1][-1]",
+      -3.798828125
+    ],
+    [
+      "import unittest\n\ndef is_distinct(tup):\n    \"\"\"\n    tup = (1, 2, 3, 4, 5)\n    >>> is_distinct(tup)\n    True\n    >>> is_distinct((1, 2, 3, 4, 5))\n    True\n    >>> is_distinct((1, 2, 3, 4, 6))\n    False\n    >>> is_distinct((1, 2, 3, 4, 6, 3, 4))\n    False\n    >>> is_distinct((1, 2, 3, 4, 6, 3, 4, 3))\n    True\n    >>> is_distinct((1, 2, 3, 4, 6, 3, 4, 3, 4))\n    True\n    \"\"\"\n    return len(set(tup)) == len(tup)\n\nclass TestIsDistinct(unittest.TestCase):\n    def test_is_distinct(self):\n        self.assertTrue(is_distinct((1, 2, 3, 4, 5)))\n        self.assertTrue(is_distinct((1, 2, 3, 4, 5, 1, 2)))\n        self.assertFalse(is_distinct((1, 2, 3, 4, 6, 3, 4)))\n        self.assertFalse(is_distinct((1, 2, 3, 4, 6, 3, 4, 3)))\n        self.assertTrue(is_distinct((1, 2, 3, 4, 6, 3, 4, 3, 4)))\n\nif __name__ == \"__main__\":\n    unittest.main()",
+      -3.95703125
+    ],
+    [
+      "import collections\n\ndef is_tuple_distinct(tup):\n    \"\"\"\n    tuple is distinct if the number of elements is equal to len(tup) and\n    the elements are unique.\n    \"\"\"\n    if len(tup)!= len(set(tup)):\n        return False\n    return True\n\ndef is_tuple_distinct_2(tup):\n    \"\"\"\n    tuple is distinct if the number of elements is equal to len(tup) and\n    the elements are unique.\n    \"\"\"\n    if len(tup)!= len(set(tup)):\n        return False\n    return True\n\ndef main():\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9)\n    tup = (1, 2, 3, 4, 5)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17)\n    tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)\n    tup = (1, 2, 3, 4",
+      -3.998046875
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __str__(self):\n        return str(self.x) + str(self.y)\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if not nums:\n            return True\n        d = {}\n        for t in nums:\n            if t in d:\n                return False\n            else:\n                d[t] = 1\n        return True\n\nif __name__ == \"__main__\":\n    s = Solution()\n    print s.isDistinct([(1,2),(1,2),(1,2),(1,2),(1,2),(1,2),(1,2)])",
+      -4.046875
+    ],
+    [
+      "class Tuple(object):\n    \"\"\"\n    A tuple class.\n    \"\"\"\n\n    def __init__(self, elements):\n        self.elements = elements\n\n    def __str__(self):\n        return str(self.elements)\n\n    def __eq__(self, other):\n        return self.elements == other.elements\n\n    def __ne__(self, other):\n        return self.elements!= other.elements\n\n    def __hash__(self):\n        return hash(tuple(self.elements))\n\n\ndef is_tuple_distinct(tuple_list):\n    \"\"\"\n    Check if given list of tuples are all distinct or not.\n\n    :param tuple_list: list of tuples\n    :return: True if all tuples are distinct, otherwise False\n    \"\"\"\n    for i in range(len(tuple_list) - 1):\n        if tuple_list[i] == tuple_list[i + 1]:\n            return False\n    return True\n\nif __name__ == '__main__':\n    tuple_list = [Tuple(range(3)), Tuple(range(3)), Tuple(range(3))]\n    print(is_tuple_distinct(tuple_list))",
+      -4.2890625
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        nums.sort()\n        for i in xrange(1, len(nums)):\n            if nums[i] == nums[i - 1]:\n                return False\n        return True",
+      -4.6640625
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        return '({}, {})'.format(self.x, self.y)\n\ndef is_tuple_distinct(tuple1, tuple2):\n    if tuple1 == tuple2:\n        return False\n    if tuple1.x == tuple2.x and tuple1.y == tuple2.y:\n        return True\n    return False\n\ntuple1 = Tuple(1, 2)\ntuple2 = Tuple(2, 1)\ntuple3 = Tuple(1, 1)\ntuple4 = Tuple(1, 2)\n\nprint is_tuple_distinct(tuple1, tuple2)\nprint is_tuple_distinct(tuple2, tuple1)\nprint is_tuple_distinct(tuple3, tuple4)\nprint is_tuple_distinct(tuple4, tuple3)",
+      -4.796875
+    ],
+    [
+      "from collections import Counter\n\ndef is_distinct(tuple):\n    \"\"\"\n    Check if given tuple is distinct or not.\n    :type tuple: tuple\n    :rtype: bool\n    \"\"\"\n    counter = Counter(tuple)\n    return len(counter) == 1\n\n\nif __name__ == '__main__':\n    assert is_distinct((1, 2, 3, 4, 5))\n    assert is_distinct((1, 2, 3, 4, 5, 6))\n    assert not is_distinct((1, 2, 3, 4, 5, 6, 7))\n    assert not is_distinct((1, 2, 3, 4, 5, 6, 7, 8))",
+      -4.93359375
+    ],
+    [
+      "import collections\n\n\ndef is_tuple_distinct(tuple_):\n    \"\"\"\n    :param tuple_: tuple\n    :return: True if given tuple is distinct, otherwise return False\n    \"\"\"\n    # return collections.Counter(tuple_).values() == 1\n\n    return collections.Counter(tuple_).values() == tuple_\n\n\nif __name__ == '__main__':\n    assert is_tuple_distinct((1, 2, 3, 4, 5, 6, 7, 8, 9, 10))\n    assert not is_tuple_distinct((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1))",
+      -5.0625
+    ],
+    [
+      "# TODO\n# - implement a function to check if given tuple is unique or not\n# - implement a function to check if given tuple is valid or not\n\n\nclass Tuple:\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n\n\ndef is_tuple_distinct(tuple_a, tuple_b):\n    \"\"\"\n    Check if two given tuples are distinct.\n\n    :param tuple_a: tuple of three elements\n    :param tuple_b: tuple of three elements\n    :return: True if the two tuples are distinct, otherwise False\n    \"\"\"\n    if tuple_a == tuple_b:\n        return False\n\n    return True\n\n\ndef is_tuple_valid(tuple_a):\n    \"\"\"\n    Check if the given tuple is valid.\n\n    :param tuple_a: tuple of three elements\n    :return: True if the tuple is valid, otherwise False\n    \"\"\"\n    if not isinstance(tuple_a, Tuple):\n        return False\n\n    if tuple_a.a > tuple_a.b or tuple_a.a < 0 or tuple_a.b < 0 or tuple_a.c < 0:\n        return False\n\n    return True\n\n\ndef is_tuple_unique(tuple_a, tuple_b):\n    \"\"\"\n    Check if the given tuples are unique.\n\n    :param tuple_a: tuple of three elements\n    :param tuple_b: tuple of three elements\n    :return: True if the two tuples are unique, otherwise False\n    \"\"\"\n    if tuple_a == tuple_b:\n        return True\n\n    if tuple_a.a == tuple_b.a and tuple_a.b == tuple_b.b and tuple_a.c == tuple_b.c:\n        return True\n\n    return False",
+      -5.08203125
+    ],
+    [
+      "class Tuple:\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n\n    def __str__(self):\n        return '(' + str(self.a) + ','+ str(self.b) + ','+ str(self.c) + ')'\n\n    def __eq__(self, other):\n        return self.a == other.a and self.b == other.b and self.c == other.c\n\n    def __ne__(self, other):\n        return not self.__eq__(other)\n\n    def __hash__(self):\n        return hash((self.a, self.b, self.c))\n\ndef is_tuple_distinct(t):\n    return all(tuple(x)!= t for x in t)\n\n# Your Tuple object will be instantiated and called as such:\n# obj = Tuple(a, b, c)\n# param_1 = obj.a\n# param_2 = obj.b\n# param_3 = obj.c",
+      -5.71484375
+    ],
+    [
+      "from collections import Counter\n\ndef is_distinct(tup):\n    \"\"\"\n    :type tup: List[int]\n    :rtype: bool\n    \"\"\"\n    # Use a dictionary to store the distinct elements.\n    dic = Counter(tup)\n    # If the distinct elements are not equal, then return False.\n    if dic!= Counter(tup):\n        return False\n    # Otherwise return True.\n    return True\n\nif __name__ == '__main__':\n    # These \"asserts\" using only for self-checking and not necessary for auto-testing\n    assert is_distinct([1, 1, 2, 3]) == True, \"1st example\"\n    assert is_distinct([2, 2, 2, 2]) == False, \"2nd example\"\n    assert is_distinct([1, 2, 3, 4, 5]) == True, \"3rd example\"\n    assert is_distinct([1, 1, 2, 4, 5]) == False, \"4th example\"\n    assert is_distinct([1, 2, 3, 4, 5, 6]) == True, \"5th example\"\n    assert is_distinct([1, 1, 2, 4, 5, 6, 7]) == False, \"6th example\"\n    assert is_distinct([1, 1, 2, 3, 4, 5, 6, 7, 8]) == True, \"7th example\"\n    assert is_distinct([1, 1, 2, 3, 4, 5, 6, 7, 8, 9]) == False, \"8th example\"\n    assert is_distinct([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == True, \"9th example\"\n    assert is_distinct([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == False, \"10th example\"",
+      -6.53125
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, tup):\n        self.tup = tup\n    def __eq__(self, other):\n        return self.tup == other.tup\n\n\nclass TupleDistinct(object):\n    def __init__(self, tup):\n        self.tup = tup\n    def __eq__(self, other):\n        return self.tup!= other.tup\n\nif __name__ == '__main__':\n    tup1 = Tuple((1, 2, 3))\n    tup2 = Tuple((1, 2, 3))\n    tup3 = Tuple((1, 2, 4))\n    tup4 = Tuple((1, 2, 4))\n    tup5 = Tuple((1, 2, 3, 4))\n    tup6 = Tuple((1, 2, 3, 4))\n    tup7 = Tuple((1, 2, 3, 5))\n    tup8 = Tuple((1, 2, 3, 5))\n    tup9 = Tuple((1, 2, 3, 4, 5))\n    tup10 = Tuple((1, 2, 3, 4, 5))\n    tup11 = Tuple((1, 2, 3, 4, 5, 6))\n    tup12 = Tuple((1, 2, 3, 4, 5, 6))\n    tup13 = Tuple((1, 2, 3, 4, 5, 7))\n    tup14 = Tuple((1, 2, 3, 4, 5, 7))\n    tup15 = Tuple((1, 2, 3, 4, 5, 6, 7))\n    tup16 = Tuple((1, 2, 3, 4, 5, 6, 7))\n    tup17 = Tuple((1, 2, 3, 4, 5, 6, 8))\n    tup18 = Tuple((1, 2, 3, 4, 5, 6, 8))\n    tup19 = Tuple((1, 2, 3, 4, 5, 6, 7, 8))\n    tup20 = Tuple((1, 2, 3, 4, 5, 6, 7, 8))\n    t",
+      -6.59375
+    ],
+    [
+      "class Tuple:\n    def __init__(self, a, b, c):\n        self.a = a\n        self.b = b\n        self.c = c\n\n    def __eq__(self, other):\n        return self.a == other.a and self.b == other.b and self.c == other.c\n\n    def __hash__(self):\n        return hash((self.a, self.b, self.c))\n\n    def __repr__(self):\n        return \"Tuple(\" + repr(self.a) + \", \" + repr(self.b) + \", \" + repr(self.c) + \")\"\n\nt = Tuple(1, 2, 3)\n\ndef is_distinct(t1, t2):\n    if t1 == t2:\n        return False\n    elif t1.a == t2.a or t1.b == t2.b or t1.c == t2.c:\n        return True\n    else:\n        return is_distinct(t1, Tuple(t1.a, t2.b, t2.c)) and is_distinct(t2, Tuple(t1.a, t2.b, t2.c))\n\nprint(is_distinct(t, Tuple(1, 2, 3)))\nprint(is_distinct(Tuple(1, 2, 3), t))\nprint(is_distinct(Tuple(1, 2, 3), Tuple(1, 2, 4)))\nprint(is_distinct(Tuple(1, 2, 3), Tuple(2, 3, 4)))",
+      -6.72265625
+    ],
+    [
+      "class Tuple(object):\n    \"\"\"\n    Tuple class\n    \"\"\"\n    def __init__(self, tup):\n        self.tup = tup\n        self.val = [0] * len(tup)\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.val[0] == 1:\n            raise StopIteration\n        else:\n            self.val[0] = 1\n            return self.tup\n\n    def next(self):\n        if self.val[0] == 1:\n            raise StopIteration\n        else:\n            self.val[0] = 1\n            return self.tup\n\ndef is_tuple_distinct(tup1, tup2):\n    \"\"\"\n    Check if given tuple is distinct or not.\n    \"\"\"\n    if len(tup1)!= len(tup2):\n        return False\n    for i in range(len(tup1)):\n        if tup1[i]!= tup2[i]:\n            return False\n    return True\n\ndef main():\n    tup1 = (1, 2, 3)\n    tup2 = (1, 3, 2)\n    tup3 = (1, 3, 3)\n    tup4 = (1, 2, 3)\n    tup5 = (1, 2, 2)\n    tup6 = (1, 2, 1)\n    tup7 = (1, 2, 1, 2)\n    tup8 = (1, 2, 1, 2, 1)\n    tup9 = (1, 2, 1, 2, 2)\n    tup10 = (1, 2, 1, 2, 3)\n    tup11 = (1, 2, 1, 3, 2)\n    tup12 = (1, 2, 1, 3, 3)\n    tup13 = (1, 2, 1, 3, 4)\n    tup14 = (1, 2, 1, 4, 3)\n    tup15 = (1, 2, 1, 4, 4)\n    tup16 = (1, 2, 1, 4, 5)\n    tup17 =",
+      -6.76953125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple:\n    def __init__(self, x):\n        self.x = x\n        self.y = 0\n\n    def __repr__(self):\n        return str(self.x)\n\n    def __eq__(self, other):\n        return self.x == other.x and self.y == other.y\n\nclass Solution:\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if len(nums) <= 1:\n            return True\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] == nums[i+1]:\n                return False\n        return True\n\nclass Solution2:\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[Tuple]\n        :rtype: bool\n        \"\"\"\n        if len(nums) <= 1:\n            return True\n        nums.sort()\n        for i in range(len(nums)):\n            if nums[i] == nums[i+1]:\n                return False\n        return True\n\nif __name__ == \"__main__\":\n    s = Solution()\n    nums = [Tuple(1,2)]\n    print(s.isDistinct(nums))\n    nums = [Tuple(1,2), Tuple(2,1)]\n    print(s.isDistinct(nums))\n    nums = [Tuple(1,2), Tuple(2,3)]\n    print(s.isDistinct(nums))\n    nums = [Tuple(1,2), Tuple(3,1)]\n    print(s.isDistinct(nums))",
+      -7.07421875
+    ],
+    [
+      "class Tuple(object):\n    def __init__(self, *args):\n        self.args = args\n\n    def __eq__(self, other):\n        if type(other) is Tuple:\n            return self.args == other.args\n        else:\n            return False\n\n    def __hash__(self):\n        return hash(tuple(self.args))\n\nclass DistinctTuple(Tuple):\n    def __eq__(self, other):\n        if type(other) is Tuple:\n            return self.args!= other.args\n        else:\n            return False\n\n    def __hash__(self):\n        return hash(tuple(self.args))\n\n\n# Your Tuple object will be instantiated and called as such:\n# obj = Tuple(1, 2)\n# param_2 = obj.isDistinct()",
+      -8.2734375
+    ],
+    [
+      "def is_distinct(tuple):\n    if tuple[0] in set(tuple[1:]):\n        return False\n    else:\n        return True\n\n\"\"\"\nWrite a function to find all tuples of given length.\n\nExample:\nInput:\n    n = 2\nOutput:\n    [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]\n\nConstraints:\n    1 <= n <= 100\n\"\"\"\ndef get_tuples(n):\n    tuple = []\n    for i in range(n):\n        tuple.append([1, i + 1])\n    return tuple\n\n\"\"\"\nWrite a function to check if given list is distinct or not.\n\nExample:\nInput:\n    l = [1, 2, 2]\nOutput:\n    False\n\nConstraints:\n    1 <= l.length <= 100\n\"\"\"\ndef is_distinct(l):\n    if l[0] in set(l[1:]):\n        return False\n    else:\n        return True\n\n\"\"\"\nWrite a function to find all tuples of given length.\n\nExample:\nInput:\n    n = 3\nOutput:\n    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n\nConstraints:\n    1 <= n <= 100\n\"\"\"\ndef get_tuples(n):\n    tuple = []\n    for i in range(n):\n        tuple.append([1, i + 1, i + 2])\n    return tuple\n\n\"\"\"\nWrite a function to check if given list is distinct or not.\n\nExample:\nInput:\n    l = [1, 2, 2]\nOutput:\n    False\n\nConstraints:\n    1 <= l.length <= 100\n\"\"\"\ndef is_distinct(l):\n    if l[0] in set(l[1:]):\n        return False\n    else:\n        return True\n\n\"\"\"\nWrite a function to find all tuples of given length.\n\nExample:\nInput:\n    n = 3\nOutput:",
+      -8.3515625
+    ],
+    [
+      "# https://leetcode.com/problems/distinct-subsequences/\n\n\nclass Solution(object):\n    def isDistinct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        if len(nums) < 2:\n            return True\n        # set to store visited numbers\n        visited = set()\n        for num in nums:\n            # if we have visited this number, then its distinct\n            if num in visited:\n                return False\n            # mark this number as visited\n            visited.add(num)\n            # for each number in the list, check if it is in the visited set\n            # if not, then this number is not distinct\n            for i in range(len(nums) - 1):\n                if nums[i] < nums[i + 1]:\n                    if nums[i] in visited:\n                        return False\n                    else:\n                        visited.add(nums[i])\n        return True\n\nif __name__ == '__main__':\n    assert Solution().isDistinct([1, 2, 2, 3]) == True\n    assert Solution().isDistinct([1, 2, 3]) == False\n    assert Solution().isDistinct([1, 1, 1]) == True",
+      -8.96875
+    ],
+    [
+      "def is_tuple_distinct(t):\n    \"\"\"\n    :type t: List[int]\n    :rtype: bool\n    \"\"\"\n    if len(t) == 1:\n        return True\n    if len(t) == 2:\n        return t[0]!= t[1]\n    if len(t) == 3:\n        return t[0]!= t[1] and t[2]!= t[1]\n    return False\n\n# Time:  O(n)\n# Space: O(1)\n# Hash table\n# Hash table solution\n# For each element in the input, we will store the index of the element in the input,\n# and for each element, we will store the index of the element that is next to it in the input.\n# Then, we will check if the element in the input is duplicated in the input.\n# If it is not, then we will move the index of the element to the next position in the input.\n# If the element is duplicated, then we will move the index of the element to the next position in the input.\n# If the element is duplicated again, then we will move the index of the element to the next position in the input.\n# If the element is duplicated again again, then we will move the index of the element to the next position in the input.\n# And so on.\n# If the element is duplicated again again again, then we will move the index of the element to the next position in the input.\n# If the element is duplicated again again again again, then we will move the index of the element to the next position in the input.\n# And so on.\n# If the element is duplicated again again again again again, then we will move the index of the element to the next position in the input.\n# If the element is duplicated again again again again again, then we will move the index of the element to the next position in the input.\n# And so on.\n# If the element is duplicated again again again again again again, then we will move the index of the element to the next position in the input.\n# If the element is duplicated again again again again again again, then we will move the index of the element to the next position in the input.\n# And so on",
+      -9.1328125
+    ],
+    [
+      "def is_distinct(tuple):\n    \"\"\"\n    :type tuple: List[int]\n    :rtype: bool\n    \"\"\"\n    # TODO: write your code here\n\n    # if not isinstance(tuple, list):\n    #     return False\n\n    if len(tuple) == 1:\n        return True\n\n    if len(tuple) == 2:\n        return tuple[0]!= tuple[1]\n\n    # if len(tuple) > 2:\n    #     for i in range(2, len(tuple)):\n    #         if tuple[i] == tuple[i-1]:\n    #             return False\n    # return True\n    return False\n\nif __name__ == '__main__':\n    print(is_distinct([1, 2, 2]))\n    print(is_distinct([1, 2, 1]))\n    print(is_distinct([1, 2, 3, 1]))\n    print(is_distinct([1, 2, 3, 4]))\n    print(is_distinct([1, 2, 3, 4, 1]))\n    print(is_distinct([1, 2, 3, 4, 5, 1]))\n    print(is_distinct([1, 2, 3, 4, 5, 6, 1]))\n    print(is_distinct([1, 2, 3, 4, 5, 6, 7, 8, 1]))",
+      -9.546875
+    ],
+    [
+      "def distinct(t):\n    \"\"\"\n    Input: A tuple t consisting of N integers\n    Output: True if t is distinct and False otherwise\n    Explanation:\n    For a given tuple t, we define a node as a node with no other nodes that\n    are adjacent to it. A node is a tuple with the same elements as t. For\n    example, consider the following tuple t:\n    (1, 2, 3, 4)\n    A node is a tuple with the same elements as t. We define a node to be\n    adjacent to any node with the same elements as the node. For example,\n    the node (1, 2, 3) is adjacent to the node (1, 2, 3, 4).\n    The following is a list of all nodes in t:\n    [(1, 2, 3), (1, 2), (2, 3), (1, 3, 4)]\n    We say that t is distinct if there are no two nodes in t that are adjacent\n    to each other.\n    \"\"\"\n    # Write your code here\n    if len(t) == 0:\n        return True\n    if len(t) == 1:\n        return True\n    if t[0] == t[1]:\n        return distinct(t[1:])\n    return distinct(t[1:]) and distinct(t[:1])\n\nif __name__ == '__main__':\n    print distinct([1, 2, 3, 4])\n    print distinct([1, 2, 3, 1])\n    print distinct([1, 2, 3, 1, 2, 3, 4])",
+      -9.5625
+    ],
+    [
+      "# https://oj.leetcode.com/problems/distinct-subsequences/\n# Given a list of distinct integers, write a function to check if it has a\n# subsequence of distinct integers that is also a subsequence of the list\n# itself.\n# Example\n# Given [1, 2, 3, 4, 5],\n# Return True.\n# Given [1, 2, 3, 4, 5],\n# Return False.\n\n# Note:\n# The length of the given array is [\u2264 100].\n# 1 <= T <= 100\n# 1 <= nums.length <= 100\n# 1 <= nums[i] <= 100\n\n\nclass Solution(object):\n    def isDistinctSubsequence(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        # check for 1 in nums\n        if nums[0] == 1:\n            return False\n\n        # find k-1 in nums\n        i = 0\n        while i < k - 1:\n            if nums[i]!= nums[i + 1]:\n                return False\n            i += 1\n\n        # check if there is a k in nums\n        if nums[k - 1]!= k:\n            return False\n\n        # check if nums[k] in nums\n        if nums[k] == 1:\n            return False\n\n        # check if there is a num in nums[k:]\n        for j in range(k, len(nums)):\n            if nums[j]!= nums[k]:\n                return False\n\n        return True\n\n\nif __name__ == \"__main__\":\n    print Solution().isDistinctSubsequence([1, 2, 3, 4, 5], 3)",
+      -9.765625
+    ],
+    [
+      "class Tuple(object):\n  def __init__(self, first, second, third):\n    self.first = first\n    self.second = second\n    self.third = third\n\n  def __str__(self):\n    return \"%s, %s, %s\" % (self.first, self.second, self.third)\n\n  def __eq__(self, other):\n    if isinstance(other, Tuple):\n      return self.first == other.first and \\\n             self.second == other.second and \\\n             self.third == other.third\n    else:\n      return False\n\ndef is_tuple_distinct(tuple1, tuple2):\n  if tuple1 == tuple2:\n    return False\n  elif tuple1 == tuple2:\n    return True\n  else:\n    return is_tuple_distinct(tuple1, tuple2[1:]) or \\\n           is_tuple_distinct(tuple2, tuple1[1:])\n\ntuple1 = Tuple(1, 2, 3)\ntuple2 = Tuple(1, 2, 4)\ntuple3 = Tuple(1, 2, 3)\ntuple4 = Tuple(1, 2, 3)\ntuple5 = Tuple(1, 2, 3)\ntuple6 = Tuple(1, 2, 3)\ntuple7 = Tuple(1, 2, 3)\ntuple8 = Tuple(1, 2, 3)\ntuple9 = Tuple(1, 2, 3)\ntuple10 = Tuple(1, 2, 3)\n\nprint is_tuple_distinct(tuple1, tuple2)\nprint is_tuple_distinct(tuple1, tuple3)\nprint is_tuple_distinct(tuple1, tuple4)\nprint is_tuple_distinct(tuple1, tuple5)\nprint is_tuple_distinct(tuple1, tuple6)\nprint is_tuple_distinct(tuple1, tuple7)\nprint is_tuple_distinct(tuple1, tuple8)\nprint is_tuple_distinct(tuple1, tuple9)\nprint",
+      -10.0078125
+    ],
+    [
+      "# Definition for a tuple.\nclass Tuple(object):\n    def __init__(self, x):\n        self.x = x\n        self.y = y\n\n    def __repr__(self):\n        return \"Tuple(%s, %s)\" % (self.x, self.y)\n\nclass Solution(object):\n    def isDistinct(self, num):\n        \"\"\"\n        :type num: Tuple\n        :rtype: bool\n        \"\"\"\n        return len(set(num)) == len(num)\n\nif __name__ == '__main__':\n    sol = Solution()\n    t = Tuple(1, 2)\n    print sol.isDistinct(t)\n    t = Tuple(1, 1)\n    print sol.isDistinct(t)\n    t = Tuple(1, 3)\n    print sol.isDistinct(t)\n    t = Tuple(1, 2, 3)\n    print sol.isDistinct(t)\n    t = Tuple(1, 2, 3, 4)\n    print sol.isDistinct(t)\n    t = Tuple(1, 2, 3, 4, 5)\n    print sol.isDistinct(t)\n    t = Tuple(1, 2, 3, 4, 5, 6)\n    print sol.isDistinct(t)\n    t = Tuple(1, 2, 3, 4, 5, 6, 7)\n    print sol.isDistinct(t)",
+      -11.96875
+    ],
+    [
+      "# https://www.hackerrank.com/challenges/tuple-distinct/problem\n# Time complexity: O(n^2)\n# Space complexity: O(n)\n\nimport unittest\n\nclass TupleDistinct(unittest.TestCase):\n    def test_tuple_distinct(self):\n        tuple_list = (1, 2, 3)\n        self.assertTrue(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 1)\n        self.assertFalse(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5)\n        self.assertFalse(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6)\n        self.assertTrue(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6, 7)\n        self.assertTrue(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6, 7, 8)\n        self.assertTrue(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6, 7, 8, 9)\n        self.assertFalse(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n        self.assertFalse(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)\n        self.assertFalse(tuple_distinct(tuple_list))\n        tuple_list = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)\n        self.assertTrue(tuple_distinct(tuple_list))\n\nif __name__ == '__main__':\n    unittest.main()",
+      -12.3984375
+    ],
+    [
+      "import collections\n\nclass Tuple:\n    def __init__(self, first, second):\n        self.first = first\n        self.second = second\n\n    def __eq__(self, other):\n        return (self.first, self.second) == (other.first, other.second)\n\ndef is_distinct(tuple):\n    distinct_tuple = collections.defaultdict(int)\n    for (first, second) in tuple:\n        distinct_tuple[first] += 1\n        if distinct_tuple[first] > 1:\n            return False\n    return True\n\nif __name__ == \"__main__\":\n    tuple = Tuple(1, 2)\n    assert is_distinct(tuple)\n    tuple = Tuple(1, 1)\n    assert not is_distinct(tuple)\n    tuple = Tuple(1, 2)\n    assert not is_distinct(tuple)\n    tuple = Tuple(1, 3)\n    assert not is_distinct(tuple)\n    tuple = Tuple(2, 1)\n    assert not is_distinct(tuple)\n    tuple = Tuple(2, 2)\n    assert is_distinct(tuple)",
+      -13.1328125
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}

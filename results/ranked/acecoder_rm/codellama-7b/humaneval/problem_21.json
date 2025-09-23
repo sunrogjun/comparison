@@ -1,0 +1,428 @@
+{
+  "problem": {
+    "task_id": "HumanEval/21",
+    "prompt": "from typing import List\n\n\ndef rescale_to_unit(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n",
+    "canonical_solution": "    min_number = min(numbers)\n    max_number = max(numbers)\n    return [(x - min_number) / (max_number - min_number) for x in numbers]\n",
+    "test": "\n\nMETADATA = {\n    'author': 'jt',\n    'dataset': 'test'\n}\n\n\ndef check(candidate):\n    assert candidate([2.0, 49.9]) == [0.0, 1.0]\n    assert candidate([100.0, 49.9]) == [1.0, 0.0]\n    assert candidate([1.0, 2.0, 3.0, 4.0, 5.0]) == [0.0, 0.25, 0.5, 0.75, 1.0]\n    assert candidate([2.0, 1.0, 5.0, 3.0, 4.0]) == [0.25, 0.0, 1.0, 0.5, 0.75]\n    assert candidate([12.0, 11.0, 15.0, 13.0, 14.0]) == [0.25, 0.0, 1.0, 0.5, 0.75]\n",
+    "entry_point": "rescale_to_unit",
+    "docstring": "",
+    "problem_id": 21
+  },
+  "model_name": "codellama-7b",
+  "dataset": "humaneval",
+  "ranker_name": "acecoder_rm",
+  "num_candidates": 100,
+  "ranked_candidates": [
+    [
+      "return [((n - min(numbers)) / (max(numbers) - min(numbers))) for n in numbers]\n\n\ndef rescale_to_range(numbers: List[float], range_min: float, range_max: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become range_min and the largest will become range_max\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 1.0, 10.0)\n    [1.0, 3.0, 5.0, 7.0, 9.0]\n    \"\"\"\n    return [((n - min(numbers)) / (max(numbers) - min(numbers))) * (range_max - range_min) + range_min for n in numbers]\n\n\ndef main():\n    numbers = [1.0, 2.0, 3.0, 4.0, 5.0]\n    print(rescale_to_unit(numbers))\n    print(rescale_to_range(numbers, 1.0, 10.0))\n\n\nif __name__ == \"__main__\":\n    main()",
+      14.3515625
+    ],
+    [
+      "minimum = min(numbers)\n    return [\n        (number - minimum) / (max(numbers) - minimum)\n        for number in numbers\n    ]\n\n\ndef rescale_to_unit_slow(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit_slow([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    if len(numbers) < 2:\n        raise ValueError('At least two numbers must be provided')\n    min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      12.3046875
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]\n\n\ndef rescale_to_unit_inplace(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit_inplace([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n    for index, number in enumerate(numbers):\n        numbers[index] = (number - min_number) / (max_number - min_number)\n    return numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      10.6796875
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    if min_number == max_number:\n        return [0] * len(numbers)\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      9.265625
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [(x - min_number) / (max_number - min_number) for x in numbers]\n\n\ndef rescale_to_range(numbers: List[float], new_min: float, new_max: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become new_min and the largest will become new_max\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 2.0)\n    [0.0, 1.0, 1.5, 2.0, 2.0]\n    \"\"\"\n    min_number = min(numbers)\n    max_number = max(numbers)\n    return [((x - min_number) / (max_number - min_number)) * (new_max - new_min) + new_min for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      9.21875
+    ],
+    [
+      "# Find the min and max\n    min_val = min(numbers)\n    max_val = max(numbers)\n\n    # If the min and max are the same, just return the original list\n    if min_val == max_val:\n        return numbers\n\n    # Rescale the list\n    return [((x - min_val) / (max_val - min_val)) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      8.1875
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    if min_value == max_value:\n        return [0.0] * len(numbers)\n    return [(x - min_value) / (max_value - min_value) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      8.171875
+    ],
+    [
+      "# min_num = min(numbers)\n    # max_num = max(numbers)\n    # return [((num - min_num) / (max_num - min_num)) for num in numbers]\n    return [num / max(numbers) for num in numbers]\n\n\nif __name__ == \"__main__\":\n    print(rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]))",
+      6.67578125
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    range_of_numbers = max_num - min_num\n    return [((num - min_num) / range_of_numbers) for num in numbers]\n\n\ndef main():\n    numbers = [1.0, 2.0, 3.0, 4.0, 5.0]\n    rescaled = rescale_to_unit(numbers)\n    print(rescaled)\n\n\nif __name__ == \"__main__\":\n    main()",
+      6.37890625
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [((x - min_number) / (max_number - min_number)) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      5.0078125
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [(n - min_value) / (max_value - min_value) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      5.00390625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Can't rescale a list of less than two numbers\")\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n\n    if min_number == max_number:\n        raise ValueError(\"Can't rescale a list with all equal numbers\")\n\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]",
+      4.66796875
+    ],
+    [
+      "# Check that the list has at least two elements\n    if len(numbers) < 2:\n        raise ValueError(\"The list must contain at least two elements\")\n\n    # Find the minimum and the maximum\n    min_num = min(numbers)\n    max_num = max(numbers)\n\n    # Check if the difference between min and max is 0\n    if max_num - min_num == 0:\n        return [0.0] * len(numbers)\n\n    # Transform the numbers\n    return [(num - min_num) / (max_num - min_num) for num in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.66015625
+    ],
+    [
+      "if len(numbers) < 2:\n        return numbers\n\n    min_val = min(numbers)\n    max_val = max(numbers)\n    if min_val == max_val:\n        return [1.0] * len(numbers)\n\n    return [(number - min_val) / (max_val - min_val) for number in numbers]\n\n\ndef rescale_to_unit_capped(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit_capped([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    if len(numbers) < 2:\n        return numbers\n\n    min_val = min(numbers)\n    max_val = max(numbers)\n    if min_val == max_val:\n        return [1.0] * len(numbers)\n\n    return [min((number - min_val) / (max_val - min_val), 1.0) for number in numbers]",
+      4.1484375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Can't rescale to unit if there are less than 2 elements\")\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n\n    if min_number == max_number:\n        return [1.0] * len(numbers)\n\n    return [(n - min_number) / (max_number - min_number) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      4.0234375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"numbers must contain at least two elements\")\n    min_value = min(numbers)\n    max_value = max(numbers)\n    if min_value == max_value:\n        raise ValueError(\"numbers must contain different values\")\n    return [(x - min_value) / (max_value - min_value) for x in numbers]",
+      3.994140625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must contain at least two elements\")\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n\n    if min_number == max_number:\n        raise ValueError(\"List must contain at least two different elements\")\n\n    return [(number - min_number) / (max_number - min_number) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.890625
+    ],
+    [
+      "# min_val = min(numbers)\n    # max_val = max(numbers)\n    # for i in range(len(numbers)):\n    #     numbers[i] = (numbers[i] - min_val) / (max_val - min_val)\n    # return numbers\n    return [number / max(numbers) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.53125
+    ],
+    [
+      "if len(numbers) <= 1:\n        raise ValueError(\"List must have at least two elements\")\n\n    min_num = min(numbers)\n    max_num = max(numbers)\n    if min_num == max_num:\n        return [0.0] * len(numbers)\n    return [((num - min_num) / (max_num - min_num)) for num in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.529296875
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [\n        (float(x) - min_val) / (max_val - min_val) for x in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      3.521484375
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [(n - min_value) / (max_value - min_value) for n in numbers]\n\n\ndef rescale_to_range(numbers: List[float], target_range: tuple) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become target_range[0] and the largest will become target_range[1]\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], (2, 4))\n    [2.0, 2.5, 3.0, 3.5, 4.0]\n    \"\"\"\n    min_value = min(numbers)\n    max_value = max(numbers)\n    return [((n - min_value) * (target_range[1] - target_range[0])) / (max_value - min_value) + target_range[0] for n in numbers]\n\n\ndef rescale_to_range_of_values(numbers: List[float], target_range: tuple, source_range: tuple) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become target_range[0] and the largest will become target_range[1]\n    >>> rescale_to_range_of_values([1.0, 2.0, 3.0, 4.0, 5.0], (2, 4), (0, 10))\n    [2.0, 2.5, 3.0, 3.5, 4.0]\n    \"\"\"\n    min_value = min(numbers)\n    max_value = max(numbers)\n    return [(((n - source_range[0]) * (target_range[1] - target_range[0])) / (source_range[1] - source_range[0])) + target_range[0] for n in numbers]\n\n\ndef rescale",
+      3.345703125
+    ],
+    [
+      "assert len(numbers) > 1\n    min_number = min(numbers)\n    max_number = max(numbers)\n    return [((n - min_number) / (max_number - min_number)) for n in numbers]\n\n\ndef rescale_to_unit_inplace(numbers: List[float]) -> None:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit_inplace([1.0, 2.0, 3.0, 4.0, 5.0])\n    >>> [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    assert len(numbers) > 1\n    min_number = min(numbers)\n    max_number = max(numbers)\n    for i in range(len(numbers)):\n        numbers[i] = ((numbers[i] - min_number) / (max_number - min_number))\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.689453125
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [((n - min_val) / (max_val - min_val)) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      2.486328125
+    ],
+    [
+      "smallest = min(numbers)\n    largest = max(numbers)\n    return [\n        (number - smallest) / (largest - smallest)\n        for number in numbers\n    ]\n\n\ndef rescale_to_range(numbers: List[float], min_: float, max_: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become min_ and the largest will become max_\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 10.0)\n    [0.0, 2.0, 4.0, 6.0, 8.0]\n    \"\"\"\n    smallest = min(numbers)\n    largest = max(numbers)\n    return [\n        (number - smallest) * (max_ - min_) / (largest - smallest) + min_\n        for number in numbers\n    ]",
+      2.423828125
+    ],
+    [
+      "minimum, maximum = min(numbers), max(numbers)\n    return [(n - minimum) / (maximum - minimum) for n in numbers]",
+      2.40234375
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number) for number in numbers\n    ]",
+      2.3984375
+    ],
+    [
+      "# 1. find the min and max values\n    min_value = min(numbers)\n    max_value = max(numbers)\n    # 2. find the difference between the min and max values\n    difference = max_value - min_value\n    # 3. divide all values by the difference\n    return [((number - min_value) / difference) for number in numbers]\n\n\ndef rescale_to_unit_inplace(numbers: List[float]) -> None:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> numbers = [1.0, 2.0, 3.0, 4.0, 5.0]\n    >>> rescale_to_unit_inplace(numbers)\n    >>> numbers\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    # 1. find the min and max values\n    min_value = min(numbers)\n    max_value = max(numbers)\n    # 2. find the difference between the min and max values\n    difference = max_value - min_value\n    # 3. divide all values by the difference\n    for i in range(len(numbers)):\n        numbers[i] = ((numbers[i] - min_value) / difference)\n\n\ndef rescale_to_unit_inplace_no_return(numbers: List[float]) -> None:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> numbers = [1.0, 2.0, 3.0, 4.0, 5.0]\n    >>> rescale_to_unit_inplace_no_return(numbers)\n    >>> numbers\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    # 1. find the min and max values\n    min_value = min(numbers)",
+      2.119140625
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    diff = max_num - min_num\n    return [(num - min_num) / diff for num in numbers]\n\n\ndef main():\n    numbers = [float(x) for x in input(\"Enter numbers separated by commas: \").split(\",\")]\n    print(rescale_to_unit(numbers))\n\n\nif __name__ == \"__main__\":\n    main()",
+      1.900390625
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [(x - min_value) / (max_value - min_value) for x in numbers]\n\n\ndef rescale_to_unit_slow(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit_slow([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_value = min(numbers)\n    max_value = max(numbers)\n    return [x / (max_value - min_value) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.8515625
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [\n        (float(x) - min_value) / (max_value - min_value)\n        for x in numbers\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      1.5224609375
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]",
+      1.5166015625
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [((n - min_val) / (max_val - min_val)) for n in numbers]",
+      1.44140625
+    ],
+    [
+      "minimum = min(numbers)\n    maximum = max(numbers)\n\n    return [(x - minimum) / (maximum - minimum) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.29296875
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"There must be at least two numbers in the list.\")\n    minimum = min(numbers)\n    maximum = max(numbers)\n    return [((n - minimum) / (maximum - minimum)) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.212890625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must contain at least two elements\")\n\n    minimum = min(numbers)\n    maximum = max(numbers)\n\n    if minimum == maximum:\n        return [1.0] * len(numbers)\n\n    return [(x - minimum) / (maximum - minimum) for x in numbers]",
+      1.1201171875
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [\n        (number - min_value) / (max_value - min_value)\n        for number in numbers\n    ]\n\n\ndef rescale_to_range(numbers: List[float], new_min: float, new_max: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become `new_min` and the largest will become `new_max`\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 1.0)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_value = min(numbers)\n    max_value = max(numbers)\n    return [\n        (new_max - new_min) * (number - min_value) / (max_value - min_value) + new_min\n        for number in numbers\n    ]\n\n\ndef rescale_by_min_max(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1.\n    The function will return a list of the same size as the input,\n    with the new values in the same order as the input.\n    >>> rescale_by_min_max([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_value = min(numbers)\n    max_value = max(numbers)\n    return [\n        (number - min_value) / (max_value - min_value)\n        for number in numbers\n    ]\n\n\ndef rescale_by_min_max_no_copy(numbers:",
+      1.111328125
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    new_numbers = []\n    for num in numbers:\n        new_numbers.append((num - min_num) / (max_num - min_num))\n    return new_numbers\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.0478515625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n\n    smallest_number = min(numbers)\n    largest_number = max(numbers)\n    if smallest_number == largest_number:\n        raise ValueError(\"List must have at least two different elements\")\n\n    return [\n        (number - smallest_number) / (largest_number - smallest_number)\n        for number in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      1.01171875
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [\n        (val - min_val) / (max_val - min_val) for val in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.857421875
+    ],
+    [
+      "# TODO: implement this method\n    raise NotImplementedError",
+      0.810546875
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    if min_value == max_value:\n        return [0.0 for _ in numbers]\n    return [(x - min_value) / (max_value - min_value) for x in numbers]\n\n\ndef rescale_to_unit_with_zeros(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1.\n    If the list contains 0, the rescaled value of 0 will be 0.5.\n    >>> rescale_to_unit_with_zeros([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.25, 0.5, 0.75, 1.0, 1.0]\n    >>> rescale_to_unit_with_zeros([0.0, 1.0, 2.0, 3.0, 4.0])\n    [0.5, 0.0, 0.25, 0.5, 1.0]\n    \"\"\"\n    rescaled = rescale_to_unit(numbers)\n    if 0.0 in numbers:\n        rescaled[numbers.index(0.0)] = 0.5\n    return rescaled\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.75439453125
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n\n    return [\n        (num - min_num) / (max_num - min_num)\n        for num in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.68798828125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must contain at least two elements\")\n    min_ = min(numbers)\n    max_ = max(numbers)\n    if min_ == max_:\n        return [1.0] * len(numbers)\n    return [((n - min_) / (max_ - min_)) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.6298828125
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    scale = 1.0 / (max_num - min_num)\n    return [((n - min_num) * scale) for n in numbers]\n\n\ndef rescale_to_unit_with_extremes(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0, the largest will become 1 and the two extreme numbers\n    will become -1 and 1\n    >>> rescale_to_unit_with_extremes([1.0, 2.0, 3.0, 4.0, 5.0])\n    [-1.0, -0.25, 0.0, 0.25, 1.0]\n    \"\"\"\n    min_num = min(numbers)\n    max_num = max(numbers)\n    scale = 2.0 / (max_num - min_num)\n    return [((n - min_num) * scale) - 1 for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.40625
+    ],
+    [
+      "minimum = min(numbers)\n    maximum = max(numbers)\n    return [(i - minimum) / (maximum - minimum) for i in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      0.363525390625
+    ],
+    [
+      "return [\n        (number - min(numbers)) / (max(numbers) - min(numbers))\n        for number in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      0.2548828125
+    ],
+    [
+      "smallest = min(numbers)\n    largest = max(numbers)\n    return [(x - smallest) / (largest - smallest) for x in numbers]",
+      0.12939453125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Cannot rescale to unit with less than two elements\")\n\n    min_val = min(numbers)\n    max_val = max(numbers)\n\n    if min_val == max_val:\n        return [1.0] * len(numbers)\n\n    return [(number - min_val) / (max_val - min_val) for number in numbers]\n\n\ndef rescale_to_unit_and_add_to_one(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0, the largest will become 1 and all others will be\n    between 0 and 1\n    >>> rescale_to_unit_and_add_to_one([1.0, 2.0, 3.0, 4.0, 5.0])\n    [1.0, 1.25, 1.5, 1.75, 2.0]\n    \"\"\"\n\n    if len(numbers) < 2:\n        raise ValueError(\"Cannot rescale to unit with less than two elements\")\n\n    rescaled_numbers = rescale_to_unit(numbers)\n    max_val = max(rescaled_numbers)\n    return [1.0 + number - max_val for number in rescaled_numbers]",
+      0.05572509765625
+    ],
+    [
+      "smallest_number = min(numbers)\n    largest_number = max(numbers)\n    rescaled_numbers = []\n    for number in numbers:\n        rescaled_numbers.append((number - smallest_number) / (largest_number - smallest_number))\n    return rescaled_numbers",
+      0.00450897216796875
+    ],
+    [
+      "# if there are at least 2 numbers, the smallest and the largest\n    min_num = min(numbers)\n    max_num = max(numbers)\n\n    # if there is only 1 number, return the same number\n    if min_num == max_num:\n        return numbers\n\n    # otherwise, return a list of rescaled numbers\n    return [\n        (num - min_num) / (max_num - min_num) for num in numbers\n    ]",
+      -0.042755126953125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Cannot rescale to unit with less than two numbers\")\n\n    min_val = min(numbers)\n    max_val = max(numbers)\n\n    if min_val == max_val:\n        return [0.0 for _ in numbers]\n\n    return [((n - min_val) / (max_val - min_val)) for n in numbers]",
+      -0.058837890625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Need at least two numbers\")\n    minimum = min(numbers)\n    maximum = max(numbers)\n    diff = maximum - minimum\n    return [(float(x) - minimum) / diff for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.12481689453125
+    ],
+    [
+      "min_ = min(numbers)\n    max_ = max(numbers)\n    if max_ == min_:\n        raise ValueError(f\"Cannot rescale to unit as min = max = {min_}\")\n    return [(x - min_) / (max_ - min_) for x in numbers]",
+      -0.3330078125
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    diff = max_num - min_num\n    return [((num - min_num) / diff) for num in numbers]",
+      -0.65234375
+    ],
+    [
+      "if len(numbers) < 2:\n        return []\n\n    min_num = min(numbers)\n    max_num = max(numbers)\n    if min_num == max_num:\n        return [0] * len(numbers)\n\n    return [\n        (num - min_num) / (max_num - min_num) for num in numbers\n    ]",
+      -0.73828125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"At least two numbers are required\")\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n\n    if min_number == max_number:\n        return [min_number] * len(numbers)\n\n    return [(number - min_number) / (max_number - min_number) for number in numbers]",
+      -0.84765625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"List must have at least 2 elements\")\n    minimum, maximum = min(numbers), max(numbers)\n    if minimum == maximum:\n        raise ValueError(\"Cannot rescale list with only one unique value\")\n    return [(number - minimum) / (maximum - minimum) for number in numbers]",
+      -0.85595703125
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    scale = 1 / (max_number - min_number)\n    return [scale * (n - min_number) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85595703125
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Cannot rescale to unit with less than two numbers\")\n    min_value = min(numbers)\n    max_value = max(numbers)\n    return [((number - min_value) / (max_value - min_value)) for number in numbers]",
+      -0.85595703125
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [(n - min_number) / (max_number - min_number) for n in numbers]",
+      -0.85693359375
+    ],
+    [
+      "minimum = min(numbers)\n    maximum = max(numbers)\n\n    if minimum == maximum:\n        raise ValueError(\"Cannot rescale to unit if all numbers are the same\")\n\n    return [(number - minimum) / (maximum - minimum) for number in numbers]",
+      -0.85693359375
+    ],
+    [
+      "minimum = min(numbers)\n    maximum = max(numbers)\n    return [\n        (number - minimum) / (maximum - minimum)\n        for number in numbers\n    ]",
+      -0.85693359375
+    ],
+    [
+      "min_n = min(numbers)\n    max_n = max(numbers)\n    return [((n - min_n) / (max_n - min_n)) for n in numbers]\n\n\ndef main():\n    print(rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "assert len(numbers) > 1\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n    return [(number - min_number) / (max_number - min_number) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [\n        (number - min_val) / (max_val - min_val)\n        for number in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"rescale_to_unit expects at least two elements\")\n    min_val = min(numbers)\n    max_val = max(numbers)\n    return [((x - min_val) / (max_val - min_val)) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    rescaled_numbers = []\n    for number in numbers:\n        rescaled_numbers.append((number - min_num) / (max_num - min_num))\n    return rescaled_numbers",
+      -0.85693359375
+    ],
+    [
+      "min_n = min(numbers)\n    max_n = max(numbers)\n    return [((n - min_n) / (max_n - min_n)) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_num = min(numbers)\n    max_num = max(numbers)\n    if min_num == max_num:\n        return [0] * len(numbers)\n\n    return [((num - min_num) / (max_num - min_num)) for num in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [((x - min_number) / (max_number - min_number)) for x in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"Input list must contain at least two elements\")\n    minimum, maximum = min(numbers), max(numbers)\n    return [((number - minimum) / (maximum - minimum)) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "if len(numbers) < 2:\n        return numbers\n    min_value = min(numbers)\n    max_value = max(numbers)\n    if min_value == max_value:\n        return [0.0] * len(numbers)\n    return [((number - min_value) / (max_value - min_value)) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85693359375
+    ],
+    [
+      "# Write your code here\n    return [0.0 if len(numbers) == 1 else (num - min(numbers)) / (max(numbers) - min(numbers)) for num in numbers]\n\n\ndef main():\n    print(\"Here is the rescaled list: \", rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]))\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [((x - min_val) / (max_val - min_val)) for x in numbers]\n\n\ndef main():\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    main()",
+      -0.85693359375
+    ],
+    [
+      "assert len(numbers) > 1\n    min_num = min(numbers)\n    max_num = max(numbers)\n    return [\n        (num - min_num) / (max_num - min_num)\n        for num in numbers\n    ]",
+      -0.85791015625
+    ],
+    [
+      "# TODO: implement this function\n    raise NotImplementedError\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n\n    return [\n        (number - min_value) / (max_value - min_value)\n        for number in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    if min_number == max_number:\n        return [0 for _ in numbers]\n    return [(n - min_number) / (max_number - min_number) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"list must contain at least two elements\")\n    minimum = min(numbers)\n    maximum = max(numbers)\n    if minimum == maximum:\n        raise ValueError(\"all numbers are equal\")\n    return [(number - minimum) / (maximum - minimum) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"At least two elements are required\")\n    min_number = min(numbers)\n    max_number = max(numbers)\n    return [(number - min_number) / (max_number - min_number) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "min_n = min(numbers)\n    max_n = max(numbers)\n    if min_n == max_n:\n        return [0.0] * len(numbers)\n    return [0.0 if min_n == float(\"inf\") else (n - min_n) / (max_n - min_n) for n in numbers]",
+      -0.85791015625
+    ],
+    [
+      "min_val = min(numbers)\n    max_val = max(numbers)\n    return [\n        (n - min_val) / (max_val - min_val)\n        for n in numbers\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.85791015625
+    ],
+    [
+      "minimum = min(numbers)\n    maximum = max(numbers)\n\n    def rescale(number):\n        return (number - minimum) / (maximum - minimum)\n\n    return list(map(rescale, numbers))",
+      -0.85791015625
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]\n\n\nif __name__ == '__main__':\n    import doctest\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [((num - min_value) / (max_value - min_value)) for num in numbers]",
+      -0.8583984375
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]",
+      -0.8583984375
+    ],
+    [
+      "# TODO: implement this method\n    raise NotImplementedError\n\n\ndef rescale_to_range(numbers: List[float], min_value: float, max_value: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become min_value and the largest will become max_value\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 1.0)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    # TODO: implement this method\n    raise NotImplementedError\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.8583984375
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    difference = max_number - min_number\n    return [((number - min_number) / difference) for number in numbers]\n\n\ndef rescale_to_unit_test() -> None:\n    import doctest\n\n    doctest.testmod()\n\n\nif __name__ == \"__main__\":\n    rescale_to_unit_test()",
+      -0.8583984375
+    ],
+    [
+      "assert len(numbers) > 1\n    min_val = min(numbers)\n    max_val = max(numbers) - min_val\n    return [((n - min_val) / max_val) for n in numbers]",
+      -0.8583984375
+    ],
+    [
+      "if len(numbers) < 2:\n        raise ValueError(\"You cannot rescale to unit of a list with less than two elements.\")\n\n    min_number = min(numbers)\n    max_number = max(numbers)\n\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]",
+      -0.86083984375
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    return [(n - min_value) / (max_value - min_value) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -0.86083984375
+    ],
+    [
+      "assert len(numbers) > 1, \"Cannot rescale to unit with a single number\"\n    minimum = min(numbers)\n    maximum = max(numbers)\n\n    if maximum == minimum:\n        return [0.0] * len(numbers)\n\n    return [(x - minimum) / (maximum - minimum) for x in numbers]",
+      -1.43359375
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [(n - min_number) / (max_number - min_number) for n in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.8515625
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [(number - min_number) / (max_number - min_number) for number in numbers]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -1.8515625
+    ],
+    [
+      "min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number)\n        for number in numbers\n    ]\n\n\ndef rescale_to_unit_with_overflow(numbers: List[float], overflow: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1.\n    The overflow parameter is a percentage of the total range (between 0 and 1)\n    that will be added to the lower and upper bounds\n    >>> rescale_to_unit_with_overflow([1.0, 2.0, 3.0, 4.0, 5.0], 0.1)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_number = min(numbers)\n    max_number = max(numbers)\n    range_of_numbers = max_number - min_number\n    return [\n        (number - min_number) / (range_of_numbers * (1 + 2 * overflow))\n        for number in numbers\n    ]\n\n\ndef rescale_to_unit_with_overflow_and_rounding(numbers: List[float], overflow: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1.\n    The overflow parameter is a percentage of the total range (between 0 and 1)\n    that will be added to the lower and upper bounds\n    >>> rescale_to_unit_with_overflow_and_rounding([1.0, 2.0, 3.0, 4.0, 5.0], 0.1)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_number = min(numbers)\n    max_number = max(",
+      -2.521484375
+    ],
+    [
+      "min_num, max_num = min(numbers), max(numbers)\n    if min_num == max_num:\n        return [0.0] * len(numbers)\n    return [(num - min_num) / (max_num - min_num) for num in numbers]\n\n\ndef rescale_to_unit_with_zero(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1,\n    but if the list contains 0, 0 will not be rescaled to 1\n    >>> rescale_to_unit_with_zero([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    >>> rescale_to_unit_with_zero([0.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.4, 0.6, 0.8, 1.0]\n    \"\"\"\n    if 0.0 in numbers:\n        return rescale_to_unit(numbers)\n    return rescale_to_unit(numbers)\n\n\ndef rescale_to_unit_with_zero_no_zero(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1,\n    but if the list contains 0, 0 will be rescaled to 1\n    >>> rescale_to_unit_with_zero_no_zero([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    >>> rescale_to_unit_with_zero_no_zero([0",
+      -3.173828125
+    ],
+    [
+      "min_value = min(numbers)\n    max_value = max(numbers)\n    scale_factor = 1 / (max_value - min_value)\n    return [(number - min_value) * scale_factor for number in numbers]\n\n\ndef rescale_to_range(numbers: List[float], min_value: float, max_value: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become min_value and the largest will become max_value\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 1.0)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_number = min(numbers)\n    max_number = max(numbers)\n    scale_factor = (max_value - min_value) / (max_number - min_number)\n    return [((number - min_number) * scale_factor) + min_value for number in numbers]\n\n\ndef rescale_to_range_with_outliers(\n    numbers: List[float], min_value: float, max_value: float, outlier_percentage: float\n) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become min_value and the largest will become max_value,\n    but with outliers that exceed the range by a factor of outlier_percentage\n    >>> rescale_to_range_with_outliers([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 1.0, 0.1)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    numbers = sorted(numbers)\n    outlier_length = int(len(numbers) * outlier_percentage)\n    return res",
+      -3.8046875
+    ],
+    [
+      "if len(numbers) < 2:\n        return []\n    return [\n        (number - min(numbers)) / (max(numbers) - min(numbers)) for number in numbers\n    ]\n\n\nif __name__ == \"__main__\":\n    import doctest\n\n    doctest.testmod()",
+      -4.43359375
+    ],
+    [
+      "min_ = min(numbers)\n    max_ = max(numbers)\n    return [\n        (number - min_) / (max_ - min_ + 1e-10)\n        for number in numbers\n    ]\n\n\ndef rescale_to_range(numbers: List[float], min_: float, max_: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become min_ and the largest will become max_\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 1.0)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_number = min(numbers)\n    max_number = max(numbers)\n    return [\n        (number - min_number) / (max_number - min_number + 1e-10) * (max_ - min_ + 1e-10) + min_\n        for number in numbers\n    ]\n\n\ndef rescale_to_range_with_outliers(numbers: List[float], min_: float, max_: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become min_ and the largest will become max_\n    >>> rescale_to_range_with_outliers([1.0, 2.0, 3.0, 4.0, 5.0], 0.0, 1.0)\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_number = min(numbers)\n    max_number = max(numbers)\n    median_ = median(numbers)\n\n    return [\n        (number - min_number) / (max_number - min_number + 1e-10) * (max_ - min_ + 1e-1",
+      -4.86328125
+    ],
+    [
+      "# TODO: implement this function\n    pass\n\n\ndef rescale_to_range(numbers: List[float], target_range: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become target_range[0] and the largest will become target_range[1]\n    >>> rescale_to_range([1.0, 2.0, 3.0, 4.0, 5.0], [-1.0, 1.0])\n    [-1.0, -0.4, 0.0, 0.4, 1.0]\n    \"\"\"\n    # TODO: implement this function\n    pass\n\n\ndef rescale_to_range_with_extras(numbers: List[float], target_range: List[float], extra_space: float) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become target_range[0] - extra_space and the largest will become target_range[1] + extra_space\n    >>> rescale_to_range_with_extras([1.0, 2.0, 3.0, 4.0, 5.0], [-1.0, 1.0], 0.2)\n    [-1.2, -0.8, -0.4, 0.4, 1.2]\n    \"\"\"\n    # TODO: implement this function\n    pass\n\n\ndef rescale_to_range_with_extras_and_outliers(\n    numbers: List[float], target_range: List[float], extra_space: float, outlier_fraction: float\n) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become target_range[0] - extra_space and the largest will become target_range[1] + extra_space\n    but with a small number of outliers, which are clipped to the target range\n    >>> rescale_to_range",
+      -6.484375
+    ]
+  ],
+  "original_generation_params": {
+    "num_candidates": 100,
+    "num_seqs_per_iter": 50,
+    "inference_batch_size": 256,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 512,
+    "do_sample": true,
+    "pad_token_id": null,
+    "eos_token_id": null
+  }
+}
