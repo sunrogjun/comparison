@@ -29,7 +29,7 @@ def main():
                        default=["codet5-770m", "codegen-2b", "codellama-7b"],
                        help="Models to process")
     parser.add_argument("--datasets", nargs="+",
-                       default=["humaneval", "mbpp"],
+                       default=["humaneval", "mbpp", "apps"],  # Add apps dataset
                        help="Datasets to process")
     parser.add_argument("--acecoder_batch_size", type=int, default=8,
                        help="Batch size for AceCoderRM")
@@ -99,8 +99,6 @@ def main():
     
     print(f"\n{'='*60}")
     print("Ranking completed!")
-    print(f"Results saved to: {args.output_dir}")
-    print(f"{'='*60}")
 
 if __name__ == "__main__":
     main()

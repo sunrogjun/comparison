@@ -5,16 +5,14 @@ Generation configuration for candidate code generation
 # RankEF paper generation parameters
 # RankEF-matched generation parameters for better quality
 GENERATION_PARAMS = {
-    "num_candidates": 100,        # Total number of candidates per problem (num_seqs in RankEF)
-    "num_seqs_per_iter": 10,     # Number of sequences per generation call 
-    "inference_batch_size": 64,     # RankEF uses smaller batches for stability
-    "temperature": 0.6,          # RankEF uses 0.6 (more focused than 0.8)
-    "top_p": 0.95,              # Top-p sampling  
-    "max_length": 512,          # Maximum total sequence length (RankEF style)
-    "source_len": 600,          # Input sequence max length (RankEF: 600)
-    "do_sample": True,          # Enable sampling
-    "pad_token_id": None,       # Will be set based on tokenizer
-    "eos_token_id": None,       # Will be set based on tokenizer
+    "num_candidates": 100,        # Total number of candidates per problem
+    "num_seqs_per_iter": 20,      # Batch size for generation (increased for efficiency)
+    "temperature": 0.6,           # Sampling temperature
+    "top_p": 0.95,                # Top-p sampling
+    "max_length": 4096,           # Maximum generation length (increased from 512 to prevent truncation)
+    "do_sample": True,            # Enable sampling
+    "pad_token_id": None,         # Will be set based on tokenizer
+    "eos_token_id": None,         # Will be set based on tokenizer
 }
 
 # Dataset specific prompting strategies
@@ -55,16 +53,6 @@ def get_generation_config(dataset_name=None):
         config.update(PROMPT_CONFIGS[dataset_name])
     
     return config
-
-# RankEF-style tokenizer configuration
-TOKENIZER_CONFIG = {
-    "codet5": {
-        "tokenizer_name": "Salesforce/codet5-large",  # RankEF uses codet5-large tokenizer
-        "tokenizer_class": "RobertaTokenizer",
-        "max_length": 600,  # source_len from RankEF
-        "verbose": False,
-    }
-}
 
 def get_resource_limits():
     """Get resource limit configuration"""

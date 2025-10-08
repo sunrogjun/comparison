@@ -21,18 +21,24 @@ FINETUNED_MODELS = {
 MODEL_CONFIGS = {
     "codet5-770m": {
         "tokenizer": "Salesforce/codet5p-770m-py",  # Match RankEF tokenizer
-        "max_length": 512,
+        "max_length": 4096,
         "device_map": "auto",
+        "low_cpu_mem_usage": True,
+        "offload_folder": "./offload",
     },
     "codegen-2b": {
         "tokenizer": "Salesforce/codegen-2B-multi", 
-        "max_length": 512,
+        "max_length": 4096,
         "device_map": "auto",
+        "low_cpu_mem_usage": True,
+        "offload_folder": "./offload",
     },
     "codellama-7b": {
         "tokenizer": "codellama/CodeLlama-7b-Python-hf",
-        "max_length": 512,
+        "max_length": 4096,
         "device_map": "auto",
+        "low_cpu_mem_usage": True,
+        "offload_folder": "./offload",
     }
 }
 

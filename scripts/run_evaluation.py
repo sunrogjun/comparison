@@ -402,10 +402,14 @@ def save_results(results, output_dir):
 def save_single_result(method, model, dataset, metrics, problem_summaries, output_dir):
     """Save results for a single evaluation run."""
     output_path = Path(output_dir)
-    output_path.mkdir(exist_ok=True)
+    output_path.mkdir(exosts=True)
     
     # Create a unique filename for this specific evaluation
-    filename = f"{method}_{model}_{dataset}_results.json"
+    # Add "apps_" prefix for apps dataset to distinguish from existing files
+    if dataset == "apps":
+        filename = f"{dataset}_{method}_{model}_results.json"
+    else:
+        filename = f"{method}_{model}_{dataset}_results.json"
     result_file = output_path / filename
     
     result_data = {
@@ -495,7 +499,11 @@ def export_legacy_reports(combination_details: List[Dict[str, Any]], method_metr
         dataset = detail['dataset']
         metrics = _sanitize_metrics(detail.get('metrics', {}))
         problems = detail.get('problems', [])
-        config_key = f"{method}_{model}_{dataset}"
+        # Add "apps_" prefix for apps dataset to distinguish from existing files
+        if dataset == "apps":
+            config_key = f"{dataset}_{method}_{model}"
+        else:
+            config_key = f"{method}_{model}_{dataset}"
         total_problems = len(problems)
         candidate_counts = [problem.get('total', 0) for problem in problems]
         uniform_candidates = candidate_counts[0] if candidate_counts and len(set(candidate_counts)) == 1 else None
@@ -576,20 +584,203 @@ def export_legacy_reports(combination_details: List[Dict[str, Any]], method_metr
             'problems_with_solutions': problems_with_passing,
         })
 
-    (output_path / 'detailed_evaluation_results.json').write_text(json.dumps(detailed_payload, indent=2))
-    (output_path / 'comprehensive_evaluation_results.json').write_text(json.dumps(comprehensive_payload, indent=2))
+    # Add timestamp to distinguish new files from existing ones
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    (output_path / f'detailed_evaluation_results_{timestamp}.json').write_text(json.dumps(detailed_payload, indent=2))
+    (output_path / f'comprehensive_evaluation_results_{timestamp}.json').write_text(json.dumps(comprehensive_payload, indent=2))
 
     detailed_df = pd.DataFrame(detailed_rows)
     if not detailed_df.empty:
         detailed_df = detailed_df.round({'pass_at_1': 4, 'pass_at_2': 4, 'pass_at_5': 4, 'pass_at_10': 4, 'mrr': 4, 'success_rate': 4})
-    detailed_df.to_csv(output_path / 'detailed_comparison_table.csv', index=False)
+    detailed_df.to_csv(output_path / f'detailed_comparison_table_{timestamp}.csv', index=False)
 
     comprehensive_df = pd.DataFrame(comprehensive_rows)
     if not comprehensive_df.empty:
         comprehensive_df = comprehensive_df.round({'pass_at_1': 4, 'pass_at_2': 4, 'pass_at_5': 4, 'pass_at_10': 4, 'mrr': 4, 'success_rate': 4})
-    comprehensive_df.to_csv(output_path / 'comprehensive_comparison_table.csv', index=False)
+    comprehensive_df.to_csv(output_path / f'comprehensive_comparison_table_{timestamp}.csv', index=False)
 
-    (output_path / 'raw_evaluation_results.json').write_text(json.dumps(method_metrics, indent=2))
+    (output_path / f'raw_evaluation_results_{timestamp}.json').write_text(json.dumps(method_metrics, indent=2))
+
+def evaluate_ranking_results(results_dir: str, datasets: List[str] = None, 
+                           methods: List[str] = None, models: List[str] = None,
+                           output_dir: str = "evaluation_outputs"):
+    """Evaluate all ranking results and generate comprehensive metrics"""
+    
+    if datasets is None:
+        datasets = ["humaneval", "mbpp", "apps"]  # Add apps dataset
+    
+    if methods is None:
+        methods = ["llm_judge", "acecoder_rm"]
+        
+    if models is None:
+        models = ["codet5-770m", "codegen-2b", "codellama-7b"]
+
+    # Setup logging
+    logger = setup_logging()
+
+    logger.info("Starting comprehensive evaluation...")
+    logger.info(f"Methods: {methods}")
+    logger.info(f"Models: {models}")
+    logger.info(f"Datasets: {datasets}")
+
+    # Check data availability
+    if not check_data_availability(results_dir):
+        logger.error("No ranking results found. Please run ranking first.")
+        return
+
+    # Initialize results storage
+    all_metrics = {}
+    problem_summaries = {}
+    
+    # Create output directory
+    Path(output_dir).mkdir(exist_ok=True)
+    
+    # Initialize code executor
+    executor = CodeExecutor()
+    
+    # Evaluate each method/model/dataset combination
+    for method in methods:
+        all_metrics[method] = {}
+        problem_summaries[method] = {}
+        
+        for model in models:
+            all_metrics[method][model] = {}
+            problem_summaries[method][model] = {}
+            
+            for dataset in datasets:
+                logger.info(f"Evaluating {method} / {model} / {dataset}")
+                
+                # Load ranking results
+                ranking_results = load_ranking_results(results_dir, method, model, dataset)
+                
+                if not ranking_results:
+                    logger.warning(f"No results found for {method}/{model}/{dataset}")
+                    continue
+                
+                all_metrics[method][model][dataset] = {}
+                problem_summaries[method][model][dataset] = {}
+                
+                # Process each problem
+                problem_executions = []
+                for problem_result in ranking_results:
+                    problem_id = problem_result['problem_id']
+                    ranked_candidates = problem_result['ranked_candidates']
+                    
+                    # Load problem info
+                    problem_info = load_problem_info(problem_id, dataset)
+                    if not problem_info:
+                        logger.warning(f"Could not load problem info for {problem_id}")
+                        continue
+                    
+                    # Execute candidates
+                    execution_results = []
+                    for i, candidate in enumerate(ranked_candidates):
+                        if not candidate or candidate.strip() == "":
+                            execution_results.append({
+                                'passed': False,
+                                'output': '',
+                                'error': 'Empty candidate'
+                            })
+                            continue
+                        
+                        try:
+                            result = executor.execute_candidate(problem_info, candidate)
+                            execution_results.append(result)
+                        except Exception as e:
+                            execution_results.append({
+                                'passed': False,
+                                'output': '',
+                                'error': str(e)
+                            })
+                    
+                    # Store execution results
+                    problem_result['execution_results'] = execution_results
+                    
+                    # Create problem summary
+                    summary = _make_problem_summary(problem_id, execution_results)
+                    problem_summaries[method][model][dataset][problem_id] = summary
+                    problem_executions.append(summary)
+                
+                # Calculate dataset-level metrics
+                if problem_executions:
+                    metrics = RankingMetrics.calculate_metrics(problem_executions)
+                    all_metrics[method][model][dataset] = _sanitize_metrics(metrics)
+                    logger.info(f"  Results: {metrics}")
+    
+    # Generate comprehensive report
+    logger.info("Generating comprehensive evaluation report...")
+    
+    # Save detailed results
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Save problem summaries
+    with open(f"{output_dir}/problem_summaries_{timestamp}.json", 'w') as f:
+        json.dump(_sanitize_metrics(problem_summaries), f, indent=2)
+    
+    # Save metrics
+    with open(f"{output_dir}/comprehensive_evaluation_results_{timestamp}.json", 'w') as f:
+        json.dump(_sanitize_metrics(all_metrics), f, indent=2)
+    
+    # Generate comparison tables
+    comparison_data = []
+    for method in methods:
+        for model in models:
+            for dataset in datasets:
+                if (method in all_metrics and 
+                    model in all_metrics[method] and 
+                    dataset in all_metrics[method][model]):
+                    
+                    metrics = all_metrics[method][model][dataset]
+                    comparison_data.append({
+                        'Method': method,
+                        'Model': model,
+                        'Dataset': dataset,
+                        'pass@1': metrics.get('pass_at_1', 0),
+                        'pass@2': metrics.get('pass_at_2', 0),
+                        'pass@5': metrics.get('pass_at_5', 0),
+                        'pass@10': metrics.get('pass_at_10', 0),
+                        'pass@20': metrics.get('pass_at_20', 0),
+                        'mrr': metrics.get('mrr', 0),
+                        'success_rate': metrics.get('success_rate', 0)
+                    })
+    
+    if comparison_data:
+        df = pd.DataFrame(comparison_data)
+        df.to_csv(f"{output_dir}/detailed_comparison_table_{timestamp}.csv", index=False)
+        
+        # Generate summary table
+        summary_data = []
+        for dataset in datasets:
+            for model in models:
+                row = {'Dataset': dataset, 'Model': model}
+                for method in methods:
+                    for metric in ['pass@1', 'pass@2', 'pass@5', 'pass@10', 'mrr']:
+                        col_name = f"{method}_{metric}"
+                        val = 0
+                        for item in comparison_data:
+                            if (item['Method'] == method and 
+                                item['Model'] == model and 
+                                item['Dataset'] == dataset):
+                                val = item.get(metric, 0)
+                                break
+                        row[col_name] = round(val, 4)
+                summary_data.append(row)
+        
+        summary_df = pd.DataFrame(summary_data)
+        summary_df.to_csv(f"{output_dir}/comparison_table_{timestamp}.csv", index=False)
+        
+        logger.info("Evaluation completed successfully!")
+        logger.info(f"Results saved to {output_dir}")
+        print("\n" + "="*80)
+        print("EVALUATION RESULTS")
+        print("="*80)
+        print(summary_df.to_string(index=False))
+        
+        return all_metrics
+    
+    logger.warning("No evaluation data generated")
+    return {}
+
 def main():
     parser = argparse.ArgumentParser(description='Run unified code ranking evaluation')
     parser.add_argument('--results-dir', default='results',
@@ -601,7 +792,7 @@ def main():
                        default=['codet5-770m', 'codellama-7b', 'codegen-2b'],
                        help='Models to evaluate')
     parser.add_argument('--datasets', nargs='+',
-                       default=['humaneval', 'mbpp'],
+                       default=['humaneval', 'mbpp', 'apps'],  # Add apps dataset
                        help='Datasets to evaluate')
     parser.add_argument('--output-dir', default='evaluation_outputs',
                        help='Output directory for results')
@@ -704,7 +895,7 @@ def main():
                 logger.info(f"✓ {method}: Aggregated {len(method_results)} configurations")
             else:
                 all_results[method] = get_empty_metrics()
-                logger.warning(f"✗ {method}: No valid results found")
+                logger.warning(f"✗ {method}: No valid results")
 
     total_time = time.time() - start_time
 
@@ -727,7 +918,7 @@ def main():
 
         # Save results and create summary
         df, raw_method_metrics = save_results(all_results, args.output_dir)
-        export_legacy_reports(combination_details, raw_method_metrics)
+        export_legacy_reports(combination_details, raw_method_metrics, args.output_dir)  # Pass output_dir to export_legacy_reports
 
         # Print final summary
         logger.info(f"\n{'='*80}")

@@ -1,25 +1,60 @@
 #!/usr/bin/env python3
 """
-Run candidate generation with proper batch processing
-Generate candidates for 3 models on HumanEval and MBPP datasets
+Run candidate code generation for specific datasets only
 """
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '7'  # Use GPU 7
+import sys
+import logging
+from typing import List
+
+# Set CUDA device before importing torch
+os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from data_preparation.candidate_generator import generate_all_candidates
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+def main():
+    print("=" * 60)
+    print("CODE GENERATION PHASE")
+    print("=" * 60)
+    
+    # Configuration
+    models = ["codet5-770m", "codegen-2b", "codellama-7b"]
+    # 只生成APPS数据集的候选代码
+    datasets = ["apps"]  # 修改为只包含apps数据集
+    output_dir = "/home/fdse/srj/comparison/results/candidates/non_finetuned"
+    num_candidates = 100
+    
+    print(f"Models: {', '.join(models)}")
+    print(f"Datasets: {', '.join(datasets)}")  # 更新打印信息
+    print(f"Output: {output_dir}")
+    print()
+    
+    # Verify output directory
+    os.makedirs(output_dir, exist_ok=True)
+    logger.info(f"Results directory verified: {output_dir}")
+    
+    # Generate candidates for all model/dataset combinations
+    try:
+        generate_all_candidates(
+            models=models,
+            datasets=datasets,  # 使用修改后的数据集列表
+            output_dir=output_dir,
+            num_candidates=num_candidates
+        )
+        logger.info("Candidate generation completed successfully.")
+    except Exception as e:
+        logger.error(f"Error in generation phase: {e}")
+        raise
+
 if __name__ == "__main__":
-    print("Starting candidate generation with proper batch processing...")
-    print("Target: 3 models × 2 datasets × 100 candidates per problem")
-    print("Models: CodeT5-770M, CodeGen-2B, CodeLlama-7B") 
-    print("Datasets: HumanEval (164 problems), MBPP (500 problems)")
-    print("Expected output: 664 problems × 3 models = 1,992 result files")
-    
-    # Generate candidates using proper batch processing
-    generate_all_candidates(
-        models=["codet5-770m", "codegen-2b", "codellama-7b"],
-        datasets=["humaneval", "mbpp"],  # Only these two datasets as requested
-        num_candidates=100
-    )
-    
-    print("Generation completed! Results saved in results/candidates/non_finetuned/")
+    main()

@@ -53,55 +53,38 @@ def main():
     print(f"Skip evaluation: {args.skip_evaluation}")
     print()
     
-    # Get the directory of this script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    success = True
-    
-    # Step 1: Run ranking (if not skipped)
-    if not args.skip_ranking:
-        ranking_cmd = f"cd {script_dir} && python run_ranking.py"
-        ranking_cmd += f" --methods {' '.join(args.methods)}"
-        ranking_cmd += f" --models {' '.join(args.models)}"  
-        ranking_cmd += f" --datasets {' '.join(args.datasets)}"
-        
-        success = run_command(ranking_cmd, "Code Ranking")
-        
-        if not success:
-            print("\n❌ Pipeline failed at ranking step")
-            return 1
+    # Step 1: Generate candidates (unless skipped)
+    if not args.skip_generation:
+        gen_cmd = "python scripts/run_generation.py"
+        if not run_command(gen_cmd, "Candidate Generation"):
+            print("Generation failed. Exiting.")
+            return
     else:
-        print("\n⏭️  Skipping ranking step")
+        print("\nSkipping candidate generation step...")
     
-    # Step 2: Run evaluation (if not skipped)
-    if not args.skip_evaluation:
-        evaluation_cmd = f"cd {script_dir} && python run_evaluation.py"
-        evaluation_cmd += f" --methods {' '.join(args.methods)}"
-        evaluation_cmd += f" --models {' '.join(args.models)}"
-        evaluation_cmd += f" --datasets {' '.join(args.datasets)}"
-        
-        success = run_command(evaluation_cmd, "Ranking Evaluation")
-        
-        if not success:
-            print("\n❌ Pipeline failed at evaluation step")
-            return 1
-    else:
-        print("\n⏭️  Skipping evaluation step")
+    # Step 2: Rank candidates
+    rank_cmd = f"python scripts/run_ranking.py --methods {' '.join(args.methods)} --models {' '.join(args.models)} --datasets {' '.join(args.datasets)}"
+    if not run_command(rank_cmd, "Candidate Ranking"):
+        print("Ranking failed. Exiting.")
+        return
     
-    # Final summary
+    # Step 3: Evaluate rankings
+    eval_cmd = (f"python scripts/run_evaluation.py "
+                f"--results_dir {args.results_dir} "
+                f"--output_dir {args.evaluation_dir} "
+                f"--methods {' '.join(args.methods)} "
+                f"--models {' '.join(args.models)} "
+                f"--datasets {' '.join(args.datasets)}")
+    
+    if not run_command(eval_cmd, "Ranking Evaluation"):
+        print("Evaluation failed.")
+        return
+    
     print(f"\n{'='*60}")
-    print("PIPELINE COMPLETED SUCCESSFULLY! 🎉")
+    print("Complete pipeline finished successfully!")
+    print(f"Results are in: {args.results_dir}")
+    print(f"Evaluation outputs are in: {args.evaluation_dir}")
     print(f"{'='*60}")
-    print("\nResults can be found in:")
-    print("- Ranked candidates: /home/fdse/srj/comparison/results/ranked/")
-    print("- Evaluation results: /home/fdse/srj/comparison/results/evaluation/")
-    print("\nNext steps:")
-    print("1. Check the evaluation results in ranking_comparison.json")
-    print("2. Compare Pass@K metrics with RankEF paper results")
-    print("3. Analyze which ranking method performs better")
-    print(f"{'='*60}")
-    
-    return 0
 
 if __name__ == "__main__":
-    exit(main())
+    main()
